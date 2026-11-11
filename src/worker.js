@@ -74,7 +74,7 @@ async function detectWithModel(text, s) {
   return { spans, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
 }
 
-async function analyze({ name, bytes, settings }) {
+async function analyze({ name, bytes, settings, seq }) {
   const t0 = performance.now(), kind = E.kindOf(name), ocr = ocrWith(settings.ocrLang);
   let doc;
   if (kind === "pdf") doc = await E.parsePdf(mupdf, bytes, ocr, { onProgress: progress });
@@ -86,7 +86,7 @@ async function analyze({ name, bytes, settings }) {
   current = { name, kind, bytes, doc };
   if (kind === "pdf" || kind === "image") E.attachBoxes(doc, r.spans);
   const previews = kind === "pdf" ? renderPages(bytes) : [];
-  postMessage({ type: "analyzed", kind, text: doc.text, spans: r.spans, ocrPages: doc.ocrPages ?? 0, pages: doc.pages?.length ?? 1, pageSizes: pageSizes(doc),
+  postMessage({ type: "analyzed", seq, kind, text: doc.text, spans: r.spans, ocrPages: doc.ocrPages ?? 0, pages: doc.pages?.length ?? 1, pageSizes: pageSizes(doc),
                 timing: { parse: parseMs, ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount, previews }, previews.map(p => p.buffer));
 }
 

@@ -75,8 +75,10 @@ discharge summaries (epikriz) and expert reports.
 - **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-yerel)).
   Pick one of 16 sample documents to see live recall, precision, misses and false alarms against its
   answer key, or open your own file.
-- Switch the detection model, OCR model, confidence threshold, data types and mask style.
-- Review each item before export, add your own terms, compare before/after.
+- The document shows up as soon as you pick it; detected values are highlighted on the page itself.
+- One review screen: tick or untick each value (on the page or in the list), add missed terms, then
+  **Apply masks** and download. Choose the mask colour and an optional credit watermark.
+- Switch the detection model, OCR model, confidence threshold and data types; Turkish and English interface.
 - **Report a mistake** (*Hata bildir*) builds a small report (settings, scores, the masked output,
   and the original only if you tick it) and opens an e-mail draft.
 

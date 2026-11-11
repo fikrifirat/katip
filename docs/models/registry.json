@@ -1,15 +1,57 @@
 [
  {
   "id": "rules+tagger",
-  "name": "Kurallar + isim etiketleyici (önerilen)",
+  "name": {
+   "tr": "Kurallar + isim modeli",
+   "en": "Rules + name model"
+  },
+  "badge": {
+   "tr": "önerilen",
+   "en": "recommended"
+  },
+  "meta": {
+   "tr": "Daha çok isim yakalar · ilk açılışta +30 MB",
+   "en": "Catches more names · +30 MB on first use"
+  },
+  "info": {
+   "tr": "Kurallara ek olarak tarayıcıda çalışan 2,6 MB'lık Türkçe isim modeli. Kör test setinde isim yakalama %98,4'ten %99,7'ye çıktı, yeni yanlış isim eklenmedi. İlk kullanımda model ve çalıştırıcısı (yaklaşık 30 MB) indirilir.",
+   "en": "Rules plus a 2.6 MB Turkish name model that runs in the tab. On the blind test set it raises name recall from 98.4% to 99.7% with no new false names. The model and its runtime (about 30 MB) download on first use."
+  },
   "ner": "katip-tr-name-tagger-tiny",
-  "dtype": "q8",
-  "info": "Kurallara ek olarak 2.5 milyon parametreli Türkçe isim etiketleyici (2.6 MB, int8 ONNX, tarayıcıda çalışır). Kör test setinde isim yakalama %98.4 → %99.7, yeni yanlış isim yok. İlk kullanımda motoruyla birlikte ~30 MB indirilir."
+  "dtype": "q8"
  },
  {
   "id": "rules",
-  "name": "Yalnız Katip kuralları v0.2",
-  "ner": null,
-  "info": "Türkçe kural tabanlı tanıyıcılar: sağlama toplamlı TCKN/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim sözlükleri ve bağlam kuralları, KVKK md. 6 terimleri. 0.3 MB, Katip sunucusundakiyle birebir aynı."
+  "name": {
+   "tr": "Yalnız kurallar",
+   "en": "Rules only"
+  },
+  "meta": {
+   "tr": "En hızlı açılış · 0,3 MB",
+   "en": "Fastest start · 0.3 MB"
+  },
+  "info": {
+   "tr": "Katip sunucusundakiyle birebir aynı kurallar: sağlama kontrollü T.C. kimlik/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim listeleri ve bağlam kuralları, KVKK md. 6 terimleri.",
+   "en": "The same rules as the Katip server: checksum-validated ID/tax/IBAN/card numbers, phone, e-mail, plate, address, name lists and context rules, KVKK art. 6 terms."
+  },
+  "ner": null
+ },
+ {
+  "id": "rules+test-ner",
+  "name": {
+   "tr": "Kurallar + test NER (geliştirici)",
+   "en": "Rules + test NER (developer)"
+  },
+  "meta": {
+   "tr": "Entegrasyon testi",
+   "en": "Integration test"
+  },
+  "info": {
+   "tr": "Entegrasyon testi için sözlük tabanlı minik ONNX modeli (eğitilmiş değil).",
+   "en": "Tiny dictionary-based ONNX model for integration tests (not trained)."
+  },
+  "ner": "katip-test-ner",
+  "dtype": "fp32",
+  "dev": true
  }
 ]

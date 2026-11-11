@@ -75,8 +75,10 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 - **Demo:** https://fikrifirat.github.io/katip/ (veya [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-yerel)).
   16 örnek belgeden birini seçip cevap anahtarına göre bulma oranını, isabeti, kaçanları ve yanlış
   alarmları canlı görün ya da kendi dosyanızı açın.
-- Tespit modelini, OCR modelini, güven eşiğini, veri türlerini ve maske stilini değiştirin.
-- Dışa aktarmadan önce her öğeyi inceleyin, kendi terimlerinizi ekleyin, önce/sonra karşılaştırın.
+- Belge seçer seçmez görünür; bulunan değerler sayfanın üzerinde işaretlenir.
+- Tek inceleme ekranı: her değeri sayfada veya listede açıp kapatın, kaçanları ekleyin, sonra
+  **Maskeleri uygula** ve indirin. Maske rengini ve isteğe bağlı filigranı seçin.
+- Tespit modelini, OCR modelini, güven eşiğini ve veri türlerini değiştirin; arayüz Türkçe ve İngilizce.
 - **Hata bildir** küçük bir rapor hazırlar (ayarlar, skorlar, maskelenmiş çıktı; orijinal yalnızca
   siz işaretlerseniz) ve bir e-posta taslağı açar.
 

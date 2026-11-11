@@ -106,9 +106,30 @@ export function attachBoxes(doc, spans) {
   }
 }
 
-// ---- true PDF redaction: remove glyphs + blank image pixels, then scrub metadata
-export function redactPdf(mupdf, doc, spans) {
-  const pdf = doc._doc, PAD = 1;
+// Fill rectangles (page space, y down) into the page content itself, wrapped so the
+// original content's graphics state cannot leak into ours.
+function paintBoxes(mupdf, pdf, page, boxes, [r, g, b]) {
+  const inv = mupdf.Matrix.invert(page.getTransform());
+  const f = v => v.toFixed(3);
+  let ops = `Q q ${f(r)} ${f(g)} ${f(b)} rg\n`;
+  for (const box of boxes) {
+    const [x0, y0, x1, y1] = mupdf.Rect.transform(box, inv);
+    ops += `${f(Math.min(x0, x1))} ${f(Math.min(y0, y1))} ${f(Math.abs(x1 - x0))} ${f(Math.abs(y1 - y0))} re f\n`;
+  }
+  ops += "Q\n";
+  const obj = page.getObject(), old = obj.get("Contents");
+  const arr = pdf.newArray();
+  arr.push(pdf.addStream(new TextEncoder().encode("q\n"), {}));
+  if (old.isArray()) old.forEach(v => arr.push(v)); else if (!old.isNull?.()) arr.push(old);
+  arr.push(pdf.addStream(new TextEncoder().encode(ops), {}));
+  obj.put("Contents", arr);
+}
+
+// ---- true PDF redaction: remove glyphs + blank image pixels, then paint the mask colour,
+// add the optional watermark line + link, and scrub metadata.
+// opts.color: [r, g, b] in 0..1 (default black); opts.watermark: { text, url } or null
+export function redactPdf(mupdf, doc, spans, opts = {}) {
+  const pdf = doc._doc, PAD = 1, color = opts.color ?? [0, 0, 0], wm = opts.watermark;
   const per = new Map();
   for (const sp of spans) if (sp.page != null) per.set(sp.page, [...(per.get(sp.page) ?? []), ...sp.boxes]);
   for (const [pno, boxes] of per) {
@@ -118,8 +139,18 @@ export function redactPdf(mupdf, doc, spans) {
       a.setRect([x0 - PAD, y0 - PAD, x1 + PAD, y1 + PAD]);
       a.update?.();
     }
-    page.applyRedactions(true, mupdf.PDFPage.REDACT_IMAGE_PIXELS);
+    page.applyRedactions(false, mupdf.PDFPage.REDACT_IMAGE_PIXELS);
+    paintBoxes(mupdf, pdf, page, boxes.map(([x0, y0, x1, y1]) => [x0 - PAD, y0 - PAD, x1 + PAD, y1 + PAD]), color);
   }
+  const links = [];
+  if (wm?.text) for (let i = 0; i < pdf.countPages(); i++) {
+    const page = pdf.loadPage(i), [bx0, by0, bx1, by1] = page.getBounds();
+    const r = [bx0 + 24, by1 - 18, Math.min(bx1 - 24, bx0 + 24 + wm.text.length * 3.6), by1 - 8];
+    const a = page.createAnnotation("FreeText");
+    a.setRect(r); a.setContents(wm.text); a.setDefaultAppearance("Helv", 6.5, [0.45, 0.45, 0.45]); a.setBorderWidth(0); a.setFlags(4 | 128); a.update?.();  // print + locked
+    if (wm.url) links.push([i, r]);
+  }
+  for (const [i, r] of links) pdf.loadPage(i).createLink(r, wm.url);
   for (const k of ["info:Title", "info:Author", "info:Subject", "info:Keywords", "info:Creator", "info:Producer"])
     pdf.setMetaData(k, k === "info:Producer" || k === "info:Creator" ? "katip-yerel" : "");
   try { pdf.getTrailer().get("Root").delete("Metadata"); } catch { /* no XMP */ }
@@ -141,9 +172,9 @@ export function pyExtract(py, kind, bytes) {
   py.globals.set("_K", kind); py.globals.set("_B", bytes);
   return py.runPython("import local_formats; local_formats.extract(_K, _B.to_py())");
 }
-export function pyRedact(py, kind, bytes, spans, style) {
-  py.globals.set("_K", kind); py.globals.set("_B", bytes); py.globals.set("_S", JSON.stringify(spans)); py.globals.set("_Y", style);
-  const r = py.runPython("import local_formats; local_formats.redact(_K, _B.to_py(), _S, _Y)");
+export function pyRedact(py, kind, bytes, spans, style, watermark = "") {
+  py.globals.set("_K", kind); py.globals.set("_B", bytes); py.globals.set("_S", JSON.stringify(spans)); py.globals.set("_Y", style); py.globals.set("_W", watermark);
+  const r = py.runPython("import local_formats; local_formats.redact(_K, _B.to_py(), _S, _Y, _W)");
   const out = r.toJs(); r.destroy(); return out;
 }
 export function pyLeaks(py, outText, spans) {
@@ -151,8 +182,8 @@ export function pyLeaks(py, outText, spans) {
   return JSON.parse(py.runPython("import local_formats; local_formats.leak_check(_T, _S)"));
 }
 
-// ---- images: burn black boxes into pixels, re-encode as PNG (drops EXIF/GPS)
-export function redactImage(mupdf, bytes, spans, mime = "image/png") {
+// ---- images: burn boxes into pixels (colour [r,g,b] 0..1), re-encode as PNG (drops EXIF/GPS)
+export function redactImage(mupdf, bytes, spans, mime = "image/png", color = [0, 0, 0]) {
   const d = mupdf.Document.openDocument(bytes, mime);
   const page = d.loadPage(0);
   const img = new mupdf.Image(bytes);
@@ -164,7 +195,7 @@ export function redactImage(mupdf, bytes, spans, mime = "image/png") {
   for (const sp of spans) for (const [bx0, by0, bx1, by1] of sp.boxes ?? []) {
     for (let y = Math.max(0, Math.floor(by0 - P)); y < Math.min(h, Math.ceil(by1 + P)); y++)
       for (let x = Math.max(0, Math.floor(bx0 - P)); x < Math.min(w, Math.ceil(bx1 + P)); x++)
-        for (let c = 0; c < n; c++) px[y * stride + x * n + c] = 0;
+        for (let c = 0; c < n; c++) px[y * stride + x * n + c] = Math.round(255 * (color[c] ?? 0));
   }
   return pix.asPNG().slice();
 }
