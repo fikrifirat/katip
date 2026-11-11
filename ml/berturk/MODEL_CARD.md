@@ -50,6 +50,10 @@ alarms on name-free prose. About 28 ms per document on the Mac (int8 ONNX, onnxr
 | `onnx/model.onnx` | 440.3 MB | fp32 |
 | `model.safetensors` | | PyTorch weights, for further fine-tuning |
 
+The int8 file is 4× smaller than fp32, and every Katip score above was measured on the int8 file, so
+quantising cost no accuracy. Side-by-side size, speed and accuracy for all Katip models:
+https://github.com/fikrifirat/katip#size-speed-and-accuracy-side-by-side
+
 Labels are word-level BIO on each word's first sub-token; use the word split in `config.json`
 (`katip.word_regex`) as Katip's `src/ner.js` does.
 

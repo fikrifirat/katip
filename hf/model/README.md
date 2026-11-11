@@ -21,6 +21,12 @@ built to sit **next to rule-based PII detection**, not to replace it. It is the 
 behind [Katip Yerel](https://huggingface.co/spaces/f1k/katip-yerel), a KVKK redaction tool
 where the document never leaves the user's computer.
 
+## Size and speed
+
+int8 ONNX, 2.6 MB (fp32 10.0 MB, 4× smaller); the published scores were measured on the int8 file.
+With Katip's rules: 756 / 757 values on the blind set at about 7 ms per text document (onnxruntime, 4-core VM).
+Comparison with Katip Rules and Katip BERTurk: https://github.com/fikrifirat/katip#size-speed-and-accuracy-side-by-side
+
 ## What it improves
 
 Measured on Katip's synthetic Turkish legal documents, PERSON values only. "Rules" is
