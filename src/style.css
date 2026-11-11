@@ -38,12 +38,11 @@ button.primary{background:var(--lime);border:1.5px solid var(--brand-bg);color:v
 .hint{font-size:12.5px;color:var(--muted);margin:8px 0 0}
 .status{font-size:12.5px;color:var(--muted);margin:0;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1 1 140px}
 #drop{border:2px dashed var(--line);border-radius:10px;padding:18px;text-align:center;cursor:pointer;display:grid;gap:4px}#drop span{font-size:12.5px;color:var(--muted)}#drop.over{border-color:var(--accent)}.fname{color:var(--ink)!important;font-weight:600}
-/* tooltips: hover or keyboard focus / tap */
-.tip{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;border:1px solid var(--line);font-size:10.5px;font-weight:700;color:var(--muted);cursor:help;position:relative;flex:none;font-style:normal}
-[data-tip]:is(:hover,:focus-visible,:focus)::after{content:attr(data-tip);position:absolute;z-index:20;left:50%;top:calc(100% + 6px);transform:translateX(-50%);width:max-content;max-width:min(280px,80vw);
-  background:var(--ink);color:var(--panel);font:400 12.5px/1.45 system-ui,sans-serif;padding:8px 10px;border-radius:8px;white-space:normal;text-align:left;box-shadow:0 4px 14px rgba(0,0,0,.18);pointer-events:none}
-.side [data-tip]:is(:hover,:focus)::after{left:auto;right:-8px;transform:none}
-.trust [data-tip]:is(:hover,:focus)::after{left:0;transform:none}
+/* explanations: tap "?" or a pill; one plain sentence, technical details expand */
+.tip{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;border:1px solid var(--line);font-size:11px;font-weight:700;color:var(--muted);cursor:pointer;position:relative;flex:none;font-style:normal}
+.tip:hover,.tip[aria-expanded=true]{border-color:var(--ink);color:var(--ink)}.pill[data-tip]{cursor:pointer}
+#tipPop{position:fixed;z-index:50;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;box-shadow:0 8px 28px rgba(0,0,0,.18);font-size:14px;line-height:1.45}
+#tipPop p{margin:0}#tipPop details{margin-top:6px;font-size:13px;color:var(--muted)}#tipPop summary{cursor:pointer;color:var(--ink);font-weight:600;font-size:12.5px}#tipPop details p{margin-top:4px}
 /* option cards */
 .opts{display:grid;gap:6px}.opt{display:grid;grid-template-columns:auto 1fr;gap:0 8px;align-items:start;border:1px solid var(--line);border-radius:9px;padding:8px 10px;cursor:pointer}
 .opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}.opt input{margin:3px 0 0}

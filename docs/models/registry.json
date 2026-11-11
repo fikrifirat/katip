@@ -14,8 +14,8 @@
    "en": "Rules + 2.6 MB name model · 99.9% on blind set"
   },
   "info": {
-   "tr": "Katip Kural'a ek olarak tarayıcıda çalışan 2,6 MB'lık Türkçe isim modeli (katip-tr-name-tagger-tiny). Kör test setinde 757 değerin 756'sını buldu; isimlerde %98,4 → %99,7, yeni yanlış isim yok. İlk kullanımda model ve çalıştırıcısı (yaklaşık 30 MB) indirilir.",
-   "en": "Katip Rules plus a 2.6 MB Turkish name model that runs in the tab (katip-tr-name-tagger-tiny). Found 756 of 757 values on the blind test set; names 98.4% → 99.7% with no new false names. The model and its runtime (about 30 MB) download on first use."
+   "tr": "Çoğu belge için en iyisi: hızlı ve kör testte %99,9.||Katip Kural'a ek olarak tarayıcıda çalışan 2,6 MB'lık Türkçe isim modeli (katip-tr-name-tagger-tiny). Kör test setinde 757 değerin 756'sını buldu; isimlerde %98,4 → %99,7, yeni yanlış isim yok. İlk kullanımda model ve çalıştırıcısı (yaklaşık 30 MB) indirilir.",
+   "en": "Best for most documents: fast, 99.9% on the blind test.||Katip Rules plus a 2.6 MB Turkish name model that runs in the tab (katip-tr-name-tagger-tiny). Found 756 of 757 values on the blind test set; names 98.4% → 99.7% with no new false names. The model and its runtime (about 30 MB) download on first use."
   },
   "ner": "katip-tr-name-tagger-tiny",
   "dtype": "q8"
@@ -31,8 +31,8 @@
    "en": "Rules only · 99.2% on blind set · 0.3 MB"
   },
   "info": {
-   "tr": "Katip sunucusundakiyle birebir aynı Türkçe kurallar (v0.2): sağlama kontrollü T.C. kimlik/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim listeleri ve bağlam kuralları, KVKK md. 6 terimleri. Kör test setinde 757 değerin 751'ini buldu.",
-   "en": "The same Turkish rules as the Katip server (v0.2): checksum-validated ID/tax/IBAN/card numbers, phone, e-mail, plate, address, name lists and context rules, KVKK art. 6 terms. Found 751 of 757 values on the blind test set."
+   "tr": "Model indirmeden, yalnızca Katip'in kurallarıyla.||Katip sunucusundakiyle birebir aynı Türkçe kurallar (v0.2): sağlama kontrollü T.C. kimlik/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim listeleri ve bağlam kuralları, KVKK md. 6 terimleri. Kör test setinde 757 değerin 751'ini buldu.",
+   "en": "Katip's rules only, nothing extra to download.||The same Turkish rules as the Katip server (v0.2): checksum-validated ID/tax/IBAN/card numbers, phone, e-mail, plate, address, name lists and context rules, KVKK art. 6 terms. Found 751 of 757 values on the blind test set."
   }
  },
  {
@@ -50,8 +50,8 @@
    "en": "Open-source regex library · 24.2% on blind set"
   },
   "info": {
-   "tr": "Karşılaştırma için: açık kaynak kvkk-pii 0.2 kütüphanesinin varsayılan regex katmanı (MIT), değiştirilmeden. Numaraları bulur ama isim, adres ve doğum tarihi bulmaz: kör sette 757 değerin 183'ü.",
-   "en": "For comparison: the default regex layer of the open-source kvkk-pii 0.2 library (MIT), unchanged. It finds numbers but not names, addresses or birth dates: 183 of 757 values on the blind set."
+   "tr": "Karşılaştırma için hazır bir açık kaynak kütüphane: Katip'in farkını gösterir.||Karşılaştırma için: açık kaynak kvkk-pii 0.2 kütüphanesinin varsayılan regex katmanı (MIT), değiştirilmeden. Numaraları bulur ama isim, adres ve doğum tarihi bulmaz: kör sette 757 değerin 183'ü.",
+   "en": "For comparison: a ready-made open-source library, to show what Katip adds.||For comparison: the default regex layer of the open-source kvkk-pii 0.2 library (MIT), unchanged. It finds numbers but not names, addresses or birth dates: 183 of 757 values on the blind set."
   },
   "baseline": "kvkk-pii"
  },
@@ -70,8 +70,8 @@
    "en": "Rules + 110 MB BERTurk · names, addresses, health"
   },
   "info": {
-   "tr": "Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış 110 MB'lık model (katip-tr-pii-berturk): isim, adres ve sağlık terimlerini birlikte bulur. Model tek başına kör sette 365 ismin 364'ünü, 80 adresin 80'ini, 26 sağlık teriminin 26'sını buldu; isim içermeyen metinde yanlış alarm yok. İlk kullanımda yaklaşık 110 MB indirilir, büyük belgelerde Katip Tiny'den yavaştır.",
-   "en": "Katip Rules plus a 110 MB model fine-tuned from BERTurk (katip-tr-pii-berturk) that finds names, addresses and health terms together. On its own it found 364 of 365 names, 80 of 80 addresses and 26 of 26 health terms on the blind set, with no false alarms on name-free text. Downloads about 110 MB on first use and is slower than Katip Tiny on long documents."
+   "tr": "En büyük model; isim, adres ve sağlık terimlerinde en iyisi. İlk açılışta 110 MB indirir.||Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış 110 MB'lık model (katip-tr-pii-berturk): isim, adres ve sağlık terimlerini birlikte bulur. Model tek başına kör sette 365 ismin 364'ünü, 80 adresin 80'ini, 26 sağlık teriminin 26'sını buldu; isim içermeyen metinde yanlış alarm yok. İlk kullanımda yaklaşık 110 MB indirilir, büyük belgelerde Katip Tiny'den yavaştır.",
+   "en": "The largest model, best on names, addresses and health terms. Downloads 110 MB the first time.||Katip Rules plus a 110 MB model fine-tuned from BERTurk (katip-tr-pii-berturk) that finds names, addresses and health terms together. On its own it found 364 of 365 names, 80 of 80 addresses and 26 of 26 health terms on the blind set, with no false alarms on name-free text. Downloads about 110 MB on first use and is slower than Katip Tiny on long documents."
   },
   "ner": "katip-tr-pii-berturk",
   "dtype": "q8",
@@ -89,8 +89,8 @@
    "en": "Integration test"
   },
   "info": {
-   "tr": "Entegrasyon testi için sözlük tabanlı minik ONNX modeli (eğitilmiş değil).",
-   "en": "Tiny dictionary-based ONNX model for integration tests (not trained)."
+   "tr": "Geliştirici testi.||Entegrasyon testi için sözlük tabanlı minik ONNX modeli (eğitilmiş değil).",
+   "en": "Developer test.||Tiny dictionary-based ONNX model for integration tests (not trained)."
   },
   "ner": "katip-test-ner",
   "dtype": "fp32",

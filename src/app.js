@@ -12,27 +12,28 @@ const DEV = new URLSearchParams(location.search).has("dev");
 const I18N = {
   tr: {
     tagline: "Türkçe KVKK maskeleme, tamamen tarayıcınızda. Belge hiçbir sunucuya yüklenmez.",
-    netLbl: "Belge sonrası ağ isteği", netTip: "Belge açıldıktan sonra bu sayfanın yaptığı ağ istekleri. Motor ve model dosyaları sayılmaz.",
-    cspLbl: "Dışarı gönderim", blocked: "engelli", cspTip: "Sayfanın güvenlik politikası (CSP) başka bir adrese veri gönderilmesini tarayıcı düzeyinde engeller.",
-    storeLbl: "Kayıt", none: "yok", storeTip: "Belge yalnızca bu sekmenin belleğinde tutulur; sekmeyi kapatınca silinir.",
+    netLbl: "Belge sonrası ağ isteği", netTip: "Belgeyi açtıktan sonra bu sayfanın internete kaç kez bağlandığı. 0 kalmalı.||Motor ve model dosyaları sayılmaz; bunlar belgeyi açmadan önce indirilir.",
+    cspLbl: "Dışarı gönderim", blocked: "engelli", cspTip: "Bu sayfa belgenizi başka bir yere gönderemez.||Sayfanın güvenlik politikası (CSP), tarayıcının başka bir adrese veri göndermesini engeller.",
+    storeLbl: "Kayıt", none: "yok", storeTip: "Hiçbir şey kaydedilmez; sekmeyi kapatınca belge silinir.||Belge yalnızca bu sekmenin belleğinde tutulur.",
     docH: "Belge", sampleTab: "Örnek belge", fileTab: "Kendi belgem",
     sampleHint: "Sentetik belgeler, cevap anahtarıyla puanlanır.",
-    sampleTip: "Örneklerdeki kişiler gerçek değildir. Doğru cevaplar bilindiği için bulunan, kaçan ve fazla işaretlenen değerler canlı gösterilir.",
+    sampleTip: "Örneklerdeki kişiler uydurmadır. Doğru cevaplar bilindiği için kaçanları da görürsünüz.||Bulunan, kaçan ve fazladan işaretlenen değerler cevap anahtarına göre canlı sayılır.",
     dropH: "Belgeyi bırakın veya tıklayın", fileHint: "Dosya yalnızca bu sekmenin belleğinde kalır.",
-    fileTip: "Dosya hiçbir yere gönderilmez. Açma, tarama, maskeleme ve kontrol bu sekmede yapılır; sekmeyi kapatınca silinir.",
+    fileTip: "Dosyanız bilgisayarınızdan çıkmaz.||Açma, tarama, maskeleme ve kontrol bu sekmede yapılır; sekmeyi kapatınca silinir.",
     detectH: "Algılama", ocrH: "OCR (tarama ve fotoğraf)",
-    ocrTip: "Taranmış sayfa ve fotoğrafları okuyan Türkçe Tesseract modeli. 96 taranmış örnekte ikisi aynı değerleri buldu; önerilen model 4 kat daha küçük, çünkü yalnızca yeni (LSTM) okuyucuyu içerir. Standart dosya burada kullanılmayan eski motorun verisini de taşır.",
-    thrH: "Güven eşiği", thrTip: "Düşük eşik daha çok değer yakalar ama daha çok yanlış alarm verir. Yüksek eşik tersini yapar. Sağlama kontrollü numaralar her zaman yakalanır.",
+    ocrTip: "Taranmış belge ve fotoğrafları okuyan model. Önerilen yeterlidir.||Türkçe Tesseract modeli. 96 taranmış örnekte ikisi neredeyse aynı değerleri buldu; önerilen 4 kat küçüktür çünkü yalnızca yeni (LSTM) okuyucuyu içerir.",
+    thrH: "Güven eşiği", thrTip: "Düşük: daha çok yakalar, daha çok yanlış alarm. Yüksek: tersi.||T.C. kimlik, VKN, IBAN gibi sağlama kontrollü numaralar her zaman yakalanır.",
     typesH: "Veri türleri", maskH: "Maske", colorH: "Renk", styleH: "Word ve metinde",
-    styleTip: "PDF ve görüntülerde seçilen renkte kutu çizilir. Word, UDF ve metinde değer ██████ ile veya [AD SOYAD-1] gibi bir etiketle değiştirilir.",
+    styleTip: "Değerin yerine ne konacağı: kutu, ████ veya [AD SOYAD-1] gibi etiket.||PDF ve görüntülerde seçilen renkte kutu çizilir. Word, UDF ve metinde değer ██████ veya etiketle değiştirilir.",
     styleBox: "██████ blok", styleLabel: "[AD SOYAD-1] etiket",
-    markH: "Ortaya Katip logosu", markTip: "Her sayfanın ortasına soluk bir Katip logosu basar (PDF ve görüntüler). Kapalıyken alttaki tek satırlık filigran yine eklenir.",
-    wmH: "Filigran ekle", wmTip: "Çıktının altına küçük bir satır ekler: \"{wm}\". PDF'te bağlantılıdır. UYAP .udf dosyalarına eklenmez.",
+    tipMore: "Ayrıntılar",
+    markH: "Ortaya Katip logosu", markTip: "Her sayfanın ortasına soluk bir Katip logosu basar.||PDF ve görüntülerde. Kapalıyken alttaki tek satırlık filigran yine eklenir.",
+    wmH: "Filigran ekle", wmTip: "Çıktının altına küçük bir \"Katip Yerel ile maskelendi\" satırı ekler.||Tam metin: \"{wm}\". PDF'te bağlantılıdır. UYAP .udf dosyalarına eklenmez.",
     viewReview: "İnceleme", viewResult: "Sonuç", apply: "Maskeleri uygula", reapply: "Yeniden uygula", download: "İndir", report: "Hata bildir",
     copy: "Etiketli metni kopyala", forget: "Belgeyi unut",
     empty: "Soldan bir örnek seçin veya kendi belgenizi açın.",
     termPh: "Kaçan bir terim ekle", add: "Ekle",
-    findTip: "İşareti kaldırılan değer maskelenmez. Belgedeki bir işarete tıklamak da aç/kapa yapar. ⚑ o değeri hata bildirimine ekler.",
+    findTip: "İşaretini kaldırdığınız değer maskelenmez.||Belgedeki işarete tıklamak da aç/kapa yapar. ⚑ o değeri hata bildirimine ekler.",
     found: "{n} değer maskelenecek", missedH: "Kaçanlar", addMissed: "Maskeye ekle", flag: "Hata bildirimine ekle", warnOnly: "uyarı",
     details: "Ayrıntılar",
     sRecall: "bulundu", sFp: "fazla", sLeak: "çıktıda okunabilir", sNotApplied: "Değişiklikler henüz uygulanmadı",
@@ -58,27 +59,28 @@ const I18N = {
   },
   en: {
     tagline: "Turkish KVKK redaction that runs entirely in your browser. Nothing is uploaded.",
-    netLbl: "Requests after opening", netTip: "Network requests this page made after the document was opened. Engine and model files are not counted.",
-    cspLbl: "Sending out", blocked: "blocked", cspTip: "The page's Content-Security-Policy makes the browser block sending data to any other address.",
-    storeLbl: "Stored", none: "nothing", storeTip: "The document stays in this tab's memory only and is gone when you close the tab.",
+    netLbl: "Requests after opening", netTip: "How many times this page went online after you opened the document. It should stay 0.||Engine and model files are not counted; they download before you open a document.",
+    cspLbl: "Sending out", blocked: "blocked", cspTip: "This page cannot send your document anywhere.||The page's Content-Security-Policy makes the browser block any request to another address.",
+    storeLbl: "Stored", none: "nothing", storeTip: "Nothing is saved; closing the tab deletes the document.||The document lives only in this tab's memory.",
     docH: "Document", sampleTab: "Sample", fileTab: "My file",
     sampleHint: "Synthetic documents, scored against an answer key.",
-    sampleTip: "The people in the samples are not real. Because the right answers are known, found, missed and extra values are shown live.",
+    sampleTip: "The people in the samples are made up. The right answers are known, so you also see what was missed.||Found, missed and extra values are counted live against the answer key.",
     dropH: "Drop a file or click", fileHint: "The file stays in this tab's memory only.",
-    fileTip: "The file is never sent anywhere. Opening, scanning, masking and checking all happen in this tab; closing the tab deletes it.",
+    fileTip: "Your file never leaves your computer.||Opening, scanning, masking and checking all happen in this tab; closing the tab deletes it.",
     detectH: "Detection", ocrH: "OCR (scans and photos)",
-    ocrTip: "The Turkish Tesseract model that reads scans and photos. On 96 scanned samples both found the same values; the recommended one is 4× smaller because it holds only the newer (LSTM) reader. The standard file also carries data for the old engine, which is not used here.",
-    thrH: "Confidence threshold", thrTip: "A lower threshold catches more values but raises more false alarms; a higher one does the opposite. Checksum-validated numbers are always caught.",
+    ocrTip: "The model that reads scans and photos. The recommended one is enough.||Turkish Tesseract model. On 96 scanned samples both found almost the same values; the recommended one is 4× smaller because it holds only the newer (LSTM) reader.",
+    thrH: "Confidence threshold", thrTip: "Lower catches more but raises more false alarms. Higher does the opposite.||Numbers with a checksum (T.C. kimlik, VKN, IBAN) are always caught.",
     typesH: "Data types", maskH: "Mask", colorH: "Colour", styleH: "In Word and text",
-    styleTip: "PDFs and images get a box in the chosen colour. In Word, UDF and text the value is replaced with ██████ or a label such as [AD SOYAD-1].",
+    styleTip: "What replaces each value: a box, ████ or a label such as [AD SOYAD-1].||PDFs and images get a box in the chosen colour. In Word, UDF and text the value is replaced with ██████ or a label.",
     styleBox: "██████ block", styleLabel: "[AD SOYAD-1] label",
-    markH: "Katip logo in the centre", markTip: "Stamps a faint Katip logo across the middle of every page (PDF and images). Off, the one-line watermark at the bottom is still added.",
-    wmH: "Add watermark", wmTip: "Adds one small line at the bottom of the output: \"{wm}\". Linked in PDFs. Not added to UYAP .udf files.",
+    tipMore: "Details",
+    markH: "Katip logo in the centre", markTip: "Stamps a faint Katip logo across the middle of each page.||PDFs and images only. Off, the one-line watermark at the bottom is still added.",
+    wmH: "Add watermark", wmTip: "Adds a small \"Redacted with Katip Yerel\" line at the bottom.||Full text: \"{wm}\". Linked in PDFs. Not added to UYAP .udf files.",
     viewReview: "Review", viewResult: "Result", apply: "Apply masks", reapply: "Apply again", download: "Download", report: "Report a mistake",
     copy: "Copy labelled text", forget: "Forget document",
     empty: "Pick a sample on the left or open your own file.",
     termPh: "Add a missed term", add: "Add",
-    findTip: "Unticked values are not masked. Clicking a highlight in the document toggles it too. ⚑ adds the value to a mistake report.",
+    findTip: "Untick a value and it will not be masked.||Clicking a highlight in the document toggles it too. ⚑ adds the value to a mistake report.",
     found: "{n} values to mask", missedH: "Missed", addMissed: "Add to masks", flag: "Add to mistake report", warnOnly: "flag",
     details: "Details",
     sRecall: "found", sFp: "extra", sLeak: "readable in output", sNotApplied: "Changes not applied yet",
@@ -166,11 +168,47 @@ async function ocr(png, model) {
 }
 
 // ---------------------------------------------------------------- language
+// ---------------------------------------------------------------- explanations: tap "?" (or a pill) for one plain
+// sentence; "Details" expands the technical part. Text format: "short||details".
+const pop = document.createElement("div"); pop.id = "tipPop"; pop.setAttribute("role", "dialog"); pop.hidden = true; document.body.append(pop);
+let popFor = null;
+function closeTip() { pop.hidden = true; popFor?.setAttribute("aria-expanded", "false"); popFor = null; }
+function openTip(host) {
+  if (popFor === host) return closeTip();
+  closeTip();
+  const [short, more] = (host.dataset.tip || "").split("||");
+  pop.textContent = "";
+  pop.append(el("p", { textContent: short }));
+  if (more) {
+    const d = el("details", {}, el("summary", { textContent: t("tipMore") }), el("p", { textContent: more }));
+    d.ontoggle = () => place(host);
+    pop.append(d);
+  }
+  pop.hidden = false; popFor = host; host.setAttribute("aria-expanded", "true"); place(host);
+}
+function place(host) {
+  const r = host.getBoundingClientRect(), w = Math.min(300, innerWidth - 24);
+  pop.style.width = w + "px";
+  pop.style.left = Math.max(12, Math.min(r.left + r.width / 2 - w / 2, innerWidth - w - 12)) + "px";
+  const h = pop.offsetHeight, below = r.bottom + 8;
+  pop.style.top = (below + h < innerHeight - 8 || r.top - h - 8 < 8 ? below : r.top - h - 8) + "px";
+}
+document.addEventListener("click", e => {
+  const host = e.target.closest("[data-tip]");
+  if (host) { e.preventDefault(); e.stopPropagation(); return openTip(host); }
+  if (!e.target.closest("#tipPop")) closeTip();
+}, true);
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") closeTip();
+  if ((e.key === "Enter" || e.key === " ") && e.target.matches?.("[data-tip]")) { e.preventDefault(); openTip(e.target); }
+});
+addEventListener("scroll", () => popFor && place(popFor), true); addEventListener("resize", closeTip);
+
 function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach(e => (e.textContent = t(e.dataset.i18n)));
   document.querySelectorAll("[data-i18n-ph]").forEach(e => (e.placeholder = t(e.dataset.i18nPh)));
-  document.querySelectorAll("[data-i18n-tip]").forEach(e => { const s = t(e.dataset.i18nTip, { wm: wmText() }); e.dataset.tip = s; e.setAttribute("aria-label", s); });
+  document.querySelectorAll("[data-i18n-tip]").forEach(e => { const s = t(e.dataset.i18nTip, { wm: wmText() }); e.dataset.tip = s; e.setAttribute("aria-label", s.split("||")[0]); e.setAttribute("role", "button"); });
   document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
   document.title = lang === "tr" ? "Katip Yerel: tarayıcıda KVKK maskeleme" : "Katip Yerel: in-browser Turkish PII redaction";
   if (samples.length) { buildSampleOptions(); drawFormats(); buildModelUI(); buildEntityUI(); }
@@ -194,7 +232,7 @@ function settings() {
   };
 }
 function optCard(group, value, title, meta, tip, checked, badge, disabled = false) {
-  const tipEl = el("span", { className: "tip", tabIndex: 0, textContent: "?" }); tipEl.dataset.tip = tip; tipEl.setAttribute("aria-label", tip);
+  const tipEl = el("span", { className: "tip", tabIndex: 0, textContent: "?" }); tipEl.dataset.tip = tip; tipEl.setAttribute("aria-label", tip.split("||")[0]); tipEl.setAttribute("role", "button");
   return el("label", { className: "opt" + (disabled ? " dis" : "") }, el("input", { type: "radio", name: group, value, checked: checked && !disabled, disabled }),
     el("span", { className: "opt-t" }, el("b", { textContent: title }), badge ? el("em", { textContent: badge }) : null, tipEl),
     el("span", { className: "opt-m", textContent: meta }));
