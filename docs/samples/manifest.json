@@ -1,0 +1,846 @@
+[
+ {
+  "id": "aydinlatma_01",
+  "type": "aydinlatma",
+  "title": "Aydınlatma metni",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Ada GÜLERYÜZ"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "10310493348"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "05.11.1959"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Kızılay Mh. Bağdat Cd. Gül Apt. No:167 D:27 30344 Konak/İZMİR"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0312 893 28 14"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ada.guleryuz@yandex.com.tr"
+   },
+   {
+    "entity_type": "HEALTH",
+    "text": "Kan grubu"
+   },
+   {
+    "entity_type": "HEALTH",
+    "text": "hamilelik"
+   }
+  ]
+ },
+ {
+  "id": "bilirkisi_01",
+  "type": "bilirkisi",
+  "title": "Bilirkişi raporu",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Ulutay ÖCALAN"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "26.06.1987"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ilgın Ekşioğlu"
+   },
+   {
+    "entity_type": "PLATE",
+    "text": "17 M 75999"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ulutay"
+   },
+   {
+    "entity_type": "HEALTH",
+    "text": "yoğun bakım"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR49 0011 1032 6000 8515 3219 02"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ilgın Ekşioğlu"
+   }
+  ]
+ },
+ {
+  "id": "dilekce_01",
+  "type": "dilekce",
+  "title": "Dava dilekçesi",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Emal YILDIRIM"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "75428707268"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Yenişehir Mahallesi Lale Sokak No: 47/22 Kadıköy / İSTANBUL"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Yiğitalp Tekinalp"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0312 434 73 38"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "yigitalp.tekinalp@hotmail.com"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Göktürk BOZDEMİR"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "47045052816"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Fatih Sultan Mehmet Mh. Fevzi Çakmak Cd. Begonya Apt. No:43 D:23 73554 Seyhan/Adana"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Emal YILDIRIM"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Göktürk BOZDEMİR"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "18.04.1956"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Elvin Sözeri"
+   },
+   {
+    "entity_type": "PLATE",
+    "text": "24 R 61970"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR03 0004 6055 2513 7790 4435 12"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Yiğitalp Tekinalp"
+   }
+  ]
+ },
+ {
+  "id": "epikriz_01",
+  "type": "epikriz",
+  "title": "Epikriz (hastane)",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Değmeer Karadereli"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "12.11.1972"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "13134044482"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Gönen Karadereli"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 312 872 30 22"
+   },
+   {
+    "entity_type": "HEALTH",
+    "text": "kalp krizi"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Kutgün Atasever"
+   }
+  ]
+ },
+ {
+  "id": "eposta_01",
+  "type": "eposta",
+  "title": "E-posta yazışması",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Ilgın Keskinkılıç"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ilgin.keskinkilic@outlook.com"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ruzgar.yesilbag@gmail.com"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Rüzgar"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "BERKAL HACISALİHOĞLU"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 505 700 62 43"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Yıldıztepe Mh. Gazi Mustafa Kemal Cd. Papatya Apt. No:159 D:9 78051 Seyhan/Adana"
+   },
+   {
+    "entity_type": "HEALTH",
+    "text": "depresyon tedavisi"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ilgın Keskinkılıç"
+   }
+  ]
+ },
+ {
+  "id": "fatura_01",
+  "type": "fatura",
+  "title": "Fatura",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "VKN",
+    "text": "0994757862"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Mevlüdiye AKÇAY"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Esentepe Mh. Atatürk Cd. Gül Apt. No:93 D:5 23397 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "30343883732"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 542 933 40 62"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "mevludiye.akcay@outlook.com"
+   },
+   {
+    "entity_type": "CREDIT_CARD",
+    "text": "5588 7804 6851 9265"
+   }
+  ]
+ },
+ {
+  "id": "icra_01",
+  "type": "icra",
+  "title": "İcra takip talebi",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Rüzgar Kılıçarslan"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "92422684074"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ada Atasever"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ada.atasever@gmail.com"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Kitan KESKİNKILIÇ"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Güzelyalı Mah. Ziya Gökalp Cad. No:67 Daire:30 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Kitan KESKİNKILIÇ"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR49 0006 7006 4575 7561 7125 05"
+   }
+  ]
+ },
+ {
+  "id": "ihtarname_01",
+  "type": "ihtarname",
+  "title": "İhtarname",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Ada BAYRAKTAROĞLU"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "11991351224"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Hürriyet Mahallesi, Gazi Mustafa Kemal Caddesi No: 10 Kat: 9 Keçiören/Ankara"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Müfit YILDIRIM"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Güzelyalı Mahallesi Karanfil Sokak No: 66/12 Nilüfer / BURSA"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Müfit YILDIRIM"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR74 0011 1069 1672 7309 3469 42"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 542 449 32 40"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ada BAYRAKTAROĞLU"
+   }
+  ]
+ },
+ {
+  "id": "is_sozlesmesi_01",
+  "type": "is_sozlesmesi",
+  "title": "İş sözleşmesi",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "VKN",
+    "text": "0726037950"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "ADA SÖZERİ"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "20435446020"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "17.11.1996"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Mimar Sinan Mahallesi Zambak Sokak No: 75/10 Şahinbey / GAZİANTEP"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 (312) 912 1086"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ada.sozeri@outlook.com"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR44 0004 6009 0930 0770 0399 15"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "SOLMA HACISALİHOĞLU"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "ADA SÖZERİ"
+   }
+  ]
+ },
+ {
+  "id": "karar_01",
+  "type": "karar",
+  "title": "Mahkeme kararı",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Besin ŞAMA"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Masal ÇAKMAKÇI"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Rüzgar Ekşioğlu"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "85649363532"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Kızılay Mah. Tunalı Hilmi Cad. No:4 Daire:19 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Bayman AĞAOĞLU"
+   },
+   {
+    "entity_type": "VKN",
+    "text": "6194201436"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Rüzgar Ekşioğlu"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "12.10.1991"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ilgın Cömertoğlu"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "(212) 827-80-71"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Besin ŞAMA"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Masal ÇAKMAKÇI"
+   }
+  ]
+ },
+ {
+  "id": "kira_sozlesmesi_01",
+  "type": "kira_sozlesmesi",
+  "title": "Kira sözleşmesi",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "YİĞİTALP EKŞİOĞLU"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "68326815302"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Gazi Osman Paşa Mahallesi Akasya Sokak No: 107/13 Kadıköy / İSTANBUL"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Seda AĞAOĞLU"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "90536864528"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0 (212) 995 57 69"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "seda.agaoglu@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Kızılay Mah. Tunalı Hilmi Cad. No:162 Daire:40 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR18 0006 7011 0022 2425 9250 90"
+   },
+   {
+    "entity_type": "PLATE",
+    "text": "01 L 7042"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "MİHİN SEZGİN"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "31826650438"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "YİĞİTALP EKŞİOĞLU"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Seda AĞAOĞLU"
+   }
+  ]
+ },
+ {
+  "id": "mektup_01",
+  "type": "mektup",
+  "title": "Mektup",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Elvin"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Elamiye Durdu"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Elamiye"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Elvin Bozdemir"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0 (232) 380 97 74"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Cebesoy Güleryüz"
+   }
+  ]
+ },
+ {
+  "id": "mesaj_01",
+  "type": "mesaj",
+  "title": "Mesajlaşma dökümü",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Alin"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "48374953676"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Bedi"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 (542) 852 9494"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Alin"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "GÖKTÜRK KILIÇARSLAN"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Güzelyalı Mahallesi Yasemin Sokak No: 36/13 Bornova / İzmir"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Bedi"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "bedi.cetin@hotmail.com"
+   }
+  ]
+ },
+ {
+  "id": "tutanak_01",
+  "type": "tutanak",
+  "title": "Tutanak",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "DEMİRYÜREK AKDENİZ"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Eflin Bozdemir"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ada Sözeri"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ilgın Hacısalihoğlu"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Eflin Bozdemir"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ada"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "EFLİN TEKİNALP"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "MASAL ALTIPARMAK"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR810001509770846723381593"
+   },
+   {
+    "entity_type": "PLATE",
+    "text": "29 RHV 807"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "DEMİRYÜREK AKDENİZ"
+   }
+  ]
+ },
+ {
+  "id": "vekaletname_01",
+  "type": "vekaletname",
+  "title": "Vekaletname",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Kasim Bilge"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "17768227976"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "09.03.1960"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Cumhuriyet Mh. Talatpaşa Cd. 2. Ilgın Apt. No:126 D:17 34974 Kadıköy/İSTANBUL"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Masal Hacısalihoğlu"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Şevketfeza Çakmakçı"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Erenköy Mahallesi, Ziya Gökalp Caddesi No: 51 Kat: 8 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Kasim Bilge"
+   }
+  ]
+ },
+ {
+  "id": "zabit_01",
+  "type": "zabit",
+  "title": "Duruşma zaptı",
+  "formats": [
+   "pdf",
+   "scan.pdf",
+   "png",
+   "docx",
+   "udf",
+   "txt"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Yelesen ALTIPARMAK"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Beray Atasever"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Aydınbey Sözeri"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Hezniye ÇAKMAKÇI"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "93439134118"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Aydınbey Sözeri"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Bahçelievler Mah. Necatibey Cad. No:82 Daire:23 Kadıköy/İSTANBUL"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Beray"
+   }
+  ]
+ }
+]

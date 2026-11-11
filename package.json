@@ -1,0 +1,24 @@
+{
+  "name": "kl",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@huggingface/transformers": "^4.3.2",
+    "@tesseract.js-data/tur": "^1.0.0",
+    "jszip": "^3.10.2",
+    "mupdf": "^1.28.6",
+    "pyodide": "^314.0.7",
+    "tesseract.js": "^7.0.0",
+    "tesseract.js-core": "^7.0.0"
+  },
+  "overrides": {
+    "wasm-feature-detect": "1.8.0"
+  }
+}

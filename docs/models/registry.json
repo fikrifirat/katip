@@ -1,0 +1,15 @@
+[
+ {
+  "id": "rules+tagger",
+  "name": "Kurallar + isim etiketleyici (önerilen)",
+  "ner": "katip-tr-name-tagger-tiny",
+  "dtype": "q8",
+  "info": "Kurallara ek olarak 2.5 milyon parametreli Türkçe isim etiketleyici (2.6 MB, int8 ONNX, tarayıcıda çalışır). Kör test setinde isim yakalama %98.4 → %99.7, yeni yanlış isim yok. İlk kullanımda motoruyla birlikte ~30 MB indirilir."
+ },
+ {
+  "id": "rules",
+  "name": "Yalnız Katip kuralları v0.2",
+  "ner": null,
+  "info": "Türkçe kural tabanlı tanıyıcılar: sağlama toplamlı TCKN/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim sözlükleri ve bağlam kuralları, KVKK md. 6 terimleri. 0.3 MB, Katip sunucusundakiyle birebir aynı."
+ }
+]

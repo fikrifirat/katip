@@ -1,0 +1,8 @@
+blind      rules only    PERSON recall 359/365 = 0.984  unseen 178/179  false names 0  (3 ms/doc)
+blind      rules+tagger  PERSON recall 364/365 = 0.997  unseen 178/179  false names 0  (7 ms/doc)
+heldout    rules only    PERSON recall 262/275 = 0.953  unseen 90/92  false names 0  (3 ms/doc)
+heldout    rules+tagger  PERSON recall 268/275 = 0.975  unseen 90/92  false names 0  (7 ms/doc)
+negatives  rules only    PERSON recall 0/0 = 0.000  unseen 0/0  false names 2  (5 ms/doc)
+negatives  rules+tagger  PERSON recall 0/0 = 0.000  unseen 0/0  false names 2  (13 ms/doc)
+synthetic  rules only    PERSON recall 159/165 = 0.964  unseen 60/64  false names 0  (4 ms/doc)
+synthetic  rules+tagger  PERSON recall 159/165 = 0.964  unseen 60/64  false names 0  (8 ms/doc)

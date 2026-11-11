@@ -1,0 +1,17 @@
+{
+ "model_type": "bert",
+ "architectures": [
+  "BertForTokenClassification"
+ ],
+ "vocab_size": 12000,
+ "id2label": {
+  "0": "O",
+  "1": "B-PER",
+  "2": "I-PER"
+ },
+ "label2id": {
+  "O": 0,
+  "B-PER": 1,
+  "I-PER": 2
+ }
+}

@@ -1,0 +1,5 @@
+epoch 1: steps 252 loss 0.0586 dev word-level P 0.9678 R 0.9111 F1 0.9386 (73s)
+epoch 2: steps 504 loss 0.0377 dev word-level P 0.9702 R 0.9250 F1 0.9471 (153s)
+epoch 3: steps 756 loss 0.0412 dev word-level P 0.9726 R 0.9317 F1 0.9517 (228s)
+epoch 4: steps 1008 loss 0.0320 dev word-level P 0.9693 R 0.9379 F1 0.9533 (302s)
+epoch 5: steps 1260 loss 0.0211 dev word-level P 0.9713 R 0.9330 F1 0.9518 (373s)

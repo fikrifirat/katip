@@ -1,0 +1,23 @@
+e-Arşiv Fatura
+
+Anadolu Gıda Sanayi ve Ticaret A.Ş.
+Vergi Dairesi: Büyük Mükellefler VKN: 0994757862
+Mersis No: 0123456789000015   Ticaret Sicil No: 123456
+
+SAYIN
+Mevlüdiye AKÇAY
+Esentepe Mh. Atatürk Cd. Gül Apt. No:93 D:5 23397 Çankaya/ANKARA
+TCKN: 30343883732
+Tel: +90 542 933 40 62
+E-Posta: mevludiye.akcay@outlook.com
+
+Fatura No: GIB2025826798692
+Fatura Tarihi: 03.06.2023
+ETTN: 3756d89d-88d1-452c-8f79-d7a2c98406b7
+
+Mal Hizmet            Miktar   Birim Fiyat    KDV Oranı   Tutar
+Danışmanlık hizmeti    1        99.442,00 TL   %20         569.209,00 TL
+Toplam: 872.636,00 TL  Hesaplanan KDV: 493.250,00 TL  Ödenecek Tutar: 369.892,00 TL
+
+Ödeme için banka hesabımız: Akdeniz Bankası TR IBAN numarası bilgisi faturanın arkasındadır.
+Kredi kartı ile yapılan ödeme: 5588 7804 6851 9265
