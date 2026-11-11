@@ -65,6 +65,22 @@ It is 40 times bigger than Katip Tiny, so the demo keeps Tiny as the default and
 the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages). Raw numbers:
 [`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
 
+### Size, speed and accuracy side by side
+
+| | Download | Detection time per document (text, no OCR) | Blind set | Held-out set |
+| --- | --- | --- | --- | --- |
+| Vanilla kvkk-pii | 0.1 MB | 1 ms | 183 / 757 (24.2%) | 154 / 618 |
+| Katip Rules | 0.3 MB | 3 ms | 751 / 757 (99.2%) | 605 / 618 |
+| Katip Tiny | + 2.6 MB | 7 ms | 756 / 757 (99.9%) | 611 / 618 |
+| Katip BERTurk | + 110.8 MB | 28 ms | **757 / 757 (100%)** | **618 / 618** |
+
+**Shrinking.** Both models ship as int8 ONNX: Katip Tiny 10.0 → 2.6 MB, BERTurk 440.3 → 110.8 MB (4×
+smaller each). All scores above were measured on the int8 files, so quantising cost no accuracy. For OCR,
+the compact Turkish model is 2 MB instead of 7.7 MB with about the same recall (49 vs 48 misses on 96 scans).
+**Timings** are onnxruntime in Python, Tiny and the rules on a 4-core cloud VM, BERTurk on an Apple-silicon
+Mac; browser timings (WebAssembly, one thread) are slower and not measured yet. Distilling BERTurk to a
+size that fits GitHub Pages is on the roadmap.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="metrics/accuracy-dark.svg">
   <img alt="Share of values found by data type on the blind set" src="metrics/accuracy-light.svg" width="720">

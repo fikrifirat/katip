@@ -64,6 +64,22 @@ Katip Tiny'den 40 kat büyük olduğu için demoda varsayılan Tiny olarak kalı
 Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırını aşıyor). Ham veriler:
 [`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
 
+### Boyut, hız ve doğruluk yan yana
+
+| | İndirme | Belge başına tespit süresi (metin, OCR yok) | Kör set | Ayrılmış set |
+| --- | --- | --- | --- | --- |
+| Vanilla kvkk-pii | 0,1 MB | 1 ms | 757'de 183 (%24,2) | 618'de 154 |
+| Katip Kural | 0,3 MB | 3 ms | 757'de 751 (%99,2) | 618'de 605 |
+| Katip Tiny | + 2,6 MB | 7 ms | 757'de 756 (%99,9) | 618'de 611 |
+| Katip BERTurk | + 110,8 MB | 28 ms | **757'de 757 (%100)** | **618'de 618** |
+
+**Küçültme.** İki model de int8 ONNX olarak dağıtılıyor: Katip Tiny 10,0 → 2,6 MB, BERTurk 440,3 → 110,8 MB
+(ikisi de 4 kat küçük). Yukarıdaki tüm skorlar int8 dosyalarla ölçüldü; küçültme doğruluktan bir şey
+götürmedi. OCR'da küçük Türkçe model 7,7 MB yerine 2 MB ve bulma oranı neredeyse aynı (96 taramada 49'a karşı 48 kaçan).
+**Süreler** Python onnxruntime ile; Tiny ve kurallar 4 çekirdekli bulut sunucusunda, BERTurk Apple silikon
+Mac'te ölçüldü. Tarayıcı süreleri (WebAssembly, tek iş parçacığı) daha yavaştır ve henüz ölçülmedi.
+BERTurk'ü GitHub Pages'e sığacak boyuta damıtmak yol haritasında.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="metrics/accuracy-dark.svg">
   <img alt="Kör sette veri türüne göre bulunan değerler" src="metrics/accuracy-light.svg" width="720">
