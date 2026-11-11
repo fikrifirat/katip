@@ -104,7 +104,34 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
     return out
 
 
+# ---- vanilla baseline: the open-source kvkk-pii regex layer (MIT), mapped to Katip's types
+BASELINE_MAP = {"TC_KIMLIK": "TCKN", "TELEFON": "PHONE", "PLAKA": "PLATE", "EMAIL": "EMAIL", "IBAN": "IBAN",
+                "KISI": "PERSON", "ADRES": "ADDRESS", "VKN": "VKN", "KREDI": "CREDIT_CARD", "IP": "IP_ADDRESS",
+                "SAGLIK": "HEALTH"}
+_BASE = None
+
+
+def detect_baseline(text, threshold=0.5, entities=None):
+    global _BASE
+    if _BASE is None:
+        from kvkk_pii import PiiDetector
+        _BASE = PiiDetector()
+    entities = set(entities or ALL_ENTITIES)
+    out, last = [], -1
+    for e in sorted(_BASE.analyze(text).entities, key=lambda e: (e.start, -e.end)):
+        t = next((v for k, v in BASELINE_MAP.items() if e.entity_type.startswith(k)), None)
+        if not t or t not in entities or e.start < last:
+            continue
+        last = e.end
+        out.append({"id": f"s{len(out):04d}", "entity_type": t, "start": e.start, "end": e.end, "text": text[e.start:e.end],
+                    "score": round(float(getattr(e, "score", 1.0) or 1.0), 3), "recognizer": "kvkk-pii", "explanation": e.entity_type,
+                    "flag_only": t in FLAG_ONLY_DEFAULT})
+    return out
+
+
 def detect_json(text, opts_json="{}"):
     o = json.loads(opts_json)
+    if o.get("baseline") == "kvkk-pii":
+        return json.dumps(detect_baseline(text, o.get("threshold", 0.5), o.get("entities")), ensure_ascii=False)
     return json.dumps(detect(text, o.get("threshold", 0.5), o.get("entities"), o.get("mask", []),
                              o.get("allow", []), o.get("extra", [])), ensure_ascii=False)

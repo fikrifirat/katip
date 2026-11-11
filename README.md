@@ -33,6 +33,15 @@ names never seen during development or training, in 16 document styles (4 of the
 | Network requests after a document is opened | **0** (verified in Chromium) |
 | First load | about 30 MB of engine files (Python, PDF, OCR), plus about 30 MB for the name tagger; cached by the browser afterwards |
 
+### Models in the demo
+
+| Model | What it is | Values found (blind) | Names found |
+| --- | --- | --- | --- |
+| **Katip Tiny** (recommended) | Katip Rules + `katip-tr-name-tagger-tiny`, 2.6 MB | **756 / 757 (99.9%)** | 364 / 365 |
+| **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 751 / 757 (99.2%) | 359 / 365 |
+| Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
+| Katip BERTurk | BERTurk fine-tune for names, addresses, health terms | in training | |
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="metrics/accuracy-dark.svg">
   <img alt="Share of values found by data type on the blind set" src="metrics/accuracy-light.svg" width="720">
@@ -145,7 +154,7 @@ Code and demo: **[AGPL-3.0](LICENSE)**, with a **commercial licence** for use in
 systems or hosted services without the AGPL's source-sharing obligation; see [COMMERCIAL.md](COMMERCIAL.md).
 Models: CC BY-NC 4.0.
 
-Third-party parts: MuPDF (AGPL-3.0, Artifex), Pyodide (MPL-2.0), tesseract.js and the `tur` model
+Third-party parts: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; baseline only), Pyodide (MPL-2.0), tesseract.js and the `tur` model
 (Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), `common_words.txt` from the
 OpenSubtitles frequency list (CC BY-SA 4.0). Sample documents are synthetic; any resemblance to
 real people is accidental.

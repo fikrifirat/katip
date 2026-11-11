@@ -70,7 +70,7 @@ async function detectWithModel(text, s) {
     extra = await runNer(T, ner, text, { minScore: s.threshold });
   }
   const tn = performance.now();
-  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra });
+  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null });
   return { spans, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
 }
 
@@ -143,5 +143,6 @@ onmessage = async ({ data }) => {
     await ({ preview, analyze, redetect, redact, maskedText, original, forget })[data.type](data);
   } catch (e) { postMessage({ type: "error", msg: String(e?.message ?? e), stack: String(e?.stack ?? "").slice(0, 600) }); }
 };
+postMessage({ type: "alive" });  // messages sent before this point (during module loading) would be lost
 booted = boot();
 booted.catch(e => postMessage({ type: "error", msg: "Başlatılamadı: " + e }));

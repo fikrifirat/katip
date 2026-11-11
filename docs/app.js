@@ -3,6 +3,9 @@ import CONFIG from "./config.js";
 const $ = id => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids.filter(k => k != null)); return e; };
 const worker = new Worker(new URL("./worker.js", import.meta.url), { type: "module" });
+// A module worker drops messages that arrive while its imports are still loading, so queue until it says "alive".
+let workerAlive = false; const outbox = [];
+const send = (msg, transfer = []) => workerAlive ? worker.postMessage(msg, transfer) : outbox.push([msg, transfer]);
 const DEV = new URLSearchParams(location.search).has("dev");
 
 // ---------------------------------------------------------------- UI copy (documents stay Turkish; the interface is TR/EN)
@@ -35,7 +38,7 @@ const I18N = {
     leakBad: "Dikkat: {n} değer çıktıda hâlâ okunabiliyor. Göndermeyin.", leakUnchecked: "Taranmış sayfalar tekrar okunmadı; çıktıyı gözle kontrol edin.",
     leakOk: "Sızıntı kontrolü geçti: maskelenen değerlerin hiçbiri çıktıda okunamıyor.",
     loading: "Motor yükleniyor…", ready: "Motor hazır ({s} sn).", preparing: "Hazırlanıyor…", done: "{n} değer maskelendi.", copied: "Etiketli metin kopyalandı.", forgotten: "Belge bellekten silindi.",
-    waiting: "Belge hazır; motor yüklenince taranacak…",
+    waiting: "Motor yükleniyor; sonra Kişisel verileri bul'a basın.", toScan: "Önizleme hazır. Kişisel verileri bul'a basın.", listHint: "Kişisel verileri bul'a basınca bulunan değerler burada türlerine göre listelenir; her birini açıp kapatabilirsiniz.", scan: "Kişisel verileri bul", rescan: "Yeniden tara",
     error: "Hata: ", page: "Sayfa", ok: "doğru", fpL: "fazla", missL: "kaçan",
     tType: "Tür", tGold: "Doğru cevap", tFound: "Bulunan", tMissed: "Kaçan", tFp: "Fazla", partial: "kısmen: yalnız \"{p}\"",
     goldNote: "Doğru cevaplar belgeyi üreten betikten gelir. Taranmış belgelerde OCR hataları da puanı etkiler.",
@@ -79,7 +82,7 @@ const I18N = {
     leakBad: "Warning: {n} values are still readable in the output. Do not send it.", leakUnchecked: "Scanned pages were not re-read; check the output by eye.",
     leakOk: "Leak check passed: none of the masked values can be read in the output.",
     loading: "Loading engine…", ready: "Engine ready ({s} s).", preparing: "Preparing…", done: "{n} values masked.", copied: "Labelled text copied.", forgotten: "Document removed from memory.",
-    waiting: "Document loaded; it will be scanned once the engine is ready…",
+    waiting: "Engine loading; then press Find personal data.", toScan: "Preview ready. Press Find personal data.", listHint: "After Find personal data, the values found are listed here by type; you can switch each one on or off.", scan: "Find personal data", rescan: "Scan again",
     error: "Error: ", page: "Page", ok: "correct", fpL: "extra", missL: "missed",
     tType: "Type", tGold: "Answer key", tFound: "Found", tMissed: "Missed", tFp: "Extra", partial: "partly: only \"{p}\"",
     goldNote: "The answer key comes from the script that generated the document. On scans, OCR errors also affect the score.",
@@ -176,19 +179,19 @@ document.querySelectorAll("[data-lang]").forEach(b => (b.onclick = () => {
 }));
 
 // ---------------------------------------------------------------- settings
-const selModel = () => document.querySelector("#models input:checked")?.value ?? models.find(m => !m.dev)?.id;
+const selModel = () => document.querySelector("#models input:checked")?.value ?? models.find(m => !m.dev && !m.disabled)?.id;
 const selOcr = () => document.querySelector("#ocrModels input:checked")?.value ?? "best_int";
 function settings() {
   const m = models.find(x => x.id === selModel()) ?? models[0];
   return {
-    engine: m?.id, engineName: loc(m?.name), ner: m?.ner ?? null, nerDtype: m?.dtype ?? "q8", ocrLang: selOcr(),
+    engine: m?.id, engineName: loc(m?.name), ner: m?.ner ?? null, baseline: m?.baseline ?? null, nerDtype: m?.dtype ?? "q8", ocrLang: selOcr(),
     threshold: Number($("threshold").value), style: $("style").value,
     entities: [...document.querySelectorAll("#entities input:checked")].map(i => i.value), mask: maskTerms,
   };
 }
-function optCard(group, value, title, meta, tip, checked, badge) {
+function optCard(group, value, title, meta, tip, checked, badge, disabled = false) {
   const tipEl = el("span", { className: "tip", tabIndex: 0, textContent: "?" }); tipEl.dataset.tip = tip; tipEl.setAttribute("aria-label", tip);
-  return el("label", { className: "opt" }, el("input", { type: "radio", name: group, value, checked }),
+  return el("label", { className: "opt" + (disabled ? " dis" : "") }, el("input", { type: "radio", name: group, value, checked: checked && !disabled, disabled }),
     el("span", { className: "opt-t" }, el("b", { textContent: title }), badge ? el("em", { textContent: badge }) : null, tipEl),
     el("span", { className: "opt-m", textContent: meta }));
 }
@@ -196,7 +199,7 @@ function buildModelUI() {
   const cur = selModel(), curOcr = selOcr();
   $("models").textContent = "";
   for (const m of models.filter(m => !m.dev || DEV))
-    $("models").append(optCard("model", m.id, loc(m.name), loc(m.meta), loc(m.info), m.id === cur, m.badge ? loc(m.badge) : null));
+    $("models").append(optCard("model", m.id, loc(m.name), loc(m.meta), loc(m.info), m.id === cur, m.badge ? loc(m.badge) : null, !!m.disabled));
   $("ocrModels").textContent = "";
   $("ocrModels").append(optCard("ocr", "best_int", t("ocrBest"), t("ocrBestMeta"), t("ocrTip"), curOcr === "best_int", lang === "tr" ? "önerilen" : "recommended"),
                         optCard("ocr", "fast", t("ocrFast"), t("ocrFastMeta"), t("ocrTip"), curOcr === "fast"));
@@ -293,9 +296,9 @@ async function loadSource() {
   preview = { seq: my, kind: /\.(png|jpe?g|tiff?|bmp|webp)$/i.test(name) ? "image" : null, text: null, pages: [], imageUrl: null };
   if (preview.kind === "image") preview.imageUrl = URL.createObjectURL(new Blob([bytes]));
   renderPreview();
-  if (preview.kind !== "image") worker.postMessage({ type: "preview", name, bytes: bytes.slice(), seq: my });
+  if (preview.kind !== "image") send({ type: "preview", name, bytes: bytes.slice(), seq: my });
   updateButtons();
-  if (ready) analyze(); else status(t("waiting"));
+  status(ready ? t("toScan") : t("waiting"));
 }
 
 // ---------------------------------------------------------------- run
@@ -317,6 +320,7 @@ function redactNow() {
                        watermark: $("watermark").checked && CONFIG.watermark ? { text: wmText(), url: CONFIG.watermark.url } : null });
 }
 $("apply").onclick = () => res?.spans && !busy && redactNow();
+$("scan").onclick = () => ready && loaded && !busy && analyze();
 $("addTerm").onclick = () => addTerm($("term").value);
 $("term").onkeydown = e => e.key === "Enter" && $("addTerm").click();
 function addTerm(v) { v = (v ?? "").trim(); if (!v || !res?.spans) return; maskTerms.push(v); $("term").value = ""; redetect(); }
@@ -324,6 +328,8 @@ document.querySelectorAll("#viewSeg [data-view]").forEach(b => (b.onclick = () =
 
 function updateButtons() {
   const has = !!res?.spans;
+  $("scan").disabled = !ready || !loaded || busy; $("scan").textContent = has ? t("rescan") : t("scan"); $("scan").classList.toggle("primary", !has);
+  $("apply").classList.toggle("hidden", !has); $("download").classList.toggle("hidden", !has);
   $("apply").disabled = !has || busy; $("apply").textContent = applied ? t("reapply") : t("apply");
   $("apply").classList.toggle("primary", !applied || dirty());
   $("download").disabled = !applied || busy; $("download").classList.toggle("primary", applied && !dirty());
@@ -333,9 +339,9 @@ function updateButtons() {
 }
 
 worker.onmessage = async ({ data: m }) => {
+  if (m.type === "alive") { workerAlive = true; for (const [msg, tr] of outbox.splice(0)) worker.postMessage(msg, tr); return; }
   if (m.type === "ready") {
-    ready = true; status(t("ready", { s: (m.ms / 1000).toFixed(1) })); getTess("best_int");
-    if (loaded && !res) analyze();
+    ready = true; status(loaded && !res ? t("toScan") : t("ready", { s: (m.ms / 1000).toFixed(1) })); getTess("best_int"); updateButtons();
   } else if (m.type === "progress") status(progressText(m.msg) + "…");
   else if (m.type === "preview") {
     if (!preview || m.seq !== preview.seq) return;
@@ -404,6 +410,8 @@ function renderPreview() {
   else if (preview.text != null) D.append(el("div", { className: "txt", textContent: preview.text.replace(/\f/g, "\n") }));
   else D.append(el("div", { className: "skel" }));
   $("list").textContent = ""; $("fCount").textContent = "";
+  document.querySelector(".fhead").classList.add("hidden");
+  $("list").append(el("p", { className: "hint", textContent: t("listHint") }));
 }
 
 function render() {
@@ -486,6 +494,7 @@ function textWithMarks() {
 function renderList() {
   const box = $("list"), top = box.scrollTop; box.textContent = "";
   $("fCount").textContent = t("found", { n: chosen().length });
+  document.querySelector(".fhead").classList.remove("hidden");
   const groups = new Map();
   for (const s of res.spans) groups.set(s.entity_type, [...(groups.get(s.entity_type) ?? []), s]);
   for (const [type, spans] of groups) {

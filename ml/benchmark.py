@@ -1,7 +1,7 @@
 """Accuracy benchmark for the README: every data type, rules + name tagger (the demo's default),
 run with the exact browser detection code (Pyodide bundle) and an onnxruntime port of ner.js.
 
-  KATIP_MODEL=hf/model python ml/benchmark.py <katip-redact>/eval > metrics/accuracy.json
+  KATIP_MODEL=hf/model python ml/benchmark.py <katip-redact>/eval [tiny|rules|vanilla] > metrics/accuracy.json
 
 A gold value counts as found when a detected span of the same type covers it (same matching
 rule as eval_system.py). Precision counts detected spans that match no gold value of any type.
@@ -12,7 +12,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 import eval_system as E  # noqa: E402  (loads the bundle and the model from KATIP_MODEL)
 
-root = Path(sys.argv[1]); out = {"sets": {}}
+root = Path(sys.argv[1]); mode = sys.argv[2] if len(sys.argv) > 2 else "tiny"; out = {"model": mode, "sets": {}}
+def run(text):
+    if mode == "vanilla": return E.local_detect.detect_baseline(text)
+    return E.local_detect.detect(text, extra=E.ner(text) if mode == "tiny" else [])
 for name in ("blind", "heldout", "synthetic", "negatives"):
     d = root / name
     per = defaultdict(lambda: {"gold": 0, "found": 0, "spans": 0, "false": 0})
@@ -20,7 +23,7 @@ for name in ("blind", "heldout", "synthetic", "negatives"):
     for f in sorted(d.glob("*.txt")):
         text = f.read_text(encoding="utf-8"); gf = f.with_suffix(".gold.json")
         gold = json.loads(gf.read_text()) if gf.exists() else []
-        t0 = time.time(); spans = E.local_detect.detect(text, extra=E.ner(text)); ms += (time.time() - t0) * 1000; docs += 1
+        t0 = time.time(); spans = run(text); ms += (time.time() - t0) * 1000; docs += 1
         for g in gold:
             t = per[g["entity_type"]]; t["gold"] += 1
             t["found"] += any(s["entity_type"] == g["entity_type"] and E.matches(s["text"], g["text"]) for s in spans)

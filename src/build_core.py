@@ -40,6 +40,8 @@ with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
     z.write(here / "py/presidio_shim.py", "presidio_analyzer/__init__.py")
     z.write(here / "py/local_detect.py", "local_detect.py")
     z.write(here / "py/local_formats.py", "local_formats.py")
+    for f in sorted((here / "py/third_party/kvkk_pii").rglob("*.py")):  # vanilla baseline (MIT)
+        z.write(f, str(f.relative_to(here / "py/third_party")))
 (out / "katip_py.zip").write_bytes(buf.getvalue())
 
 # 3. vendored runtimes: everything is served from the same origin, no CDN

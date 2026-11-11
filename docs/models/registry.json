@@ -2,20 +2,20 @@
  {
   "id": "rules+tagger",
   "name": {
-   "tr": "Kurallar + isim modeli",
-   "en": "Rules + name model"
+   "tr": "Katip Tiny",
+   "en": "Katip Tiny"
   },
   "badge": {
    "tr": "önerilen",
    "en": "recommended"
   },
   "meta": {
-   "tr": "Daha çok isim yakalar · ilk açılışta +30 MB",
-   "en": "Catches more names · +30 MB on first use"
+   "tr": "Kurallar + 2,6 MB isim modeli · kör sette %99,9",
+   "en": "Rules + 2.6 MB name model · 99.9% on blind set"
   },
   "info": {
-   "tr": "Kurallara ek olarak tarayıcıda çalışan 2,6 MB'lık Türkçe isim modeli. Kör test setinde isim yakalama %98,4'ten %99,7'ye çıktı, yeni yanlış isim eklenmedi. İlk kullanımda model ve çalıştırıcısı (yaklaşık 30 MB) indirilir.",
-   "en": "Rules plus a 2.6 MB Turkish name model that runs in the tab. On the blind test set it raises name recall from 98.4% to 99.7% with no new false names. The model and its runtime (about 30 MB) download on first use."
+   "tr": "Katip Kural'a ek olarak tarayıcıda çalışan 2,6 MB'lık Türkçe isim modeli (katip-tr-name-tagger-tiny). Kör test setinde 757 değerin 756'sını buldu; isimlerde %98,4 → %99,7, yeni yanlış isim yok. İlk kullanımda model ve çalıştırıcısı (yaklaşık 30 MB) indirilir.",
+   "en": "Katip Rules plus a 2.6 MB Turkish name model that runs in the tab (katip-tr-name-tagger-tiny). Found 756 of 757 values on the blind test set; names 98.4% → 99.7% with no new false names. The model and its runtime (about 30 MB) download on first use."
   },
   "ner": "katip-tr-name-tagger-tiny",
   "dtype": "q8"
@@ -23,18 +23,57 @@
  {
   "id": "rules",
   "name": {
-   "tr": "Yalnız kurallar",
-   "en": "Rules only"
+   "tr": "Katip Kural",
+   "en": "Katip Rules"
   },
   "meta": {
-   "tr": "En hızlı açılış · 0,3 MB",
-   "en": "Fastest start · 0.3 MB"
+   "tr": "Yalnız kurallar · kör sette %99,2 · 0,3 MB",
+   "en": "Rules only · 99.2% on blind set · 0.3 MB"
   },
   "info": {
-   "tr": "Katip sunucusundakiyle birebir aynı kurallar: sağlama kontrollü T.C. kimlik/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim listeleri ve bağlam kuralları, KVKK md. 6 terimleri.",
-   "en": "The same rules as the Katip server: checksum-validated ID/tax/IBAN/card numbers, phone, e-mail, plate, address, name lists and context rules, KVKK art. 6 terms."
+   "tr": "Katip sunucusundakiyle birebir aynı Türkçe kurallar (v0.2): sağlama kontrollü T.C. kimlik/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim listeleri ve bağlam kuralları, KVKK md. 6 terimleri. Kör test setinde 757 değerin 751'ini buldu.",
+   "en": "The same Turkish rules as the Katip server (v0.2): checksum-validated ID/tax/IBAN/card numbers, phone, e-mail, plate, address, name lists and context rules, KVKK art. 6 terms. Found 751 of 757 values on the blind test set."
+  }
+ },
+ {
+  "id": "vanilla",
+  "name": {
+   "tr": "Vanilla: kvkk-pii",
+   "en": "Vanilla: kvkk-pii"
   },
-  "ner": null
+  "badge": {
+   "tr": "karşılaştırma",
+   "en": "baseline"
+  },
+  "meta": {
+   "tr": "Açık kaynak regex kütüphanesi · kör sette %24,2",
+   "en": "Open-source regex library · 24.2% on blind set"
+  },
+  "info": {
+   "tr": "Karşılaştırma için: açık kaynak kvkk-pii 0.2 kütüphanesinin varsayılan regex katmanı (MIT), değiştirilmeden. Numaraları bulur ama isim, adres ve doğum tarihi bulmaz: kör sette 757 değerin 183'ü.",
+   "en": "For comparison: the default regex layer of the open-source kvkk-pii 0.2 library (MIT), unchanged. It finds numbers but not names, addresses or birth dates: 183 of 757 values on the blind set."
+  },
+  "baseline": "kvkk-pii"
+ },
+ {
+  "id": "berturk",
+  "name": {
+   "tr": "Katip BERTurk",
+   "en": "Katip BERTurk"
+  },
+  "badge": {
+   "tr": "yakında",
+   "en": "coming soon"
+  },
+  "meta": {
+   "tr": "İsim, adres, sağlık · eğitiliyor · ~110 MB",
+   "en": "Names, addresses, health · in training · ~110 MB"
+  },
+  "info": {
+   "tr": "BERTurk üzerine ince ayarlanan daha büyük model: isim, adres ve sağlık terimleri. Eğitim sürüyor; sonuçlar gelince buraya eklenecek.",
+   "en": "A larger model fine-tuned from BERTurk for names, addresses and health terms. Training is in progress; it will appear here with its scores."
+  },
+  "disabled": true
  },
  {
   "id": "rules+test-ner",

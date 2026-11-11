@@ -33,6 +33,15 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 | Belge açıldıktan sonra yapılan ağ isteği | **0** (Chromium'da doğrulandı) |
 | İlk yükleme | motor dosyaları (Python, PDF, OCR) yaklaşık 30 MB, isim etiketleyici için yaklaşık 30 MB daha; sonra tarayıcı önbelleğinde kalır |
 
+### Demodaki modeller
+
+| Model | Nedir | Bulunan değer (kör set) | Bulunan isim |
+| --- | --- | --- | --- |
+| **Katip Tiny** (önerilen) | Katip Kural + `katip-tr-name-tagger-tiny`, 2,6 MB | **757'de 756 (%99,9)** | 365'te 364 |
+| **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 751 (%99,2) | 365'te 359 |
+| Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
+| Katip BERTurk | isim, adres ve sağlık terimleri için BERTurk ince ayarı | eğitimde | |
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="metrics/accuracy-dark.svg">
   <img alt="Kör sette veri türüne göre bulunan değerler" src="metrics/accuracy-light.svg" width="720">
@@ -123,6 +132,6 @@ Kod ve demo: **[AGPL-3.0](LICENSE)**; AGPL'nin kaynak kodu paylaşma yükümlül
 kurum içi sistemlerde veya çevrimiçi hizmetlerde kullanım için **ticari lisans** vardır, bkz.
 [COMMERCIAL.md](COMMERCIAL.md). Modeller: CC BY-NC 4.0.
 
-Üçüncü taraf bileşenler: MuPDF (AGPL-3.0, Artifex), Pyodide (MPL-2.0), tesseract.js ve `tur` modeli
+Üçüncü taraf bileşenler: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; yalnızca karşılaştırma), Pyodide (MPL-2.0), tesseract.js ve `tur` modeli
 (Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), OpenSubtitles sıklık listesinden
 `common_words.txt` (CC BY-SA 4.0). Örnek belgeler sentetiktir; gerçek kişilerle benzerlik tesadüfidir.

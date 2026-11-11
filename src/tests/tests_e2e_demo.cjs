@@ -15,10 +15,12 @@ const OWN = process.env.OWN || "/mnt/project-files/katip-redact/eval/blind/kira_
   await page.goto(BASE + (process.env.DEV ? "?dev" : ""));
   const analysed = () => page.waitForFunction(() => window.__katip()?.spans && !document.getElementById("apply").disabled, null, { timeout: 240000 });
   const applied = () => page.waitForFunction(() => window.__katip()?.outText != null && !document.getElementById("download").disabled, null, { timeout: 240000 });
-  // preview appears before the engine finishes
+  // the original is previewed on selection; nothing is analysed until "find personal data"
   await page.waitForSelector("#docView .pg img, #docView .txt", { timeout: 60000 });
-  console.log("preview shown before analysis:", !(await page.evaluate(() => !!window.__katip()?.spans)));
-  await analysed();
+  await page.waitForFunction(() => !document.getElementById("scan").disabled, null, { timeout: 120000 });
+  await page.waitForTimeout(1500);
+  console.log("original preview shown, no auto-run:", !(await page.evaluate(() => !!window.__katip()?.spans)), "| boxes:", await page.$$eval("#docView .bx", b => b.length));
+  await page.click("#scan"); await analysed();
   const cases = (process.env.CASES || "dilekce:pdf,dilekce:scan.pdf,dilekce:png,dilekce:docx,dilekce:udf,dilekce:txt,epikriz:pdf,mesaj:txt").split(",");
   for (const c of cases) {
     const [type, fmt] = c.split(":");
@@ -26,6 +28,8 @@ const OWN = process.env.OWN || "/mnt/project-files/katip-redact/eval/blind/kira_
     const t0 = Date.now();
     await page.selectOption("#sampleType", id);
     await page.click(`#formatBtns button[data-fmt="${fmt}"]`).catch(() => {});
+    await page.waitForFunction(() => !document.getElementById("scan").disabled && !window.__katip()?.spans, null, { timeout: 60000 });
+    await page.click("#scan");
     await page.waitForFunction(n => window.__katip()?.name === n && window.__katip()?.spans, `${id}.${fmt}`, { timeout: 240000 });
     await analysed();
     const tReview = Date.now() - t0;
@@ -51,6 +55,12 @@ const OWN = process.env.OWN || "/mnt/project-files/katip-redact/eval/blind/kira_
   // toggle one finding off from the list, check "not applied" notice
   await page.click("#list .it input[type=checkbox]");
   console.log("dirty notice:", /henüz uygulanmadı/.test(await page.textContent("#scorebar")));
+  // vanilla baseline on the same document
+  await page.click('#models input[value="vanilla"]');
+  await page.waitForFunction(() => window.__katip()?.settings?.baseline === "kvkk-pii" && !document.getElementById("apply").disabled, null, { timeout: 60000 });
+  console.log("vanilla:", (await page.textContent("#scorebar")).replace(/\s+/g, " ").trim());
+  await page.click('#models input[value="rules+tagger"]');
+  await page.waitForFunction(() => window.__katip()?.settings?.engine === "rules+tagger" && !document.getElementById("apply").disabled, null, { timeout: 60000 });
   if (process.env.DEV) {
     await page.click('#models input[value="rules+test-ner"]'); await analysed();
     console.log("NER:", await page.$$eval("#timing tr", r => r.map(x => x.textContent).join(" | ")));
@@ -58,6 +68,8 @@ const OWN = process.env.OWN || "/mnt/project-files/katip-redact/eval/blind/kira_
   // own file
   await page.click("#srcFileBtn");
   await page.setInputFiles("#file", OWN);
+  await page.waitForFunction(() => !document.getElementById("scan").disabled && !window.__katip()?.spans, null, { timeout: 60000 });
+  await page.click("#scan");
   await page.waitForFunction(() => window.__katip()?.isSample === false && window.__katip()?.spans, null, { timeout: 240000 });
   await page.click("#apply"); await applied();
   console.log("own file:", await page.textContent("#status"));
