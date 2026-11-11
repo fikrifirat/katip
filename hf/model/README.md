@@ -18,7 +18,7 @@ tags:
 
 A 2.5M-parameter Turkish person-name tagger that runs in the browser (2.6 MB int8 ONNX) and is
 built to sit **next to rule-based PII detection**, not to replace it. It is the on-device model
-behind [Katip Yerel](https://huggingface.co/spaces/fikrifirat/katip-yerel), a KVKK redaction tool
+behind [Katip Yerel](https://huggingface.co/spaces/f1k/katip-yerel), a KVKK redaction tool
 where the document never leaves the user's computer.
 
 ## What it improves
@@ -61,8 +61,8 @@ JavaScript (transformers.js 4), word-level: see `ner.js` in the Space.
 
 ```python
 from transformers import AutoTokenizer, AutoModelForTokenClassification
-tok = AutoTokenizer.from_pretrained("fikrifirat/katip-tr-name-tagger-tiny")
-model = AutoModelForTokenClassification.from_pretrained("fikrifirat/katip-tr-name-tagger-tiny")
+tok = AutoTokenizer.from_pretrained("f1k/katip-tr-name-tagger-tiny")
+model = AutoModelForTokenClassification.from_pretrained("f1k/katip-tr-name-tagger-tiny")
 ```
 
 ## Model

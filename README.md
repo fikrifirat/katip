@@ -3,8 +3,8 @@
 **English** · [Türkçe](README.tr.md)
 
 [![Live demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/fikrifirat/katip-yerel)
-[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/fikrifirat/katip-tr-name-tagger-tiny)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/f1k/katip-yerel)
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/f1k/katip-tr-name-tagger-tiny)
 [![Licence: AGPL-3.0 + commercial](https://img.shields.io/badge/licence-AGPL--3.0%20%2B%20commercial-blue)](COMMERCIAL.md)
 
 Katip finds and masks personal data in Turkish legal documents (T.C. kimlik no, VKN, IBAN, phone,
@@ -72,7 +72,7 @@ discharge summaries (epikriz) and expert reports.
 
 ## Try it
 
-- **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/fikrifirat/katip-yerel)).
+- **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-yerel)).
   Pick one of 16 sample documents to see live recall, precision, misses and false alarms against its
   answer key, or open your own file.
 - Switch the detection model, OCR model, confidence threshold, data types and mask style.
@@ -85,7 +85,7 @@ discharge summaries (epikriz) and expert reports.
 | Step | Component |
 | --- | --- |
 | Detection rules | Katip's Python recognizers and word lists, unchanged, in Pyodide (Python compiled to WebAssembly) |
-| Name tagger | [`katip-tr-name-tagger-tiny`](https://huggingface.co/fikrifirat/katip-tr-name-tagger-tiny), 2.6 MB int8 ONNX, transformers.js |
+| Name tagger | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2.6 MB int8 ONNX, transformers.js |
 | Text, UDF, Word | standard-library Python in Pyodide (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
 | Scans and photos | tesseract.js with the Turkish model |

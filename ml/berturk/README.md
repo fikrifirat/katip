@@ -22,7 +22,7 @@ scores at the end. Output goes to `out/`: `results.json`, the PyTorch weights, `
 To publish it on Hugging Face (after `hf auth login`):
 
 ```bash
-python train_berturk.py --push fikrifirat/katip-tr-pii-berturk
+python train_berturk.py --push f1k/katip-tr-pii-berturk
 ```
 
 Send me `out/results.json` and I'll wire the model into the demo (multi-type support in `src/ner.js`

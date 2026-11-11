@@ -3,7 +3,7 @@
 #   pip install -U huggingface_hub && hf auth login      (token with write access)
 #   ./publish_hf.sh [hf-username]
 set -euo pipefail
-U="${1:-fikrifirat}"
+U="${1:-f1k}"
 cd "$(dirname "$0")"
 hf repos create "$U/katip-tr-name-tagger-tiny" --repo-type model --public --exist-ok
 hf upload "$U/katip-tr-name-tagger-tiny" hf/model . --repo-type model --commit-message "katip-tr-name-tagger-tiny v1"

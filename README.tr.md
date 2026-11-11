@@ -3,8 +3,8 @@
 [English](README.md) · **Türkçe**
 
 [![Canlı demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/fikrifirat/katip-yerel)
-[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/fikrifirat/katip-tr-name-tagger-tiny)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/f1k/katip-yerel)
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/f1k/katip-tr-name-tagger-tiny)
 [![Lisans: AGPL-3.0 + ticari](https://img.shields.io/badge/lisans-AGPL--3.0%20%2B%20ticari-blue)](COMMERCIAL.md)
 
 Katip, Türkçe hukuk belgelerindeki kişisel verileri (T.C. kimlik no, VKN, IBAN, telefon, e-posta,
@@ -72,7 +72,7 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 
 ## Deneyin
 
-- **Demo:** https://fikrifirat.github.io/katip/ (veya [Hugging Face Space](https://huggingface.co/spaces/fikrifirat/katip-yerel)).
+- **Demo:** https://fikrifirat.github.io/katip/ (veya [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-yerel)).
   16 örnek belgeden birini seçip cevap anahtarına göre bulma oranını, isabeti, kaçanları ve yanlış
   alarmları canlı görün ya da kendi dosyanızı açın.
 - Tespit modelini, OCR modelini, güven eşiğini, veri türlerini ve maske stilini değiştirin.
@@ -85,7 +85,7 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 | Adım | Bileşen |
 | --- | --- |
 | Tespit kuralları | Katip'in Python tanıyıcıları ve sözcük listeleri, değiştirilmeden, Pyodide içinde (WebAssembly'ye derlenmiş Python) |
-| İsim etiketleyici | [`katip-tr-name-tagger-tiny`](https://huggingface.co/fikrifirat/katip-tr-name-tagger-tiny), 2,6 MB int8 ONNX, transformers.js |
+| İsim etiketleyici | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2,6 MB int8 ONNX, transformers.js |
 | Metin, UDF, Word | Pyodide içinde standart kütüphane Python (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
 | Tarama ve fotoğraf | Türkçe modelle tesseract.js |
