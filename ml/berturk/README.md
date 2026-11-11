@@ -11,9 +11,11 @@ git clone https://github.com/fikrifirat/katip && cd katip/ml/berturk
 python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-python train_berturk.py --limit 300 --epochs 1      # smoke test, a few minutes
-python train_berturk.py                             # full run, roughly 30-60 min on M1-M3
+python train_berturk.py --limit 300 --epochs 1
+python train_berturk.py
 ```
+
+The first command is a smoke test (a few minutes); the second is the full run (roughly 30-60 min on M1-M3).
 
 It picks the Apple GPU (MPS) automatically and prints dev scores after each epoch and the final
 scores at the end. Output goes to `out/`: `results.json`, the PyTorch weights, `onnx/model.onnx`

@@ -114,10 +114,12 @@ spans), and the browser tagger matches Python onnxruntime (0 differences on 152 
 ## Develop
 
 ```bash
-npm install                                   # pyodide, mupdf, tesseract.js, transformers.js, jszip
+npm install
 python3 src/build_site.py <path-to-katip-redact> node_modules docs --source https://github.com/fikrifirat/katip
-python3 docs/serve.py                         # http://127.0.0.1:8765
+python3 docs/serve.py
 ```
+
+`npm install` fetches Pyodide, MuPDF, tesseract.js, transformers.js and JSZip; `serve.py` serves the site at http://127.0.0.1:8765.
 
 `build_site.py` copies the detection code from the Katip server repository (one source of truth)
 and the sample documents from its `eval/blind` set.

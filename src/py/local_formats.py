@@ -150,13 +150,31 @@ def extract(kind, data):
     return data.decode("utf-8", errors="replace")
 
 
-def redact(kind, data, spans_json, style="box"):
+def _docx_watermark(data: bytes, mark: str) -> bytes:
+    """Append one small grey paragraph at the end of the body (before the final sectPr)."""
+    with zipfile.ZipFile(io.BytesIO(data)) as z:
+        xml = z.read("word/document.xml").decode("utf-8")
+    para = ('<w:p><w:r><w:rPr><w:color w:val="8A8A8A"/><w:sz w:val="14"/></w:rPr>'
+            f'<w:t xml:space="preserve">{html.escape(mark, quote=False)}</w:t></w:r></w:p>')
+    k = xml.rfind("<w:sectPr")
+    if k < 0 or k < xml.rfind("</w:p>"):
+        k = xml.rfind("</w:body>")
+    if k < 0:
+        return data
+    return _rezip(data, {"word/document.xml": (xml[:k] + para + xml[k:]).encode("utf-8")})
+
+
+def redact(kind, data, spans_json, style="box", watermark=""):
     data, spans = bytes(data), json.loads(spans_json)
     if kind == "udf":
-        return udf_redact(data, spans)
+        return udf_redact(data, spans)  # UYAP files stay byte-compatible: no watermark
     if kind == "docx":
-        return docx_redact(data, spans, style)
-    return mask_text(data.decode("utf-8", errors="replace"), spans, style).encode("utf-8")
+        out = docx_redact(data, spans, style)
+        return _docx_watermark(out, watermark) if watermark else out
+    text = mask_text(data.decode("utf-8", errors="replace"), spans, style)
+    if watermark:
+        text = text.rstrip("\n") + "\n\n" + watermark + "\n"
+    return text.encode("utf-8")
 
 
 def squash(s):
