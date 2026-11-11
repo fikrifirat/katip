@@ -1,0 +1,71 @@
+{
+ "base": "dbmdz/bert-base-turkish-cased",
+ "labels": [
+  "O",
+  "B-PER",
+  "I-PER",
+  "B-ADDR",
+  "I-ADDR",
+  "B-HEALTH",
+  "I-HEALTH"
+ ],
+ "epochs": 3,
+ "train_docs": 8000,
+ "device": "mps",
+ "train_seconds": 1532,
+ "sets": {
+  "blind": {
+   "docs": 80,
+   "ms_per_doc": 17.6,
+   "types": {
+    "PERSON": {
+     "gold": 365,
+     "found": 364,
+     "spans": 366,
+     "false": 2
+    },
+    "ADDRESS": {
+     "gold": 80,
+     "found": 80,
+     "spans": 80,
+     "false": 0
+    },
+    "HEALTH": {
+     "gold": 26,
+     "found": 26,
+     "spans": 26,
+     "false": 0
+    }
+   }
+  },
+  "heldout": {
+   "docs": 60,
+   "ms_per_doc": 16.1,
+   "types": {
+    "PERSON": {
+     "gold": 275,
+     "found": 275,
+     "spans": 275,
+     "false": 0
+    },
+    "ADDRESS": {
+     "gold": 70,
+     "found": 70,
+     "spans": 70,
+     "false": 0
+    },
+    "HEALTH": {
+     "gold": 26,
+     "found": 26,
+     "spans": 26,
+     "false": 0
+    }
+   }
+  },
+  "negatives": {
+   "docs": 3,
+   "ms_per_doc": 20.3,
+   "types": {}
+  }
+ }
+}

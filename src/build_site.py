@@ -60,6 +60,8 @@ reg = json.loads((here / "models/registry.json").read_text())
 for m in reg:
     if m.get("ner") and (here / "models" / m["ner"]).exists():
         shutil.copytree(here / "models" / m["ner"], out / "models" / m["ner"], dirs_exist_ok=True)
+    elif m.get("ner") and m.get("hosted"):
+        m["elsewhere"] = True  # too big for GitHub (100 MB file limit): the card links to where it runs
 (out / "models/registry.json").write_text(json.dumps(reg, ensure_ascii=False, indent=1))
 
 # version

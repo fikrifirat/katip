@@ -56,18 +56,22 @@ export async function runNer(T, ner, text, { minScore = 0.5, maxTokens = 500 } =
     });
     w0 = w;
   }
-  // merge B-PER + I-PER runs (same rule as ml/eval_system.py), drop a Turkish case suffix after an apostrophe
+  // merge B-X + I-X runs of the same type (same rule as ml/berturk/train_berturk.py and ml/eval_system.py):
+  // names and health terms continue across spaces/commas, addresses also across line breaks and . / : -
+  const TYPES = { PER: "PERSON", PERSON: "PERSON", ADDR: "ADDRESS", ADDRESS: "ADDRESS", HEALTH: "HEALTH" };
   const spans = [];
   let cur = null;
   words.forEach((wd, i) => {
-    const { l, p } = labels[i], per = /PER(SON)?$/i.test(l);
+    const { l, p } = labels[i], typ = l === "O" ? null : TYPES[l.replace(/^[BI]-/, "")] ?? null;
     const gap = i ? text.slice(words[i - 1].e, wd.s) : "";
-    if (per && cur && !/^B-/.test(l) && /^[ \t,]*$/.test(gap)) { cur.e = wd.e; cur.ps.push(p); }
-    else { if (cur) spans.push(cur); cur = per ? { s: wd.s, e: wd.e, ps: [p] } : null; }
+    const glue = typ === "ADDRESS" ? /^[ \t,\n./:-]*$/ : /^[ \t,]*$/;
+    if (typ && cur && cur.t === typ && /^I-/.test(l) && glue.test(gap)) { cur.e = wd.e; cur.ps.push(p); }
+    else { if (cur) spans.push(cur); cur = typ ? { s: wd.s, e: wd.e, ps: [p], t: typ } : null; }
   });
   if (cur) spans.push(cur);
+  // [start, end, score, type]; a Turkish case suffix after an apostrophe is dropped from names (Ahmet'in -> Ahmet)
   return spans.map(c => {
-    const t = text.slice(c.s, c.e), k = Math.min(...["'", "’"].map(q => t.includes(q) ? t.indexOf(q) : t.length));
-    return [c.s, c.s + k, c.ps.reduce((x, y) => x + y, 0) / c.ps.length];
+    const t = text.slice(c.s, c.e), k = c.t !== "PERSON" ? t.length : Math.min(...["'", "’"].map(q => t.includes(q) ? t.indexOf(q) : t.length));
+    return [c.s, c.s + k, c.ps.reduce((x, y) => x + y, 0) / c.ps.length, c.t];
   }).filter(x => x[2] >= minScore);
 }

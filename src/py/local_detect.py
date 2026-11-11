@@ -77,8 +77,39 @@ def _add_model_span(text, results, s, e, score):
         results.append(r)
 
 
+def _add_model_typed(text, results, typ, s, e, score):
+    """ADDRESS / HEALTH span from a multi-type model: widen an overlapping rule span of the same
+    type (the model often sees the whole address when the rules stop at the street), else add it,
+    but only where nothing else was found and, for an address, when it has two or more words
+    (district names such as Ilgın or Çankaya are also first names and surnames)."""
+    while s < e and text[s] in " \t\n,.;:-":
+        s += 1
+    while e > s and text[e - 1] in " \t\n,;:-":
+        e -= 1
+    if e - s < 3:
+        return
+    hits = [r for r in results if r.entity_type == typ and r.start < e and r.end > s]
+    for r in hits:
+        a, b = min(r.start, s), max(r.end, e)
+        # never widen over a value of another type (a name or ID next to the address)
+        if any(o.entity_type != typ and o.start < b and o.end > a and not (o.start < r.end and o.end > r.start) for o in results):
+            continue
+        r.start, r.end = a, b
+        r.recognition_metadata["explanation"] = (r.recognition_metadata.get("explanation", "") + " + model").strip()
+    if hits:
+        return
+    if any(r.start < e and r.end > s for r in results):
+        return
+    if typ == "ADDRESS" and len(_TOK.findall(text[s:e])) < 2:
+        return
+    r = RecognizerResult(typ, s, e, score)
+    r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: "pii_tagger", "explanation": "on-device model"}
+    results.append(r)
+
+
 def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), extra=()):
-    """extra: PERSON spans from an on-device model, as (start, end, score) tuples."""
+    """extra: spans from an on-device model, as (start, end, score) or (start, end, score, type) tuples;
+    a span without a type is a PERSON span."""
     entities = list(entities or ALL_ENTITIES)
     results, seen = [], set()
     for rec in recognizers():
@@ -89,9 +120,16 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
             if r.score >= threshold and key not in seen:
                 seen.add(key)
                 results.append(r)
-    if "PERSON" in entities:
-        for s, e, sc in extra:
+    # names first, so a new address/health span can see them
+    for x in sorted(extra, key=lambda x: (len(x) > 3 and x[3] not in (None, "PERSON"))):
+        s, e, sc = x[:3]
+        typ = x[3] if len(x) > 3 and x[3] else "PERSON"
+        if typ not in entities:
+            continue
+        if typ == "PERSON":
             _add_model_span(text, results, s, e, sc)
+        else:
+            _add_model_typed(text, results, typ, s, e, sc)
     results = _dictionary(text, results, mask_terms, allow_terms)
     out = []
     for i, r in enumerate(_merge_adjacent(text, resolve_overlaps(results))):

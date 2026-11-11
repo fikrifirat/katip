@@ -13,8 +13,36 @@ BERTurk (`dbmdz/bert-base-turkish-cased`) fine-tuned to tag **person names, addr
 art. 6 health terms** in Turkish legal documents, as the on-device model for
 [Katip Yerel](https://github.com/fikrifirat/katip). Exported to ONNX (fp32 and int8) for transformers.js.
 
-Scores, training time and settings for this upload are in `results.json` (model alone, before
-Katip's rules are added). Training data is synthetic; the blind set's names never appear in training.
+## Results (model alone, before Katip's rules are added)
+
+Trained for 3 epochs on 8,000 synthetic documents in 25.5 minutes on an Apple-silicon Mac (MPS).
+Scored on sets the training never saw; the blind set's names never appear in training.
+
+| Set | Names | Addresses | Health terms | Extra spans | Time per document |
+| --- | --- | --- | --- | --- | --- |
+| Blind (80 docs, 16 styles, 4 new) | 364 / 365 | 80 / 80 | 26 / 26 | 2 | 17.6 ms |
+| Held-out (60 docs) | 275 / 275 | 70 / 70 | 26 / 26 | 0 | 16.1 ms |
+| Name-free legal prose (3 docs) | | | | 0 | 20.3 ms |
+
+For comparison, Katip's rules plus the 2.6 MB
+[`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny) find 364 / 365
+names on the blind set and 268 / 275 on the held-out set, with 3 false alarms on name-free prose.
+Times are PyTorch on the Mac GPU; in the browser (int8 ONNX, WebAssembly, one thread) it is slower.
+Raw numbers: `results.json`.
+
+**Limits.** All documents are synthetic and 12 of the 16 blind styles share templates with the
+training data, so real case files will score lower. In Katip the model is combined with the rules:
+a model address or health span widens an overlapping rule span of the same type, and a new one is
+only added where nothing else was found (and, for addresses, with two or more words). That policy
+was checked with a small stand-in model on the blind set, not with this model.
+
+## Files
+
+| File | Size | |
+| --- | --- | --- |
+| `onnx/model_quantized.onnx` | 110.8 MB | int8, used by the browser demo |
+| `onnx/model.onnx` | 440.3 MB | fp32 |
+| `model.safetensors` | | PyTorch weights, for further fine-tuning |
 
 Labels are word-level BIO on each word's first sub-token; use the word split in `config.json`
 (`katip.word_regex`) as Katip's `src/ner.js` does.

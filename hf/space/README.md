@@ -10,6 +10,7 @@ license: agpl-3.0
 short_description: Turkish KVKK PII redaction that runs fully in your browser
 models:
 - f1k/katip-tr-name-tagger-tiny
+- f1k/katip-tr-pii-berturk
 tags:
 - pii
 - redaction

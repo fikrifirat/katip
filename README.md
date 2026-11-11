@@ -5,6 +5,7 @@
 [![Live demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
 [![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/f1k/katip-yerel)
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/f1k/katip-tr-name-tagger-tiny)
+[![BERTurk model](https://img.shields.io/badge/%F0%9F%A4%97%20model-pii--berturk-yellow)](https://huggingface.co/f1k/katip-tr-pii-berturk)
 [![Licence: AGPL-3.0 + commercial](https://img.shields.io/badge/licence-AGPL--3.0%20%2B%20commercial-blue)](COMMERCIAL.md)
 
 Katip finds and masks personal data in Turkish legal documents (T.C. kimlik no, VKN, IBAN, phone,
@@ -40,7 +41,20 @@ names never seen during development or training, in 16 document styles (4 of the
 | **Katip Tiny** (recommended) | Katip Rules + `katip-tr-name-tagger-tiny`, 2.6 MB | **756 / 757 (99.9%)** | 364 / 365 |
 | **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 751 / 757 (99.2%) | 359 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
-| Katip BERTurk | BERTurk fine-tune for names, addresses, health terms | in training | |
+| **Katip BERTurk** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | full pipeline being measured | model alone: 364 / 365 |
+
+**Katip BERTurk, model alone** (no rules), fine-tuned from BERTurk on 8,000 synthetic documents in
+25.5 minutes on a Mac:
+
+| Set | Names | Addresses | Health terms | Extra spans |
+| --- | --- | --- | --- | --- |
+| Blind (80 docs) | 364 / 365 | 80 / 80 | 26 / 26 | 2 |
+| Held-out (60 docs) | **275 / 275** (rules + tiny: 268) | 70 / 70 | 26 / 26 | 0 |
+| Name-free legal prose | | | | **0** (rules + tiny: 3) |
+
+It is 40 times bigger than Katip Tiny, so the demo keeps Tiny as the default and offers BERTurk on
+the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages). Raw numbers:
+[`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="metrics/accuracy-dark.svg">
@@ -96,20 +110,22 @@ discharge summaries (epikriz) and expert reports.
 | Step | Component |
 | --- | --- |
 | Detection rules | Katip's Python recognizers and word lists, unchanged, in Pyodide (Python compiled to WebAssembly) |
-| Name tagger | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2.6 MB int8 ONNX, transformers.js |
+| Name tagger | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2.6 MB int8 ONNX, transformers.js; or [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk) (names, addresses, health), 110.8 MB |
 | Text, UDF, Word | standard-library Python in Pyodide (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
 | Scans and photos | tesseract.js with the Turkish model |
 | Leak check | the output is read again (text layer or a second OCR pass) for every masked value |
 
 The browser rules give exactly the same results as Katip's server engine (0 differences on 1,803
-spans), and the browser tagger matches Python onnxruntime (0 differences on 152 spans).
+spans), and the browser tagger matches Python onnxruntime (0 differences on 152 spans, for both the
+name-only and the multi-type model code).
 
 ## Roadmap
 
 - [x] Fully in-browser redaction for PDF, scans, photos, Word, UDF, text
 - [x] On-device name tagger, public demo, Hugging Face Space and model
-- [ ] BERTurk model for names, addresses and health terms ([`ml/berturk/`](ml/berturk/), in training)
+- [x] BERTurk model for names, addresses and health terms ([`ml/berturk/`](ml/berturk/))
+- [ ] Full-pipeline benchmark for Katip BERTurk; a smaller distilled version that fits on Pages
 - [ ] Evaluation on real, consented documents from pilot firms
 - [ ] Laptop and phone timings; smaller first download
 - [ ] Organisation and court names, case numbers, more KVKK art. 6 categories
@@ -136,7 +152,7 @@ python3 docs/serve.py
 and the sample documents from its `eval/blind` set.
 
 - **GitHub Pages:** Settings → Pages → Deploy from a branch → `main` / `/docs`.
-- **Hugging Face:** `./publish_hf.sh` (after `hf auth login`) uploads the model and the Space.
+- **Hugging Face:** `./publish_hf.sh` (after `hf auth login`) uploads the models and the Space.
 
 | Test | Checks |
 | --- | --- |

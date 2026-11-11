@@ -51,6 +51,7 @@ const I18N = {
     rHowSend: "\"Doğrudan gönder\" raporu {host} üzerinden iletir. Ya da raporu indirip e-postayla kendiniz gönderin.",
     rDownloaded: "{f} indirildi. E-posta açılmadıysa {to} adresine dosyayı ekleyerek yazın.", rSending: "Gönderiliyor…", rSent: "Gönderildi, teşekkürler.", rFailed: "Gönderilemedi",
     foot: "Kurallar Katip sunucusundakilerle aynı (Pyodide) · PDF: MuPDF · OCR: Tesseract", source: "Kaynak kod", issues: "Soru ve öneriler",
+    onSpace: "Bu sayfa için çok büyük (110 MB) · Hugging Face'te deneyin →",
     ocrBest: "Küçük", ocrBestMeta: "Aynı doğruluk, 4 kat küçük · 2 MB", ocrFast: "Standart", ocrFastMeta: "Eski motor verisiyle · 7,7 MB",
     origAlt: "Orijinal sayfa", maskAlt: "Maskeli sayfa", ocrText: "Okunan metin",
   },
@@ -95,6 +96,7 @@ const I18N = {
     rHowSend: "\"Send directly\" delivers the report through {host}. Or download it and e-mail it yourself.",
     rDownloaded: "{f} downloaded. If no e-mail opened, write to {to} and attach the file.", rSending: "Sending…", rSent: "Sent, thank you.", rFailed: "Could not send",
     foot: "Same rules as the Katip server (Pyodide) · PDF: MuPDF · OCR: Tesseract", source: "Source code", issues: "Questions and ideas",
+    onSpace: "Too big for this page (110 MB) · try it on Hugging Face →",
     ocrBest: "Compact", ocrBestMeta: "Same accuracy, 4× smaller · 2 MB", ocrFast: "Standard", ocrFastMeta: "Includes old engine data · 7.7 MB",
     origAlt: "Original page", maskAlt: "Masked page", ocrText: "Recognised text",
   },
@@ -179,7 +181,7 @@ document.querySelectorAll("[data-lang]").forEach(b => (b.onclick = () => {
 }));
 
 // ---------------------------------------------------------------- settings
-const selModel = () => document.querySelector("#models input:checked")?.value ?? models.find(m => !m.dev && !m.disabled)?.id;
+const selModel = () => document.querySelector("#models input:checked")?.value ?? models.find(m => !m.dev && !m.disabled && !m.elsewhere)?.id;
 const selOcr = () => document.querySelector("#ocrModels input:checked")?.value ?? "best_int";
 function settings() {
   const m = models.find(x => x.id === selModel()) ?? models[0];
@@ -198,8 +200,11 @@ function optCard(group, value, title, meta, tip, checked, badge, disabled = fals
 function buildModelUI() {
   const cur = selModel(), curOcr = selOcr();
   $("models").textContent = "";
-  for (const m of models.filter(m => !m.dev || DEV))
-    $("models").append(optCard("model", m.id, loc(m.name), loc(m.meta), loc(m.info), m.id === cur, m.badge ? loc(m.badge) : null, !!m.disabled));
+  for (const m of models.filter(m => !m.dev || DEV)) {
+    const card = optCard("model", m.id, loc(m.name), loc(m.meta), loc(m.info), m.id === cur, m.badge ? loc(m.badge) : null, !!(m.disabled || m.elsewhere));
+    if (m.elsewhere) card.append(el("a", { className: "opt-l", href: m.hosted + (lang === "en" ? "?lang=en" : ""), target: "_blank", rel: "noopener", textContent: t("onSpace") }));
+    $("models").append(card);
+  }
   $("ocrModels").textContent = "";
   $("ocrModels").append(optCard("ocr", "best_int", t("ocrBest"), t("ocrBestMeta"), t("ocrTip"), curOcr === "best_int", lang === "tr" ? "önerilen" : "recommended"),
                         optCard("ocr", "fast", t("ocrFast"), t("ocrFastMeta"), t("ocrTip"), curOcr === "fast"));

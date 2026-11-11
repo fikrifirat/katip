@@ -63,6 +63,8 @@ details.ents{margin-top:12px}details.ents summary{font-size:12.5px;color:var(--m
 .bx{position:absolute;padding:0;border:0;border-radius:2px;cursor:pointer;background:color-mix(in srgb,var(--mask) 22%,transparent);outline:2px solid var(--mask);min-width:4px;min-height:4px}
 .bx.fp{outline:2px dashed var(--fp)}.bx.off{background:transparent;outline:1.5px dashed var(--muted)}.bx:hover{background:color-mix(in srgb,var(--mask) 40%,transparent)}
 .opt.dis{opacity:.6;cursor:default}
+.opt.dis:has(.opt-l){opacity:1}.opt.dis:has(.opt-l) .opt-t,.opt.dis:has(.opt-l) .opt-m{opacity:.6}
+.opt-l{grid-column:2;font-size:12px;color:var(--accent,#2f7d4f)}
 .txt{white-space:pre-wrap;word-break:break-word;font:12.5px/1.65 var(--code);background:var(--panel);border-radius:6px;padding:14px 16px;border:1px solid var(--line)}
 .skel{height:420px;border-radius:6px;background:linear-gradient(90deg,var(--off),var(--panel),var(--off));background-size:200% 100%;animation:sk 1.2s infinite linear}
 @keyframes sk{to{background-position:-200% 0}}

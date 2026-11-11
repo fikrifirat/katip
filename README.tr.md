@@ -5,6 +5,7 @@
 [![Canlı demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
 [![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/f1k/katip-yerel)
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/f1k/katip-tr-name-tagger-tiny)
+[![BERTurk modeli](https://img.shields.io/badge/%F0%9F%A4%97%20model-pii--berturk-yellow)](https://huggingface.co/f1k/katip-tr-pii-berturk)
 [![Lisans: AGPL-3.0 + ticari](https://img.shields.io/badge/lisans-AGPL--3.0%20%2B%20ticari-blue)](COMMERCIAL.md)
 
 Katip, Türkçe hukuk belgelerindeki kişisel verileri (T.C. kimlik no, VKN, IBAN, telefon, e-posta,
@@ -40,7 +41,20 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 | **Katip Tiny** (önerilen) | Katip Kural + `katip-tr-name-tagger-tiny`, 2,6 MB | **757'de 756 (%99,9)** | 365'te 364 |
 | **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 751 (%99,2) | 365'te 359 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
-| Katip BERTurk | isim, adres ve sağlık terimleri için BERTurk ince ayarı | eğitimde | |
+| **Katip BERTurk** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | tüm akış ölçülüyor | model tek başına: 365'te 364 |
+
+**Katip BERTurk, model tek başına** (kurallar olmadan); BERTurk'ten 8.000 sentetik belgeyle bir
+Mac'te 25,5 dakikada ince ayarlandı:
+
+| Set | İsimler | Adresler | Sağlık terimleri | Fazladan |
+| --- | --- | --- | --- | --- |
+| Kör (80 belge) | 365'te 364 | 80'de 80 | 26'da 26 | 2 |
+| Ayrılmış (60 belge) | **275'te 275** (kurallar + tiny: 268) | 70'te 70 | 26'da 26 | 0 |
+| İsim içermeyen hukuk metni | | | | **0** (kurallar + tiny: 3) |
+
+Katip Tiny'den 40 kat büyük olduğu için demoda varsayılan Tiny olarak kalıyor; BERTurk Hugging Face
+Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırını aşıyor). Ham veriler:
+[`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="metrics/accuracy-dark.svg">
@@ -96,20 +110,22 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 | Adım | Bileşen |
 | --- | --- |
 | Tespit kuralları | Katip'in Python tanıyıcıları ve sözcük listeleri, değiştirilmeden, Pyodide içinde (WebAssembly'ye derlenmiş Python) |
-| İsim etiketleyici | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2,6 MB int8 ONNX, transformers.js |
+| İsim etiketleyici | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2,6 MB int8 ONNX, transformers.js; ya da [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk) (isim, adres, sağlık), 110,8 MB |
 | Metin, UDF, Word | Pyodide içinde standart kütüphane Python (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
 | Tarama ve fotoğraf | Türkçe modelle tesseract.js |
 | Sızıntı kontrolü | çıktı her maskelenen değer için yeniden okunur (metin katmanı veya ikinci OCR) |
 
 Tarayıcıdaki kurallar Katip'in sunucu motoruyla birebir aynı sonucu verir (1.803 değerde 0 fark);
-tarayıcıdaki etiketleyici Python onnxruntime ile aynıdır (152 değerde 0 fark).
+tarayıcıdaki etiketleyici Python onnxruntime ile aynıdır (152 değerde 0 fark; hem yalnız isim hem çok
+türlü model kodu için).
 
 ## Yol haritası
 
 - [x] PDF, tarama, fotoğraf, Word, UDF ve metin için tamamen tarayıcıda maskeleme
 - [x] Cihaz üzerinde isim etiketleyici, herkese açık demo, Hugging Face Space ve model
-- [ ] İsim, adres ve sağlık terimleri için BERTurk modeli ([`ml/berturk/`](ml/berturk/), eğitimde)
+- [x] İsim, adres ve sağlık terimleri için BERTurk modeli ([`ml/berturk/`](ml/berturk/))
+- [ ] Katip BERTurk için tüm akışın ölçümü; Pages'e sığan daha küçük (damıtılmış) sürüm
 - [ ] Pilot bürolardan, izinli gerçek belgelerle değerlendirme
 - [ ] Dizüstü ve telefon süreleri; daha küçük ilk indirme
 - [ ] Kurum ve mahkeme adları, esas/karar numaraları, daha fazla KVKK md. 6 kategorisi

@@ -7,7 +7,10 @@ import json, re, sys, time
 from pathlib import Path
 import numpy as np, onnxruntime as ort, regex
 from tokenizers import Tokenizer
-sys.path.insert(0, str(Path(__file__).parent / "bundle"))
+_b = Path(__file__).parent / "bundle"
+if not (_b / "local_detect.py").exists():  # no unzipped build: use the one in docs/
+    import tempfile, zipfile; _b = Path(tempfile.mkdtemp()); zipfile.ZipFile(Path(__file__).parents[1] / "docs" / "katip_py.zip").extractall(_b)
+sys.path.insert(0, str(_b))
 import local_detect  # noqa: E402
 
 mdir = Path(sys.argv[1] if __name__ == "__main__" else __import__("os").environ["KATIP_MODEL"]); cfg = json.loads((mdir / "config.json").read_text())
@@ -32,21 +35,24 @@ def ner(text, min_score=float(__import__("os").environ.get("MINS", 0.5))):
             z = lg[pos] - lg[pos].max(); p = np.exp(z) / np.exp(z).sum(); b = int(p.argmax())
             labels[w0 + j] = (id2label[b], float(p[b]))
         w0 = w
-    spans, cur = [], None
+    spans, cur = [], None  # same merge as src/ner.js
     for i, (s, e, _) in enumerate(words):
-        l, p = labels[i]; per = l.endswith("PER")
+        l, p = labels[i]; typ = None if l == "O" else TYPES.get(l[2:])
         gap = text[words[i - 1][1]:s] if i else ""
-        if per and cur and l.startswith("I-") and re.fullmatch(r"[ \t,]*", gap): cur[1] = e; cur[2].append(p)
+        if typ and cur and cur[3] == typ and l.startswith("I-") and re.fullmatch(r"[ \t,\n./:-]*" if typ == "ADDRESS" else r"[ \t,]*", gap):
+            cur[1] = e; cur[2].append(p)
         else:
             if cur: spans.append(cur)
-            cur = [s, e, [p]] if per else None
+            cur = [s, e, [p], typ] if typ else None
     if cur: spans.append(cur)
     out = []
-    for s, e, ps in spans:
-        t = text[s:e]; k = min([t.find(c) for c in "'’" if c in t] or [len(t)]); e = s + k  # drop Turkish case suffix after apostrophe
-        if sum(ps) / len(ps) >= min_score: out.append((s, e, sum(ps) / len(ps)))
+    for s, e, ps, typ in spans:
+        t = text[s:e]
+        if typ == "PERSON": e = s + min([t.find(c) for c in "'’" if c in t] or [len(t)])  # drop Turkish case suffix after apostrophe
+        if sum(ps) / len(ps) >= min_score: out.append((s, e, sum(ps) / len(ps), typ))
     return out
 
+TYPES = {"PER": "PERSON", "PERSON": "PERSON", "ADDR": "ADDRESS", "ADDRESS": "ADDRESS", "HEALTH": "HEALTH"}
 sq = lambda s: re.sub(r"\s+", "", s).casefold()
 def matches(a, b): x, y = sq(a), sq(b); return y in x or (x in y and len(x) >= max(3, len(y) * 0.5))
 

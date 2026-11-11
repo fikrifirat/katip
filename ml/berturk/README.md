@@ -21,14 +21,25 @@ It picks the Apple GPU (MPS) automatically and prints dev scores after each epoc
 scores at the end. Output goes to `out/`: `results.json`, the PyTorch weights, `onnx/model.onnx`
 (~440 MB) and `onnx/model_quantized.onnx` (~110 MB, the one the browser would use).
 
-To publish it on Hugging Face (after `hf auth login`):
+## After training
+
+Score the whole pipeline (rules + this model, every data type) with the same code the browser runs,
+from the repository root:
 
 ```bash
-python train_berturk.py --push f1k/katip-tr-pii-berturk
+pip install onnxruntime tokenizers regex
+KATIP_MODEL=ml/berturk/out python3 ml/benchmark.py ml/berturk/data berturk > metrics/accuracy-berturk.json
 ```
 
-Send me `out/results.json` and I'll wire the model into the demo (multi-type support in `src/ner.js`
-and the merge policy in `src/py/local_detect.py`) and update the README charts.
+Publish the model and put its browser files in the Hugging Face Space (no retraining), from the
+repository root, after `hf auth login`:
+
+```bash
+./publish_hf.sh
+```
+
+The int8 model is 110.8 MB, over GitHub's 100 MB file limit, so GitHub Pages lists Katip BERTurk
+with a link to the Space, where it runs.
 
 ## Options
 
