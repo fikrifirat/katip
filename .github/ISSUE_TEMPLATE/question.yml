@@ -1,0 +1,9 @@
+name: Question or feature request / Soru veya öneri
+description: Ask about formats, data types, deployment or the roadmap.
+body:
+  - type: textarea
+    id: q
+    attributes:
+      label: Question / Soru
+    validations:
+      required: true

@@ -1,0 +1,11 @@
+{
+ "note": "Blind set (80 synthetic documents, names never seen in training), full pipeline: open, detect (rules only), mask, re-read the output. Measured 2026-11-10 with the browser engine under Node 22 on a 4-core cloud VM; laptop timings not yet measured.",
+ "formats": [
+  {"format": "UYAP .udf", "docs": 80, "values": 757, "not_detected": 0, "readable_after": 6, "ms_per_doc": 123},
+  {"format": ".txt", "docs": 80, "values": 757, "not_detected": 0, "readable_after": 6, "ms_per_doc": 231},
+  {"format": "PDF (text)", "docs": 80, "values": 757, "not_detected": 3, "readable_after": 6, "ms_per_doc": 263},
+  {"format": "Word .docx", "docs": 80, "values": 757, "not_detected": 0, "readable_after": 6, "ms_per_doc": 274},
+  {"format": "Photo (PNG/JPG)", "docs": 48, "values": 453, "not_detected": 49, "readable_after": 3, "ms_per_doc": 2205},
+  {"format": "Scanned PDF", "docs": 48, "values": 453, "not_detected": 49, "readable_after": 5, "ms_per_doc": 4462}
+ ]
+}

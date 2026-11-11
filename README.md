@@ -1,38 +1,117 @@
-# Katip Yerel
+# Katip Yerel: Turkish KVKK redaction that runs in your browser
 
-Turkish KVKK redaction that runs **entirely in the browser**. The document is opened, analysed,
-masked and leak-checked inside the tab; nothing is uploaded or stored, and the page's
-Content-Security-Policy blocks sending data to any other origin.
+**English** · [Türkçe](README.tr.md)
+
+[![Live demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/fikrifirat/katip-yerel)
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/fikrifirat/katip-tr-name-tagger-tiny)
+[![Licence: AGPL-3.0 + commercial](https://img.shields.io/badge/licence-AGPL--3.0%20%2B%20commercial-blue)](COMMERCIAL.md)
+
+Katip finds and masks personal data in Turkish legal documents (T.C. kimlik no, VKN, IBAN, phone,
+e-mail, plate, address, names, KVKK art. 6 health data) **without the document ever leaving your
+computer**. The file is opened, analysed, masked and leak-checked inside the browser tab. Nothing is
+uploaded or stored, and the page's Content-Security-Policy blocks sending data to any other address.
+Only the redacted copy you download leaves the machine.
+
+Built for law firms, in-house legal and compliance teams who need to share case files, contracts or
+court documents with clients, experts or AI tools under KVKK.
 
 ![Katip Yerel](screenshot.png)
 
-- **Live demo:** https://fikrifirat.github.io/katip/ (GitHub Pages, `docs/`) and the Hugging Face Space `fikrifirat/katip-yerel`
-- **Model:** [`katip-tr-name-tagger-tiny`](hf/model/README.md), 2.6 MB int8 ONNX, runs in the tab.
-  Blind-set name recall 98.4% → 99.7% with no new false names.
+## Key numbers
 
-## What runs where
+Measured on Katip's synthetic Turkish legal documents. The **blind set** uses 80 documents with
+names never seen during development or training, in 16 document styles (4 of them new).
+
+| | Result |
+| --- | --- |
+| Values found (blind set, default settings) | **756 of 757 (99.9%)**, 10 extra highlights, all health terms |
+| Names found | 364 of 365 (99.7%); 98.4% with rules only |
+| Values still readable after masking (full pipeline, rules only) | 0.8% for text, PDF, Word and UDF; 0.7–1.1% for photos and scans |
+| False alarms on name-free legal prose | 3 across 3 documents |
+| Time per document | 0.1–0.3 s for text, PDF, Word, UDF; 2–4.5 s with OCR (4-core cloud VM) |
+| Network requests after a document is opened | **0** (verified in Chromium) |
+| First load | about 30 MB of engine files (Python, PDF, OCR), plus about 30 MB for the name tagger; cached by the browser afterwards |
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="metrics/accuracy-dark.svg">
+  <img alt="Share of values found by data type on the blind set" src="metrics/accuracy-light.svg" width="720">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="metrics/speed-dark.svg">
+  <img alt="Time per document and share of values still readable after masking, by format" src="metrics/speed-light.svg" width="720">
+</picture>
+
+**What these numbers do not show yet.** All documents are synthetic, and 12 of the 16 blind
+styles share templates with the training data, so real case files will score lower. Timings come
+from a cloud VM, not a typical laptop. Raw numbers: [`metrics/`](metrics/). Scripts:
+`ml/benchmark.py`, `ml/make_charts.py`. Help us measure on real documents: see [Contact](#questions-pilots-and-contact).
+
+## What it supports
+
+| Documents | How |
+| --- | --- |
+| PDF with a text layer | true removal of the glyphs under each box (MuPDF `applyRedactions`), metadata scrubbed |
+| Scanned PDF, photos (PNG, JPG) | Turkish OCR (Tesseract), boxes burned into the image |
+| Word `.docx` | text, tracked deletions, comment authors and document properties masked |
+| UYAP `.udf` | masked in place, stays a valid UDF |
+| Plain text | |
+
+| Data type | Detection |
+| --- | --- |
+| T.C. kimlik no, VKN, IBAN, card number | checksum-validated patterns |
+| Phone, e-mail, plate, birth date | Turkish formats with context words |
+| Address | Turkish address structure (Mh., Cd., Sk., No, district/province) |
+| Person names | gazetteers, cue words (Av., Sayın, davacı …), casing and suffix rules, plus an on-device name tagger |
+| KVKK art. 6 special categories (health, union, …) | lexicon, flagged for review |
+
+Context it has been tested on: petitions, judgments, leases, employment contracts, invoices,
+privacy notices, powers of attorney, notices, letters, e-mails, hearing minutes, chat logs,
+discharge summaries (epikriz) and expert reports.
+
+## Try it
+
+- **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/fikrifirat/katip-yerel)).
+  Pick one of 16 sample documents to see live recall, precision, misses and false alarms against its
+  answer key, or open your own file.
+- Switch the detection model, OCR model, confidence threshold, data types and mask style.
+- Review each item before export, add your own terms, compare before/after.
+- **Report a mistake** (*Hata bildir*) builds a small report (settings, scores, the masked output,
+  and the original only if you tick it) and opens an e-mail draft.
+
+## How it works
 
 | Step | Component |
 | --- | --- |
-| Detection rules | Katip's `recognizers.py` + word lists, unchanged, in Pyodide (CPython → WASM) |
-| Name tagger | tiny BERT via transformers.js 4 / ONNX Runtime Web, merged with the rules (`src/py/local_detect.py`) |
-| .txt, UYAP .udf, .docx | stdlib Python in Pyodide (`src/py/local_formats.py`) |
-| PDF | MuPDF.js: real glyph removal with `applyRedactions`, metadata scrubbed |
-| Scans and photos | tesseract.js 7, Turkish `best_int` or standard model |
-| Leak check | output re-read (text layer or a second OCR pass) for every masked value |
+| Detection rules | Katip's Python recognizers and word lists, unchanged, in Pyodide (Python compiled to WebAssembly) |
+| Name tagger | [`katip-tr-name-tagger-tiny`](https://huggingface.co/fikrifirat/katip-tr-name-tagger-tiny), 2.6 MB int8 ONNX, transformers.js |
+| Text, UDF, Word | standard-library Python in Pyodide (`src/py/local_formats.py`) |
+| PDF | MuPDF.js |
+| Scans and photos | tesseract.js with the Turkish model |
+| Leak check | the output is read again (text layer or a second OCR pass) for every masked value |
 
-## Demo features
+The browser rules give exactly the same results as Katip's server engine (0 differences on 1,803
+spans), and the browser tagger matches Python onnxruntime (0 differences on 152 spans).
 
-- 16 synthetic sample documents (petition, judgment, lease, epikriz, chat log, …) in up to six formats,
-  scored live against their answer keys: recall, precision, misses, partial masks, false alarms.
-- Model picker, OCR model, confidence threshold, data types, mask style.
-- Before/after page view, per-item review with toggles, extra terms, download.
-- **Report a mistake:** builds a `katip-rapor-*.zip` (settings, scores, masked output; detected values
-  and the original only with the user's tick) and opens an e-mail draft to the address in
-  `src/config.js`. Set `reportEndpoint` there (e.g. a Formspree form) to add one-click sending; the
-  build adds only that origin to the CSP.
+## Roadmap
 
-## Build
+- [x] Fully in-browser redaction for PDF, scans, photos, Word, UDF, text
+- [x] On-device name tagger, public demo, Hugging Face Space and model
+- [ ] BERTurk model for names, addresses and health terms ([`ml/berturk/`](ml/berturk/), in training)
+- [ ] Evaluation on real, consented documents from pilot firms
+- [ ] Laptop and phone timings; smaller first download
+- [ ] Organisation and court names, case numbers, more KVKK art. 6 categories
+- [ ] Excel, e-mail (`.eml`, `.msg`) and batch folders
+- [ ] Packaged as a browser extension and a desktop app for offline use
+
+## Questions, pilots and contact
+
+- Questions, missed redactions, feature requests: [open an issue](https://github.com/fikrifirat/katip/issues/new/choose).
+  Please never paste real personal data; use the demo's *Hata bildir* button or fake values.
+- Pilots in your firm, integration or a commercial licence: **fikrifirat@gmail.com**.
+
+## Develop
 
 ```bash
 npm install                                   # pyodide, mupdf, tesseract.js, transformers.js, jszip
@@ -40,34 +119,29 @@ python3 src/build_site.py <path-to-katip-redact> node_modules docs --source http
 python3 docs/serve.py                         # http://127.0.0.1:8765
 ```
 
-`build_site.py` copies the detection code straight from the Katip server repository (one source of truth)
+`build_site.py` copies the detection code from the Katip server repository (one source of truth)
 and the sample documents from its `eval/blind` set.
 
-**GitHub Pages:** Settings → Pages → Deploy from a branch → `main` / `docs`.
-**Hugging Face:** `./publish_hf.sh` (after `hf auth login`) uploads the model and the static Space.
+- **GitHub Pages:** Settings → Pages → Deploy from a branch → `main` / `/docs`.
+- **Hugging Face:** `./publish_hf.sh` (after `hf auth login`) uploads the model and the Space.
 
-## Tests
-
-| Script | Checks |
+| Test | Checks |
 | --- | --- |
-| `src/tests/parity.mjs` + `parity_server.py` | browser rules = server `analyzer.detect`, span by span (0 diffs on 1,803 spans) |
-| `src/tests/tests_parity_tagger.cjs` + `ml/parity_py.py` | browser tagger = Python onnxruntime (0 diffs on 152 spans) |
+| `src/tests/parity.mjs` + `parity_server.py` | browser rules = server engine, span by span |
+| `src/tests/tests_parity_tagger.cjs` + `ml/parity_py.py` | browser tagger = Python onnxruntime |
 | `src/tests/tests_e2e_demo.cjs` | Chromium: every format, report flow, 0 requests to other origins |
-| `ml/eval_system.py` | rules vs rules + tagger on blind / held-out / negatives |
+| `ml/eval_system.py`, `ml/benchmark.py` | name recall with and without the tagger; all data types |
 
-## Training the tagger
+Training: `ml/gen_train.py` + `ml/train.py` (tiny tagger, about 6 minutes on CPU) and
+[`ml/berturk/`](ml/berturk/) (BERTurk fine-tune for a Mac or GPU).
 
-```bash
-python3 ml/gen_train.py <katip-redact> ml/train.jsonl 8000 12
-python3 ml/gen_train.py <katip-redact> ml/dev.jsonl 400 98
-python3 ml/train.py ml/train.jsonl ml/dev.jsonl ml/model      # ~6 min on 4 CPU cores
-python3 ml/eval_system.py ml/model <katip-redact>/eval/blind --q8
-```
+## Licence
 
-## Licences
+Code and demo: **[AGPL-3.0](LICENSE)**, with a **commercial licence** for use in products, internal
+systems or hosted services without the AGPL's source-sharing obligation; see [COMMERCIAL.md](COMMERCIAL.md).
+Models: CC BY-NC 4.0.
 
-Katip code: Apache-2.0. This demo bundle includes **MuPDF (AGPL-3.0)**, so the bundle as distributed
-here is AGPL-3.0 and its full source is this repository. Closed-source or commercial redistribution
-needs an Artifex commercial licence. Pyodide MPL-2.0, tesseract.js and the `tur` model Apache-2.0,
-transformers.js Apache-2.0, ONNX Runtime MIT, `common_words.txt` from the OpenSubtitles frequency list
-CC BY-SA 4.0. Sample documents are synthetic; any resemblance to real people is accidental.
+Third-party parts: MuPDF (AGPL-3.0, Artifex), Pyodide (MPL-2.0), tesseract.js and the `tur` model
+(Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), `common_words.txt` from the
+OpenSubtitles frequency list (CC BY-SA 4.0). Sample documents are synthetic; any resemblance to
+real people is accidental.

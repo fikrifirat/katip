@@ -35,5 +35,5 @@ OCR with Tesseract.js, and an optional 2.6 MB on-device name tagger
 - Switch the detection model, OCR model, confidence threshold and data types.
 - Before/after view, leak check on the output, report a mistake by e-mail.
 
-Source: https://github.com/fikrifirat/katip · Licence: AGPL-3.0 for this demo bundle (it
-includes MuPDF, AGPL); Katip's own code is Apache-2.0.
+Source: https://github.com/fikrifirat/katip · Licence: AGPL-3.0, with a commercial licence
+available for use in products or real operations (contact fikrifirat@gmail.com or open an issue).

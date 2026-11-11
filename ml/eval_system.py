@@ -10,9 +10,9 @@ from tokenizers import Tokenizer
 sys.path.insert(0, str(Path(__file__).parent / "bundle"))
 import local_detect  # noqa: E402
 
-mdir = Path(sys.argv[1]); cfg = json.loads((mdir / "config.json").read_text())
+mdir = Path(sys.argv[1] if __name__ == "__main__" else __import__("os").environ["KATIP_MODEL"]); cfg = json.loads((mdir / "config.json").read_text())
 tok = Tokenizer.from_file(str(mdir / "tokenizer.json"))
-onnx_file = mdir / "onnx" / ("model_quantized.onnx" if "--q8" in sys.argv else "model.onnx")
+onnx_file = mdir / "onnx" / ("model_quantized.onnx" if "--q8" in sys.argv or __name__ != "__main__" else "model.onnx")
 sess = ort.InferenceSession(str(onnx_file))
 WORD = regex.compile(cfg["katip"]["word_regex"]); MAXTOK = cfg["katip"]["max_tokens"]
 CLS, SEP, UNK = (tok.token_to_id(t) for t in ("[CLS]", "[SEP]", "[UNK]"))
@@ -68,7 +68,8 @@ def score(d, use_ner):
         R["fp"] += sum(1 for s in spans if not any(matches(s["text"], g["text"]) or matches(g["text"], s["text"]) for g in allgold))
     return R
 
-for d in [a for a in sys.argv[2:] if not a.startswith("--")]:
+if __name__ == "__main__":
+  for d in [a for a in sys.argv[2:] if not a.startswith("--")]:
     for use in (False, True):
         r = score(d, use)
         print(f"{Path(d).name:10} {'rules+tagger' if use else 'rules only  '}  PERSON recall {r['found']}/{r['gold']} = {r['found'] / max(1, r['gold']):.3f}"

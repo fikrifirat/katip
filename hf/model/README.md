@@ -1,6 +1,6 @@
 ---
 language: tr
-license: apache-2.0
+license: cc-by-nc-4.0
 library_name: transformers.js
 pipeline_tag: token-classification
 tags:
@@ -88,3 +88,9 @@ the general OpenSubtitles frequency list (not from any evaluation set). Scripts:
 - Synthetic legal Turkish only. Not tested on real case files, OCR noise beyond Katip's scans,
   or non-legal text.
 - Not a privacy guarantee: always review redacted output before sending it.
+
+## Licence
+
+CC BY-NC 4.0: free for research, evaluation and other non-commercial use. For commercial or
+production use (inside a product, a firm's own workflow or a hosted service), contact
+fikrifirat@gmail.com or open an issue at https://github.com/fikrifirat/katip.

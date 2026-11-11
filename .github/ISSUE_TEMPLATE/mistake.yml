@@ -1,0 +1,24 @@
+name: Missed or wrong redaction / Hatalı maskeleme
+description: Something was not masked, or was masked by mistake. Never attach real personal data.
+labels: [accuracy]
+body:
+  - type: markdown
+    attributes:
+      value: "Please do not paste real personal data. Use the demo's **Hata bildir** button, or retype the example with fake values. / Gerçek kişisel veri paylaşmayın; örneği sahte değerlerle yazın."
+  - type: dropdown
+    id: format
+    attributes:
+      label: Document type / Belge türü
+      options: [PDF, Scanned PDF / taranmış PDF, Photo / fotoğraf, Word .docx, UYAP .udf, Text .txt]
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened? / Ne oldu?
+      description: Missed value, wrong mask, or false alarm, with a short example around it.
+    validations:
+      required: true
+  - type: input
+    id: settings
+    attributes:
+      label: Model and settings / Model ve ayarlar
+      placeholder: "Kurallar + isim etiketleyici, eşik 0.5"

@@ -3,3 +3,7 @@ __pycache__/
 *.pyc
 /ml/*.jsonl
 /ml/model*/
+ml/bundle
+ml/berturk/out/
+ml/berturk/.venv/
+__pycache__/
