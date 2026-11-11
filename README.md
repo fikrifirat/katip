@@ -71,6 +71,18 @@ styles share templates with the training data, so real case files will score low
 from a cloud VM, not a typical laptop. Raw numbers: [`metrics/`](metrics/). Scripts:
 `ml/benchmark.py`, `ml/make_charts.py`. Help us measure on real documents: see [Contact](#questions-pilots-and-contact).
 
+## What Katip adds on top of the base models
+
+| Base | On its own | With Katip (measured, blind set) |
+| --- | --- | --- |
+| [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2, open-source Turkish PII regex | 183 / 757 values (24.2%), 0 of 365 names | 756 / 757 (99.9%), 364 / 365 names |
+| Katip's own rules | 359 / 365 names (98.4%) | 364 / 365 with the 2.6 MB tagger, no new false names |
+| [BERTurk](https://huggingface.co/dbmdz/bert-base-turkish-cased) | a language model with no PII labels | names 364 / 365, addresses 80 / 80, health terms 26 / 26 (model alone) |
+| Tesseract `tur` | text only, no check that a value is really gone | every masked value is searched for again in a second OCR pass of the output; the compact OCR model is 4× smaller with about the same recall (49 vs 48 misses on 96 scans) |
+
+**Next:** add a stock Turkish NER model as a second baseline in the demo, distil BERTurk into a model
+small enough for GitHub Pages, and repeat every measurement on consented real documents from pilot firms.
+
 ## What it supports
 
 | Documents | How |
@@ -100,7 +112,7 @@ discharge summaries (epikriz) and expert reports.
   answer key, or open your own file.
 - The document shows up as soon as you pick it; detected values are highlighted on the page itself.
 - One review screen: tick or untick each value (on the page or in the list), add missed terms, then
-  **Apply masks** and download. Choose the mask colour and an optional credit watermark.
+  **Apply masks** and download. Choose the mask colour, an optional one-line credit and an optional Katip logo across the middle of each page (PDF and images).
 - Switch the detection model, OCR model, confidence threshold and data types; Turkish and English interface.
 - **Report a mistake** (*Hata bildir*) builds a small report (settings, scores, the masked output,
   and the original only if you tick it) and opens an e-mail draft.
@@ -126,6 +138,7 @@ name-only and the multi-type model code).
 - [x] On-device name tagger, public demo, Hugging Face Space and model
 - [x] BERTurk model for names, addresses and health terms ([`ml/berturk/`](ml/berturk/))
 - [ ] Full-pipeline benchmark for Katip BERTurk; a smaller distilled version that fits on Pages
+- [ ] A stock Turkish NER model as a second baseline in the demo
 - [ ] Evaluation on real, consented documents from pilot firms
 - [ ] Laptop and phone timings; smaller first download
 - [ ] Organisation and court names, case numbers, more KVKK art. 6 categories
@@ -170,7 +183,7 @@ Code and demo: **[AGPL-3.0](LICENSE)**, with a **commercial licence** for use in
 systems or hosted services without the AGPL's source-sharing obligation; see [COMMERCIAL.md](COMMERCIAL.md).
 Models: CC BY-NC 4.0.
 
-Third-party parts: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; baseline only), Pyodide (MPL-2.0), tesseract.js and the `tur` model
+Third-party parts: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; baseline only), Inter and Space Grotesk fonts (SIL OFL 1.1), Pyodide (MPL-2.0), tesseract.js and the `tur` model
 (Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), `common_words.txt` from the
 OpenSubtitles frequency list (CC BY-SA 4.0). Sample documents are synthetic; any resemblance to
 real people is accidental.

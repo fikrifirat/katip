@@ -125,9 +125,38 @@ function paintBoxes(mupdf, pdf, page, boxes, [r, g, b]) {
   obj.put("Contents", arr);
 }
 
+// Centre stamp: the Katip mark across the middle of the page, drawn on top of everything
+// (so it shows on scans too) at low opacity through an ExtGState.
+function stampMark(mupdf, pdf, page, mark, alpha = 0.08) {
+  const obj = page.getObject();
+  let res = obj.getInheritable("Resources");
+  if (res.isNull()) { res = pdf.newDictionary(); }
+  obj.put("Resources", res);
+  let ext = res.get("ExtGState");
+  if (ext.isNull()) { ext = pdf.newDictionary(); res.put("ExtGState", ext); }
+  const gs = pdf.newDictionary();
+  gs.put("Type", pdf.newName("ExtGState")); gs.put("ca", alpha); gs.put("CA", alpha);
+  ext.put("KatipMark", pdf.addObject(gs));
+  const [bx0, by0, bx1, by1] = page.getBounds(), W = bx1 - bx0, H = by1 - by0;
+  const size = Math.min(W, H) * 0.42, ox = bx0 + (W - size) / 2, oy = by0 + (H - size) / 2, k = size / 32;
+  const [a, b, c, d, e, f] = mupdf.Matrix.invert(page.getTransform());
+  const pt = (x, y) => { const X = ox + x * k, Y = oy + y * k; return `${(a * X + c * Y + e).toFixed(2)} ${(b * X + d * Y + f).toFixed(2)}`; };
+  const path = cmds => cmds.map(([op, ...v]) => op === "Z" ? "h" : op === "C" ? `${pt(v[0], v[1])} ${pt(v[2], v[3])} ${pt(v[4], v[5])} c`
+                                              : `${pt(v[0], v[1])} ${op === "M" ? "m" : "l"}`).join(" ");
+  const rgb = v => v.map(x => x.toFixed(3)).join(" ");
+  const ops = `q /KatipMark gs ${rgb(mark.colors.top)} rg ${path(mark.top)} f ${rgb(mark.colors.bottom)} rg ${path(mark.bottom)} f ` +
+              `${rgb(mark.colors.k)} RG ${(mark.stroke * k * Math.hypot(a, b)).toFixed(2)} w 1 J 1 j ${path(mark.k)} S Q\n`;
+  const old = obj.get("Contents"), arr = pdf.newArray();
+  arr.push(pdf.addStream(new TextEncoder().encode("q\n"), {}));
+  if (old.isArray()) old.forEach(v => arr.push(v)); else if (!old.isNull()) arr.push(old);
+  arr.push(pdf.addStream(new TextEncoder().encode("Q\n" + ops), {}));
+  obj.put("Contents", arr);
+}
+
 // ---- true PDF redaction: remove glyphs + blank image pixels, then paint the mask colour,
 // add the optional watermark line + link, and scrub metadata.
-// opts.color: [r, g, b] in 0..1 (default black); opts.watermark: { text, url } or null
+// opts.color: [r, g, b] in 0..1 (default black); opts.watermark: { text, url } or null;
+// opts.mark: MARK from brand.js to stamp the Katip mark in the centre of every page, or null
 export function redactPdf(mupdf, doc, spans, opts = {}) {
   const pdf = doc._doc, PAD = 1, color = opts.color ?? [0, 0, 0], wm = opts.watermark;
   const per = new Map();
@@ -142,6 +171,7 @@ export function redactPdf(mupdf, doc, spans, opts = {}) {
     page.applyRedactions(false, mupdf.PDFPage.REDACT_IMAGE_PIXELS);
     paintBoxes(mupdf, pdf, page, boxes.map(([x0, y0, x1, y1]) => [x0 - PAD, y0 - PAD, x1 + PAD, y1 + PAD]), color);
   }
+  if (opts.mark) for (let i = 0; i < pdf.countPages(); i++) stampMark(mupdf, pdf, pdf.loadPage(i), opts.mark);
   const links = [];
   if (wm?.text) for (let i = 0; i < pdf.countPages(); i++) {
     const page = pdf.loadPage(i), [bx0, by0, bx1, by1] = page.getBounds();

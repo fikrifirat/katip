@@ -26,6 +26,7 @@ const I18N = {
     typesH: "Veri türleri", maskH: "Maske", colorH: "Renk", styleH: "Word ve metinde",
     styleTip: "PDF ve görüntülerde seçilen renkte kutu çizilir. Word, UDF ve metinde değer ██████ ile veya [AD SOYAD-1] gibi bir etiketle değiştirilir.",
     styleBox: "██████ blok", styleLabel: "[AD SOYAD-1] etiket",
+    markH: "Ortaya Katip logosu", markTip: "Her sayfanın ortasına soluk bir Katip logosu basar (PDF ve görüntüler). Kapalıyken alttaki tek satırlık filigran yine eklenir.",
     wmH: "Filigran ekle", wmTip: "Çıktının altına küçük bir satır ekler: \"{wm}\". PDF'te bağlantılıdır. UYAP .udf dosyalarına eklenmez.",
     viewReview: "İnceleme", viewResult: "Sonuç", apply: "Maskeleri uygula", reapply: "Yeniden uygula", download: "İndir", report: "Hata bildir",
     copy: "Etiketli metni kopyala", forget: "Belgeyi unut",
@@ -71,6 +72,7 @@ const I18N = {
     typesH: "Data types", maskH: "Mask", colorH: "Colour", styleH: "In Word and text",
     styleTip: "PDFs and images get a box in the chosen colour. In Word, UDF and text the value is replaced with ██████ or a label such as [AD SOYAD-1].",
     styleBox: "██████ block", styleLabel: "[AD SOYAD-1] label",
+    markH: "Katip logo in the centre", markTip: "Stamps a faint Katip logo across the middle of every page (PDF and images). Off, the one-line watermark at the bottom is still added.",
     wmH: "Add watermark", wmTip: "Adds one small line at the bottom of the output: \"{wm}\". Linked in PDFs. Not added to UYAP .udf files.",
     viewReview: "Review", viewResult: "Result", apply: "Apply masks", reapply: "Apply again", download: "Download", report: "Report a mistake",
     copy: "Copy labelled text", forget: "Forget document",
@@ -243,6 +245,7 @@ $("threshold").oninput = () => ($("thresholdVal").textContent = Number($("thresh
 $("threshold").onchange = () => res?.spans && redetect();
 $("style").onchange = () => maskOptionsChanged();
 $("watermark").onchange = () => maskOptionsChanged();
+$("centerMark").onchange = () => maskOptionsChanged();
 function maskOptionsChanged() { if (res?.spans && applied && !busy) redactNow(); }
 
 // ---------------------------------------------------------------- sources
@@ -322,7 +325,8 @@ function redetect() { if (!res?.spans || busy) return; res.settings = settings()
 function redactNow() {
   busy = true; updateButtons(); status(progressText("Maskeleniyor") + "…");
   worker.postMessage({ type: "redact", spans: chosen(), style: $("style").value, verifyOcr: true, ocrLang: res.settings.ocrLang, color: rgb(maskColor),
-                       watermark: $("watermark").checked && CONFIG.watermark ? { text: wmText(), url: CONFIG.watermark.url } : null });
+                       watermark: $("watermark").checked && CONFIG.watermark ? { text: wmText(), url: CONFIG.watermark.url } : null,
+                       mark: $("centerMark").checked });
 }
 $("apply").onclick = () => res?.spans && !busy && redactNow();
 $("scan").onclick = () => ready && loaded && !busy && analyze();
@@ -568,7 +572,7 @@ async function buildReport() {
     id, created: new Date().toISOString(), app: "katip-yerel", version, page: location.origin + location.pathname, ui_lang: lang,
     feedback: { kind, what: $("rWhat").value, text: $("rText").value },
     document: { name: res.isSample ? res.name : "(kullanıcı belgesi)", sample: res.isSample, kind: res.kind, pages: res.pages, ocrPages: res.ocrPages, chars: res.text.length },
-    settings: { ...res.settings, mask: $("incDetections").checked ? res.settings.mask : `${res.settings.mask.length} terim`, color: maskColor, watermark: $("watermark").checked },
+    settings: { ...res.settings, mask: $("incDetections").checked ? res.settings.mask : `${res.settings.mask.length} terim`, color: maskColor, watermark: $("watermark").checked, centerMark: $("centerMark").checked },
     result: { detected: res.spans.length, masked: chosen().length, applied, leaks: res.leaks?.length ?? null, unchecked: res.unchecked ?? null, timing: { ...res.timing, redact: res.redactMs },
       score: ev ? { recall: ev.recall, precision: ev.precision, missed: ev.gold.filter((_, i) => !ev.found[i]).map(x => ({ type: x.entity_type, text: x.text })), false_alarms: ev.fps.map(x => ({ type: x.entity_type, text: x.text })) } : null },
     detections: $("incDetections").checked ? res.spans.map(s => ({ type: s.entity_type, text: s.text, start: s.start, end: s.end, score: s.score, recognizer: s.recognizer, masked: !off.has(key(s)) }))

@@ -27,9 +27,12 @@ Score the whole pipeline (rules + this model, every data type) with the same cod
 from the repository root:
 
 ```bash
-pip install onnxruntime tokenizers regex
+source ml/berturk/.venv/bin/activate
+pip install numpy onnxruntime tokenizers regex
 KATIP_MODEL=ml/berturk/out python3 ml/benchmark.py ml/berturk/data berturk > metrics/accuracy-berturk.json
 ```
+
+The training venv already has these packages; on a Homebrew or system Python outside a venv, `pip install` is refused (PEP 668).
 
 Publish the model and put its browser files in the Hugging Face Space (no retraining), from the
 repository root, after `hf auth login`:

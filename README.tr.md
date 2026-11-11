@@ -72,6 +72,18 @@ düşük olacaktır. Süreler tipik bir dizüstü bilgisayardan değil, bulut su
 veriler: [`metrics/`](metrics/). Betikler: `ml/benchmark.py`, `ml/make_charts.py`. Gerçek
 belgelerle ölçmemize yardım edin: [İletişim](#sorular-pilot-ve-iletişim).
 
+## Katip'in temel modellere kattıkları
+
+| Temel | Tek başına | Katip ile (ölçülen, kör set) |
+| --- | --- | --- |
+| [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2, açık kaynak Türkçe kişisel veri regex'i | 757'de 183 değer (%24,2), 365'te 0 isim | 757'de 756 (%99,9), 365'te 364 isim |
+| Katip'in kendi kuralları | 365'te 359 isim (%98,4) | 2,6 MB etiketleyiciyle 365'te 364, yeni yanlış isim yok |
+| [BERTurk](https://huggingface.co/dbmdz/bert-base-turkish-cased) | kişisel veri etiketi olmayan bir dil modeli | isim 365'te 364, adres 80'de 80, sağlık terimi 26'da 26 (model tek başına) |
+| Tesseract `tur` | yalnızca metin; değerin gerçekten silindiği kontrol edilmez | maskelenen her değer çıktının ikinci bir OCR okumasında yeniden aranır; küçük OCR modeli 4 kat küçük, bulma oranı neredeyse aynı (96 taramada 49'a karşı 48 kaçan) |
+
+**Sırada:** demoya ikinci karşılaştırma olarak hazır bir Türkçe NER modeli eklemek, BERTurk'ü GitHub
+Pages'e sığacak kadar küçük bir modele damıtmak ve tüm ölçümleri pilot bürolardan izinli gerçek belgelerle tekrarlamak.
+
 ## Desteklenenler
 
 | Belge | Yöntem |
@@ -100,7 +112,7 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
   alarmları canlı görün ya da kendi dosyanızı açın.
 - Belge seçer seçmez görünür; bulunan değerler sayfanın üzerinde işaretlenir.
 - Tek inceleme ekranı: her değeri sayfada veya listede açıp kapatın, kaçanları ekleyin, sonra
-  **Maskeleri uygula** ve indirin. Maske rengini ve isteğe bağlı filigranı seçin.
+  **Maskeleri uygula** ve indirin. Maske rengini, isteğe bağlı tek satırlık filigranı ve her sayfanın ortasına isteğe bağlı Katip logosunu (PDF ve görüntüler) seçin.
 - Tespit modelini, OCR modelini, güven eşiğini ve veri türlerini değiştirin; arayüz Türkçe ve İngilizce.
 - **Hata bildir** küçük bir rapor hazırlar (ayarlar, skorlar, maskelenmiş çıktı; orijinal yalnızca
   siz işaretlerseniz) ve bir e-posta taslağı açar.
@@ -126,6 +138,7 @@ türlü model kodu için).
 - [x] Cihaz üzerinde isim etiketleyici, herkese açık demo, Hugging Face Space ve model
 - [x] İsim, adres ve sağlık terimleri için BERTurk modeli ([`ml/berturk/`](ml/berturk/))
 - [ ] Katip BERTurk için tüm akışın ölçümü; Pages'e sığan daha küçük (damıtılmış) sürüm
+- [ ] Demoda ikinci karşılaştırma olarak hazır bir Türkçe NER modeli
 - [ ] Pilot bürolardan, izinli gerçek belgelerle değerlendirme
 - [ ] Dizüstü ve telefon süreleri; daha küçük ilk indirme
 - [ ] Kurum ve mahkeme adları, esas/karar numaraları, daha fazla KVKK md. 6 kategorisi
@@ -148,6 +161,6 @@ Kod ve demo: **[AGPL-3.0](LICENSE)**; AGPL'nin kaynak kodu paylaşma yükümlül
 kurum içi sistemlerde veya çevrimiçi hizmetlerde kullanım için **ticari lisans** vardır, bkz.
 [COMMERCIAL.md](COMMERCIAL.md). Modeller: CC BY-NC 4.0.
 
-Üçüncü taraf bileşenler: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; yalnızca karşılaştırma), Pyodide (MPL-2.0), tesseract.js ve `tur` modeli
+Üçüncü taraf bileşenler: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; yalnızca karşılaştırma), Inter ve Space Grotesk yazı tipleri (SIL OFL 1.1), Pyodide (MPL-2.0), tesseract.js ve `tur` modeli
 (Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), OpenSubtitles sıklık listesinden
 `common_words.txt` (CC BY-SA 4.0). Örnek belgeler sentetiktir; gerçek kişilerle benzerlik tesadüfidir.

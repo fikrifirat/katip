@@ -5,6 +5,7 @@ import { loadPyodide } from "./vendor/pyodide/pyodide.mjs";
 import * as mupdf from "./vendor/mupdf/dist/mupdf.js";
 import * as E from "./engine.js";
 import { loadNer, runNer } from "./ner.js";
+import { MARK, drawMark } from "./brand.js";
 
 let py, current = null, ocrSeq = 0, T = null;
 const pendingOcr = new Map();
@@ -39,12 +40,18 @@ async function preview({ name, bytes, seq }) {
 
 function pageSizes(doc) { return (doc.pages ?? []).map(p => [p.width, p.height]); }
 
-// Burn a small grey credit line into the bottom-left of an image (OffscreenCanvas; skipped where unavailable).
-async function watermarkPng(png, text) {
-  if (!text || typeof OffscreenCanvas === "undefined") return png;
+// Burn a small grey credit line into the bottom-left of an image, and optionally the Katip mark
+// faintly across the centre (OffscreenCanvas; skipped where unavailable).
+async function watermarkPng(png, text, mark = false) {
+  if ((!text && !mark) || typeof OffscreenCanvas === "undefined") return png;
   const bmp = await createImageBitmap(new Blob([png], { type: "image/png" }));
   const c = new OffscreenCanvas(bmp.width, bmp.height), g = c.getContext("2d");
   g.drawImage(bmp, 0, 0);
+  if (mark) {
+    const size = Math.min(bmp.width, bmp.height) * 0.42;
+    drawMark(g, (bmp.width - size) / 2, (bmp.height - size) / 2, size / 32, 0.08);
+  }
+  if (!text) return new Uint8Array(await (await c.convertToBlob({ type: "image/png" })).arrayBuffer());
   const fs = Math.max(11, Math.round(bmp.width / 95)), pad = Math.round(fs * 0.6);
   g.font = `${fs}px sans-serif`;
   const w = g.measureText(text).width;
@@ -99,14 +106,14 @@ async function redetect({ settings }) {
 const mimeOf = n => ({ jpg: "image/jpeg", jpeg: "image/jpeg", tif: "image/tiff", tiff: "image/tiff", bmp: "image/bmp", webp: "image/webp" })[n.toLowerCase().split(".").pop()] ?? "image/png";
 const MIME = { docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", udf: "application/zip", txt: "text/plain;charset=utf-8", pdf: "application/pdf", image: "image/png" };
 
-async function redact({ spans, style, verifyOcr, ocrLang, color = [0, 0, 0], watermark = null }) {
+async function redact({ spans, style, verifyOcr, ocrLang, color = [0, 0, 0], watermark = null, mark = false }) {
   const { name, kind, bytes, doc } = current, t0 = performance.now(), ocr = ocrWith(ocrLang);
   progress("Maskeleniyor");
   let out, outText = "", unchecked = false, previews = [];
   if (kind === "pdf") {
     E.attachBoxes(doc, spans);
     doc._doc = mupdf.Document.openDocument(bytes, "application/pdf");
-    out = E.redactPdf(mupdf, doc, spans, { color, watermark });
+    out = E.redactPdf(mupdf, doc, spans, { color, watermark, mark: mark ? MARK : null });
     outText = E.pdfText(mupdf, out);
     const scanned = doc.pages.filter(p => p.ocr).map(p => p.number);
     if (scanned.length && verifyOcr) {
@@ -116,7 +123,7 @@ async function redact({ spans, style, verifyOcr, ocrLang, color = [0, 0, 0], wat
     previews = renderPages(out);
   } else if (kind === "image") {
     E.attachBoxes(doc, spans);
-    out = await watermarkPng(E.redactImage(mupdf, bytes, spans, mimeOf(name), color), watermark?.text);
+    out = await watermarkPng(E.redactImage(mupdf, bytes, spans, mimeOf(name), color), watermark?.text, mark);
     if (verifyOcr) { progress("Çıktı tekrar okunuyor (sızıntı kontrolü)"); outText = (await ocr(out.slice())).map(l => l.map(w => w.text).join(" ")).join("\n"); }
     else unchecked = true;
   } else {

@@ -15,8 +15,9 @@ a = ap.parse_args()
 src, nm, out, here = Path(a.src), Path(a.nm), Path(a.out), Path(__file__).parent
 subprocess.run([sys.executable, str(here / "build_core.py"), str(src), str(nm), str(out)], check=True)
 
-for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "style.css", "config.js", "serve.py"):
+for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg"):
     shutil.copy2(here / f, out / f)
+shutil.copytree(here / "fonts", out / "fonts", dirs_exist_ok=True)  # Geist (SIL OFL), self-hosted
 (out / "README.md").unlink(missing_ok=True)
 (out / ".nojekyll").write_text("")
 

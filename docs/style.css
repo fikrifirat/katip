@@ -1,23 +1,35 @@
-:root{--bg:#f6f5f1;--panel:#fff;--ink:#1d1d1b;--muted:#6a685f;--line:#e2e0d8;--accent:#1f5f4a;--accent-ink:#fff;--accent-soft:#e4efe9;--warn:#9a5b00;--bad:#b0280f;--fp:#d9731a;--miss:#b0280f;--off:#ebe9e2;--mask:#000;--code:ui-monospace,Menlo,Consolas,monospace}
-@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#141412;--panel:#1d1d1a;--ink:#ecebe5;--muted:#a19f95;--line:#33322e;--accent:#62b596;--accent-ink:#0c1813;--accent-soft:#1d3029;--warn:#e3a84c;--bad:#ff8c75;--fp:#f09a4e;--miss:#ff8c75;--off:#2b2a27}}
-:root[data-theme=dark]{--bg:#141412;--panel:#1d1d1a;--ink:#ecebe5;--muted:#a19f95;--line:#33322e;--accent:#62b596;--accent-ink:#0c1813;--accent-soft:#1d3029;--warn:#e3a84c;--bad:#ff8c75;--fp:#f09a4e;--miss:#ff8c75;--off:#2b2a27}
+@font-face{font-family:"Inter";src:url("fonts/inter-latin-ext-wght-normal.woff2") format("woff2");font-weight:300 700;font-style:normal;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Inter";src:url("fonts/inter-latin-wght-normal.woff2") format("woff2");font-weight:300 700;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Space Grotesk";src:url("fonts/space-grotesk-latin-ext-wght-normal.woff2") format("woff2");font-weight:300 700;font-style:normal;font-display:swap;unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+@font-face{font-family:"Space Grotesk";src:url("fonts/space-grotesk-latin-wght-normal.woff2") format("woff2");font-weight:300 700;font-style:normal;font-display:swap;unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+/* Brand from fikrifirat.com: split-flap K tile, lime #D4FF3A, Space Grotesk display, Inter text, ink #0B0D10 */
+:root{--bg:#f6f5f1;--panel:#fff;--ink:#1d1d1b;--muted:#6a685f;--line:#e2e0d8;--accent:#1f5f4a;--accent-ink:#fff;--accent-soft:#e4efe9;--warn:#9a5b00;--bad:#b0280f;--fp:#d9731a;--miss:#b0280f;--off:#ebe9e2;--mask:#000;--code:ui-monospace,Menlo,Consolas,monospace;--brand-bg:#0B0D10;--brand-raised:#14171C;--brand-line:#262A31;--brand-ink:#F2F1EC;--brand-muted:#8E949C;--lime:#D4FF3A;--display:"Space Grotesk",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0B0D10;--panel:#14171C;--ink:#F2F1EC;--muted:#8E949C;--line:#262A31;--accent:#D4FF3A;--accent-ink:#0B0D10;--accent-soft:#232a12;--warn:#e3a84c;--bad:#ff8c75;--fp:#f09a4e;--miss:#ff8c75;--off:#2b2a27}}
+:root[data-theme=dark]{--bg:#0B0D10;--panel:#14171C;--ink:#F2F1EC;--muted:#8E949C;--line:#262A31;--accent:#D4FF3A;--accent-ink:#0B0D10;--accent-soft:#232a12;--warn:#e3a84c;--bad:#ff8c75;--fp:#f09a4e;--miss:#ff8c75;--off:#2b2a27}
 *{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-.top{display:flex;gap:12px 16px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid var(--line);background:var(--panel)}
-.brand{flex:1 1 280px;min-width:0}h1{margin:0;font-size:20px;letter-spacing:-.01em}.sub{margin:2px 0 0;color:var(--muted);font-size:13px}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 "Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font-family:inherit}
+.top{display:flex;gap:12px 16px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid var(--brand-line);background:var(--brand-bg);color:var(--brand-ink)}
+.top .sub{color:var(--brand-muted)}.top .pill{background:var(--brand-raised);border-color:var(--brand-line);color:var(--brand-ink)}.top .pill b{color:var(--lime)}
+.top .seg{background:var(--brand-raised);border-color:var(--brand-line)}.top .seg button{color:var(--brand-muted)}.top .seg.lang button[aria-pressed=true]{background:var(--brand-bg);color:var(--lime);box-shadow:0 0 0 1px var(--brand-line)}
+.top a{color:var(--lime)}
+.brand{flex:1 1 280px;min-width:0}h1{margin:0;font-size:20px;letter-spacing:-.01em}
+.logo{display:inline-flex;align-items:center;gap:10px}.logo .mark{flex:none}.logo .word{font:700 21px/1.1 var(--display);letter-spacing:-.02em}.logo .word2{color:var(--lime)}.sub{margin:2px 0 0;color:var(--muted);font-size:13px}
 .trust{display:flex;gap:6px;flex-wrap:wrap;font-size:12.5px}.pill{border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--bg);position:relative;cursor:help}.pill b{color:var(--accent)}.pill.bad b{color:var(--bad)}
 .seg.lang{width:auto;flex:0 0 auto}.seg.lang button{padding:3px 10px;font-size:13px}.seg.lang button[aria-pressed=true]{background:var(--panel);box-shadow:0 0 0 1px var(--line);font-weight:600}
 .grid{display:grid;grid-template-columns:320px minmax(0,1fr);gap:16px;max-width:1600px;margin:0 auto;padding:16px}
 @media(max-width:960px){.grid{grid-template-columns:1fr;padding:12px 16px}}
 .side{display:grid;gap:12px;align-content:start}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
-h2{font-size:13px;margin:0 0 10px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+h2{font:600 12px/1.2 "Inter",system-ui,sans-serif;margin:0 0 10px;text-transform:uppercase;letter-spacing:.12em;color:var(--muted)}
 .lbl{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--muted);margin:12px 0 5px}.lbl b{color:var(--ink)}
 select,input[type=text],textarea{width:100%;font:inherit;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
 input[type=range]{width:100%;accent-color:var(--accent)}input[type=checkbox],input[type=radio]{accent-color:var(--accent)}
 button{font:inherit;border-radius:8px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:7px 12px;cursor:pointer}
 button:hover:not(:disabled){border-color:var(--muted)}button:disabled{opacity:.45;cursor:default}
-button.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600}button.ghost{background:transparent}
+button.primary{background:var(--lime);border:1.5px solid var(--brand-bg);color:var(--brand-bg);font-weight:600;border-radius:999px;padding:7px 16px}button.primary:hover:not(:disabled){filter:brightness(.96)}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]) button.primary{border-color:var(--lime)}}:root[data-theme=dark] button.primary{border-color:var(--lime)}
+::selection{background:var(--lime);color:#0B0D10}button.ghost{background:transparent}
 .seg{display:flex;border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px;background:var(--bg)}
 .seg button{flex:1;border:0;background:transparent;padding:6px 10px}.seg button[aria-selected=true]{background:var(--panel);box-shadow:0 0 0 1px var(--line);font-weight:600}
 #srcSample,#srcFile{margin-top:10px}
@@ -88,7 +100,7 @@ mark.fp{box-shadow:inset 0 -2px 0 var(--fp);background:color-mix(in srgb,var(--f
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}.row input[type=text]{flex:1;min-width:120px;width:auto}.row.end{justify-content:flex-end}
 dialog{border:1px solid var(--line);border-radius:14px;background:var(--panel);color:var(--ink);width:min(560px,calc(100vw - 32px));padding:18px}
 dialog::backdrop{background:rgba(0,0,0,.35)}fieldset{border:0;padding:0;margin:12px 0 0}legend{font-size:12.5px;color:var(--muted);margin-bottom:4px}
-dialog h2{text-transform:none;letter-spacing:0;color:var(--ink);font-size:16px}
+dialog h2{text-transform:none;letter-spacing:-.01em;color:var(--ink);font:700 18px var(--display)}
 .radios label,.checks label{display:block;font-size:13.5px;margin:3px 0}
 .foot{max-width:1600px;margin:0 auto;padding:4px 16px 24px;color:var(--muted);font-size:12px}.foot a{color:inherit}
 .hidden{display:none!important}
