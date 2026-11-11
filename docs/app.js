@@ -37,6 +37,7 @@ const I18N = {
     found: "{n} değer maskelenecek", missedH: "Kaçanlar", addMissed: "Maskeye ekle", flag: "Hata bildirimine ekle", warnOnly: "uyarı",
     details: "Ayrıntılar",
     sRecall: "bulundu", sFp: "fazla", sLeak: "çıktıda okunabilir", sNotApplied: "Değişiklikler henüz uygulanmadı",
+    sPreview: "Henüz maskelenmedi: işaretleri kontrol edin, sonra Maskeleri uygula'ya basın.",
     leakBad: "Dikkat: {n} değer çıktıda hâlâ okunabiliyor. Göndermeyin.", leakUnchecked: "Taranmış sayfalar tekrar okunmadı; çıktıyı gözle kontrol edin.",
     leakOk: "Sızıntı kontrolü geçti: maskelenen değerlerin hiçbiri çıktıda okunamıyor.",
     loading: "Motor yükleniyor…", ready: "Motor hazır ({s} sn).", preparing: "Hazırlanıyor…", done: "{n} değer maskelendi.", copied: "Etiketli metin kopyalandı.", forgotten: "Belge bellekten silindi.",
@@ -84,6 +85,7 @@ const I18N = {
     found: "{n} values to mask", missedH: "Missed", addMissed: "Add to masks", flag: "Add to mistake report", warnOnly: "flag",
     details: "Details",
     sRecall: "found", sFp: "extra", sLeak: "readable in output", sNotApplied: "Changes not applied yet",
+    sPreview: "Nothing is masked yet: check the highlights, then press Apply masks.",
     leakBad: "Warning: {n} values are still readable in the output. Do not send it.", leakUnchecked: "Scanned pages were not re-read; check the output by eye.",
     leakOk: "Leak check passed: none of the masked values can be read in the output.",
     loading: "Loading engine…", ready: "Engine ready ({s} s).", preparing: "Preparing…", done: "{n} values masked.", copied: "Labelled text copied.", forgotten: "Document removed from memory.",
@@ -429,8 +431,17 @@ worker.onerror = e => { status(t("error") + (e.message || "worker")); console.er
 
 // ---------------------------------------------------------------- scoring against gold (sample documents)
 const sq = s => s.replace(/\s+/g, "").toLocaleLowerCase("tr");
-const matches = (a, b) => { const x = sq(a), y = sq(b); return x.includes(y) || (y.includes(x) && x.length >= Math.max(3, y.length * 0.5)); };
-function goldEval(spans, gold) {
+const exactMatches = (a, b) => { const x = sq(a), y = sq(b); return x.includes(y) || (y.includes(x) && x.length >= Math.max(3, y.length * 0.5)); };
+// For scans and photos the answer key is compared with what OCR read, so allow a few misread characters
+// (© for @, 4 for +): a value counts as found when it is within 15% edits of the key.
+function editDist(a, b) {
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) { const cur = [i]; for (let j = 1; j <= b.length; j++) cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1)); prev = cur; }
+  return prev[b.length];
+}
+const ocrMatches = (a, b) => { if (exactMatches(a, b)) return true; const x = sq(a), y = sq(b); return y.length >= 5 && editDist(x, y) <= Math.max(1, Math.floor(y.length * 0.15)); };
+function goldEval(spans, gold, ocr = false) {
+  const matches = ocr ? ocrMatches : exactMatches;
   const g = gold.filter(x => x.entity_type !== "CRIMINAL_RECORD");
   const found = g.map(x => spans.some(s => matches(s.text, x.text)));
   const partial = g.map((x, i) => found[i] ? null : spans.find(s => sq(s.text).length >= 2 && sq(x.text).includes(sq(s.text)))?.text ?? null);
@@ -465,7 +476,7 @@ function render() {
   if (!res?.spans) { if (preview) renderPreview(); updateButtons(); return; }
   if (!applied && view === "result") view = "review";
   $("empty").hidden = true; $("rv").classList.remove("hidden"); $("more").classList.remove("hidden");
-  res.eval = res.gold ? goldEval(chosen(), res.gold) : null;
+  res.eval = res.gold ? goldEval(chosen(), res.gold, res.kind === "image" || res.ocrPages > 0) : null;
   updateButtons(); renderScore(); renderDoc(); renderList(); renderGold(); renderTiming();
 }
 
@@ -482,6 +493,7 @@ function renderScore() {
     items.push(el("span", { className: "msg " + cls, textContent: n ? t("leakBad", { n }) : res.unchecked ? t("leakUnchecked") : t("leakOk") }));
   }
   if (dirty()) items.push(el("span", { className: "msg warn-t", textContent: t("sNotApplied") }));
+  else if (!applied) items.push(el("span", { className: "msg", textContent: t("sPreview") }));
   S.append(...items); S.classList.toggle("hidden", !items.length);
 }
 
