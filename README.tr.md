@@ -41,7 +41,7 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 | **Katip Tiny** (önerilen) | Katip Kural + `katip-tr-name-tagger-tiny`, 2,6 MB | **757'de 756 (%99,9)** | 365'te 364 |
 | **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 751 (%99,2) | 365'te 359 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
-| **Katip BERTurk** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | 757'de 756 (%99,9) | 365'te 364 |
+| **Katip BERTurk** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | **757'de 757 (%100)** | **365'te 365** |
 
 **Katip BERTurk, model tek başına** (kurallar olmadan); BERTurk'ten 8.000 sentetik belgeyle bir
 Mac'te 25,5 dakikada ince ayarlandı:
@@ -52,11 +52,13 @@ Mac'te 25,5 dakikada ince ayarlandı:
 | Ayrılmış (60 belge) | **275'te 275** (kurallar + tiny: 268) | 70'te 70 | 26'da 26 | 0 |
 | İsim içermeyen hukuk metni | | | | **0** (kurallar + tiny: 3) |
 
-Tüm akışta (kurallar + BERTurk, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)) bugün
-Katip Tiny ile aynı sonucu veriyor: kör sette 757'de 756, ayrılmış sette 618'de 612 (Tiny: 611). Model
-isimlerini kurallarla birleştiren adım küçük etiketleyici için yazıldı ve BERTurk'ün doğru bulduğu bazı
-isimleri atıyor (*Esila* gibi bir ad aynı zamanda sıradan bir sözcük); yüksek güvenli BERTurk isimlerine
-güvenen bir ayar sırada ölçülecek.
+**Tüm akış** (demodaki gibi kurallar + BERTurk, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
+kör setteki tüm değerler (757'de 757, isimler 365'te 365, bir fazladan isim işareti) ve ayrılmış setteki
+tüm değerler (618'de 618; Tiny: 611). İsim içermeyen metinde yanlış alarm Tiny ile aynı, 3. Bunun için tek bir
+ayar gerekiyor: BERTurk'ün %90 ve üzeri güvenle bulduğu isimler olduğu gibi tutulur. Bu ayar olmadan, küçük
+etiketleyici için yazılan birleştirme kuralları *Esila* gibi aynı zamanda sıradan sözcük olan adları atıyordu
+ve sonuç Tiny ile aynıydı ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
+%90 değeri bu ölçümden önce bir kez belirlendi, ayarlanmadı; ayrılmış set geliştirme sırasında incelenmişti, kör set incelenmemişti.
 
 Katip Tiny'den 40 kat büyük olduğu için demoda varsayılan Tiny olarak kalıyor; BERTurk Hugging Face
 Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırını aşıyor). Ham veriler:
@@ -84,7 +86,7 @@ belgelerle ölçmemize yardım edin: [İletişim](#sorular-pilot-ve-iletişim).
 | --- | --- | --- |
 | [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2, açık kaynak Türkçe kişisel veri regex'i | 757'de 183 değer (%24,2), 365'te 0 isim | 757'de 756 (%99,9), 365'te 364 isim |
 | Katip'in kendi kuralları | 365'te 359 isim (%98,4) | 2,6 MB etiketleyiciyle 365'te 364, yeni yanlış isim yok |
-| [BERTurk](https://huggingface.co/dbmdz/bert-base-turkish-cased) | kişisel veri etiketi olmayan bir dil modeli | isim 365'te 364, adres 80'de 80, sağlık terimi 26'da 26 (model tek başına) |
+| [BERTurk](https://huggingface.co/dbmdz/bert-base-turkish-cased) | kişisel veri etiketi olmayan bir dil modeli | Katip kurallarıyla 757'de 757 değer; tek başına: isim 365'te 364, adres 80'de 80, sağlık terimi 26'da 26 |
 | Tesseract `tur` | yalnızca metin; değerin gerçekten silindiği kontrol edilmez | maskelenen her değer çıktının ikinci bir OCR okumasında yeniden aranır; küçük OCR modeli 4 kat küçük, bulma oranı neredeyse aynı (96 taramada 49'a karşı 48 kaçan) |
 
 **Sırada:** demoya ikinci karşılaştırma olarak hazır bir Türkçe NER modeli eklemek, BERTurk'ü GitHub
@@ -143,7 +145,8 @@ türlü model kodu için).
 - [x] PDF, tarama, fotoğraf, Word, UDF ve metin için tamamen tarayıcıda maskeleme
 - [x] Cihaz üzerinde isim etiketleyici, herkese açık demo, Hugging Face Space ve model
 - [x] İsim, adres ve sağlık terimleri için BERTurk modeli ([`ml/berturk/`](ml/berturk/))
-- [ ] Akışın yüksek güvenli BERTurk isimlerine güvenmesi; Pages'e sığan daha küçük (damıtılmış) sürüm
+- [x] BERTurk ile tüm akış: kör sette 757'de 757
+- [ ] GitHub Pages'e sığan daha küçük (damıtılmış) BERTurk
 - [ ] Demoda ikinci karşılaştırma olarak hazır bir Türkçe NER modeli
 - [ ] Pilot bürolardan, izinli gerçek belgelerle değerlendirme
 - [ ] Dizüstü ve telefon süreleri; daha küçük ilk indirme

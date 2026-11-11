@@ -41,7 +41,7 @@ names never seen during development or training, in 16 document styles (4 of the
 | **Katip Tiny** (recommended) | Katip Rules + `katip-tr-name-tagger-tiny`, 2.6 MB | **756 / 757 (99.9%)** | 364 / 365 |
 | **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 751 / 757 (99.2%) | 359 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
-| **Katip BERTurk** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | 756 / 757 (99.9%) | 364 / 365 |
+| **Katip BERTurk** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | **757 / 757 (100%)** | **365 / 365** |
 
 **Katip BERTurk, model alone** (no rules), fine-tuned from BERTurk on 8,000 synthetic documents in
 25.5 minutes on a Mac:
@@ -52,11 +52,14 @@ names never seen during development or training, in 16 document styles (4 of the
 | Held-out (60 docs) | **275 / 275** (rules + tiny: 268) | 70 / 70 | 26 / 26 | 0 |
 | Name-free legal prose | | | | **0** (rules + tiny: 3) |
 
-In the full pipeline (rules + BERTurk, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)) it
-scores the same as Katip Tiny today: 756 / 757 on the blind set, 612 / 618 on the held-out set (Tiny: 611).
-The rules that merge model names were written for the small tagger and drop some of BERTurk's correct
-names (a first name such as *Esila* is also an ordinary word); a setting that trusts high-confidence
-BERTurk names is being measured next.
+**Full pipeline** (rules + BERTurk, as the demo runs it, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
+every value on the blind set (757 / 757, names 365 / 365, one extra name highlight) and every value on the
+held-out set (618 / 618; Tiny: 611). False alarms on name-free prose stay at 3, the same as Tiny. This
+needs one setting: BERTurk names scored 90% or higher are kept as they are. Without it the merge rules,
+written for the small tagger, dropped first names such as *Esila* that are also ordinary words, and the
+score was the same as Tiny ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
+The 90% value was set once, before this run, and not tuned; the held-out set had been looked at
+during development, the blind set had not.
 
 It is 40 times bigger than Katip Tiny, so the demo keeps Tiny as the default and offers BERTurk on
 the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages). Raw numbers:
@@ -83,7 +86,7 @@ from a cloud VM, not a typical laptop. Raw numbers: [`metrics/`](metrics/). Scri
 | --- | --- | --- |
 | [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2, open-source Turkish PII regex | 183 / 757 values (24.2%), 0 of 365 names | 756 / 757 (99.9%), 364 / 365 names |
 | Katip's own rules | 359 / 365 names (98.4%) | 364 / 365 with the 2.6 MB tagger, no new false names |
-| [BERTurk](https://huggingface.co/dbmdz/bert-base-turkish-cased) | a language model with no PII labels | names 364 / 365, addresses 80 / 80, health terms 26 / 26 (model alone) |
+| [BERTurk](https://huggingface.co/dbmdz/bert-base-turkish-cased) | a language model with no PII labels | 757 / 757 values with Katip's rules; alone: names 364 / 365, addresses 80 / 80, health terms 26 / 26 |
 | Tesseract `tur` | text only, no check that a value is really gone | every masked value is searched for again in a second OCR pass of the output; the compact OCR model is 4× smaller with about the same recall (49 vs 48 misses on 96 scans) |
 
 **Next:** add a stock Turkish NER model as a second baseline in the demo, distil BERTurk into a model
@@ -143,7 +146,8 @@ name-only and the multi-type model code).
 - [x] Fully in-browser redaction for PDF, scans, photos, Word, UDF, text
 - [x] On-device name tagger, public demo, Hugging Face Space and model
 - [x] BERTurk model for names, addresses and health terms ([`ml/berturk/`](ml/berturk/))
-- [ ] Let the pipeline trust high-confidence BERTurk names; a smaller distilled version that fits on Pages
+- [x] Full pipeline with BERTurk: 757 / 757 on the blind set
+- [ ] A smaller distilled BERTurk that fits on GitHub Pages
 - [ ] A stock Turkish NER model as a second baseline in the demo
 - [ ] Evaluation on real, consented documents from pilot firms
 - [ ] Laptop and phone timings; smaller first download

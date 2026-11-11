@@ -1,0 +1,198 @@
+{
+ "model": "berturk",
+ "sets": {
+  "blind": {
+   "docs": 80,
+   "ms_per_doc": 28.5,
+   "types": {
+    "ADDRESS": {
+     "gold": 80,
+     "found": 80,
+     "spans": 80,
+     "false": 0
+    },
+    "BIRTH_DATE": {
+     "gold": 35,
+     "found": 35,
+     "spans": 35,
+     "false": 0
+    },
+    "CREDIT_CARD": {
+     "gold": 5,
+     "found": 5,
+     "spans": 5,
+     "false": 0
+    },
+    "EMAIL": {
+     "gold": 45,
+     "found": 45,
+     "spans": 45,
+     "false": 0
+    },
+    "HEALTH": {
+     "gold": 26,
+     "found": 26,
+     "spans": 36,
+     "false": 10
+    },
+    "IBAN": {
+     "gold": 35,
+     "found": 35,
+     "spans": 35,
+     "false": 0
+    },
+    "PERSON": {
+     "gold": 365,
+     "found": 364,
+     "spans": 358,
+     "false": 0
+    },
+    "PHONE": {
+     "gold": 55,
+     "found": 55,
+     "spans": 55,
+     "false": 0
+    },
+    "PLATE": {
+     "gold": 20,
+     "found": 20,
+     "spans": 20,
+     "false": 0
+    },
+    "TCKN": {
+     "gold": 75,
+     "found": 75,
+     "spans": 75,
+     "false": 0
+    },
+    "UNION": {
+     "gold": 1,
+     "found": 1,
+     "spans": 1,
+     "false": 0
+    },
+    "VKN": {
+     "gold": 15,
+     "found": 15,
+     "spans": 15,
+     "false": 0
+    }
+   },
+   "total": {
+    "gold": 757,
+    "found": 756,
+    "spans": 760,
+    "false": 10
+   }
+  },
+  "heldout": {
+   "docs": 60,
+   "ms_per_doc": 35.0,
+   "types": {
+    "ADDRESS": {
+     "gold": 70,
+     "found": 70,
+     "spans": 70,
+     "false": 0
+    },
+    "BIRTH_DATE": {
+     "gold": 30,
+     "found": 30,
+     "spans": 30,
+     "false": 0
+    },
+    "CREDIT_CARD": {
+     "gold": 5,
+     "found": 5,
+     "spans": 5,
+     "false": 0
+    },
+    "EMAIL": {
+     "gold": 40,
+     "found": 40,
+     "spans": 40,
+     "false": 0
+    },
+    "HEALTH": {
+     "gold": 26,
+     "found": 26,
+     "spans": 31,
+     "false": 5
+    },
+    "IBAN": {
+     "gold": 30,
+     "found": 30,
+     "spans": 30,
+     "false": 0
+    },
+    "PERSON": {
+     "gold": 275,
+     "found": 269,
+     "spans": 269,
+     "false": 0
+    },
+    "PHONE": {
+     "gold": 45,
+     "found": 45,
+     "spans": 45,
+     "false": 0
+    },
+    "PLATE": {
+     "gold": 20,
+     "found": 20,
+     "spans": 20,
+     "false": 0
+    },
+    "TCKN": {
+     "gold": 60,
+     "found": 60,
+     "spans": 60,
+     "false": 0
+    },
+    "UNION": {
+     "gold": 2,
+     "found": 2,
+     "spans": 2,
+     "false": 0
+    },
+    "VKN": {
+     "gold": 15,
+     "found": 15,
+     "spans": 15,
+     "false": 0
+    }
+   },
+   "total": {
+    "gold": 618,
+    "found": 612,
+    "spans": 617,
+    "false": 5
+   }
+  },
+  "negatives": {
+   "docs": 3,
+   "ms_per_doc": 41.6,
+   "types": {
+    "HEALTH": {
+     "gold": 0,
+     "found": 0,
+     "spans": 1,
+     "false": 1
+    },
+    "PERSON": {
+     "gold": 0,
+     "found": 0,
+     "spans": 2,
+     "false": 2
+    }
+   },
+   "total": {
+    "gold": 0,
+    "found": 0,
+    "spans": 3,
+    "false": 3
+   }
+  }
+ },
+ "model_dir": "out"
+}

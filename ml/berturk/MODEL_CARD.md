@@ -36,6 +36,12 @@ a model address or health span widens an overlapping rule span of the same type,
 only added where nothing else was found (and, for addresses, with two or more words). That policy
 was checked with a small stand-in model on the blind set, not with this model.
 
+## Results in Katip (rules + this model)
+
+With Katip's rules, keeping model names scored 0.9 or higher as they are: blind set **757 / 757** values
+(names 365 / 365, 1 extra name, 10 extra health highlights from the rules), held-out set 618 / 618, 3 false
+alarms on name-free prose. About 28 ms per document on the Mac (int8 ONNX, onnxruntime).
+
 ## Files
 
 | File | Size | |

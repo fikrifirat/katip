@@ -62,16 +62,16 @@
    "en": "Katip BERTurk"
   },
   "badge": {
-   "tr": "büyük model",
-   "en": "large model"
+   "tr": "en doğru",
+   "en": "most accurate"
   },
   "meta": {
-   "tr": "Kurallar + 110 MB BERTurk · isim, adres, sağlık",
-   "en": "Rules + 110 MB BERTurk · names, addresses, health"
+   "tr": "Kurallar + 110 MB BERTurk · kör sette %100",
+   "en": "Rules + 110 MB BERTurk · 100% on blind set"
   },
   "info": {
-   "tr": "En büyük model; isim, adres ve sağlık terimlerinde güçlü. İlk açılışta 110 MB indirir.||Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış 110 MB'lık model (katip-tr-pii-berturk): isim, adres ve sağlık terimlerini birlikte bulur. Model tek başına kör sette 365 ismin 364'ünü, 80 adresin 80'ini, 26 sağlık teriminin 26'sını buldu; isim içermeyen metinde yanlış alarm yok. İlk kullanımda yaklaşık 110 MB indirilir, büyük belgelerde Katip Tiny'den yavaştır.",
-   "en": "The largest model, strong on names, addresses and health terms. Downloads 110 MB the first time.||Katip Rules plus a 110 MB model fine-tuned from BERTurk (katip-tr-pii-berturk) that finds names, addresses and health terms together. On its own it found 364 of 365 names, 80 of 80 addresses and 26 of 26 health terms on the blind set, with no false alarms on name-free text. Downloads about 110 MB on first use and is slower than Katip Tiny on long documents."
+   "tr": "En doğru model: kör testte 757 değerin hepsini buldu. İlk açılışta 110 MB indirir ve Tiny'den yavaştır.||Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış model (katip-tr-pii-berturk): isim, adres ve sağlık terimlerini birlikte bulur. Kör sette 757'de 757 (isimler 365'te 365), ayrılmış sette 618'de 618; isim içermeyen metinde 3 yanlış alarm (Tiny ile aynı). %90 ve üzeri güvenli isimleri olduğu gibi tutar.",
+   "en": "The most accurate model: found all 757 values on the blind test. Downloads 110 MB the first time and is slower than Tiny.||Katip Rules plus a model fine-tuned from BERTurk (katip-tr-pii-berturk) that finds names, addresses and health terms together. Blind set 757 of 757 (names 365 of 365), held-out 618 of 618; 3 false alarms on name-free text (same as Tiny). Keeps names it is at least 90% sure of as they are."
   },
   "ner": "katip-tr-pii-berturk",
   "dtype": "q8",
