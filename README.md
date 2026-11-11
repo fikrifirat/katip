@@ -41,7 +41,7 @@ names never seen during development or training, in 16 document styles (4 of the
 | **Katip Tiny** (recommended) | Katip Rules + `katip-tr-name-tagger-tiny`, 2.6 MB | **756 / 757 (99.9%)** | 364 / 365 |
 | **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 751 / 757 (99.2%) | 359 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
-| **Katip BERTurk** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | full pipeline being measured | model alone: 364 / 365 |
+| **Katip BERTurk** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | 756 / 757 (99.9%) | 364 / 365 |
 
 **Katip BERTurk, model alone** (no rules), fine-tuned from BERTurk on 8,000 synthetic documents in
 25.5 minutes on a Mac:
@@ -51,6 +51,12 @@ names never seen during development or training, in 16 document styles (4 of the
 | Blind (80 docs) | 364 / 365 | 80 / 80 | 26 / 26 | 2 |
 | Held-out (60 docs) | **275 / 275** (rules + tiny: 268) | 70 / 70 | 26 / 26 | 0 |
 | Name-free legal prose | | | | **0** (rules + tiny: 3) |
+
+In the full pipeline (rules + BERTurk, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)) it
+scores the same as Katip Tiny today: 756 / 757 on the blind set, 612 / 618 on the held-out set (Tiny: 611).
+The rules that merge model names were written for the small tagger and drop some of BERTurk's correct
+names (a first name such as *Esila* is also an ordinary word); a setting that trusts high-confidence
+BERTurk names is being measured next.
 
 It is 40 times bigger than Katip Tiny, so the demo keeps Tiny as the default and offers BERTurk on
 the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages). Raw numbers:
@@ -137,7 +143,7 @@ name-only and the multi-type model code).
 - [x] Fully in-browser redaction for PDF, scans, photos, Word, UDF, text
 - [x] On-device name tagger, public demo, Hugging Face Space and model
 - [x] BERTurk model for names, addresses and health terms ([`ml/berturk/`](ml/berturk/))
-- [ ] Full-pipeline benchmark for Katip BERTurk; a smaller distilled version that fits on Pages
+- [ ] Let the pipeline trust high-confidence BERTurk names; a smaller distilled version that fits on Pages
 - [ ] A stock Turkish NER model as a second baseline in the demo
 - [ ] Evaluation on real, consented documents from pilot firms
 - [ ] Laptop and phone timings; smaller first download

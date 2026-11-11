@@ -228,7 +228,7 @@ const selOcr = () => document.querySelector("#ocrModels input:checked")?.value ?
 function settings() {
   const m = models.find(x => x.id === selModel()) ?? models[0];
   return {
-    engine: m?.id, engineName: loc(m?.name), ner: m?.ner ?? null, baseline: m?.baseline ?? null, nerDtype: m?.dtype ?? "q8", ocrLang: selOcr(),
+    engine: m?.id, engineName: loc(m?.name), ner: m?.ner ?? null, baseline: m?.baseline ?? null, nerDtype: m?.dtype ?? "q8", trust: m?.trust ?? null, ocrLang: selOcr(),
     threshold: Number($("threshold").value), style: $("style").value,
     entities: [...document.querySelectorAll("#entities input:checked")].map(i => i.value), mask: maskTerms,
   };

@@ -77,7 +77,7 @@ async function detectWithModel(text, s) {
     extra = await runNer(T, ner, text, { minScore: s.threshold });
   }
   const tn = performance.now();
-  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null });
+  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null, trust: s.trust ?? null });
   return { spans, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
 }
 

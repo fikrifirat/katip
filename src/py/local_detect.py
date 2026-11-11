@@ -53,16 +53,22 @@ def _dictionary(text, results, mask_terms, allow_terms):
 _TOK = re.compile(rf"[{TR_LETTER}]+")
 
 
-def _add_model_span(text, results, s, e, score):
+def _add_model_span(text, results, s, e, score, trust=None):
     """Combine a model PERSON span with the rules instead of letting the two compete:
     trim ordinary words off its edges (same lexicon test the name rules use), require
     a capital first letter, then widen an overlapping rule span, or add a new one when it looks like a full name
-    (two or more capitalised tokens)."""
+    (two or more capitalised tokens).
+
+    trust: for a strong model (BERTurk), spans scored at or above it keep their edges (first names such as
+    Esila are also in the ordinary-word list) and may be a single capitalised word. Either way a single word
+    is accepted when it is part of a name already found in the document (Esila after Esila Boztepe)."""
     toks = [(m.start() + s, m.end() + s) for m in _TOK.finditer(text[s:e])]
-    while toks and is_lexical(text[toks[0][0]:toks[0][1]]):
-        toks.pop(0)
-    while toks and is_lexical(text[toks[-1][0]:toks[-1][1]]):
-        toks.pop()
+    sure = trust is not None and score >= trust
+    if not sure:
+        while toks and is_lexical(text[toks[0][0]:toks[0][1]]):
+            toks.pop(0)
+        while toks and is_lexical(text[toks[-1][0]:toks[-1][1]]):
+            toks.pop()
     if not toks or not text[toks[0][0]].isupper():
         return
     s, e = toks[0][0], toks[-1][1]
@@ -70,11 +76,19 @@ def _add_model_span(text, results, s, e, score):
     for r in hits:
         r.start, r.end = min(r.start, s), max(r.end, e)
         r.recognition_metadata["explanation"] = (r.recognition_metadata.get("explanation", "") + " + model").strip()
-    # a span the rules did not see at all must look like a full name: two or more name tokens
-    if not hits and len(toks) >= 2 and all(text[a].isupper() for a, _ in toks):
+    if hits:
+        return
+    capital = all(text[a].isupper() for a, _ in toks)
+    known = len(toks) == 1 and text[s:e].casefold() in _known_name_words(text, results)
+    if capital and (len(toks) >= 2 or sure or known):
         r = RecognizerResult("PERSON", s, e, score)
         r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: "name_tagger", "explanation": "on-device model"}
         results.append(r)
+
+
+def _known_name_words(text, results):
+    return {text[m.start() + r.start:m.end() + r.start].casefold()
+            for r in results if r.entity_type == "PERSON" for m in _TOK.finditer(text[r.start:r.end])}
 
 
 def _add_model_typed(text, results, typ, s, e, score):
@@ -107,7 +121,7 @@ def _add_model_typed(text, results, typ, s, e, score):
     results.append(r)
 
 
-def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), extra=()):
+def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), extra=(), trust=None):
     """extra: spans from an on-device model, as (start, end, score) or (start, end, score, type) tuples;
     a span without a type is a PERSON span."""
     entities = list(entities or ALL_ENTITIES)
@@ -127,7 +141,7 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
         if typ not in entities:
             continue
         if typ == "PERSON":
-            _add_model_span(text, results, s, e, sc)
+            _add_model_span(text, results, s, e, sc, trust)
         else:
             _add_model_typed(text, results, typ, s, e, sc)
     results = _dictionary(text, results, mask_terms, allow_terms)
@@ -172,4 +186,4 @@ def detect_json(text, opts_json="{}"):
     if o.get("baseline") == "kvkk-pii":
         return json.dumps(detect_baseline(text, o.get("threshold", 0.5), o.get("entities")), ensure_ascii=False)
     return json.dumps(detect(text, o.get("threshold", 0.5), o.get("entities"), o.get("mask", []),
-                             o.get("allow", []), o.get("extra", [])), ensure_ascii=False)
+                             o.get("allow", []), o.get("extra", []), o.get("trust")), ensure_ascii=False)

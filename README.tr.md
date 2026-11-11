@@ -41,7 +41,7 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 | **Katip Tiny** (önerilen) | Katip Kural + `katip-tr-name-tagger-tiny`, 2,6 MB | **757'de 756 (%99,9)** | 365'te 364 |
 | **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 751 (%99,2) | 365'te 359 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
-| **Katip BERTurk** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | tüm akış ölçülüyor | model tek başına: 365'te 364 |
+| **Katip BERTurk** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | 757'de 756 (%99,9) | 365'te 364 |
 
 **Katip BERTurk, model tek başına** (kurallar olmadan); BERTurk'ten 8.000 sentetik belgeyle bir
 Mac'te 25,5 dakikada ince ayarlandı:
@@ -51,6 +51,12 @@ Mac'te 25,5 dakikada ince ayarlandı:
 | Kör (80 belge) | 365'te 364 | 80'de 80 | 26'da 26 | 2 |
 | Ayrılmış (60 belge) | **275'te 275** (kurallar + tiny: 268) | 70'te 70 | 26'da 26 | 0 |
 | İsim içermeyen hukuk metni | | | | **0** (kurallar + tiny: 3) |
+
+Tüm akışta (kurallar + BERTurk, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)) bugün
+Katip Tiny ile aynı sonucu veriyor: kör sette 757'de 756, ayrılmış sette 618'de 612 (Tiny: 611). Model
+isimlerini kurallarla birleştiren adım küçük etiketleyici için yazıldı ve BERTurk'ün doğru bulduğu bazı
+isimleri atıyor (*Esila* gibi bir ad aynı zamanda sıradan bir sözcük); yüksek güvenli BERTurk isimlerine
+güvenen bir ayar sırada ölçülecek.
 
 Katip Tiny'den 40 kat büyük olduğu için demoda varsayılan Tiny olarak kalıyor; BERTurk Hugging Face
 Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırını aşıyor). Ham veriler:
@@ -137,7 +143,7 @@ türlü model kodu için).
 - [x] PDF, tarama, fotoğraf, Word, UDF ve metin için tamamen tarayıcıda maskeleme
 - [x] Cihaz üzerinde isim etiketleyici, herkese açık demo, Hugging Face Space ve model
 - [x] İsim, adres ve sağlık terimleri için BERTurk modeli ([`ml/berturk/`](ml/berturk/))
-- [ ] Katip BERTurk için tüm akışın ölçümü; Pages'e sığan daha küçük (damıtılmış) sürüm
+- [ ] Akışın yüksek güvenli BERTurk isimlerine güvenmesi; Pages'e sığan daha küçük (damıtılmış) sürüm
 - [ ] Demoda ikinci karşılaştırma olarak hazır bir Türkçe NER modeli
 - [ ] Pilot bürolardan, izinli gerçek belgelerle değerlendirme
 - [ ] Dizüstü ve telefon süreleri; daha küçük ilk indirme
