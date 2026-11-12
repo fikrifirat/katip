@@ -66,6 +66,7 @@ numbers you can't trust.
 
 | Path | |
 | --- | --- |
+| `score_legal.py` | real court prose with known names: fills the anonymised "..." in TurkishLegalNER (Yargıtay, Apache-2.0) with common or unseen names and scores every model on disk, no training (`legal.py` builds the set) |
 | `katiplab.py` | data loading, the browser-identical model runner (`Tagger`), scoring, bootstrap, pii-names-tiny training |
 | `distill.py` | teacher fine-tuning, soft labels, student training with distillation, dev-rule trust selection |
 | `conformal.py` | word scores, loss/cost matrices, conformal risk control, random-split validation |
