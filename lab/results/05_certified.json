@@ -39,7 +39,7 @@
    "other words masked (mean)": 0.9975338164251206
   },
   {
-   "model": "Tiny-R",
+   "model": "pii-names-tiny",
    "\u03b1 (promised)": 0.02,
    "\u03bb\u0302 (median)": 0.005,
    "readable name words (mean)": 0.0174474350126524,
@@ -47,7 +47,7 @@
    "other words masked (mean)": 0.16691568002115645
   },
   {
-   "model": "Tiny-R",
+   "model": "pii-names-tiny",
    "\u03b1 (promised)": 0.05,
    "\u03bb\u0302 (median)": 0.065,
    "readable name words (mean)": 0.046773051860914176,
@@ -55,7 +55,7 @@
    "other words masked (mean)": 0.13225352726912812
   },
   {
-   "model": "Tiny-R",
+   "model": "pii-names-tiny",
    "\u03b1 (promised)": 0.1,
    "\u03bb\u0302 (median)": 0.13,
    "readable name words (mean)": 0.09686565739346537,
@@ -63,12 +63,76 @@
    "other words masked (mean)": 0.11202081265288169
   },
   {
-   "model": "Tiny-R",
+   "model": "pii-names-tiny",
    "\u03b1 (promised)": 0.2,
    "\u03bb\u0302 (median)": 0.315,
    "readable name words (mean)": 0.1970714837296359,
    "splits above \u03b1": 0.456,
    "other words masked (mean)": 0.08118624268825946
+  },
+  {
+   "model": "Student (distilled)",
+   "\u03b1 (promised)": 0.02,
+   "\u03bb\u0302 (median)": 0.00378,
+   "readable name words (mean)": 0.01718166316372838,
+   "splits above \u03b1": 0.344,
+   "other words masked (mean)": 0.17816030196094146
+  },
+  {
+   "model": "Student (distilled)",
+   "\u03b1 (promised)": 0.05,
+   "\u03bb\u0302 (median)": 0.03,
+   "readable name words (mean)": 0.04579210205052597,
+   "splits above \u03b1": 0.407,
+   "other words masked (mean)": 0.12437132402992873
+  },
+  {
+   "model": "Student (distilled)",
+   "\u03b1 (promised)": 0.1,
+   "\u03bb\u0302 (median)": 0.09,
+   "readable name words (mean)": 0.09716853459543677,
+   "splits above \u03b1": 0.41,
+   "other words masked (mean)": 0.10398014892613489
+  },
+  {
+   "model": "Student (distilled)",
+   "\u03b1 (promised)": 0.2,
+   "\u03bb\u0302 (median)": 0.26,
+   "readable name words (mean)": 0.198195724759674,
+   "splits above \u03b1": 0.448,
+   "other words masked (mean)": 0.07812898074428161
+  },
+  {
+   "model": "Teacher BERTurk-R",
+   "\u03b1 (promised)": 0.02,
+   "\u03bb\u0302 (median)": 0.095,
+   "readable name words (mean)": 0.018154229928686448,
+   "splits above \u03b1": 0.386,
+   "other words masked (mean)": 0.05480693106001347
+  },
+  {
+   "model": "Teacher BERTurk-R",
+   "\u03b1 (promised)": 0.05,
+   "\u03bb\u0302 (median)": 0.435,
+   "readable name words (mean)": 0.04844060463154666,
+   "splits above \u03b1": 0.419,
+   "other words masked (mean)": 0.019559362528007593
+  },
+  {
+   "model": "Teacher BERTurk-R",
+   "\u03b1 (promised)": 0.1,
+   "\u03bb\u0302 (median)": 0.845,
+   "readable name words (mean)": 0.09771126543209877,
+   "splits above \u03b1": 0.439,
+   "other words masked (mean)": 0.01500139355519316
+  },
+  {
+   "model": "Teacher BERTurk-R",
+   "\u03b1 (promised)": 0.2,
+   "\u03bb\u0302 (median)": 0.95,
+   "readable name words (mean)": 0.19180295797868263,
+   "splits above \u03b1": 0.433,
+   "other words masked (mean)": 0.012136026280755403
   },
   {
    "model": "BERTurk (synthetic only)",
