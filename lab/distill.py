@@ -68,20 +68,24 @@ def _export(model, out, cls_id, sep_id, maxtok, extra):
     import torch
     from onnxruntime.quantization import QuantType, quantize_dynamic
     model = model.to("cpu").eval()
-    cfg = model.config.to_dict(); cfg["architectures"] = ["BertForTokenClassification"]
+    cfg = model.config.to_dict(); cfg["architectures"] = [type(model).__name__]
     cfg["katip"] = {"word_regex": K.WORD_RE, "max_tokens": maxtok, "labels": "word-level BIO on first sub-token", "lab": extra}
     (out / "config.json").write_text(json.dumps(cfg, indent=1, default=str))
 
+    import inspect
+    takes_tt = "token_type_ids" in inspect.signature(model.forward).parameters   # DistilBERT has no segment ids
+
     class Wrap(torch.nn.Module):
         def __init__(s, m): super().__init__(); s.m = m
-        def forward(s, input_ids, attention_mask, token_type_ids):
-            return s.m(input_ids=input_ids, attention_mask=attention_mask, token_type_ids=token_type_ids).logits
+        def forward(s, input_ids, attention_mask, token_type_ids=None):
+            kw = {"token_type_ids": token_type_ids} if takes_tt else {}
+            return s.m(input_ids=input_ids, attention_mask=attention_mask, **kw).logits
     (out / "onnx").mkdir(exist_ok=True)
     x = torch.tensor([[cls_id, 10, 11, sep_id]])
-    torch.onnx.export(Wrap(model), (x, torch.ones_like(x), torch.zeros_like(x)), str(out / "onnx/model.onnx"),
-                      input_names=["input_ids", "attention_mask", "token_type_ids"], output_names=["logits"],
-                      dynamic_axes={k: {0: "batch", 1: "seq"} for k in ("input_ids", "attention_mask", "token_type_ids", "logits")},
-                      opset_version=17, dynamo=False)
+    names = ["input_ids", "attention_mask"] + (["token_type_ids"] if takes_tt else [])
+    args = (x, torch.ones_like(x)) + ((torch.zeros_like(x),) if takes_tt else ())
+    torch.onnx.export(Wrap(model), args, str(out / "onnx/model.onnx"), input_names=names, output_names=["logits"],
+                      dynamic_axes={k: {0: "batch", 1: "seq"} for k in names + ["logits"]}, opset_version=17, dynamo=False)
     import logging; logging.getLogger().setLevel(logging.ERROR)
     quantize_dynamic(str(out / "onnx/model.onnx"), str(out / "onnx/model_quantized.onnx"), weight_type=QuantType.QInt8)
     return round((out / "onnx/model_quantized.onnx").stat().st_size / 1e6, 2)
@@ -127,9 +131,10 @@ def train_teacher(out, base="dbmdz/bert-base-turkish-cased", real_docs=(), synth
             if step % 200 == 0: log(f"  step {step}/{steps}  loss {loss.item():.4f}  ({time.time() - t0:.0f}s)")
         log(f"  epoch {ep + 1}/{epochs} done ({time.time() - t0:.0f}s)")
     model.save_pretrained(out); tok.save_pretrained(out)
-    mb = _export(model, out, CLS, SEP, maxtok, {"role": "teacher", "base": str(base), "real_docs": len(real_docs), "epochs": epochs})
-    info = {"dir": str(out.relative_to(K.ROOT)) if out.is_relative_to(K.ROOT) else str(out), "seconds": round(time.time() - t0), "int8_mb": mb}
-    (out / "train_info.json").write_text(json.dumps(info, indent=1)); log(f"  saved teacher: int8 {mb} MB, {info['seconds']} s")
+    mb = _export(model, out, CLS, SEP, maxtok, {"role": "fine-tuned", "base": str(base), "real_docs": len(real_docs), "epochs": epochs})
+    info = {"dir": str(out.relative_to(K.ROOT)) if out.is_relative_to(K.ROOT) else str(out), "base": str(base),
+            "params": sum(p.numel() for p in model.parameters()), "seconds": round(time.time() - t0), "int8_mb": mb}
+    (out / "train_info.json").write_text(json.dumps(info, indent=1)); log(f"  saved {out.name}: int8 {mb} MB, {info['seconds']} s")
     return info
 
 
