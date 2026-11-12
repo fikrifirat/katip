@@ -1,0 +1,282 @@
+{
+ "mode": "quick",
+ "trust": {
+  "Tiny-R (no teacher)": 0.5,
+  "student tiny (KD)": 0.5,
+  "teacher BERTurk-R": 0.5,
+  "Tiny (published)": null
+ },
+ "significance": {
+  "diff": -0.01529051987767584,
+  "ci": [
+   -0.048530137016870485,
+   0.01697662252035315
+  ],
+  "p_bootstrap": 0.8242,
+  "only_a": 56,
+  "only_b": 46,
+  "p_mcnemar": 0.37294366808362966
+ },
+ "systems": {
+  "Tiny-R (no teacher)": {
+   "wiki test": {
+    "gold": 654,
+    "found": 363,
+    "recall": 0.555045871559633,
+    "spans": 672,
+    "false": 261,
+    "precision": 0.6116071428571429,
+    "f1": 0.5819554151307706,
+    "f2": 0.5655054309262595,
+    "recall_ci": [
+     0.5116951106381817,
+     0.6008907142824981
+    ],
+    "precision_ci": [
+     0.5689824260239404,
+     0.6537414477285167
+    ],
+    "ms_per_doc": 0.6060446660267189
+   },
+   "blind": {
+    "gold": 365,
+    "found": 363,
+    "recall": 0.9945205479452055,
+    "spans": 360,
+    "false": 6,
+    "precision": 0.9833333333333333,
+    "f1": 0.9888953018584786,
+    "f2": 0.9922627872498146,
+    "recall_ci": [
+     0.9862258953168044,
+     1.0
+    ],
+    "precision_ci": [
+     0.9697781385281385,
+     0.9945358913655247
+    ],
+    "ms_per_doc": 3.336735412449343
+   },
+   "negatives": {
+    "gold": 0,
+    "found": 0,
+    "recall": NaN,
+    "spans": 2,
+    "false": 2,
+    "precision": 0.0,
+    "f1": NaN,
+    "f2": NaN,
+    "recall_ci": [
+     NaN,
+     NaN
+    ],
+    "precision_ci": [
+     0.0,
+     0.0
+    ],
+    "ms_per_doc": 6.563180669521292
+   }
+  },
+  "student tiny (KD)": {
+   "wiki test": {
+    "gold": 654,
+    "found": 353,
+    "recall": 0.5397553516819572,
+    "spans": 678,
+    "false": 259,
+    "precision": 0.6179941002949852,
+    "f1": 0.5762311048776687,
+    "f2": 0.5537771128274019,
+    "recall_ci": [
+     0.49286617333947236,
+     0.5862586152882205
+    ],
+    "precision_ci": [
+     0.5773265631289014,
+     0.6592820520593731
+    ],
+    "ms_per_doc": 0.6157684999634512
+   },
+   "blind": {
+    "gold": 365,
+    "found": 363,
+    "recall": 0.9945205479452055,
+    "spans": 373,
+    "false": 14,
+    "precision": 0.9624664879356568,
+    "f1": 0.9782310065532177,
+    "f2": 0.9879400611639343,
+    "recall_ci": [
+     0.9862258953168044,
+     1.0
+    ],
+    "precision_ci": [
+     0.9289519906323185,
+     0.9864130434782609
+    ],
+    "ms_per_doc": 3.202235937351361
+   },
+   "negatives": {
+    "gold": 0,
+    "found": 0,
+    "recall": NaN,
+    "spans": 2,
+    "false": 2,
+    "precision": 0.0,
+    "f1": NaN,
+    "f2": NaN,
+    "recall_ci": [
+     NaN,
+     NaN
+    ],
+    "precision_ci": [
+     0.0,
+     0.0
+    ],
+    "ms_per_doc": 6.1329723296997445
+   }
+  },
+  "teacher BERTurk-R": {
+   "wiki test": {
+    "gold": 654,
+    "found": 590,
+    "recall": 0.9021406727828746,
+    "spans": 680,
+    "false": 66,
+    "precision": 0.9029411764705882,
+    "f1": 0.9025407471261504,
+    "f2": 0.9023006599502645,
+    "recall_ci": [
+     0.8755622188905547,
+     0.9275808936825886
+    ],
+    "precision_ci": [
+     0.8759118881264513,
+     0.9276432876981332
+    ],
+    "ms_per_doc": 16.272694208018947
+   },
+   "blind": {
+    "gold": 365,
+    "found": 365,
+    "recall": 1.0,
+    "spans": 365,
+    "false": 0,
+    "precision": 1.0,
+    "f1": 1.0,
+    "f2": 1.0,
+    "recall_ci": [
+     1.0,
+     1.0
+    ],
+    "precision_ci": [
+     1.0,
+     1.0
+    ],
+    "ms_per_doc": 108.43538332483149
+   },
+   "negatives": {
+    "gold": 0,
+    "found": 0,
+    "recall": NaN,
+    "spans": 2,
+    "false": 2,
+    "precision": 0.0,
+    "f1": NaN,
+    "f2": NaN,
+    "recall_ci": [
+     NaN,
+     NaN
+    ],
+    "precision_ci": [
+     0.0,
+     0.0
+    ],
+    "ms_per_doc": 155.06154166844985
+   }
+  },
+  "Tiny (published)": {
+   "wiki test": {
+    "gold": 654,
+    "found": 97,
+    "recall": 0.14831804281345565,
+    "spans": 135,
+    "false": 41,
+    "precision": 0.6962962962962963,
+    "f1": 0.24454546673639885,
+    "f2": 0.17602384565191367,
+    "recall_ci": [
+     0.1111111111111111,
+     0.18910840985586788
+    ],
+    "precision_ci": [
+     0.6046355548618698,
+     0.7823203194321207
+    ],
+    "ms_per_doc": 0.733299125044141
+   },
+   "blind": {
+    "gold": 365,
+    "found": 364,
+    "recall": 0.9972602739726028,
+    "spans": 355,
+    "false": 0,
+    "precision": 1.0,
+    "f1": 0.9986282578875172,
+    "f2": 0.9978070175438597,
+    "recall_ci": [
+     0.9912790697674418,
+     1.0
+    ],
+    "precision_ci": [
+     1.0,
+     1.0
+    ],
+    "ms_per_doc": 3.1272911372070666
+   },
+   "negatives": {
+    "gold": 0,
+    "found": 0,
+    "recall": NaN,
+    "spans": 2,
+    "false": 2,
+    "precision": 0.0,
+    "f1": NaN,
+    "f2": NaN,
+    "recall_ci": [
+     NaN,
+     NaN
+    ],
+    "precision_ci": [
+     0.0,
+     0.0
+    ],
+    "ms_per_doc": 6.93023600615561
+   }
+  }
+ },
+ "sizes_mb": {
+  "Tiny-R (no teacher)": 2.57091,
+  "student tiny (KD)": 2.57091,
+  "teacher BERTurk-R": 110.79652,
+  "Tiny (published)": 2.570912
+ },
+ "verdict": {
+  "D1 +3 pts vs Tiny-R, p<0.05": [
+   false,
+   "-1.5 points, p=0.37"
+  ],
+  "D2 blind >= 99.0%": [
+   true,
+   "99.5%"
+  ],
+  "D3 false names <= 5": [
+   true,
+   "2"
+  ],
+  "D4 int8 <= 3.0 MB": [
+   true,
+   "2.57 MB"
+  ]
+ }
+}
