@@ -4,17 +4,18 @@ Seven notebooks, three studies, all on a laptop. Each one starts from a concrete
 what would count as success before training, keeps a test set sealed until the end, and reports
 confidence intervals and a paired significance test.
 
-## What we found so far (reference run, 12 Nov 2026, 4-core Linux VM)
+## What we found so far (12 Nov 2026)
 
-| Study | Problem | Result |
+Run on fikri's Mac and repeated on a 4-core Linux VM. The two runs agree within 0.5 points.
+
+| Study | Problem | Result (fikri's Mac) |
 | --- | --- | --- |
-| **1 · Tiny-R** (notebooks 00–03) | Katip Tiny finds 99.7% of names on our synthetic blind set but **14.8%** in real Turkish sentences (Turkish Wiki NER test) | Same 2.57 MB model, same recipe, real sentences mixed into training: **55.2%** [50.5–59.7], +40.4 points, McNemar p = 1.5e-76; blind set unchanged (99.7%); 3 false names on legal prose (was 2). All 4 pre-registered checks pass. |
-| **2 · Distillation** (04) | BERTurk is 110.8 MB; can its knowledge fit in 2.6 MB? | Ready to run on your Mac. Not run here: Hugging Face is blocked in our build sandbox, so it was only smoke-tested with a stand-in teacher. |
-| **3 · Certified recall** (05) | "99.9% on average" is not a promise a lawyer can use | Tiny-R can promise "at most 5% of name words readable" on real text by masking or reviewing **12.9%** of other words. The published Tiny can't keep even a 20% promise without masking 99.8% of words. Calibrating on synthetic documents breaks the promise on real text (87% readable). |
-| **4 · Suffix leakage** (06) | Katip masks *Öztürk* but keeps *'ün*, and the suffix agrees with the hidden name | 28% of names in real prose carry a suffix (4% in our synthetic data). One suffix reveals **2.4 bits** on average (up to 6.7 bits). Re-inflecting it to agree with the placeholder (`[AD SOYAD]'ın`) brings that to 0 bits and keeps the sentence grammatical. |
+| **1 · Tiny-R** (notebooks 00–03) | Katip Tiny finds 99.7% of names on our synthetic blind set but **14.8%** in real Turkish sentences (Turkish Wiki NER test) | Same 2.57 MB model, same recipe, real sentences mixed into training: **55.5%** [51.2–60.1], +40.7 points, McNemar p = 8.8e-76; blind set 99.5%; 2 false names on legal prose. All 4 pre-registered checks pass. That's more real names than the 110.8 MB BERTurk pipeline (40.7%), at lower precision (61% vs 84%). |
+| **2 · Distillation** (04) | BERTurk alone finds 69% of real names, but it's 110.8 MB, and the merge step halves it to 36% | Smoke test passed on the Mac. The real run (`MODE = "quick"`, ~1 h) is next. |
+| **3 · Certified recall** (05) | "99.9% on average" is not a promise a lawyer can use | To promise "at most 5% of name words readable", Tiny-R masks or reviews **13.2%** of other words, BERTurk 14.1%, and the published Tiny 99.8%. At 10–20%, BERTurk is 2–4× cheaper. Calibrating on synthetic documents breaks the promise on real text. |
+| **4 · Suffix leakage** (06) | Katip masks *Öztürk* but keeps *'ün*, and the suffix agrees with the hidden name | 28% of names in real prose carry a suffix (4% in our synthetic data). One suffix reveals **2.4 bits** on average (up to 6.7). Re-inflecting it to agree with the placeholder (`[AD SOYAD]'ın`) brings that to 0 bits and keeps the sentence grammatical. |
 
-Reports and charts from that run are in `reference/`. Since then the trust grid in notebooks 02 and 04 goes down to 0.3 (the reference run stopped at 0.5 and picked 0.5, the edge), so your selection may differ. Expect small differences on your machine
-(different CPU, PyTorch version and thread count).
+Mac results: `reference/results-mac/`. VM run (executed notebooks and results): `reference/`.
 
 ## The notebooks
 

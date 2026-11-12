@@ -1,0 +1,16 @@
+{
+ "written_utc": "2026-11-12T01:38:33+00:00",
+ "H1": "Wiki NER test, Tiny pipeline name recall: +15 points or more vs published Tiny, McNemar p < 0.05",
+ "H2": "blind set pipeline name recall >= 0.990",
+ "H3": "negatives (name-free legal prose): false names <= 5",
+ "H4": "int8 ONNX <= 3.0 MB",
+ "selection": "heldout recall >= 0.965; best mean Wiki dev F2 over N x trust {None,.9,.8,.7,.6,.5}; ties within 0.005 -> smaller N, then stricter trust",
+ "grid": [
+  0,
+  2000,
+  17967
+ ],
+ "seeds": [
+  0
+ ]
+}

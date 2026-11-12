@@ -1,0 +1,107 @@
+{
+ "alphas": [
+  0.02,
+  0.05,
+  0.1,
+  0.2
+ ],
+ "table": [
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.02,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.05,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.1,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.2,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.02,
+   "\u03bb\u0302 (median)": 0.005,
+   "readable name words (mean)": 0.0174474350126524,
+   "splits above \u03b1": 0.338,
+   "other words masked (mean)": 0.16691568002115645
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.05,
+   "\u03bb\u0302 (median)": 0.065,
+   "readable name words (mean)": 0.046773051860914176,
+   "splits above \u03b1": 0.285,
+   "other words masked (mean)": 0.13225352726912812
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.1,
+   "\u03bb\u0302 (median)": 0.13,
+   "readable name words (mean)": 0.09686565739346537,
+   "splits above \u03b1": 0.424,
+   "other words masked (mean)": 0.11202081265288169
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.2,
+   "\u03bb\u0302 (median)": 0.315,
+   "readable name words (mean)": 0.1970714837296359,
+   "splits above \u03b1": 0.456,
+   "other words masked (mean)": 0.08118624268825946
+  },
+  {
+   "model": "BERTurk (synthetic only)",
+   "\u03b1 (promised)": 0.02,
+   "\u03bb\u0302 (median)": 0.01,
+   "readable name words (mean)": 0.01593134606938955,
+   "splits above \u03b1": 0.288,
+   "other words masked (mean)": 0.38075222307995304
+  },
+  {
+   "model": "BERTurk (synthetic only)",
+   "\u03b1 (promised)": 0.05,
+   "\u03bb\u0302 (median)": 0.05,
+   "readable name words (mean)": 0.04645950882182766,
+   "splits above \u03b1": 0.376,
+   "other words masked (mean)": 0.14080263273066065
+  },
+  {
+   "model": "BERTurk (synthetic only)",
+   "\u03b1 (promised)": 0.1,
+   "\u03bb\u0302 (median)": 0.18,
+   "readable name words (mean)": 0.09794811982837345,
+   "splits above \u03b1": 0.4,
+   "other words masked (mean)": 0.047237376399026657
+  },
+  {
+   "model": "BERTurk (synthetic only)",
+   "\u03b1 (promised)": 0.2,
+   "\u03bb\u0302 (median)": 0.495,
+   "readable name words (mean)": 0.19746718339363267,
+   "splits above \u03b1": 0.452,
+   "other words masked (mean)": 0.01967731530926601
+  }
+ ],
+ "real_docs": 827
+}
