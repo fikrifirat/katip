@@ -13,7 +13,7 @@ confidence intervals and a paired significance test.
 | **3 · Certified recall** (05) | "99.9% on average" is not a promise a lawyer can use | Tiny-R can promise "at most 5% of name words readable" on real text by masking or reviewing **12.9%** of other words. The published Tiny can't keep even a 20% promise without masking 99.8% of words. Calibrating on synthetic documents breaks the promise on real text (87% readable). |
 | **4 · Suffix leakage** (06) | Katip masks *Öztürk* but keeps *'ün*, and the suffix agrees with the hidden name | 28% of names in real prose carry a suffix (4% in our synthetic data). One suffix reveals **2.4 bits** on average (up to 6.7 bits). Re-inflecting it to agree with the placeholder (`[AD SOYAD]'ın`) brings that to 0 bits and keeps the sentence grammatical. |
 
-Reports and charts from that run are in `reference/`. Expect small differences on your machine
+Reports and charts from that run are in `reference/`. Since then the trust grid in notebooks 02 and 04 goes down to 0.3 (the reference run stopped at 0.5 and picked 0.5, the edge), so your selection may differ. Expect small differences on your machine
 (different CPU, PyTorch version and thread count).
 
 ## The notebooks

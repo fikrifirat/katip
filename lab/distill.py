@@ -254,7 +254,7 @@ def train_student(out, docs, soft=None, arch="tiny", kd_weight=0.5, temperature=
 
 
 # ---------------------------------------------------------------------------------------------- selection
-TRUSTS = [None, 0.9, 0.8, 0.7, 0.6, 0.5]
+TRUSTS = [None, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3]
 
 def dev_table(tagger, dev_sets, trusts=TRUSTS) -> list[dict]:
     """Pipeline scores on the dev sets for every trust setting (plus the model alone)."""
