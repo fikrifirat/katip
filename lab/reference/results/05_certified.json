@@ -1,0 +1,75 @@
+{
+ "alphas": [
+  0.02,
+  0.05,
+  0.1,
+  0.2
+ ],
+ "table": [
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.02,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.05,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.1,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny (published)",
+   "\u03b1 (promised)": 0.2,
+   "\u03bb\u0302 (median)": 0.0,
+   "readable name words (mean)": 0.0,
+   "splits above \u03b1": 0.0,
+   "other words masked (mean)": 0.9975338164251206
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.02,
+   "\u03bb\u0302 (median)": 0.015,
+   "readable name words (mean)": 0.017077212732919254,
+   "splits above \u03b1": 0.389,
+   "other words masked (mean)": 0.15213095937247756
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.05,
+   "\u03bb\u0302 (median)": 0.055,
+   "readable name words (mean)": 0.04685237920962559,
+   "splits above \u03b1": 0.392,
+   "other words masked (mean)": 0.12873597268809983
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.1,
+   "\u03bb\u0302 (median)": 0.135,
+   "readable name words (mean)": 0.0968809749060655,
+   "splits above \u03b1": 0.422,
+   "other words masked (mean)": 0.10763521329502235
+  },
+  {
+   "model": "Tiny-R",
+   "\u03b1 (promised)": 0.2,
+   "\u03bb\u0302 (median)": 0.32,
+   "readable name words (mean)": 0.19720322283392935,
+   "splits above \u03b1": 0.468,
+   "other words masked (mean)": 0.0800123141919425
+  }
+ ],
+ "real_docs": 827
+}

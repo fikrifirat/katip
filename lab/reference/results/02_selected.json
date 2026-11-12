@@ -1,0 +1,12 @@
+{
+ "N": 17967,
+ "trust": 0.5,
+ "dev_f2": 0.5248,
+ "heldout_recall": 0.9927,
+ "seeds": [
+  0
+ ],
+ "model_dirs": [
+  "lab/runs/tiny_real17967_seed0"
+ ]
+}
