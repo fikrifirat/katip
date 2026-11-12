@@ -7,6 +7,11 @@ Turkish legal documents; the blind set's names never appear in training).
   python train_berturk.py                       # full run, ~30-60 min on an M1/M2/M3
   python train_berturk.py --limit 300 --epochs 1   # 3-minute smoke test
   python train_berturk.py --push <hf-user>/katip-tr-pii-berturk   # also upload (after `hf auth login`)
+  python train_berturk.py --real-text           # v2: also learn names from 17,967 real Turkish sentences
+
+--real-text downloads Turkish Wiki NER (Altinok 2023, CC BY-SA 4.0) once into data/wikiner/ and mixes its
+sentences into training, eight to a pseudo-document. Only its PERSON labels are used. On real text this
+took BERTurk from 41% to 90% of names found (lab/04_distill_berturk.ipynb).
 
 Labels are word-level BIO on each word's first sub-token, with the same word split the browser
 uses (src/ner.js), so predicted spans map back to exact character offsets.
@@ -30,6 +35,7 @@ ap.add_argument("--max-tokens", type=int, default=256)
 ap.add_argument("--limit", type=int, default=0, help="use only the first N training docs (smoke test)")
 ap.add_argument("--device", default="auto", help="auto | mps | cuda | cpu")
 ap.add_argument("--no-onnx", action="store_true")
+ap.add_argument("--real-text", action="store_true", help="mix in Turkish Wiki NER's real sentences (PERSON labels only)")
 ap.add_argument("--push", default="", help="Hugging Face model repo to upload to, e.g. you/katip-tr-pii-berturk")
 a = ap.parse_args()
 
@@ -47,9 +53,60 @@ out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
 def load(name):
     with gzip.open(HERE / "data" / f"{name}.jsonl.gz", "rt", encoding="utf-8") as f:
         return [json.loads(l) for l in f]
+WIKINER_URL = "https://raw.githubusercontent.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset/main/Turkish-Wiki-NER-Dataset/{split}.conll"
+NOSPACE = set(".,;:!?)]}%'’\"")
+
+def wikiner(split):
+    """Turkish Wiki NER sentences as {"text", "spans"} with PERSON spans only (the same conversion as lab/katiplab.py)."""
+    raw = HERE / "data" / "wikiner" / f"{split}.conll"
+    if not raw.exists():
+        import urllib.request
+        raw.parent.mkdir(parents=True, exist_ok=True); urllib.request.urlretrieve(WIKINER_URL.format(split=split), raw)
+    sents, cur = [], []
+    for line in raw.open(encoding="utf-8"):
+        line = line.rstrip("\n")
+        if not line.strip():
+            if cur: sents.append(cur); cur = []
+            continue
+        cur.append(line.split("\t") if "\t" in line else line.rsplit(" ", 1))
+    if cur: sents.append(cur)
+    docs = []
+    for s_ in sents:
+        text, spans, span = "", [], None
+        for w, t in s_:
+            if text and w not in NOSPACE: text += " "
+            b0 = len(text); text += w
+            if t.startswith("B-") or (t.startswith("I-") and not (span and span[2] == t[2:])):
+                if span: spans.append(span)
+                span = [b0, len(text), t[2:]]
+            elif t.startswith("I-"): span[1] = len(text)
+            else:
+                if span: spans.append(span)
+                span = None
+        if span: spans.append(span)
+        docs.append({"text": text, "spans": [[x, y, "PERSON"] for x, y, t in spans if t in ("PERSON", "PER")]})
+    return docs
+
+def pack(sents, k=8):
+    """Eight real sentences per pseudo-document, so they train like Katip's documents."""
+    out_ = []
+    for i in range(0, len(sents), k):
+        text, spans = "", []
+        for d in sents[i:i + k]:
+            if text: text += "\n"
+            o = len(text); text += d["text"]; spans += [[x + o, y + o, t] for x, y, t in d["spans"]]
+        out_.append({"text": text, "spans": spans})
+    return out_
+
 train, dev = load("train"), load("dev")
 if a.limit: train = train[:a.limit]; dev = dev[: max(40, a.limit // 10)]
 tests = {n: load(n) for n in ("blind", "heldout", "negatives")}
+if a.real_text:
+    real = wikiner("train"); random.Random(0).shuffle(real)
+    real = pack(real[: a.limit * 8] if a.limit else real)
+    print(f"+ {len(real)} real pseudo-documents from Turkish Wiki NER ({sum(len(d['spans']) for d in real)} names)", flush=True)
+    train = train + real
+    tests["wiki dev"] = wikiner("dev")[: (200 if a.limit else None)]
 
 print(f"device {dev_name} · base {a.base} · labels {LABELS} · {len(train)} train docs", flush=True)
 tok = AutoTokenizer.from_pretrained(a.base)
@@ -166,7 +223,7 @@ for ep in range(a.epochs):
             print(f"epoch {ep + 1} step {k // a.bs}/{math.ceil(len(seqs) / a.bs)} loss {loss.item():.4f} ({time.time() - t0:.0f}s)", flush=True)
     print(f"epoch {ep + 1} done ({time.time() - t0:.0f}s)"); show("dev", score(dev))
 
-results = {"base": a.base, "labels": LABELS, "epochs": a.epochs, "train_docs": len(train), "device": dev_name,
+results = {"base": a.base, "labels": LABELS, "real_text": a.real_text, "epochs": a.epochs, "train_docs": len(train), "device": dev_name,
            "train_seconds": round(time.time() - t0), "sets": {}}
 print("final scores (model alone, no rules):")
 for n, docs in tests.items():
@@ -199,6 +256,6 @@ if a.push:
     api = HfApi(); api.create_repo(a.push, repo_type="model", exist_ok=True)
     card = HERE / "MODEL_CARD.md"
     if card.exists() and not (out / "README.md").exists(): (out / "README.md").write_text(card.read_text())
-    api.upload_folder(repo_id=a.push, folder_path=str(out), repo_type="model", commit_message=f"fine-tune of {a.base}")
+    api.upload_folder(repo_id=a.push, folder_path=str(out), repo_type="model", commit_message=f"fine-tune of {a.base}" + (" with real text (v2)" if a.real_text else ""))
     print(f"uploaded: https://huggingface.co/{a.push}")
 print(f"done in {time.time() - t0:.0f}s → {out}")

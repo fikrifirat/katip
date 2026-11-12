@@ -44,6 +44,30 @@ repository root, after `hf auth login`:
 The int8 model is 110.8 MB, over GitHub's 100 MB file limit, so GitHub Pages lists Katip BERTurk
 with a link to the Space, where it runs.
 
+## v2: learn names from real text (recommended)
+
+The v1 model was trained on synthetic documents only. It finds every name in Katip's synthetic blind
+set, but only about 41% of names in real Turkish sentences once Katip's rules are added. Mixing
+17,967 real sentences from Turkish Wiki NER (Altinok 2023, CC BY-SA 4.0) into training took the
+names-only lab version to **90%** at 90% precision (`lab/04_distill_berturk.ipynb`).
+
+From `ml/berturk`, with the venv active:
+
+```bash
+python train_berturk.py --real-text --limit 300 --epochs 1
+python train_berturk.py --real-text
+```
+
+The first is a smoke test; the second takes about 35-50 min on an M1-M3. Then, from the repository root:
+
+```bash
+python lab/score_model.py ml/berturk/out
+KATIP_TRUST=0.5 python3 ml/benchmark.py ml/berturk/data berturk > metrics/accuracy-berturk.json
+```
+
+`score_model.py` picks the trust setting on the dev sets and prints real-text recall on the sealed
+Wiki NER test set. Use the trust it prints in the second command (0.5 in the lab).
+
 ## Options
 
 | Flag | Default | |
