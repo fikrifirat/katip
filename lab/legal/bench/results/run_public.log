@@ -1,0 +1,61 @@
+=== rules 20:34:23
+Katip Rules v0.2                                        KVKK-F2  53.6  leak 13.92%  contract:100/100  correspondence:100/100  court-filled:89/91  court-generated:100/100  health:99/88  petition:98/100  prose:15/60
+=== tiny 20:34:24
+Katip Tiny: rules + katip-tr-name-tagger-tiny           KVKK-F2  55.3  leak 12.97%  contract:100/100  correspondence:100/100  court-filled:94/91  court-generated:100/100  health:100/88  petition:100/100  prose:15/59
+=== kvkk-pii 20:34:27
+kvkk-pii 0.2 (regex library, MIT)                       KVKK-F2   0.0  leak 87.92%  contract:39/94  correspondence:20/100  court-filled:0/0  court-generated:9/100  health:17/100  petition:22/100  prose:0/0
+=== presidio 20:34:27
+W1113 21:34:30.871000 77017 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Presidio + spaCy xx (vanilla)                           KVKK-F2  49.6  leak 34.18%  contract:10/9  correspondence:40/55  court-filled:39/33  court-generated:35/56  health:20/62  petition:28/41  prose:75/35
+=== berturk-v2 20:34:36
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 3314.35it/s]
+Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk      KVKK-F2  93.3  leak  2.64%  contract:100/100  correspondence:100/100  court-filled:99/92  court-generated:100/100  health:100/88  petition:100/100  prose:90/87
+=== cosmos-pii 20:35:42
+W1113 21:35:44.923000 77222 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/138 [00:00<?, ?it/s]Loading weights: 100%|██████████| 138/138 [00:00<00:00, 6507.55it/s]
+ytu-ce-cosmos/modernbert-tr-pii-ner                     KVKK-F2  68.0  leak 21.63%  contract:55/89  correspondence:80/98  court-filled:97/97  court-generated:69/92  health:67/98  petition:77/99  prose:34/90
+=== kvkk-pii-ner 20:36:11
+W1113 21:36:14.233000 77261 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 7458.71it/s]
+ersanbil/kvkk-pii-ner (model only)                      KVKK-F2   0.0  leak 82.93%  contract:9/100  correspondence:7/92  court-filled:0/0  court-generated:2/100  health:0/0  petition:15/97  prose:0/0
+=== openmed-tr 20:36:37
+W1113 21:36:39.657000 77347 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/391 [00:00<?, ?it/s]Loading weights: 100%|██████████| 391/391 [00:00<00:00, 6609.09it/s]
+skip openmed-tr: RuntimeError: The size of tensor a (1413) must match the size of tensor b (512) at non-singleton dimension 1
+=== gliner 20:36:50
+W1113 21:36:52.781000 77435 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/huggingface_hub/utils/_validators.py:189: UserWarning: The `resume_download` argument is deprecated and ignored in `snapshot_download`. Downloads always resume whenever possible.
+  warnings.warn(
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 2380.76it/s]
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/gliner/data_processing/processor.py:427: UserWarning: Sentence of length 542 has been truncated to 384
+  batch = [self.preprocess_example(b["tokenized_text"], b[key], class_to_ids) for b in batch_list]
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/gliner/data_processing/processor.py:427: UserWarning: Sentence of length 549 has been truncated to 384
+  batch = [self.preprocess_example(b["tokenized_text"], b[key], class_to_ids) for b in batch_list]
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/gliner/data_processing/processor.py:427: UserWarning: Sentence of length 402 has been truncated to 384
+  batch = [self.preprocess_example(b["tokenized_text"], b[key], class_to_ids) for b in batch_list]
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/gliner/data_processing/processor.py:427: UserWarning: Sentence of length 422 has been truncated to 384
+  batch = [self.preprocess_example(b["tokenized_text"], b[key], class_to_ids) for b in batch_list]
+/Users/f1k0/Development/Personal/Projects/active/katip/ml/berturk/.venv/lib/python3.13/site-packages/gliner/data_processing/processor.py:427: UserWarning: Sentence of length 779 has been truncated to 384
+  batch = [self.preprocess_example(b["tokenized_text"], b[key], class_to_ids) for b in batch_list]
+urchade/gliner_multi_pii-v1 (person)                    KVKK-F2  91.0  leak 48.63%  contract:26/100  correspondence:66/100  court-filled:98/94  court-generated:60/100  health:47/100  petition:46/100  prose:88/75
+=== savasy 20:38:51
+W1113 21:38:54.377000 77817 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 14527.56it/s]
+[transformers] [1mBertForTokenClassification LOAD REPORT[0m from: savasy/bert-base-turkish-ner-cased
+Key                      | Status     |  | 
+-------------------------+------------+--+-
+bert.pooler.dense.weight | UNEXPECTED |  | 
+bert.pooler.dense.bias   | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+savasy/bert-base-turkish-ner-cased                      KVKK-F2  86.0  leak 51.14%  contract:24/84  correspondence:54/95  court-filled:94/99  court-generated:62/98  health:45/97  petition:44/97  prose:75/90
+=== akdeniz 20:39:32
+W1113 21:39:34.639000 77955 torch/distributed/elastic/multiprocessing/redirects.py:35] NOTE: Redirects are currently not supported in MacOs.
+Loading weights:   0%|          | 0/199 [00:00<?, ?it/s]Loading weights: 100%|██████████| 199/199 [00:00<00:00, 20832.81it/s]
+akdeniz27/xlm-roberta-base-turkish-ner                  KVKK-F2  87.9  leak 47.40%  contract:25/83  correspondence:65/93  court-filled:95/99  court-generated:62/100  health:44/100  petition:46/95  prose:78/90
+=== done 20:40:23
