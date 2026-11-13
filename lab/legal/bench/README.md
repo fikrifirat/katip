@@ -63,6 +63,7 @@ synthetic documents finds 100% of names in synthetic tests and 40.7% in real sen
 | `court` | Yargıtay and Danıştay decisions dated 2025–26, anonymised slots filled with synthetic values of the right type | target 1,000 | | | hidden |
 | `court-real` | AYM individual-application judgments with the names the court itself published (bench, applicant, lawyer) | target 150 | | | hidden |
 | `scan`, `special` | scanned copies; KVKK art. 6 special categories in context | planned v0.2 | | | hidden |
+| `photo-handwritten` | synthetic phone photos of hand-filled forms, scored on the page image (box coverage); generated, so a check column, not ranked | proposed v0.2 | | | public dev + hidden |
 
 The generated tracks are small in v0.1 (they are Katip's blind set: 16 styles × 5 documents). v0.2 adds
 test-only templates so that each has at least 150 documents.

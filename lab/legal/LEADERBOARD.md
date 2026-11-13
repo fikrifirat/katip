@@ -23,6 +23,7 @@ also asks what a lawyer asks: **was anything left readable**, and were the art. 
 | `correspondence` | e-posta, mesaj, mektup, tutanak, zabıt | generator | 200 |
 | `scan` | the same documents printed and scanned (PDF/PNG); input is the image, OCR is the submitter's job | generator offsets mapped through the reference text | 150 |
 | `prose` | Turkish Wiki NER test sentences (CC BY-SA 4.0), PERSON only | human (Altinok 2023) | 654 sentences |
+| `photo-handwritten` (proposed, v0.2) | synthetic phone photos of hand-filled forms (kira sözleşmesi, vekaletname, tutanak, onam formu), scored on the page image so OCR+rules systems and VLMs compete fairly. Generator `lab/photo_forms/make_photo_forms.py`, scorer `src/tests/test_photo_forms.mjs` (PR #6). Box gold for form-row and signature names, TCKN, building/door part of addresses; streets, mahalle and district must stay readable | generator (box per value); a value counts as masked at ≥70% box coverage, a "visible" item as readable at ≤30% | public dev seed 1311 (20 docs); hidden test: new seed, layouts and fonts |
 | `special` | KVKK art. 6 categories in context: health, religion, ethnicity, political opinion, union, sexual life, criminal record, biometric/genetic, association, dress | generator + hand check | 300 |
 
 Generators for the hidden test use templates and name pools that are never released, so a model can't
