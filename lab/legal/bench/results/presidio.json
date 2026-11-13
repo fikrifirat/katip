@@ -4,7 +4,7 @@
  "split": "public",
  "version": "v0.1",
  "runs_locally": true,
- "ms_per_doc": 4.4,
+ "ms_per_doc": 4.3,
  "tracks": {
   "contract": {
    "types": {

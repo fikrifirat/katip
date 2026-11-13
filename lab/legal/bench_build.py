@@ -41,7 +41,7 @@ def rows_public():
     K.get_wikiner()
     for d in K.load_wiki("test"):
         yield {"id": f"wiki-{d['id']}", "track": "prose", "style": "wikipedia", "source": "Turkish Wiki NER test (Altinok 2023, CC BY-SA 4.0)",
-               "text": d["text"], "spans": d["spans"]}
+               "text": d["text"], "spans": [x for x in d["spans"] if x[2] == "PERSON"]}
     for d in K.load_synth("negatives"):
         yield {"id": f"neg-{d['id']}", "track": "no-pii", "style": "legal-prose", "source": "katip negatives (name-free legal prose)",
                "text": d["text"], "spans": d["spans"]}

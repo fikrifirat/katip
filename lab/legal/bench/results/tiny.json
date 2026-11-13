@@ -5,7 +5,7 @@
  "version": "v0.1",
  "size_mb": 2.6,
  "runs_locally": true,
- "ms_per_doc": 2.3,
+ "ms_per_doc": 2.2,
  "tracks": {
   "contract": {
    "types": {
