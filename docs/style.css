@@ -153,3 +153,24 @@ details.checks{margin-top:12px;font-size:13px}details.checks summary{cursor:poin
 .ba-busy{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#0B0D10;color:var(--lime);font:600 13px/1 "Inter",sans-serif;padding:8px 14px;border-radius:999px;display:none;line-height:1}
 .ba-frame.loading .ba-busy{display:block}.ba-frame.loading .ba-o,.ba-frame.loading .ba-m{opacity:.45;transition:opacity .2s}
 .ba figcaption{align-items:center}
+
+/* v0.7: GitHub + Claude */
+.top .ghlink{display:inline-flex;align-items:center;gap:6px;color:var(--brand-ink);text-decoration:none;font-size:13.5px;padding:5px 8px;border-radius:999px}.top .ghlink:hover{color:var(--lime)}
+@media(max-width:600px){.top .ghlink span{display:none}}
+section.claude{grid-column:1/-1;max-width:760px;margin:30px auto 0;width:100%;border:1px solid var(--line);border-radius:14px;padding:16px 18px;background:var(--panel);text-align:left}
+.claude-h{margin:0;font:600 17px var(--display)}.claude-sub{margin:2px 0 12px;font-size:13.5px;color:var(--muted)}
+.chat{display:flex;flex-direction:column;gap:8px;background:var(--bg);border-radius:12px;padding:14px;font-size:14px;line-height:1.5}
+.chat .msg{max-width:88%;padding:9px 13px;border-radius:14px}
+.chat .me{align-self:flex-end;background:var(--ink);color:var(--bg);border-bottom-right-radius:4px}
+.chat .ai{align-self:flex-start;background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:4px}
+.chat .who{display:block;font-size:11.5px;font-weight:700;letter-spacing:.02em;color:var(--muted);margin-bottom:2px}
+.chat .ph{display:inline-block;background:var(--mask);color:#fff;font:600 12px var(--code);padding:1px 6px;border-radius:4px;white-space:nowrap}
+.chat .toolrow{align-self:flex-start;font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;padding:2px 4px}
+.chat .toolrow b{color:var(--ink)}.chat .toolrow code{font:12px var(--code);background:var(--off);padding:0 5px;border-radius:4px}
+.chat-cap{margin:4px 2px 0;font-size:12.5px;color:var(--muted)}
+details.claude-setup{margin-top:12px}details.claude-setup summary{cursor:pointer;font-weight:600;font-size:14px}
+section.claude a{color:var(--accent)}
+.claude-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:12px 24px;margin-top:12px}@media(max-width:700px){.claude-grid{grid-template-columns:1fr}}
+.claude-grid>div{min-width:0}.claude-grid h3{font-size:13.5px;margin:0 0 6px}.claude-grid ol{margin:0;padding-left:18px;font-size:13.5px;line-height:1.6}
+.claude-grid pre{margin:0;padding:10px 12px;border-radius:8px;background:var(--ink);color:var(--bg);font-size:12.5px;overflow-x:auto;white-space:pre}
+section.claude .hint{margin:10px 0 0;font-size:12.5px;text-align:left}details.claude a{color:var(--accent)}
