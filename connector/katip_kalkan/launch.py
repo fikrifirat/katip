@@ -15,7 +15,7 @@ import sys
 from pathlib import Path
 
 DEPS = {"onnxruntime": "onnxruntime>=1.18", "numpy": "numpy", "cryptography": "cryptography>=42",
-        "pymupdf": "pymupdf>=1.24"}  # pymupdf: text-layer PDFs (scans still go to the Katip app)
+        "pymupdf": "pymupdf>=1.24", "rapidocr": "rapidocr>=3.4"}  # pymupdf: PDFs; rapidocr: PaddleOCR for scans
 
 
 def main() -> None:

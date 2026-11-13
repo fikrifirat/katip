@@ -1,6 +1,6 @@
 [project]
 name = "katip-kalkan"
-version = "0.2.0"
+version = "0.3.0"
 description = "Use ChatGPT and Claude on client documents without sending them personal data (KVKK)"
 requires-python = ">=3.10"
 license = {text = "AGPL-3.0-or-later"}
@@ -10,6 +10,7 @@ dependencies = []  # standard library only; the engine ships as a zip, the name 
 crypto = ["cryptography>=42"]   # encrypted vault + share codes (strongly recommended)
 model = ["onnxruntime>=1.18", "numpy"]  # Katip Mask name model (launch.py fetches these with uv if missing)
 pdf = ["pymupdf>=1.24"]
+ocr = ["rapidocr>=3.4", "pymupdf>=1.24"]  # PaddleOCR (bundled ONNX models); Tesseract is used too when installed
 dev = ["pytest>=8", "cryptography>=42"]
 
 [project.scripts]
@@ -19,4 +20,4 @@ katip-kalkan = "katip_kalkan.cli:main"
 include = ["katip_kalkan*"]
 
 [tool.setuptools.package-data]
-katip_kalkan = ["engine.zip", "models/*/*.json", "models/*/onnx/*.onnx", "models/README.md"]
+katip_kalkan = ["engine.zip", "models/*/*.json", "models/*/onnx/*.onnx", "models/README.md", "ocr_models/*/*"]

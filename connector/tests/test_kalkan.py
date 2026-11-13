@@ -310,3 +310,50 @@ def test_udf_signature_is_dropped(tmp_path):
     with zipfile.ZipFile(out) as z:
         assert not [n for n in z.namelist() if n.lower().endswith(".sgn")]
         assert "75428707268" not in z.read("content.xml").decode("utf-8")
+
+
+# ------------------------------------------------------------------ profiles (src/app.js PROFILES)
+def test_profiles_ladder(tmp_path):
+    from katip_kalkan import core
+    f = tmp_path / "karar.txt"
+    f.write_text("İstanbul 3. Asliye Hukuk Mahkemesi 2023/145 Esas, 2024/77 Karar sayılı dosyada davacı "
+                 "Ayşe Kaya, Bağdat Caddesi No:12 D:4 Kadıköy/İstanbul adresinde oturmaktadır. "
+                 "Vekili Av. Mehmet Demir (İstanbul Barosu sicil no 34507). Karar tarihi 12.03.2024.", encoding="utf-8")
+    court = core.mask_file(str(f), "p1", profile="court")["masked_text"]
+    ai = core.mask_file(str(f), "p2")["masked_text"]  # default profile
+    anon = core.mask_file(str(f), "p3", profile="anon")["masked_text"]
+    for t in (court, ai, anon):
+        assert "Ayşe Kaya" not in t and "Mehmet Demir" not in t
+    assert "Bağdat Caddesi" in court and "2023/145" in court      # court: street and case number readable
+    assert "Bağdat Caddesi" not in ai and "2023/145" not in ai    # ai: whole address and case number masked
+    assert "12.03.2024" in ai and "12.03.2024" not in anon        # anon: dates too
+    assert "Asliye Hukuk" not in anon
+    with pytest.raises(ValueError):
+        core.mask_file(str(f), "p4", profile="nope")
+
+
+# ------------------------------------------------------------------ local OCR (scans and phone photos)
+def _ocr_ready():
+    from katip_kalkan import ocr
+    return bool(ocr.available()) and all(__import__("importlib").util.find_spec(m) for m in ("pymupdf", "numpy"))
+
+
+@pytest.mark.skipif(not _ocr_ready(), reason="no OCR installed")
+def test_scanned_pdf_is_read_and_masked():
+    from katip_kalkan import core
+    doc = core.mask_file(str(FIX / "dilekce_01.scan.pdf"), "scan")
+    t = doc["masked_text"]
+    assert "ocr" in doc and "MAHKEME" in t.upper() and "[AD SOYAD-1]" in t
+    for g in GOLD:
+        assert g["text"] not in t, g["text"]
+
+
+@pytest.mark.skipif(not _ocr_ready(), reason="no OCR installed")
+def test_handwritten_photo_form():
+    from katip_kalkan import core
+    gold = json.loads((FIX / "kira_foto_01.gold.json").read_text(encoding="utf-8"))["entities"]
+    doc = core.mask_file(str(FIX / "kira_foto_01.pdf"), "photo")
+    t = doc["masked_text"]
+    assert "paddle" in doc["ocr"] or "tesseract" in doc["ocr"]
+    left = [g["text"] for g in gold if g["text"] and g["text"] in t]
+    assert left == [], left  # synthetic, handwritten in blue ballpoint fonts (lab/photo_forms)

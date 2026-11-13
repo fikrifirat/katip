@@ -1,6 +1,6 @@
 ---
 name: kvkk-safe-documents
-description: Use whenever the user asks Claude to read, summarise, review, translate or draft from a client document on their computer (dilekçe, sözleşme, bilirkişi raporu, epikriz, UYAP .udf, .docx, .pdf, .txt). Masks personal data locally with Katip before Claude sees it.
+description: Use whenever the user asks Claude to read, summarise, review, translate or draft from a client document on their computer (dilekçe, sözleşme, bilirkişi raporu, epikriz, UYAP .udf, .docx, .pdf, scans, photos, .txt). Masks personal data locally with Katip before Claude sees it.
 ---
 
 # KVKK-safe document work with Katip
@@ -20,5 +20,9 @@ Client documents contain personal data that must not be sent to an AI provider u
    and an output path. Tell the user the path. You will not see the real values, and that is
    intended.
 6. If the user wants to send a masked copy to someone, use `write_masked_copy`.
-7. If `mask_file` fails (scanned PDF, unsupported type), tell the user to open the file in the
-   Katip app, which runs OCR on their computer. Do not fall back to reading the file directly.
+7. Scans and phone photos are read with OCR on the user's computer. The result says so in `ocr`;
+   mention that OCR can misread a letter, so the user should check unusual spellings.
+8. Profiles: use the default `ai` (Yapay zekâ ile paylaşım). Use `court` (Mahkemeye sunum) only for a
+   copy that goes to court, and `anon` (Tam anonim) when the user wants nothing identifying at all.
+9. If `mask_file` fails, tell the user why and suggest the Katip app. Never fall back to reading the
+   file directly.

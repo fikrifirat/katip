@@ -67,19 +67,54 @@ def _propagate(text: str, spans: list[dict], known: list[tuple[str, str]]) -> li
     return sorted(out, key=lambda s: s["start"])
 
 
-def _detect(text: str, v) -> list[dict]:
-    known = [(k.split("|", 1)[0], v.values[lab]) for k, lab in v.labels.items()]
-    return _propagate(text, engine.detect(text, _threshold()), known)
+def _leaks(masked: str, spans: list[dict]) -> list[str]:
+    """Detected values still readable in the output, as whole words (a 6-digit registry number inside a
+    16-digit Mersis number is not a leak; the browser's substring check would flag it)."""
+    import re
+    out = []
+    for s in spans:
+        words = s["text"].split()
+        if len(re.sub(r"\W", "", s["text"])) < 4:
+            continue
+        pat = r"(?<!\w)" + r"\W*".join(re.escape(w) for w in words) + r"(?!\w)"
+        if re.search(pat, masked, re.I):
+            out.append(s["id"])
+    return out
 
 
-def mask_file(path: str, matter: str = "default", page: int = 1) -> dict:
+def _profile(profile: str | None) -> str:
+    return profile or os.environ.get("KATIP_PROFILE", "ai")
+
+
+def _detect(text: str, v, profile: str, ocr_ranges=()) -> list[dict]:
+    types, addr = engine.profile_types(profile)
+    known = [(k.split("|", 1)[0], v.values[lab]) for k, lab in v.labels.items() if k.split("|", 1)[0] in types]
+    spans = engine.detect(text, _threshold(), types, ocr_ranges=ocr_ranges, address_detail=addr)
+    return _propagate(text, spans, known)
+
+
+_read_cache: dict = {}
+
+
+def _read(p: Path):
+    """read_text with a small cache, so paging through a long scan runs OCR once."""
+    key = (str(p), p.stat().st_mtime, p.stat().st_size)
+    if key not in _read_cache:
+        if len(_read_cache) > 8:
+            _read_cache.clear()
+        _read_cache[key] = engine.read_text(p)
+    return _read_cache[key]
+
+
+def mask_file(path: str, matter: str = "default", page: int = 1, profile: str | None = None) -> dict:
     """Read a file on this device, mask it, return only the masked text."""
     p = _resolve(path)
-    kind, text, _ = engine.read_text(p)
+    profile = _profile(profile)
+    kind, text, _, ocr_ranges, readers = _read(p)
     v = vault.open_vault(matter)
-    spans = _detect(text, v)
+    spans = _detect(text, v, profile, ocr_ranges)
     masked = v.mask(text, spans)
-    leaks = engine.leaked(masked, spans)
+    leaks = _leaks(masked, spans)
     if leaks:  # never hand over text that still contains a detected value
         raise RuntimeError(f"leak check failed on {len(leaks)} values; nothing was returned")
     doc_id = hashlib.sha256(f"{matter}|{p}|{p.stat().st_mtime}".encode()).hexdigest()[:12]
@@ -93,6 +128,9 @@ def mask_file(path: str, matter: str = "default", page: int = 1) -> dict:
         "matter": matter,
         "file_name": f"belge{p.suffix.lower()}",  # the real name can be personal data ("Ayşe_Kaya_epikriz.pdf")
         "kind": kind,
+        "profile": f"{profile} ({engine.PROFILES[profile]['label']})",
+        **({"ocr": f"{len(readers)} page(s) read with local OCR ({', '.join(sorted(set(readers)))}); "
+                   "check unusual spellings, OCR can misread letters"} if readers else {}),
         "masked_text": chunk,
         "page": page, "pages": pages,
         "entity_counts": _counts(spans),
@@ -103,14 +141,15 @@ def mask_file(path: str, matter: str = "default", page: int = 1) -> dict:
     }
 
 
-def write_redacted(path: str, matter: str = "default", output_path: str | None = None) -> dict:
+def write_redacted(path: str, matter: str = "default", output_path: str | None = None,
+                   profile: str | None = None) -> dict:
     """Write a masked copy of the file next to the original (same format), return its path only."""
     p = _resolve(path)
-    kind, text, data = engine.read_text(p)
-    if kind == "pdf":
-        raise ValueError("burn-in PDF redaction runs in the Katip app (MuPDF); use mask_file for PDF text")
+    kind, text, data, ocr_ranges, _ = _read(p)
+    if kind in ("pdf", "image"):
+        raise ValueError("burn-in PDF and photo redaction runs in the Katip app (MuPDF); use mask_file for the text")
     v = vault.open_vault(matter)
-    spans = _detect(text, v)
+    spans = _detect(text, v, _profile(profile), ocr_ranges)
     for s in spans:  # register labels so restore works for this copy too
         v.label_for(s["entity_type"], s["text"])
     v.save()
@@ -141,8 +180,10 @@ def forget_matter(matter: str) -> dict:
 
 
 def status() -> dict:
-    from . import ner
-    return {"engine": ner.describe(), "threshold": _threshold(),
+    from . import ner, ocr
+    return {"engine": ner.describe(),
+            "ocr": ", ".join(ocr.available()) or "none (scans and photos can't be read)",
+            "default_profile": _profile(None), "threshold": _threshold(),
             "vault": "encrypted on this device" if vault.persistent() else "memory only",
             "expired_vaults_purged": vault.purge_expired(),
             "allowed_dirs": os.environ.get("KATIP_ALLOWED_DIRS") or "any"}

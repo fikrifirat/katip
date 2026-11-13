@@ -24,6 +24,16 @@ helpers (onnxruntime and numpy for the name model, cryptography for the encrypte
 first start. Without them it still runs, on rules only and with the map in memory only, and
 `katip_status` says so.
 
+**Profiles** (same as the Katip app): `ai` = Yapay zekâ ile paylaşım, the default here (all personal data,
+the whole address, case/UYAP and bar numbers); `court` = Mahkemeye sunum (streets, case numbers and dates
+stay readable); `anon` = Tam anonim (also dates, provinces, courts, companies and institutions).
+
+**Scans and photos** are read on your computer: PaddleOCR PP-OCRv5 (bundled, 13 MB, via RapidOCR) for
+handwriting and phone photos, and Tesseract for clean printed scans when it is installed
+(`brew install tesseract tesseract-lang`), the same "Otomatik" routing as the app. On the 48 printed blind
+scans no value was readable after masking; on 6 synthetic handwritten lease photos 47 of 48 values were
+masked (one block/door number survived).
+
 **Models.** The plugin ships **Katip Mask Nano · tr v1.1** (2.5 MB, Turkish and foreign client
 names, trust 0.5) next to the rules. For the 110 MB **Katip Mask Base · tr v2**, download it from
 Hugging Face and run `katip-kalkan install-model <folder> --trust 0.5`. See
@@ -48,7 +58,7 @@ the relay. The relay only ever holds masked text, encrypted, in memory.
 
 | Tool | What it does | Returns |
 |---|---|---|
-| `mask_file` | Opens a .docx, .udf, .txt or text-layer .pdf on your computer and masks it | masked text, counts |
+| `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it | masked text, counts |
 | `write_masked_copy` | Saves `name.maskeli.docx` next to the original | path |
 | `restore_to_file` | Puts the real values back into the AI's text and saves it on your computer | path and count only |
 | `forget_matter` | Deletes a matter's placeholder map | ok |
@@ -59,7 +69,7 @@ the relay. The relay only ever holds masked text, encrypted, in memory.
 
 ```
 cd connector
-python -m pytest -q                       # 20 tests: formats, model, vault crypto, stdio MCP, relay
+python -m pytest -q                       # 23 tests: formats, model, profiles, OCR, vault crypto, stdio MCP, relay
 python -m katip_kalkan.local_server       # stdio MCP server
 python -m katip_kalkan relay --port 8787  # relay (put TLS in front)
 python build_bundle.py                    # dist/katip-kalkan.mcpb
@@ -73,7 +83,7 @@ optional. The detection engine is `katip_kalkan/engine.zip`, the same bundle the
 same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
 Face `tokenizers` exactly.
 Settings: `KATIP_THRESHOLD` (0.7), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
-`KATIP_ADDRESS_DETAIL` (`street` keeps street names readable, `full`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
+`KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`.
 
 Blind set (80 synthetic legal documents, 757 values, threshold 0.7, whole-address scoring):

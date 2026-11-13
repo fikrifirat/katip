@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Elif TEKİN",
+   "box": [
+    464.0,
+    772.2,
+    564.7,
+    801.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "31101696052",
+   "box": [
+    456.4,
+    822.7,
+    552.5,
+    850.4
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları B Blok D:37",
+   "box": [
+    461.8,
+    898.9,
+    715.0,
+    938.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem ARSLAN",
+   "box": [
+    454.5,
+    942.7,
+    598.8,
+    969.6
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "84545657868",
+   "box": [
+    454.3,
+    998.1,
+    575.5,
+    1023.3
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları A Blok D:39",
+   "box": [
+    453.8,
+    1074.5,
+    702.3,
+    1104.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem ARSLAN",
+   "box": [
+    294.9,
+    1426.1,
+    439.0,
+    1451.6
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Elif TEKİN",
+   "box": [
+    703.0,
+    1418.3,
+    797.4,
+    1443.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Hürriyet Mah.",
+   "box": [
+    462.6,
+    619.5,
+    593.3,
+    657.5
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2579 Sk. Barış Manço Cad.",
+   "box": [
+    458.8,
+    662.1,
+    723.6,
+    706.0
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Karşıyaka Mah. Alparslan Türkeş Cad. 687 Sk.",
+   "box": [
+    458.5,
+    863.2,
+    894.8,
+    910.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    740.5,
+    899.6,
+    958.7,
+    932.4
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Esentepe Mah. Turgut Özal Cad. 1953 Sk.",
+   "box": [
+    458.0,
+    1033.3,
+    859.6,
+    1076.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    724.6,
+    1075.7,
+    876.1,
+    1108.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 69
+}

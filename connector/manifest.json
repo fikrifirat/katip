@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "katip-kalkan",
   "display_name": "Katip Kalkan (KVKK)",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Mask Turkish personal data on your computer before Claude reads a document.",
-  "long_description": "Katip opens client documents (.docx, UYAP .udf, .txt, text-layer .pdf) on your computer, removes names, T.C. kimlik numbers, addresses, phones, IBANs and KVKK Article 6 data locally, and gives Claude only the masked text. The placeholder map stays encrypted on your computer; restore_to_file writes the final document with real names locally, without showing them to Claude. No network access.",
+  "long_description": "Katip opens client documents (.docx, UYAP .udf, .txt, .pdf, scans and phone photos (local OCR)) on your computer, removes names, T.C. kimlik numbers, addresses, phones, IBANs and KVKK Article 6 data locally, and gives Claude only the masked text. The placeholder map stays encrypted on your computer; restore_to_file writes the final document with real names locally, without showing them to Claude. No network access.",
   "author": {
     "name": "fikrifirat",
     "url": "https://github.com/fikrifirat"
@@ -39,14 +39,14 @@
       "env": {
         "PYTHONPATH": "${__dirname}/server",
         "KATIP_THRESHOLD": "${user_config.threshold}",
-        "KATIP_ADDRESS_DETAIL": "${user_config.address_detail}"
+        "KATIP_PROFILE": "${user_config.profile}"
       }
     }
   },
   "tools": [
     {
       "name": "mask_file",
-      "description": "Open a document on this computer and return only masked text"
+      "description": "Open a document, scan or photo on this computer and return only masked text"
     },
     {
       "name": "write_masked_copy",
@@ -80,12 +80,12 @@
       "required": false,
       "default": "0.7"
     },
-    "address_detail": {
+    "profile": {
       "type": "string",
-      "title": "Address masking",
-      "description": "street = keep mahalle, street and district readable, mask building and door (default); full = mask the whole address.",
+      "title": "Masking profile",
+      "description": "ai = Yapay zekâ ile paylaşım (recommended); court = Mahkemeye sunum; anon = Tam anonim.",
       "required": false,
-      "default": "street"
+      "default": "ai"
     }
   },
   "compatibility": {

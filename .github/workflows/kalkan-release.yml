@@ -18,7 +18,7 @@ jobs:
           python-version: "3.12"
       - name: Test
         run: |
-          pip install pytest cryptography onnxruntime numpy tokenizers
+          pip install pytest cryptography onnxruntime numpy tokenizers pymupdf rapidocr
           cd connector && python -m pytest -q
       - name: Build bundle
         run: python connector/build_bundle.py

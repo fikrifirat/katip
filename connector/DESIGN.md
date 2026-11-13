@@ -147,7 +147,8 @@ output. If one is still there, the call fails and nothing is returned.
    happen in the browser (WebCrypto) and lawyers don't need the CLI.
 2. Done in v0.2: the connector runs Katip Mask Nano · tr v1.1 on the device (fixes the
    all-caps surname miss, `Emal YILDIRIM`) and takes Base · tr v2 via `install-model`.
-3. Support scanned PDFs locally (Tesseract), plus burn-in PDF copies (MuPDF needs the Artifex
-   licence for closed distribution).
+3. Done in v0.3: scans and photos are read locally (PaddleOCR + Tesseract, "Otomatik" routing).
+   Still open: burn-in PDF copies from the connector (MuPDF needs the Artifex licence for closed
+   distribution); use the Katip app for those.
 4. Bundle `cryptography` wheels per platform, sign releases, and submit the plugin.
 5. Deploy the relay in a Turkish region behind TLS, then submit it to OpenAI and Anthropic.
