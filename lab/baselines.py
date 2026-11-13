@@ -29,11 +29,21 @@ def presidio():
     det("Ali Veli")  # fail early if the worker can't start
     return det
 
+_MAP = [("TCKN", ("TCKN", "TC_KIMLIK", "NATIONAL_ID", "IDCARD", "ID_NUM", "SSN")), ("IBAN", ("IBAN",)), ("EMAIL", ("EMAIL", "MAIL")),
+        ("PHONE", ("PHONE", "TEL")), ("ADDRESS", ("ADDRESS", "ADRES", "STREET")), ("BIRTH_DATE", ("BIRTH", "DOB", "DOGUM")),
+        ("PLATE", ("PLATE", "PLAKA")), ("PERSON", ("PER", "NAME", "AD_SOYAD", "AD", "SOYAD", "FIRST", "LAST"))]
+def map_label(lab):
+    """Off-the-shelf label -> Katip entity type (None = not PII we score)."""
+    u = lab.upper().replace("B-", "").replace("I-", "")
+    for t, keys in _MAP:
+        if any(k == u or k in u.split("_") or (len(k) >= 4 and u.startswith(k)) for k in keys): return t
+    return None
+
 def _hf(model_id):
     def make():
         from transformers import pipeline
         nlp = pipeline("token-classification", model=model_id, aggregation_strategy="simple")
-        return lambda text: [(e["start"], e["end"], "PERSON") for e in nlp(text) if e["entity_group"] in ("PER", "PERSON")]
+        return lambda text: [(e["start"], e["end"], t) for e in nlp(text) if (t := map_label(e["entity_group"]))]
     return make
 
 def gliner():
@@ -44,7 +54,11 @@ def gliner():
 BASELINES = {"presidio": ("R1 Presidio + spaCy xx (vanilla)", presidio),
              "savasy": ("X1 savasy BERTurk NER", _hf("savasy/bert-base-turkish-ner-cased")),
              "akdeniz": ("X2 XLM-R Turkish NER", _hf("akdeniz27/xlm-roberta-base-turkish-ner")),
-             "gliner": ("X3 GLiNER multi PII", gliner)}
+             "gliner": ("X3 GLiNER multi PII", gliner),
+             # Turkish PII models published on Hugging Face (added 13 Nov 2026, before any of them was run)
+             "cosmos-pii": ("X4 ytu-ce-cosmos ModernBERT-TR PII", _hf("ytu-ce-cosmos/modernbert-tr-pii-ner")),
+             "kvkk-pii-ner": ("X5 ersanbil kvkk-pii-ner", _hf("ersanbil/kvkk-pii-ner")),
+             "openmed-tr": ("X6 OpenMed PII Turkish (335M)", _hf("OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1"))}
 
 def with_rules(det):
     r = K.rules()

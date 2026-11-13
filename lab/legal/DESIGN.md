@@ -175,3 +175,9 @@ One BERTurk fine-tune took 28 min on fikri's Mac (MPS). This study needs about 2
    level (rules + model) only.
 4. The slot detector was checked against TurkishLegalNER's own tags before use: it marks 99.1% of
    person slots as PERSON at 89.1% precision (`lab/legal/validate_slots.py`).
+
+**A2, 13 Nov 2026 (before any baseline other than Presidio was run).** Three Turkish PII models found
+on Hugging Face join the off-the-shelf baselines: X4 `ytu-ce-cosmos/modernbert-tr-pii-ner`, X5
+`ersanbil/kvkk-pii-ner`, X6 `OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1`. Their labels are
+mapped to Katip types by `baselines.map_label`. The study's 2025–26 test splits will also serve as the
+hidden test of the public leaderboard (`LEADERBOARD.md`), so they stay unpublished.
