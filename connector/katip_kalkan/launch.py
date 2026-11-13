@@ -12,13 +12,17 @@ import importlib.util
 import os
 import shutil
 import sys
+from pathlib import Path
 
 DEPS = {"onnxruntime": "onnxruntime>=1.18", "numpy": "numpy", "cryptography": "cryptography>=42"}
 
 
 def main() -> None:
     missing = [spec for mod, spec in DEPS.items() if importlib.util.find_spec(mod) is None]
-    uv = shutil.which("uv")
+    # Claude Desktop starts servers with a short PATH that often lacks Homebrew and ~/.local/bin
+    uv = shutil.which("uv") or next((str(c) for c in (Path.home() / ".local/bin/uv", Path.home() / ".cargo/bin/uv",
+                                                     Path("/opt/homebrew/bin/uv"), Path("/usr/local/bin/uv"))
+                                     if c.exists()), None)
     if missing and uv and not os.environ.get("KATIP_LAUNCHED") and os.environ.get("KATIP_AUTO_DEPS", "1") != "0":
         os.environ["KATIP_LAUNCHED"] = "1"
         args = [uv, "run", "--quiet", "--no-project", "--python", ">=3.10"]
