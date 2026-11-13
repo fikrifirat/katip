@@ -8,9 +8,9 @@
  "params": 334170188,
  "size_mb": 1336.7,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 41.6,
- "words_per_s": 802.0,
- "ms_per_page": 624.0,
+ "ms_per_doc": 39.9,
+ "words_per_s": 837.0,
+ "ms_per_page": 598.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -105,7 +105,7 @@
    "f2": 0.08130803376101776,
    "special_category_recall": 0.0,
    "false_per_1k_words": 60.18295618680789,
-   "leak_rate": 0.6060111835973905,
+   "leak_rate": 0.429403541472507,
    "clean_doc_rate": 0.0
   },
   "correspondence": {
@@ -172,7 +172,7 @@
    "f2": 0.085603162296478,
    "special_category_recall": 0.0,
    "false_per_1k_words": 23.726448011165388,
-   "leak_rate": 0.679346370211626,
+   "leak_rate": 0.5354942405571926,
    "clean_doc_rate": 0.0
   },
   "court-filled": {
@@ -218,8 +218,8 @@
    "f2": 0.007567818409236887,
    "special_category_recall": NaN,
    "false_per_1k_words": 29.905289764594816,
-   "leak_rate": 0.9542157953281424,
-   "clean_doc_rate": 0.0
+   "leak_rate": 0.8297219132369299,
+   "clean_doc_rate": 0.01060070671378092
   },
   "court-generated": {
    "types": {
@@ -271,7 +271,7 @@
    "f2": 0.0755840586349061,
    "special_category_recall": NaN,
    "false_per_1k_words": 14.705882352941176,
-   "leak_rate": 0.8131399317406144,
+   "leak_rate": 0.6911262798634812,
    "clean_doc_rate": 0.0
   },
   "health": {
@@ -331,7 +331,7 @@
    "f2": 0.049493420286479566,
    "special_category_recall": 0.0,
    "false_per_1k_words": 4.1928721174004195,
-   "leak_rate": 0.7884250474383302,
+   "leak_rate": 0.5910815939278937,
    "clean_doc_rate": 0.0
   },
   "no-pii": {
@@ -430,7 +430,7 @@
    "f2": 0.03612742480868482,
    "special_category_recall": 0.0,
    "false_per_1k_words": 20.31488065007618,
-   "leak_rate": 0.695324881141046,
+   "leak_rate": 0.5404120443740095,
    "clean_doc_rate": 0.0
   },
   "prose": {
@@ -476,13 +476,13 @@
    "f2": 0.015124111263564924,
    "special_category_recall": NaN,
    "false_per_1k_words": 16.67217995368839,
-   "leak_rate": 0.9673622257891921,
-   "clean_doc_rate": 0.0
+   "leak_rate": 0.7207062600321027,
+   "clean_doc_rate": 0.0332541567695962
   }
  },
  "missing_predictions": 0,
  "KVKK-F2": 0.011345964836400905,
  "F2 generated": 0.06562321995751325,
  "F2 all tracks": 0.050115432780052586,
- "leak_rate": 0.786260776463763
+ "leak_rate": 0.6197065533520166
 }

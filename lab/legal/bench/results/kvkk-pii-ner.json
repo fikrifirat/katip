@@ -8,19 +8,19 @@
  "params": 110036749,
  "size_mb": 440.1,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 11.9,
- "words_per_s": 2804.0,
- "ms_per_page": 178.0,
+ "ms_per_doc": 14.0,
+ "words_per_s": 2381.0,
+ "ms_per_page": 210.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
    "types": {
     "PERSON": {
      "gold": 50,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.36,
+     "precision": 0.9743589743589743,
+     "f2": 0.41194892796916405,
+     "exact_recall": 0.2
     },
     "TCKN": {
      "gold": 30,
@@ -59,10 +59,10 @@
     },
     "HEALTH": {
      "gold": 10,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.2,
+     "precision": 1.0,
+     "f2": 0.23809523809523808,
+     "exact_recall": 0.2
     },
     "VKN": {
      "gold": 10,
@@ -100,22 +100,22 @@
      "exact_recall": 0.0
     }
    },
-   "recall": 0.09183673469387756,
-   "precision": 1.0,
-   "f2": 0.11221945137157106,
-   "special_category_recall": 0.0,
-   "false_per_1k_words": 0.0,
-   "leak_rate": 0.6612301957129544,
+   "recall": 0.19387755102040816,
+   "precision": 0.9894736842105263,
+   "f2": 0.23102993299355806,
+   "special_category_recall": 0.18181818181818182,
+   "false_per_1k_words": 0.4814636494944632,
+   "leak_rate": 0.5696644920782852,
    "clean_doc_rate": 0.0
   },
   "correspondence": {
    "types": {
     "PERSON": {
      "gold": 145,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.5586206896551724,
+     "precision": 0.953125,
+     "f2": 0.6090375702593432,
+     "exact_recall": 0.38620689655172413
     },
     "EMAIL": {
      "gold": 15,
@@ -140,10 +140,10 @@
     },
     "HEALTH": {
      "gold": 5,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.4,
+     "precision": 1.0,
+     "f2": 0.45454545454545453,
+     "exact_recall": 0.4
     },
     "TCKN": {
      "gold": 10,
@@ -167,22 +167,22 @@
      "exact_recall": 0.0
     }
    },
-   "recall": 0.06976744186046512,
-   "precision": 0.92,
-   "f2": 0.08558670305135202,
-   "special_category_recall": 0.0,
-   "false_per_1k_words": 1.3956734124214933,
-   "leak_rate": 0.7441735869274042,
+   "recall": 0.4558139534883721,
+   "precision": 0.9483870967741935,
+   "f2": 0.5086505190311419,
+   "special_category_recall": 0.4,
+   "false_per_1k_words": 5.582693649685973,
+   "leak_rate": 0.4610233056522904,
    "clean_doc_rate": 0.0
   },
   "court-filled": {
    "types": {
     "PERSON": {
      "gold": 1643,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.5033475349969568,
+     "precision": 0.9974811083123426,
+     "f2": 0.5587016105671053,
+     "exact_recall": 0.2988435788192331
     },
     "ADDRESS": {
      "gold": 0,
@@ -190,24 +190,31 @@
      "precision": 0.0,
      "f2": NaN,
      "exact_recall": NaN
+    },
+    "HEALTH": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
     }
    },
-   "recall": 0.0,
-   "precision": 0.0,
-   "f2": 0.0,
+   "recall": 0.5033475349969568,
+   "precision": 0.9765721331689272,
+   "f2": 0.5573647897849473,
    "special_category_recall": NaN,
-   "false_per_1k_words": 0.8526966531656364,
-   "leak_rate": 0.9974638487208008,
-   "clean_doc_rate": 0.0
+   "false_per_1k_words": 1.1572311721533637,
+   "leak_rate": 0.42496106785317017,
+   "clean_doc_rate": 0.1872791519434629
   },
   "court-generated": {
    "types": {
     "PERSON": {
      "gold": 40,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.575,
+     "precision": 1.0,
+     "f2": 0.628415300546448,
+     "exact_recall": 0.325
     },
     "TCKN": {
      "gold": 5,
@@ -245,22 +252,22 @@
      "exact_recall": 0.0
     }
    },
-   "recall": 0.015384615384615385,
+   "recall": 0.36923076923076925,
    "precision": 1.0,
-   "f2": 0.019157088122605366,
+   "f2": 0.4225352112676056,
    "special_category_recall": NaN,
    "false_per_1k_words": 0.0,
-   "leak_rate": 0.8174061433447098,
+   "leak_rate": 0.4667235494880546,
    "clean_doc_rate": 0.0
   },
   "health": {
    "types": {
     "PERSON": {
      "gold": 35,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.5142857142857142,
+     "precision": 1.0,
+     "f2": 0.5696202531645569,
+     "exact_recall": 0.3142857142857143
     },
     "BIRTH_DATE": {
      "gold": 10,
@@ -305,22 +312,22 @@
      "exact_recall": 0.0
     }
    },
-   "recall": 0.0,
-   "precision": 0.0,
-   "f2": 0.0,
+   "recall": 0.24,
+   "precision": 1.0,
+   "f2": 0.2830188679245283,
    "special_category_recall": 0.0,
    "false_per_1k_words": 0.0,
-   "leak_rate": 1.0,
+   "leak_rate": 0.7817836812144212,
    "clean_doc_rate": 0.0
   },
   "petition": {
    "types": {
     "PERSON": {
      "gold": 95,
-     "recall": 0.0,
-     "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "recall": 0.5473684210526316,
+     "precision": 1.0,
+     "f2": 0.6018518518518519,
+     "exact_recall": 0.3894736842105263
     },
     "TCKN": {
      "gold": 25,
@@ -374,27 +381,34 @@
     "HEALTH": {
      "gold": 1,
      "recall": 0.0,
-     "precision": 0.0,
+     "precision": 1.0,
      "f2": 0.0,
      "exact_recall": 0.0
     }
    },
-   "recall": 0.14563106796116504,
-   "precision": 0.972972972972973,
-   "f2": 0.17547280171573404,
+   "recall": 0.39805825242718446,
+   "precision": 0.9883040935672515,
+   "f2": 0.45205443703597387,
    "special_category_recall": 0.0,
    "false_per_1k_words": 1.015744032503809,
-   "leak_rate": 0.5863708399366085,
+   "leak_rate": 0.401743264659271,
    "clean_doc_rate": 0.0
   },
   "prose": {
    "types": {
     "PERSON": {
      "gold": 654,
-     "recall": 0.0,
+     "recall": 0.09480122324159021,
+     "precision": 0.9754601226993865,
+     "f2": 0.11569064663771857,
+     "exact_recall": 0.053516819571865444
+    },
+    "HEALTH": {
+     "gold": 0,
+     "recall": NaN,
      "precision": 0.0,
-     "f2": 0.0,
-     "exact_recall": 0.0
+     "f2": NaN,
+     "exact_recall": NaN
     },
     "ADDRESS": {
      "gold": 0,
@@ -404,18 +418,18 @@
      "exact_recall": NaN
     }
    },
-   "recall": 0.0,
-   "precision": 0.0,
-   "f2": 0.0,
+   "recall": 0.09480122324159021,
+   "precision": 0.4774774774774775,
+   "f2": 0.11289768432625576,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.6387694343367514,
-   "leak_rate": 0.99812734082397,
-   "clean_doc_rate": 0.0
+   "false_per_1k_words": 11.511743301356269,
+   "leak_rate": 0.8361423220973783,
+   "clean_doc_rate": 0.06413301662707839
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.0,
- "F2 generated": 0.0784872088522525,
- "F2 all tracks": 0.056062292037323214,
- "leak_rate": 0.8292531364952069
+ "KVKK-F2": 0.33513123705560155,
+ "F2 generated": 0.37945779365056154,
+ "F2 all tracks": 0.3667930631948587,
+ "leak_rate": 0.5631488118632673
 }
