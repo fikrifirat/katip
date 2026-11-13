@@ -4,6 +4,8 @@
 #   ./publish_hf.sh [hf-username]
 # If ml/berturk/out exists (after train_berturk.py), the BERTurk model is uploaded too and
 # the Space gets a copy of its browser files, so "Katip BERTurk" runs there. No retraining.
+# Hugging Face serves large and binary files (samples, models, wasm, fonts) from its CDN after a redirect,
+# so the Space copy of index.html allows *.hf.co and *.huggingface.co; still nothing but this site and HF.
 set -euo pipefail
 U="${1:-f1k}"
 cd "$(dirname "$0")"
@@ -19,6 +21,14 @@ fi
 
 hf repos create "$U/katip-yerel" --repo-type space --space-sdk static --public --exist-ok
 tmp="$(mktemp -d)"; cp -r docs/. "$tmp/"; cp hf/space/README.md "$tmp/README.md"
+python3 - "$tmp/index.html" <<'PY'
+import re, sys
+p = sys.argv[1]; s = open(p, encoding="utf-8").read()
+hf = " https://*.hf.co https://*.huggingface.co"
+for d in ("connect-src", "script-src", "font-src", "img-src"):
+    s = re.sub(rf"({d} [^;\"]*)", lambda m: m.group(1) + hf, s, count=1)
+open(p, "w", encoding="utf-8").write(s)
+PY
 if [ -f "$BT/onnx/model_quantized.onnx" ]; then
   M="$tmp/models/katip-tr-pii-berturk"; mkdir -p "$M/onnx"
   cp "$BT/config.json" "$BT/tokenizer.json" "$BT/tokenizer_config.json" "$M/"
