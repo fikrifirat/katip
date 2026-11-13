@@ -1,0 +1,32 @@
+name: Katip Kalkan release
+
+on:
+  push:
+    tags: ["kalkan-v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test
+        run: |
+          pip install pytest cryptography onnxruntime numpy tokenizers
+          cd connector && python -m pytest -q
+      - name: Build bundle
+        run: python connector/build_bundle.py
+      - name: Publish
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" connector/dist/katip-kalkan.mcpb \
+            --title "Katip Kalkan ${GITHUB_REF_NAME#kalkan-v}" --prerelease \
+            --notes-file connector/RELEASE_NOTES.md
