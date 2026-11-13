@@ -42,8 +42,8 @@ SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 # (header, tracks, types, weight in Overall, measured on real text?)
 GEN_TRACKS = {"petition", "contract", "correspondence", "health", "court-generated", "petition-foreign"}
 DIMS = {
-    "tr_names": ("🇹🇷 Names", {"court", "court-real", "court-filled", "court-turkish"}, {"PERSON"}, 25, True),
-    "foreign":  ("🌍 Names", {"court-foreign"}, {"PERSON"}, 10, True),
+    "tr_names": ("🇹🇷 Names", {"court", "court-real", "court-filled", "court-turkish", "petition", "contract", "correspondence", "health", "court-generated"}, {"PERSON"}, 25, True),
+    "foreign":  ("🌍 Names", {"court-foreign", "petition-foreign"}, {"PERSON"}, 10, True),
     "everyday": ("📰 Names", {"prose"}, {"PERSON"}, 10, True),
     "tckn":     ("🪪 TCKN", GEN_TRACKS, {"TCKN"}, 10, False),
     "ids":      ("🔢 Other IDs", GEN_TRACKS, {"VKN", "YKN", "PASSPORT", "FOREIGN_ID", "IBAN", "CREDIT_CARD", "PLATE", "BIRTH_DATE"}, 10, False),
@@ -114,7 +114,7 @@ def score(rows, doc_types):
         for k, (_, tracks, types, w, _) in DIMS.items():
             g = f = pw = 0
             for t, x in tr.items():
-                if t in tracks and t in sel:
+                if t in tracks and t in sel and not (real_sel and DIMS[k][4] and t not in REAL_TRACKS):   # real text wins when selected
                     for ty, v in x["types"].items():
                         if ty in types and v["gold"]: g += v["gold"]; f += v["gold"] * v["recall"]; pw += v["gold"] * v["precision"]
             r[k] = f2(pw / g, f / g) if g else float("nan")
@@ -146,8 +146,9 @@ def size_bucket(mb):
 def cell(r, k, best):
     if k in NUM: return f"<b>{pct(r[k])}</b>" if r[k] == best[k] else pct(r[k])
     name, by, link, dev = SYSTEMS[r["system"]]
+    tag = "<span class='tag'>baseline</span>" if r["system"] in BASELINES else ""
     return {"rank": str(r["rank"]), "type": f"<span title='{TYPES[r['kind']]}'>{TYPES[r['kind']].split()[0]}</span>",
-            "model": f"<a href='{link}' target='_blank'>{html.escape(name)}</a>{\"<span class='tag'>baseline</span>\" if r['system'] in BASELINES else ''}<div class='repo'><a href='{dev}' target='_blank'>{html.escape(by)}</a></div>",
+            "model": f"<a href='{link}' target='_blank'>{html.escape(name)}</a>{tag}<div class='repo'><a href='{dev}' target='_blank'>{html.escape(by)}</a></div>",
             "params": params(r.get("params")), "size": size(r.get("size_mb")),
             "speed": f"{r['ms_per_page']:,.0f}" if r.get("ms_per_page") else "–",
             "offline": "✓" if r.get("runs_locally", True) else "", "browser": "✓" if r.get("runs_in_browser") else "", "licence": LICENCE.get(r["system"], "–")}[k]
