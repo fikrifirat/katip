@@ -55,7 +55,11 @@ def _name(rng, first, last):
 def build(pool="common", seed=0):
     """-> list of {"text", "spans": [[a, b, "PERSON"]], "masked": n_filled, "kept": n_readable}"""
     rng = random.Random(seed)
-    first, last = (COMMON_FIRST, COMMON_LAST) if pool == "common" else _blind_names()
+    if pool == "fresh":   # names no Katip model or lexicon has seen (lab/legal/bench/fresh_names.py)
+        fr = json.loads((Path(__file__).resolve().parent / "legal" / "bench" / "names" / "tr_fresh.json").read_text(encoding="utf-8"))
+        first, last = fr["first"], fr["last"]
+    else:
+        first, last = (COMMON_FIRST, COMMON_LAST) if pool == "common" else _blind_names()
     docs = []
     for split in ("train", "test"):
         for words, tags in _read(split):

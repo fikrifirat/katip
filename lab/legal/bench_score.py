@@ -30,6 +30,15 @@ def matches(a, b):
     x, y = _sq(a), _sq(b)
     return y in x or (x in y and len(x) >= max(3, len(y) * 0.5))
 
+def true_span(text, a, b, golds):
+    """A predicted span is correct when it touches a gold value of its type AND at least half of its letters and
+    digits are inside such values. Without the second test a mask over the whole document would score 100% precision."""
+    if not any(s < b and a < e for s, e in golds): return False
+    keep = [i for i in range(max(0, a), min(len(text), b)) if text[i].isalnum()]
+    if not keep: return False
+    inside = sum(any(s <= i < e for s, e in golds) for i in keep)
+    return inside >= 0.5 * len(keep)
+
 def f2(p, r): return 5 * p * r / (4 * p + r) if p + r else 0.0
 
 def score(gold, pred):
@@ -53,7 +62,7 @@ def score(gold, pred):
         for a, b, pt in ps:
             if pt not in TYPES: continue
             c = cnt[t][pt]; c[2] += 1
-            c[3] += any(matches(text[a:b], text[s:e]) or matches(text[s:e], text[a:b]) for s, e, gt in d["spans"] if gt == pt)
+            c[3] += true_span(text, a, b, [(s, e) for s, e, gt in d["spans"] if gt == pt])
     row = {"tracks": {}, "missing_predictions": len(missing)}
     for t, by in sorted(cnt.items()):
         tr = {}

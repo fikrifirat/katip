@@ -80,17 +80,30 @@ def run(key, split="public"):
            "ms_per_page": round(1000 * secs / words * 500, 0),   # a page = 500 words
            "machine": f"{platform.machine()} {platform.system()}, {os.cpu_count()} CPUs", **BS.score(gold, pred)}
     RES.mkdir(parents=True, exist_ok=True)
+    if split == "public":   # keep raw predictions on the public split, so a scorer fix can re-score without re-running models
+        pd = HERE / "bench" / "preds"; pd.mkdir(exist_ok=True)
+        (pd / f"{key}.jsonl").write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in pred))
     if split == "public":
         ex = HERE / "bench" / "examples"; ex.mkdir(exist_ok=True)
         (ex / f"{key}.json").write_text(json.dumps({p["id"]: p["spans"] for p in pred if p["id"] in EXAMPLES}, ensure_ascii=False))
     (RES / f"{key}{'' if split == 'public' else '_' + split}.json").write_text(json.dumps(row, indent=1, default=float))
     return row
 
+def rescore(key):
+    """Re-score saved public predictions with the current scorer (keeps timing and size from the last run)."""
+    row = json.loads((RES / f"{key}.json").read_text())
+    gold = [r for p in sorted((BB.OUT / "public").glob("*.jsonl")) for r in BB.load(p)]
+    pred = [json.loads(l) for l in (HERE / "bench" / "preds" / f"{key}.jsonl").read_text().splitlines()]
+    row.update(BS.score(gold, pred)); row["version"] = BB.VERSION
+    (RES / f"{key}.json").write_text(json.dumps(row, indent=1, default=float))
+    return row
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("systems", nargs="+"); ap.add_argument("--split", default="public")
+    ap.add_argument("--rescore", action="store_true", help="re-score saved predictions instead of running the models")
     a = ap.parse_args()
     for k in a.systems:
-        try: r = run(k, a.split)
+        try: r = rescore(k) if a.rescore else run(k, a.split)
         except Exception as e: print(f"skip {k}: {type(e).__name__}: {str(e)[:150]}"); continue
         print(f"{r['name']:55} KVKK-F2 {100 * r['KVKK-F2']:5.1f}  leak {100 * r['leak_rate']:5.2f}%  " +
               "  ".join(f"{t}:{100 * x['recall']:.0f}/{100 * x['precision']:.0f}" for t, x in r["tracks"].items() if x["recall"] == x["recall"]), flush=True)
