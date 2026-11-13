@@ -7,7 +7,7 @@ sdk: gradio
 sdk_version: 5.50.0
 app_file: app.py
 pinned: true
-license: apache-2.0
+license: agpl-3.0
 short_description: Which tool removes personal data from Turkish documents?
 tags:
 - leaderboard
@@ -15,8 +15,6 @@ tags:
 - kvkk
 - turkish
 - de-identification
-datasets:
-- f1k/kvkk-bench-tr
 ---
 
 # KVKK-Bench-TR leaderboard
