@@ -3,7 +3,13 @@ Writes leaderboard.html (self-contained, no external requests) and LEADERBOARD_T
 import html, json
 from pathlib import Path
 HERE = Path(__file__).resolve().parent
+import sys; sys.path.insert(0, str(HERE.parent))
+from bench_score import REAL_TRACKS
 rows = [json.loads(p.read_text()) for p in sorted((HERE / "results").glob("*.json"))]
+for r in rows:  # recompute the ranking from track scores, so rows made by older scorer versions rank the same way
+    f = lambda keep: [x["f2"] for t, x in r["tracks"].items() if keep(t) and x["f2"] == x["f2"]]
+    real, gen = f(lambda t: t in REAL_TRACKS), f(lambda t: t not in REAL_TRACKS)
+    r["KVKK-F2"] = sum(real) / len(real) if real else float("nan"); r["F2 generated"] = sum(gen) / len(gen) if gen else float("nan")
 pub = sorted([r for r in rows if r.get("split") == "public"], key=lambda r: -r["KVKK-F2"])
 hid = sorted([r for r in rows if r.get("split") == "hidden"], key=lambda r: -r["KVKK-F2"])
 TR = ["court", "court-real", "court-filled", "prose", "petition", "contract", "correspondence", "health", "court-generated"]
