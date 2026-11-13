@@ -2,15 +2,15 @@
  "system": "savasy",
  "name": "savasy/bert-base-turkish-ner-cased",
  "split": "public",
- "version": "v0.1",
+ "version": "v0.1.1",
  "runs_locally": true,
  "runs_in_browser": false,
  "params": 110032135,
  "size_mb": 440.1,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 13.2,
- "words_per_s": 2532.0,
- "ms_per_page": 198.0,
+ "ms_per_doc": 14.3,
+ "words_per_s": 2831.0,
+ "ms_per_page": 177.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -175,23 +175,23 @@
    "leak_rate": 0.46155906777390837,
    "clean_doc_rate": 0.0
   },
-  "court-filled": {
+  "court-foreign": {
    "types": {
     "PERSON": {
-     "gold": 1643,
-     "recall": 0.9506999391357274,
-     "precision": 0.9907578558225508,
-     "f2": 0.9584502730769108,
-     "exact_recall": 0.8673158855751674
+     "gold": 1011,
+     "recall": 0.8991097922848664,
+     "precision": 0.9955156950672646,
+     "f2": 0.9168677162134532,
+     "exact_recall": 0.7774480712166172
     }
    },
-   "recall": 0.9506999391357274,
-   "precision": 0.9907578558225508,
-   "f2": 0.9584502730769108,
+   "recall": 0.8991097922848664,
+   "precision": 0.9955156950672646,
+   "f2": 0.9168677162134532,
    "special_category_recall": NaN,
-   "false_per_1k_words": 0.45680177848159087,
-   "leak_rate": 0.033192436040044494,
-   "clean_doc_rate": 0.8180212014134276
+   "false_per_1k_words": 0.24311971214626082,
+   "leak_rate": 0.04748044387847917,
+   "clean_doc_rate": 0.6880733944954128
   },
   "court-generated": {
    "types": {
@@ -245,6 +245,24 @@
    "false_per_1k_words": 1.4705882352941178,
    "leak_rate": 0.3464163822525597,
    "clean_doc_rate": 0.0
+  },
+  "court-turkish": {
+   "types": {
+    "PERSON": {
+     "gold": 1011,
+     "recall": 0.9673590504451038,
+     "precision": 0.9950738916256158,
+     "f2": 0.9727778204529742,
+     "exact_recall": 0.8931750741839762
+    }
+   },
+   "recall": 0.9673590504451038,
+   "precision": 0.9950738916256158,
+   "f2": 0.9727778204529742,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 0.2457485500835545,
+   "leak_rate": 0.024974881584613175,
+   "clean_doc_rate": 0.8532110091743119
   },
   "health": {
    "types": {
@@ -380,6 +398,45 @@
    "leak_rate": 0.46671949286846276,
    "clean_doc_rate": 0.0
   },
+  "petition-foreign": {
+   "types": {
+    "PERSON": {
+     "gold": 2108,
+     "recall": 0.6783681214421252,
+     "precision": 0.9991474850809889,
+     "f2": 0.7249153827082274,
+     "exact_recall": 0.42125237191650855
+    },
+    "PASSPORT": {
+     "gold": 219,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "YKN": {
+     "gold": 239,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "FOREIGN_ID": {
+     "gold": 99,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    }
+   },
+   "recall": 0.5365853658536586,
+   "precision": 0.9991474850809889,
+   "f2": 0.5913381709431506,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 0.10368066355624676,
+   "leak_rate": 0.42234768907563025,
+   "clean_doc_rate": 0.0
+  },
   "prose": {
    "types": {
     "PERSON": {
@@ -400,8 +457,8 @@
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.8650905506940486,
- "F2 generated": 0.5091906217706852,
- "F2 all tracks": 0.610876315748789,
- "leak_rate": 0.37407851923243307
+ "KVKK-F2": 0.887125454992538,
+ "F2 generated": 0.522881879966096,
+ "F2 all tracks": 0.6442964049749099,
+ "leak_rate": 0.34224002368063444
 }
