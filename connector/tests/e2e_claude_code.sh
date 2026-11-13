@@ -18,6 +18,19 @@ claude -p < /dev/null "Matter 2026/123. Summarise the petition at $WORK/Dosyalar
   --output-format stream-json --verbose > run.jsonl
 claude -p < /dev/null "Matter 2026/124. What are the parties, the rent and the duration in the photographed lease $WORK/Dosyalar/kira_foto_01.pdf? Three bullets." \
   --allowedTools "Read,Bash,${P}mask_file" --output-format stream-json --verbose > run_photo.jsonl
+mkdir -p "$WORK/katip-documents"
+cp "$REPO/connector/tests/fixtures/dilekce_01.udf" "$WORK/katip-documents/Reza Karimi - Vatandaşlık Dava Dilekçesi.udf"
+KATIP_FOLDER="$WORK/katip-documents" claude -p < /dev/null "Matter 2026/125. Summarise the citizenship petition in my Katip folder in 3 bullets." \
+  --allowedTools "Read,Bash,Glob,${P}list_files,${P}mask_file" --output-format stream-json --verbose > run_names.jsonl
+python3 - "$WORK" <<'PY'
+import json, sys
+raw = open(f"{sys.argv[1]}/run_names.jsonl", encoding="utf-8").read()
+uses = [c for l in raw.splitlines() for c in (json.loads(l).get("message") or {}).get("content", [])
+        if isinstance(c, dict) and c.get("type") == "tool_use"]
+print("file names: tool calls:", [(c["name"].split("__")[-1], c["input"]) for c in uses])
+print("client name seen by the model:", [w for w in ("Reza", "Karimi") if w in raw] or "none")
+assert not any(c["name"] in ("Read", "Bash", "Glob") for c in uses) and "Karimi" not in raw
+PY
 python3 - "$REPO/connector/tests/fixtures/kira_foto_01.gold.json" "$WORK" <<'PY'
 import json, sys
 gold, work = json.load(open(sys.argv[1]))["entities"], sys.argv[2]

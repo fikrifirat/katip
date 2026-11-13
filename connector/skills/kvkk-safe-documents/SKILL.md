@@ -8,9 +8,10 @@ description: Use whenever the user asks Claude to read, summarise, review, trans
 Client documents contain personal data that must not be sent to an AI provider unmasked
 (KVKK m.4, m.9 and the KVKK lawyers' guide of 22 Sep 2026).
 
-1. Never open a client document with Read, Bash, cat or any other tool. Call the Katip
-   `mask_file` tool with the file's absolute path instead, and work only with the
-   `masked_text` it returns. If it says `pages > 1`, call it again with `page` = 2, 3, ...
+1. Never open, list or search client documents with Read, Bash, ls, cat, file listings or any
+   other tool: file names are personal data too. Call Katip `list_files` to find a document
+   (it hides name-like words), then `mask_file` with its `file_id` (or the path the user gave),
+   and work only with the `masked_text` it returns. Don't repeat a file's full name. If it says `pages > 1`, call it again with `page` = 2, 3, ...
 2. Ask the user for a neutral matter label (a file number such as `2026/123`, not a client
    name) and pass it as `matter`, so all documents of one case share placeholders.
 3. Keep placeholders such as `[AD SOYAD-1]`, `[T.C. KİMLİK NO-1]` and `[ADRES-2]` exactly as

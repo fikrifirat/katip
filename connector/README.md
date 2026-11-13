@@ -24,6 +24,25 @@ helpers (onnxruntime and numpy for the name model, cryptography for the encrypte
 first start. Without them it still runs, on rules only and with the map in memory only, and
 `katip_status` says so.
 
+Claude Desktop warns that the extension gets "access to everything on your computer" and that the
+developer information "has not been verified by Anthropic". It shows this for every extension installed
+from a file. Signing doesn't remove it today, because Claude Desktop doesn't check MCPB signatures yet.
+Katip reads only the files Claude passes to it, inside its folder. That is `Documents/katip-documents` by
+default, created on first use, or the folder you pick in the settings. Ask Claude to "open my Katip folder"
+(the `open_folder` tool) to see it.
+
+**File names are personal data too.** "Ayşe Kaya - epikriz.pdf" tells the AI who the client is. Katip's
+`list_files` only shows words from a small legal vocabulary ("… - Vatandaşlık Dava Dilekçesi.udf"), and
+Claude then opens files by id, so the name doesn't appear in the chat or in the permission prompt. Claude
+Desktop's own file tools can still list the folder if you allow them. Decline them, or name files neutrally.
+Each permission prompt shows a line in Turkish saying that the file is masked on this computer. To check that
+your download was built by this repository's GitHub workflow from public code:
+
+```
+gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip
+shasum -a 256 -c katip-kalkan.mcpb.sha256
+```
+
 **Profiles** (same as the Katip app): `ai` = Yapay zekâ ile paylaşım, the default here (all personal data,
 the whole address, case/UYAP and bar numbers); `court` = Mahkemeye sunum (streets, case numbers and dates
 stay readable); `anon` = Tam anonim (also dates, provinces, courts, companies and institutions).
@@ -58,11 +77,13 @@ the relay. The relay only ever holds masked text, encrypted, in memory.
 
 | Tool | What it does | Returns |
 |---|---|---|
+| `list_files` | Lists the files in your Katip folder with ids. Words in a file name that could be a person's name show as … | ids, safe names |
 | `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it | masked text, counts |
 | `write_masked_copy` | Saves `name.maskeli.docx` next to the original | path |
 | `restore_to_file` | Puts the real values back into the AI's text and saves it on your computer | path and count only |
 | `forget_matter` | Deletes a matter's placeholder map | ok |
-| `katip_status` | Shows the engine, threshold and where the map is kept | status |
+| `open_folder` | Opens your Katip folder in Finder or Explorer, creating it if needed | path and link |
+| `katip_status` | Shows the engine, OCR, threshold, your folder (with a link) and where the map is kept | status |
 | `open_masked_document` (relay) | Opens a share code | masked text |
 
 ## Developers
@@ -82,7 +103,7 @@ optional. The detection engine is `katip_kalkan/engine.zip`, the same bundle the
 (`docs/katip_py.zip`; `build_bundle.py` refreshes it). `ner.py` is the Python twin of `src/ner.js`:
 same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
 Face `tokenizers` exactly.
-Settings: `KATIP_THRESHOLD` (0.7), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
+Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.7), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
 `KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`.
 
