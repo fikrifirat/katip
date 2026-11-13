@@ -16,15 +16,13 @@ const FILE = process.argv[2];
   page.on("console", m => m.type() === "error" && errs.push(m.text()));
   page.on("pageerror", e => errs.push(String(e)));
   await page.goto(BASE);
-  await page.waitForFunction(() => !document.getElementById("scan").disabled, null, { timeout: 120000 });
+  await page.waitForFunction(() => document.getElementById("engineState").textContent.length > 0 && !/hazırlanıyor/i.test(document.getElementById("engineState").textContent), null, { timeout: 120000 });
   console.log("OCR option picked:", await page.evaluate(() => document.querySelector("#ocrModels input:checked")?.value));
-  await page.setInputFiles("#file", FILE);
-  await page.waitForFunction(() => !document.getElementById("scan").disabled, null, { timeout: 60000 });
   const t0 = Date.now();
-  await page.click("#scan").catch(() => {});
-  await page.waitForFunction(() => window.__katip()?.spans && !document.getElementById("apply").disabled, null, { timeout: 300000 });
+  await page.setInputFiles("#file", FILE);   // scanned and masked automatically
+  await page.waitForFunction(() => window.__katip()?.outText != null && !document.getElementById("download").disabled && !document.getElementById("work").classList.contains("busy"), null, { timeout: 300000 });
   const r = await page.evaluate(() => ({ text: window.__katip().text, spans: window.__katip().spans.map(s => ({ t: s.entity_type, x: s.text, rec: s.recognizer, flag: s.flag_only })) }));
-  console.log(`analysed in ${Date.now() - t0} ms; spans ${r.spans.length}`);
+  console.log(`scanned and masked in ${Date.now() - t0} ms; spans ${r.spans.length}`);
   const sq = s => s.replace(/\s+/g, "").toLocaleLowerCase("tr");
   for (const g of gold.entities.filter(g => g.entity_type === "TCKN"))
     console.log("TC", g.text, r.spans.some(s => s.t === "TCKN" && sq(s.x) === sq(g.text)) ? "found as TCKN" : r.text.includes(g.text) ? "read but not tagged" : "not read as text (masked only if pen ink rule hits)");
