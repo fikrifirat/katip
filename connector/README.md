@@ -24,6 +24,17 @@ helpers (onnxruntime and numpy for the name model, cryptography for the encrypte
 first start. Without them it still runs, on rules only and with the map in memory only, and
 `katip_status` says so.
 
+Claude Desktop warns that the extension gets "access to everything on your computer" and that the
+developer information "has not been verified by Anthropic". It shows this for every extension installed
+from a file. Signing doesn't remove it today, because Claude Desktop doesn't check MCPB signatures yet.
+Katip reads only the files Claude passes to it, inside the folder you pick in its settings. To check that
+your download was built by this repository's GitHub workflow from public code:
+
+```
+gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip
+shasum -a 256 -c katip-kalkan.mcpb.sha256
+```
+
 **Profiles** (same as the Katip app): `ai` = Yapay zekâ ile paylaşım, the default here (all personal data,
 the whole address, case/UYAP and bar numbers); `court` = Mahkemeye sunum (streets, case numbers and dates
 stay readable); `anon` = Tam anonim (also dates, provinces, courts, companies and institutions).
