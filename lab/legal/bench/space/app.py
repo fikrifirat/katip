@@ -32,7 +32,7 @@ SYSTEMS = {  # key: (short name, who made it / what it is, licence, link, kind)
     "savasy":       ("BERTurk NER", "savasy/bert-base-turkish-ner-cased", "see card", "https://huggingface.co/savasy/bert-base-turkish-ner-cased", "model"),
     "cosmos-pii":   ("ModernBERT-TR PII", "ytu-ce-cosmos/modernbert-tr-pii-ner", "Apache-2.0", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner", "model"),
     "kvkk-pii-ner": ("kvkk-pii-ner", "ersanbil/kvkk-pii-ner", "Apache-2.0", "https://huggingface.co/ersanbil/kvkk-pii-ner", "model"),
-    "openmed-tr":   ("OpenMed PII Turkish", "OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1", "Apache-2.0", "https://huggingface.co/OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1", "model"),
+    "openmed-tr":   ("OpenMed PII Turkish", "OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1. Uses US-style labels (CITY, ZIPCODE…) that mostly don't match ours, so this may understate it.", "Apache-2.0", "https://huggingface.co/OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1", "model"),
     "presidio":     ("Presidio", "Microsoft Presidio + spaCy, out of the box. The standard open-source tool.", "MIT", "https://github.com/microsoft/presidio", "baseline"),
     "kvkk-pii":     ("kvkk-pii regex", "Turkish regex library, patterns only", "MIT", "https://pypi.org/project/kvkk-pii/", "baseline"),
 }
@@ -132,7 +132,9 @@ def headline(rows, split):
     bname = SYSTEMS[best["system"]][0]
     priv = "runs inside your browser" if best.get("runs_in_browser") else "runs on your own computer"
     cards = [
-        ("Best tool", bname, f'score {100 * best["score"]:.1f}, {priv}, {size_txt(best.get("size_mb"))}'),
+        ("Best tool", bname, f'score {100 * best["score"]:.1f}, {priv}, {size_txt(best.get("size_mb"))}' + (
+            f'. Nearly tied with {SYSTEMS[rows[1]["system"]][0]} ({100 * rows[1]["score"]:.1f}) on names; the gap is ID numbers and size.'
+            if len(rows) > 1 and best["score"] - rows[1]["score"] < 0.02 else "")),
         ("Personal data left readable, real text", pct(best["leak"], 1), f'Presidio, the standard tool: {pct(base["leak"], 0)}' if base else ""),
         ("ID numbers & contacts caught, sample documents", pct(best["ids"]), f'Presidio: {pct(base["ids"])}' if base else ""),
     ]
