@@ -118,7 +118,7 @@ def table_html(rows, browser_only=False):
         priv = "🔒 browser" if r.get("runs_in_browser") else "💻 local"
         medal = {1: "🥇", 2: "🥈", 3: "🥉"}.get(rank, str(rank))
         body.append(
-            f'<tr class="{kind}"><td class="rank">{medal}</td>'
+            f'<tr class="{kind}" data-browser="{1 if r.get("runs_in_browser") else 0}"><td class="rank">{medal}</td>'
             f'<td class="sys"><a href="{link}" target="_blank">{html.escape(name)}</a> {badge}<div class="what">{html.escape(what)}</div></td>'
             f'<td class="score"><b>{100 * r["score"]:.1f}</b>{delta}</td>'
             + bar(r["names_court"]) + bar(r["names_prose"]) + bar(r["ids"]) + bar(r["leak"], good_high=False, digits=1) +
