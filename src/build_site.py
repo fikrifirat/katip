@@ -15,7 +15,7 @@ a = ap.parse_args()
 src, nm, out, here = Path(a.src), Path(a.nm), Path(a.out), Path(__file__).parent
 subprocess.run([sys.executable, str(here / "build_core.py"), str(src), str(nm), str(out)], check=True)
 
-for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg"):
+for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "paddle_ocr.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg"):
     shutil.copy2(here / f, out / f)
 shutil.copytree(here / "fonts", out / "fonts", dirs_exist_ok=True)  # Geist (SIL OFL), self-hosted
 shutil.copytree(here / "hero", out / "hero", dirs_exist_ok=True)  # before/after images on the home screen
@@ -28,11 +28,20 @@ for name, d in (("best_int", "4.0.0_best_int"), ("fast", "4.0.0")):
     shutil.copy2(nm / "@tesseract.js-data/tur" / d / "tur.traineddata.gz", out / "vendor/tessdata" / name / "tur.traineddata.gz")
 (out / "vendor/tessdata/tur.traineddata.gz").unlink(missing_ok=True)
 
+# PaddleOCR PP-OCRv5 (Apache-2.0) for handwriting and phone photos: small text-line detector + Latin
+# recogniser (covers Turkish), official ONNX exports from huggingface.co/PaddlePaddle, fetched once into
+# models/paddleocr by fetch_paddleocr.py and served from this site like every other model
+pp = here / "models/paddleocr"
+if (pp / "det/inference.onnx").exists():
+    shutil.copytree(pp, out / "vendor/paddleocr", dirs_exist_ok=True)
+else:
+    print("warning: src/models/paddleocr missing (run src/fetch_paddleocr.py): handwriting OCR option will not load")
+
 # transformers.js + ONNX Runtime (only loaded when a NER model is picked)
 (out / "vendor/transformers").mkdir(parents=True, exist_ok=True)
 shutil.copy2(nm / "@huggingface/transformers/dist/transformers.min.js", out / "vendor/transformers/transformers.min.js")
 (out / "vendor/ort").mkdir(parents=True, exist_ok=True)
-for f in ("ort-wasm-simd-threaded.asyncify.mjs", "ort-wasm-simd-threaded.asyncify.wasm"):
+for f in ("ort-wasm-simd-threaded.asyncify.mjs", "ort-wasm-simd-threaded.asyncify.wasm", "ort.wasm.min.mjs"):
     shutil.copy2(nm / "onnxruntime-web/dist" / f, out / "vendor/ort" / f)
 
 # samples: one synthetic document per type, every format it has, plus its answer key

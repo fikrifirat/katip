@@ -113,7 +113,7 @@ Pages'e sığacak kadar küçük bir modele damıtmak ve tüm ölçümleri pilot
 | Belge | Yöntem |
 | --- | --- |
 | Metin katmanlı PDF | kutunun altındaki karakterler gerçekten silinir (MuPDF `applyRedactions`), meta veriler temizlenir |
-| Taranmış PDF, fotoğraf (PNG, JPG) | Türkçe OCR (Tesseract), kutular görüntüye işlenir |
+| Taranmış PDF, fotoğraf (PNG, JPG) | OCR (basılı taramada Tesseract, el yazısı ve telefon fotoğrafında PaddleOCR), kutular görüntüye işlenir |
 | Word `.docx` | metin, izlenen silmeler, yorum yazarları ve belge özellikleri maskelenir |
 | UYAP `.udf` | yerinde maskelenir, geçerli bir UDF olarak kalır |
 | Düz metin | |
@@ -149,7 +149,7 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 | İsim etiketleyici | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2,6 MB int8 ONNX, transformers.js; ya da [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk) (isim, adres, sağlık), 110,8 MB |
 | Metin, UDF, Word | Pyodide içinde standart kütüphane Python (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
-| Tarama ve fotoğraf | Türkçe modelle tesseract.js |
+| Tarama ve fotoğraf | Türkçe modelle tesseract.js; tükenmez kalem izi olan ya da fotoğraftan kesilen sayfalarda PaddleOCR PP-OCRv5 (küçük algılayıcı + Latin okuyucu, 13 MB ONNX) ([lab/ocr_bench](lab/ocr_bench/README.md)) |
 | Sızıntı kontrolü | çıktı her maskelenen değer için yeniden okunur (metin katmanı veya ikinci OCR) |
 
 Tarayıcıdaki kurallar Katip'in sunucu motoruyla birebir aynı sonucu verir (1.803 değerde 0 fark);
@@ -187,5 +187,5 @@ kurum içi sistemlerde veya çevrimiçi hizmetlerde kullanım için **ticari lis
 [COMMERCIAL.md](COMMERCIAL.md). Modeller: CC BY-NC 4.0.
 
 Üçüncü taraf bileşenler: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; yalnızca karşılaştırma), Inter ve Space Grotesk yazı tipleri (SIL OFL 1.1), Pyodide (MPL-2.0), tesseract.js ve `tur` modeli
-(Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), OpenSubtitles sıklık listesinden
+(Apache-2.0), PaddleOCR PP-OCRv5 modelleri (Apache-2.0, PaddlePaddle), transformers.js (Apache-2.0), ONNX Runtime (MIT), OpenSubtitles sıklık listesinden
 `common_words.txt` (CC BY-SA 4.0). Örnek belgeler sentetiktir; gerçek kişilerle benzerlik tesadüfidir.

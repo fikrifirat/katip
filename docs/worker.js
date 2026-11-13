@@ -6,13 +6,38 @@ import * as mupdf from "./vendor/mupdf/dist/mupdf.js";
 import * as E from "./engine.js";
 import { loadNer, runNer } from "./ner.js";
 import { MARK, drawMark } from "./brand.js";
+import { createPaddleOcr, decodeImage } from "./paddle_ocr.js";
 
 let py, current = null, ocrSeq = 0, T = null;
 const pendingOcr = new Map();
 const progress = msg => postMessage({ type: "progress", msg });
 const here = p => new URL(p, import.meta.url).href;
 
+// PaddleOCR (handwriting and phone photos) runs here in the worker on ONNX Runtime; Tesseract runs in
+// its own worker started by the page, so its requests go through postMessage
+let paddle = null;
+function getPaddle() {
+  return paddle ??= (async () => {
+    progress("El yazısı OCR modeli yükleniyor");
+    const ort = await import("./vendor/ort/ort.wasm.min.mjs");
+    ort.env.wasm.numThreads = 1; ort.env.logLevel = "error";  // the exported graphs carry unused initialisers: harmless warnings
+    ort.env.wasm.wasmPaths = { mjs: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.mjs"), wasm: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.wasm") };
+    const get = async f => new Uint8Array(await (await fetch(here("./vendor/paddleocr/" + f))).arrayBuffer());
+    const [det, rec, dict] = await Promise.all([get("det/inference.onnx"), get("rec/inference.onnx"), fetch(here("./vendor/paddleocr/rec/dict.json")).then(r => r.json())]);
+    return createPaddleOcr(ort, { det, rec, dict });
+  })().catch(e => { paddle = null; throw e; });
+}
+
+const paddleRead = Object.assign(async png => (await getPaddle()).recognize(decodeImage(mupdf, png)), { engine: "paddle" });
+
+// lang: "auto" (PaddleOCR for handwriting and phone photos, Tesseract compact for printed scans),
+// "paddle" (PaddleOCR for every page), or a Tesseract model ("best_int", "fast")
 function ocrWith(lang) {
+  if (lang === "paddle") return paddleRead;
+  if (lang === "auto") { const tess = tessWith("best_int"); return Object.assign(png => tess(png), { forPage: p => (p.handwriting ? paddleRead : tess) }); }
+  return tessWith(lang);
+}
+function tessWith(lang) {
   return png => new Promise((resolve, reject) => {
     const id = ++ocrSeq; pendingOcr.set(id, { resolve, reject });
     postMessage({ type: "ocr", id, png, lang }, [png.buffer]);

@@ -57,6 +57,8 @@ const I18N = {
     rDownloaded: "{f} indirildi. E-posta açılmadıysa {to} adresine dosyayı ekleyerek yazın.", rSending: "Gönderiliyor…", rSent: "Gönderildi, teşekkürler.", rFailed: "Gönderilemedi",
     foot: "Açık kaynak · tamamen cihazınızda çalışır", source: "Kaynak kod", issues: "Soru ve öneriler",
     onSpace: "Bu sayfa için çok büyük (110 MB) · Hugging Face'te deneyin →",
+    ocrAuto: "Otomatik (el yazısı için PaddleOCR)", ocrAutoMeta: "El yazılı ve fotoğraflı sayfalar PaddleOCR, basılı taramalar Tesseract · +13 MB",
+    ocrAutoTip: "Mavi tükenmez kalem izi olan ya da fotoğraftan kesilmiş sayfalar PaddleOCR ile, diğerleri Küçük Tesseract ile okunur.||36 sentetik el yazılı kira sözleşmesi fotoğrafında PaddleOCR hiç TC kimlik numarası ve isim kaçırmadı (Tesseract: 72 TC numarasından 12'si). PaddleOCR basılı taramalarda Tesseract'tan iyi değil, o yüzden onlara karışmaz. Model ilk el yazılı sayfada bu siteden bir kez yüklenir.",
     ocrBest: "Küçük", ocrBestMeta: "Aynı doğruluk, 4 kat küçük · 2 MB", ocrFast: "Standart", ocrFastMeta: "Eski motor verisiyle · 7,7 MB",
     origAlt: "Orijinal sayfa", maskAlt: "Maskeli sayfa", ocrText: "Okunan metin",
     trust: "Cihazınızda çalışır · belgeniz bilgisayarınızdan çıkmaz", feedback: "Görüş bildir", feedbackH: "Görüşünüz bizim için çok değerli", hero: "Belgedeki kişisel verileri saniyeler içinde maskeleyin.", lead: "Ad, T.C. kimlik, adres, telefon, IBAN, sağlık bilgisi… Katip bulur ve karartır; siz kontrol edip indirirsiniz.", dropFormats: "PDF · fotoğraf · Word · UYAP .udf · metin", tryH: "Elinizde belge yok mu? Örnekle deneyin:", allSamples: "Tüm örnekler", openSample: "Aç", step1: "Belgeyi bırakın", step2: "Karartılanları kontrol edin", step3: "Maskeli halini indirin", newDoc: "← Yeni belge", listHint2: "Tik kaldırdığınız değer açık kalır. Belgedeki işarete tıklamak da aynı işi görür.", advH: "Gelişmiş ayarlar", modelH: "Algılama modeli", scanning: "Kişisel veriler aranıyor…", applying: "Karartılıyor…", sampleNote: "Örnek belge (kişiler uydurma). Cevap anahtarı:", leakFix: "Bunları da karart", qKira: "Kira sözleşmesi · fotoğraf", qDilekce: "Dava dilekçesi · UYAP .udf", qBilirkisi: "Bilirkişi raporu · tarama", qIs: "İş sözleşmesi · Word", rGeneral: "Genel görüş", rHowGeneral: "E-posta uygulamanız {to} adresine hazır bir mesajla açılır. Siz göndermeden hiçbir şey çıkmaz.",
@@ -109,6 +111,8 @@ const I18N = {
     rDownloaded: "{f} downloaded. If no e-mail opened, write to {to} and attach the file.", rSending: "Sending…", rSent: "Sent, thank you.", rFailed: "Could not send",
     foot: "Open source · runs entirely on your device", source: "Source code", issues: "Questions and ideas",
     onSpace: "Too big for this page (110 MB) · try it on Hugging Face →",
+    ocrAuto: "Automatic (PaddleOCR for handwriting)", ocrAutoMeta: "Handwritten and photographed pages: PaddleOCR; printed scans: Tesseract · +13 MB",
+    ocrAutoTip: "Pages with blue ballpoint ink, or a sheet cut out of a photo, are read with PaddleOCR; the rest with Compact Tesseract.||On 36 synthetic photos of hand-filled lease contracts PaddleOCR missed no TC number and no name (Tesseract: 12 of 72 TC numbers). PaddleOCR is not better than Tesseract on printed scans, so it leaves those alone. The model loads once from this site, on the first handwritten page.",
     ocrBest: "Compact", ocrBestMeta: "Same accuracy, 4× smaller · 2 MB", ocrFast: "Standard", ocrFastMeta: "Includes old engine data · 7.7 MB",
     origAlt: "Original page", maskAlt: "Masked page", ocrText: "Recognised text",
     trust: "Runs on your device · your file never leaves it", feedback: "Send feedback", feedbackH: "We'd love your feedback", hero: "Mask personal data in legal documents in seconds.", lead: "Names, ID numbers, addresses, phones, IBANs, health details… Katip finds and blacks them out; you check and download.", dropFormats: "PDF · photo · Word · UYAP .udf · text", tryH: "No document at hand? Try a sample:", allSamples: "All samples", openSample: "Open", step1: "Drop the document", step2: "Check what's masked", step3: "Download the masked copy", newDoc: "← New document", listHint2: "Untick a value to leave it visible. Clicking a highlight in the document does the same.", advH: "Advanced settings", modelH: "Detection model", scanning: "Looking for personal data…", applying: "Masking…", sampleNote: "Sample document (made-up people). Answer key:", leakFix: "Mask these too", qKira: "Lease · photo", qDilekce: "Petition · UYAP .udf", qBilirkisi: "Expert report · scan", qIs: "Employment contract · Word", rGeneral: "General feedback", rHowGeneral: "Your e-mail app opens a ready message to {to}. Nothing leaves until you send it.",
@@ -131,7 +135,7 @@ const SAMPLE_EN = { aydinlatma: "Privacy notice", bilirkisi: "Expert report", di
   fatura: "Invoice", icra: "Enforcement request", ihtarname: "Formal notice", is_sozlesmesi: "Employment contract", karar: "Court judgment", kira_sozlesmesi: "Lease",
   mektup: "Letter", mesaj: "Chat log", tutanak: "Minutes", vekaletname: "Power of attorney", zabit: "Hearing record" };
 const PROGRESS_EN = [[/^NER modeli yükleniyor/, "Loading name model"], [/^NER çalışıyor/, "Running name model"], [/^OCR sayfa (\d+)\/(\d+)/, "OCR page $1/$2"], [/^Sayfa (\d+)\/(\d+)/, "Page $1/$2"],
-  [/^OCR$/, "OCR"], [/^Kişisel veriler aranıyor/, "Looking for personal data"], [/^Maskeleniyor/, "Masking"], [/tekrar okunuyor/, "Re-reading output (leak check)"]];
+  [/^OCR$/, "OCR"], [/^Kişisel veriler aranıyor/, "Looking for personal data"], [/^Maskeleniyor/, "Masking"], [/tekrar okunuyor/, "Re-reading output (leak check)"], [/^El yazısı OCR modeli yükleniyor/, "Loading handwriting OCR model"]];
 const ART6 = ["HEALTH", "RELIGION", "POLITICAL", "UNION", "ETHNICITY", "SEXUAL_LIFE", "BIOMETRIC_GENETIC", "CRIMINAL_RECORD"];
 // Masking profiles: one click sets the data types and the address rule; the checkboxes stay for fine control.
 // A ladder: each profile masks everything the one before it does, plus more.
@@ -246,7 +250,7 @@ document.querySelectorAll("[data-lang]").forEach(b => (b.onclick = () => {
 
 // ---------------------------------------------------------------- settings
 const selModel = () => document.querySelector("#models input:checked")?.value ?? models.find(m => !m.dev && !m.disabled && !m.elsewhere)?.id;
-const selOcr = () => document.querySelector("#ocrModels input:checked")?.value ?? "best_int";
+const selOcr = () => document.querySelector("#ocrModels input:checked")?.value ?? "auto";
 function settings() {
   const m = models.find(x => x.id === selModel()) ?? models[0];
   return {
@@ -270,7 +274,8 @@ function buildModelUI() {
     $("models").append(card);
   }
   $("ocrModels").textContent = "";
-  $("ocrModels").append(optCard("ocr", "best_int", t("ocrBest"), t("ocrBestMeta"), t("ocrTip"), curOcr === "best_int", lang === "tr" ? "önerilen" : "recommended"),
+  $("ocrModels").append(optCard("ocr", "auto", t("ocrAuto"), t("ocrAutoMeta"), t("ocrAutoTip"), curOcr === "auto", lang === "tr" ? "önerilen" : "recommended"),
+                        optCard("ocr", "best_int", t("ocrBest"), t("ocrBestMeta"), t("ocrTip"), curOcr === "best_int"),
                         optCard("ocr", "fast", t("ocrFast"), t("ocrFastMeta"), t("ocrTip"), curOcr === "fast"));
 }
 $("models").onchange = () => res?.spans && redetect();
@@ -695,7 +700,7 @@ function renderGold() {
     el("p", { className: "hint", textContent: t("goldNote") }));
 }
 function renderTiming() {
-  const tm = res.timing ?? {}, rows = [[t("kModel"), res.settings.engineName], [t("kOcr"), res.ocrPages ? (res.settings.ocrLang === "fast" ? t("ocrFast") : t("ocrBest")) : t("unused")],
+  const tm = res.timing ?? {}, rows = [[t("kModel"), res.settings.engineName], [t("kOcr"), res.ocrPages ? ({ fast: t("ocrFast"), auto: t("ocrAuto"), best_int: t("ocrBest") }[res.settings.ocrLang] ?? res.settings.ocrLang) : t("unused")],
     [t("kPages"), `${res.pages}${res.ocrPages ? ` (${res.ocrPages} OCR)` : ""}`], [t("kParse"), `${tm.parse} ms`], ...(res.settings.ner ? [["NER", `${tm.ner} ms · ${res.nerCount}`]] : []),
     [t("kRules"), `${tm.rules} ms`], ...(applied ? [[t("kRedact"), `${res.redactMs} ms`]] : []), [t("kVersion"), version.rules ?? ""]];
   $("timing").textContent = ""; for (const [a, b] of rows) $("timing").append(el("tr", {}, el("td", { textContent: a }), el("td", { textContent: b })));
