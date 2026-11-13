@@ -11,6 +11,7 @@ import html, json, math, os, re
 from pathlib import Path
 
 import gradio as gr
+import pandas as pd
 
 HERE = Path(__file__).resolve().parent
 RESULTS = HERE / "results" if (HERE / "results").exists() else HERE.parent / "results"
@@ -36,20 +37,20 @@ LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "akdeniz": "MIT
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 
 COLUMNS = {  # key -> (header, tooltip, shown by default)
-    "rank":    ("#", "Rank by Score.", True),
-    "type":    ("T", "🟢 Katip · 🔶 public model · 💬 LLM · ⚙️ baseline", True),
+    "rank":    ("#", "Position, ranked by Score.", True),
+    "type":    ("T", "🟢 Katip · 🔶 public model · 💬 LLM asked by prompt · ⚙️ baseline (standard open-source tool)", True),
     "model":   ("Model", "Click to open the model page.", True),
-    "score":   ("Score ⬆", "F2 on real Turkish text (court decisions and everyday sentences). Recall counts 4× precision, because a missed name is worse than an extra mask.", True),
-    "names":   ("Names", "Share of person names masked, real text.", True),
-    "ids":     ("IDs*", "Share of T.C. kimlik, tax and phone numbers, IBANs, e-mails, addresses and plates masked. *Measured on generated documents, not part of the Score.", True),
-    "leak":    ("Leaked ⬇", "Share of personal-data characters still readable after masking, real text. Lower is better.", True),
-    "prec":    ("Precision", "Share of masks that hit real personal data, real text.", False),
-    "rec":     ("Recall", "Share of personal data found, real text.", False),
-    "params":  ("Params", "Number of model parameters.", True),
-    "size":    ("Size", "Download size.", True),
-    "speed":   ("ms/page", "Time to mask one 350-word page on a laptop CPU (Apple M-series, 12 cores). Lower is faster.", True),
-    "browser": ("Browser", "Runs inside the web browser, so the document never leaves the computer.", True),
-    "licence": ("Licence", "Model licence.", True),
+    "score":   ("Score ⬆", "The ranking number, 0–100. How well the tool finds personal data in real Turkish text (court decisions and everyday sentences). Missing something counts 4× more than masking too much, because a leak is worse than an extra black box. Technically: F2.", True),
+    "names":   ("Names", "Of all person names in the real text, the share the tool masked.", True),
+    "ids":     ("IDs*", "Of all T.C. kimlik and tax numbers, IBANs, phones, e-mails, addresses and plates, the share the tool masked. *Measured on documents we generated, so it is a check and not part of the Score.", True),
+    "leak":    ("Leaked ⬇", "After masking, how much of the personal data you could still read (by characters, real text). Lower is better; 0 means nothing leaked.", True),
+    "prec":    ("Precision", "Of everything the tool masked, the share that really was personal data. Low precision means many unnecessary black boxes.", False),
+    "rec":     ("Recall", "Of all personal data in the real text, the share the tool found.", False),
+    "params":  ("Params", "How many learned weights the model has. Bigger models usually need more memory.", True),
+    "size":    ("Size", "What you download to run it. Small means it fits on a laptop or in a browser tab.", True),
+    "speed":   ("ms/page", "Milliseconds to mask one page on a laptop CPU (Apple M-series, 12 cores). Lower is faster.", True),
+    "browser": ("Browser", "Runs inside a web page: the document never leaves your computer.", True),
+    "licence": ("Licence", "Licence of the model. Check it before commercial use.", True),
 }
 NUM = ("score", "names", "ids", "leak", "prec", "rec")
 
@@ -191,14 +192,36 @@ def submit(model_id):
             return "Couldn't queue it. Please open a GitHub issue instead."
     return f"Queued **{model_id}**."
 
+TRACK_NAMES = {"court-filled": "Real court text (Yargıtay sentences)", "prose": "Real everyday text (Wikipedia sentences)",
+               "petition": "Generated petitions", "contract": "Generated contracts", "correspondence": "Generated e-mails & chats",
+               "health": "Generated health records", "court-generated": "Generated court decisions", "no-pii": "Text with no personal data"}
+
+def by_test(rows, track):
+    out = []
+    for r in rows:
+        x = r["tracks"].get(track)
+        if not x: continue
+        f = lambda v, nd=1: None if v is None or v != v else round(100 * v, nd)
+        d = {"Model": SYSTEMS[r["system"]][0], "Found %": f(x["recall"]), "Precision %": f(x["precision"]), "Leaked %": f(x["leak_rate"]),
+             "Docs fully clean %": f(x["clean_doc_rate"]), "False alarms / 1,000 words": round(x["false_per_1k_words"], 1)}
+        for ty, v in x["types"].items():
+            if v["gold"]: d[f"{ty} found % ({v['gold']})"] = f(v["recall"], 0)
+        out.append(d)
+    return pd.DataFrame(out)
+
+BY_TEST_HELP = """**Found** = share of personal data the tool masked. **Precision** = share of masks that were really personal data.
+**Leaked** = share of personal data still readable. **Docs fully clean** = documents with nothing left readable.
+**False alarms** = masks on words that weren't personal data, per 1,000 words. The type columns show how much of each kind was found (the number in brackets is how many there are)."""
+
 def build():
     rows = load_rows()
     default = [k for k, v in COLUMNS.items() if v[2]]
     optional = [k for k in COLUMNS if k not in ("rank", "type", "model")]
     with gr.Blocks(title="KVKK-Bench-TR", css=CSS, theme=gr.themes.Soft()) as demo:
         gr.Markdown(f"# 🛡️ KVKK-Bench-TR\n"
-                    "How well do models find personal data in Turkish documents, so it can be masked before sharing? "
-                    "Same documents, same scorer for everyone.\n\n"
+                    "Lawyers, doctors and HR teams want to use AI on their documents, but under **KVKK** sending a client's name, "
+                    "T.C. kimlik number or health record to a cloud service can be a violation. The safe way is to **mask personal data "
+                    "on your own computer first**. This leaderboard tests which tools do that best on real Turkish text: same documents, same scorer for everyone.\n\n"
                     f"<span class='links'>[📄 Dataset card](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/README.md)"
                     "[⚖️ Scorer](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench_score.py)"
                     f"[📊 Raw results](https://github.com/fikrifirat/katip/tree/legal-study/lab/legal/bench/results)</span> "
@@ -215,10 +238,17 @@ def build():
                     cols = gr.CheckboxGroup([(COLUMNS[k][0].rstrip(" ⬆⬇*"), k) for k in optional],
                                             value=[k for k in default if k in optional], show_label=False)
                 out = gr.HTML(table(rows, default))
-                gr.Markdown("Hover a column name for its definition. *IDs are measured on generated documents and are not part of the Score.*")
+                gr.Markdown("### What we measure\n" + "\n".join(
+                    f"* **{COLUMNS[k][0].rstrip(' ⬆⬇*')}**: {COLUMNS[k][1]}" for k in COLUMNS if k not in ("rank", "model")), elem_classes="guide")
                 show = lambda *a: table(pick(rows, *a[:4]), ["rank", "type", "model"] + [k for k in COLUMNS if k in a[4]])
                 for c in (q, types, sizes, browser, cols):
                     c.change(show, [q, types, sizes, browser, cols], out)
+            with gr.Tab("📂 By test"):
+                tracks = [t for t in TRACK_NAMES if any(t in r["tracks"] for r in rows)]
+                dd = gr.Dropdown([(TRACK_NAMES[t], t) for t in tracks], value=tracks[0] if tracks else None, label="Test set")
+                df = gr.Dataframe(by_test(rows, tracks[0]) if tracks else pd.DataFrame(), interactive=False, wrap=True)
+                dd.change(lambda t: by_test(rows, t), dd, df)
+                gr.Markdown(BY_TEST_HELP)
             with gr.Tab("📈 Score vs size/speed"):
                 x = gr.Radio(["Size", "Speed"], value="Size", label="X axis")
                 plot = gr.Plot(chart(rows, "Size"))
