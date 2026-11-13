@@ -16,23 +16,24 @@ import pandas as pd
 HERE = Path(__file__).resolve().parent
 RESULTS = HERE / "results" if (HERE / "results").exists() else HERE.parent / "results"
 REQUESTS = HERE / "requests"
-VERSION = "v0.1 preview"
+VERSION = "v0.1.1 preview"
 
 # key: (name, link). Only these rows are shown; every other scored system stays in results/.
 SYSTEMS = {
     "berturk-v2": ("Katip", "https://huggingface.co/f1k/katip-tr-pii-berturk"),
     "tiny":       ("Katip Tiny", "https://huggingface.co/f1k/katip-tr-name-tagger-tiny"),
+    "tiny-f":     ("Katip Tiny-F (new, foreign names)", "https://github.com/fikrifirat/katip/pull/7"),
     "akdeniz":    ("akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner"),
     "gliner":     ("urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade/gliner_multi_pii-v1"),
     "cosmos-pii": ("ytu-ce-cosmos/modernbert-tr-pii-ner", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner"),
     "qwen-1.5b":  ("Qwen/Qwen2.5-1.5B-Instruct (prompted)", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct"),
     "presidio":   ("Presidio + spaCy", "https://github.com/microsoft/presidio"),
 }
-REAL_TRACKS = {"court", "court-real", "court-filled", "prose", "scan"}
+REAL_TRACKS = {"court", "court-real", "court-filled", "court-turkish", "court-foreign", "prose", "scan"}
 IDS = {"TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "IP_ADDRESS"}
-KIND = {"berturk-v2": "katip", "tiny": "katip", "qwen-1.5b": "llm", "presidio": "baseline"}   # everything else: public model
+KIND = {"berturk-v2": "katip", "tiny": "katip", "tiny-f": "katip", "qwen-1.5b": "llm", "presidio": "baseline"}   # everything else: public model
 TYPES = {"katip": "🟢 Katip", "model": "🔶 Public model", "llm": "💬 LLM", "baseline": "⚙️ Baseline"}
-LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
+LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-NC 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
            "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 
@@ -40,23 +41,25 @@ SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 # (header, tracks, types, weight in Overall, measured on real text?)
 GEN_TRACKS = {"petition", "contract", "correspondence", "health", "court-generated", "petition-foreign"}
 DIMS = {
-    "tr_names": ("Turkish names", {"court", "court-real", "court-filled", "court-turkish"}, {"PERSON"}, 25, True),
-    "everyday": ("Everyday names", {"prose"}, {"PERSON"}, 10, True),
-    "foreign":  ("Foreign names", {"court-foreign"}, {"PERSON"}, 10, True),
-    "ids":      ("IDs", GEN_TRACKS, {"TCKN", "VKN", "YKN", "PASSPORT", "FOREIGN_ID", "IBAN", "CREDIT_CARD", "PLATE", "BIRTH_DATE"}, 20, False),
-    "contact":  ("Contact", GEN_TRACKS, {"PHONE", "EMAIL", "IP_ADDRESS"}, 10, False),
-    "address":  ("Address", GEN_TRACKS, {"ADDRESS"}, 15, False),
-    "health":   ("Health", GEN_TRACKS, {"HEALTH", "RELIGION", "ETHNICITY", "POLITICAL", "UNION", "SEXUAL_LIFE", "CRIMINAL_RECORD",
+    "tr_names": ("🇹🇷 Names", {"court", "court-real", "court-filled", "court-turkish"}, {"PERSON"}, 25, True),
+    "foreign":  ("🌍 Names", {"court-foreign"}, {"PERSON"}, 10, True),
+    "everyday": ("📰 Names", {"prose"}, {"PERSON"}, 10, True),
+    "tckn":     ("🪪 TCKN", GEN_TRACKS, {"TCKN"}, 10, False),
+    "ids":      ("🔢 Other IDs", GEN_TRACKS, {"VKN", "YKN", "PASSPORT", "FOREIGN_ID", "IBAN", "CREDIT_CARD", "PLATE", "BIRTH_DATE"}, 10, False),
+    "contact":  ("📞 Contact", GEN_TRACKS, {"PHONE", "EMAIL", "IP_ADDRESS"}, 10, False),
+    "address":  ("🏠 Address", GEN_TRACKS, {"ADDRESS"}, 15, False),
+    "health":   ("🩺 Health", GEN_TRACKS, {"HEALTH", "RELIGION", "ETHNICITY", "POLITICAL", "UNION", "SEXUAL_LIFE", "CRIMINAL_RECORD",
                                              "BIOMETRIC_GENETIC", "PHILOSOPHICAL", "ASSOCIATION", "DRESS"}, 10, False),
 }
 DIM_HELP = {
-    "tr_names": "Turkish person names in real Yargıtay decisions, in court casing (Ahmet YILMAZ) and with suffixes (Kaya'nın).",
-    "everyday": "Person names in real everyday Turkish sentences (Wikipedia). Shows whether it works outside legal templates.",
-    "foreign":  "Foreign clients' names (Arabic, Persian, Russian, Georgian, Western…) in real court sentences.",
-    "ids":      "T.C. kimlik, tax and foreign ID numbers, passports, IBANs, card numbers, plates and birth dates.",
+    "tr_names": "Turkish names in real Yargıtay decisions, in court casing (Ahmet YILMAZ) and with suffixes (Kaya'nın).",
+    "foreign":  "Foreign clients' names (Arabic, Persian, Afghan, Georgian, Russian, Western…) in the same real Yargıtay sentences.",
+    "everyday": "Names in ordinary Turkish sentences (Wikipedia), outside legal writing.",
+    "tckn":     "T.C. kimlik numbers.",
+    "ids":      "Tax numbers, foreigner IDs (YKN), passports, IBANs, card numbers, plates, birth dates.",
     "contact":  "Phone numbers, e-mail and IP addresses.",
-    "address":  "Home and office addresses (the whole address).",
-    "health":   "Health and other KVKK article 6 special categories (religion, union membership…). The most sensitive data.",
+    "address":  "Home and office addresses.",
+    "health":   "Health and other KVKK article 6 special categories.",
 }
 COLUMNS = {  # key -> (header, tooltip, shown by default)
     "rank":    ("#", "Position, ranked by Overall.", True),
@@ -80,7 +83,7 @@ def load_rows():
     rows = []
     for p in RESULTS.glob("*.json"):
         r = json.loads(p.read_text())
-        if r.get("system") not in SYSTEMS or r.get("split", "public") != "public": continue
+        if r.get("system") not in SYSTEMS or r.get("split", "public") != "public" or r.get("version") not in (None, "v0.1.1"): continue
         tr = r["tracks"]
         ok = lambda x: x is not None and x == x
         mean = lambda xs: sum(xs) / len(xs) if xs else float("nan")
@@ -221,7 +224,9 @@ def submit(model_id):
             return "Couldn't queue it. Please open a GitHub issue instead."
     return f"Queued **{model_id}**."
 
-TRACK_NAMES = {"court-filled": "Real court text (Yargıtay sentences)", "prose": "Real everyday text (Wikipedia sentences)",
+TRACK_NAMES = {"court-turkish": "🇹🇷 Real court text, Turkish names", "court-foreign": "🌍 Real court text, foreign names",
+               "court-filled": "Real court text (Yargıtay sentences)", "prose": "📰 Real general text (Wikipedia sentences)",
+               "petition-foreign": "Generated petitions for foreign clients",
                "petition": "Generated petitions", "contract": "Generated contracts", "correspondence": "Generated e-mails & chats",
                "health": "Generated health records", "court-generated": "Generated court decisions", "no-pii": "Text with no personal data"}
 
@@ -271,18 +276,10 @@ def build():
                 live = [k for k in DIMS if k not in empty]
                 now = sum(DIMS[k][3] for k in live if DIMS[k][4])
                 gr.Markdown(
-                    "### What we measure\n"
-                    "**Overall** is the weighted average of the masking dimensions that have real test data, each scored 0–100 as F2 "
-                    "(a missed item counts 4× more than an unnecessary mask, because a leak is worse than an extra black box).\n\n"
-                    "| Dimension | What it tests | Weight now | Planned weight | Test data |\n| --- | --- | ---: | ---: | --- |\n" +
-                    "\n".join(f"| **{DIMS[k][0]}** | {DIM_HELP[k]} | {f'{round(100 * DIMS[k][3] / now)}%' if DIMS[k][4] else '–'} | {DIMS[k][3]}% | "
-                              f"{'real text' if DIMS[k][4] else '◇ generated documents (preview)'} |" for k in live) +
-                    ("\n\n*Coming next:* " + ", ".join(DIMS[k][0].lower() for k in empty) + "." if empty else "") +
-                    "\n\n◇ IDs, phones, addresses and health data are, for now, measured only on documents from Katip's own generator, which Katip's models were also "
-                    "trained on. So they are shown as previews and left out of Overall. They join with the planned weight once the labelled 2025–26 court decisions are ready.\n\n"
-                    "**Also shown:** *Leaked* = share of personal data still readable after masking (real text, lower is better) · *Size* = download size · "
-                    "*ms/page* = time per page on a laptop CPU · *Browser* = runs inside a web page, so the document never leaves your computer. "
-                    "Params and licence are in *Columns*.", elem_classes="guide")
+                    "**Overall** = weighted average of the masking columns, each scored as F2 (a miss counts 4× more than an extra mask): " +
+                    " · ".join(f"{DIMS[k][0]} {round(100 * DIMS[k][3] / now)}%" for k in live if DIMS[k][4]) +
+                    ". ◇ columns use our generated documents, so they're shown but not counted yet. Hover any column for details.",
+                    elem_classes="guide")
                 show = lambda *a: table(pick(rows, *a[:4]), ["rank", "type", "model"] + [k for k in COLUMNS if k in a[4]])
                 for c in (q, types, sizes, browser, cols):
                     c.change(show, [q, types, sizes, browser, cols], out)
