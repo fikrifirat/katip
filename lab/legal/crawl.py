@@ -4,6 +4,7 @@
   python lab/legal/crawl.py                 # all three courts, default targets
   python lab/legal/crawl.py --quick         # 30 decisions per court, to check it works
   python lab/legal/crawl.py --court aym     # one court
+  python lab/legal/crawl.py --court yargitay --gap 3 --max-stops 10   # Yargıtay throttles at 1 req/s
 
 Sources: Yargıtay (Bedesten API behind mevzuat.adalet.gov.tr), Danıştay (karararama.danistay.gov.tr),
 AYM individual applications (kararlarbilgibankasi.anayasa.gov.tr). Requests go through the MIT-licensed
@@ -49,6 +50,10 @@ def _write(rec):
     with _lock, OUT.open("a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
+MAX_STOPS = 3
+def _wait(e, stops):  # wait at least what the site asked, longer after each stop
+    return max(getattr(e, "bekleme", 120), 60 * stops)
+
 def crawl(court: str, target: int, have: set, log=print):
     from turk_hukuku_ictihat.ortak import ErisimDurdu
     api, n, stops = _client(court), sum(1 for k in have if k[0] == court), 0
@@ -59,9 +64,9 @@ def crawl(court: str, target: int, have: set, log=print):
             try:
                 res = api.ara(q, adet=PER_PAGE, sayfa=page)
             except ErisimDurdu as e:
-                stops += 1; log(f"[{court}] site asked us to stop ({e}); waiting {getattr(e, 'bekleme', 120)} s")
-                if stops >= 3: log(f"[{court}] stopped 3 times, giving up on this court"); return n
-                time.sleep(getattr(e, "bekleme", 120)); continue
+                stops += 1; log(f"[{court}] site asked us to stop ({e}); waiting {_wait(e, stops)} s")
+                if stops >= MAX_STOPS: log(f"[{court}] stopped {stops} times, giving up on this court"); return n
+                time.sleep(_wait(e, stops)); continue
             except Exception as e:
                 log(f"[{court}] search '{q}' p{page} failed: {e}"); break
             hits = res.get("sonuclar") or []
@@ -72,9 +77,9 @@ def crawl(court: str, target: int, have: set, log=print):
                 try:
                     doc = api.karar(h["id"])
                 except ErisimDurdu as e:
-                    stops += 1; log(f"[{court}] stop on fetch ({e})")
-                    if stops >= 3: return n
-                    time.sleep(getattr(e, "bekleme", 120)); continue
+                    stops += 1; log(f"[{court}] stop on fetch ({e}); waiting {_wait(e, stops)} s")
+                    if stops >= MAX_STOPS: log(f"[{court}] stopped {stops} times, giving up on this court"); return n
+                    time.sleep(_wait(e, stops)); continue
                 except Exception as e:
                     log(f"[{court}] fetch {h['id']} failed: {e}"); continue
                 text = doc.get("metin")
@@ -95,7 +100,13 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--court", choices=list(QUERIES), action="append")
     ap.add_argument("--quick", action="store_true")
+    ap.add_argument("--gap", type=float, default=1.0, help="seconds between requests to one site (Yargıtay needs ~3)")
+    ap.add_argument("--max-stops", type=int, default=3, help="give up on a court after this many rate-limit stops")
     a = ap.parse_args()
+    global MAX_STOPS
+    MAX_STOPS = a.max_stops
+    from turk_hukuku_ictihat import ortak
+    ortak.ARALIK = max(ortak.ARALIK, a.gap)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     have = set()
     if OUT.exists():

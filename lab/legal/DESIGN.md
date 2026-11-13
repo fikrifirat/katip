@@ -162,4 +162,16 @@ One BERTurk fine-tune took 28 min on fikri's Mac (MPS). This study needs about 2
 
 ## Amendments
 
-(none yet)
+**A1, 13 Nov 2026 (after a 90-document smoke crawl, before any training or scoring).**
+1. AYM publishes real names by default (bench, rapporteur, applicant, lawyer in a fixed header); it uses
+   initials only when an applicant asked for confidentiality. The AYM real-name set therefore takes its
+   gold names from that header (`build_dataset.aym_header_names`), not just the title. Other people named
+   in the body are unlabelled, so precision on this set is a lower bound; recall is the measured quantity.
+   AYM judgments that fall in the train years are slot-filled *and* keep their header names as labels.
+2. Yargıtay's API throttles at one request per second, so its crawl runs at one request per 3 s
+   (`--gap 3`). If it still falls short, the Yargıtay share comes from TurkishLegalNER (Apache-2.0).
+3. Clarification: the trained models learn PERSON, ADDRESS and HEALTH (as v1 and v2 do). TCKN, IBAN,
+   phone, e-mail, plate and birth date are found by the checksum rules, so they are scored at system
+   level (rules + model) only.
+4. The slot detector was checked against TurkishLegalNER's own tags before use: it marks 99.1% of
+   person slots as PERSON at 89.1% precision (`lab/legal/validate_slots.py`).

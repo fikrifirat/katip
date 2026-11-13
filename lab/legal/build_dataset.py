@@ -4,8 +4,9 @@
 
 Reads lab/data/legal_web/raw.jsonl and writes, under lab/data/legal_web/:
   train.jsonl, dev.jsonl, test.jsonl   slot-filled decisions: {"id", "court", "year", "text", "spans", "n_slots", "by_type"}
-  aym_names.jsonl                      AYM judgments whose title names the applicant, NOT slot-filled:
-                                       gold = every mention of that name (recall only: other names are unlabelled)
+  aym_names.jsonl                      AYM judgments with real published names, NOT slot-filled: gold = every
+                                       mention of the names in the header (bench, rapporteur, applicant, lawyer).
+                                       Other people in the text are unlabelled, so precision here is a lower bound.
   manifest.json                        IDs per split, counts, SHA-256 of each test file
 Splits: decisions sharing a court + esas number stay together; the group's latest year decides the split
 (<= 2023 train, 2024 dev, >= 2025 test). Train fills use the train name pool, dev and test the disjoint one.
@@ -46,6 +47,19 @@ def aym_name(title: str | None) -> str | None:
     if _NOT_PERSON.search(name) or len(name.split()) < 2 or any(len(w.rstrip(".")) < 2 for w in name.split()): return None
     return name
 
+_ROLE = re.compile(r"(Başkan|Başkanvekili|Üyeler|Üye|Raportör|Raportör Yardımcısı|Başvurucu(?:lar)?|Vekili|Temsilcisi)\s*:\s*(.+?)(?=\s*(?:/|\n|Başkan|Üyeler|Raportör|Başvurucu|Vekili|Temsilcisi|I\.\s+BAŞVURU|$))")
+def aym_header_names(text):
+    """AYM judgments open with a header that names the bench, the rapporteur, the applicant and the lawyer:
+    'Başkan : ... / Üyeler : A, B / Raportör : C / Başvurucu : D / Vekili : Av. E'. Returns the full names found."""
+    head, names = text[:1500], []
+    for _, val in _ROLE.findall(head):
+        for part in re.split(r",|\bve\b", val):
+            part = re.sub(r"^\s*(Av\.|Avukat|Dr\.|Prof\.)\s*", "", part.strip()).strip(" .")
+            ws = part.split()
+            if 2 <= len(ws) <= 4 and all(w[:1].isupper() and len(w.rstrip(".")) > 1 for w in ws) and not _NOT_PERSON.search(part):
+                names.append(part)
+    return sorted(set(names), key=len, reverse=True)
+
 def name_mentions(text, name):
     """Every mention of the full name, any casing, case suffix excluded."""
     words = [re.escape(F.lower_tr(w)) for w in name.split()]
@@ -76,16 +90,20 @@ def main(seed: int = 0):
         s = split[(r["court"], r["id"])]
         if s is None: continue
         if r["court"] == "aym":
-            name = aym_name(r.get("title"))
-            if name and s != "train":
-                spans = name_mentions(r["text"], name)
+            names = aym_header_names(r["text"]) or ([aym_name(r.get("title"))] if aym_name(r.get("title")) else [])
+            if names and s != "train":
+                spans, taken = [], set()
+                for nm in names:  # longest first, so a name inside a longer one isn't counted twice
+                    for a, b, t in name_mentions(r["text"], nm):
+                        if not any(a < y and b > x for x, y in taken): spans.append([a, b, t]); taken.add((a, b))
                 if spans: aym.append({"id": f"aym-{r['id']}", "court": "aym", "year": r["year"], "text": r["text"],
-                                      "spans": spans, "applicant": name}); continue
-        named = aym_name(r.get("title")) if r["court"] == "aym" else None
+                                      "spans": sorted(spans), "names": names}); continue
+        named = (aym_header_names(r["text"]) or [aym_name(r.get("title"))]) if r["court"] == "aym" else None
+        named = [x for x in (named or []) if x]
         for i, w in enumerate(windows(r["text"])):
             f = F.fill(w, rng, pools[s])
-            if named:  # train-split AYM judgment: label the published applicant name too
-                f["spans"] = sorted(f["spans"] + name_mentions(f["text"], named))
+            for nm in named:  # train-split AYM judgment: label the names the court published too
+                f["spans"] = sorted(f["spans"] + [x for x in name_mentions(f["text"], nm) if not any(x[0] < y[1] and x[1] > y[0] for y in f["spans"])])
             if not f["spans"]: continue
             out[s].append({"id": f"{r['court']}-{r['id']}-{i}", "court": r["court"], "year": r["year"], **f})
     manifest = {"seed": seed, "counts": {}, "by_type": {}, "sha256": {}}

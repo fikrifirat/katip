@@ -36,10 +36,15 @@ ap.add_argument("--limit", type=int, default=0, help="use only the first N train
 ap.add_argument("--device", default="auto", help="auto | mps | cuda | cpu")
 ap.add_argument("--no-onnx", action="store_true")
 ap.add_argument("--real-text", action="store_true", help="mix in Turkish Wiki NER's real sentences (PERSON labels only)")
+ap.add_argument("--seed", type=int, default=0, help="random seed (data order, init of the new head, jitter)")
+ap.add_argument("--legal", default="", help="slot-filled legal decisions to mix in (lab/data/legal_web/train.jsonl)")
+ap.add_argument("--exclude-court", default="", help="drop this court from --legal (e.g. danistay, for the out-of-domain run)")
+ap.add_argument("--extra-synth", default="", help="volume control: N extra synthetic docs, or 'match' = as many as --legal would add")
 ap.add_argument("--push", default="", help="Hugging Face model repo to upload to, e.g. you/katip-tr-pii-berturk")
+ap.add_argument("--extra-synth-match", default="", help="with --extra-synth match: the legal file whose size to match")
 a = ap.parse_args()
 
-random.seed(0); torch.manual_seed(0)
+random.seed(a.seed); torch.manual_seed(a.seed)
 dev_name = a.device if a.device != "auto" else ("mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu")
 device = torch.device(dev_name)
 TYPES = a.types.split(",")
@@ -102,11 +107,29 @@ train, dev = load("train"), load("dev")
 if a.limit: train = train[:a.limit]; dev = dev[: max(40, a.limit // 10)]
 tests = {n: load(n) for n in ("blind", "heldout", "negatives")}
 if a.real_text:
-    real = wikiner("train"); random.Random(0).shuffle(real)
+    real = wikiner("train"); random.Random(a.seed).shuffle(real)
     real = pack(real[: a.limit * 8] if a.limit else real)
     print(f"+ {len(real)} real pseudo-documents from Turkish Wiki NER ({sum(len(d['spans']) for d in real)} names)", flush=True)
     train = train + real
     tests["wiki dev"] = wikiner("dev")[: (200 if a.limit else None)]
+
+def load_legal(path):
+    rows = [json.loads(l) for l in open(path, encoding="utf-8")]
+    if a.exclude_court: rows = [r for r in rows if r.get("court") != a.exclude_court]
+    return [{"text": r["text"], "spans": [x for x in r["spans"] if x[2] in TYPES]} for r in rows]
+n_legal = 0
+if a.legal:
+    legal = load_legal(a.legal)
+    if a.limit: legal = legal[:a.limit]
+    n_legal = len(legal)
+    print(f"+ {n_legal} slot-filled legal documents ({sum(len(d['spans']) for d in legal)} spans)", flush=True)
+    train = train + legal
+if a.extra_synth:
+    n_extra = len(load_legal(a.extra_synth_match)) if a.extra_synth == "match" else int(a.extra_synth)
+    extra = load("extra_synth")
+    if n_extra > len(extra): print(f"! only {len(extra)} extra synthetic docs available (asked {n_extra})", flush=True)
+    train = train + extra[:n_extra]
+    print(f"+ {min(n_extra, len(extra))} extra synthetic documents (volume control)", flush=True)
 
 print(f"device {dev_name} · base {a.base} · labels {LABELS} · {len(train)} train docs", flush=True)
 tok = AutoTokenizer.from_pretrained(a.base)
@@ -223,7 +246,8 @@ for ep in range(a.epochs):
             print(f"epoch {ep + 1} step {k // a.bs}/{math.ceil(len(seqs) / a.bs)} loss {loss.item():.4f} ({time.time() - t0:.0f}s)", flush=True)
     print(f"epoch {ep + 1} done ({time.time() - t0:.0f}s)"); show("dev", score(dev))
 
-results = {"base": a.base, "labels": LABELS, "real_text": a.real_text, "epochs": a.epochs, "train_docs": len(train), "device": dev_name,
+results = {"base": a.base, "labels": LABELS, "real_text": a.real_text, "seed": a.seed, "legal": a.legal, "n_legal": n_legal,
+           "exclude_court": a.exclude_court, "extra_synth": a.extra_synth, "epochs": a.epochs, "train_docs": len(train), "device": dev_name,
            "train_seconds": round(time.time() - t0), "sets": {}}
 print("final scores (model alone, no rules):")
 for n, docs in tests.items():
