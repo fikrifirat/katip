@@ -7,3 +7,4 @@ ml/bundle
 ml/berturk/out/
 ml/berturk/.venv/
 __pycache__/
+ml/berturk/data/wikiner/

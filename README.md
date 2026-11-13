@@ -43,27 +43,29 @@ names never seen during development or training, in 16 document styles (4 of the
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
 | **Katip BERTurk** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | **757 / 757 (100%)** | **365 / 365** |
 
-**Katip BERTurk, model alone** (no rules), fine-tuned from BERTurk on 8,000 synthetic documents in
-25.5 minutes on a Mac:
-
-| Set | Names | Addresses | Health terms | Extra spans |
-| --- | --- | --- | --- | --- |
-| Blind (80 docs) | 364 / 365 | 80 / 80 | 26 / 26 | 2 |
-| Held-out (60 docs) | **275 / 275** (rules + tiny: 268) | 70 / 70 | 26 / 26 | 0 |
-| Name-free legal prose | | | | **0** (rules + tiny: 3) |
+**Katip BERTurk v2** is fine-tuned from BERTurk on 8,000 synthetic documents plus 17,967 real
+Turkish sentences (Turkish Wiki NER, names only), 3 epochs in 28 minutes on a Mac.
 
 **Full pipeline** (rules + BERTurk, as the demo runs it, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
-every value on the blind set (757 / 757, names 365 / 365, one extra name highlight) and every value on the
-held-out set (618 / 618; Tiny: 611). False alarms on name-free prose stay at 3, the same as Tiny. This
-needs one setting: BERTurk names scored 90% or higher are kept as they are. Without it the merge rules,
-written for the small tagger, dropped first names such as *Esila* that are also ordinary words, and the
-score was the same as Tiny ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
-The 90% value was set once, before this run, and not tuned; the held-out set had been looked at
-during development, the blind set had not.
+every value on the blind set (757 / 757, names 365 / 365) and on the held-out set (618 / 618; Tiny: 611),
+3 false alarms on name-free prose (same as Tiny). Model names scored 0.5 or higher keep their edges; that
+value was chosen on dev data (Wiki NER dev + held-out), not on the test sets below.
+
+**On real text** (measured in [`lab/`](lab/), names only, rules + model):
+
+| | Real court prose: Yargıtay sentences, anonymised names filled back in | Real Wikipedia sentences (Wiki NER test) |
+| --- | --- | --- |
+| Katip Rules | 90.6% found, 96.0% precision | 15.0% |
+| Katip Tiny | 93.9%, 95.9% | 14.8% |
+| Katip BERTurk v1 (synthetic only) | 98.6%, 95.9% | 40.7% |
+| **Katip BERTurk v2** | **99.3%, 96.2%** | **89.8%** [87.1–92.1], 89.9% precision |
+
+The court set fills the "..." that courts put in place of names (TurkishLegalNER, Çetindağ et al. 2022,
+Apache-2.0) with common Turkish names, in court casing, with the case suffix re-inflected; a second version
+with rare unseen names scores within 0.5 points. Scripts: `lab/score_legal.py`, `lab/score_model.py`.
 
 It is 40 times bigger than Katip Tiny, so the demo keeps Tiny as the default and offers BERTurk on
-the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages). Raw numbers:
-[`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
+the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages).
 
 ### Size, speed and accuracy side by side
 
@@ -72,7 +74,7 @@ the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Page
 | Vanilla kvkk-pii | 0.1 MB | 1 ms | 183 / 757 (24.2%) | 154 / 618 |
 | Katip Rules | 0.3 MB | 3 ms | 751 / 757 (99.2%) | 605 / 618 |
 | Katip Tiny | + 2.6 MB | 7 ms | 756 / 757 (99.9%) | 611 / 618 |
-| Katip BERTurk | + 110.8 MB | 28 ms | **757 / 757 (100%)** | **618 / 618** |
+| Katip BERTurk v2 | + 110.8 MB | 27 ms | **757 / 757 (100%)** | **618 / 618** |
 
 **Shrinking.** Both models ship as int8 ONNX: Katip Tiny 10.0 → 2.6 MB, BERTurk 440.3 → 110.8 MB (4×
 smaller each). All scores above were measured on the int8 files, so quantising cost no accuracy. For OCR,
@@ -91,7 +93,7 @@ size that fits GitHub Pages is on the roadmap.
   <img alt="Time per document and share of values still readable after masking, by format" src="metrics/speed-light.svg" width="720">
 </picture>
 
-**What these numbers do not show yet.** All documents are synthetic, and 12 of the 16 blind
+**What these numbers do not show yet.** The blind and held-out documents are synthetic, and 12 of the 16 blind
 styles share templates with the training data, so real case files will score lower. Timings come
 from a cloud VM, not a typical laptop. Raw numbers: [`metrics/`](metrics/). Scripts:
 `ml/benchmark.py`, `ml/make_charts.py`. Help us measure on real documents: see [Contact](#questions-pilots-and-contact).

@@ -66,17 +66,17 @@
    "en": "most accurate"
   },
   "meta": {
-   "tr": "Kurallar + 110 MB BERTurk · kör sette %100",
-   "en": "Rules + 110 MB BERTurk · 100% on blind set"
+   "tr": "Kurallar + 110 MB BERTurk · kör sette %100, gerçek metinde %90",
+   "en": "Rules + 110 MB BERTurk · 100% on blind set, 90% on real text"
   },
   "info": {
-   "tr": "En doğru model: kör testte 757 değerin hepsini buldu. İlk açılışta 110 MB indirir ve Tiny'den yavaştır.||Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış model (katip-tr-pii-berturk): isim, adres ve sağlık terimlerini birlikte bulur. Kör sette 757'de 757 (isimler 365'te 365), ayrılmış sette 618'de 618; isim içermeyen metinde 3 yanlış alarm (Tiny ile aynı). %90 ve üzeri güvenli isimleri olduğu gibi tutar.",
-   "en": "The most accurate model: found all 757 values on the blind test. Downloads 110 MB the first time and is slower than Tiny.||Katip Rules plus a model fine-tuned from BERTurk (katip-tr-pii-berturk) that finds names, addresses and health terms together. Blind set 757 of 757 (names 365 of 365), held-out 618 of 618; 3 false alarms on name-free text (same as Tiny). Keeps names it is at least 90% sure of as they are."
+   "tr": "En doğru model: kör testte 757 değerin hepsini, gerçek Türkçe metinde isimlerin %90'ını buldu. İlk açılışta 110 MB indirir ve Tiny'den yavaştır.||Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış model (katip-tr-pii-berturk v2): isim, adres ve sağlık terimlerini birlikte bulur. Sentetik belgeler ve 17.967 gerçek Türkçe cümleyle eğitildi. Kör sette 757'de 757, ayrılmış sette 618'de 618; gerçek Yargıtay metninde isimlerin %99,3'ü, Vikipedi cümlelerinde %89,8'i (v1: %40,7). İsim içermeyen metinde 3 yanlış alarm (Tiny ile aynı).",
+   "en": "The most accurate model: found all 757 values on the blind test and 90% of names in real Turkish text. Downloads 110 MB the first time and is slower than Tiny.||Katip Rules plus a model fine-tuned from BERTurk (katip-tr-pii-berturk v2) that finds names, addresses and health terms together. Trained on synthetic documents and 17,967 real Turkish sentences. Blind set 757 of 757, held-out 618 of 618; 99.3% of names in real Yargıtay prose and 89.8% in Wikipedia sentences (v1: 40.7%). 3 false alarms on name-free text (same as Tiny)."
   },
   "ner": "katip-tr-pii-berturk",
   "dtype": "q8",
   "hosted": "https://huggingface.co/spaces/f1k/katip-yerel",
-  "trust": 0.9,
+  "trust": 0.5,
   "elsewhere": true
  },
  {
