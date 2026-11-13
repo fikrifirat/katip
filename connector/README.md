@@ -57,6 +57,7 @@ python -m katip_kalkan.local_server       # stdio MCP server
 python -m katip_kalkan relay --port 8787  # relay (put TLS in front)
 python build_bundle.py                    # dist/katip-kalkan.mcpb
 claude plugin validate ./connector
+bash tests/e2e_claude_code.sh            # real Claude Code run through the plugin
 ```
 
 There are no runtime dependencies; `cryptography` and `pymupdf` are optional. The detection
