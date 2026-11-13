@@ -60,7 +60,7 @@ def test_mask_file_formats(ext):
     else:  # rules only: the all-caps surname "YILDIRIM" is the known miss
         assert set(_gold_left(text)) <= {"Emal YILDIRIM"}, _gold_left(text)
     assert "Yiğitalp" not in text and "Tekinalp" not in text  # caught once, masked everywhere (propagation)
-    assert doc["file_name"] == f"belge.{ext}"  # the real file name is not echoed
+    assert doc["file_name"] == f"dilekce 01.{ext}"  # only safe words of the file name are echoed
 
 
 def test_placeholders_stable_across_documents_of_a_matter():
@@ -89,7 +89,8 @@ def test_write_masked_copy_docx():
     from katip_kalkan import core
     src = FIX / "dilekce_01.docx"
     res = core.write_redacted(str(src), "m2")
-    out = Path(res["output_path"])
+    out = src.with_name(f"{src.stem}.maskeli{src.suffix}")
+    assert "output_path" not in res and res["name"] == "dilekce 01.maskeli.docx"
     try:
         with zipfile.ZipFile(out) as z:
             xml = z.read("word/document.xml").decode()
@@ -306,7 +307,8 @@ def test_udf_signature_is_dropped(tmp_path):
         zout.writestr("sign.sgn", b"PKCS7 Av. Yigitalp Tekinalp serial 123")
     doc = core.mask_file(str(src), "sig")  # the signature is not text: never sent
     assert "Tekinalp" not in json.dumps(doc, ensure_ascii=False)
-    out = Path(core.write_redacted(str(src), "sig")["output_path"])
+    core.write_redacted(str(src), "sig")
+    out = src.with_name(f"{src.stem}.maskeli{src.suffix}")
     with zipfile.ZipFile(out) as z:
         assert not [n for n in z.namelist() if n.lower().endswith(".sgn")]
         assert "75428707268" not in z.read("content.xml").decode("utf-8")
@@ -371,3 +373,27 @@ def test_default_folder_created_and_opened(tmp_path, monkeypatch):
     assert r["link"].startswith("file://")
     monkeypatch.setenv("KATIP_ALLOWED_DIRS", str(tmp_path / "picked"))
     assert core.folder() == (tmp_path / "picked").resolve() and core.status()["folder_link"].endswith("/picked")
+
+
+def test_file_names_stay_private(tmp_path, monkeypatch):
+    import shutil
+    import unicodedata
+    from katip_kalkan import core, names
+    root = tmp_path / "katip-documents"
+    root.mkdir()
+    monkeypatch.setenv("KATIP_ALLOWED_DIRS", "${HOME}/katip-documents")  # left unexpanded by the host
+    monkeypatch.setenv("HOME", str(tmp_path))
+    nfd = unicodedata.normalize("NFD", "Reza Karimi - Vatandaşlık Dava Dilekçesi.udf")  # how macOS stores it
+    shutil.copy(FIX / "dilekce_01.udf", root / nfd)
+    listing = core.list_files()
+    assert len(listing["files"]) == 1
+    f = listing["files"][0]
+    assert "Reza" not in str(listing) and "Karimi" not in str(listing)
+    assert f["name"] == "… - Vatandaşlık Dava Dilekçesi.udf"
+    r = core.mask_file(file_id=f["file_id"], matter="names")
+    assert "Karimi" not in str({k: v for k, v in r.items() if k != "masked_text"})
+    r2 = core.mask_file(str(root / unicodedata.normalize("NFC", nfd)), matter="names")
+    assert r2["file_id"] == f["file_id"]
+    w = core.write_redacted(file_id=f["file_id"], matter="names")
+    assert "Karimi" not in str(w)
+    assert names.safe_title("Ara Miras İsmail Veli kira") == "… kira"

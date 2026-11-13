@@ -29,7 +29,13 @@ developer information "has not been verified by Anthropic". It shows this for ev
 from a file. Signing doesn't remove it today, because Claude Desktop doesn't check MCPB signatures yet.
 Katip reads only the files Claude passes to it, inside its folder. That is `Documents/katip-documents` by
 default, created on first use, or the folder you pick in the settings. Ask Claude to "open my Katip folder"
-(the `open_folder` tool) to see it. To check that
+(the `open_folder` tool) to see it.
+
+**File names are personal data too.** "Ayşe Kaya - epikriz.pdf" tells the AI who the client is. Katip's
+`list_files` only shows words from a small legal vocabulary ("… - Vatandaşlık Dava Dilekçesi.udf"), and
+Claude then opens files by id, so the name doesn't appear in the chat or in the permission prompt. Claude
+Desktop's own file tools can still list the folder if you allow them. Decline them, or name files neutrally.
+Each permission prompt shows a line in Turkish saying that the file is masked on this computer. To check that
 your download was built by this repository's GitHub workflow from public code:
 
 ```
@@ -71,6 +77,7 @@ the relay. The relay only ever holds masked text, encrypted, in memory.
 
 | Tool | What it does | Returns |
 |---|---|---|
+| `list_files` | Lists the files in your Katip folder with ids. Words in a file name that could be a person's name show as … | ids, safe names |
 | `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it | masked text, counts |
 | `write_masked_copy` | Saves `name.maskeli.docx` next to the original | path |
 | `restore_to_file` | Puts the real values back into the AI's text and saves it on your computer | path and count only |

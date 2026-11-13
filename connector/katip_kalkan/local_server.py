@@ -24,46 +24,71 @@ MATTER = {"type": "string", "description": "Matter (dosya) label; files of the s
                                            "Use a neutral label such as a file number, not a client name.",
           "default": "default"}
 
-INSTRUCTIONS = """Katip Kalkan masks Turkish personal data (KVKK) on the user's own computer.
-When the user asks about a document on their computer, call mask_file with its path and work only
-with the masked text it returns. Use the default profile "ai" unless the user asks for a court copy
+INSTRUCTIONS = """Katip Kalkan masks Turkish personal data (KVKK) on the user's own computer, so that client
+names, ID numbers and health data never reach Claude or Anthropic's servers.
+File names are personal data too ("Ayşe Kaya - epikriz.pdf"). To find a document, call list_files: it
+returns ids and shortened names. Then call mask_file with file_id. Do not list, search or open the folder
+with any other tool (no file listing, Read, Bash or computer use), and do not repeat a file's full name.
+When the user gives a path, mask_file also accepts it. Work only with the masked text that mask_file returns. Use the default profile "ai" unless the user asks for a court copy
 ("court") or full anonymisation ("anon"). Do not open the original file with any other tool, and do not ask the
 user to paste or upload the original. Keep placeholders such as [AD SOYAD-1] exactly as written.
 When the user wants a final document with the real names, call restore_to_file with your text: Katip
 writes it on their computer and you will only get the file path back, never the real values.
 If the user asks where their files go or wants to see the folder, call open_folder. When a file is not
-found, tell the user to put it in their Katip folder (open_folder shows it) and ask for its name."""
+in list_files, ask the user to put it in their Katip folder (open_folder shows it)."""
+
+def _privacy(text: str) -> dict:
+    """A fixed argument whose only job is to show up in Claude Desktop's permission prompt, which shows
+    the tool title and its arguments but not the description."""
+    return {"type": "string", "enum": [text], "default": text,
+            "description": "Always send exactly this text; it tells the user what Katip does."}
+
+
+MASK_NOTE = _privacy("Dosya bu bilgisayarda maskelenir; Claude yalnızca [AD SOYAD-1] gibi yer tutucuları görür (KVKK).")
+LIST_NOTE = _privacy("Dosya adlarındaki kişi adları gizlenir; Claude yalnızca kısaltılmış adları görür (KVKK).")
+RESTORE_NOTE = _privacy("Gerçek adlar yalnızca bu bilgisayardaki dosyaya yazılır; Claude onları görmez (KVKK).")
+WHY = "Katip removes KVKK personal data on this computer, so Claude only sees placeholders. "
+FILE_ID = {"type": "string", "description": "Id from list_files (preferred: keeps the file name private)"}
 
 TOOLS = [
-    Tool("mask_file", "Mask a document on this computer",
-         "Open a .docx, .udf (UYAP), .txt, .pdf (also scanned) or photo (.jpg/.png) by its path on the "
+    Tool("list_files", "Dosyaları listele (adlar gizli) · List files, names hidden",
+         WHY + "List the documents in the user's Katip folder with ids, dates and shortened names: any word that "
+         "could be a person's name shows as …. Use this instead of any other file listing.",
+         {"type": "object", "properties": {"privacy": LIST_NOTE}, "required": ["privacy"],
+          "additionalProperties": False},
+         lambda: core.list_files(),
+         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
+    Tool("mask_file", "Kişisel verileri bu bilgisayarda maskele · Mask before Claude reads",
+         WHY + "Open a .docx, .udf (UYAP), .txt, .pdf (also scanned) or photo (.jpg/.png) by its path on the "
          "user's computer, read scans with local OCR, remove personal data (names, T.C. kimlik / YKN / "
          "passport numbers, addresses, phones, IBAN, health and other KVKK Article 6 data) locally, and "
          "return only the masked text. Long documents come in pages.",
-         {"type": "object", "properties": {"path": {"type": "string", "description": "Absolute path to the file"},
+         {"type": "object", "properties": {"privacy": MASK_NOTE, "file_id": FILE_ID,
+                                           "path": {"type": "string", "description": "Absolute path, if no file_id"},
                                            "matter": MATTER, "profile": PROFILE,
                                            "page": {"type": "integer", "minimum": 1, "default": 1}},
-          "required": ["path"], "additionalProperties": False},
-         lambda path, matter="default", page=1, profile=None: core.mask_file(path, matter, page, profile),
+          "required": ["privacy"], "additionalProperties": False},
+         lambda path=None, matter="default", page=1, profile=None, file_id=None: core.mask_file(
+             path, matter, page, profile, file_id),
          # reads the user's file; writes only the local encrypted vault; never reaches the internet
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
-    Tool("write_masked_copy", "Save a masked copy next to the original",
-         "Write a masked copy of a .docx, .udf or .txt file in the same format next to the original "
+    Tool("write_masked_copy", "Maskeli kopya kaydet · Save masked copy",
+         WHY + "Write a masked copy of a .docx, .udf or .txt file in the same format next to the original "
          "(name.maskeli.ext) so the user can share it. Never overwrites a file. Returns the new path.",
-         {"type": "object", "properties": {"path": {"type": "string"}, "matter": MATTER, "profile": PROFILE,
-                                           "output_path": {"type": "string"}},
-          "required": ["path"], "additionalProperties": False},
-         lambda path, matter="default", output_path=None, profile=None: core.write_redacted(
-             path, matter, output_path, profile),
+         {"type": "object", "properties": {"privacy": MASK_NOTE, "file_id": FILE_ID, "path": {"type": "string"},
+                                           "matter": MATTER, "profile": PROFILE, "output_path": {"type": "string"}},
+          "required": ["privacy"], "additionalProperties": False},
+         lambda path=None, matter="default", output_path=None, profile=None, file_id=None: core.write_redacted(
+             path, matter, output_path, profile, file_id),
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
-    Tool("restore_to_file", "Put the real names back, on this computer",
+    Tool("restore_to_file", "Gerçek adları bu bilgisayarda geri koy · Restore locally",
          "Replace placeholders like [AD SOYAD-1] in the given text with the real values kept on the user's "
          "computer, and save the result as a new local file. Returns only the file path and a count, never "
          "the real values. Never overwrites a file.",
-         {"type": "object", "properties": {"text": {"type": "string"},
+         {"type": "object", "properties": {"privacy": RESTORE_NOTE, "text": {"type": "string"},
                                            "output_path": {"type": "string", "description": "e.g. ~/Desktop/dilekce.txt"},
                                            "matter": MATTER},
-          "required": ["text", "output_path"], "additionalProperties": False},
+          "required": ["privacy", "text", "output_path"], "additionalProperties": False},
          lambda text, output_path, matter="default": core.restore_to_file(text, output_path, matter),
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
     Tool("forget_matter", "Delete the name map of a matter",

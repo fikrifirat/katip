@@ -7,6 +7,12 @@ client files. Ask Claude to "open my Katip folder" to see it in Finder or Explor
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.3.1:**
+- File names stay private: `list_files` hides name-like words, and Claude opens files by id.
+- Permission prompts say in Turkish what Katip does.
+- The folder setting works with `${HOME}`, and the folder is created for you.
+- New `open_folder` tool.
+
 **Claude Code / Cowork:**
 
     claude plugin marketplace add fikrifirat/katip

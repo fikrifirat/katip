@@ -6,7 +6,7 @@ import os
 import time
 from pathlib import Path
 
-from . import engine, vault
+from . import engine, names, vault
 
 MAX_BYTES = int(os.environ.get("KATIP_MAX_FILE_MB", 25)) * 1024 * 1024
 # Claude's directory caps a tool result at 25k tokens; stay well under it and page the rest.
@@ -62,14 +62,67 @@ def open_folder() -> dict:
             if _roots() else "Put client files here."}
 
 
+def _nfc(p: Path) -> str:
+    import unicodedata
+    return unicodedata.normalize("NFC", str(p))  # macOS stores names decomposed (NFD); compare composed
+
+
+def _files(limit: int = 500) -> list[Path]:
+    root = folder()
+    out = []
+    for p in sorted(root.rglob("*")):
+        if len(out) >= limit:
+            break
+        rel = p.relative_to(root)
+        if p.is_file() and not any(part.startswith(".") for part in rel.parts) and len(rel.parts) <= 4 \
+                and p.suffix.lower() in engine.KINDS and ".maskeli" not in p.name:
+            out.append(p)
+    return out
+
+
+def _by_id(file_id: str) -> Path:
+    for p in _files():
+        if names.file_id(p) == file_id:
+            return p
+    raise FileNotFoundError(f"no file with id {file_id} in the Katip folder; call list_files again")
+
+
+def list_files() -> dict:
+    """Files in the Katip folder with ids and *safe* names: the real file names never reach the model."""
+    root = folder()
+    items = []
+    for p in _files():
+        st = p.stat()
+        items.append({"file_id": names.file_id(p), "name": names.safe_title(p.stem) + p.suffix.lower(),
+                      "kind": engine.KINDS[p.suffix.lower()], "size_kb": round(st.st_size / 1024),
+                      "modified": time.strftime("%Y-%m-%d", time.localtime(st.st_mtime)),
+                      **({"subfolder": len(p.relative_to(root).parts) - 1} if p.parent != root else {})})
+    return {"folder": "your Katip folder", "files": items,
+            "note": "Names are shortened on purpose: words that could be a person's name show as …. "
+                    "Pass file_id to mask_file. Ask the user which file they mean if it is unclear."}
+
+
+def _target(path: str | None, file_id: str | None) -> Path:
+    if file_id:
+        return _by_id(file_id)
+    if not path:
+        raise ValueError("give file_id (from list_files) or path")
+    return _resolve(path)
+
+
 def _resolve(path: str) -> Path:
-    p = Path(path).expanduser().resolve()
+    import unicodedata
+    p = Path(os.path.expandvars(path)).expanduser().resolve()
+    for form in ("NFC", "NFD"):  # a name typed composed may be stored decomposed, and vice versa
+        if not p.is_file():
+            q = Path(unicodedata.normalize(form, str(p)))
+            p = q if q.is_file() else p
     if not p.is_file():
         raise FileNotFoundError(f"no such file: {path}")
     if p.stat().st_size > MAX_BYTES:
         raise ValueError(f"file is larger than {MAX_BYTES // 2**20} MB")
     roots = _roots()
-    if roots and not any(p.is_relative_to(r) for r in roots):
+    if roots and not any(_nfc(p).startswith(_nfc(r).rstrip("/") + "/") for r in roots):
         raise PermissionError("file is outside the folders allowed in Katip's settings")
     return p
 
@@ -144,9 +197,10 @@ def _read(p: Path):
     return _read_cache[key]
 
 
-def mask_file(path: str, matter: str = "default", page: int = 1, profile: str | None = None) -> dict:
+def mask_file(path: str | None = None, matter: str = "default", page: int = 1, profile: str | None = None,
+              file_id: str | None = None) -> dict:
     """Read a file on this device, mask it, return only the masked text."""
-    p = _resolve(path)
+    p = _target(path, file_id)
     profile = _profile(profile)
     kind, text, _, ocr_ranges, readers = _read(p)
     v = vault.open_vault(matter)
@@ -163,8 +217,9 @@ def mask_file(path: str, matter: str = "default", page: int = 1, profile: str | 
     chunk = masked[(page - 1) * PAGE_CHARS: page * PAGE_CHARS]
     return {
         "doc_id": doc_id,
+        "file_id": names.file_id(p),
         "matter": matter,
-        "file_name": f"belge{p.suffix.lower()}",  # the real name can be personal data ("Ayşe_Kaya_epikriz.pdf")
+        "file_name": names.safe_title(p.stem) + p.suffix.lower(),  # real names can be personal data
         "kind": kind,
         "profile": f"{profile} ({engine.PROFILES[profile]['label']})",
         **({"ocr": f"{len(readers)} page(s) read with local OCR ({', '.join(sorted(set(readers)))}); "
@@ -179,10 +234,11 @@ def mask_file(path: str, matter: str = "default", page: int = 1, profile: str | 
     }
 
 
-def write_redacted(path: str, matter: str = "default", output_path: str | None = None,
-                   profile: str | None = None) -> dict:
-    """Write a masked copy of the file next to the original (same format), return its path only."""
-    p = _resolve(path)
+def write_redacted(path: str | None = None, matter: str = "default", output_path: str | None = None,
+                   profile: str | None = None, file_id: str | None = None) -> dict:
+    """Write a masked copy of the file next to the original (same format). Returns its id and safe name;
+    the path would repeat the original file name."""
+    p = _target(path, file_id)
     kind, text, data, ocr_ranges, _ = _read(p)
     if kind in ("pdf", "image"):
         raise ValueError("burn-in PDF and photo redaction runs in the Katip app (MuPDF); use mask_file for the text")
@@ -195,7 +251,8 @@ def write_redacted(path: str, matter: str = "default", output_path: str | None =
     if out.exists():
         raise FileExistsError(f"{out} already exists; pick another output_path")
     out.write_bytes(engine.redact_bytes(kind, data, spans, "box"))
-    return {"output_path": str(out), "entity_counts": _counts(spans)}
+    return {"saved": "next to the original, with .maskeli in its name", "file_id": names.file_id(out),
+            "name": names.safe_title(out.stem) + out.suffix.lower(), "entity_counts": _counts(spans)}
 
 
 def restore_to_file(text: str, output_path: str, matter: str = "default") -> dict:

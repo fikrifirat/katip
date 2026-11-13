@@ -4,7 +4,7 @@
   "display_name": "Katip Kalkan (KVKK)",
   "version": "0.3.1",
   "description": "Mask Turkish personal data on your computer before Claude reads a document.",
-  "long_description": "Katip opens client documents (.docx, UYAP .udf, .txt, .pdf, scans and phone photos (local OCR)) on your computer, removes names, T.C. kimlik numbers, addresses, phones, IBANs and KVKK Article 6 data locally, and gives Claude only the masked text. The placeholder map stays encrypted on your computer; restore_to_file writes the final document with real names locally, without showing them to Claude. No network access.",
+  "long_description": "Why: KVKK. Client names, ID numbers and health data should not reach an AI provider. Katip opens client documents (.docx, UYAP .udf, .txt, .pdf, scans and phone photos (local OCR)) on your computer, removes names, T.C. kimlik numbers, addresses, phones, IBANs and KVKK Article 6 data locally, and gives Claude only the masked text. The placeholder map stays encrypted on your computer; restore_to_file writes the final document with real names locally, without showing them to Claude. No network access. File names are hidden too: Claude sees ids and shortened names.",
   "author": {
     "name": "fikrifirat",
     "url": "https://github.com/fikrifirat"
@@ -44,6 +44,10 @@
     }
   },
   "tools": [
+    {
+      "name": "list_files",
+      "description": "List client files with ids; names that could identify a person are hidden"
+    },
     {
       "name": "mask_file",
       "description": "Open a document, scan or photo on this computer and return only masked text"

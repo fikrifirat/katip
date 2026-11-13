@@ -70,7 +70,9 @@ class Server:
             if not tool:
                 raise _RpcError(-32602, f"unknown tool {params.get('name')!r}")
             try:
-                out = tool.fn(**(params.get("arguments") or {}))
+                args = dict(params.get("arguments") or {})
+                args.pop("privacy", None)  # shown in the permission prompt only
+                out = tool.fn(**args)
                 return {"content": [{"type": "text", "text": json.dumps(out, ensure_ascii=False)}],
                         "structuredContent": out, "isError": False}
             except TypeError as e:
