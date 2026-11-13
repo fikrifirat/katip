@@ -54,7 +54,7 @@ function pdfLines(page) {
   return lines.map(l => l.sort((a, b) => a.bbox[0] - b.bbox[0]));
 }
 
-// ocr(pngBytes) must resolve to lines of {text, bbox:[x0,y0,x1,y1]} in pixels
+// ocr(pngBytes) must resolve to lines of {text, bbox:[x0,y0,x1,y1]} in pixels; ocr.engine names it ("paddle" or Tesseract by default)
 export async function parsePdf(mupdf, bytes, ocr, { forceOcr = false, onProgress } = {}) {
   const doc = mupdf.Document.openDocument(bytes, "application/pdf");
   const n = doc.countPages(), pages = [];
@@ -63,7 +63,7 @@ export async function parsePdf(mupdf, bytes, ocr, { forceOcr = false, onProgress
     onProgress?.(`Sayfa ${i + 1}/${n}`);
     const page = doc.loadPage(i);
     const [x0, y0, x1, y1] = page.getBounds();
-    const p = { number: i, width: x1 - x0, height: y1 - y0, words: [], ocr: false, lines: forceOcr ? [] : pdfLines(page) };
+    const p = { number: i, width: x1 - x0, height: y1 - y0, words: [], ocr: false, engine: null, lines: forceOcr ? [] : pdfLines(page) };
     if (p.lines.flat().reduce((s, w) => s + w.text.length, 0) < MIN_TEXT_CHARS) {
       if (!ocr) throw new Error("Taranmış sayfa var ama OCR yüklenmedi");
       onProgress?.(`OCR sayfa ${i + 1}/${n}`);
@@ -71,20 +71,30 @@ export async function parsePdf(mupdf, bytes, ocr, { forceOcr = false, onProgress
       const pix = page.toPixmap(mupdf.Matrix.scale(s, s), mupdf.ColorSpace.DeviceRGB, false);
       const { colour, ...prep } = prepareScan(pix) ?? {};
       p.prep = prep;
-      let raw = await ocr(pix.asPNG());
+      const pen = unreadInk(pix, [], { colour }).filter(b => b.pen >= PEN_BLUE);
+      const read = pickOcr(ocr, pen, prep);
+      let raw = await read(pix.asPNG());
       const blobs = unreadInk(pix, raw.flat().map(w => w.bbox), { colour });
-      const again = await reocrBlobs(mupdf, pix, blobs, ocr);
+      const again = await reocrBlobs(mupdf, pix, blobs, read);
       raw = mergeLines(raw, again.words);
       p.unread = again.unread.map(b => Object.assign(b.map(v => v / s), { pen: b.pen }));
-      p.pen = unreadInk(pix, [], { colour }).filter(b => b.pen >= PEN_BLUE).map(b => Object.assign(b.map(v => v / s), { pen: b.pen }));
+      p.pen = pen.map(b => Object.assign(b.map(v => v / s), { pen: b.pen }));
       p.reocr = again.words.length;
       pix.destroy?.();
       p.lines = raw.map(l => l.map(w => ({ text: w.text, bbox: w.bbox.map(v => v / s) })));
-      p.ocr = true; ocrPages++;
+      p.ocr = true; p.engine = read.engine ?? "tesseract"; ocrPages++;
     }
     pages.push(p);
   }
   return { kind: "pdf", text: assemble(pages), pages, ocrPages, _doc: doc };
+}
+
+// "auto" OCR: an ocr function may carry forPage({ pen, cropped }) to pick a reader per page. Katip Yerel
+// uses it to send handwriting and phone photos to PaddleOCR and printed scans to Tesseract.
+// pen = ballpoint-blue ink blobs found before any OCR; cropped = a photographed sheet was cut out of a background.
+export const HANDWRITING_MIN_BLOBS = 3;
+function pickOcr(ocr, pen, prep) {
+  return ocr.forPage?.({ pen: pen.length, cropped: !!prep?.cropped, handwriting: pen.length >= HANDWRITING_MIN_BLOBS || !!prep?.cropped }) ?? ocr;
 }
 
 export async function parseImage(bytes, ocr, size, mupdf = null) {
@@ -94,11 +104,11 @@ export async function parseImage(bytes, ocr, size, mupdf = null) {
     const rgb = pix.getNumberOfComponents() === 3 && !pix.getAlpha?.() ? pix : pix.convertToColorSpace(mupdf.ColorSpace.DeviceRGB, false);
     const { colour, ...rest } = prepareScan(rgb) ?? {};
     prep = rest; png = rgb.asPNG().slice();
-    let lines = await ocr(png);
-    const again = await reocrBlobs(mupdf, rgb, unreadInk(rgb, lines.flat().map(w => w.bbox), { colour }), ocr);
+    const pen = unreadInk(rgb, [], { colour }).filter(b => b.pen >= PEN_BLUE), read = pickOcr(ocr, pen, prep);
+    let lines = await read(png);
+    const again = await reocrBlobs(mupdf, rgb, unreadInk(rgb, lines.flat().map(w => w.bbox), { colour }), read);
     lines = mergeLines(lines, again.words);
-    const pen = unreadInk(rgb, [], { colour }).filter(b => b.pen >= PEN_BLUE);
-    const p = { number: 0, width: size?.width ?? rgb.getWidth(), height: size?.height ?? rgb.getHeight(), words: [], ocr: true, prep, unread: again.unread, pen, lines };
+    const p = { number: 0, width: size?.width ?? rgb.getWidth(), height: size?.height ?? rgb.getHeight(), words: [], ocr: true, engine: read.engine ?? "tesseract", prep, unread: again.unread, pen, lines };
     return { kind: "image", text: assemble([p]), pages: [p], ocrPages: 1 };
   }
   const p = { number: 0, width: size?.width ?? 0, height: size?.height ?? 0, words: [], ocr: true, prep, unread: [], lines: await ocr(png) };
@@ -251,7 +261,11 @@ export function unreadSpans(doc) {
       // (two-line label cells: the ink sits between "Kiraya verenin" and "T.C. Kimlik No.", so allow one line of slack)
       const lh = p.lineH ??= median(p.words.map(w => w.bbox[3] - w.bbox[1])) || 10;
       // errs towards masking: a TC number left readable is worse than a street hidden by mistake
-      const words = p.words.filter(w => w.bbox[2] <= b[0] + 2 && w.bbox[3] > b[1] - lh && w.bbox[1] < b[3] + lh);
+      // PaddleOCR boxes are about a third taller than Tesseract's, so a full line of slack reaches the
+      // street row below a TC row; there the blob's middle must sit within 0.6 line of the label instead
+      const cy = (b[1] + b[3]) / 2;
+      const words = p.engine === "paddle" ? p.words.filter(w => w.bbox[2] <= b[0] + 2 && cy > w.bbox[1] - 0.6 * lh && cy < w.bbox[3] + 0.6 * lh)
+        : p.words.filter(w => w.bbox[2] <= b[0] + 2 && w.bbox[3] > b[1] - lh && w.bbox[1] < b[3] + lh);
       if (b[3] - b[1] <= 3.5 * lh && ID_NAME_LABEL.test(words.map(w => w.text).join(" "))) { penBoxes.push(b); add(b, i, "p", true, "handwriting in a row labelled T.C. Kimlik No / Adı soyadı"); }
     });
     (p.unread ?? []).forEach((b, i) => {

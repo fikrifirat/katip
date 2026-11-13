@@ -115,7 +115,7 @@ small enough for GitHub Pages, and repeat every measurement on consented real do
 | Documents | How |
 | --- | --- |
 | PDF with a text layer | true removal of the glyphs under each box (MuPDF `applyRedactions`), metadata scrubbed |
-| Scanned PDF, photos (PNG, JPG) | Turkish OCR (Tesseract), boxes burned into the image |
+| Scanned PDF, photos (PNG, JPG) | OCR (Tesseract for printed scans, PaddleOCR for handwriting and phone photos), boxes burned into the image |
 | Word `.docx` | text, tracked deletions, comment authors and document properties masked |
 | UYAP `.udf` | masked in place, stays a valid UDF |
 | Plain text | |
@@ -152,7 +152,7 @@ discharge summaries (epikriz) and expert reports.
 | Name tagger | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2.6 MB int8 ONNX, transformers.js; or [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk) (names, addresses, health), 110.8 MB |
 | Text, UDF, Word | standard-library Python in Pyodide (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
-| Scans and photos | tesseract.js with the Turkish model |
+| Scans and photos | tesseract.js with the Turkish model; PaddleOCR PP-OCRv5 (small detector + Latin recogniser, 13 MB ONNX) on pages with ballpoint ink or a photographed sheet ([lab/ocr_bench](lab/ocr_bench/README.md)) |
 | Leak check | the output is read again (text layer or a second OCR pass) for every masked value |
 
 The browser rules give exactly the same results as Katip's server engine (0 differences on 1,803
@@ -212,6 +212,6 @@ systems or hosted services without the AGPL's source-sharing obligation; see [CO
 Models: CC BY-NC 4.0.
 
 Third-party parts: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; baseline only), Inter and Space Grotesk fonts (SIL OFL 1.1), Pyodide (MPL-2.0), tesseract.js and the `tur` model
-(Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), `common_words.txt` from the
+(Apache-2.0), PaddleOCR PP-OCRv5 models (Apache-2.0, PaddlePaddle), transformers.js (Apache-2.0), ONNX Runtime (MIT), `common_words.txt` from the
 OpenSubtitles frequency list (CC BY-SA 4.0). Sample documents are synthetic; any resemblance to
 real people is accidental.
