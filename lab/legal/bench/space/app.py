@@ -1,268 +1,280 @@
 """KVKK-Bench-TR leaderboard (Hugging Face Space, Gradio).
 
-Reads result rows from ./results/*.json (or from the dataset repo named in RESULTS_REPO, if set) and shows:
-leaderboard, per-track and per-type views, accuracy-vs-size chart, methodology, submission form, citation.
-Run locally:  pip install -r requirements.txt && python app.py
+  pip install -r requirements.txt && python app.py
+
+Reads result rows from results/*.json and before/after spans from examples/*.json. Inside the Katip repository it
+falls back to ../results and ../examples, so nothing needs copying while developing. On the Space, RESULTS_REPO
+(a dataset repo) can supply fresh results.
 """
 from __future__ import annotations
 
 import datetime as dt
-import json, math, os, re
+import html, json, math, os, re
 from pathlib import Path
 
 import gradio as gr
 import pandas as pd
 import plotly.graph_objects as go
-from gradio_leaderboard import ColumnFilter, Leaderboard, SearchColumns, SelectColumns
 
 HERE = Path(__file__).resolve().parent
-RESULTS = HERE / "results"
+pick = lambda name: HERE / name if (HERE / name).exists() else HERE.parent / name
+RESULTS, EXAMPLES = pick("results"), pick("examples")
 REQUESTS = HERE / "requests"
 VERSION = "v0.1"
 
-# ------------------------------------------------------------------------------------------ registry
-# What we know about each system beyond its scores. Kind drives the colour and the filter.
-SYSTEMS = {
-    "rules":        {"kind": "Katip", "license": "AGPL-3.0", "link": "https://github.com/fikrifirat/katip"},
-    "tiny":         {"kind": "Katip", "license": "CC BY-NC 4.0 (model)", "link": "https://huggingface.co/f1k/katip-tr-name-tagger-tiny"},
-    "berturk-v2":   {"kind": "Katip", "license": "CC BY-SA 4.0 (model)", "link": "https://huggingface.co/f1k/katip-tr-pii-berturk"},
-    "presidio":     {"kind": "Baseline", "license": "MIT", "link": "https://github.com/microsoft/presidio"},
-    "kvkk-pii":     {"kind": "Baseline", "license": "MIT", "link": "https://pypi.org/project/kvkk-pii/"},
-    "cosmos-pii":   {"kind": "Turkish PII model", "license": "Apache-2.0", "link": "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner"},
-    "kvkk-pii-ner": {"kind": "Turkish PII model", "license": "Apache-2.0", "link": "https://huggingface.co/ersanbil/kvkk-pii-ner"},
-    "openmed-tr":   {"kind": "Turkish PII model", "license": "Apache-2.0", "link": "https://huggingface.co/OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1"},
-    "gliner":       {"kind": "Multilingual PII model", "license": "Apache-2.0", "link": "https://huggingface.co/urchade/gliner_multi_pii-v1"},
-    "savasy":       {"kind": "Turkish NER model", "license": "see card", "link": "https://huggingface.co/savasy/bert-base-turkish-ner-cased"},
-    "akdeniz":      {"kind": "Turkish NER model", "license": "see card", "link": "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner"},
+# ------------------------------------------------------------------------------------------ what we know per system
+SYSTEMS = {  # key: (short name, who made it / what it is, licence, link, kind)
+    "berturk-v2":   ("Katip BERTurk v2", "Katip: rules + a BERTurk model trained for Turkish PII", "CC BY-SA 4.0", "https://huggingface.co/f1k/katip-tr-pii-berturk", "katip"),
+    "tiny":         ("Katip Tiny", "Katip: rules + a 2.5M-parameter name tagger", "CC BY-NC 4.0", "https://huggingface.co/f1k/katip-tr-name-tagger-tiny", "katip"),
+    "rules":        ("Katip Rules", "Katip: patterns and checksums only, no model", "AGPL-3.0", "https://github.com/fikrifirat/katip", "katip"),
+    "gliner":       ("GLiNER multi-PII", "urchade/gliner_multi_pii-v1, asked for \"person\"", "Apache-2.0", "https://huggingface.co/urchade/gliner_multi_pii-v1", "model"),
+    "akdeniz":      ("XLM-R Turkish NER", "akdeniz27/xlm-roberta-base-turkish-ner", "MIT", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "model"),
+    "savasy":       ("BERTurk NER", "savasy/bert-base-turkish-ner-cased", "see card", "https://huggingface.co/savasy/bert-base-turkish-ner-cased", "model"),
+    "cosmos-pii":   ("ModernBERT-TR PII", "ytu-ce-cosmos/modernbert-tr-pii-ner", "Apache-2.0", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner", "model"),
+    "kvkk-pii-ner": ("kvkk-pii-ner", "ersanbil/kvkk-pii-ner", "Apache-2.0", "https://huggingface.co/ersanbil/kvkk-pii-ner", "model"),
+    "openmed-tr":   ("OpenMed PII Turkish", "OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1", "Apache-2.0", "https://huggingface.co/OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1", "model"),
+    "presidio":     ("Presidio", "Microsoft Presidio + spaCy, out of the box. The standard open-source tool.", "MIT", "https://github.com/microsoft/presidio", "baseline"),
+    "kvkk-pii":     ("kvkk-pii regex", "Turkish regex library, patterns only", "MIT", "https://pypi.org/project/kvkk-pii/", "baseline"),
 }
-SHORT = {"rules": "Katip Rules v0.2", "tiny": "Katip Tiny", "berturk-v2": "Katip BERTurk v2", "presidio": "Presidio + spaCy",
-         "kvkk-pii": "kvkk-pii regex", "cosmos-pii": "cosmos ModernBERT PII", "kvkk-pii-ner": "ersanbil kvkk-pii-ner",
-         "openmed-tr": "OpenMed PII Turkish", "gliner": "GLiNER multi PII", "savasy": "savasy BERTurk NER", "akdeniz": "akdeniz XLM-R NER"}
-for _k, _v in SHORT.items(): SYSTEMS[_k]["short"] = _v
-BASELINE_NOTE = {"presidio": "reference baseline", "kvkk-pii": "floor baseline"}
+BASELINE = "presidio"
 REAL_TRACKS = ["court", "court-real", "court-filled", "prose", "scan"]
-TRACKS = {  # name -> (title, plain-words explanation)
-    "court": ("Court decisions 2025–26 (hidden)", "Yargıtay and Danıştay decisions. Courts publish them with names removed (\"...\"); we put realistic fake names, ID numbers and addresses back in the gaps."),
-    "court-real": ("AYM judgments, real names (hidden)", "Constitutional Court judgments with the names the court itself published: judges, applicant, lawyer."),
-    "court-filled": ("Yargıtay sentences", "2,918 Supreme Court sentences (TurkishLegalNER). Every anonymised name is refilled with a rare name, in court casing (Ahmet YILMAZ), with the case suffix fixed (Kaya'nın)."),
-    "prose": ("Real Turkish sentences", "1,000 Wikipedia sentences with person names marked by people (Turkish Wiki NER). Real writing, not templates."),
-    "petition": ("Petitions (generated)", "Dilekçe, ihtarname, icra takip talebi, vekaletname."),
-    "contract": ("Contracts (generated)", "Kira and iş sözleşmesi, aydınlatma metni, fatura."),
-    "correspondence": ("Messages (generated)", "E-posta, mesaj, mektup, tutanak, zabıt."),
-    "health": ("Health (generated)", "Epikriz and bilirkişi raporu: KVKK art. 6 health data."),
-    "court-generated": ("Court decisions (generated)", "Template court decisions."),
-}
+IDS = ["TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "IP_ADDRESS"]
 
-# Column -> tooltip. Shown on hover over the column header and in the metric guide.
+# Column header -> hover explanation. Plain words first.
 TIPS = {
-    "Rank": "Position by KVKK-F2. Systems whose confidence intervals overlap are effectively tied.",
-    "System": "The model or tool, exactly as we ran it. Click the name to open its page.",
-    "Kind": "Katip = this project. Baseline = what you get from standard open-source tools. Others = public models.",
-    "KVKK-F2": "The ranking score, 0–100. How well the system finds personal data in REAL text, with a missed item counting 4× a false alarm (because a leak is worse than an extra black box). Averaged over the real-text tracks.",
-    "vs Presidio": "Points of KVKK-F2 above (+) or below (−) the reference baseline, Presidio + spaCy: what a team gets from the standard open-source tool with no Turkish work.",
-    "Leak %": "Lower is better. Of all the characters that are personal data, the share left readable after masking. A half-masked name counts as half a leak.",
-    "Clean docs %": "Share of documents where NOTHING personal was left readable. This is what a lawyer actually needs.",
-    "Court names": "Names found in real Yargıtay sentences (court-filled track), %.",
-    "Real prose": "Names found in real Wikipedia sentences, %. Shows whether the system generalises beyond legal templates.",
-    "Generated (check)": "F2 on generated documents. A regression check only, never ranked: Katip's models were trained on documents from the same generator.",
-    "Precision": "Of everything the system masked, the share that really was personal data. Low precision = lots of unnecessary black boxes.",
-    "Params": "Number of learned weights, in millions. Rules have none.",
-    "Size MB": "What you download to run it (for Katip: the int8 ONNX file the browser loads, plus 0.3 MB of rules).",
-    "Words/s": "Speed on a laptop CPU: words processed per second. Higher is faster. Compare only rows measured on the same machine.",
-    "ms/page": "Milliseconds to process a 500-word page on CPU.",
-    "In browser": "Runs entirely inside a web page (no server, no upload). The document never leaves the computer.",
-    "Licence": "Licence of the model or tool. Check it before commercial use.",
-}
-GLOSSARY_TR = {
-    "KVKK-F2": "Gerçek metinde kişisel verileri bulma puanı; kaçırılan bir veri, fazladan maskelenen bir kelimeden 4 kat ağır sayılır.",
-    "Leak %": "Maskelemeden sonra okunabilir kalan kişisel veri oranı (karakter bazında). Düşük olan iyi.",
-    "Clean docs %": "Hiçbir kişisel verinin okunabilir kalmadığı belgelerin oranı.",
-    "In browser": "Tamamen tarayıcıda çalışır; belge bilgisayardan çıkmaz.",
+    "Score": "One number to rank by (0–100). How well the tool finds personal data in real Turkish text, where missing something counts 4× more than blacking out too much. Technically: F2, averaged over the real-text tests.",
+    "Names in court text": "Of all person names in real Yargıtay decisions, the share the tool blacked out.",
+    "Names in everyday text": "Of all person names in real Turkish sentences (Wikipedia), the share the tool blacked out. Shows whether it works outside legal templates.",
+    "ID numbers & contacts": "Of all T.C. kimlik and tax numbers, IBANs, phone numbers, e-mails, addresses, plates and birth dates in our sample legal documents, the share the tool blacked out. Sample documents are generated by us, so read this as a check.",
+    "Left readable": "Lower is better. After masking, the share of all personal data (counted in characters) you could still read. 0% means nothing leaked.",
+    "Size": "What you download to run it. Small means it fits on a laptop or in a browser tab.",
+    "Private": "🔒 runs inside your web browser: the document never leaves your computer. 💻 runs on your own computer but needs Python. Neither sends data anywhere.",
 }
 
 # ------------------------------------------------------------------------------------------ data
 def load_rows():
     repo = os.environ.get("RESULTS_REPO")
-    if repo:  # results stored in a HF dataset repo, written by the evaluator
+    if repo:
         try:
             from huggingface_hub import snapshot_download
-            snapshot_download(repo, repo_type="dataset", local_dir=str(RESULTS), allow_patterns=["*.json"])
-        except Exception as e:  # keep serving the bundled results
+            snapshot_download(repo, repo_type="dataset", local_dir=str(HERE / "results"), allow_patterns=["*.json"])
+        except Exception as e:
             print("could not refresh results:", e)
-    rows = [json.loads(p.read_text()) for p in sorted(RESULTS.glob("*.json"))]
-    out = []
-    for r in rows:
-        if r["system"] == "presidio" and not r.get("size_mb"): r["size_mb"] = 11.0   # spaCy xx_ent_wiki_sm; Presidio's own code is tiny
+    rows = []
+    for p in sorted(RESULTS.glob("*.json")):
+        r = json.loads(p.read_text())
+        if r.get("system") not in SYSTEMS: continue
         tr = r["tracks"]
-        f = lambda keep: [x["f2"] for t, x in tr.items() if keep(t) and x["f2"] == x["f2"]]
-        real, gen = f(lambda t: t in REAL_TRACKS), f(lambda t: t not in REAL_TRACKS)
-        r["kvkk_f2"] = sum(real) / len(real) if real else float("nan")
-        r["gen_f2"] = sum(gen) / len(gen) if gen else float("nan")
-        cl = [x["clean_doc_rate"] for t, x in tr.items() if t in REAL_TRACKS and x["clean_doc_rate"] == x["clean_doc_rate"]]
-        lk = [x["leak_rate"] for t, x in tr.items() if t in REAL_TRACKS and x["leak_rate"] == x["leak_rate"]]
-        pr = [x["precision"] for t, x in tr.items() if t in REAL_TRACKS]
-        r["clean_real"] = sum(cl) / len(cl) if cl else float("nan")
-        r["leak_real"] = sum(lk) / len(lk) if lk else float("nan")
-        r["prec_real"] = sum(pr) / len(pr) if pr else float("nan")
-        out.append(r)
-    return out
+        ok = lambda x: x == x and x is not None
+        real = [x["f2"] for t, x in tr.items() if t in REAL_TRACKS and ok(x["f2"])]
+        r["score"] = sum(real) / len(real) if real else float("nan")
+        def recall(tracks, types):
+            g = f = 0
+            for t, x in tr.items():
+                if t not in tracks: continue
+                for ty, v in x["types"].items():
+                    if ty in types and v["gold"]: g += v["gold"]; f += v["gold"] * v["recall"]
+            return f / g if g else float("nan")
+        r["names_court"] = recall({"court", "court-real", "court-filled"}, {"PERSON"})
+        r["names_prose"] = recall({"prose"}, {"PERSON"})
+        r["ids"] = recall(set(tr), set(IDS))
+        r["leak"] = r.get("leak_rate", float("nan"))
+        if r["system"] == "presidio" and not r.get("size_mb"): r["size_mb"] = 11.0   # spaCy xx_ent_wiki_sm
+        rows.append(r)
+    split = "hidden" if any(r.get("split") == "hidden" for r in rows) else "public"
+    rows = [r for r in rows if r.get("split", "public") == split]
+    rows.sort(key=lambda r: -(r["score"] if r["score"] == r["score"] else -1))
+    return rows, split
 
-def _p(x, nd=1):
-    return None if x is None or (isinstance(x, float) and math.isnan(x)) else round(100 * x, nd)
+def pct(x, nd=0):
+    return "–" if x is None or (isinstance(x, float) and math.isnan(x)) else f"{100 * x:.{nd}f}%"
 
-def link(r):
-    meta = SYSTEMS.get(r["system"], {})
-    name = meta.get("short", r["name"]) + (f" ({BASELINE_NOTE[r['system']]})" if r["system"] in BASELINE_NOTE else "")
-    return f"[{name}]({meta['link']})" if meta.get("link") else name
+def size_txt(mb):
+    if mb is None: return "–"
+    return f"{mb * 1000:.0f} KB" if mb < 1 else f"{mb:.0f} MB" if mb < 1000 else f"{mb / 1000:.1f} GB"
 
-def main_table(rows, split):
-    rs = sorted([r for r in rows if r.get("split") == split], key=lambda r: -(r["kvkk_f2"] if r["kvkk_f2"] == r["kvkk_f2"] else -1))
-    data = []
-    base = next((r["kvkk_f2"] for r in rs if r["system"] == "presidio"), None)
-    for i, r in enumerate(rs, 1):
-        meta = SYSTEMS.get(r["system"], {})
-        data.append({
-            "Rank": i, "System": link(r), "Kind": meta.get("kind", "Other"),
-            "KVKK-F2": _p(r["kvkk_f2"]),
-            "vs Presidio": None if base is None else round(100 * (r["kvkk_f2"] - base), 1), "Leak %": _p(r["leak_real"], 2), "Clean docs %": _p(r["clean_real"]),
-            "Court names": _p(r["tracks"].get("court-filled", {}).get("recall")),
-            "Real prose": _p(r["tracks"].get("prose", {}).get("recall")),
-            "Generated (check)": _p(r["gen_f2"]), "Precision": _p(r["prec_real"]),
-            "Params": None if r.get("params") is None else round(r["params"] / 1e6, 1),
-            "Size MB": r.get("size_mb"), "Words/s": r.get("words_per_s"), "ms/page": r.get("ms_per_page"),
-            "In browser": bool(r.get("runs_in_browser")), "Licence": meta.get("license", ""),
-        })
-    cols = list(TIPS)
-    return pd.DataFrame(data, columns=cols)
+# ------------------------------------------------------------------------------------------ main table (HTML)
+def bar(x, good_high=True, digits=0):
+    if x is None or (isinstance(x, float) and math.isnan(x)): return '<td class="num">–</td>'
+    v = max(0.0, min(1.0, x))
+    q = v if good_high else 1 - v
+    cls = "g" if q >= .9 else "m" if q >= .6 else "b"
+    return f'<td class="num"><div class="bar {cls}"><span style="width:{100 * v:.1f}%"></span></div><b>{100 * x:.{digits}f}%</b></td>'
 
-def track_table(rows, split, track):
+def table_html(rows, browser_only=False):
+    base = next((r for r in rows if r["system"] == BASELINE), None)
+    head = "".join(f'<th data-tip="{html.escape(TIPS[c])}">{c} <i>ⓘ</i></th>' for c in TIPS)
+    body, rank = [], 0
+    for r in rows:
+        if browser_only and not r.get("runs_in_browser"): continue
+        rank += 1
+        name, what, lic, link, kind = SYSTEMS[r["system"]]
+        badge = {"katip": '<span class="tag katip">Katip</span>', "baseline": '<span class="tag base">baseline</span>'}.get(kind, "")
+        delta = ""
+        if base and r is not base and r["score"] == r["score"]:
+            d = 100 * (r["score"] - base["score"])
+            delta = f'<span class="delta {"up" if d >= 0 else "down"}">{d:+.0f} vs Presidio</span>'
+        priv = "🔒 browser" if r.get("runs_in_browser") else "💻 local"
+        medal = {1: "🥇", 2: "🥈", 3: "🥉"}.get(rank, str(rank))
+        body.append(
+            f'<tr class="{kind}"><td class="rank">{medal}</td>'
+            f'<td class="sys"><a href="{link}" target="_blank">{html.escape(name)}</a> {badge}<div class="what">{html.escape(what)}</div></td>'
+            f'<td class="score"><b>{100 * r["score"]:.1f}</b>{delta}</td>'
+            + bar(r["names_court"]) + bar(r["names_prose"]) + bar(r["ids"]) + bar(r["leak"], good_high=False, digits=1) +
+            f'<td class="num">{size_txt(r.get("size_mb"))}</td><td class="num">{priv}</td></tr>')
+    return (f'<div class="lb-wrap"><table class="lb"><thead><tr><th>#</th><th>Tool</th>{head}</tr></thead>'
+            f'<tbody>{"".join(body)}</tbody></table></div>')
+
+def headline(rows, split):
+    if not rows: return ""
+    best, base = rows[0], next((r for r in rows if r["system"] == BASELINE), None)
+    bname = SYSTEMS[best["system"]][0]
+    priv = "runs inside your browser" if best.get("runs_in_browser") else "runs on your own computer"
+    cards = [
+        ("Best tool", bname, f'score {100 * best["score"]:.1f}, {priv}, {size_txt(best.get("size_mb"))}'),
+        ("Personal data it leaves readable", pct(best["leak"], 1), f'Presidio, the standard tool: {pct(base["leak"], 0)}' if base else ""),
+        ("ID numbers it catches", pct(best["ids"]), f'Presidio: {pct(base["ids"])}' if base else ""),
+    ]
+    c = "".join(f'<div class="card"><div class="k">{k}</div><div class="v">{v}</div><div class="s">{s}</div></div>' for k, v, s in cards)
+    note = ("Tested on the hidden test set." if split == "hidden" else
+            f"Tested on {VERSION} public documents: 566 real court sentences, 1,000 real Turkish sentences, 80 sample legal documents. "
+            "The hidden test on 2025–26 court decisions is being built.")
+    return f'<div class="cards">{c}</div><p class="note">{note}</p>'
+
+# ------------------------------------------------------------------------------------------ before / after
+def load_examples():
+    gold_p = HERE / "examples_gold.json"
+    gold = json.loads(gold_p.read_text()) if gold_p.exists() else {}
+    preds = {p.stem: json.loads(p.read_text()) for p in EXAMPLES.glob("*.json")} if EXAMPLES.exists() else {}
+    return gold, preds
+
+EX_TITLES = {"gen-icra_04": "Debt collection request (icra takip talebi)", "gen-mesaj_01": "Lawyers' WhatsApp chat",
+             "tlner-legal-unseen-33": "Yargıtay decision"}
+
+def render_masked(doc, spans):
+    """Masked text: black boxes where the tool masked, red where personal data was left readable."""
+    text = doc["text"]
+    masked = [False] * len(text)
+    for a, b, *_ in spans:
+        for i in range(max(0, a), min(len(text), b)): masked[i] = True
+    pii = [False] * len(text)
+    for a, b, _ in doc["spans"]:
+        for i in range(a, b): pii[i] = True
+    out, i, leaks = [], 0, 0
+    while i < len(text):
+        j = i
+        state = "m" if masked[i] else "l" if pii[i] else "t"
+        while j < len(text) and ("m" if masked[j] else "l" if pii[j] else "t") == state: j += 1
+        chunk = html.escape(text[i:j])
+        if state == "m": out.append(f'<span class="blk">{re.sub(r"[^\s]", "█", chunk)}</span>')
+        elif state == "l": out.append(f'<span class="leak">{chunk}</span>'); leaks += 1
+        else: out.append(chunk)
+        i = j
+    n_left = sum(1 for a, b, _ in doc["spans"] if not all(masked[a:b]))
+    return "".join(out).replace("\n", "<br>"), n_left, len(doc["spans"])
+
+def compare_html(ex_id, left, right, gold, preds):
+    if ex_id not in gold: return "<p>No example available.</p>"
+    cols = []
+    for key in (left, right):
+        if key not in preds:
+            cols.append(f'<div class="ex"><h4>{SYSTEMS.get(key, (key,))[0]}</h4><p class="note">Not run on this example yet.</p></div>'); continue
+        body, n_left, n = render_masked(gold[ex_id], preds[key].get(ex_id, []))
+        verdict = ("✅ nothing left readable" if n_left == 0 else f"⚠️ {n_left} of {n} personal details still readable")
+        cols.append(f'<div class="ex"><h4>{SYSTEMS[key][0]} <span class="verdict {"ok" if n_left == 0 else "bad"}">{verdict}</span></h4>'
+                    f'<div class="doc">{body}</div></div>')
+    return f'<div class="exrow">{"".join(cols)}</div>'
+
+# ------------------------------------------------------------------------------------------ detail tables
+TRACKS = {"court-filled": "Real Yargıtay sentences", "prose": "Real Turkish sentences (Wikipedia)", "petition": "Sample petitions",
+          "contract": "Sample contracts", "correspondence": "Sample e-mails & chats", "health": "Sample health records",
+          "court-generated": "Sample court decisions", "court": "Court decisions 2025–26 (hidden)", "court-real": "AYM judgments, real names (hidden)"}
+
+def detail_df(rows, track):
     data = []
     for r in rows:
-        if r.get("split") != split or track not in r["tracks"]: continue
-        x = r["tracks"][track]
-        data.append({"System": link(r), "F2": _p(x["f2"]), "Recall": _p(x["recall"]), "Precision": _p(x["precision"]),
-                     "Leak %": _p(x["leak_rate"], 2), "Clean docs %": _p(x["clean_doc_rate"]),
-                     "False alarms / 1k words": round(x.get("false_per_1k_words", float("nan")), 2)})
-    return pd.DataFrame(data).sort_values("F2", ascending=False, na_position="last") if data else pd.DataFrame()
-
-def type_table(rows, split, track):
-    data = []
-    for r in rows:
-        if r.get("split") != split or track not in r["tracks"]: continue
-        row = {"System": link(r)}
-        for t, v in r["tracks"][track]["types"].items():
-            if v["gold"]: row[f"{t} ({v['gold']})"] = _p(v["recall"])
-        data.append(row)
+        x = r["tracks"].get(track)
+        if not x: continue
+        d = {"Tool": SYSTEMS[r["system"]][0], "Found (recall)": round(100 * x["recall"], 1) if x["recall"] == x["recall"] else None,
+             "Correct when masked (precision)": round(100 * x["precision"], 1), "Left readable %": round(100 * x["leak_rate"], 2) if x["leak_rate"] == x["leak_rate"] else None,
+             "Docs fully clean %": round(100 * x["clean_doc_rate"], 1) if x["clean_doc_rate"] == x["clean_doc_rate"] else None,
+             "False alarms per 1,000 words": round(x["false_per_1k_words"], 1)}
+        for ty, v in x["types"].items():
+            if v["gold"]: d[f"{ty} ({v['gold']})"] = round(100 * v["recall"], 0)
+        data.append(d)
     return pd.DataFrame(data)
 
-def size_chart(rows, split):
-    rs = [r for r in rows if r.get("split") == split and r["kvkk_f2"] == r["kvkk_f2"]]
+def speed_df(rows):
+    return pd.DataFrame([{"Tool": SYSTEMS[r["system"]][0], "Parameters": "–" if r.get("params") is None else "rules only" if r["params"] == 0 else f'{r["params"] / 1e6:.1f} M',
+                          "Download": size_txt(r.get("size_mb")), "Words per second": int(r["words_per_s"]) if r.get("words_per_s") else None,
+                          "ms per page (500 words)": r.get("ms_per_page"), "Runs in browser": "yes" if r.get("runs_in_browser") else "no",
+                          "Licence": SYSTEMS[r["system"]][2], "Measured on": r.get("machine", "")} for r in rows])
+
+def size_chart(rows):
     fig = go.Figure()
-    colours = {"Katip": "#2a78d6", "Baseline": "#eb6834", "Turkish PII model": "#1baf7a", "Multilingual PII model": "#6250d6", "Turkish NER model": "#e87ba4"}
-    for kind, c in colours.items():
-        k = [r for r in rs if SYSTEMS.get(r["system"], {}).get("kind") == kind]
+    colour = {"katip": "#2a78d6", "baseline": "#eb6834", "model": "#8a8f98"}
+    for kind, label in (("katip", "Katip"), ("model", "Public models"), ("baseline", "Baselines")):
+        k = [r for r in rows if SYSTEMS[r["system"]][4] == kind and r["score"] == r["score"]]
         if not k: continue
-        fig.add_trace(go.Scatter(
-            x=[max(r.get("size_mb") or 0.1, 0.1) for r in k], y=[100 * r["kvkk_f2"] for r in k], mode="markers+text", name=kind,
-            text=[SYSTEMS.get(r["system"], {}).get("short", r["name"]) for r in k], textposition=["top center" if i % 2 == 0 else "bottom center" for i in range(len(k))],
-            marker=dict(size=13, color=c, line=dict(width=2, color="white")),
-            hovertemplate="<b>%{text}</b><br>KVKK-F2 %{y:.1f}<br>%{x:.1f} MB<extra></extra>"))
-    fig.update_layout(xaxis=dict(type="log", title="Download size (MB, log scale) — smaller is easier to run privately"),
-                      yaxis=dict(title="KVKK-F2 on real text (higher is better)", range=[-6, 102]),
-                      height=460, margin=dict(l=40, r=20, t=30, b=50), legend=dict(orientation="h", y=-0.2),
+        fig.add_trace(go.Scatter(x=[max(r.get("size_mb") or 0.1, 0.1) for r in k], y=[100 * r["score"] for r in k], name=label,
+                                 mode="markers+text", text=[SYSTEMS[r["system"]][0] for r in k],
+                                 textposition=["top center" if i % 2 == 0 else "bottom center" for i in range(len(k))],
+                                 marker=dict(size=14, color=colour[kind], line=dict(width=2, color="white")),
+                                 hovertemplate="<b>%{text}</b><br>score %{y:.1f}<br>%{x:.1f} MB<extra></extra>"))
+    fig.update_layout(xaxis=dict(type="log", title="Download size, MB (log scale)"), yaxis=dict(title="Score", range=[-6, 102]),
+                      height=440, margin=dict(l=40, r=20, t=20, b=50), legend=dict(orientation="h", y=-0.22),
                       plot_bgcolor="rgba(0,0,0,0)", paper_bgcolor="rgba(0,0,0,0)")
     return fig
 
 # ------------------------------------------------------------------------------------------ copy
-INTRO = f"""
+INTRO = """
 <div class="hero">
-  <h1>🛡️ KVKK-Bench-TR</h1>
-  <p class="sub">Which tool actually removes personal data from Turkish documents? · <i>Türkçe belgelerde kişisel verileri hangi araç gerçekten maskeliyor?</i></p>
-  <p>Law firms, hospitals and HR teams want to use AI on their documents, but under <b>KVKK</b> (Law No. 6698) sending a client's
-  name, T.C. kimlik number or health record to a cloud service can be a violation. The safe path is to <b>mask personal data first,
-  on your own computer</b>. This leaderboard measures how well each masking tool does that on <b>real Turkish text</b>: court
-  decisions, everyday prose and the documents lawyers handle, with special attention to <b>KVKK art. 6</b> sensitive data such as health.</p>
-  <p>We rank on <b>real text only</b>, we count a <b>missed name as worse than an extra black box</b>, and we report <b>what was left readable</b>.
-  Every system gets the same documents and the same scorer. Size and speed are listed so you can pick something that runs privately on a laptop.</p>
-  <p class="small">Version {VERSION} · public split (the hidden court test is being built from 2025–26 decisions) · dataset card and scorer: <a href="https://github.com/fikrifirat/katip/tree/legal-study/lab/legal/bench">github.com/fikrifirat/katip</a></p>
+  <h1>KVKK-Bench-TR <span class="ver">{v}</span></h1>
+  <p class="lead">Before a Turkish legal file goes into ChatGPT or Claude, the names, T.C. kimlik numbers and addresses in it have to be
+  blacked out. Under KVKK, sending them unmasked can be a violation. <b>This leaderboard tests which tools actually catch them.</b></p>
+  <p class="lead tr">Türkçe belgelerdeki kişisel verileri hangi araç gerçekten maskeliyor? Aynı belgeler, aynı puanlama, herkese açık.</p>
 </div>
 """
 
-def guide_html():
-    chips = "".join(f'<span class="chip" data-tip="{v}">{k} ⓘ</span>' for k, v in TIPS.items()
-                    if k in ("KVKK-F2", "Leak %", "Clean docs %", "Generated (check)", "Precision", "Size MB", "Words/s", "In browser"))
-    return f'<div class="guide"><b>What the columns mean</b> (hover): {chips}</div>'
+HOW = """
+### What we test
+Each tool gets the same Turkish documents and has to mark every piece of personal data in them. We compare what it
+blacked out with what a person marked by hand.
 
-ABOUT = """
-## Why this exists
-
-Turkish PII models are appearing on Hugging Face, but each one reports scores on its **own** data, usually synthetic
-documents or a validation split. None of them shares a test with another, so nobody can say which one to trust. Our own
-study shows why that matters: a BERTurk model trained on synthetic documents finds **100%** of names in synthetic tests
-and **40.7%** in real sentences. A score only means something on text the model has never seen and that looks like real work.
-
-## What we measure
-
-| Column | In plain words | Türkçe |
+| Test | What it is | Real or sample |
 | --- | --- | --- |
-| **KVKK-F2** | How well personal data is found in **real** text. Missing something counts 4× as much as masking too much. 0–100, higher is better. This is the ranking. | Gerçek metinde kişisel veriyi bulma puanı |
-| **Leak %** | After masking, the share of personal-data characters you can still read. Lower is better. | Okunabilir kalan kişisel veri oranı |
-| **Clean docs %** | Documents with nothing personal left readable. | Tamamen temizlenmiş belge oranı |
-| **Court names / Real prose** | Share of names found in real court sentences / real Wikipedia sentences. | Bulunan isim oranı |
-| **Generated (check)** | Score on generated documents. Shown, never ranked: Katip trained on the same generator. | Kontrol amaçlı, sıralamaya girmez |
-| **Precision** | Of what was masked, how much really was personal data. | Doğru maskeleme oranı |
-| **Params / Size MB** | Model weights (millions) / what you download to run it. | Model büyüklüğü |
-| **Words/s, ms/page** | Speed on a laptop CPU. A page = 500 words. | Hız |
-| **In browser** | Runs inside a web page; the document never leaves the computer. | Tarayıcıda çalışır |
+| **Court text** | 566 Yargıtay sentences ([TurkishLegalNER](https://github.com/koc-lab/turkish-legal-ner)). Courts publish decisions with names removed; we put rare, unseen names back in the gaps, in court casing (*Ahmet YILMAZ*) and with the Turkish suffix fixed (*Kaya'nın*). | real text |
+| **Everyday text** | 1,000 Wikipedia sentences with person names marked by people ([Turkish Wiki NER](https://huggingface.co/datasets/turkish-nlp-suite/turkish-wikiNER)) | real text |
+| **Sample legal documents** | 80 petitions, contracts, e-mails, chats and health records full of ID numbers, IBANs, phones and addresses, made by Katip's generator | generated |
+| **Hidden test** *(coming)* | Yargıtay and Danıştay decisions from 2025–26, and Constitutional Court judgments with the names the court published. Kept private so nobody can train on it. | real text |
 
-**Matching.** A masked span counts if it covers the true value, or at least half of it (3+ characters), and has the right type.
-Strict exact-match numbers are in the result files. **Entity types:** person names, T.C. kimlik, tax number, phone, e-mail, IBAN,
-card number, address, plate, birth date, and the KVKK art. 6 special categories (health, religion, ethnicity, political opinion,
-union, sexual life, criminal record, biometric/genetic, association, dress).
+### How the score works
+* **Score** = how well a tool finds personal data in the **real-text** tests, on a 0–100 scale. A missed name counts **4× more**
+  than an unnecessary black box, because a leak is worse than an over-cautious mask (this is the *F2* measure).
+  Sample documents are not in the score: Katip's own models were trained on documents from the same generator, and counting them would favour Katip.
+* **Left readable** = after masking, how much of the personal data (in characters) you could still read. Half a name masked = half a leak.
+* A masked span counts if it covers the value, or at least half of it, and has the right type.
 
-## The data
+### Baseline
+**Presidio** (Microsoft, with spaCy's multilingual model) as it comes: the most widely used open-source PII tool, so it shows
+what you get without any Turkish-specific work. *vs Presidio* in the table is the difference in score.
 
-* **Yargıtay sentences**: TurkishLegalNER (Çetindağ et al. 2022, Apache-2.0). Courts publish decisions anonymised, so the "..."
-  slots are refilled with rare names in court casing, with Turkish case suffixes fixed to agree.
-* **Real Turkish sentences**: Turkish Wiki NER test (Altinok 2023, CC BY-SA 4.0).
-* **Generated documents**: 16 document styles from Katip's generator (petitions, contracts, messages, health records).
-* **Hidden test (coming)**: Yargıtay and Danıştay decisions from 2025–26 with slots filled, and Constitutional Court (AYM)
-  judgments with the real names the court published. Hidden so nobody can train on it; refreshed every year.
+### Limits we know about
+Sample documents come from one generator, and there are only 80 of them. There are very few health and other KVKK article 6 examples.
+One annotator so far. Court decisions aren't client files. The [dataset card](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/README.md) lists everything.
 
-Every value we insert is synthetic. Court decisions have no copyright in Turkey (FSEK art. 31).
-
-## Baselines
-
-* **Presidio + spaCy** (unmodified): the most widely used open-source PII tool. *Reference baseline.*
-* **kvkk-pii** regex library: what pattern matching alone gives. *Floor.*
-
-## Known limits
-
-The generated tracks are small in v0.1 and come from one generator. Court decisions aren't client files. There are very
-few art. 6 examples yet. One annotator so far; v0.2 adds a second annotator and reports agreement. Read the dataset card for the full list.
-
-## Found a mistake?
-
-Open an issue with the *Benchmark label error* template on GitHub: give the document id, the offsets and the fix. If you see
-real personal data that shouldn't be in the benchmark, tick *privacy*; we remove it within 7 days. Every fix gets a version
-number and all systems are re-scored. Scores never change silently.
+### Found a mistake?
+[Open an issue](https://github.com/fikrifirat/katip/issues/new/choose) with the document id and what the label should be. If you see real personal data
+that shouldn't be in the benchmark, tick *privacy* and it's removed within 7 days. Every fix gets a version number and every tool is re-scored.
 """
 
 SUBMIT = """
-## Submit a system
+### Add your tool
+Give us a Hugging Face model id. We run it **offline** on the hidden test, so your model never sees the test text, and post the result here.
+Token-classification models work as they are; anything else needs a `predict(text) -> [[start, end, TYPE], ...]` function.
 
-**Ranked (recommended).** Give us a Hugging Face model repo (token classification, or any repo with a `predict(text) -> [[start, end, TYPE], ...]`
-function in `kvkk_bench.py`). We run it **offline** on the hidden test, so your model never sees the test text and nobody sees your weights
-beyond what is public. Results appear here with the date and the exact revision.
-
-**Self-reported.** Run the public split yourself and send the predictions file:
-
-```
-{"id": "tlner-legal-unseen-12", "spans": [[45, 58, "PERSON"], [76, 87, "TCKN"]]}
-```
-
-Score it locally first: `python bench_score.py gold.jsonl predictions.jsonl` (in the Katip repository, `lab/legal/`).
-Self-reported rows are marked as such and are never mixed into the ranked table.
+Want to check first? Score yourself on the public documents with `python bench_score.py gold.jsonl predictions.jsonl`
+([scorer](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench_score.py)).
 """
 
 CITATION = """@misc{kvkkbenchtr2026,
@@ -273,31 +285,49 @@ CITATION = """@misc{kvkkbenchtr2026,
 }"""
 
 CSS = """
-.hero{padding:8px 4px 0} .hero h1{font-size:2.1rem;margin:0} .hero .sub{font-size:1.1rem;margin:.2rem 0 .8rem;opacity:.85}
-.hero p{max-width:980px;line-height:1.55} .small{font-size:.85rem;opacity:.7}
-.guide{margin:.2rem 0 .6rem;line-height:2.2} .chip{display:inline-block;margin:0 6px 0 0;padding:1px 10px;border-radius:999px;
- border:1px solid var(--border-color-primary);font-size:.85rem;position:relative;cursor:help;white-space:nowrap}
-.chip:hover::after{content:attr(data-tip);position:absolute;left:0;top:120%;z-index:50;width:300px;white-space:normal;
- background:var(--background-fill-primary);color:var(--body-text-color);border:1px solid var(--border-color-primary);
- padding:8px 10px;border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.15);font-size:.82rem;line-height:1.4}
-.stat{border:1px solid var(--border-color-primary);border-radius:12px;padding:10px 14px} .stat b{font-size:1.4rem;display:block}
+.gradio-container{max-width:1320px !important}
+.hero h1{font-size:2.2rem;margin:.2rem 0 .4rem} .hero .ver{font-size:.9rem;font-weight:500;opacity:.6;vertical-align:middle}
+.lead{font-size:1.08rem;line-height:1.55;max-width:900px;margin:.2rem 0} .lead.tr{opacity:.7;font-style:italic;font-size:.98rem}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 4px}
+.card{border:1px solid var(--border-color-primary);border-radius:14px;padding:14px 16px;background:var(--background-fill-secondary)}
+.card .k{font-size:.85rem;opacity:.7} .card .v{font-size:1.75rem;font-weight:700;margin:2px 0} .card .s{font-size:.9rem;opacity:.8}
+.note{font-size:.85rem;opacity:.65;margin:.3rem 0}
+.lb-wrap{overflow-x:auto;border:1px solid var(--border-color-primary);border-radius:14px}
+table.lb{width:100%;border-collapse:collapse;font-size:.95rem}
+table.lb th{text-align:left;font-weight:600;font-size:.82rem;padding:10px 10px;border-bottom:1px solid var(--border-color-primary);
+ position:relative;cursor:help;white-space:nowrap;background:var(--background-fill-secondary)}
+table.lb th i{font-style:normal;opacity:.45;font-size:.8rem}
+table.lb th[data-tip]:hover::after{content:attr(data-tip);position:absolute;left:0;top:100%;z-index:60;width:270px;white-space:normal;
+ font-weight:400;font-size:.82rem;line-height:1.4;background:var(--background-fill-primary);color:var(--body-text-color);
+ border:1px solid var(--border-color-primary);padding:9px 11px;border-radius:10px;box-shadow:0 8px 28px rgba(0,0,0,.18)}
+table.lb th:nth-last-child(-n+3):hover::after{left:auto;right:0}
+table.lb td{padding:9px 8px;border-bottom:1px solid var(--border-color-primary);vertical-align:middle}
+table.lb tr:last-child td{border-bottom:none}
+table.lb tr.katip{background:rgba(42,120,214,.06)} table.lb tr.baseline{background:rgba(235,104,52,.06)}
+td.rank{font-size:1.15rem;text-align:center;width:36px} td.sys a{font-weight:600;text-decoration:none}
+td.sys .what{font-size:.76rem;opacity:.62;margin-top:2px;max-width:230px}
+td.score b{font-size:1.3rem;display:block} .delta{font-size:.75rem;white-space:nowrap} .delta.up{color:#1a9e5c} .delta.down{color:#d0453a}
+td.num{white-space:nowrap;font-variant-numeric:tabular-nums} td.num b{font-weight:600;font-size:.9rem}
+.bar{width:52px;height:7px;border-radius:4px;background:rgba(128,128,128,.18);display:inline-block;margin-right:8px;vertical-align:middle;overflow:hidden}
+.bar span{display:block;height:100%;border-radius:4px} .bar.g span{background:#1a9e5c} .bar.m span{background:#e0a100} .bar.b span{background:#d0453a}
+.tag{font-size:.68rem;padding:1px 7px;border-radius:999px;vertical-align:middle;font-weight:600}
+.tag.katip{background:rgba(42,120,214,.15);color:#2a78d6} .tag.base{background:rgba(235,104,52,.15);color:#c4521f}
+.exrow{display:grid;grid-template-columns:1fr 1fr;gap:14px} .ex h4{margin:.2rem 0 .5rem}
+.doc{border:1px solid var(--border-color-primary);border-radius:12px;padding:14px;font-family:ui-monospace,Menlo,monospace;font-size:.86rem;line-height:1.7;white-space:pre-wrap}
+.blk{background:#111;color:#111;border-radius:3px} .leak{background:#ffd5d0;color:#a3140b;font-weight:700;border-radius:3px;padding:0 1px}
+.verdict{font-size:.8rem;font-weight:500;margin-left:6px} .verdict.ok{color:#1a9e5c} .verdict.bad{color:#d0453a}
+.legend{font-size:.88rem;margin:.3rem 0 .8rem}
+@media (max-width:760px){.cards,.exrow{grid-template-columns:1fr}}
 """
-# Native tooltips on every column header: put the explanation in the header cell's title attribute.
-HEAD = "<script>const KB_TIPS=" + json.dumps(TIPS) + """;
-function kbTips(){document.querySelectorAll('th, th *').forEach(el=>{const t=(el.innerText||'').trim().replace(/[▲▼↑↓⇅]/g,'').trim();
- if(KB_TIPS[t]){const th=el.closest('th')||el; th.title=KB_TIPS[t]; th.style.cursor='help';}});}
-new MutationObserver(kbTips).observe(document.documentElement,{childList:true,subtree:true});</script>"""
 
 # ------------------------------------------------------------------------------------------ app
-def save_request(model_id, contact, notes):
+def save_request(model_id, contact):
     model_id = (model_id or "").strip()
-    if not re.fullmatch(r"[\w.-]+/[\w.-]+", model_id):
-        return "Please give a Hugging Face model id like `user/model-name`."
+    if not re.fullmatch(r"[\w.-]+/[\w.-]+", model_id): return "Please give a Hugging Face model id like `user/model-name`."
     REQUESTS.mkdir(exist_ok=True)
-    req = {"model": model_id, "contact": (contact or "").strip()[:200], "notes": (notes or "").strip()[:1000],
-           "status": "PENDING", "submitted": dt.datetime.utcnow().isoformat(timespec="seconds") + "Z", "version": VERSION}
     p = REQUESTS / f"{model_id.replace('/', '__')}.json"
-    p.write_text(json.dumps(req, indent=1))
+    p.write_text(json.dumps({"model": model_id, "contact": (contact or "").strip()[:200], "status": "PENDING", "version": VERSION,
+                             "submitted": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}, indent=1))
     repo, token = os.environ.get("REQUESTS_REPO"), os.environ.get("HF_TOKEN")
     if repo and token:
         try:
@@ -305,71 +335,54 @@ def save_request(model_id, contact, notes):
             HfApi(token=token).upload_file(path_or_fileobj=str(p), path_in_repo=p.name, repo_id=repo, repo_type="dataset",
                                            commit_message=f"submission: {model_id}")
         except Exception as e:
-            return f"Saved locally but could not queue it ({e}). Please open a GitHub issue instead."
-    return f"✅ **{model_id}** is queued. We run it offline on the hidden test and post the result here, usually within a week."
+            return f"Saved, but the queue is unreachable ({e}). Please open a GitHub issue instead."
+    return f"✅ **{model_id}** is in the queue. Results usually appear within a week."
 
 def build():
-    rows = load_rows()
-    has_hidden = any(r.get("split") == "hidden" for r in rows)
-    split = "hidden" if has_hidden else "public"
-    df = main_table(rows, split)
-    with gr.Blocks(title="KVKK-Bench-TR", css=CSS, head=HEAD, theme=gr.themes.Soft(primary_hue="blue")) as demo:
-        gr.HTML(INTRO)
-        if len(df):
-            best = df.iloc[0]
-            small = df[df["In browser"]].sort_values("KVKK-F2", ascending=False)
-            clean = lambda md: re.sub(r"^\[(.*?)\]\(.*\)$", r"\1", md)
-            best_name, small_name = clean(best["System"]), clean(small.iloc[0]["System"]) if len(small) else "–"
-            with gr.Row():
-                gr.HTML(f'<div class="stat">Best on real text<b>{best_name}</b>KVKK-F2 {best["KVKK-F2"]}, {best["vs Presidio"]:+} points over Presidio</div>')
-                gr.HTML(f'<div class="stat">Best that runs in a browser<b>{small_name}</b>{small.iloc[0]["Size MB"] if len(small) else ""} MB download, nothing leaves the computer</div>')
-                gr.HTML(f'<div class="stat">Systems compared<b>{len(df)}</b>{"hidden test" if has_hidden else "public split (hidden test coming)"}</div>')
+    rows, split = load_rows()
+    gold, preds = load_examples()
+    run_keys = [k for k in SYSTEMS if k in preds]
+    with gr.Blocks(title="KVKK-Bench-TR", css=CSS, theme=gr.themes.Soft(primary_hue="blue", font=[gr.themes.GoogleFont("Inter"), "sans-serif"])) as demo:
+        gr.HTML(INTRO.format(v=VERSION))
+        gr.HTML(headline(rows, split))
         with gr.Tabs():
             with gr.Tab("🏆 Leaderboard"):
-                gr.HTML(guide_html())
-                Leaderboard(
-                    value=df, datatype=["number", "markdown", "str"] + ["number"] * 12 + ["bool", "str"],
-                    select_columns=SelectColumns(default_selection=[c for c in df.columns if c not in ("Licence", "Precision", "ms/page")],
-                                                 cant_deselect=["Rank", "System", "KVKK-F2"], label="Columns to show"),
-                    search_columns=SearchColumns(primary_column="System", secondary_columns=["Kind"], placeholder="Search a model, e.g. berturk or cosmos", label="Search"),
-                    filter_columns=[ColumnFilter("Kind", type="checkboxgroup", label="Kind of system"),
-                                    ColumnFilter("In browser", type="boolean", label="Only systems that run in the browser (document never leaves the computer)", default=False),
-                                    ColumnFilter("Size MB", type="slider", min=0.0, default=[0.0, max(500, float(df["Size MB"].fillna(0).max() or 1))], max=max(500, float(df["Size MB"].fillna(0).max() or 1)), label="Max download size (MB)")],
-                    hide_columns=[], height=520)
-                gr.Markdown("Ranking = **KVKK-F2 on real text**. *Generated (check)* is shown but never ranked. Hover a column name for what it means. "
-                            "Speeds are comparable only between rows measured on the same machine (recorded in each result file).")
-            with gr.Tab("📈 Accuracy vs size"):
-                gr.Markdown("Up and to the left is best: high accuracy on real text, small enough to run privately on a laptop or in a browser tab.")
-                gr.Plot(size_chart(rows, split))
-            with gr.Tab("📂 By document type"):
-                choices = [(TRACKS.get(t, (t, ""))[0], t) for t in TRACKS if any(t in r["tracks"] for r in rows if r.get("split") == split)]
-                dd = gr.Dropdown(choices=choices, value=choices[0][1] if choices else None, label="Track")
-                expl = gr.Markdown(TRACKS[choices[0][1]][1] if choices else "")
-                tt = gr.Dataframe(track_table(rows, split, choices[0][1]) if choices else pd.DataFrame(), datatype="markdown", interactive=False, wrap=True)
-                dd.change(lambda t: (TRACKS.get(t, ("", ""))[1], track_table(rows, split, t)), dd, [expl, tt])
-            with gr.Tab("🔤 By data type"):
-                gr.Markdown("Recall (%) for each kind of personal data. The number in brackets is how many such values the track contains. "
-                            "KVKK art. 6 special categories (HEALTH, UNION, …) are the most sensitive and the rarest.")
-                dd2 = gr.Dropdown(choices=choices, value=choices[0][1] if choices else None, label="Track")
-                ty = gr.Dataframe(type_table(rows, split, choices[0][1]) if choices else pd.DataFrame(), datatype="markdown", interactive=False, wrap=True)
-                dd2.change(lambda t: type_table(rows, split, t), dd2, ty)
-            with gr.Tab("📖 About & method"):
-                gr.Markdown(ABOUT)
-                with gr.Accordion("Türkçe özet", open=False):
-                    gr.Markdown("\n".join(f"* **{k}**: {v}" for k, v in GLOSSARY_TR.items()) +
-                                "\n\nKVKK-Bench-TR, Türkçe belgelerdeki kişisel verileri maskeleyen araçları **gerçek metin** üzerinde karşılaştırır. "
-                                "Kaçırılan bir isim, fazladan karartılan bir kelimeden daha ağır sayılır.")
-            with gr.Tab("🚀 Submit"):
+                only = gr.Checkbox(label="Only show tools that run in the browser (the document never leaves your computer)", value=False)
+                tbl = gr.HTML(table_html(rows))
+                only.change(lambda b: table_html(rows, b), only, tbl)
+                gr.Markdown("Hover a column name to see what it measures. Ranked by **Score**. Green bars are good, red bars are bad.", elem_classes="note")
+            with gr.Tab("👀 See the difference"):
+                gr.Markdown("The same document, masked by two tools. <span class='blk'>████</span> = blacked out. "
+                            "<span class='leak'>red</span> = personal data the tool **missed** and left readable.", elem_classes="legend")
+                with gr.Row():
+                    ex = gr.Dropdown([(EX_TITLES.get(k, k), k) for k in gold], value=next(iter(gold), None), label="Document")
+                    lft = gr.Dropdown([(SYSTEMS[k][0], k) for k in run_keys], value=BASELINE if BASELINE in run_keys else None, label="Left")
+                    rgt = gr.Dropdown([(SYSTEMS[k][0], k) for k in run_keys],
+                                      value=next((r["system"] for r in rows if r["system"] in run_keys), None), label="Right")
+                cmp = gr.HTML(compare_html(ex.value, lft.value, rgt.value, gold, preds))
+                for c in (ex, lft, rgt): c.change(lambda e, a, b: compare_html(e, a, b, gold, preds), [ex, lft, rgt], cmp)
+                gr.Markdown("All three are public benchmark documents. Every name, number and address in them is made up.", elem_classes="note")
+            with gr.Tab("📊 All the numbers"):
+                gr.Markdown("**Score against download size.** Top left is best: accurate *and* small enough to run privately.")
+                gr.Plot(size_chart(rows))
+                gr.Markdown("**Per test.** Pick a test to see each tool's numbers and how much of each kind of personal data it found (%). The number in brackets is how many there are.")
+                avail = [t for t in TRACKS if any(t in r["tracks"] for r in rows)]
+                dd = gr.Dropdown([(TRACKS[t], t) for t in avail], value=avail[0] if avail else None, label="Test")
+                df = gr.Dataframe(detail_df(rows, avail[0]) if avail else pd.DataFrame(), interactive=False, wrap=True)
+                dd.change(lambda t: detail_df(rows, t), dd, df)
+                gr.Markdown("**Size and speed** on a laptop CPU. Compare speeds only between rows measured on the same machine.")
+                gr.Dataframe(speed_df(rows), interactive=False, wrap=True)
+            with gr.Tab("📖 How we test"):
+                gr.Markdown(HOW)
+            with gr.Tab("🚀 Add your tool"):
                 gr.Markdown(SUBMIT)
                 with gr.Row():
-                    mid = gr.Textbox(label="Hugging Face model id", placeholder="user/model-name")
-                    contact = gr.Textbox(label="Contact (optional)", placeholder="GitHub handle or e-mail")
-                notes = gr.Textbox(label="Notes (optional)", placeholder="Labels it predicts, how to call it, licence", lines=3)
+                    mid = gr.Textbox(label="Hugging Face model id", placeholder="user/model-name", scale=3)
+                    contact = gr.Textbox(label="Contact (optional)", placeholder="GitHub handle", scale=2)
                 out = gr.Markdown()
-                gr.Button("Queue for evaluation", variant="primary").click(save_request, [mid, contact, notes], out)
-            with gr.Tab("📝 Citation"):
-                gr.Markdown("If you use the benchmark, please cite it, and TurkishLegalNER (Çetindağ, Yazıcıoğlu & Koç 2022) and Turkish Wiki NER (Altinok 2023).")
-                gr.Code(CITATION, language=None, label="BibTeX")
+                gr.Button("Send to the queue", variant="primary").click(save_request, [mid, contact], out)
+                gr.Markdown("**Cite** (and please also cite TurkishLegalNER and Turkish Wiki NER):")
+                gr.Code(CITATION, language=None)
     return demo
 
 if __name__ == "__main__":

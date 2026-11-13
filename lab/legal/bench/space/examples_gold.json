@@ -1,0 +1,123 @@
+{
+"gen-icra_04": {
+"id": "gen-icra_04",
+"track": "petition",
+"text": "TAKİP TALEBİ\n\nALACAKLI           : Kezban DURDU, 34953688602\nALACAKLI VEKİLİ    : Av. Akalan Aslan akalan.aslan@gmail.com\nBORÇLU             : Menişan Çakmakçı\n                     Koşuyolu Mah. Ziya Gökalp Cad. No:158 Daire:21 Seyhan/Adana\nALACAK MİKTARI     : 221.682,00 TL\nALACAĞIN NEDENİ    : Menişan Çakmakçı tarafından düzenlenen senet.\nTahsil edilen paranın TR80 0011 1038 6851 1019 7978 42 numaralı hesaba yatırılması talep olunur.\n",
+"spans": [
+[
+35,
+47,
+"PERSON"
+],
+[
+49,
+60,
+"TCKN"
+],
+[
+86,
+98,
+"PERSON"
+],
+[
+99,
+121,
+"EMAIL"
+],
+[
+143,
+159,
+"PERSON"
+],
+[
+181,
+240,
+"ADDRESS"
+],
+[
+297,
+313,
+"PERSON"
+],
+[
+365,
+397,
+"IBAN"
+]
+]
+},
+"gen-mesaj_01": {
+"id": "gen-mesaj_01",
+"track": "correspondence",
+"text": "[10:42] Alin: abi müvekkilin tc si 48374953676 mi\n[10:43] Bedi: evet, telefonu da +90 (542) 852 9494\n[10:44] Alin: tamam, karşı taraf GÖKTÜRK KILIÇARSLAN diye biri, adresi Güzelyalı Mahallesi Yasemin Sokak No: 36/13 Bornova / İzmir\n[10:46] Bedi: mail at bedi.cetin@hotmail.com\n",
+"spans": [
+[
+8,
+12,
+"PERSON"
+],
+[
+35,
+46,
+"TCKN"
+],
+[
+58,
+62,
+"PERSON"
+],
+[
+82,
+100,
+"PHONE"
+],
+[
+109,
+113,
+"PERSON"
+],
+[
+134,
+153,
+"PERSON"
+],
+[
+172,
+231,
+"ADDRESS"
+],
+[
+240,
+244,
+"PERSON"
+],
+[
+254,
+276,
+"EMAIL"
+]
+]
+},
+"tlner-legal-unseen-33": {
+"id": "tlner-legal-unseen-33",
+"track": "court-filled",
+"text": "Dolandırıcılık suçundan sanıklar ORÇİN KILIÇARSLAN ve Gökçe DEMİR hakkında verilen beraat hükümleri, sanıklar müdafii tarafından vekalet ücreti talebiyle sınırlı olarak, sanık Semat Şama hakkında verilen mahkumiyet hükmü sanık müdafii tarafından temyiz edilmekle, dosya incelenerek gereği düşünüldü;",
+"spans": [
+[
+33,
+50,
+"PERSON"
+],
+[
+54,
+65,
+"PERSON"
+],
+[
+176,
+186,
+"PERSON"
+]
+]
+}
+}
