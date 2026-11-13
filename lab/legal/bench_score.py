@@ -62,9 +62,11 @@ def score(gold, pred):
         spec = [by[x] for x in SPECIAL if x in by]
         sr = sum(v[1] for v in spec) / sum(v[0] for v in spec) if spec and sum(v[0] for v in spec) else float("nan")
         lk = leak[t]
-        row["tracks"][t] = {"types": tr, "recall": mr, "precision": mp, "f2": f2(mp, mr), "special_category_recall": sr,
+        words = sum(len(d["text"].split()) for d in gold if d.get("track", "all") == t)
+        row["tracks"][t] = {"types": tr, "recall": mr, "precision": mp, "f2": f2(mp, mr) if G else float("nan"), "special_category_recall": sr,
+                            "false_per_1k_words": 1000 * (Sx - T) / max(1, words),
                             "leak_rate": lk[1] / lk[0] if lk[0] else float("nan"), "clean_doc_rate": lk[3] / lk[2] if lk[2] else float("nan")}
-    v = [x["f2"] for x in row["tracks"].values()]
+    v = [x["f2"] for x in row["tracks"].values() if x["f2"] == x["f2"]]   # tracks with gold values only
     row["KVKK-F2"] = float(np.mean(v)) if v else float("nan")
     row["leak_rate"] = float(np.nanmean([x["leak_rate"] for x in row["tracks"].values()])) if v else float("nan")
     return row
@@ -78,5 +80,5 @@ if __name__ == "__main__":
     print(f"{a.name}: KVKK-F2 {100 * row['KVKK-F2']:.1f}   leak rate {100 * row['leak_rate']:.2f}%   missing {row['missing_predictions']}")
     for t, x in row["tracks"].items():
         print(f"  {t:22} recall {100 * x['recall']:5.1f}  precision {100 * x['precision']:5.1f}  F2 {100 * x['f2']:5.1f}  "
-              f"art.6 recall {100 * x['special_category_recall']:5.1f}  clean docs {100 * x['clean_doc_rate']:5.1f}%")
+              f"art.6 recall {100 * x['special_category_recall']:5.1f}  clean docs {100 * x['clean_doc_rate']:5.1f}%  false/1k words {x['false_per_1k_words']:.2f}")
     if a.out: open(a.out, "w").write(json.dumps(row, indent=1, default=float))

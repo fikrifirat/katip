@@ -51,12 +51,12 @@ def _write(rec):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 MAX_STOPS = 3
-def _wait(e, stops):  # wait at least what the site asked, longer after each stop
-    return max(getattr(e, "bekleme", 120), 60 * stops)
+def _wait(e, stops):  # wait at least what the site asked, longer after each stop (capped at 10 min)
+    return min(600, max(getattr(e, "bekleme", 120), 60 * stops))
 
 def crawl(court: str, target: int, have: set, log=print):
     from turk_hukuku_ictihat.ortak import ErisimDurdu
-    api, n, stops = _client(court), sum(1 for k in have if k[0] == court), 0
+    api, n, stops, ok_run = _client(court), sum(1 for k in have if k[0] == court), 0, 0
     per_query = max(1, target // len(QUERIES[court]) + 1)
     for q in QUERIES[court]:
         got, page = 0, 1
@@ -89,7 +89,8 @@ def crawl(court: str, target: int, have: set, log=print):
                         "esas_no": h.get("esas_no") or h.get("basvuru_no"), "karar_no": h.get("karar_no"),
                         "date": date, "year": _year(date), "title": h.get("baslik"), "url": doc.get("kaynak") or h.get("kaynak"),
                         "query": q, "text": text})
-                have.add(key); n += 1; got += 1
+                have.add(key); n += 1; got += 1; ok_run += 1
+                if ok_run >= 100 and stops: stops -= 1; ok_run = 0   # a long clean run earns back one stop
                 if n % 50 == 0: log(f"[{court}] {n}/{target}")
                 if got >= per_query or n >= target: break
             page += 1
