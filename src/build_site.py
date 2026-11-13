@@ -18,6 +18,7 @@ subprocess.run([sys.executable, str(here / "build_core.py"), str(src), str(nm), 
 for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg"):
     shutil.copy2(here / f, out / f)
 shutil.copytree(here / "fonts", out / "fonts", dirs_exist_ok=True)  # Geist (SIL OFL), self-hosted
+shutil.copytree(here / "hero", out / "hero", dirs_exist_ok=True)  # before/after images on the home screen
 (out / "README.md").unlink(missing_ok=True)
 (out / ".nojekyll").write_text("")
 
@@ -67,7 +68,7 @@ for m in reg:
 
 # version
 rules_hash = hashlib.sha256((src / "katip_redact/recognizers.py").read_bytes() + (src / "katip_redact/textutil.py").read_bytes()).hexdigest()[:8]
-(out / "version.json").write_text(json.dumps({"app": "0.5", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
+(out / "version.json").write_text(json.dumps({"app": "0.6", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
 
 # CSP from config.js: own origin only, plus the report endpoint if one is set
 cfg = (here / "config.js").read_text()

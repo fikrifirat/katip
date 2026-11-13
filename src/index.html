@@ -36,6 +36,7 @@
 
 <main>
   <section id="home" class="home">
+   <div class="home-main">
     <h2 class="hero" data-i18n="hero">Belgedeki kişisel verileri saniyeler içinde maskeleyin.</h2>
     <p class="lead" data-i18n="lead">Ad, T.C. kimlik, adres, telefon, IBAN, sağlık bilgisi… Katip bulur ve karartır; siz kontrol edip indirirsiniz.</p>
     <div id="drop" tabindex="0" role="button">
@@ -53,6 +54,17 @@
         <button type="button" id="openSample" data-i18n="openSample">Aç</button>
       </details>
     </div>
+   </div>
+   <figure class="ba" id="ba">
+    <div class="ba-frame">
+      <img src="hero/dilekce_orijinal.png" alt="Örnek dilekçe, orijinal" width="1000" height="544" data-i18n-alt="baOrigAlt">
+      <img src="hero/dilekce_maskeli.png" alt="Aynı dilekçe, Katip ile maskelenmiş" width="1000" height="544" class="ba-top" data-i18n-alt="baMaskAlt">
+      <span class="ba-tag l" data-i18n="viewReview">Orijinal</span><span class="ba-tag r" data-i18n="viewResult">Maskeli</span>
+      <span class="ba-line" aria-hidden="true"></span>
+      <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Orijinal / maskeli" data-i18n-aria="baAria">
+    </div>
+    <figcaption><span data-i18n="baCap">Örnek dava dilekçesi (kişiler uydurma). Çizgiyi kaydırın.</span> <button type="button" class="linkbtn" id="baOpen" data-i18n="baOpen">Bu örneği aç →</button></figcaption>
+   </figure>
     <ol class="steps">
       <li><b>1</b><span data-i18n="step1">Belgeyi bırakın</span></li>
       <li><b>2</b><span data-i18n="step2">Karartılanları kontrol edin</span></li>
@@ -77,6 +89,11 @@
     <div class="rv" id="rv">
       <div class="docview" id="docView"></div>
       <aside class="findings">
+        <div class="profiles">
+          <div class="lbl" data-i18n="profH">Ne için maskeliyorsunuz?</div>
+          <div class="seg prof" id="profiles" role="radiogroup"></div>
+          <p class="hint" id="profHint"></p>
+        </div>
         <div class="fhead"><b id="fCount"></b></div>
         <p class="hint" data-i18n="listHint2">Tik kaldırdığınız değer açık kalır. Belgedeki işarete tıklamak da aynı işi görür.</p>
         <div id="list"></div>

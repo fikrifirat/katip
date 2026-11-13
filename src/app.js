@@ -60,6 +60,7 @@ const I18N = {
     ocrBest: "Küçük", ocrBestMeta: "Aynı doğruluk, 4 kat küçük · 2 MB", ocrFast: "Standart", ocrFastMeta: "Eski motor verisiyle · 7,7 MB",
     origAlt: "Orijinal sayfa", maskAlt: "Maskeli sayfa", ocrText: "Okunan metin",
     trust: "Belgeniz bilgisayarınızdan çıkmaz", feedback: "Görüş bildir", feedbackH: "Görüşünüz bizim için çok değerli", hero: "Belgedeki kişisel verileri saniyeler içinde maskeleyin.", lead: "Ad, T.C. kimlik, adres, telefon, IBAN, sağlık bilgisi… Katip bulur ve karartır; siz kontrol edip indirirsiniz.", dropFormats: "PDF · fotoğraf · Word · UYAP .udf · metin", tryH: "Elinizde belge yok mu? Örnekle deneyin:", allSamples: "Tüm örnekler", openSample: "Aç", step1: "Belgeyi bırakın", step2: "Karartılanları kontrol edin", step3: "Maskeli halini indirin", newDoc: "← Yeni belge", listHint2: "Tik kaldırdığınız değer açık kalır. Belgedeki işarete tıklamak da aynı işi görür.", advH: "Gelişmiş ayarlar", modelH: "Algılama modeli", scanning: "Kişisel veriler aranıyor…", applying: "Karartılıyor…", sampleNote: "Örnek belge (kişiler uydurma). Cevap anahtarı:", leakFix: "Bunları da karart", qKira: "Kira sözleşmesi · fotoğraf", qDilekce: "Dava dilekçesi · UYAP .udf", qBilirkisi: "Bilirkişi raporu · tarama", qIs: "İş sözleşmesi · Word", rGeneral: "Genel görüş", rHowGeneral: "E-posta uygulamanız {to} adresine hazır bir mesajla açılır. Siz göndermeden hiçbir şey çıkmaz.",
+    profH: "Ne için maskeliyorsunuz?", pCourt: "Mahkemeye sunum", pAi: "Yapay zekâ ile paylaşım", pAnon: "Tam anonim", pCustom: "Özel seçim", pCourtHint: "Kişisel verilerin tamamı karartılır; sokak, dosya numarası ve tarihler okunur kalır. Delil ve dilekçe ekleri için.", pAiHint: "Buna ek olarak adresin tamamı, esas/karar ve UYAP numaraları, baro sicil numaraları ve sabıka bilgisi karartılır.", pAnonHint: "Buna ek olarak tarihler, il ve ilçeler, mahkeme, şirket ve kurum adları da karartılır. Metin okunur, kim olduğu çıkmaz.", pCustomHint: "Veri türlerini kendiniz seçtiniz.", pickTypes: "Türleri tek tek seç", baCap: "Örnek dava dilekçesi (kişiler uydurma). Çizgiyi kaydırın.", baOpen: "Bu örneği aç →", baOrigAlt: "Örnek dilekçe, orijinal", baMaskAlt: "Aynı dilekçe, Katip ile maskelenmiş", baAria: "Orijinal ile maskeli arasında kaydır",
   },
   en: {
     tagline: "Turkish KVKK redaction that runs entirely in your browser. Nothing is uploaded.",
@@ -111,15 +112,18 @@ const I18N = {
     ocrBest: "Compact", ocrBestMeta: "Same accuracy, 4× smaller · 2 MB", ocrFast: "Standard", ocrFastMeta: "Includes old engine data · 7.7 MB",
     origAlt: "Original page", maskAlt: "Masked page", ocrText: "Recognised text",
     trust: "Your document never leaves your computer", feedback: "Send feedback", feedbackH: "We'd love your feedback", hero: "Mask personal data in legal documents in seconds.", lead: "Names, ID numbers, addresses, phones, IBANs, health details… Katip finds and blacks them out; you check and download.", dropFormats: "PDF · photo · Word · UYAP .udf · text", tryH: "No document at hand? Try a sample:", allSamples: "All samples", openSample: "Open", step1: "Drop the document", step2: "Check what's masked", step3: "Download the masked copy", newDoc: "← New document", listHint2: "Untick a value to leave it visible. Clicking a highlight in the document does the same.", advH: "Advanced settings", modelH: "Detection model", scanning: "Looking for personal data…", applying: "Masking…", sampleNote: "Sample document (made-up people). Answer key:", leakFix: "Mask these too", qKira: "Lease · photo", qDilekce: "Petition · UYAP .udf", qBilirkisi: "Expert report · scan", qIs: "Employment contract · Word", rGeneral: "General feedback", rHowGeneral: "Your e-mail app opens a ready message to {to}. Nothing leaves until you send it.",
+    profH: "What are you masking it for?", pCourt: "Court filing", pAi: "Sharing with AI", pAnon: "Fully anonymous", pCustom: "Custom", pCourtHint: "All personal data is masked; streets, case numbers and dates stay readable. For evidence and petition attachments.", pAiHint: "On top of that, the whole address, case and UYAP numbers, bar registry numbers and criminal records are masked.", pAnonHint: "On top of that, dates, provinces and districts, and court, company and institution names are masked too. The text reads, the people can't be traced.", pCustomHint: "You picked the data types yourself.", pickTypes: "Pick types one by one", baCap: "Sample petition (made-up people). Drag the line.", baOpen: "Open this sample →", baOrigAlt: "Sample petition, original", baMaskAlt: "The same petition masked by Katip", baAria: "Slide between original and masked",
   },
 };
 const LABELS = {
   tr: { TCKN: "T.C. Kimlik No", VKN: "Vergi Kimlik No", IBAN: "IBAN", CREDIT_CARD: "Kredi kartı", PHONE: "Telefon", EMAIL: "E-posta", PLATE: "Araç plakası",
     PERSON: "Ad soyad", ADDRESS: "Adres", BIRTH_DATE: "Doğum tarihi", IP_ADDRESS: "IP adresi", YKN: "Yabancı kimlik no", PASSPORT: "Pasaport no", FOREIGN_ID: "Yabancı ülke kimlik no", HEALTH: "Sağlık", RELIGION: "Din/inanç", POLITICAL: "Siyasi görüş",
-    UNION: "Sendika", ETHNICITY: "Etnik köken", SEXUAL_LIFE: "Cinsel hayat", BIOMETRIC_GENETIC: "Biyometrik/genetik", CRIMINAL_RECORD: "Ceza mahkumiyeti", UNREAD: "El yazısı alanı", CUSTOM: "Eklenen terim" },
+    UNION: "Sendika", ETHNICITY: "Etnik köken", SEXUAL_LIFE: "Cinsel hayat", BIOMETRIC_GENETIC: "Biyometrik/genetik", CRIMINAL_RECORD: "Ceza mahkumiyeti", UNREAD: "El yazısı alanı",
+    CASE_NO: "Esas/karar/UYAP no", BAR_NO: "Baro/sicil no", DATE: "Tarih", PLACE: "İl/ilçe", INSTITUTION: "Mahkeme/kurum/şirket", CUSTOM: "Eklenen terim" },
   en: { TCKN: "Turkish ID no.", VKN: "Tax ID", IBAN: "IBAN", CREDIT_CARD: "Card number", PHONE: "Phone", EMAIL: "E-mail", PLATE: "Licence plate",
     PERSON: "Name", ADDRESS: "Address", BIRTH_DATE: "Birth date", IP_ADDRESS: "IP address", YKN: "Foreigner ID no.", PASSPORT: "Passport no.", FOREIGN_ID: "Foreign national ID", HEALTH: "Health", RELIGION: "Religion/belief", POLITICAL: "Political opinion",
-    UNION: "Trade union", ETHNICITY: "Ethnic origin", SEXUAL_LIFE: "Sex life", BIOMETRIC_GENETIC: "Biometric/genetic", CRIMINAL_RECORD: "Criminal record", UNREAD: "Handwritten area", CUSTOM: "Added term" },
+    UNION: "Trade union", ETHNICITY: "Ethnic origin", SEXUAL_LIFE: "Sex life", BIOMETRIC_GENETIC: "Biometric/genetic", CRIMINAL_RECORD: "Criminal record", UNREAD: "Handwritten area",
+    CASE_NO: "Case/UYAP no.", BAR_NO: "Bar/registry no.", DATE: "Date", PLACE: "Province/district", INSTITUTION: "Court/institution/company", CUSTOM: "Added term" },
 };
 const FORMATS = { tr: { txt: "Metin", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Taranmış PDF", png: "Fotoğraf" },
                   en: { txt: "Text", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Scanned PDF", png: "Photo" } };
@@ -129,6 +133,16 @@ const SAMPLE_EN = { aydinlatma: "Privacy notice", bilirkisi: "Expert report", di
 const PROGRESS_EN = [[/^NER modeli yükleniyor/, "Loading name model"], [/^NER çalışıyor/, "Running name model"], [/^OCR sayfa (\d+)\/(\d+)/, "OCR page $1/$2"], [/^Sayfa (\d+)\/(\d+)/, "Page $1/$2"],
   [/^OCR$/, "OCR"], [/^Kişisel veriler aranıyor/, "Looking for personal data"], [/^Maskeleniyor/, "Masking"], [/tekrar okunuyor/, "Re-reading output (leak check)"]];
 const ART6 = ["HEALTH", "RELIGION", "POLITICAL", "UNION", "ETHNICITY", "SEXUAL_LIFE", "BIOMETRIC_GENETIC", "CRIMINAL_RECORD"];
+// Masking profiles: one click sets the data types and the address rule; the checkboxes stay for fine control.
+// A ladder: each profile masks everything the one before it does, plus more.
+const CASE = ["CASE_NO", "BAR_NO"], ANON = ["DATE", "PLACE", "INSTITUTION"];
+const PERSONAL = () => Object.keys(LABELS.tr).filter(k => k !== "CUSTOM" && !CASE.includes(k) && !ANON.includes(k));
+const PROFILES = {
+  court: { name: "pCourt", hint: "pCourtHint", addr: "street", types: () => PERSONAL().filter(k => k !== "CRIMINAL_RECORD") },
+  ai: { name: "pAi", hint: "pAiHint", addr: "full", types: () => [...PERSONAL(), ...CASE] },
+  anon: { name: "pAnon", hint: "pAnonHint", addr: "full", types: () => [...PERSONAL(), ...CASE, ...ANON] },
+};
+let profile = "court";
 const COLORS = [["#000000", "Siyah / Black"], ["#3a3a3a", "Grafit / Graphite"], ["#1f3a5f", "Lacivert / Navy"], ["#1f5f4a", "Yeşil / Green"], ["#7a1f1f", "Bordo / Maroon"], ["#ffffff", "Beyaz / White"]];
 
 let lang = (() => {
@@ -151,7 +165,7 @@ let loaded = null;   // { name, bytes, gold, isSample }
 
 // ---------------------------------------------------------------- network watch
 let docOpenedAt = Infinity, netCount = 0;
-const runtimeFile = u => /\/(vendor|models|samples)\/|katip_py\.zip|\.(m?js|css|wasm|json)(\?|$)/.test(u);
+const runtimeFile = u => /\/(vendor|models|samples|hero)\/|katip_py\.zip|\.(m?js|css|wasm|json)(\?|$)/.test(u);
 new PerformanceObserver(list => {
   for (const e of list.getEntries()) if (e.startTime >= docOpenedAt && !runtimeFile(e.name)) netCount++;
   $("netCount").textContent = netCount; $("netPill").classList.toggle("bad", netCount > 0);
@@ -216,10 +230,12 @@ function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach(e => (e.textContent = t(e.dataset.i18n)));
   document.querySelectorAll("[data-i18n-ph]").forEach(e => (e.placeholder = t(e.dataset.i18nPh)));
+  document.querySelectorAll("[data-i18n-alt]").forEach(e => (e.alt = t(e.dataset.i18nAlt)));
+  document.querySelectorAll("[data-i18n-aria]").forEach(e => e.setAttribute("aria-label", t(e.dataset.i18nAria)));
   document.querySelectorAll("[data-i18n-tip]").forEach(e => { const s = t(e.dataset.i18nTip, { wm: wmText() }); e.dataset.tip = s; e.setAttribute("aria-label", s.split("||")[0]); e.setAttribute("role", "button"); });
   document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
   document.title = lang === "tr" ? "Katip Yerel: belgedeki kişisel verileri maskeleyin" : "Katip Yerel: mask personal data in documents";
-  if (samples.length) { buildSampleOptions(); drawFormats(); buildQuick(); buildModelUI(); buildEntityUI(); }
+  if (samples.length) { buildSampleOptions(); drawFormats(); buildQuick(); buildModelUI(); buildEntityUI(); buildProfileUI(); }
   updateButtons(); if (res?.spans) render(); else if (preview) renderPreview();
 }
 document.querySelectorAll("[data-lang]").forEach(b => (b.onclick = () => {
@@ -264,12 +280,35 @@ function buildEntityUI() {
   $("entities").textContent = "";
   for (const k of Object.keys(LABELS.tr)) {
     if (k === "CUSTOM") continue;
-    const cb = el("input", { type: "checkbox", value: k, checked: prev.length ? on.has(k) : k !== "CRIMINAL_RECORD" });
+    const cb = el("input", { type: "checkbox", value: k, checked: prev.length ? on.has(k) : PROFILES.court.types().includes(k) });
     $("entities").append(el("label", {}, cb, " " + L(k) + (ART6.includes(k) ? " ·6" : "")));
   }
   entCount();
 }
-$("entities").onchange = () => { entCount(); res?.spans && redetect(); };
+$("entities").onchange = () => { entCount(); syncProfile(); res?.spans && redetect(); };
+function buildProfileUI() {
+  $("profiles").textContent = "";
+  for (const [id, p] of Object.entries(PROFILES)) {
+    const b = el("button", { type: "button", textContent: t(p.name) }); b.dataset.p = id; b.setAttribute("role", "radio");
+    b.onclick = () => setProfile(id); $("profiles").append(b);
+  }
+  syncProfile();
+}
+function setProfile(id) {
+  const p = PROFILES[id], types = new Set(p.types());
+  document.querySelectorAll("#entities input").forEach(i => (i.checked = types.has(i.value)));
+  $("addrDetail").value = p.addr; entCount(); syncProfile();
+  if (res?.spans) redetect();
+}
+function syncProfile() {
+  const on = new Set([...document.querySelectorAll("#entities input:checked")].map(i => i.value));
+  profile = Object.keys(PROFILES).find(id => { const ty = PROFILES[id].types(); return PROFILES[id].addr === $("addrDetail").value && ty.length === on.size && ty.every(k => on.has(k)); }) ?? "custom";
+  document.querySelectorAll("#profiles button").forEach(b => b.setAttribute("aria-checked", b.dataset.p === profile));
+  const h = $("profHint"); h.textContent = (profile === "custom" ? t("pCustomHint") : t(PROFILES[profile].hint)) + " ";
+  const pick = el("button", { type: "button", className: "linkbtn", textContent: t("pickTypes") });
+  pick.onclick = () => { $("adv").open = true; document.querySelector("#adv details.ents").open = true; document.querySelector("#adv details.ents").scrollIntoView({ block: "center", behavior: "smooth" }); };
+  h.append(pick);
+}
 function entCount() { $("entCount").textContent = `(${document.querySelectorAll("#entities input:checked").length}/${Object.keys(LABELS.tr).length - 1})`; }
 function buildColorUI() {
   for (const [hex, name] of COLORS) {
@@ -290,7 +329,7 @@ const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
 $("threshold").oninput = () => ($("thresholdVal").textContent = Number($("threshold").value).toFixed(2));
 $("threshold").onchange = () => res?.spans && redetect();
 $("style").onchange = () => maskOptionsChanged();
-$("addrDetail").onchange = () => res?.spans && redetect();
+$("addrDetail").onchange = () => { syncProfile(); res?.spans && redetect(); };
 $("watermark").onchange = () => maskOptionsChanged();
 $("centerMark").onchange = () => maskOptionsChanged();
 function maskOptionsChanged() { if (res?.spans && applied && !busy) redactNow(); }
@@ -328,6 +367,8 @@ function drawFormats() {
     f.append(b);
   }
 }
+// before/after slider on the home screen
+$("baRange").oninput = () => $("ba").style.setProperty("--pos", $("baRange").value + "%");
 function showWork(on) { $("home").classList.toggle("hidden", on); $("work").classList.toggle("hidden", !on); if (!on) window.scrollTo(0, 0); }
 function pickFile(f) { if (!f) return; src.file = f; src.mode = "file"; loadSource(); }
 $("drop").onclick = () => $("file").click();
@@ -419,13 +460,13 @@ worker.onmessage = async ({ data: m }) => {
     if (!res || m.seq !== res.seq || m.seq !== seq) return;
     Object.assign(res, { kind: m.kind, text: m.text, spans: m.spans, pages: m.pages, pageSizes: m.pageSizes, ocrPages: m.ocrPages, timing: m.timing, nerCount: m.nerCount,
       origPreviews: m.previews.map(p => URL.createObjectURL(new Blob([p], { type: "image/png" }))) });
-    off = new Set(m.spans.filter(s => s.flag_only || !res.settings.entities.includes(s.entity_type)).map(key));
+    off = new Set(m.spans.filter(s => !res.settings.entities.includes(s.entity_type)).map(key));
     busy = false; render(); redactNow();  // show the masked result straight away; the list lets them undo any item
   } else if (m.type === "redetected") {
     if (!res?.spans) return;
     const wasOff = new Set([...off].filter(k => res.spans.some(s => key(s) === k && !s.flag_only)));
     res.spans = m.spans; Object.assign(res.timing, m.timing); res.nerCount = m.nerCount;
-    off = new Set(m.spans.filter(s => s.flag_only || wasOff.has(key(s))).map(key));
+    off = new Set(m.spans.filter(s => wasOff.has(key(s))).map(key));
     busy = false; if (applied) redactNow(); else { status(t("found", { n: chosen().length }) + "."); render(); }
   } else if (m.type === "redacted") {
     if (!res?.spans) return;
@@ -458,7 +499,8 @@ function editDist(a, b) {
 }
 const ocrMatches = (a, b) => { if (exactMatches(a, b)) return true; const x = sq(a), y = sq(b); return y.length >= 5 && editDist(x, y) <= Math.max(1, Math.floor(y.length * 0.15)); };
 function goldEval(spans, gold, ocr = false, streetVisible = false) {
-  spans = spans.filter(s => s.entity_type !== "UNREAD");  // image areas, not text: outside the answer key
+  // image areas and the case-detail types of the stricter profiles are outside the answer key
+  spans = spans.filter(s => s.entity_type !== "UNREAD" && !CASE.includes(s.entity_type) && !ANON.includes(s.entity_type));
   const matches = ocr ? ocrMatches : exactMatches;
   const g = gold.filter(x => x.entity_type !== "CRIMINAL_RECORD");
   // With "street visible" (the default) only the building/door part of an address is masked by design,
@@ -728,7 +770,8 @@ $("rSend").onclick = async () => {
   } catch (e) { status(t("error") + e.message); return; }
   $("version").textContent = `Katip Yerel ${version.app} · ${version.rules} · ${version.built}`;
   if (version.source) $("srcLink").href = version.source;
-  buildColorUI(); buildSampleUI(); buildModelUI(); buildEntityUI(); applyLang();
+  buildColorUI(); buildSampleUI(); buildModelUI(); buildEntityUI(); buildProfileUI(); applyLang();
+  $("baOpen").onclick = () => { const sm = samples.find(x => x.type === "dilekce"); if (sm) openSample(sm, "png"); };
   const q = new URLSearchParams(location.search).get("sample");  // ?sample=dilekce:udf opens a sample directly (handy for sharing)
   if (q) { const [ty, fm] = q.split(":"), sm = samples.find(x => x.type === ty || x.id === ty); if (sm) openSample(sm, sm.formats.includes(fm) ? fm : sm.formats[0]); }
 })();
