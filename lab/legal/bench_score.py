@@ -21,6 +21,9 @@ GENERAL = ["PERSON", "TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "AD
 SPECIAL = ["HEALTH", "RELIGION", "ETHNICITY", "POLITICAL", "UNION", "SEXUAL_LIFE", "CRIMINAL_RECORD", "BIOMETRIC_GENETIC",
            "PHILOSOPHICAL", "ASSOCIATION", "DRESS"]   # KVKK art. 6 special categories
 TYPES = GENERAL + SPECIAL
+# Ranking uses real text only. Generated documents come from the same generator family Katip trains on,
+# so they are shown as a regression check, never ranked on.
+REAL_TRACKS = {"court", "court-real", "court-filled", "prose", "scan"}
 
 _sq = lambda s: re.sub(r"\s+", "", s).casefold()
 def matches(a, b):
@@ -67,7 +70,11 @@ def score(gold, pred):
                             "false_per_1k_words": 1000 * (Sx - T) / max(1, words),
                             "leak_rate": lk[1] / lk[0] if lk[0] else float("nan"), "clean_doc_rate": lk[3] / lk[2] if lk[2] else float("nan")}
     v = [x["f2"] for x in row["tracks"].values() if x["f2"] == x["f2"]]   # tracks with gold values only
-    row["KVKK-F2"] = float(np.mean(v)) if v else float("nan")
+    real = [x["f2"] for t, x in row["tracks"].items() if t in REAL_TRACKS and x["f2"] == x["f2"]]
+    gen = [x["f2"] for t, x in row["tracks"].items() if t not in REAL_TRACKS and x["f2"] == x["f2"]]
+    row["KVKK-F2"] = float(np.mean(real)) if real else float("nan")          # the ranking score: real text only
+    row["F2 generated"] = float(np.mean(gen)) if gen else float("nan")      # regression check on generated documents
+    row["F2 all tracks"] = float(np.mean(v)) if v else float("nan")
     row["leak_rate"] = float(np.nanmean([x["leak_rate"] for x in row["tracks"].values()])) if v else float("nan")
     return row
 

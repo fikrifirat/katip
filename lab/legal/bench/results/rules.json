@@ -5,7 +5,7 @@
  "version": "v0.1",
  "size_mb": 0.3,
  "runs_locally": true,
- "ms_per_doc": 0.8,
+ "ms_per_doc": 0.9,
  "tracks": {
   "contract": {
    "types": {
@@ -489,6 +489,8 @@
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.8602813000047391,
+ "KVKK-F2": 0.5387058453879483,
+ "F2 generated": 0.9889114818514553,
+ "F2 all tracks": 0.8602813000047391,
  "leak_rate": 0.1385833619809411
 }

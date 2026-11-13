@@ -37,8 +37,9 @@ model that doesn't claim a type gets recall 0 for it, never "n/a".
 
 ## Metrics (recall first)
 
-* **KVKK-F2**, the ranking score: F2 (recall weighted 4×) per track over all types, then the mean over tracks,
-  so a large track can't drown a small one.
+* **KVKK-F2**, the ranking score: F2 (recall weighted 4×) per track over all types, then the mean over the
+  real-text tracks, so a large track can't drown a small one. Generated tracks are a separate regression-check
+  column: Katip's models train on the same generator, so ranking on them would favour Katip.
 * Shown next to it: recall, precision, **leak rate** (share of gold PII characters left readable: a
   half-masked name counts as half a leak), **clean-document rate** (documents with nothing left readable),
   art. 6 recall, strict exact-span recall, false names per 1,000 words on name-free text, model size,
@@ -48,9 +49,8 @@ model that doesn't claim a type gets recall 0 for it, never "n/a".
 * 95% CIs by document bootstrap. Two entries are only ranked apart if the paired bootstrap says so; ties
   share a rank.
 
-`bench_score.py` implements all of this. On Katip's synthetic blind set, Katip Rules gets KVKK-F2 99.0 but
-only 60–100% clean documents per style: it finds every value but leaves edges readable. That gap is exactly
-what the leak rate is for.
+`bench_score.py` implements all of this. On the generated documents, Katip Rules gets F2 98.9 but only 60–100%
+clean documents per style: it finds every value but leaves edges readable. That gap is what the leak rate is for.
 
 ## Splits and the hidden test
 

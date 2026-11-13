@@ -1,0 +1,25 @@
+name: Benchmark label error (KVKK-Bench-TR)
+description: A wrong, missing or extra label in KVKK-Bench-TR, or personal data that should not be in it.
+title: "[bench] "
+labels: ["benchmark", "label-error"]
+body:
+  - type: input
+    id: version
+    attributes: {label: Benchmark version, placeholder: v0.1}
+    validations: {required: true}
+  - type: input
+    id: doc
+    attributes: {label: Document id, placeholder: tlner-legal-unseen-123}
+    validations: {required: true}
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What is wrong?
+      options: [Missing value (should be labelled), Wrong type, Wrong offsets, Should not be labelled, Privacy - real personal data that should not be here]
+    validations: {required: true}
+  - type: textarea
+    id: detail
+    attributes:
+      label: Details
+      description: The text around it, the offsets [start, end] and the label you think is right. For a privacy report, do NOT paste the personal data itself; give the id and offsets only.
+    validations: {required: true}
