@@ -91,7 +91,7 @@ def build(pool="common", seed=0):
                     i += 1; continue
                 if text and w not in NOSPACE_BEFORE and not text.endswith("("): text += " "
                 text += w; prev_name = None; i += 1
-            docs.append({"text": text, "spans": spans, "masked": filled, "kept": kept})
+            docs.append({"text": text, "spans": spans, "masked": filled, "kept": kept, "split": split})
     return docs
 
 def get_legal(seed=0):
