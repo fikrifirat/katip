@@ -153,3 +153,13 @@ details.checks{margin-top:12px;font-size:13px}details.checks summary{cursor:poin
 .ba-busy{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:#0B0D10;color:var(--lime);font:600 13px/1 "Inter",sans-serif;padding:8px 14px;border-radius:999px;display:none;line-height:1}
 .ba-frame.loading .ba-busy{display:block}.ba-frame.loading .ba-o,.ba-frame.loading .ba-m{opacity:.45;transition:opacity .2s}
 .ba figcaption{align-items:center}
+
+/* v0.7: GitHub + Claude */
+.top .ghlink{display:inline-flex;align-items:center;gap:6px;color:var(--brand-ink);text-decoration:none;font-size:13.5px;padding:5px 8px;border-radius:999px}.top .ghlink:hover{color:var(--lime)}
+@media(max-width:600px){.top .ghlink span{display:none}}
+details.claude{grid-column:1/-1;text-align:left;max-width:760px;margin:26px auto 0;width:100%;border:1px solid var(--line);border-radius:12px;padding:12px 16px;background:var(--panel)}
+details.claude summary{cursor:pointer;font-weight:600;font-size:14.5px}details.claude summary .muted{font-weight:400;color:var(--muted);font-size:13px;margin-left:6px}
+.claude-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:12px 24px;margin-top:12px}@media(max-width:700px){.claude-grid{grid-template-columns:1fr}}
+.claude-grid>div{min-width:0}.claude-grid h3{font-size:13.5px;margin:0 0 6px}.claude-grid ol{margin:0;padding-left:18px;font-size:13.5px;line-height:1.6}
+.claude-grid pre{margin:0;padding:10px 12px;border-radius:8px;background:var(--ink);color:var(--bg);font-size:12.5px;overflow-x:auto;white-space:pre}
+details.claude .hint{margin:10px 0 0;font-size:12.5px;text-align:left}details.claude a{color:var(--accent)}

@@ -27,6 +27,7 @@
   </svg><span class="word">Katip <span class="word2">Mask</span></span></h1>
   <span class="pill trustpill" id="netPill" tabindex="0" data-i18n-tip="netTip" data-tip=""><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="7" width="10" height="7" rx="1.6" fill="currentColor"/></svg> <span data-i18n="trust">Cihazınızda çalışır · belgeniz bilgisayarınızdan çıkmaz</span></span>
   <span class="spacer"></span>
+  <a class="ghlink" href="https://github.com/fikrifirat/katip" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg><span>GitHub</span></a>
   <button type="button" id="reportBtn" class="fb" data-i18n="feedback">Görüş bildir</button>
   <div class="seg lang" role="group" aria-label="Dil / Language">
     <button type="button" data-lang="tr" aria-pressed="true">TR</button>
@@ -67,6 +68,18 @@
       <li><b>2</b><span data-i18n="step2">Karartılanları kontrol edin</span></li>
       <li><b>3</b><span data-i18n="step3">Maskeli halini indirin</span></li>
     </ol>
+    <details class="claude" id="claudeUse">
+      <summary><span data-i18n="cTitle">Claude ile kullanın</span> <span class="muted" data-i18n="cSub">Claude belgeyi görmeden önce Katip kişisel verileri bilgisayarınızda maskeler</span></summary>
+      <div class="claude-grid">
+        <div><h3>Claude Desktop</h3>
+          <ol><li><a href="https://github.com/fikrifirat/katip/releases/download/kalkan-v0.2.0-beta.1/katip-kalkan.mcpb" data-i18n="cDl">katip-kalkan.mcpb dosyasını indirin</a></li>
+          <li data-i18n="cDbl">Dosyaya çift tıklayın, Claude kurulumu açar</li></ol></div>
+        <div><h3>Claude Code</h3>
+          <pre><code>claude plugin marketplace add fikrifirat/katip
+claude plugin install katip-kalkan@katip</code></pre></div>
+      </div>
+      <p class="hint"><span data-i18n="cReq">Python 3.10 veya üstü gerekir. uv kuruluysa isim modeli de otomatik gelir.</span> <a href="https://github.com/fikrifirat/katip/tree/main/connector#readme" target="_blank" rel="noopener" data-i18n="cMore">Ayrıntılar</a></p>
+    </details>
     <p class="hint center" id="engineState"></p>
   </section>
 
@@ -165,6 +178,7 @@
 <footer class="foot">
   <span id="version"></span> · <span data-i18n="foot">Açık kaynak · tamamen tarayıcıda çalışır</span>
   · <a href="https://github.com/fikrifirat/katip" id="srcLink" data-i18n="source">Kaynak kod</a>
+  · <a href="https://huggingface.co/spaces/f1k/kvkk-bench-tr" target="_blank" rel="noopener" data-i18n="bench">KVKK-Bench sıralaması</a>
 </footer>
 <script src="vendor/jszip/dist/jszip.min.js"></script>
 <script type="module" src="app.js"></script>
