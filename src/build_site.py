@@ -18,6 +18,7 @@ subprocess.run([sys.executable, str(here / "build_core.py"), str(src), str(nm), 
 for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg"):
     shutil.copy2(here / f, out / f)
 shutil.copytree(here / "fonts", out / "fonts", dirs_exist_ok=True)  # Geist (SIL OFL), self-hosted
+shutil.copytree(here / "hero", out / "hero", dirs_exist_ok=True)  # before/after images on the home screen
 (out / "README.md").unlink(missing_ok=True)
 (out / ".nojekyll").write_text("")
 
@@ -43,16 +44,19 @@ ORDER = ["pdf", "scan.pdf", "png", "docx", "udf", "txt"]
 blind = src / "eval/blind"
 man = json.loads((blind / "manifest.json").read_text())
 (out / "samples").mkdir(exist_ok=True)
-picked = []
+picked, pdfs = [], []
 for t, title in TITLES.items():
-    cands = [m for m in man if m["doc_type"] == t]
-    if not cands: continue
-    m = max(cands, key=lambda m: (len(m["formats"]), -int(m["id"].split("_")[-1])))
-    for f in m["formats"]:
-        shutil.copy2(blind / f"{m['id']}.{f}", out / "samples" / f"{m['id']}.{f}")
-    gold = json.loads((blind / f"{m['id']}.gold.json").read_text())
-    picked.append({"id": m["id"], "type": t, "title": title, "formats": [f for f in ORDER if f in m["formats"]],
-                   "gold": [{"entity_type": g["entity_type"], "text": g["text"]} for g in gold]})
+    # every variant of each document type (5 per type), so the home screen can offer a sub-selector
+    for m in sorted((m for m in man if m["doc_type"] == t), key=lambda m: m["id"]):
+        for f in m["formats"]:
+            dst = out / "samples" / f"{m['id']}.{f}"
+            if f.endswith("pdf"): pdfs += [str(blind / f"{m['id']}.{f}"), str(dst)]
+            else: shutil.copy2(blind / f"{m['id']}.{f}", dst)
+        gold = json.loads((blind / f"{m['id']}.gold.json").read_text())
+        picked.append({"id": m["id"], "type": t, "title": title, "n": int(m["id"].split("_")[-1]), "formats": [f for f in ORDER if f in m["formats"]],
+                       "gold": [{"entity_type": g["entity_type"], "text": g["text"]} for g in gold]})
+# sample PDFs embed whole fonts (~775 KB each); MuPDF subsets and compresses them (~45 KB) and checks the text is unchanged
+subprocess.run(["node", str(here / "compress_pdf.mjs"), str(out / "vendor/mupdf/dist/mupdf.js"), *pdfs], check=True)
 (out / "samples/manifest.json").write_text(json.dumps(picked, ensure_ascii=False, indent=1))
 
 # models
@@ -67,7 +71,7 @@ for m in reg:
 
 # version
 rules_hash = hashlib.sha256((src / "katip_redact/recognizers.py").read_bytes() + (src / "katip_redact/textutil.py").read_bytes()).hexdigest()[:8]
-(out / "version.json").write_text(json.dumps({"app": "0.3", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
+(out / "version.json").write_text(json.dumps({"app": "0.6", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
 
 # CSP from config.js: own origin only, plus the report endpoint if one is set
 cfg = (here / "config.js").read_text()
