@@ -67,7 +67,7 @@ function renderPages(bytes, max = 12, scale = 1.25) {
   return out;
 }
 
-async function detectWithModel(text, s) {
+async function detectWithModel(text, s, doc = null) {
   const t0 = performance.now();
   let extra = [];
   if (s.ner) {
@@ -77,7 +77,8 @@ async function detectWithModel(text, s) {
     extra = await runNer(T, ner, text, { minScore: s.threshold });
   }
   const tn = performance.now();
-  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null, trust: s.trust ?? null });
+  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null, trust: s.trust ?? null,
+    ocr_ranges: (doc?.pages ?? []).filter(p => p.ocr).map(p => [p.start, p.end]), address_detail: s.addressDetail ?? "street" });
   return { spans, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
 }
 
@@ -85,21 +86,21 @@ async function analyze({ name, bytes, settings, seq }) {
   const t0 = performance.now(), kind = E.kindOf(name), ocr = ocrWith(settings.ocrLang);
   let doc;
   if (kind === "pdf") doc = await E.parsePdf(mupdf, bytes, ocr, { onProgress: progress });
-  else if (kind === "image") { progress("OCR"); doc = await E.parseImage(bytes.slice(), ocr); }
+  else if (kind === "image") { progress("OCR"); doc = await E.parseImage(bytes.slice(), ocr, null, mupdf); }
   else doc = { kind, text: E.pyExtract(py, kind, bytes) };
   const parseMs = Math.round(performance.now() - t0);
   progress("Kişisel veriler aranıyor");
-  const r = await detectWithModel(doc.text, settings);
+  const r = await detectWithModel(doc.text, settings, doc);
   current = { name, kind, bytes, doc };
-  if (kind === "pdf" || kind === "image") E.attachBoxes(doc, r.spans);
+  if (kind === "pdf" || kind === "image") { E.attachBoxes(doc, r.spans); if (!settings.entities || settings.entities.includes("UNREAD")) r.spans.push(...E.unreadSpans(doc)); }
   const previews = kind === "pdf" ? renderPages(bytes) : [];
   postMessage({ type: "analyzed", seq, kind, text: doc.text, spans: r.spans, ocrPages: doc.ocrPages ?? 0, pages: doc.pages?.length ?? 1, pageSizes: pageSizes(doc),
                 timing: { parse: parseMs, ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount, previews }, previews.map(p => p.buffer));
 }
 
 async function redetect({ settings }) {
-  const r = await detectWithModel(current.doc.text, settings);
-  if (current.kind === "pdf" || current.kind === "image") E.attachBoxes(current.doc, r.spans);
+  const r = await detectWithModel(current.doc.text, settings, current.doc);
+  if (current.kind === "pdf" || current.kind === "image") { E.attachBoxes(current.doc, r.spans); if (!settings.entities || settings.entities.includes("UNREAD")) r.spans.push(...E.unreadSpans(current.doc)); }
   postMessage({ type: "redetected", spans: r.spans, timing: { ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount });
 }
 

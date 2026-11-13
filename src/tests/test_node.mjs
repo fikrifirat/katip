@@ -29,9 +29,12 @@ for (const f of files) {
   if (kind === "pdf") {
     doc = await E.parsePdf(mupdf, bytes, ocr);
   } else if (kind === "image") {
-    doc = await E.parseImage(bytes, ocr);
+    doc = await E.parseImage(bytes, ocr, null, mupdf);
   } else doc = { kind, text: E.pyExtract(py, kind, bytes) };
-  const spans = E.pyDetect(py, doc.text).filter(s => !s.flag_only);
+  // address_detail "full" by default so recall stays comparable with the answer keys (whole addresses)
+  const spans = E.pyDetect(py, doc.text, { ocr_ranges: (doc.pages ?? []).filter(p => p.ocr).map(p => [p.start, p.end]),
+                                           address_detail: process.env.KATIP_ADDRESS ?? "full" }).filter(s => !s.flag_only);
+  if (kind === "pdf" || kind === "image") { E.attachBoxes(doc, spans); spans.push(...E.unreadSpans(doc).filter(u => !u.flag_only)); }
   if (kind === "pdf") { E.attachBoxes(doc, spans); outBytes = E.redactPdf(mupdf, doc, spans); outText = E.pdfText(mupdf, outBytes);
     if (doc.ocrPages) for (const png of E.pdfPagePngs(mupdf, outBytes, doc.pages.filter(p => p.ocr).map(p => p.number)))
       outText += (await ocr(png)).map(l => l.map(w => w.text).join(" ")).join("\n"); }
