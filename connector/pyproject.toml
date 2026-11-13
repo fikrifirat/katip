@@ -1,0 +1,21 @@
+[project]
+name = "katip-kalkan"
+version = "0.1.0"
+description = "Use ChatGPT and Claude on client documents without sending them personal data (KVKK)"
+requires-python = ">=3.10"
+license = {text = "AGPL-3.0-or-later"}
+dependencies = []  # standard library only; the engine ships as a zip
+
+[project.optional-dependencies]
+crypto = ["cryptography>=42"]   # encrypted vault + share codes (strongly recommended)
+pdf = ["pymupdf>=1.24"]
+dev = ["pytest>=8", "cryptography>=42"]
+
+[project.scripts]
+katip-kalkan = "katip_kalkan.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["katip_kalkan*"]
+
+[tool.setuptools.package-data]
+katip_kalkan = ["engine.zip"]

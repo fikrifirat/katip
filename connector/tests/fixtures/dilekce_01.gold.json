@@ -1,0 +1,105 @@
+[
+ {
+  "entity_type": "PERSON",
+  "start": 45,
+  "end": 58,
+  "text": "Emal YILDIRIM",
+  "unseen": false
+ },
+ {
+  "entity_type": "TCKN",
+  "start": 76,
+  "end": 87,
+  "text": "75428707268"
+ },
+ {
+  "entity_type": "ADDRESS",
+  "start": 108,
+  "end": 167,
+  "text": "Yenişehir Mahallesi Lale Sokak No: 47/22 Kadıköy / İSTANBUL"
+ },
+ {
+  "entity_type": "PERSON",
+  "start": 191,
+  "end": 208,
+  "text": "Yiğitalp Tekinalp",
+  "unseen": true
+ },
+ {
+  "entity_type": "PHONE",
+  "start": 267,
+  "end": 281,
+  "text": "0312 434 73 38"
+ },
+ {
+  "entity_type": "EMAIL",
+  "start": 292,
+  "end": 321,
+  "text": "yigitalp.tekinalp@hotmail.com"
+ },
+ {
+  "entity_type": "PERSON",
+  "start": 341,
+  "end": 357,
+  "text": "Göktürk BOZDEMİR",
+  "unseen": true
+ },
+ {
+  "entity_type": "TCKN",
+  "start": 365,
+  "end": 376,
+  "text": "47045052816"
+ },
+ {
+  "entity_type": "ADDRESS",
+  "start": 397,
+  "end": 480,
+  "text": "Fatih Sultan Mehmet Mh. Fevzi Çakmak Cd. Begonya Apt. No:43 D:23 73554 Seyhan/Adana"
+ },
+ {
+  "entity_type": "PERSON",
+  "start": 586,
+  "end": 599,
+  "text": "Emal YILDIRIM",
+  "unseen": false
+ },
+ {
+  "entity_type": "PERSON",
+  "start": 611,
+  "end": 627,
+  "text": "Göktürk BOZDEMİR",
+  "unseen": true
+ },
+ {
+  "entity_type": "BIRTH_DATE",
+  "start": 669,
+  "end": 679,
+  "text": "18.04.1956"
+ },
+ {
+  "entity_type": "PERSON",
+  "start": 720,
+  "end": 732,
+  "text": "Elvin Sözeri",
+  "unseen": true
+ },
+ {
+  "entity_type": "PLATE",
+  "start": 858,
+  "end": 868,
+  "text": "24 R 61970"
+ },
+ {
+  "entity_type": "IBAN",
+  "start": 942,
+  "end": 974,
+  "text": "TR03 0004 6055 2513 7790 4435 12"
+ },
+ {
+  "entity_type": "PERSON",
+  "start": 1238,
+  "end": 1255,
+  "text": "Yiğitalp Tekinalp",
+  "unseen": true
+ }
+]

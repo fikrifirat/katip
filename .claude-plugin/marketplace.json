@@ -1,0 +1,15 @@
+{
+  "name": "katip",
+  "owner": {
+    "name": "fikrifirat",
+    "url": "https://github.com/fikrifirat"
+  },
+  "plugins": [
+    {
+      "name": "katip-kalkan",
+      "source": "./connector",
+      "description": "Mask Turkish personal data (KVKK) on your computer before Claude reads a document."
+    }
+  ],
+  "description": "Katip: KVKK-safe AI for Turkish law firms. Personal data is masked on your computer before Claude reads a document."
+}

@@ -10,3 +10,4 @@ __pycache__/
 ml/berturk/data/wikiner/
 lab/results/
 src/models/paddleocr/
+connector/dist/
