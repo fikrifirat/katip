@@ -17,7 +17,9 @@ with tempfile.TemporaryDirectory() as d:
     for f in ("app.py", "README.md", "requirements.txt"): shutil.copy(HERE / f, d / f)
     for sub in ("results",):
         (d / sub).mkdir()
-        for f in (HERE.parent / sub).glob("*.json"): shutil.copy(f, d / sub / f.name)
+        import app   # only publish rows the leaderboard shows; internal references (e.g. berturk-v1, tiny v1) stay in the repo
+        for f in (HERE.parent / sub).glob("*.json"):
+            if f.stem in app.SYSTEMS: shutil.copy(f, d / sub / f.name)
     print("uploading:", sorted(str(p.relative_to(d)) for p in d.rglob("*") if p.is_file()))
     api = HfApi()
     api.create_repo(a.repo, repo_type="space", space_sdk="gradio", exist_ok=True)
