@@ -1,4 +1,4 @@
-# KVKK-Bench-TR: a public leaderboard for Turkish personal-data masking
+# KVKK-Bench: a public leaderboard for Turkish personal-data masking
 
 Draft design, 13 Nov 2026. It grows out of Study 5 (`DESIGN.md`): the study's test splits become the
 leaderboard's hidden test, so the study and the benchmark are built once.

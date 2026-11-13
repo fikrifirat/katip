@@ -1,5 +1,5 @@
 ---
-pretty_name: KVKK-Bench-TR
+pretty_name: KVKK-Bench
 language:
 - tr
 license: other
@@ -26,7 +26,7 @@ configs:
     path: v0.1/public/*.jsonl
 ---
 
-# KVKK-Bench-TR
+# KVKK-Bench
 
 A benchmark for **finding and masking personal data in Turkish documents** under KVKK (Law No. 6698), Turkey's
 data-protection law. It asks what a lawyer or compliance officer asks: *was any personal data left readable?*
@@ -194,7 +194,7 @@ data that should not be here, report it (below) and we remove it within 7 days.
 
 ```bibtex
 @misc{kvkkbenchtr2026,
-  title  = {KVKK-Bench-TR: a benchmark for personal-data masking in Turkish documents},
+  title  = {KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
   author = {{Katip contributors}},
   year   = {2026},
   url    = {https://github.com/fikrifirat/katip}

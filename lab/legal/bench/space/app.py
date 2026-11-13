@@ -1,4 +1,4 @@
-"""KVKK-Bench-TR leaderboard (Hugging Face Space, Gradio).
+"""KVKK-Bench leaderboard (Hugging Face Space, Gradio).
 
   pip install -r requirements.txt && python app.py
 
@@ -186,7 +186,7 @@ def chart(rows, x):
     return fig
 
 ABOUT = """
-**KVKK-Bench-TR** measures how well tools find personal data in Turkish text, so it can be masked before a document is shared,
+**KVKK-Bench** measures how well tools find personal data in Turkish text, so it can be masked before a document is shared,
 for example with a cloud AI. Every tool gets the same documents and the same scorer.
 
 **Test data (v0.1.1, public)**
@@ -208,7 +208,7 @@ A hidden test of 2025–26 court decisions is in preparation and will replace th
 [report a label error](https://github.com/fikrifirat/katip/issues/new/choose)
 
 ```
-@misc{kvkkbenchtr2026, title={KVKK-Bench-TR: a benchmark for personal-data masking in Turkish documents},
+@misc{kvkkbenchtr2026, title={KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
   author={{Katip contributors}}, year={2026}, url={https://github.com/fikrifirat/katip}}
 ```
 """
@@ -272,8 +272,8 @@ def build():
     empty = {k for k in DIMS if not any(r[k] == r[k] for r in rows)}   # dimensions with no test data yet (e.g. foreign names)
     default = [k for k, v in COLUMNS.items() if v[2] and k not in empty]
     optional = [k for k in COLUMNS if k not in ("rank", "type", "model") and k not in empty]
-    with gr.Blocks(title="KVKK-Bench-TR", css=CSS, theme=gr.themes.Soft()) as demo:
-        gr.Markdown(f"# 🛡️ KVKK-Bench-TR\n"
+    with gr.Blocks(title="KVKK-Bench", css=CSS, theme=gr.themes.Soft()) as demo:
+        gr.Markdown(f"# 🛡️ KVKK-Bench\n"
                     "Lawyers, doctors and HR teams want to use AI on their documents, but under **KVKK** sending a client's name, "
                     "T.C. kimlik number or health record to a cloud service can be a violation. The safe way is to **mask personal data "
                     "on your own computer first**. This leaderboard tests which tools do that best on real Turkish text: same documents, same scorer for everyone.\n\n"

@@ -1,4 +1,4 @@
-# KVKK-Bench-TR leaderboard (v0.1)
+# KVKK-Bench leaderboard (v0.1)
 
 Baselines: **Presidio + spaCy** (the standard open-source PII tool, reference baseline) and the **kvkk-pii** regex library (floor). Speed: words per second and ms per 500-word page on one CPU core-set (arm64 Darwin, 12 CPUs), same machine for every row; size is what you download to run it.
 

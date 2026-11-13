@@ -1,4 +1,4 @@
-"""Score a KVKK-Bench-TR submission (see lab/legal/LEADERBOARD.md).
+"""Score a KVKK-Bench submission (see lab/legal/LEADERBOARD.md).
 
   python lab/legal/bench_score.py gold.jsonl predictions.jsonl [--name my-model] [--out row.json]
 

@@ -1,4 +1,4 @@
-"""Assemble KVKK-Bench-TR v0.1 from the sets Katip already has (see bench/README.md, the dataset card).
+"""Assemble KVKK-Bench v0.1 from the sets Katip already has (see bench/README.md, the dataset card).
 
   python lab/legal/bench_build.py            # writes lab/data/bench/v0.1/{public,hidden}/*.jsonl + manifest.json
 

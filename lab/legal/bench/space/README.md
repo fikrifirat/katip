@@ -1,5 +1,5 @@
 ---
-title: KVKK-Bench-TR
+title: KVKK-Bench
 emoji: 🛡️
 colorFrom: blue
 colorTo: green
@@ -17,7 +17,7 @@ tags:
 - de-identification
 ---
 
-# KVKK-Bench-TR leaderboard
+# KVKK-Bench leaderboard
 
 Ranks tools that mask personal data in Turkish documents, on real text, with a missed item weighted 4× a false alarm.
 Results live in `results/` (or the dataset in `RESULTS_REPO`). Submissions go to `REQUESTS_REPO` when `HF_TOKEN` is set.

@@ -1,4 +1,4 @@
-"""Run systems on KVKK-Bench-TR and write leaderboard rows (bench/results/<system>.json).
+"""Run systems on KVKK-Bench and write leaderboard rows (bench/results/<system>.json).
 
   python lab/legal/bench_run.py rules tiny presidio kvkk-pii           # what runs anywhere (CPU, no Hugging Face)
   python lab/legal/bench_run.py berturk-v2 cosmos-pii kvkk-pii-ner openmed-tr gliner savasy akdeniz   # needs HF access
