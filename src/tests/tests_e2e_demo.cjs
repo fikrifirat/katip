@@ -17,18 +17,19 @@ const OWN = process.env.OWN || "/mnt/project-files/katip-redact/eval/blind/kira_
   const applied = () => page.waitForFunction(() => window.__katip()?.outText != null && !document.getElementById("download").disabled && !document.getElementById("work").classList.contains("busy"), null, { timeout: 240000 });
   const analysed = applied;
   // home screen first: drop zone + sample shortcuts, nothing loaded
-  await page.waitForSelector("#quick button", { timeout: 60000 });
+  await page.waitForSelector("#variantBtns button", { timeout: 60000 });
   await page.waitForFunction(() => document.getElementById("engineState").textContent.length > 0 && !/hazırlanıyor/i.test(document.getElementById("engineState").textContent), null, { timeout: 120000 });
-  console.log("home shown, nothing loaded:", !(await page.evaluate(() => !!window.__katip())), "| shortcuts:", await page.$$eval("#quick button", b => b.map(x => x.textContent).join(", ")));
+  console.log("home shown, nothing loaded:", !(await page.evaluate(() => !!window.__katip())), "| types:", await page.$$eval("#sampleType option", o => o.length), "| variants:", await page.$$eval("#variantBtns button", b => b.length));
   await page.screenshot({ path: SHOTS + "/demo_home.png" });
   const cases = (process.env.CASES || "dilekce:pdf,dilekce:scan.pdf,dilekce:png,dilekce:docx,dilekce:udf,dilekce:txt,epikriz:pdf,mesaj:txt").split(",");
   for (const c of cases) {
     const [type, fmt] = c.split(":");
-    const id = await page.evaluate(t => [...document.querySelectorAll("#sampleType option")].find(o => o.value.startsWith(t + "_")).value, type);
+    const id = `${type}_01`;
     const t0 = Date.now();
     if (await page.isVisible("#clear")) await page.click("#clear");
-    await page.evaluate(() => (document.querySelector(".allsamples").open = true));
-    await page.selectOption("#sampleType", id);
+    // home: type, sample number and format pickers sit next to the before/after preview
+    await page.selectOption("#sampleType", type);
+    await page.click('#variantBtns button[data-id="' + id + '"]').catch(() => {});
     await page.click(`#formatBtns button[data-fmt="${fmt}"]`).catch(() => {});
     await page.click("#openSample");
     await page.waitForFunction(n => window.__katip()?.name === n && window.__katip()?.spans, `${id}.${fmt}`, { timeout: 240000 });

@@ -60,7 +60,7 @@ const I18N = {
     ocrBest: "Küçük", ocrBestMeta: "Aynı doğruluk, 4 kat küçük · 2 MB", ocrFast: "Standart", ocrFastMeta: "Eski motor verisiyle · 7,7 MB",
     origAlt: "Orijinal sayfa", maskAlt: "Maskeli sayfa", ocrText: "Okunan metin",
     trust: "Belgeniz bilgisayarınızdan çıkmaz", feedback: "Görüş bildir", feedbackH: "Görüşünüz bizim için çok değerli", hero: "Belgedeki kişisel verileri saniyeler içinde maskeleyin.", lead: "Ad, T.C. kimlik, adres, telefon, IBAN, sağlık bilgisi… Katip bulur ve karartır; siz kontrol edip indirirsiniz.", dropFormats: "PDF · fotoğraf · Word · UYAP .udf · metin", tryH: "Elinizde belge yok mu? Örnekle deneyin:", allSamples: "Tüm örnekler", openSample: "Aç", step1: "Belgeyi bırakın", step2: "Karartılanları kontrol edin", step3: "Maskeli halini indirin", newDoc: "← Yeni belge", listHint2: "Tik kaldırdığınız değer açık kalır. Belgedeki işarete tıklamak da aynı işi görür.", advH: "Gelişmiş ayarlar", modelH: "Algılama modeli", scanning: "Kişisel veriler aranıyor…", applying: "Karartılıyor…", sampleNote: "Örnek belge (kişiler uydurma). Cevap anahtarı:", leakFix: "Bunları da karart", qKira: "Kira sözleşmesi · fotoğraf", qDilekce: "Dava dilekçesi · UYAP .udf", qBilirkisi: "Bilirkişi raporu · tarama", qIs: "İş sözleşmesi · Word", rGeneral: "Genel görüş", rHowGeneral: "E-posta uygulamanız {to} adresine hazır bir mesajla açılır. Siz göndermeden hiçbir şey çıkmaz.",
-    profH: "Ne için maskeliyorsunuz?", pCourt: "Mahkemeye sunum", pAi: "Yapay zekâ ile paylaşım", pAnon: "Tam anonim", pCustom: "Özel seçim", pCourtHint: "Kişisel verilerin tamamı karartılır; sokak, dosya numarası ve tarihler okunur kalır. Delil ve dilekçe ekleri için.", pAiHint: "Buna ek olarak adresin tamamı, esas/karar ve UYAP numaraları, baro sicil numaraları ve sabıka bilgisi karartılır.", pAnonHint: "Buna ek olarak tarihler, il ve ilçeler, mahkeme, şirket ve kurum adları da karartılır. Metin okunur, kim olduğu çıkmaz.", pCustomHint: "Veri türlerini kendiniz seçtiniz.", pickTypes: "Türleri tek tek seç", baCap: "Örnek dava dilekçesi (kişiler uydurma). Çizgiyi kaydırın.", baOpen: "Bu örneği aç →", baOrigAlt: "Örnek dilekçe, orijinal", baMaskAlt: "Aynı dilekçe, Katip ile maskelenmiş", baAria: "Orijinal ile maskeli arasında kaydır",
+    profH: "Ne için maskeliyorsunuz?", pCourt: "Mahkemeye sunum", pAi: "Yapay zekâ ile paylaşım", pAnon: "Tam anonim", pCustom: "Özel seçim", pCourtHint: "Kişisel verilerin tamamı karartılır; sokak, dosya numarası ve tarihler okunur kalır. Delil ve dilekçe ekleri için.", pAiHint: "Buna ek olarak adresin tamamı, esas/karar ve UYAP numaraları, baro sicil numaraları ve sabıka bilgisi karartılır.", pAnonHint: "Buna ek olarak tarihler, il ve ilçeler, mahkeme, şirket ve kurum adları da karartılır. Metin okunur, kim olduğu çıkmaz.", pCustomHint: "Veri türlerini kendiniz seçtiniz.", pickTypes: "Türleri tek tek seç", baCap: "Örnek dava dilekçesi (kişiler uydurma). Çizgiyi kaydırın.", baOpen: "Bu örneği aç →", sampleN: "örnek", baMadeUp: "kişiler uydurma", pickType: "Örnek belge türü", pickVariant: "Örnek numarası", baOrigAlt: "Örnek dilekçe, orijinal", baMaskAlt: "Aynı dilekçe, Katip ile maskelenmiş", baAria: "Orijinal ile maskeli arasında kaydır",
   },
   en: {
     tagline: "Turkish KVKK redaction that runs entirely in your browser. Nothing is uploaded.",
@@ -112,7 +112,7 @@ const I18N = {
     ocrBest: "Compact", ocrBestMeta: "Same accuracy, 4× smaller · 2 MB", ocrFast: "Standard", ocrFastMeta: "Includes old engine data · 7.7 MB",
     origAlt: "Original page", maskAlt: "Masked page", ocrText: "Recognised text",
     trust: "Your document never leaves your computer", feedback: "Send feedback", feedbackH: "We'd love your feedback", hero: "Mask personal data in legal documents in seconds.", lead: "Names, ID numbers, addresses, phones, IBANs, health details… Katip finds and blacks them out; you check and download.", dropFormats: "PDF · photo · Word · UYAP .udf · text", tryH: "No document at hand? Try a sample:", allSamples: "All samples", openSample: "Open", step1: "Drop the document", step2: "Check what's masked", step3: "Download the masked copy", newDoc: "← New document", listHint2: "Untick a value to leave it visible. Clicking a highlight in the document does the same.", advH: "Advanced settings", modelH: "Detection model", scanning: "Looking for personal data…", applying: "Masking…", sampleNote: "Sample document (made-up people). Answer key:", leakFix: "Mask these too", qKira: "Lease · photo", qDilekce: "Petition · UYAP .udf", qBilirkisi: "Expert report · scan", qIs: "Employment contract · Word", rGeneral: "General feedback", rHowGeneral: "Your e-mail app opens a ready message to {to}. Nothing leaves until you send it.",
-    profH: "What are you masking it for?", pCourt: "Court filing", pAi: "Sharing with AI", pAnon: "Fully anonymous", pCustom: "Custom", pCourtHint: "All personal data is masked; streets, case numbers and dates stay readable. For evidence and petition attachments.", pAiHint: "On top of that, the whole address, case and UYAP numbers, bar registry numbers and criminal records are masked.", pAnonHint: "On top of that, dates, provinces and districts, and court, company and institution names are masked too. The text reads, the people can't be traced.", pCustomHint: "You picked the data types yourself.", pickTypes: "Pick types one by one", baCap: "Sample petition (made-up people). Drag the line.", baOpen: "Open this sample →", baOrigAlt: "Sample petition, original", baMaskAlt: "The same petition masked by Katip", baAria: "Slide between original and masked",
+    profH: "What are you masking it for?", pCourt: "Court filing", pAi: "Sharing with AI", pAnon: "Fully anonymous", pCustom: "Custom", pCourtHint: "All personal data is masked; streets, case numbers and dates stay readable. For evidence and petition attachments.", pAiHint: "On top of that, the whole address, case and UYAP numbers, bar registry numbers and criminal records are masked.", pAnonHint: "On top of that, dates, provinces and districts, and court, company and institution names are masked too. The text reads, the people can't be traced.", pCustomHint: "You picked the data types yourself.", pickTypes: "Pick types one by one", baCap: "Sample petition (made-up people). Drag the line.", baOpen: "Open this sample →", sampleN: "sample", baMadeUp: "made-up people", pickType: "Sample document type", pickVariant: "Sample number", baOrigAlt: "Sample petition, original", baMaskAlt: "The same petition masked by Katip", baAria: "Slide between original and masked",
   },
 };
 const LABELS = {
@@ -235,7 +235,7 @@ function applyLang() {
   document.querySelectorAll("[data-i18n-tip]").forEach(e => { const s = t(e.dataset.i18nTip, { wm: wmText() }); e.dataset.tip = s; e.setAttribute("aria-label", s.split("||")[0]); e.setAttribute("role", "button"); });
   document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
   document.title = lang === "tr" ? "Katip Yerel: belgedeki kişisel verileri maskeleyin" : "Katip Yerel: mask personal data in documents";
-  if (samples.length) { buildSampleOptions(); drawFormats(); buildQuick(); buildModelUI(); buildEntityUI(); buildProfileUI(); }
+  if (samples.length) { drawPicker(); buildModelUI(); buildEntityUI(); buildProfileUI(); }
   updateButtons(); if (res?.spans) render(); else if (preview) renderPreview();
 }
 document.querySelectorAll("[data-lang]").forEach(b => (b.onclick = () => {
@@ -335,41 +335,70 @@ $("centerMark").onchange = () => maskOptionsChanged();
 function maskOptionsChanged() { if (res?.spans && applied && !busy) redactNow(); }
 
 // ---------------------------------------------------------------- sources
+// ---- home: sample picker next to the before/after preview. Picking a type, variant or format runs the real pipeline
+// in the background (same worker, nothing leaves the tab) and swaps the slider; "Bu örneği aç" then opens it instantly.
+const sampleTitle = sm => lang === "en" ? SAMPLE_EN[sm.type] ?? sm.title : sm.title;
+const types = () => [...new Map(samples.map(x => [x.type, x])).values()];
 function buildSampleOptions() {
-  const cur = $("sampleType").value;
   $("sampleType").textContent = "";
-  for (const s of samples) $("sampleType").append(el("option", { value: s.id, textContent: lang === "en" ? SAMPLE_EN[s.type] ?? s.title : s.title }));
-  if (cur) $("sampleType").value = cur;
+  for (const sm of types()) $("sampleType").append(el("option", { value: sm.type, textContent: sampleTitle(sm) }));
+  if (src.sample) $("sampleType").value = src.sample.type;
 }
-const QUICK = [["kira_sozlesmesi", "png", "qKira"], ["dilekce", "udf", "qDilekce"], ["bilirkisi", "scan.pdf", "qBilirkisi"], ["is_sozlesmesi", "docx", "qIs"]];
-function buildQuick() {
-  $("quick").textContent = "";
-  for (const [type, fmt, k] of QUICK) {
-    const sm = samples.find(x => x.type === type); if (!sm || !sm.formats.includes(fmt)) continue;
-    const b = el("button", { type: "button", textContent: t(k) }); b.dataset.sample = sm.id; b.dataset.fmt = fmt;
-    b.onclick = () => openSample(sm, fmt); $("quick").append(b);
+function drawVariants() {
+  const v = $("variantBtns"); v.textContent = "";
+  for (const sm of samples.filter(x => x.type === src.sample.type)) {
+    const b = el("button", { type: "button", textContent: String(sm.n ?? sm.id.split("_").pop()), title: `${t("sampleN")} ${sm.n}` });
+    b.dataset.id = sm.id; b.setAttribute("aria-pressed", sm.id === src.sample.id);
+    b.onclick = () => { if (sm.id === src.sample.id) return; src.sample = sm; drawPicker(); previewSample(); };
+    v.append(b);
   }
-}
-function openSample(sm, fmt) { src.mode = "sample"; src.sample = sm; src.format = fmt; loadSource(); }
-function buildSampleUI() {
-  buildSampleOptions();
-  $("sampleType").onchange = () => { src.sample = samples.find(s => s.id === $("sampleType").value); drawFormats(); };
-  src.sample = samples[0]; drawFormats(); buildQuick();
-  $("openSample").onclick = () => openSample(src.sample, src.format);
 }
 function drawFormats() {
   const f = $("formatBtns"); f.textContent = "";
-  if (!src.sample.formats.includes(src.format)) src.format = src.sample.formats[0];
+  if (!src.sample.formats.includes(src.format)) src.format = src.sample.formats.includes("pdf") ? "pdf" : src.sample.formats[0];
   for (const fmt of src.sample.formats) {
     const b = el("button", { type: "button", textContent: FORMATS[lang][fmt] ?? fmt });
     b.dataset.fmt = fmt; b.setAttribute("aria-pressed", fmt === src.format);
-    b.onclick = () => { src.format = fmt; drawFormats(); };
+    b.onclick = () => { if (src.format === fmt) return; src.format = fmt; drawFormats(); previewSample(); };
     f.append(b);
   }
 }
-// before/after slider on the home screen
-$("baRange").oninput = () => $("ba").style.setProperty("--pos", $("baRange").value + "%");
-function showWork(on) { $("home").classList.toggle("hidden", on); $("work").classList.toggle("hidden", !on); if (!on) window.scrollTo(0, 0); }
+function drawPicker() { buildSampleOptions(); drawVariants(); drawFormats(); baCaption(); }
+function baCaption() { $("baCap").textContent = `${sampleTitle(src.sample)} · ${t("sampleN")} ${src.sample.n} · ${FORMATS[lang][src.format] ?? src.format} — ${t("baMadeUp")}`; }
+const sameAsLoaded = () => loaded?.isSample && loaded.name === `${src.sample.id}.${src.format}`;
+function previewSample() { baCaption(); src.mode = "sample"; loadSource({ stay: true }); }
+function openSample(sm, fmt) {
+  src.mode = "sample"; src.sample = sm; src.format = fmt; drawPicker();
+  if (sameAsLoaded() && res) { showWork(true); render(); updateButtons(); status(busy ? $("status").textContent : ""); } else loadSource();
+}
+function buildSampleUI() {
+  src.sample = samples.find(x => x.id === "dilekce_01") ?? samples[0]; src.format = "png";  // matches the static hero images
+  $("sampleType").onchange = () => {
+    const keep = src.sample.n;
+    src.sample = samples.find(x => x.type === $("sampleType").value && x.n === keep) ?? samples.find(x => x.type === $("sampleType").value);
+    drawPicker(); previewSample();
+  };
+  $("openSample").onclick = () => openSample(src.sample, src.format);
+  drawPicker();
+}
+// the masked/original pair for the home slider, from whatever the pipeline produced
+function drawBA() {
+  if (!res?.spans || !applied) return;
+  const O = $("baFrame").querySelector(".ba-o"), M = $("baFrame").querySelector(".ba-m");
+  O.textContent = ""; M.textContent = "";
+  if (res.kind === "pdf" && res.origPreviews?.[0] && res.maskPreviews?.[0]) {
+    O.append(el("img", { src: res.origPreviews[0], alt: t("baOrigAlt") })); M.append(el("img", { src: res.maskPreviews[0], alt: t("baMaskAlt") }));
+  } else if (res.kind === "image") {
+    O.append(el("img", { src: res.imageUrl, alt: t("baOrigAlt") })); M.append(el("img", { src: res.maskUrl, alt: t("baMaskAlt") }));
+  } else {  // Word, UDF, text: the same text twice, the masked layer with the chosen values blacked out
+    const tx = res.text.slice(0, 2200), on = chosen().filter(x => x.end <= tx.length).sort((a, b) => a.start - b.start);
+    const plain = el("div", { className: "ba-txt", textContent: tx }), masked = el("div", { className: "ba-txt" });
+    let pos = 0;
+    for (const x of on) { if (x.start < pos) continue; masked.append(tx.slice(pos, x.start), el("span", { className: "bm", textContent: tx.slice(x.start, x.end) })); pos = x.end; }
+    masked.append(tx.slice(pos)); O.append(plain); M.append(masked);
+  }
+  $("baFrame").classList.remove("loading");
+}
 function pickFile(f) { if (!f) return; src.file = f; src.mode = "file"; loadSource(); }
 $("drop").onclick = () => $("file").click();
 $("drop").onkeydown = e => (e.key === "Enter" || e.key === " ") && $("file").click();
@@ -379,8 +408,14 @@ addEventListener("dragover", e => { e.preventDefault(); $("drop").classList.add(
 addEventListener("dragleave", e => { if (!e.relatedTarget) $("drop").classList.remove("over"); });
 addEventListener("drop", e => { e.preventDefault(); $("drop").classList.remove("over"); if (!$("reportDlg").open) pickFile(e.dataTransfer.files[0]); });
 
+// before/after slider on the home screen
+$("baRange").oninput = () => $("ba").style.setProperty("--pos", $("baRange").value + "%");
+function showWork(on) { $("home").classList.toggle("hidden", on); $("work").classList.toggle("hidden", !on); if (!on) window.scrollTo(0, 0); }
+
 // Selecting a document shows it at once; analysis starts as soon as the engine is ready.
-async function loadSource() {
+let stayHome = false;
+async function loadSource({ stay = false } = {}) {
+  stayHome = stay; if (stay) $("baFrame").classList.add("loading");
   const my = ++seq, isSample = src.mode === "sample";
   let name, bytes, gold = null;
   status(t("preparing"));
@@ -394,7 +429,8 @@ async function loadSource() {
   } catch (e) { if (my === seq) status(t("error") + (e?.message ?? e)); console.error(e); return; }
   if (my !== seq) return;
   loaded = { name, bytes, gold, isSample };
-  showWork(true); $("docName").textContent = isSample ? `${lang === "en" ? SAMPLE_EN[src.sample.type] ?? src.sample.title : src.sample.title} · ${FORMATS[lang][src.format] ?? src.format}` : name;
+  if (!stay) showWork(true);
+  $("docName").textContent = isSample ? `${sampleTitle(src.sample)} ${src.sample.n} · ${FORMATS[lang][src.format] ?? src.format}` : name;
   res = null; applied = false; view = "review"; outBlob = null; busy = false;
   preview = { seq: my, kind: /\.(png|jpe?g|tiff?|bmp|webp)$/i.test(name) ? "image" : null, text: null, pages: [], imageUrl: null };
   if (preview.kind === "image") preview.imageUrl = URL.createObjectURL(new Blob([bytes]));
@@ -405,7 +441,7 @@ async function loadSource() {
 }
 
 // ---------------------------------------------------------------- run
-const status = m => { $("status").textContent = m; $("engineState").textContent = loaded ? "" : m; };
+const status = m => { $("status").textContent = m; $("engineState").textContent = loaded && !stayHome ? "" : m; };
 const progressText = m => { if (lang === "tr") return m; for (const [re, en] of PROGRESS_EN) if (re.test(m)) return m.replace(re, en); return m; };
 function analyze() {
   if (!loaded) return;
@@ -475,7 +511,7 @@ worker.onmessage = async ({ data: m }) => {
       maskPreviews: m.previews.map(p => URL.createObjectURL(new Blob([p], { type: "image/png" }))), appliedKeys: new Set(chosen().map(key)) });
     if (res.kind === "image") res.maskUrl = URL.createObjectURL(outBlob);
     busy = false; applied = true; if (!dirty()) view = "result";
-    status(""); render();
+    status(""); render(); if (!$("home").classList.contains("hidden")) drawBA();
     if (dlAfter && !dirty()) { dlAfter = false; saveOut(); } else if (dirty()) scheduleReapply();
   } else if (m.type === "maskedText") { await navigator.clipboard.writeText(m.text); status(t("copied")); }
   else if (m.type === "original") { pendingOriginal?.(m); }
@@ -670,6 +706,7 @@ $("download").onclick = () => { if (!res?.spans || busy) return; if (!applied ||
 $("copy").onclick = () => { res?.spans && worker.postMessage({ type: "maskedText", spans: chosen() }); };
 $("clear").onclick = () => {
   res = null; outBlob = null; loaded = null; preview = null; applied = false; busy = false; seq++; maskTerms = []; dlAfter = false;
+  stayHome = false; $("baFrame").classList.remove("loading");
   send({ type: "forget" }); $("scorebar").classList.add("hidden"); $("adv").open = false; showWork(false); updateButtons(); status(ready ? t("ready") : t("loading"));
 };
 
@@ -771,7 +808,6 @@ $("rSend").onclick = async () => {
   $("version").textContent = `Katip Yerel ${version.app} · ${version.rules} · ${version.built}`;
   if (version.source) $("srcLink").href = version.source;
   buildColorUI(); buildSampleUI(); buildModelUI(); buildEntityUI(); buildProfileUI(); applyLang();
-  $("baOpen").onclick = () => { const sm = samples.find(x => x.type === "dilekce"); if (sm) openSample(sm, "png"); };
   const q = new URLSearchParams(location.search).get("sample");  // ?sample=dilekce:udf opens a sample directly (handy for sharing)
   if (q) { const [ty, fm] = q.split(":"), sm = samples.find(x => x.type === ty || x.id === ty); if (sm) openSample(sm, sm.formats.includes(fm) ? fm : sm.formats[0]); }
 })();

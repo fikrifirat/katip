@@ -1,0 +1,23 @@
+e-Arşiv Fatura
+
+Ege Yapı Malzemeleri Ltd. Şti.
+Vergi Dairesi: Büyük Mükellefler VKN: 3544189296
+Mersis No: 0123456789000015   Ticaret Sicil No: 123456
+
+SAYIN
+DEĞMEER SEZER
+Fatih Sultan Mehmet Mh. Tunalı Hilmi Cd. Begonya Apt. No:100 D:40 41296 Beşiktaş/İstanbul
+TCKN: 28537675980
+Tel: +90 542 255 81 58
+E-Posta: degmeer.sezer@outlook.com
+
+Fatura No: GIB2022103178400
+Fatura Tarihi: 16.04.2023
+ETTN: f87db32f-7c86-45ae-ad92-4e06d10ad589
+
+Mal Hizmet            Miktar   Birim Fiyat    KDV Oranı   Tutar
+Danışmanlık hizmeti    1        242.910,00 TL   %20         370.214,00 TL
+Toplam: 789.636,00 TL  Hesaplanan KDV: 481.689,00 TL  Ödenecek Tutar: 33.861,00 TL
+
+Ödeme için banka hesabımız: Akdeniz Bankası TR IBAN numarası bilgisi faturanın arkasındadır.
+Kredi kartı ile yapılan ödeme: 4764 3825 7150 4091

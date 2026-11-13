@@ -45,25 +45,22 @@
       <span data-i18n="dropFormats">PDF · fotoğraf · Word · UYAP .udf · metin</span>
     </div>
     <input type="file" id="file" class="hidden" accept=".pdf,.docx,.udf,.txt,.md,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp">
-    <div class="try">
-      <span data-i18n="tryH">Elinizde belge yok mu? Örnekle deneyin:</span>
-      <div class="chips" id="quick"></div>
-      <details class="allsamples"><summary data-i18n="allSamples">Tüm örnekler</summary>
-        <select id="sampleType" aria-label="Örnek belge"></select>
-        <div class="chips" id="formatBtns" role="group"></div>
-        <button type="button" id="openSample" data-i18n="openSample">Aç</button>
-      </details>
-    </div>
    </div>
    <figure class="ba" id="ba">
-    <div class="ba-frame">
-      <img src="hero/dilekce_orijinal.png" alt="Örnek dilekçe, orijinal" width="1000" height="544" data-i18n-alt="baOrigAlt">
-      <img src="hero/dilekce_maskeli.png" alt="Aynı dilekçe, Katip ile maskelenmiş" width="1000" height="544" class="ba-top" data-i18n-alt="baMaskAlt">
+    <div class="ba-pick">
+      <select id="sampleType" aria-label="Örnek belge türü" data-i18n-aria="pickType"></select>
+      <div class="seg vars" id="variantBtns" role="group" aria-label="Örnek" data-i18n-aria="pickVariant"></div>
+    </div>
+    <div class="chips fmts" id="formatBtns" role="group"></div>
+    <div class="ba-frame" id="baFrame">
+      <div class="ba-o"><img src="hero/dilekce_orijinal.png" alt="Örnek dilekçe, orijinal" width="1000" height="544" data-i18n-alt="baOrigAlt"></div>
+      <div class="ba-m"><img src="hero/dilekce_maskeli.png" alt="Aynı dilekçe, Katip ile maskelenmiş" width="1000" height="544" data-i18n-alt="baMaskAlt"></div>
       <span class="ba-tag l" data-i18n="viewReview">Orijinal</span><span class="ba-tag r" data-i18n="viewResult">Maskeli</span>
       <span class="ba-line" aria-hidden="true"></span>
+      <span class="ba-busy" data-i18n="applying">Karartılıyor…</span>
       <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Orijinal / maskeli" data-i18n-aria="baAria">
     </div>
-    <figcaption><span data-i18n="baCap">Örnek dava dilekçesi (kişiler uydurma). Çizgiyi kaydırın.</span> <button type="button" class="linkbtn" id="baOpen" data-i18n="baOpen">Bu örneği aç →</button></figcaption>
+    <figcaption><span id="baCap"></span> <button type="button" class="primary sm" id="openSample" data-i18n="baOpen">Bu örneği aç →</button></figcaption>
    </figure>
     <ol class="steps">
       <li><b>1</b><span data-i18n="step1">Belgeyi bırakın</span></li>
