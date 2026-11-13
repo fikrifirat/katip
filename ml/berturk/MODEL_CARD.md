@@ -1,9 +1,10 @@
 ---
 language: tr
-license: cc-by-nc-4.0
+license: cc-by-sa-4.0
 library_name: transformers.js
 pipeline_tag: token-classification
 base_model: dbmdz/bert-base-turkish-cased
+datasets: [turkish-nlp-suite/turkish-wikiNER]
 tags: [ner, pii, kvkk, turkish, legal, onnx, privacy, redaction, berturk]
 ---
 
@@ -57,5 +58,8 @@ https://github.com/fikrifirat/katip#size-speed-and-accuracy-side-by-side
 Labels are word-level BIO on each word's first sub-token; use the word split in `config.json`
 (`katip.word_regex`) as Katip's `src/ner.js` does.
 
-**Licence:** CC BY-NC 4.0, non-commercial use only. For commercial or production use, contact
-fikrifirat@gmail.com or open an issue at https://github.com/fikrifirat/katip.
+**Licence:** CC BY-SA 4.0. v2 is trained partly on Turkish Wiki NER (Altinok, 2023; CC BY-SA 4.0,
+https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset), so the model is shared under the same
+licence: credit Katip and the dataset, and share adaptations under CC BY-SA 4.0. v1 (synthetic data
+only) was released under CC BY-NC 4.0. Katip's code is AGPL-3.0; for a commercial licence for the
+code or support, open an issue at https://github.com/fikrifirat/katip.

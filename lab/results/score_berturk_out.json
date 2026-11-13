@@ -1,0 +1,156 @@
+{
+ "model_dir": "ml/berturk/out",
+ "trust": 0.5,
+ "size_mb": 110.799608,
+ "dev": [
+  {
+   "use": "model only",
+   "trust": "off",
+   "wiki dev recall": 0.9048361934477379,
+   "wiki dev precision": 0.9198767334360555,
+   "wiki dev f2": 0.9078048248465758,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  },
+  {
+   "use": "pipeline",
+   "trust": "off",
+   "wiki dev recall": 0.1918876755070203,
+   "wiki dev precision": 0.6335078534031413,
+   "wiki dev f2": 0.2229749773024867,
+   "heldout recall": 0.9781818181818182,
+   "heldout precision": 1.0,
+   "heldout f2": 0.9824689554419282
+  },
+  {
+   "use": "pipeline",
+   "trust": 0.9,
+   "wiki dev recall": 0.6770670826833073,
+   "wiki dev precision": 0.8454011741682974,
+   "wiki dev f2": 0.7051485532810499,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  },
+  {
+   "use": "pipeline",
+   "trust": 0.8,
+   "wiki dev recall": 0.750390015600624,
+   "wiki dev precision": 0.8493870402802102,
+   "wiki dev f2": 0.7682992456153409,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  },
+  {
+   "use": "pipeline",
+   "trust": 0.7,
+   "wiki dev recall": 0.8003120124804992,
+   "wiki dev precision": 0.8466557911908646,
+   "wiki dev f2": 0.8091703972501572,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  },
+  {
+   "use": "pipeline",
+   "trust": 0.6,
+   "wiki dev recall": 0.8330733229329174,
+   "wiki dev precision": 0.847723704866562,
+   "wiki dev f2": 0.8359627486928297,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  },
+  {
+   "use": "pipeline",
+   "trust": 0.5,
+   "wiki dev recall": 0.8673946957878315,
+   "wiki dev precision": 0.8513513513513513,
+   "wiki dev f2": 0.8641378357575635,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  },
+  {
+   "use": "pipeline",
+   "trust": 0.4,
+   "wiki dev recall": 0.8673946957878315,
+   "wiki dev precision": 0.8513513513513513,
+   "wiki dev f2": 0.8641378357575635,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  },
+  {
+   "use": "pipeline",
+   "trust": 0.3,
+   "wiki dev recall": 0.8673946957878315,
+   "wiki dev precision": 0.8513513513513513,
+   "wiki dev f2": 0.8641378357575635,
+   "heldout recall": 1.0,
+   "heldout precision": 1.0,
+   "heldout f2": 1.0
+  }
+ ],
+ "test": {
+  "wiki test": {
+   "gold": 654,
+   "found": 587,
+   "recall": 0.8975535168195719,
+   "spans": 681,
+   "false": 69,
+   "precision": 0.8986784140969163,
+   "f1": 0.8981156132225827,
+   "f2": 0.897778270928892,
+   "recall_ci": [
+    0.8713090772693174,
+    0.9211052503793625
+   ],
+   "precision_ci": [
+    0.8720208853191932,
+    0.9232916941670855
+   ],
+   "ms_per_doc": 19.183210041024722
+  },
+  "blind": {
+   "gold": 365,
+   "found": 365,
+   "recall": 1.0,
+   "spans": 365,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 1.0,
+   "f2": 1.0,
+   "recall_ci": [
+    1.0,
+    1.0
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 125.87951302557485
+  },
+  "negatives": {
+   "gold": 0,
+   "found": 0,
+   "recall": NaN,
+   "spans": 2,
+   "false": 2,
+   "precision": 0.0,
+   "f1": NaN,
+   "f2": NaN,
+   "recall_ci": [
+    NaN,
+    NaN
+   ],
+   "precision_ci": [
+    0.0,
+    0.0
+   ],
+   "ms_per_doc": 255.0593333435245
+  }
+ }
+}
