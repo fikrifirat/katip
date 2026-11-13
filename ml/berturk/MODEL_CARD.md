@@ -14,34 +14,39 @@ BERTurk (`dbmdz/bert-base-turkish-cased`) fine-tuned to tag **person names, addr
 art. 6 health terms** in Turkish legal documents, as the on-device model for
 [Katip Yerel](https://github.com/fikrifirat/katip). Exported to ONNX (fp32 and int8) for transformers.js.
 
-## Results (model alone, before Katip's rules are added)
+**v2 (13 Nov 2026)** adds 17,967 real Turkish sentences (Turkish Wiki NER, person names only) to the
+synthetic training documents. v1 found every name in Katip's synthetic test sets but only 41% of names in
+real Turkish sentences; v2 finds 90%.
 
-Trained for 3 epochs on 8,000 synthetic documents in 25.5 minutes on an Apple-silicon Mac (MPS).
-Scored on sets the training never saw; the blind set's names never appear in training.
+## Results in Katip (rules + this model, as the demo runs it)
 
-| Set | Names | Addresses | Health terms | Extra spans | Time per document |
-| --- | --- | --- | --- | --- | --- |
-| Blind (80 docs, 16 styles, 4 new) | 364 / 365 | 80 / 80 | 26 / 26 | 2 | 17.6 ms |
-| Held-out (60 docs) | 275 / 275 | 70 / 70 | 26 / 26 | 0 | 16.1 ms |
-| Name-free legal prose (3 docs) | | | | 0 | 20.3 ms |
+Model names scored 0.5 or higher keep their edges (`trust` 0.5, chosen on dev data).
 
-For comparison, Katip's rules plus the 2.6 MB
-[`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny) find 364 / 365
-names on the blind set and 268 / 275 on the held-out set, with 3 false alarms on name-free prose.
-Times are PyTorch on the Mac GPU; in the browser (int8 ONNX, WebAssembly, one thread) it is slower.
-Raw numbers: `results.json`.
+| Set | v2 | v1 |
+| --- | --- | --- |
+| Blind (80 synthetic docs, 757 values) | 757 / 757, names 365 / 365 | 757 / 757 |
+| Held-out (60 synthetic docs, 618 values) | 618 / 618 | 618 / 618 |
+| Name-free legal prose | 3 false alarms | 3 |
+| Real Yargıtay prose, anonymised names filled back in (1,643 names) | **99.3%** found, 96.2% precision | 98.6%, 95.9% |
+| Real Wikipedia sentences, Wiki NER test (654 names) | **89.8%** [87.1–92.1], 89.9% precision | 40.7% |
 
-**Limits.** All documents are synthetic and 12 of the 16 blind styles share templates with the
-training data, so real case files will score lower. In Katip the model is combined with the rules:
-a model address or health span widens an overlapping rule span of the same type, and a new one is
-only added where nothing else was found (and, for addresses, with two or more words). That policy
-was checked with a small stand-in model on the blind set, not with this model.
+About 27 ms per synthetic document and 19 ms per sentence on an Apple-silicon Mac (int8 ONNX,
+onnxruntime). Method and scripts: https://github.com/fikrifirat/katip/tree/lab/lab
 
-## Results in Katip (rules + this model)
+## Results (model alone, no rules)
 
-With Katip's rules, keeping model names scored 0.9 or higher as they are: blind set **757 / 757** values
-(names 365 / 365, 1 extra name, 10 extra health highlights from the rules), held-out set 618 / 618, 3 false
-alarms on name-free prose. About 28 ms per document on the Mac (int8 ONNX, onnxruntime).
+Trained for 3 epochs on 8,000 synthetic documents plus 2,246 pseudo-documents of eight real sentences
+each, in 28 minutes on an Apple-silicon Mac (MPS).
+
+| Set | Names | Addresses | Health terms | Extra spans |
+| --- | --- | --- | --- | --- |
+| Blind (80 docs, 16 styles, 4 new) | 364 / 365 | 80 / 80 | 25 / 26 | 0 |
+| Held-out (60 docs) | 275 / 275 | 70 / 70 | 26 / 26 | 0 |
+| Wiki NER dev (1,000 real sentences) | 583 / 641 | | | 53 |
+
+**Limits.** Addresses and health terms are still learned from synthetic documents only. The real-text
+court set uses real decisions with names filled in by us, because published Turkish decisions are
+anonymised; consented real case files from pilot firms are the next test.
 
 ## Files
 

@@ -14,7 +14,7 @@ BT=ml/berturk/out
 if [ -f "$BT/onnx/model_quantized.onnx" ]; then
   hf repos create "$U/katip-tr-pii-berturk" --repo-type model --public --exist-ok
   cp ml/berturk/MODEL_CARD.md "$BT/README.md"
-  hf upload "$U/katip-tr-pii-berturk" "$BT" . --repo-type model --exclude "checkpoint-*" --commit-message "katip-tr-pii-berturk v1"
+  hf upload "$U/katip-tr-pii-berturk" "$BT" . --repo-type model --exclude "checkpoint-*" --commit-message "katip-tr-pii-berturk v2: trained with real Turkish text"
 fi
 
 hf repos create "$U/katip-yerel" --repo-type space --space-sdk static --public --exist-ok

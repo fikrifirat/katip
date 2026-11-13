@@ -3,7 +3,7 @@
  "sets": {
   "blind": {
    "docs": 80,
-   "ms_per_doc": 28.1,
+   "ms_per_doc": 27.1,
    "types": {
     "ADDRESS": {
      "gold": 80,
@@ -44,8 +44,8 @@
     "PERSON": {
      "gold": 365,
      "found": 365,
-     "spans": 366,
-     "false": 1
+     "spans": 365,
+     "false": 0
     },
     "PHONE": {
      "gold": 55,
@@ -81,13 +81,13 @@
    "total": {
     "gold": 757,
     "found": 757,
-    "spans": 768,
-    "false": 11
+    "spans": 767,
+    "false": 10
    }
   },
   "heldout": {
    "docs": 60,
-   "ms_per_doc": 28.2,
+   "ms_per_doc": 31.1,
    "types": {
     "ADDRESS": {
      "gold": 70,
@@ -171,7 +171,7 @@
   },
   "negatives": {
    "docs": 3,
-   "ms_per_doc": 36.3,
+   "ms_per_doc": 37.3,
    "types": {
     "HEALTH": {
      "gold": 0,
@@ -194,6 +194,6 @@
    }
   }
  },
- "trust": 0.9,
+ "trust": 0.5,
  "model_dir": "out"
 }
