@@ -67,7 +67,7 @@ for m in reg:
 
 # version
 rules_hash = hashlib.sha256((src / "katip_redact/recognizers.py").read_bytes() + (src / "katip_redact/textutil.py").read_bytes()).hexdigest()[:8]
-(out / "version.json").write_text(json.dumps({"app": "0.3", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
+(out / "version.json").write_text(json.dumps({"app": "0.5", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
 
 # CSP from config.js: own origin only, plus the report endpoint if one is set
 cfg = (here / "config.js").read_text()
