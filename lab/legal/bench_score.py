@@ -17,13 +17,13 @@ from collections import defaultdict
 
 import numpy as np
 
-GENERAL = ["PERSON", "TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "IP_ADDRESS"]
+GENERAL = ["PERSON", "TCKN", "VKN", "YKN", "PASSPORT", "FOREIGN_ID", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "IP_ADDRESS"]
 SPECIAL = ["HEALTH", "RELIGION", "ETHNICITY", "POLITICAL", "UNION", "SEXUAL_LIFE", "CRIMINAL_RECORD", "BIOMETRIC_GENETIC",
            "PHILOSOPHICAL", "ASSOCIATION", "DRESS"]   # KVKK art. 6 special categories
 TYPES = GENERAL + SPECIAL
 # Ranking uses real text only. Generated documents come from the same generator family Katip trains on,
 # so they are shown as a regression check, never ranked on.
-REAL_TRACKS = {"court", "court-real", "court-filled", "prose", "scan"}
+REAL_TRACKS = {"court", "court-real", "court-filled", "court-turkish", "court-foreign", "prose", "scan"}
 
 _sq = lambda s: re.sub(r"\s+", "", s).casefold()
 def matches(a, b):
