@@ -25,8 +25,12 @@ calls = [c["name"] for l in raw.splitlines() for c in (json.loads(l).get("messag
 print("tool calls:", calls)
 leaked = [g["text"] for g in gold if g["text"] in raw]
 print("full gold values seen by the model:", leaked or "none")
+name_parts = sorted({w for g in gold if g["entity_type"] == "PERSON" for w in g["text"].split() if len(w) >= 4})
+seen_parts = [w for w in name_parts if w in raw]
+print("name parts seen by the model:", seen_parts or "none")
 letter = open(f"{work}/cevap.txt", encoding="utf-8").read()
+print("restored letter:\n" + letter)
 print("restored letter has real names:", any(g["text"].split()[0] in letter for g in gold if g["entity_type"] == "PERSON"))
 assert not any(c in ("Read", "Bash") for c in calls), "Claude opened the file directly"
-assert not leaked
+assert not leaked and not seen_parts
 PY

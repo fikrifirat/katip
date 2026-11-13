@@ -145,8 +145,8 @@ output. If one is still there, the call fails and nothing is returned.
 
 1. Add a "Send to ChatGPT" button in the Katip app (GitHub Pages), so masking and the code
    happen in the browser (WebCrypto) and lawyers don't need the CLI.
-2. Use the BERTurk model in the local connector (ONNX). The rules engine misses all-caps
-   surnames such as `Emal YILDIRIM`, while BERTurk catches 364 of 365 names on the blind set.
+2. Done in v0.2: the connector runs Katip Mask Nano · tr v1.1 on the device (fixes the
+   all-caps surname miss, `Emal YILDIRIM`) and takes Base · tr v2 via `install-model`.
 3. Support scanned PDFs locally (Tesseract), plus burn-in PDF copies (MuPDF needs the Artifex
    licence for closed distribution).
 4. Bundle `cryptography` wheels per platform, sign releases, and submit the plugin.
