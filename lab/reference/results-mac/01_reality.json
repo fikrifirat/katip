@@ -1,0 +1,392 @@
+{
+ "Rules": {
+  "blind (synthetic)": {
+   "gold": 365,
+   "found": 359,
+   "recall": 0.9835616438356164,
+   "spans": 358,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 0.9917127071823205,
+   "f2": 0.9868059373282022,
+   "recall_ci": [
+    0.9641941972620885,
+    0.9973190348525469
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 1.9927187502617016
+  },
+  "heldout (synthetic)": {
+   "gold": 275,
+   "found": 262,
+   "recall": 0.9527272727272728,
+   "spans": 265,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 0.9757914338919926,
+   "f2": 0.961820851688693,
+   "recall_ci": [
+    0.9183618999201104,
+    0.9820804531490016
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 1.5978819331697498
+  },
+  "negatives (no names)": {
+   "gold": 0,
+   "found": 0,
+   "recall": NaN,
+   "spans": 2,
+   "false": 2,
+   "precision": 0.0,
+   "f1": NaN,
+   "f2": NaN,
+   "recall_ci": [
+    NaN,
+    NaN
+   ],
+   "precision_ci": [
+    0.0,
+    0.0
+   ],
+   "ms_per_doc": 2.760083337003986
+  },
+  "wiki dev (real)": {
+   "gold": 641,
+   "found": 66,
+   "recall": 0.1029641185647426,
+   "spans": 129,
+   "false": 60,
+   "precision": 0.5348837209302325,
+   "f1": 0.1726864228428417,
+   "f2": 0.12279566413201748,
+   "recall_ci": [
+    0.07692307692307693,
+    0.13292606736385715
+   ],
+   "precision_ci": [
+    0.4313640973630832,
+    0.6357305194805194
+   ],
+   "ms_per_doc": 0.2509067080100067
+  }
+ },
+ "Tiny, model only": {
+  "blind (synthetic)": {
+   "gold": 365,
+   "found": 285,
+   "recall": 0.7808219178082192,
+   "spans": 381,
+   "false": 40,
+   "precision": 0.89501312335958,
+   "f1": 0.834027032825574,
+   "f2": 0.8012680457419881,
+   "recall_ci": [
+    0.7282594760312152,
+    0.8293402234636872
+   ],
+   "precision_ci": [
+    0.8481650082439038,
+    0.9368755411255411
+   ],
+   "ms_per_doc": 1.6673437494318932
+  },
+  "heldout (synthetic)": {
+   "gold": 275,
+   "found": 264,
+   "recall": 0.96,
+   "spans": 296,
+   "false": 1,
+   "precision": 0.9966216216216216,
+   "f1": 0.9779680917190414,
+   "f2": 0.9671074199541032,
+   "recall_ci": [
+    0.9175945760245736,
+    0.992510062049304
+   ],
+   "precision_ci": [
+    0.9891696750902527,
+    1.0
+   ],
+   "ms_per_doc": 1.750466666999273
+  },
+  "negatives (no names)": {
+   "gold": 0,
+   "found": 0,
+   "recall": NaN,
+   "spans": 45,
+   "false": 45,
+   "precision": 0.0,
+   "f1": NaN,
+   "f2": NaN,
+   "recall_ci": [
+    NaN,
+    NaN
+   ],
+   "precision_ci": [
+    0.0,
+    0.0
+   ],
+   "ms_per_doc": 4.062250004305194
+  },
+  "wiki dev (real)": {
+   "gold": 641,
+   "found": 155,
+   "recall": 0.24180967238689546,
+   "spans": 1770,
+   "false": 1508,
+   "precision": 0.1480225988700565,
+   "f1": 0.18363434111401516,
+   "f2": 0.21461382195455536,
+   "recall_ci": [
+    0.20358773977468791,
+    0.28090642029217033
+   ],
+   "precision_ci": [
+    0.1270079520489063,
+    0.16877251441059338
+   ],
+   "ms_per_doc": 0.407524791022297
+  }
+ },
+ "Tiny pipeline": {
+  "blind (synthetic)": {
+   "gold": 365,
+   "found": 364,
+   "recall": 0.9972602739726028,
+   "spans": 355,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 0.9986282578875172,
+   "f2": 0.9978070175438597,
+   "recall_ci": [
+    0.9912790697674418,
+    1.0
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 3.080085424880963
+  },
+  "heldout (synthetic)": {
+   "gold": 275,
+   "found": 268,
+   "recall": 0.9745454545454545,
+   "spans": 267,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 0.9871086556169428,
+   "f2": 0.9795321637426899,
+   "recall_ci": [
+    0.9475366695427092,
+    0.9962973137973138
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 3.459097217031134
+  },
+  "negatives (no names)": {
+   "gold": 0,
+   "found": 0,
+   "recall": NaN,
+   "spans": 2,
+   "false": 2,
+   "precision": 0.0,
+   "f1": NaN,
+   "f2": NaN,
+   "recall_ci": [
+    NaN,
+    NaN
+   ],
+   "precision_ci": [
+    0.0,
+    0.0
+   ],
+   "ms_per_doc": 7.03268067445606
+  },
+  "wiki dev (real)": {
+   "gold": 641,
+   "found": 70,
+   "recall": 0.10920436817472699,
+   "spans": 135,
+   "false": 63,
+   "precision": 0.5333333333333333,
+   "f1": 0.18128844286176757,
+   "f2": 0.1298580836657082,
+   "recall_ci": [
+    0.08225208608934569,
+    0.1406032721287283
+   ],
+   "precision_ci": [
+    0.43702380952380954,
+    0.6330351681957186
+   ],
+   "ms_per_doc": 0.6833986249985173
+  }
+ },
+ "BERTurk, model only": {
+  "blind (synthetic)": {
+   "gold": 365,
+   "found": 364,
+   "recall": 0.9972602739726028,
+   "spans": 365,
+   "false": 1,
+   "precision": 0.9972602739726028,
+   "f1": 0.9972602739726028,
+   "f2": 0.9972602739726028,
+   "recall_ci": [
+    0.9910714285714286,
+    1.0
+   ],
+   "precision_ci": [
+    0.9909903126017584,
+    1.0
+   ],
+   "ms_per_doc": 106.54794843794662
+  },
+  "heldout (synthetic)": {
+   "gold": 275,
+   "found": 275,
+   "recall": 1.0,
+   "spans": 276,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 1.0,
+   "f2": 1.0,
+   "recall_ci": [
+    1.0,
+    1.0
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 120.24379929935094
+  },
+  "negatives (no names)": {
+   "gold": 0,
+   "found": 0,
+   "recall": NaN,
+   "spans": 0,
+   "false": 0,
+   "precision": NaN,
+   "f1": NaN,
+   "f2": NaN,
+   "recall_ci": [
+    NaN,
+    NaN
+   ],
+   "precision_ci": [
+    NaN,
+    NaN
+   ],
+   "ms_per_doc": 150.8511666712972
+  },
+  "wiki dev (real)": {
+   "gold": 641,
+   "found": 440,
+   "recall": 0.6864274570982839,
+   "spans": 523,
+   "false": 74,
+   "precision": 0.858508604206501,
+   "f1": 0.7628844880282818,
+   "f2": 0.7150944434309474,
+   "recall_ci": [
+    0.6438151388881966,
+    0.727137610864745
+   ],
+   "precision_ci": [
+    0.8224819591586059,
+    0.8933340040241449
+   ],
+   "ms_per_doc": 15.648030875017866
+  }
+ },
+ "BERTurk pipeline": {
+  "blind (synthetic)": {
+   "gold": 365,
+   "found": 365,
+   "recall": 1.0,
+   "spans": 366,
+   "false": 1,
+   "precision": 0.9972677595628415,
+   "f1": 0.9986320109439125,
+   "f2": 0.9994523548740417,
+   "recall_ci": [
+    1.0,
+    1.0
+   ],
+   "precision_ci": [
+    0.990990990990991,
+    1.0
+   ],
+   "ms_per_doc": 109.44713593708002
+  },
+  "heldout (synthetic)": {
+   "gold": 275,
+   "found": 275,
+   "recall": 1.0,
+   "spans": 275,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 1.0,
+   "f2": 1.0,
+   "recall_ci": [
+    1.0,
+    1.0
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 122.78741388387668
+  },
+  "negatives (no names)": {
+   "gold": 0,
+   "found": 0,
+   "recall": NaN,
+   "spans": 2,
+   "false": 2,
+   "precision": 0.0,
+   "f1": NaN,
+   "f2": NaN,
+   "recall_ci": [
+    NaN,
+    NaN
+   ],
+   "precision_ci": [
+    0.0,
+    0.0
+   ],
+   "ms_per_doc": 154.1624859867928
+  },
+  "wiki dev (real)": {
+   "gold": 641,
+   "found": 229,
+   "recall": 0.35725429017160687,
+   "spans": 303,
+   "false": 75,
+   "precision": 0.7524752475247525,
+   "f1": 0.48448743823508944,
+   "f2": 0.399187129861968,
+   "recall_ci": [
+    0.3127708181532558,
+    0.3987994970729827
+   ],
+   "precision_ci": [
+    0.6939361859638733,
+    0.8067825832846289
+   ],
+   "ms_per_doc": 15.85212291701464
+  }
+ }
+}
