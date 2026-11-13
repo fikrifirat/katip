@@ -8,9 +8,9 @@
  "runs_locally": true,
  "runs_in_browser": false,
  "ms_per_doc": 0.1,
- "words_per_s": 568143.0,
+ "words_per_s": 350555.0,
  "ms_per_page": 1.0,
- "machine": "arm64 Darwin, 12 CPUs",
+ "machine": "x86_64 Linux, 4 CPUs",
  "tracks": {
   "contract": {
    "types": {

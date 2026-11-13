@@ -20,6 +20,7 @@ import bench_build as BB  # noqa: E402
 import bench_score as BS  # noqa: E402
 
 RES = HERE / "bench" / "results"
+EXAMPLES = ["tlner-legal-unseen-33", "gen-mesaj_01", "gen-icra_04"]   # public documents shown before/after on the leaderboard
 
 def _onnx_params(f):
     import onnx
@@ -77,6 +78,9 @@ def run(key, split="public"):
            "ms_per_page": round(1000 * secs / words * 500, 0),   # a page = 500 words
            "machine": f"{platform.machine()} {platform.system()}, {os.cpu_count()} CPUs", **BS.score(gold, pred)}
     RES.mkdir(parents=True, exist_ok=True)
+    if split == "public":
+        ex = HERE / "bench" / "examples"; ex.mkdir(exist_ok=True)
+        (ex / f"{key}.json").write_text(json.dumps({p["id"]: p["spans"] for p in pred if p["id"] in EXAMPLES}, ensure_ascii=False))
     (RES / f"{key}{'' if split == 'public' else '_' + split}.json").write_text(json.dumps(row, indent=1, default=float))
     return row
 

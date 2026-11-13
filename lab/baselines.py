@@ -25,10 +25,14 @@ def presidio():
                          stdout=subprocess.PIPE, text=True, encoding="utf-8", bufsize=1)
     def det(text):
         w.stdin.write(json.dumps(text) + "\n"); w.stdin.flush()
-        return [tuple(x) for x in json.loads(w.stdout.readline())]
+        # unmapped spans keep Presidio's label: they still count as masked text, never as a typed hit
+        return [(a, b, _PRESIDIO.get(lab) or lab) for a, b, lab in json.loads(w.stdout.readline())]
     det("Ali Veli")  # fail early if the worker can't start
     return det
 
+# Presidio's own entity names -> ours (DATE_TIME and LOCATION have no exact match and stay as they are)
+_PRESIDIO = {"PERSON": "PERSON", "EMAIL_ADDRESS": "EMAIL", "IBAN_CODE": "IBAN", "PHONE_NUMBER": "PHONE", "CREDIT_CARD": "CREDIT_CARD",
+             "IP_ADDRESS": "IP_ADDRESS"}
 _MAP = [("TCKN", ("TCKN", "TC_KIMLIK", "NATIONAL_ID", "IDCARD", "ID_NUM", "SSN")), ("IBAN", ("IBAN",)), ("EMAIL", ("EMAIL", "MAIL")),
         ("PHONE", ("PHONE", "TEL")), ("ADDRESS", ("ADDRESS", "ADRES", "STREET")), ("BIRTH_DATE", ("BIRTH", "DOB", "DOGUM")),
         ("PLATE", ("PLATE", "PLAKA")), ("PERSON", ("PER", "NAME", "AD_SOYAD", "AD", "SOYAD", "FIRST", "LAST"))]
@@ -42,9 +46,14 @@ def map_label(lab):
 def _hf(model_id):
     def make():
         from transformers import pipeline
-        nlp = pipeline("token-classification", model=model_id, aggregation_strategy="simple")
+        from transformers import AutoTokenizer
+        tok = AutoTokenizer.from_pretrained(model_id)
+        if not tok.model_max_length or tok.model_max_length > 4096: tok.model_max_length = 512   # some cards leave it unset
+        # stride: long documents are split into overlapping windows instead of overflowing the position table
+        nlp = pipeline("token-classification", model=model_id, tokenizer=tok, aggregation_strategy="simple", stride=64)
         det = lambda text: [(e["start"], e["end"], t) for e in nlp(text) if (t := map_label(e["entity_group"]))]
         det.params = sum(p.numel() for p in nlp.model.parameters())
+        det.labels = sorted(set(nlp.model.config.id2label.values()))
         det.size_mb = round(sum(p.numel() * p.element_size() for p in nlp.model.parameters()) / 1e6, 1)  # weights as loaded
         return det
     return make
