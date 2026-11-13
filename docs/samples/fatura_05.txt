@@ -1,0 +1,23 @@
+e-Arşiv Fatura
+
+Anadolu Gıda Sanayi ve Ticaret A.Ş.
+Vergi Dairesi: Büyük Mükellefler VKN: 8781842975
+Mersis No: 0123456789000015   Ticaret Sicil No: 123456
+
+SAYIN
+Duracan ERGÜL
+Cumhuriyet Mah. Talatpaşa Cad. No:146 Daire:6 Seyhan/Adana
+TCKN: 43110604560
+Tel: +90 216 261 33 97
+E-Posta: duracan.ergul@hotmail.com
+
+Fatura No: GIB2026354530831
+Fatura Tarihi: 08.03.2020
+ETTN: d335427f-cd7d-41d4-a993-74b83e88aa32
+
+Mal Hizmet            Miktar   Birim Fiyat    KDV Oranı   Tutar
+Danışmanlık hizmeti    1        443.180,00 TL   %20         418.147,00 TL
+Toplam: 36.589,00 TL  Hesaplanan KDV: 625.973,00 TL  Ödenecek Tutar: 607.119,00 TL
+
+Ödeme için banka hesabımız: Akdeniz Bankası TR IBAN numarası bilgisi faturanın arkasındadır.
+Kredi kartı ile yapılan ödeme: 4807 4229 2885 0265

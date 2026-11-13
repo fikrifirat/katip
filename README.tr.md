@@ -38,12 +38,12 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 
 | Model | Nedir | Bulunan değer (kör set) | Bulunan isim |
 | --- | --- | --- | --- |
-| **Katip Tiny** (önerilen) | Katip Kural + `katip-tr-name-tagger-tiny`, 2,6 MB | **757'de 756 (%99,9)** | 365'te 364 |
+| **Katip Mask Nano** (önerilen) | Katip Kural + `katip-tr-name-tagger-tiny`, 2,6 MB | **757'de 756 (%99,9)** | 365'te 364 |
 | **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 751 (%99,2) | 365'te 359 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
-| **Katip BERTurk** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | **757'de 757 (%100)** | **365'te 365** |
+| **Katip Mask Base** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | **757'de 757 (%100)** | **365'te 365** |
 
-**Katip BERTurk, model tek başına** (kurallar olmadan); BERTurk'ten 8.000 sentetik belgeyle bir
+**Katip Mask Base, model tek başına** (kurallar olmadan); BERTurk'ten 8.000 sentetik belgeyle bir
 Mac'te 25,5 dakikada ince ayarlandı:
 
 | Set | İsimler | Adresler | Sağlık terimleri | Fazladan |
@@ -52,15 +52,15 @@ Mac'te 25,5 dakikada ince ayarlandı:
 | Ayrılmış (60 belge) | **275'te 275** (kurallar + tiny: 268) | 70'te 70 | 26'da 26 | 0 |
 | İsim içermeyen hukuk metni | | | | **0** (kurallar + tiny: 3) |
 
-**Tüm akış** (demodaki gibi kurallar + BERTurk, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
+**Tüm akış** (demodaki gibi kurallar + Katip Mask Base, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
 kör setteki tüm değerler (757'de 757, isimler 365'te 365, bir fazladan isim işareti) ve ayrılmış setteki
-tüm değerler (618'de 618; Tiny: 611). İsim içermeyen metinde yanlış alarm Tiny ile aynı, 3. Bunun için tek bir
+tüm değerler (618'de 618; Nano: 611). İsim içermeyen metinde yanlış alarm Nano ile aynı, 3. Bunun için tek bir
 ayar gerekiyor: BERTurk'ün %90 ve üzeri güvenle bulduğu isimler olduğu gibi tutulur. Bu ayar olmadan, küçük
 etiketleyici için yazılan birleştirme kuralları *Esila* gibi aynı zamanda sıradan sözcük olan adları atıyordu
-ve sonuç Tiny ile aynıydı ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
+ve sonuç Nano ile aynıydı ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
 %90 değeri bu ölçümden önce bir kez belirlendi, ayarlanmadı; ayrılmış set geliştirme sırasında incelenmişti, kör set incelenmemişti.
 
-Katip Tiny'den 40 kat büyük olduğu için demoda varsayılan Tiny olarak kalıyor; BERTurk Hugging Face
+Katip Mask Nano'dan 40 kat büyük olduğu için demoda varsayılan Nano olarak kalıyor; Katip Mask Base Hugging Face
 Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırını aşıyor). Ham veriler:
 [`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
 
@@ -70,13 +70,13 @@ Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırın
 | --- | --- | --- | --- | --- |
 | Vanilla kvkk-pii | 0,1 MB | 1 ms | 757'de 183 (%24,2) | 618'de 154 |
 | Katip Kural | 0,3 MB | 3 ms | 757'de 751 (%99,2) | 618'de 605 |
-| Katip Tiny | + 2,6 MB | 7 ms | 757'de 756 (%99,9) | 618'de 611 |
-| Katip BERTurk | + 110,8 MB | 28 ms | **757'de 757 (%100)** | **618'de 618** |
+| Katip Mask Nano | + 2,6 MB | 7 ms | 757'de 756 (%99,9) | 618'de 611 |
+| Katip Mask Base | + 110,8 MB | 28 ms | **757'de 757 (%100)** | **618'de 618** |
 
-**Küçültme.** İki model de int8 ONNX olarak dağıtılıyor: Katip Tiny 10,0 → 2,6 MB, BERTurk 440,3 → 110,8 MB
+**Küçültme.** İki model de int8 ONNX olarak dağıtılıyor: Katip Mask Nano 10,0 → 2,6 MB, Katip Mask Base 440,3 → 110,8 MB
 (ikisi de 4 kat küçük). Yukarıdaki tüm skorlar int8 dosyalarla ölçüldü; küçültme doğruluktan bir şey
 götürmedi. OCR'da küçük Türkçe model 7,7 MB yerine 2 MB ve bulma oranı neredeyse aynı (96 taramada 49'a karşı 48 kaçan).
-**Süreler** Python onnxruntime ile; Tiny ve kurallar 4 çekirdekli bulut sunucusunda, BERTurk Apple silikon
+**Süreler** Python onnxruntime ile; Nano ve kurallar 4 çekirdekli bulut sunucusunda, Katip Mask Base Apple silikon
 Mac'te ölçüldü. Tarayıcı süreleri (WebAssembly, tek iş parçacığı) daha yavaştır ve henüz ölçülmedi.
 BERTurk'ü GitHub Pages'e sığacak boyuta damıtmak yol haritasında.
 

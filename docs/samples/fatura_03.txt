@@ -1,0 +1,23 @@
+e-Arşiv Fatura
+
+Akdeniz Turizm A.Ş.
+Vergi Dairesi: Büyük Mükellefler VKN: 1855100952
+Mersis No: 0123456789000015   Ticaret Sicil No: 123456
+
+SAYIN
+Ilgın Atasever
+Kızılay Mahallesi Çınar Sokak No: 55/35 Seyhan / Adana
+TCKN: 83583233218
+Tel: 02162328268
+E-Posta: ilgin.atasever@outlook.com
+
+Fatura No: GIB2022684825641
+Fatura Tarihi: 08.04.2020
+ETTN: 93cd7e6f-aa5c-45e4-98d4-86636dd9de7b
+
+Mal Hizmet            Miktar   Birim Fiyat    KDV Oranı   Tutar
+Danışmanlık hizmeti    1        756.430,00 TL   %20         191.553,00 TL
+Toplam: 571.443,00 TL  Hesaplanan KDV: 177.031,00 TL  Ödenecek Tutar: 491.243,00 TL
+
+Ödeme için banka hesabımız: Akdeniz Bankası TR IBAN numarası bilgisi faturanın arkasındadır.
+Kredi kartı ile yapılan ödeme: 5274 9896 4495 8631

@@ -16,6 +16,9 @@ import zipfile
 from collections import defaultdict
 
 from katip_redact.recognizers import ENTITY_LABELS_TR
+
+# labels for the browser-only case-detail types (local_detect.CASE_TYPES)
+ENTITY_LABELS_TR = {**ENTITY_LABELS_TR, "CASE_NO": "Dosya No", "BAR_NO": "Sicil No", "DATE": "Tarih", "PLACE": "Yer", "INSTITUTION": "Kurum"}
 from katip_redact.textutil import tr_upper
 
 import local_detect

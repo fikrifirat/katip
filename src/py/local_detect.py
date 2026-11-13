@@ -144,6 +144,74 @@ def _result(typ, s, e, score, why, name="katip_postprocess"):
     return r
 
 
+
+# ---- case details: browser-only types for the stricter masking profiles (off by default, so the default
+# profile still matches the Katip server span for span). They lose every overlap to the personal-data types.
+CASE_TYPES = ("CASE_NO", "BAR_NO", "DATE", "PLACE", "INSTITUTION")
+_U = "A-ZÇĞİÖŞÜ"
+_W = "A-Za-zÇĞİÖŞÜçğıöşüâîû"
+_CASE_KW = r"(?:Esas|E\.|Karar|K\.|Dosya|Talimat|Soruşturma|Hazırlık|D\.\s?İş|Değişik\s+İş|Tereke|İcra|Mahkeme)"
+_CASE_RES = [
+    re.compile(rf"(?<![\d/])(?:19|20)\d{{2}}\s?/\s?\d{{1,7}}(?=\s*(?:{_CASE_KW}|[\s.,;:)]*(?:sayılı|sayı|no|numaralı)\b))", re.I),
+    re.compile(rf"(?:{_CASE_KW})\s*(?:No|Numarası|Sayısı)?\s*[:.]?\s*((?:19|20)\d{{2}}\s?/\s?\d{{1,7}})(?![\d/])", re.I),
+    re.compile(r"(?:UYAP|evrak|belge|dosya|takip)\D{0,25}?(\d{8,14})(?!\d)", re.I),
+    re.compile(r"(\d{8,14})(?=\s+numaralı\s+(?:evrak|belge|dosya))", re.I),
+]
+_BAR_RE = re.compile(r"(?:Baro(?:su)?\s+)?Sicil\s*(?:No|Numarası)?\s*[:.]?\s*(\d{3,7})(?!\d)", re.I)
+# judge, clerk and prosecutor registry numbers printed after the name ("HAKİM : Ad Soyad 123456")
+_STAFF_RE = re.compile(r"^[ \t]*(?:Hakim|Hâkim|Katip|Kâtip|Zabıt\s+Kâtibi|Zabıt\s+Katibi|Üye|Başkan|Savcı|Cumhuriyet\s+Savcısı)\b[^\n]*?(?<!\d)(\d{4,7})[ \t]*$", re.I | re.M)
+_MONTHS = "Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık"
+_DATE_RES = [re.compile(r"(?<![\d.])(?:0?[1-9]|[12]\d|3[01])[./-](?:0?[1-9]|1[0-2])[./-](?:19|20)\d{2}(?![\d])"),
+             re.compile(rf"(?<!\d)(?:0?[1-9]|[12]\d|3[01])\s+(?:{_MONTHS})\s+(?:19|20)\d{{2}}(?!\d)", re.I)]
+_INST_KW = (r"(?i:(?:Asliye\s+|Sulh\s+|Ağır\s+)?(?:Mahkemesi|Mahkemesine|Mahkemesi'ne|Hastanesi|Üniversitesi|Bankası|Müdürlüğü|Müdürlüğüne|Başkanlığı|"
+            r"Barosu|Noterliği|Başsavcılığı|Başsavcılığına|Valiliği|Belediyesi|Kaymakamlığı|Okulu|Lisesi|Vakfı|Derneği|Holding|"
+            r"A\.\s?Ş\.?|Ltd\.?\s?Şti\.?|Limited\s+Şirketi|Anonim\s+Şirketi))")
+_INST_RE = re.compile(rf"(?<![{_W}])(?:(?:[{_U}][{_W}'’&.-]*|\d{{1,3}}\.|ve|&)[ \t]+){{1,6}}{_INST_KW}")
+_PLACES = None
+
+
+def _place_words():
+    global _PLACES
+    if _PLACES is None:
+        from importlib import resources
+        words = set()
+        for f in ("provinces.txt", "districts.txt"):
+            try:
+                words |= {fold(w).strip() for w in resources.files("katip_redact.data").joinpath(f).read_text("utf-8").splitlines() if w.strip()}
+            except Exception:
+                pass
+        _PLACES = words
+    return _PLACES
+
+
+def _case_results(text, entities):
+    out = []
+    def add(typ, s, e, sc, why):
+        out.append(_result(typ, s, e, sc, why, "case_details"))
+    if "CASE_NO" in entities:
+        for rx in _CASE_RES:
+            for m in rx.finditer(text):
+                g = 1 if m.groups() else 0
+                add("CASE_NO", m.start(g), m.end(g), 0.85, "case, file or document number")
+    if "BAR_NO" in entities:
+        for m in [*_BAR_RE.finditer(text), *_STAFF_RE.finditer(text)]:
+            add("BAR_NO", m.start(1), m.end(1), 0.85, "bar or registry number")
+    if "DATE" in entities:
+        for rx in _DATE_RES:
+            for m in rx.finditer(text):
+                add("DATE", m.start(), m.end(), 0.8, "date")
+    if "INSTITUTION" in entities:
+        for m in _INST_RE.finditer(text):
+            add("INSTITUTION", m.start(), m.end(), 0.75, "court, company or institution name")
+    if "PLACE" in entities:
+        places = _place_words()
+        for m in _TOK.finditer(text):
+            w = fold(m.group())
+            if w in places and text[m.start()].isupper():
+                add("PLACE", m.start(), m.end(), 0.75, "province or district")
+    return out
+
+
 def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), extra=(), trust=None,
            ocr_ranges=(), address_detail="street"):
     """extra: spans from an on-device model, as (start, end, score) or (start, end, score, type) tuples;
@@ -177,6 +245,8 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
     results += [_result(t, s, e, sc, why, "form_row_ocr") for t, s, e, sc, why in ocr_form_values(text, ocr_ranges)
                 if sc >= threshold and t in (entities or ALL_ENTITIES)]
     results = drop_place_names(text, results)
+    if any(t in entities for t in CASE_TYPES):
+        results += [r for r in _case_results(text, entities) if r.score >= threshold]
     results = _dictionary(text, results, mask_terms, allow_terms)
     merged = _merge_adjacent(text, resolve_overlaps(results))
     if ocr_ranges and (not entities or "PERSON" in entities):

@@ -38,17 +38,17 @@ names never seen during development or training, in 16 document styles (4 of the
 
 | Model | What it is | Values found (blind) | Names found |
 | --- | --- | --- | --- |
-| **Katip Tiny** (recommended) | Katip Rules + `katip-tr-name-tagger-tiny`, 2.6 MB | **756 / 757 (99.9%)** | 364 / 365 |
+| **Katip Mask Nano** (recommended) | Katip Rules + `katip-tr-name-tagger-tiny`, 2.6 MB | **756 / 757 (99.9%)** | 364 / 365 |
 | **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 751 / 757 (99.2%) | 359 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
-| **Katip BERTurk** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | **757 / 757 (100%)** | **365 / 365** |
+| **Katip Mask Base** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | **757 / 757 (100%)** | **365 / 365** |
 
-**Katip BERTurk v2** is fine-tuned from BERTurk on 8,000 synthetic documents plus 17,967 real
+**Katip Mask Base v2** is fine-tuned from BERTurk on 8,000 synthetic documents plus 17,967 real
 Turkish sentences (Turkish Wiki NER, names only), 3 epochs in 28 minutes on a Mac.
 
-**Full pipeline** (rules + BERTurk, as the demo runs it, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
-every value on the blind set (757 / 757, names 365 / 365) and on the held-out set (618 / 618; Tiny: 611),
-3 false alarms on name-free prose (same as Tiny). Model names scored 0.5 or higher keep their edges; that
+**Full pipeline** (rules + Katip Mask Base, as the demo runs it, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
+every value on the blind set (757 / 757, names 365 / 365) and on the held-out set (618 / 618; Nano: 611),
+3 false alarms on name-free prose (same as Nano). Model names scored 0.5 or higher keep their edges; that
 value was chosen on dev data (Wiki NER dev + held-out), not on the test sets below.
 
 **On real text** (measured in [`lab/`](lab/), names only, rules + model):
@@ -56,15 +56,15 @@ value was chosen on dev data (Wiki NER dev + held-out), not on the test sets bel
 | | Real court prose: Yargıtay sentences, anonymised names filled back in | Real Wikipedia sentences (Wiki NER test) |
 | --- | --- | --- |
 | Katip Rules | 90.6% found, 96.0% precision | 15.0% |
-| Katip Tiny | 93.9%, 95.9% | 14.8% |
-| Katip BERTurk v1 (synthetic only) | 98.6%, 95.9% | 40.7% |
-| **Katip BERTurk v2** | **99.3%, 96.2%** | **89.8%** [87.1–92.1], 89.9% precision |
+| Katip Mask Nano | 93.9%, 95.9% | 14.8% |
+| Katip Mask Base v1 (synthetic only) | 98.6%, 95.9% | 40.7% |
+| **Katip Mask Base v2** | **99.3%, 96.2%** | **89.8%** [87.1–92.1], 89.9% precision |
 
 The court set fills the "..." that courts put in place of names (TurkishLegalNER, Çetindağ et al. 2022,
 Apache-2.0) with common Turkish names, in court casing, with the case suffix re-inflected; a second version
 with rare unseen names scores within 0.5 points. Scripts: `lab/score_legal.py`, `lab/score_model.py`.
 
-It is 40 times bigger than Katip Tiny, so the demo keeps Tiny as the default and offers BERTurk on
+It is 40 times bigger than Katip Mask Nano, so the demo keeps Nano as the default and offers Katip Mask Base on
 the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages).
 
 ### Size, speed and accuracy side by side
@@ -73,13 +73,13 @@ the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Page
 | --- | --- | --- | --- | --- |
 | Vanilla kvkk-pii | 0.1 MB | 1 ms | 183 / 757 (24.2%) | 154 / 618 |
 | Katip Rules | 0.3 MB | 3 ms | 751 / 757 (99.2%) | 605 / 618 |
-| Katip Tiny | + 2.6 MB | 7 ms | 756 / 757 (99.9%) | 611 / 618 |
-| Katip BERTurk v2 | + 110.8 MB | 27 ms | **757 / 757 (100%)** | **618 / 618** |
+| Katip Mask Nano | + 2.6 MB | 7 ms | 756 / 757 (99.9%) | 611 / 618 |
+| Katip Mask Base v2 | + 110.8 MB | 27 ms | **757 / 757 (100%)** | **618 / 618** |
 
-**Shrinking.** Both models ship as int8 ONNX: Katip Tiny 10.0 → 2.6 MB, BERTurk 440.3 → 110.8 MB (4×
+**Shrinking.** Both models ship as int8 ONNX: Katip Mask Nano 10.0 → 2.6 MB, Katip Mask Base 440.3 → 110.8 MB (4×
 smaller each). All scores above were measured on the int8 files, so quantising cost no accuracy. For OCR,
 the compact Turkish model is 2 MB instead of 7.7 MB with about the same recall (49 vs 48 misses on 96 scans).
-**Timings** are onnxruntime in Python, Tiny and the rules on a 4-core cloud VM, BERTurk on an Apple-silicon
+**Timings** are onnxruntime in Python, Nano and the rules on a 4-core cloud VM, Katip Mask Base on an Apple-silicon
 Mac; browser timings (WebAssembly, one thread) are slower and not measured yet. Distilling BERTurk to a
 size that fits GitHub Pages is on the roadmap.
 

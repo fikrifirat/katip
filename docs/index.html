@@ -7,160 +7,164 @@
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="Türkçe KVKK kişisel veri maskeleme, tamamen tarayıcıda: PDF, taranmış belge, Word, UYAP UDF. Belge hiçbir sunucuya yüklenmez. Turkish PII redaction that runs fully in your browser.">
 <meta name="keywords" content="KVKK, kişisel veri maskeleme, anonimleştirme, karartma, PII redaction, Turkish, hukuk, UYAP, PDF">
-<meta property="og:title" content="Katip Yerel: tarayıcıda KVKK maskeleme / in-browser Turkish PII redaction">
+<meta property="og:title" content="Katip Mask: cihazınızda KVKK maskeleme / on-device Turkish PII redaction">
 <meta property="og:description" content="Türkçe hukuk belgelerinde kişisel verileri tarayıcıda bulup maskeler; belge hiçbir sunucuya yüklenmez. Turkish legal document redaction that never uploads the file.">
 <meta property="og:type" content="website">
 <link rel="alternate" hreflang="tr" href="./?lang=tr">
 <link rel="alternate" hreflang="en" href="./?lang=en">
-<title>Katip Yerel: tarayıcıda KVKK maskeleme</title>
+<title>Katip Mask: cihazınızda KVKK maskeleme</title>
 <link rel="icon" href="mark.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <header class="top">
-  <div class="brand">
-    <h1 class="logo"><svg class="mark" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" focusable="false">
-      <rect width="32" height="15.4" rx="6" fill="#1F242B"/><rect y="7.4" width="32" height="8" fill="#1F242B"/>
-      <rect y="16.6" width="32" height="15.4" rx="6" fill="#191D23"/><rect y="16.6" width="32" height="8" fill="#191D23"/>
-      <path d="M11 7V25M21.5 7L11.6 16.6M15.2 13.2L21.5 25" fill="none" stroke="#D4FF3A" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
-      <rect y="15.4" width="32" height="1.2" fill="#0B0D10"/>
-    </svg><span class="word">Katip <span class="word2">Yerel</span></span></h1>
-    <p class="sub" data-i18n="tagline">Türkçe KVKK maskeleme, tamamen tarayıcınızda. Belge hiçbir sunucuya yüklenmez.</p>
-  </div>
-  <div class="trust">
-    <span class="pill" id="netPill" tabindex="0" data-i18n-tip="netTip" data-tip=""><span data-i18n="netLbl">Belge sonrası ağ isteği</span>: <b id="netCount">0</b></span>
-    <span class="pill" tabindex="0" data-i18n-tip="cspTip" data-tip=""><span data-i18n="cspLbl">Dışarı gönderim</span>: <b data-i18n="blocked">engelli</b></span>
-    <span class="pill" tabindex="0" data-i18n-tip="storeTip" data-tip=""><span data-i18n="storeLbl">Kayıt</span>: <b data-i18n="none">yok</b></span>
-  </div>
+  <h1 class="logo"><svg class="mark" viewBox="0 0 32 32" width="30" height="30" aria-hidden="true" focusable="false">
+    <rect width="32" height="15.4" rx="6" fill="#1F242B"/><rect y="7.4" width="32" height="8" fill="#1F242B"/>
+    <rect y="16.6" width="32" height="15.4" rx="6" fill="#191D23"/><rect y="16.6" width="32" height="8" fill="#191D23"/>
+    <path d="M11 7V25M21.5 7L11.6 16.6M15.2 13.2L21.5 25" fill="none" stroke="#D4FF3A" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect y="15.4" width="32" height="1.2" fill="#0B0D10"/>
+  </svg><span class="word">Katip <span class="word2">Mask</span></span></h1>
+  <span class="pill trustpill" id="netPill" tabindex="0" data-i18n-tip="netTip" data-tip=""><svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 0 1 7 0v2" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="7" width="10" height="7" rx="1.6" fill="currentColor"/></svg> <span data-i18n="trust">Cihazınızda çalışır · belgeniz bilgisayarınızdan çıkmaz</span></span>
+  <span class="spacer"></span>
+  <button type="button" id="reportBtn" class="fb" data-i18n="feedback">Görüş bildir</button>
   <div class="seg lang" role="group" aria-label="Dil / Language">
     <button type="button" data-lang="tr" aria-pressed="true">TR</button>
     <button type="button" data-lang="en" aria-pressed="false">EN</button>
   </div>
 </header>
 
-<main class="grid">
-  <aside class="side">
-    <section class="card">
-      <h2 data-i18n="docH">Belge</h2>
-      <div class="seg" role="tablist">
-        <button role="tab" id="srcSampleBtn" aria-selected="true" data-i18n="sampleTab">Örnek belge</button>
-        <button role="tab" id="srcFileBtn" aria-selected="false" data-i18n="fileTab">Kendi belgem</button>
-      </div>
-      <div id="srcSample">
-        <select id="sampleType" aria-label="Örnek belge"></select>
-        <div class="chips" id="formatBtns" role="group"></div>
-        <p class="hint"><span data-i18n="sampleHint">Sentetik belgeler, cevap anahtarıyla puanlanır.</span> <span class="tip" tabindex="0" data-i18n-tip="sampleTip" data-tip="">?</span></p>
-      </div>
-      <div id="srcFile" class="hidden">
-        <div id="drop" tabindex="0" role="button">
-          <strong data-i18n="dropH">Belgeyi bırakın veya tıklayın</strong>
-          <span>PDF, .docx, UYAP .udf, .txt, PNG/JPG</span>
-          <span id="fileName" class="fname"></span>
-        </div>
-        <input type="file" id="file" class="hidden" accept=".pdf,.docx,.udf,.txt,.md,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp">
-        <p class="hint"><span data-i18n="fileHint">Dosya yalnızca bu sekmenin belleğinde kalır.</span> <span class="tip" tabindex="0" data-i18n-tip="fileTip" data-tip="">?</span></p>
-      </div>
-    </section>
+<main>
+  <section id="home" class="home">
+   <div class="home-main">
+    <h2 class="hero" data-i18n="hero">Belgedeki kişisel verileri saniyeler içinde maskeleyin.</h2>
+    <p class="lead" data-i18n="lead">Ad, T.C. kimlik, adres, telefon, IBAN, sağlık bilgisi… Katip bulur ve karartır; siz kontrol edip indirirsiniz.</p>
+    <div id="drop" tabindex="0" role="button">
+      <svg viewBox="0 0 24 24" width="30" height="30" aria-hidden="true"><path d="M12 16V4m0 0-4.5 4.5M12 4l4.5 4.5M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <strong data-i18n="dropH">Belgeyi buraya bırakın veya seçin</strong>
+      <span data-i18n="dropFormats">PDF · fotoğraf · Word · UYAP .udf · metin</span>
+    </div>
+    <input type="file" id="file" class="hidden" accept=".pdf,.docx,.udf,.txt,.md,.png,.jpg,.jpeg,.tif,.tiff,.bmp,.webp">
+   </div>
+   <figure class="ba" id="ba">
+    <div class="ba-pick">
+      <select id="sampleType" aria-label="Örnek belge türü" data-i18n-aria="pickType"></select>
+      <div class="seg vars" id="variantBtns" role="group" aria-label="Örnek" data-i18n-aria="pickVariant"></div>
+    </div>
+    <div class="chips fmts" id="formatBtns" role="group"></div>
+    <div class="ba-frame" id="baFrame">
+      <div class="ba-o"><img src="hero/dilekce_orijinal.png" alt="Örnek dilekçe, orijinal" width="1000" height="544" data-i18n-alt="baOrigAlt"></div>
+      <div class="ba-m"><img src="hero/dilekce_maskeli.png" alt="Aynı dilekçe, Katip ile maskelenmiş" width="1000" height="544" data-i18n-alt="baMaskAlt"></div>
+      <span class="ba-tag l" data-i18n="viewReview">Orijinal</span><span class="ba-tag r" data-i18n="viewResult">Maskeli</span>
+      <span class="ba-line" aria-hidden="true"></span>
+      <span class="ba-busy" data-i18n="applying">Karartılıyor…</span>
+      <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Orijinal / maskeli" data-i18n-aria="baAria">
+    </div>
+    <figcaption><span id="baCap"></span> <button type="button" class="primary sm" id="openSample" data-i18n="baOpen">Bu örneği aç →</button></figcaption>
+   </figure>
+    <ol class="steps">
+      <li><b>1</b><span data-i18n="step1">Belgeyi bırakın</span></li>
+      <li><b>2</b><span data-i18n="step2">Karartılanları kontrol edin</span></li>
+      <li><b>3</b><span data-i18n="step3">Maskeli halini indirin</span></li>
+    </ol>
+    <p class="hint center" id="engineState"></p>
+  </section>
 
-    <section class="card">
-      <h2 data-i18n="detectH">Algılama</h2>
-      <div class="opts" id="models" role="radiogroup"></div>
-      <div class="lbl"><span data-i18n="ocrH">OCR (tarama ve fotoğraf)</span> <span class="tip" tabindex="0" data-i18n-tip="ocrTip" data-tip="">?</span></div>
-      <div class="opts" id="ocrModels" role="radiogroup"></div>
-      <label class="lbl" for="threshold"><span data-i18n="thrH">Güven eşiği</span> <b id="thresholdVal">0.70</b> <span class="tip" tabindex="0" data-i18n-tip="thrTip" data-tip="">?</span></label>
-      <input type="range" id="threshold" min="0.3" max="0.95" step="0.05" value="0.7">
-      <details class="ents">
-        <summary><span data-i18n="typesH">Veri türleri</span> <span id="entCount"></span></summary>
-        <div id="entities" class="entgrid"></div>
-      </details>
-      <label class="lbl" for="addrDetail"><span data-i18n="addrH">Adresler</span> <span class="tip" tabindex="0" data-i18n-tip="addrTip" data-tip="">?</span></label>
-      <select id="addrDetail">
-        <option value="street" data-i18n="addrStreet">Sokak görünür, bina/daire gizli</option>
-        <option value="full" data-i18n="addrFull">Adresin tamamı gizli</option>
-      </select>
-    </section>
-
-    <section class="card">
-      <h2 data-i18n="maskH">Maske</h2>
-      <div class="lbl" data-i18n="colorH">Renk</div>
-      <div class="swatches" id="colors" role="radiogroup"></div>
-      <label class="lbl" for="style"><span data-i18n="styleH">Word ve metinde</span> <span class="tip" tabindex="0" data-i18n-tip="styleTip" data-tip="">?</span></label>
-      <select id="style">
-        <option value="box" data-i18n="styleBox">██████ blok</option>
-        <option value="label" data-i18n="styleLabel">[AD SOYAD-1] etiket</option>
-      </select>
-      <label class="check"><input type="checkbox" id="watermark" checked> <span data-i18n="wmH">Filigran ekle</span> <span class="tip" tabindex="0" data-i18n-tip="wmTip" data-tip="">?</span></label>
-      <label class="check"><input type="checkbox" id="centerMark"> <span data-i18n="markH">Ortaya Katip logosu</span> <span class="tip" tabindex="0" data-i18n-tip="markTip" data-tip="">?</span></label>
-    </section>
-  </aside>
-
-  <section class="review card" aria-label="İnceleme">
+  <section id="work" class="work hidden" aria-label="Belge">
     <div class="toolbar">
+      <button type="button" id="clear" class="ghost" data-i18n="newDoc">← Yeni belge</button>
+      <span class="docname" id="docName"></span>
       <div class="seg" role="tablist" id="viewSeg">
-        <button role="tab" data-view="review" aria-selected="true" data-i18n="viewReview">İnceleme</button>
-        <button role="tab" data-view="result" aria-selected="false" data-i18n="viewResult" disabled>Sonuç</button>
+        <button role="tab" data-view="result" aria-selected="true" data-i18n="viewResult" disabled>Maskeli</button>
+        <button role="tab" data-view="review" aria-selected="false" data-i18n="viewReview">Orijinal</button>
       </div>
-      <p class="status" id="status" aria-live="polite"></p>
       <span class="spacer"></span>
-      <button id="scan" class="primary" disabled data-i18n="scan">Kişisel verileri bul</button>
-      <button id="apply" class="primary hidden" disabled data-i18n="apply">Maskeleri uygula</button>
-      <button id="download" class="hidden" disabled data-i18n="download">İndir</button>
-      <button id="reportBtn" class="ghost" disabled data-i18n="report">Hata bildir</button>
-      <details class="menu"><summary aria-label="Diğer">⋯</summary>
-        <div class="menu-body">
-          <button id="copy" data-i18n="copy">Etiketli metni kopyala</button>
-          <button id="clear" data-i18n="forget">Belgeyi unut</button>
-        </div>
-      </details>
+      <button id="download" class="primary" disabled data-i18n="download">Maskeli belgeyi indir</button>
     </div>
+    <p class="status" id="status" aria-live="polite"></p>
     <div class="scorebar hidden" id="scorebar"></div>
-    <div id="empty" class="empty" data-i18n="empty">Soldan bir örnek seçin veya kendi belgenizi açın.</div>
-    <div class="rv hidden" id="rv">
+    <div class="rv" id="rv">
       <div class="docview" id="docView"></div>
-      <div class="findings">
-        <div class="row"><input type="text" id="term" data-i18n-ph="termPh" placeholder="Kaçan bir terim ekle"><button id="addTerm" data-i18n="add">Ekle</button></div>
-        <div class="fhead"><b id="fCount"></b> <span class="tip" tabindex="0" data-i18n-tip="findTip" data-tip="">?</span></div>
+      <aside class="findings">
+        <div class="profiles">
+          <div class="lbl" data-i18n="profH">Ne için maskeliyorsunuz?</div>
+          <div class="seg prof" id="profiles" role="radiogroup"></div>
+          <p class="hint" id="profHint"></p>
+        </div>
+        <div class="fhead"><b id="fCount"></b></div>
+        <p class="hint" data-i18n="listHint2">Tik kaldırdığınız değer açık kalır. Belgedeki işarete tıklamak da aynı işi görür.</p>
         <div id="list"></div>
-      </div>
+        <div class="row addrow"><input type="text" id="term" data-i18n-ph="termPh" placeholder="Kaçan bir şey mi var? Buraya yazın"><button id="addTerm" data-i18n="add">Ekle</button></div>
+        <details class="adv" id="adv">
+          <summary data-i18n="advH">Gelişmiş ayarlar</summary>
+          <div class="lbl"><span data-i18n="modelH">Algılama modeli</span></div>
+          <div class="opts" id="models" role="radiogroup"></div>
+          <label class="lbl" for="threshold"><span data-i18n="thrH">Güven eşiği</span> <b id="thresholdVal">0.70</b> <span class="tip" tabindex="0" data-i18n-tip="thrTip" data-tip="">?</span></label>
+          <input type="range" id="threshold" min="0.3" max="0.95" step="0.05" value="0.7">
+          <label class="lbl" for="addrDetail"><span data-i18n="addrH">Adresler</span> <span class="tip" tabindex="0" data-i18n-tip="addrTip" data-tip="">?</span></label>
+          <select id="addrDetail">
+            <option value="street" data-i18n="addrStreet">Sokak görünür, bina/daire gizli</option>
+            <option value="full" data-i18n="addrFull">Adresin tamamı gizli</option>
+          </select>
+          <details class="ents">
+            <summary><span data-i18n="typesH">Veri türleri</span> <span id="entCount"></span></summary>
+            <div id="entities" class="entgrid"></div>
+          </details>
+          <div class="lbl"><span data-i18n="ocrH">OCR (tarama ve fotoğraf)</span> <span class="tip" tabindex="0" data-i18n-tip="ocrTip" data-tip="">?</span></div>
+          <div class="opts" id="ocrModels" role="radiogroup"></div>
+          <div class="lbl" data-i18n="colorH">Maske rengi</div>
+          <div class="swatches" id="colors" role="radiogroup"></div>
+          <label class="lbl" for="style"><span data-i18n="styleH">Word ve metinde</span> <span class="tip" tabindex="0" data-i18n-tip="styleTip" data-tip="">?</span></label>
+          <select id="style">
+            <option value="box" data-i18n="styleBox">██████ blok</option>
+            <option value="label" data-i18n="styleLabel">[AD SOYAD-1] etiket</option>
+          </select>
+          <label class="check"><input type="checkbox" id="watermark" checked> <span data-i18n="wmH">Filigran ekle</span> <span class="tip" tabindex="0" data-i18n-tip="wmTip" data-tip="">?</span></label>
+          <label class="check"><input type="checkbox" id="centerMark"> <span data-i18n="markH">Ortaya Katip logosu</span> <span class="tip" tabindex="0" data-i18n-tip="markTip" data-tip="">?</span></label>
+          <p class="hint"><span data-i18n="netLbl">Belge açıldıktan sonra ağ isteği</span>: <b id="netCount">0</b></p>
+          <div class="row">
+            <button type="button" id="scan" data-i18n="rescan">Yeniden tara</button>
+            <button type="button" id="copy" data-i18n="copy">Etiketli metni kopyala</button>
+          </div>
+          <details class="more" id="more"><summary data-i18n="details">Ayrıntılar</summary><div id="gold"></div><table class="tbl kv" id="timing"></table></details>
+        </details>
+      </aside>
     </div>
-    <details class="more hidden" id="more"><summary data-i18n="details">Ayrıntılar</summary><div id="gold"></div><table class="tbl kv" id="timing"></table></details>
   </section>
 </main>
 
 <dialog id="reportDlg">
   <form method="dialog" id="reportForm">
-    <h2 data-i18n="report">Hata bildir</h2>
-    <fieldset class="radios"><legend data-i18n="rWhatWrong">Ne yanlış?</legend>
-      <label><input type="radio" name="kind" value="missed" checked> <span data-i18n="rMissed">Bir şey maskelenmedi</span></label>
-      <label><input type="radio" name="kind" value="false_positive"> <span data-i18n="rFp">Gereksiz bir şey maskelendi</span></label>
-      <label><input type="radio" name="kind" value="broken"> <span data-i18n="rBroken">Çıktı bozuk veya açılmıyor</span></label>
-      <label><input type="radio" name="kind" value="other"> <span data-i18n="rOther">Diğer</span></label>
+    <h2 data-i18n="feedbackH">Görüşünüz bizim için çok değerli</h2>
+    <fieldset class="radios kinds"><legend class="sr" data-i18n="rWhatWrong">Konu</legend>
+      <label><input type="radio" name="kind" value="general" checked> <span data-i18n="rGeneral">Genel görüş</span></label>
+      <label class="docOnly"><input type="radio" name="kind" value="missed"> <span data-i18n="rMissed">Bir şey açık kaldı</span></label>
+      <label class="docOnly"><input type="radio" name="kind" value="false_positive"> <span data-i18n="rFp">Gereksiz karartıldı</span></label>
+      <label class="docOnly"><input type="radio" name="kind" value="broken"> <span data-i18n="rBroken">Dosya açılmıyor</span></label>
     </fieldset>
-    <label class="lbl" for="rWhat" data-i18n="rWhere">Hangi değer veya yer? (isteğe bağlı)</label>
-    <input type="text" id="rWhat">
-    <label class="lbl" for="rText" data-i18n="rDesc">Açıklama</label>
-    <textarea id="rText" rows="4" data-i18n-ph="rDescPh" placeholder="Ne bekliyordunuz, ne oldu?"></textarea>
-    <fieldset class="checks"><legend data-i18n="rInclude">Rapora eklenecekler</legend>
+    <label class="lbl docOnly" for="rWhat" data-i18n="rWhere">Hangi değer veya yer? (isteğe bağlı)</label>
+    <input type="text" id="rWhat" class="docOnly">
+    <label class="lbl" for="rText" data-i18n="rDesc">Mesajınız</label>
+    <textarea id="rText" rows="4" data-i18n-ph="rDescPh" placeholder="Ne işe yaradı, ne eksik, neyi farklı yapardınız?"></textarea>
+    <details class="checks docOnly"><summary data-i18n="rInclude">Rapora eklenecekler</summary>
       <label><input type="checkbox" checked disabled> <span data-i18n="rIncSettings">Ayarlar, sürüm, süreler, puanlar</span></label>
       <label><input type="checkbox" id="incMasked" checked> <span data-i18n="rIncMasked">Maskeli çıktı</span></label>
       <label><input type="checkbox" id="incDetections"> <span data-i18n="rIncDet">Bulunan değerler</span> <span class="warn" id="detWarn" data-i18n="rPersonal">(kişisel veri içerir)</span></label>
       <label><input type="checkbox" id="incOriginal"> <span data-i18n="rIncOrig">Orijinal belge</span> <span class="warn" id="origWarn" data-i18n="rPersonalOk">(kişisel veri içerir; yalnızca izniniz varsa)</span></label>
-    </fieldset>
+    </details>
     <p class="hint" id="rHow"></p>
     <div class="row end">
       <button value="cancel" formnovalidate data-i18n="cancel">Vazgeç</button>
       <button type="button" id="rSend" class="hidden" data-i18n="rSend">Doğrudan gönder</button>
-      <button type="button" id="rMail" class="primary" data-i18n="rMail">Raporu indir ve e-posta aç</button>
+      <button type="button" id="rMail" class="primary" data-i18n="rMail">E-postayla gönder</button>
     </div>
     <p class="status" id="rStatus"></p>
   </form>
 </dialog>
 
 <footer class="foot">
-  <span id="version"></span> · <span data-i18n="foot">Kurallar Katip sunucusundakilerle aynı (Pyodide) · PDF: MuPDF · OCR: Tesseract</span>
+  <span id="version"></span> · <span data-i18n="foot">Açık kaynak · tamamen tarayıcıda çalışır</span>
   · <a href="https://github.com/fikrifirat/katip" id="srcLink" data-i18n="source">Kaynak kod</a>
-  · <a href="https://github.com/fikrifirat/katip/issues/new/choose" data-i18n="issues">Soru ve öneriler</a>
 </footer>
 <script src="vendor/jszip/dist/jszip.min.js"></script>
 <script type="module" src="app.js"></script>

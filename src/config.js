@@ -9,7 +9,7 @@ export default {
   // Credit line added to redacted PDF, image, Word and text output when "Filigran" is ticked.
   // Keep the text ASCII: it is drawn with a standard PDF font.
   watermark: {
-    text: { tr: "Katip Yerel ile maskelendi - fikrifirat.github.io/katip", en: "Redacted with Katip Yerel - fikrifirat.github.io/katip" },
+    text: { tr: "Katip Mask ile maskelendi - fikrifirat.github.io/katip", en: "Redacted with Katip Mask - fikrifirat.github.io/katip" },
     url: "https://fikrifirat.github.io/katip/",
   },
 };

@@ -107,7 +107,10 @@ async function detectWithModel(text, s, doc = null) {
   return { spans, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
 }
 
+// Analyses can overlap (OCR awaits the main thread), so only the newest one may become the current document.
+let newestSeq = -1;
 async function analyze({ name, bytes, settings, seq }) {
+  newestSeq = Math.max(newestSeq, seq ?? 0);
   const t0 = performance.now(), kind = E.kindOf(name), ocr = ocrWith(settings.ocrLang);
   let doc;
   if (kind === "pdf") doc = await E.parsePdf(mupdf, bytes, ocr, { onProgress: progress });
@@ -115,7 +118,9 @@ async function analyze({ name, bytes, settings, seq }) {
   else doc = { kind, text: E.pyExtract(py, kind, bytes) };
   const parseMs = Math.round(performance.now() - t0);
   progress("Kişisel veriler aranıyor");
+  if ((seq ?? 0) < newestSeq) return;  // a newer document was opened meanwhile
   const r = await detectWithModel(doc.text, settings, doc);
+  if ((seq ?? 0) < newestSeq) return;
   current = { name, kind, bytes, doc };
   if (kind === "pdf" || kind === "image") { E.attachBoxes(doc, r.spans); if (!settings.entities || settings.entities.includes("UNREAD")) r.spans.push(...E.unreadSpans(doc)); }
   const previews = kind === "pdf" ? renderPages(bytes) : [];
