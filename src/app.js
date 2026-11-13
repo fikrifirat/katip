@@ -26,6 +26,8 @@ const I18N = {
     typesH: "Veri türleri", maskH: "Maske", colorH: "Renk", styleH: "Word ve metinde",
     styleTip: "Değerin yerine ne konacağı: kutu, ████ veya [AD SOYAD-1] gibi etiket.||PDF ve görüntülerde seçilen renkte kutu çizilir. Word, UDF ve metinde değer ██████ veya etiketle değiştirilir.",
     styleBox: "██████ blok", styleLabel: "[AD SOYAD-1] etiket",
+    unreadItem: "Sayfa {p} · alan {i}", addrH: "Adresler", addrStreet: "Sokak görünür, bina/daire gizli", addrFull: "Adresin tamamı gizli",
+    addrTip: "Mahalle, cadde/sokak, ilçe ve il kişisel veri değildir; bina adı, blok, kapı ve daire numarası kişiyi gösterir.||Varsayılan: Alparslan Türkeş Cad. gibi sokak adları görünür kalır, yalnızca bina, blok, kat, kapı ve daire maskelenir. Sokak adları hiçbir zaman kişi adı sayılmaz. Tüm adresi gizlemek için \"Adresin tamamı gizli\"yi seçin.",
     tipMore: "Ayrıntılar",
     markH: "Ortaya Katip logosu", markTip: "Her sayfanın ortasına soluk bir Katip logosu basar.||PDF ve görüntülerde. Kapalıyken alttaki tek satırlık filigran yine eklenir.",
     wmH: "Filigran ekle", wmTip: "Çıktının altına küçük bir \"Katip Yerel ile maskelendi\" satırı ekler.||Tam metin: \"{wm}\". PDF'te bağlantılıdır. UYAP .udf dosyalarına eklenmez.",
@@ -74,6 +76,8 @@ const I18N = {
     typesH: "Data types", maskH: "Mask", colorH: "Colour", styleH: "In Word and text",
     styleTip: "What replaces each value: a box, ████ or a label such as [AD SOYAD-1].||PDFs and images get a box in the chosen colour. In Word, UDF and text the value is replaced with ██████ or a label.",
     styleBox: "██████ block", styleLabel: "[AD SOYAD-1] label",
+    unreadItem: "Page {p} · area {i}", addrH: "Addresses", addrStreet: "Street visible, building/flat hidden", addrFull: "Whole address hidden",
+    addrTip: "Neighbourhood, street, district and province are not personal data; building name, block, door and flat number point to a person.||Default: street names such as Alparslan Türkeş Cad. stay readable and only the building, block, floor, door and flat are masked. Street names are never treated as people's names. Pick \"Whole address hidden\" to mask all of it.",
     tipMore: "Details",
     markH: "Katip logo in the centre", markTip: "Stamps a faint Katip logo across the middle of each page.||PDFs and images only. Off, the one-line watermark at the bottom is still added.",
     wmH: "Add watermark", wmTip: "Adds a small \"Redacted with Katip Yerel\" line at the bottom.||Full text: \"{wm}\". Linked in PDFs. Not added to UYAP .udf files.",
@@ -110,10 +114,10 @@ const I18N = {
 const LABELS = {
   tr: { TCKN: "T.C. Kimlik No", VKN: "Vergi Kimlik No", IBAN: "IBAN", CREDIT_CARD: "Kredi kartı", PHONE: "Telefon", EMAIL: "E-posta", PLATE: "Araç plakası",
     PERSON: "Ad soyad", ADDRESS: "Adres", BIRTH_DATE: "Doğum tarihi", IP_ADDRESS: "IP adresi", HEALTH: "Sağlık", RELIGION: "Din/inanç", POLITICAL: "Siyasi görüş",
-    UNION: "Sendika", ETHNICITY: "Etnik köken", SEXUAL_LIFE: "Cinsel hayat", BIOMETRIC_GENETIC: "Biyometrik/genetik", CRIMINAL_RECORD: "Ceza mahkumiyeti", CUSTOM: "Eklenen terim" },
+    UNION: "Sendika", ETHNICITY: "Etnik köken", SEXUAL_LIFE: "Cinsel hayat", BIOMETRIC_GENETIC: "Biyometrik/genetik", CRIMINAL_RECORD: "Ceza mahkumiyeti", UNREAD: "El yazısı alanı", CUSTOM: "Eklenen terim" },
   en: { TCKN: "Turkish ID no.", VKN: "Tax ID", IBAN: "IBAN", CREDIT_CARD: "Card number", PHONE: "Phone", EMAIL: "E-mail", PLATE: "Licence plate",
     PERSON: "Name", ADDRESS: "Address", BIRTH_DATE: "Birth date", IP_ADDRESS: "IP address", HEALTH: "Health", RELIGION: "Religion/belief", POLITICAL: "Political opinion",
-    UNION: "Trade union", ETHNICITY: "Ethnic origin", SEXUAL_LIFE: "Sex life", BIOMETRIC_GENETIC: "Biometric/genetic", CRIMINAL_RECORD: "Criminal record", CUSTOM: "Added term" },
+    UNION: "Trade union", ETHNICITY: "Ethnic origin", SEXUAL_LIFE: "Sex life", BIOMETRIC_GENETIC: "Biometric/genetic", CRIMINAL_RECORD: "Criminal record", UNREAD: "Handwritten area", CUSTOM: "Added term" },
 };
 const FORMATS = { tr: { txt: "Metin", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Taranmış PDF", png: "Fotoğraf" },
                   en: { txt: "Text", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Scanned PDF", png: "Photo" } };
@@ -229,7 +233,7 @@ function settings() {
   const m = models.find(x => x.id === selModel()) ?? models[0];
   return {
     engine: m?.id, engineName: loc(m?.name), ner: m?.ner ?? null, baseline: m?.baseline ?? null, nerDtype: m?.dtype ?? "q8", trust: m?.trust ?? null, ocrLang: selOcr(),
-    threshold: Number($("threshold").value), style: $("style").value,
+    threshold: Number($("threshold").value), style: $("style").value, addressDetail: $("addrDetail").value,
     entities: [...document.querySelectorAll("#entities input:checked")].map(i => i.value), mask: maskTerms,
   };
 }
@@ -284,6 +288,7 @@ const rgb = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255);
 $("threshold").oninput = () => ($("thresholdVal").textContent = Number($("threshold").value).toFixed(2));
 $("threshold").onchange = () => res?.spans && redetect();
 $("style").onchange = () => maskOptionsChanged();
+$("addrDetail").onchange = () => res?.spans && redetect();
 $("watermark").onchange = () => maskOptionsChanged();
 $("centerMark").onchange = () => maskOptionsChanged();
 function maskOptionsChanged() { if (res?.spans && applied && !busy) redactNow(); }
@@ -441,6 +446,7 @@ function editDist(a, b) {
 }
 const ocrMatches = (a, b) => { if (exactMatches(a, b)) return true; const x = sq(a), y = sq(b); return y.length >= 5 && editDist(x, y) <= Math.max(1, Math.floor(y.length * 0.15)); };
 function goldEval(spans, gold, ocr = false) {
+  spans = spans.filter(s => s.entity_type !== "UNREAD");  // image areas, not text: outside the answer key
   const matches = ocr ? ocrMatches : exactMatches;
   const g = gold.filter(x => x.entity_type !== "CRIMINAL_RECORD");
   const found = g.map(x => spans.some(s => matches(s.text, x.text)));
@@ -454,7 +460,7 @@ function goldEval(spans, gold, ocr = false) {
 }
 
 // ---------------------------------------------------------------- rendering
-const key = s => `${s.entity_type}:${s.start}:${s.end}`;
+const key = s => s.uid ?? `${s.entity_type}:${s.start}:${s.end}`;
 const chosen = () => (res?.spans ?? []).filter(s => !off.has(key(s)));
 const dirty = () => !!(applied && res?.appliedKeys && (res.appliedKeys.size !== chosen().length || chosen().some(s => !res.appliedKeys.has(key(s)))));
 function toggle(s) { off.has(key(s)) ? off.delete(key(s)) : off.add(key(s)); if (view === "result") view = "review"; render(); }
@@ -534,7 +540,7 @@ function textWithMarks() {
   const box = el("div", { className: "txt" });
   const tx = res.text, ev = res.eval, miss = [];
   if (ev) ev.gold.forEach((g, i) => { if (!ev.found[i]) { const j = tx.toLocaleLowerCase("tr").indexOf(g.text.toLocaleLowerCase("tr")); if (j >= 0) miss.push({ start: j, end: j + g.text.length, miss: true, g }); } });
-  const items = [...res.spans, ...miss].sort((a, b) => a.start - b.start);
+  const items = [...res.spans.filter(s => s.end > s.start), ...miss].sort((a, b) => a.start - b.start);
   let pos = 0;
   for (const s of items) {
     if (s.start < pos) continue;
@@ -560,12 +566,12 @@ function renderList() {
     const on = spans.filter(s => !off.has(key(s))).length;
     const all = el("input", { type: "checkbox", checked: on === spans.length, indeterminate: on > 0 && on < spans.length, ariaLabel: L(type) });
     all.onchange = () => { for (const s of spans) all.checked ? off.delete(key(s)) : off.add(key(s)); render(); };
-    const rows = spans.map(s => {
+    const rows = spans.map((s, k) => {
       const cb = el("input", { type: "checkbox", checked: !off.has(key(s)), ariaLabel: s.text }); cb.onchange = () => toggle(s);
       const fp = res.eval && res.eval.fps.some(f => key(f) === key(s));
       const flag = el("button", { type: "button", className: "flag", textContent: "⚑", title: t("flag"), ariaLabel: t("flag") });
       flag.onclick = e => { e.preventDefault(); openReport(off.has(key(s)) ? "missed" : "false_positive", s.text); };
-      const v = el("span", { className: "v" + (fp ? " fp-t" : ""), textContent: s.text.replace(/\s+/g, " "), title: `${s.recognizer} · ${s.score.toFixed(2)}${s.flag_only ? " · " + t("warnOnly") : ""}` });
+      const v = el("span", { className: "v" + (fp ? " fp-t" : ""), textContent: s.text ? s.text.replace(/\s+/g, " ") : t("unreadItem", { p: s.page + 1, i: k + 1 }), title: `${s.recognizer} · ${s.score.toFixed(2)}${s.flag_only ? " · " + t("warnOnly") : ""}` });
       v.onclick = e => { e.preventDefault(); document.querySelector(`#docView [data-k="${CSS.escape(key(s))}"]`)?.scrollIntoView({ block: "center", behavior: "smooth" }); };
       return el("div", { className: "it" }, cb, v, flag);
     });

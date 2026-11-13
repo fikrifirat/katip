@@ -9,7 +9,8 @@ import json
 
 import re
 
-from katip_redact.recognizers import ALL_ENTITIES, default_recognizers, is_lexical
+from katip_redact.recognizers import (ALL_ENTITIES, default_recognizers, drop_place_names, is_lexical, ocr_form_values, ocr_name_repeats, ocr_tckn,
+                                      split_addresses)
 from katip_redact.textutil import TR_LETTER, fold
 
 # copied from analyzer.py at build time (see build.py) -> PRIORITY, FLAG_ONLY_DEFAULT,
@@ -121,9 +122,20 @@ def _add_model_typed(text, results, typ, s, e, score):
     results.append(r)
 
 
-def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), extra=(), trust=None):
+def _result(typ, s, e, score, why, name="katip_postprocess"):
+    r = RecognizerResult(typ, s, e, score)
+    r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: name, "explanation": why}
+    return r
+
+
+def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), extra=(), trust=None,
+           ocr_ranges=(), address_detail="street"):
     """extra: spans from an on-device model, as (start, end, score) or (start, end, score, type) tuples;
-    a span without a type is a PERSON span."""
+    a span without a type is a PERSON span.
+    ocr_ranges: (start, end) ranges of the text that came from OCR (scans, photos): there an 11-digit
+    number that fails the TCKN checksum is still masked, since handwritten digits are often misread.
+    address_detail: "street" masks building, block, door and flat and leaves mahalle, street, district and
+    province readable; "full" masks the whole address."""
     entities = list(entities or ALL_ENTITIES)
     results, seen = [], set()
     for rec in recognizers():
@@ -144,9 +156,21 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
             _add_model_span(text, results, s, e, sc, trust)
         else:
             _add_model_typed(text, results, typ, s, e, sc)
+    if "TCKN" in entities:
+        results += [_result("TCKN", s, e, sc, why, "tckn_ocr") for s, e, sc, why in ocr_tckn(text, ocr_ranges) if sc >= threshold]
+    results += [_result(t, s, e, sc, why, "form_row_ocr") for t, s, e, sc, why in ocr_form_values(text, ocr_ranges)
+                if sc >= threshold and t in (entities or ALL_ENTITIES)]
+    results = drop_place_names(text, results)
     results = _dictionary(text, results, mask_terms, allow_terms)
+    merged = _merge_adjacent(text, resolve_overlaps(results))
+    if ocr_ranges and (not entities or "PERSON" in entities):
+        rep = [_result("PERSON", s, e, sc, why, "name_repeat_ocr") for s, e, sc, why in ocr_name_repeats(text, ocr_ranges, merged)]
+        if rep:
+            merged = _merge_adjacent(text, resolve_overlaps(merged + rep))
+    if address_detail == "street":
+        merged = split_addresses(text, merged, _result)
     out = []
-    for i, r in enumerate(_merge_adjacent(text, resolve_overlaps(results))):
+    for i, r in enumerate(merged):
         meta = r.recognition_metadata or {}
         out.append({"id": f"s{i:04d}", "entity_type": r.entity_type, "start": r.start, "end": r.end,
                     "text": text[r.start:r.end], "score": round(r.score, 3),
@@ -186,4 +210,5 @@ def detect_json(text, opts_json="{}"):
     if o.get("baseline") == "kvkk-pii":
         return json.dumps(detect_baseline(text, o.get("threshold", 0.5), o.get("entities")), ensure_ascii=False)
     return json.dumps(detect(text, o.get("threshold", 0.5), o.get("entities"), o.get("mask", []),
-                             o.get("allow", []), o.get("extra", []), o.get("trust")), ensure_ascii=False)
+                             o.get("allow", []), o.get("extra", []), o.get("trust"), o.get("ocr_ranges", []),
+                             o.get("address_detail", "street")), ensure_ascii=False)
