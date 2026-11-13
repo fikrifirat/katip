@@ -24,13 +24,51 @@ def _counts(spans):
     return c
 
 
+DEFAULT_FOLDER = "~/Documents/katip-documents"
+
+
+def _roots() -> list[Path]:
+    out = []
+    for r in os.environ.get("KATIP_ALLOWED_DIRS", "").split(os.pathsep):
+        r = os.path.expandvars(r.strip())
+        if r and "${" not in r:  # an unfilled ${user_config...} or ${HOME} means "not set"
+            out.append(Path(r).expanduser().resolve())
+    return out
+
+
+def folder(create: bool = True) -> Path:
+    """The user's Katip folder: the one picked in the settings, else ~/Documents/katip-documents.
+    Created (private to this user) the first time it's needed, so the default works out of the box."""
+    roots = _roots()
+    f = roots[0] if roots else Path(os.environ.get("KATIP_FOLDER") or DEFAULT_FOLDER).expanduser().resolve()
+    if create and not f.exists():
+        f.mkdir(parents=True, mode=0o700, exist_ok=True)
+    return f
+
+
+def open_folder() -> dict:
+    """Show the Katip folder in Finder / Explorer / the file manager."""
+    import subprocess
+    import sys
+    f = folder()
+    cmd = {"darwin": ["open"], "win32": ["explorer"]}.get(sys.platform, ["xdg-open"])
+    try:
+        subprocess.Popen(cmd + [str(f)], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        opened = True
+    except OSError:
+        opened = False
+    return {"folder": str(f), "link": f.as_uri(), "opened": opened,
+            "note": "Put client files here; Katip only opens files inside this folder."
+            if _roots() else "Put client files here."}
+
+
 def _resolve(path: str) -> Path:
     p = Path(path).expanduser().resolve()
     if not p.is_file():
         raise FileNotFoundError(f"no such file: {path}")
     if p.stat().st_size > MAX_BYTES:
         raise ValueError(f"file is larger than {MAX_BYTES // 2**20} MB")
-    roots = [Path(r).expanduser().resolve() for r in os.environ.get("KATIP_ALLOWED_DIRS", "").split(os.pathsep) if r]
+    roots = _roots()
     if roots and not any(p.is_relative_to(r) for r in roots):
         raise PermissionError("file is outside the folders allowed in Katip's settings")
     return p
@@ -186,4 +224,5 @@ def status() -> dict:
             "default_profile": _profile(None), "threshold": _threshold(),
             "vault": "encrypted on this device" if vault.persistent() else "memory only",
             "expired_vaults_purged": vault.purge_expired(),
-            "allowed_dirs": os.environ.get("KATIP_ALLOWED_DIRS") or "any"}
+            "folder": str(folder()), "folder_link": folder().as_uri(),
+            "allowed_dirs": os.pathsep.join(map(str, _roots())) or "any"}

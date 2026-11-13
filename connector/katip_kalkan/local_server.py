@@ -30,7 +30,9 @@ with the masked text it returns. Use the default profile "ai" unless the user as
 ("court") or full anonymisation ("anon"). Do not open the original file with any other tool, and do not ask the
 user to paste or upload the original. Keep placeholders such as [AD SOYAD-1] exactly as written.
 When the user wants a final document with the real names, call restore_to_file with your text: Katip
-writes it on their computer and you will only get the file path back, never the real values."""
+writes it on their computer and you will only get the file path back, never the real values.
+If the user asks where their files go or wants to see the folder, call open_folder. When a file is not
+found, tell the user to put it in their Katip folder (open_folder shows it) and ask for its name."""
 
 TOOLS = [
     Tool("mask_file", "Mask a document on this computer",
@@ -70,8 +72,15 @@ TOOLS = [
          {"type": "object", "properties": {"matter": MATTER}, "required": ["matter"], "additionalProperties": False},
          lambda matter: core.forget_matter(matter),
          {"readOnlyHint": False, "destructiveHint": True, "idempotentHint": True, "openWorldHint": False}),
+    Tool("open_folder", "Open my Katip folder",
+         "Open the user's Katip folder (where client files go) in Finder or Explorer on their computer, "
+         "creating it if needed. Returns the folder path and a file:// link.",
+         {"type": "object", "properties": {}, "additionalProperties": False},
+         lambda: core.open_folder(),
+         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
     Tool("katip_status", "Katip status",
-         "Show the local engine, threshold and where the placeholder map is kept.",
+         "Show the local engine, OCR, threshold, the user's Katip folder (with a link) and where the "
+         "placeholder map is kept.",
          {"type": "object", "properties": {}, "additionalProperties": False},
          lambda: core.status(),
          {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),

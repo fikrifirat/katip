@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "katip-kalkan",
   "display_name": "Katip Kalkan (KVKK)",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Mask Turkish personal data on your computer before Claude reads a document.",
   "long_description": "Katip opens client documents (.docx, UYAP .udf, .txt, .pdf, scans and phone photos (local OCR)) on your computer, removes names, T.C. kimlik numbers, addresses, phones, IBANs and KVKK Article 6 data locally, and gives Claude only the masked text. The placeholder map stays encrypted on your computer; restore_to_file writes the final document with real names locally, without showing them to Claude. No network access.",
   "author": {
@@ -61,6 +61,10 @@
       "description": "Delete the local placeholder map of a matter"
     },
     {
+      "name": "open_folder",
+      "description": "Open the Katip folder in Finder or Explorer"
+    },
+    {
       "name": "katip_status",
       "description": "Show engine, threshold and vault location"
     }
@@ -69,9 +73,9 @@
     "allowed_dir": {
       "type": "directory",
       "title": "Client files folder",
-      "description": "Katip only opens files inside this folder.",
-      "required": true,
-      "default": "${HOME}/Documents"
+      "description": "Katip only opens files inside this folder. Leave it as is to use Documents/katip-documents, which Katip creates for you.",
+      "required": false,
+      "default": "${HOME}/Documents/katip-documents"
     },
     "threshold": {
       "type": "string",

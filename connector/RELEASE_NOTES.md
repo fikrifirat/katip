@@ -2,7 +2,10 @@ Katip Kalkan masks Turkish personal data (KVKK) on your computer before Claude r
 Originals and the name map never leave the device.
 
 **Claude Desktop:** download `katip-kalkan.mcpb` below and double-click it (or Settings → Extensions →
-Install). Pick the folder that holds your client files.
+Install). You can save the settings as they are: Katip creates `Documents/katip-documents` for your
+client files. Ask Claude to "open my Katip folder" to see it in Finder or Explorer. The install
+warning appears for every extension installed from a file. To check this download, run
+`gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
 **Claude Code / Cowork:**
 

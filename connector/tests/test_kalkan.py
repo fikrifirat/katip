@@ -357,3 +357,17 @@ def test_handwritten_photo_form():
     assert "paddle" in doc["ocr"] or "tesseract" in doc["ocr"]
     left = [g["text"] for g in gold if g["text"] and g["text"] in t]
     assert left == [], left  # synthetic, handwritten in blue ballpoint fonts (lab/photo_forms)
+
+
+def test_default_folder_created_and_opened(tmp_path, monkeypatch):
+    import subprocess
+    from katip_kalkan import core
+    calls = []
+    monkeypatch.setattr(subprocess, "Popen", lambda cmd, **kw: calls.append(cmd))
+    monkeypatch.setenv("KATIP_ALLOWED_DIRS", "${user_config.allowed_dir}")  # unfilled setting
+    monkeypatch.setenv("KATIP_FOLDER", str(tmp_path / "katip-documents"))
+    r = core.open_folder()
+    assert (tmp_path / "katip-documents").is_dir() and r["opened"] and calls[0][-1] == r["folder"]
+    assert r["link"].startswith("file://")
+    monkeypatch.setenv("KATIP_ALLOWED_DIRS", str(tmp_path / "picked"))
+    assert core.folder() == (tmp_path / "picked").resolve() and core.status()["folder_link"].endswith("/picked")
