@@ -151,7 +151,7 @@ def cell(r, k, best):
             "model": f"<a href='{link}' target='_blank'>{html.escape(name)}</a>{tag}<div class='repo'><a href='{dev}' target='_blank'>{html.escape(by)}</a></div>",
             "params": params(r.get("params")), "size": size(r.get("size_mb")),
             "speed": f"{r['ms_per_page']:,.0f}" if r.get("ms_per_page") else "–",
-            "offline": "✓" if r.get("runs_locally", True) else "", "browser": "✓" if r.get("runs_in_browser") else "", "licence": LICENCE.get(r["system"], "–")}[k]
+            "offline": "✓" if r.get("runs_locally", True) else "", "browser": "✓" if r.get("runs_in_browser") else "", "licence": LICENCE.get(r["system"], "not stated")}[k]
 
 def table(rows, cols):
     if not rows: return "<p class='empty'>No model matches the filters.</p>"
