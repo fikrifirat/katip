@@ -9,7 +9,7 @@
  "size_mb": 597.5,
  "size_note": "weights as loaded (fp32)",
  "ms_per_doc": 14.2,
- "words_per_s": 2345.0,
+ "words_per_s": 2353.0,
  "ms_per_page": 213.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
@@ -180,8 +180,8 @@
     "PERSON": {
      "gold": 1643,
      "recall": 0.9671332927571515,
-     "precision": 0.9896966227819118,
-     "f2": 0.9715632771295734,
+     "precision": 0.9897025171624714,
+     "f2": 0.9715644131969646,
      "exact_recall": 0.8502738892270237
     },
     "BIRTH_DATE": {
@@ -207,8 +207,8 @@
     }
    },
    "recall": 0.9671332927571515,
-   "precision": 0.973536036036036,
-   "f2": 0.9684070950180512,
+   "precision": 0.9735509285312324,
+   "f2": 0.9684100421800192,
    "special_category_recall": NaN,
    "false_per_1k_words": 1.431312239242318,
    "leak_rate": 0.03759733036707453,
@@ -435,8 +435,8 @@
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.6796736064603133,
+ "KVKK-F2": 0.6796750800412972,
  "F2 generated": 0.7338021737572162,
- "F2 all tracks": 0.7183368688152438,
+ "F2 all tracks": 0.7183372898383821,
  "leak_rate": 0.21626449454456778
 }

@@ -8,9 +8,9 @@
  "runs_locally": true,
  "runs_in_browser": true,
  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules",
- "ms_per_doc": 37.5,
- "words_per_s": 890.0,
- "ms_per_page": 562.0,
+ "ms_per_doc": 36.7,
+ "words_per_s": 908.0,
+ "ms_per_page": 550.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
