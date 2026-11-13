@@ -34,7 +34,7 @@ def presidio():
 _PRESIDIO = {"PERSON": "PERSON", "EMAIL_ADDRESS": "EMAIL", "IBAN_CODE": "IBAN", "PHONE_NUMBER": "PHONE", "CREDIT_CARD": "CREDIT_CARD",
              "IP_ADDRESS": "IP_ADDRESS"}
 _MAP = [("TCKN", ("TCKN", "TC_KIMLIK", "NATIONAL_ID", "IDCARD", "ID_NUM", "SSN")), ("IBAN", ("IBAN",)), ("EMAIL", ("EMAIL", "MAIL")),
-        ("PHONE", ("PHONE", "TEL", "TELEPHONE", "MOBILE", "GSM")), ("ADDRESS", ("ADDRESS", "ADRES", "STREET")), ("BIRTH_DATE", ("BIRTH", "DOB", "DOGUM")),
+        ("PHONE", ("PHONE", "TEL", "TELEPHONE", "MOBILE", "GSM")), ("ADDRESS", ("ADDRESS", "ADRES", "STREET")), ("BIRTH_DATE", ("BIRTH", "DOB", "DOGUM", "DATEOFBIRTH")), ("CREDIT_CARD", ("CREDITCARD", "CREDIT_CARD", "CARD")),
         ("PLATE", ("PLATE", "PLAKA")), ("HEALTH", ("HEALTH", "MEDICAL", "SAGLIK")),
         ("PERSON", ("PERSON", "PER", "NAME", "FULLNAME", "AD_SOYAD", "AD", "SOYAD", "FIRST", "LAST"))]
 def map_label(lab):
@@ -53,7 +53,16 @@ def _hf(model_id):
         # stride: long documents are split into overlapping windows instead of overflowing the position table
         nlp = pipeline("token-classification", model=model_id, tokenizer=tok, aggregation_strategy="simple", stride=64)
         # labels with no counterpart (LOC, ORG, KVKK_SPECIAL, ...) keep their own name: the text still counts as masked, never as a typed hit
-        det = lambda text: [(e["start"], e["end"], map_label(e["entity_group"]) or e["entity_group"]) for e in nlp(text)]
+        def det(text):
+            out = []
+            for e in sorted(nlp(text), key=lambda e: e["start"]):
+                t = map_label(e["entity_group"]) or e["entity_group"]
+                # some tokenizers return a word as several pieces ('İs','tan','bu','l'): join touching pieces of the same type
+                if out and out[-1][2] == t and e["start"] - out[-1][1] <= 1 and not text[out[-1][1]:e["start"]].strip(" "):
+                    out[-1] = (out[-1][0], e["end"], t)
+                else:
+                    out.append((e["start"], e["end"], t))
+            return out
         det.params = sum(p.numel() for p in nlp.model.parameters())
         det.labels = sorted(set(nlp.model.config.id2label.values()))
         det.size_mb = round(sum(p.numel() * p.element_size() for p in nlp.model.parameters()) / 1e6, 1)  # weights as loaded
