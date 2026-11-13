@@ -1,0 +1,13 @@
+Rules
+  foreign names (court)  77.1% [73.9–80.1]  prec  99.9%   Turkish names, same slots  93.0% [90.6–94.8]  McNemar p=6.2e-29
+  by group: afghan 92% (n=74), arab 59% (n=251), armenian 86% (n=86), azeri 46% (n=50), georgian 89% (n=98), greek 89% (n=62), kept 73% (n=33), persian 88% (n=129), slavic 88% (n=111), western 75% (n=117)
+  petition foreign names  86.7% [83.1–89.8]
+  IDs: FOREIGN_ID: 83.8% readable /  0.0% right label PASSPORT: 100.0% readable /  0.0% right label YKN:  0.0% readable /  0.0% right label
+  false names /1k words: foreign traps 3.69, Katip negatives 4.78
+Katip Tiny v1 (published)
+  foreign names (court)  80.3% [77.0–83.3]  prec  99.5%   Turkish names, same slots  97.4% [96.1–98.5]  McNemar p=1.2e-41
+  by group: afghan 92% (n=74), arab 69% (n=251), armenian 87% (n=86), azeri 60% (n=50), georgian 89% (n=98), greek 89% (n=62), kept 73% (n=33), persian 88% (n=129), slavic 90% (n=111), western 75% (n=117)
+  petition foreign names  89.2% [86.2–91.9]
+  IDs: FOREIGN_ID: 82.8% readable /  0.0% right label PASSPORT: 100.0% readable /  0.0% right label YKN:  0.0% readable /  0.0% right label
+  false names /1k words: foreign traps 4.02, Katip negatives 4.78
+wrote /home/claude/katip/lab/results/foreign_baseline.json

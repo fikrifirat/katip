@@ -113,10 +113,10 @@ const I18N = {
 };
 const LABELS = {
   tr: { TCKN: "T.C. Kimlik No", VKN: "Vergi Kimlik No", IBAN: "IBAN", CREDIT_CARD: "Kredi kartı", PHONE: "Telefon", EMAIL: "E-posta", PLATE: "Araç plakası",
-    PERSON: "Ad soyad", ADDRESS: "Adres", BIRTH_DATE: "Doğum tarihi", IP_ADDRESS: "IP adresi", HEALTH: "Sağlık", RELIGION: "Din/inanç", POLITICAL: "Siyasi görüş",
+    PERSON: "Ad soyad", ADDRESS: "Adres", BIRTH_DATE: "Doğum tarihi", IP_ADDRESS: "IP adresi", YKN: "Yabancı kimlik no", PASSPORT: "Pasaport no", FOREIGN_ID: "Yabancı ülke kimlik no", HEALTH: "Sağlık", RELIGION: "Din/inanç", POLITICAL: "Siyasi görüş",
     UNION: "Sendika", ETHNICITY: "Etnik köken", SEXUAL_LIFE: "Cinsel hayat", BIOMETRIC_GENETIC: "Biyometrik/genetik", CRIMINAL_RECORD: "Ceza mahkumiyeti", UNREAD: "El yazısı alanı", CUSTOM: "Eklenen terim" },
   en: { TCKN: "Turkish ID no.", VKN: "Tax ID", IBAN: "IBAN", CREDIT_CARD: "Card number", PHONE: "Phone", EMAIL: "E-mail", PLATE: "Licence plate",
-    PERSON: "Name", ADDRESS: "Address", BIRTH_DATE: "Birth date", IP_ADDRESS: "IP address", HEALTH: "Health", RELIGION: "Religion/belief", POLITICAL: "Political opinion",
+    PERSON: "Name", ADDRESS: "Address", BIRTH_DATE: "Birth date", IP_ADDRESS: "IP address", YKN: "Foreigner ID no.", PASSPORT: "Passport no.", FOREIGN_ID: "Foreign national ID", HEALTH: "Health", RELIGION: "Religion/belief", POLITICAL: "Political opinion",
     UNION: "Trade union", ETHNICITY: "Ethnic origin", SEXUAL_LIFE: "Sex life", BIOMETRIC_GENETIC: "Biometric/genetic", CRIMINAL_RECORD: "Criminal record", UNREAD: "Handwritten area", CUSTOM: "Added term" },
 };
 const FORMATS = { tr: { txt: "Metin", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Taranmış PDF", png: "Fotoğraf" },

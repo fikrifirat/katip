@@ -66,6 +66,7 @@ numbers you can't trust.
 
 | Path | |
 | --- | --- |
+| `foreign/` | foreign clients: transliterated Arab, Iranian, Afghan, Georgian, Armenian, Greek, Slavic, Azerbaijani and Western names, YKN, passports; test sets, Tiny-F training, BERTurk v3 free-GPU notebook (see `foreign/README.md`) |
 | `score_legal.py` | real court prose with known names: fills the anonymised "..." in TurkishLegalNER (Yargıtay, Apache-2.0) with common or unseen names and scores every model on disk, no training (`legal.py` builds the set) |
 | `katiplab.py` | data loading, the browser-identical model runner (`Tagger`), scoring, bootstrap, pii-names-tiny training |
 | `distill.py` | teacher fine-tuning, soft labels, student training with distillation, dev-rule trust selection |

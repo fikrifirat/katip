@@ -72,6 +72,8 @@ def _add_model_span(text, results, s, e, score, trust=None):
             toks.pop()
     if not toks or not text[toks[0][0]].isupper():
         return
+    if all(fold(text[a:b]) in _person_stop() for a, b in toks):
+        return  # place, institution or title words (Halep, Tahran, Hakim): not a name, whatever the model says
     s, e = toks[0][0], toks[-1][1]
     hits = [r for r in results if r.entity_type == "PERSON" and r.start < e and r.end > s]
     for r in hits:
@@ -81,10 +83,24 @@ def _add_model_span(text, results, s, e, score, trust=None):
         return
     capital = all(text[a].isupper() for a, _ in toks)
     known = len(toks) == 1 and text[s:e].casefold() in _known_name_words(text, results)
-    if capital and (len(toks) >= 2 or sure or known):
+    # one ordinary word opening a sentence ("Emir komuta zinciri...", "Selam verip...", "Rahmetli murisin...") is
+    # not taken from the model alone; inside a sentence, or once the name is known in the document, it still is
+    lone_word = (len(toks) == 1 and not known and is_lexical(text[s:e])
+                 and re.search(r"(?:^|[.!?:;\n(\"“]\s*)$", text[max(0, s - 4):s]) is not None)
+    if capital and (len(toks) >= 2 or (sure and not lone_word) or known):
         r = RecognizerResult("PERSON", s, e, score)
         r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: "name_tagger", "explanation": "on-device model"}
         results.append(r)
+
+
+_STOP = None
+
+
+def _person_stop():
+    global _STOP
+    if _STOP is None:
+        _STOP = next((r.stop for r in recognizers() if hasattr(r, "stop")), frozenset())
+    return _STOP
 
 
 def _known_name_words(text, results):
