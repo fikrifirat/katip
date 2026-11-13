@@ -2,15 +2,15 @@
  "system": "berturk-v2",
  "name": "Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk",
  "split": "public",
- "version": "v0.1.1",
+ "version": "v0.1.2",
  "size_mb": 111.1,
  "params": 110032287,
  "runs_locally": true,
  "runs_in_browser": true,
  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules",
- "ms_per_doc": 48.8,
- "words_per_s": 829.0,
- "ms_per_page": 603.0,
+ "ms_per_doc": 47.5,
+ "words_per_s": 851.0,
+ "ms_per_page": 588.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -180,8 +180,8 @@
     "PERSON": {
      "gold": 1011,
      "recall": 0.9703264094955489,
-     "precision": 1.0,
-     "f2": 0.9761194029850747,
+     "precision": 0.9957582184517497,
+     "f2": 0.975308312575875,
      "exact_recall": 0.8714144411473789
     },
     "CRIMINAL_RECORD": {
@@ -207,10 +207,10 @@
     }
    },
    "recall": 0.9703264094955489,
-   "precision": 0.937375745526839,
-   "f2": 0.9635522452606857,
+   "precision": 0.9333996023856859,
+   "f2": 0.9627091414618363,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.0633083730428865,
+   "false_per_1k_words": 3.257804142759895,
    "leak_rate": 0.029046146382875507,
    "clean_doc_rate": 0.8960244648318043
   },
@@ -271,10 +271,10 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 1.0,
-     "precision": 1.0,
-     "f2": 1.0,
-     "exact_recall": 0.9347181008902077
+     "recall": 0.9990108803165183,
+     "precision": 0.9949341438703141,
+     "f2": 0.9981928625114178,
+     "exact_recall": 0.9376854599406528
     },
     "CRIMINAL_RECORD": {
      "gold": 0,
@@ -298,13 +298,13 @@
      "exact_recall": NaN
     }
    },
-   "recall": 1.0,
-   "precision": 0.9397705544933078,
-   "f2": 0.9873443149859381,
+   "recall": 0.9990108803165183,
+   "precision": 0.9352380952380952,
+   "f2": 0.985569909859634,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.0964317310527867,
-   "leak_rate": 0.0,
-   "clean_doc_rate": 1.0
+   "false_per_1k_words": 3.3421802811363412,
+   "leak_rate": 0.0019510730901996097,
+   "clean_doc_rate": 0.9908256880733946
   },
   "health": {
    "types": {
@@ -530,8 +530,8 @@
     "PERSON": {
      "gold": 654,
      "recall": 0.8975535168195719,
-     "precision": 0.8986784140969163,
-     "f2": 0.897778270928892,
+     "precision": 0.8883994126284875,
+     "f2": 0.8957076351361235,
      "exact_recall": 0.5825688073394495
     },
     "RELIGION": {
@@ -564,17 +564,17 @@
     }
    },
    "recall": 0.8975535168195719,
-   "precision": 0.8668555240793201,
-   "f2": 0.8912412040404599,
+   "precision": 0.8569405099150141,
+   "f2": 0.8891258433470098,
    "special_category_recall": NaN,
-   "false_per_1k_words": 6.218987760502812,
+   "false_per_1k_words": 6.682103870327489,
    "leak_rate": 0.1761637239165329,
    "clean_doc_rate": 0.5249406175771971
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.9473792547623613,
+ "KVKK-F2": 0.94580163155616,
  "F2 generated": 0.9600335975470529,
- "F2 all tracks": 0.955815483285489,
- "leak_rate": 0.034411157390877314
+ "F2 all tracks": 0.955289608883422,
+ "leak_rate": 0.03462794328978838
 }

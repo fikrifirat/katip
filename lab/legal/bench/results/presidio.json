@@ -2,15 +2,15 @@
  "system": "presidio",
  "name": "Presidio + spaCy xx (vanilla)",
  "split": "public",
- "version": "v0.1.1",
+ "version": "v0.1.2",
  "runs_locally": true,
  "runs_in_browser": false,
  "params": null,
  "size_mb": null,
  "size_note": "spaCy xx_ent_wiki_sm (~11 MB) + Presidio",
- "ms_per_doc": 3.0,
- "words_per_s": 13620.0,
- "ms_per_page": 37.0,
+ "ms_per_doc": 2.6,
+ "words_per_s": 15620.0,
+ "ms_per_page": 32.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -18,8 +18,8 @@
     "PERSON": {
      "gold": 50,
      "recall": 0.4,
-     "precision": 0.09433962264150944,
-     "f2": 0.24271844660194175,
+     "precision": 0.10062893081761007,
+     "f2": 0.2507836990595611,
      "exact_recall": 0.14
     },
     "TCKN": {
@@ -101,10 +101,10 @@
     }
    },
    "recall": 0.35714285714285715,
-   "precision": 0.2742616033755274,
-   "f2": 0.33678756476683935,
+   "precision": 0.27848101265822783,
+   "f2": 0.3380454824830977,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 82.81174771304767,
+   "false_per_1k_words": 82.33028406355321,
    "leak_rate": 0.41332712022367196,
    "clean_doc_rate": 0.0
   },
@@ -113,8 +113,8 @@
     "PERSON": {
      "gold": 145,
      "recall": 0.593103448275862,
-     "precision": 0.5522388059701493,
-     "f2": 0.5844537506428623,
+     "precision": 0.5447761194029851,
+     "f2": 0.5827639982177335,
      "exact_recall": 0.38620689655172413
     },
     "EMAIL": {
@@ -168,10 +168,10 @@
     }
    },
    "recall": 0.5627906976744186,
-   "precision": 0.6337209302325582,
-   "f2": 0.5756774216076541,
+   "precision": 0.627906976744186,
+   "f2": 0.5747106216796257,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 43.96371249127704,
+   "false_per_1k_words": 44.66154919748779,
    "leak_rate": 0.31877846236271096,
    "clean_doc_rate": 0.0
   },
@@ -180,8 +180,8 @@
     "PERSON": {
      "gold": 1011,
      "recall": 0.4579624134520277,
-     "precision": 0.3635687732342007,
-     "f2": 0.4353560483199506,
+     "precision": 0.38066914498141263,
+     "f2": 0.44009070038833936,
      "exact_recall": 0.22453016815034618
     },
     "PHONE": {
@@ -193,10 +193,10 @@
     }
    },
    "recall": 0.4579624134520277,
-   "precision": 0.3487874465049929,
-   "f2": 0.4309818391695557,
+   "precision": 0.3651925820256776,
+   "f2": 0.4358201447684154,
    "special_category_recall": NaN,
-   "false_per_1k_words": 44.393659437907225,
+   "false_per_1k_words": 43.27530876203443,
    "leak_rate": 0.4065247710872597,
    "clean_doc_rate": 0.2324159021406728
   },
@@ -205,8 +205,8 @@
     "PERSON": {
      "gold": 40,
      "recall": 0.575,
-     "precision": 0.5555555555555556,
-     "f2": 0.5710029791459781,
+     "precision": 0.6111111111111112,
+     "f2": 0.5818767249310027,
      "exact_recall": 0.3
     },
     "TCKN": {
@@ -246,10 +246,10 @@
     }
    },
    "recall": 0.4307692307692308,
-   "precision": 0.49019607843137253,
-   "f2": 0.44147325933400605,
+   "precision": 0.5294117647058824,
+   "f2": 0.4474431818181818,
    "special_category_recall": NaN,
-   "false_per_1k_words": 38.23529411764706,
+   "false_per_1k_words": 35.294117647058826,
    "leak_rate": 0.35409556313993173,
    "clean_doc_rate": 0.0
   },
@@ -257,10 +257,10 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 0.4035608308605341,
-     "precision": 0.3291139240506329,
-     "f2": 0.3860936408106219,
-     "exact_recall": 0.21364985163204747
+     "recall": 0.4055390702274975,
+     "precision": 0.34925606891151134,
+     "f2": 0.3928765715277712,
+     "exact_recall": 0.2195845697329377
     },
     "PHONE": {
      "gold": 0,
@@ -270,13 +270,13 @@
      "exact_recall": NaN
     }
    },
-   "recall": 0.4035608308605341,
-   "precision": 0.31491294473883424,
-   "f2": 0.3820513651637441,
+   "recall": 0.4055390702274975,
+   "precision": 0.3343328335832084,
+   "f2": 0.38897047687278463,
    "special_category_recall": NaN,
-   "false_per_1k_words": 44.48048756512337,
-   "leak_rate": 0.4295966700157887,
-   "clean_doc_rate": 0.27522935779816515
+   "false_per_1k_words": 43.64494249483928,
+   "leak_rate": 0.42180699384661563,
+   "clean_doc_rate": 0.28440366972477066
   },
   "health": {
    "types": {
@@ -361,8 +361,8 @@
     "PERSON": {
      "gold": 95,
      "recall": 0.6,
-     "precision": 0.408,
-     "f2": 0.5483870967741936,
+     "precision": 0.392,
+     "f2": 0.5424354243542435,
      "exact_recall": 0.4421052631578947
     },
     "TCKN": {
@@ -423,10 +423,10 @@
     }
    },
    "recall": 0.44660194174757284,
-   "precision": 0.5029239766081871,
-   "f2": 0.45683403390456834,
+   "precision": 0.49122807017543857,
+   "f2": 0.45486650656872435,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 43.169121381411884,
+   "false_per_1k_words": 44.184865413915695,
    "leak_rate": 0.3781695721077655,
    "clean_doc_rate": 0.0
   },
@@ -435,8 +435,8 @@
     "PERSON": {
      "gold": 2108,
      "recall": 0.7039848197343453,
-     "precision": 0.5546594982078853,
-     "f2": 0.6680161825552333,
+     "precision": 0.5694444444444444,
+     "f2": 0.6722202580873254,
      "exact_recall": 0.34819734345351044
     },
     "PASSPORT": {
@@ -469,10 +469,10 @@
     }
    },
    "recall": 0.5568480300187617,
-   "precision": 0.5214827295703454,
-   "f2": 0.5493963671021984,
+   "precision": 0.5353833192923336,
+   "f2": 0.552418492261776,
    "special_category_recall": NaN,
-   "false_per_1k_words": 58.89061689994816,
+   "false_per_1k_words": 57.17988595127009,
    "leak_rate": 0.38114495798319326,
    "clean_doc_rate": 0.02
   },
@@ -481,8 +481,8 @@
     "PERSON": {
      "gold": 654,
      "recall": 0.7507645259938838,
-     "precision": 0.3524163568773234,
-     "f2": 0.612335749868842,
+     "precision": 0.33903345724907064,
+     "f2": 0.6040497687627038,
      "exact_recall": 0.5688073394495413
     },
     "PHONE": {
@@ -494,17 +494,17 @@
     }
    },
    "recall": 0.7507645259938838,
-   "precision": 0.3521545319465082,
-   "f2": 0.6121775818441031,
+   "precision": 0.3387815750371471,
+   "f2": 0.6038897777624338,
    "special_category_recall": NaN,
-   "false_per_1k_words": 57.69103539530268,
+   "false_per_1k_words": 58.88190539199471,
    "leak_rate": 0.12359550561797752,
    "clean_doc_rate": 0.7553444180522565
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.4750702620591343,
- "F2 generated": 0.4553654093731794,
- "F2 all tracks": 0.46193369360183095,
- "leak_rate": 0.354597847792048
+ "KVKK-F2": 0.47622679980121124,
+ "F2 generated": 0.4565846823892026,
+ "F2 all tracks": 0.4631320548598721,
+ "leak_rate": 0.35373232821769546
 }

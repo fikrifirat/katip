@@ -2,14 +2,14 @@
  "system": "tiny",
  "name": "Katip Tiny: rules + katip-tr-name-tagger-tiny",
  "split": "public",
- "version": "v0.1.1",
+ "version": "v0.1.2",
  "size_mb": 2.9,
  "params": 2478243,
  "runs_locally": true,
  "runs_in_browser": true,
  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules",
- "ms_per_doc": 2.0,
- "words_per_s": 20677.0,
+ "ms_per_doc": 1.9,
+ "words_per_s": 21151.0,
  "ms_per_page": 24.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
@@ -180,8 +180,8 @@
     "PERSON": {
      "gold": 1011,
      "recall": 0.7962413452027696,
-     "precision": 0.9938574938574939,
-     "f2": 0.8292172434710022,
+     "precision": 0.9914004914004914,
+     "f2": 0.828874460354733,
      "exact_recall": 0.7042532146389713
     },
     "CRIMINAL_RECORD": {
@@ -207,10 +207,10 @@
     }
    },
    "recall": 0.7962413452027696,
-   "precision": 0.9224629418472063,
-   "f2": 0.8186445480305743,
+   "precision": 0.9201824401368301,
+   "f2": 0.8182846020889822,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.306428085189147,
+   "false_per_1k_words": 3.4036759700476513,
    "leak_rate": 0.19998787217270025,
    "clean_doc_rate": 0.5443425076452599
   },
@@ -271,10 +271,10 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 0.9723046488625123,
-     "precision": 0.9968782518210197,
-     "f2": 0.9771219687827816,
-     "exact_recall": 0.9030662710187932
+     "recall": 0.8189910979228486,
+     "precision": 0.9889705882352942,
+     "f2": 0.8481461511044497,
+     "exact_recall": 0.7626112759643917
     },
     "CRIMINAL_RECORD": {
      "gold": 0,
@@ -298,13 +298,13 @@
      "exact_recall": NaN
     }
    },
-   "recall": 0.9723046488625123,
-   "precision": 0.935546875,
-   "f2": 0.9647238207945347,
+   "recall": 0.8189910979228486,
+   "precision": 0.9180887372013652,
+   "f2": 0.837061423288536,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.2438808611029195,
-   "leak_rate": 0.025046648485718387,
-   "clean_doc_rate": 0.9143730886850153
+   "false_per_1k_words": 3.5387791212031847,
+   "leak_rate": 0.1594627044874681,
+   "clean_doc_rate": 0.6819571865443425
   },
   "health": {
    "types": {
@@ -470,8 +470,8 @@
     "PERSON": {
      "gold": 2108,
      "recall": 0.9184060721062619,
-     "precision": 0.9838709677419355,
-     "f2": 0.9307927059951072,
+     "precision": 0.984375,
+     "f2": 0.9308828916839664,
      "exact_recall": 0.7808349146110057
     },
     "PASSPORT": {
@@ -511,10 +511,10 @@
     }
    },
    "recall": 0.726454033771107,
-   "precision": 0.8718177757927646,
-   "f2": 0.7515150126730977,
+   "precision": 0.8722644037516748,
+   "f2": 0.7515813588180563,
    "special_category_recall": NaN,
-   "false_per_1k_words": 14.87817522032141,
+   "false_per_1k_words": 14.826334888543286,
    "leak_rate": 0.19298844537815127,
    "clean_doc_rate": 0.21333333333333335
   },
@@ -523,8 +523,8 @@
     "PERSON": {
      "gold": 654,
      "recall": 0.14831804281345565,
-     "precision": 0.6962962962962963,
-     "f2": 0.17602384565191367,
+     "precision": 0.6814814814814815,
+     "f2": 0.175830584749002,
      "exact_recall": 0.06574923547400612
     },
     "RELIGION": {
@@ -557,17 +557,17 @@
     }
    },
    "recall": 0.14831804281345565,
-   "precision": 0.5875,
-   "f2": 0.17439102760266845,
+   "precision": 0.575,
+   "f2": 0.1741662503122658,
    "special_category_recall": NaN,
-   "false_per_1k_words": 4.3665233212041015,
+   "false_per_1k_words": 4.498842209725439,
    "leak_rate": 0.8326645264847512,
    "clean_doc_rate": 0.06413301662707839
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.6525864654759258,
- "F2 generated": 0.9536360986522041,
- "F2 all tracks": 0.853286220926778,
- "leak_rate": 0.1418287254592873
+ "KVKK-F2": 0.609837425229928,
+ "F2 generated": 0.9536471563430305,
+ "F2 all tracks": 0.8390439126386631,
+ "leak_rate": 0.15676384279281505
 }

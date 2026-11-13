@@ -2,15 +2,15 @@
  "system": "savasy",
  "name": "savasy/bert-base-turkish-ner-cased",
  "split": "public",
- "version": "v0.1.1",
+ "version": "v0.1.2",
  "runs_locally": true,
  "runs_in_browser": false,
  "params": 110032135,
  "size_mb": 440.1,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 14.3,
- "words_per_s": 2831.0,
- "ms_per_page": 177.0,
+ "ms_per_doc": 13.4,
+ "words_per_s": 3013.0,
+ "ms_per_page": 166.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -18,8 +18,8 @@
     "PERSON": {
      "gold": 50,
      "recall": 0.96,
-     "precision": 0.8333333333333334,
-     "f2": 0.9316770186335405,
+     "precision": 0.6805555555555556,
+     "f2": 0.8871454435727217,
      "exact_recall": 0.82
     },
     "TCKN": {
@@ -101,10 +101,10 @@
     }
    },
    "recall": 0.24489795918367346,
-   "precision": 0.8333333333333334,
-   "f2": 0.28517110266159695,
+   "precision": 0.6805555555555556,
+   "f2": 0.28085594191822694,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 5.777563793933558,
+   "false_per_1k_words": 11.073663938372652,
    "leak_rate": 0.5622087604846225,
    "clean_doc_rate": 0.0
   },
@@ -250,19 +250,19 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 0.9673590504451038,
-     "precision": 0.9950738916256158,
-     "f2": 0.9727778204529742,
-     "exact_recall": 0.8931750741839762
+     "recall": 0.9693372898120672,
+     "precision": 0.9950347567030785,
+     "f2": 0.9743700470812557,
+     "exact_recall": 0.9070227497527201
     }
    },
-   "recall": 0.9673590504451038,
-   "precision": 0.9950738916256158,
-   "f2": 0.9727778204529742,
+   "recall": 0.9693372898120672,
+   "precision": 0.9950347567030785,
+   "f2": 0.9743700470812557,
    "special_category_recall": NaN,
    "false_per_1k_words": 0.2457485500835545,
-   "leak_rate": 0.024974881584613175,
-   "clean_doc_rate": 0.8532110091743119
+   "leak_rate": 0.02153684526489569,
+   "clean_doc_rate": 0.8746177370030581
   },
   "health": {
    "types": {
@@ -329,8 +329,8 @@
     "PERSON": {
      "gold": 95,
      "recall": 0.9578947368421052,
-     "precision": 0.9727272727272728,
-     "f2": 0.9608249457272547,
+     "precision": 0.9272727272727272,
+     "f2": 0.9516095960631537,
      "exact_recall": 0.8105263157894737
     },
     "TCKN": {
@@ -391,10 +391,10 @@
     }
    },
    "recall": 0.441747572815534,
-   "precision": 0.9727272727272728,
-   "f2": 0.4958850251583858,
+   "precision": 0.9272727272727272,
+   "f2": 0.49341895426226384,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 1.5236160487557135,
+   "false_per_1k_words": 4.062976130015236,
    "leak_rate": 0.46671949286846276,
    "clean_doc_rate": 0.0
   },
@@ -442,23 +442,23 @@
     "PERSON": {
      "gold": 654,
      "recall": 0.7446483180428135,
-     "precision": 0.903114186851211,
-     "f2": 0.7717308283111864,
+     "precision": 0.8961937716262975,
+     "f2": 0.770713698250125,
      "exact_recall": 0.4892966360856269
     }
    },
    "recall": 0.7446483180428135,
-   "precision": 0.903114186851211,
-   "f2": 0.7717308283111864,
+   "precision": 0.8961937716262975,
+   "f2": 0.770713698250125,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.70492887859742,
+   "false_per_1k_words": 3.969566655640093,
    "leak_rate": 0.1725521669341894,
    "clean_doc_rate": 0.47268408551068886
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.887125454992538,
- "F2 generated": 0.522881879966096,
- "F2 all tracks": 0.6442964049749099,
- "leak_rate": 0.34224002368063444
+ "KVKK-F2": 0.887317153848278,
+ "F2 generated": 0.5217516746928473,
+ "F2 all tracks": 0.6436068344113243,
+ "leak_rate": 0.34185801964511037
 }

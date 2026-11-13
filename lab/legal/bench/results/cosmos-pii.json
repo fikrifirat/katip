@@ -2,15 +2,15 @@
  "system": "cosmos-pii",
  "name": "ytu-ce-cosmos/modernbert-tr-pii-ner",
  "split": "public",
- "version": "v0.1.1",
+ "version": "v0.1.2",
  "runs_locally": true,
  "runs_in_browser": false,
  "params": 149367603,
  "size_mb": 597.5,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 17.6,
- "words_per_s": 2298.0,
- "ms_per_page": 218.0,
+ "ms_per_doc": 16.9,
+ "words_per_s": 2394.0,
+ "ms_per_page": 209.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -53,8 +53,8 @@
     "EMAIL": {
      "gold": 20,
      "recall": 0.65,
-     "precision": 0.7843137254901961,
-     "f2": 0.6730520320994046,
+     "precision": 0.5882352941176471,
+     "f2": 0.6366307541625857,
      "exact_recall": 0.0
     },
     "HEALTH": {
@@ -67,8 +67,8 @@
     "VKN": {
      "gold": 10,
      "recall": 0.2,
-     "precision": 0.75,
-     "f2": 0.234375,
+     "precision": 0.6666666666666666,
+     "f2": 0.23255813953488372,
      "exact_recall": 0.1
     },
     "CREDIT_CARD": {
@@ -101,10 +101,10 @@
     }
    },
    "recall": 0.6632653061224489,
-   "precision": 0.8553719008264463,
-   "f2": 0.6944587815100027,
+   "precision": 0.8057851239669421,
+   "f2": 0.6875881523272215,
    "special_category_recall": 0.2727272727272727,
-   "false_per_1k_words": 16.85122773230621,
+   "false_per_1k_words": 22.62879152623977,
    "leak_rate": 0.06477166821994408,
    "clean_doc_rate": 0.0
   },
@@ -120,8 +120,8 @@
     "EMAIL": {
      "gold": 15,
      "recall": 0.6,
-     "precision": 0.8387096774193549,
-     "f2": 0.6362153344208809,
+     "precision": 0.7419354838709677,
+     "f2": 0.623869801084991,
      "exact_recall": 0.0
     },
     "PHONE": {
@@ -168,10 +168,10 @@
     }
    },
    "recall": 0.8325581395348837,
-   "precision": 0.9771689497716894,
-   "f2": 0.85795172033811,
+   "precision": 0.9634703196347032,
+   "f2": 0.8558150284826045,
    "special_category_recall": 1.0,
-   "false_per_1k_words": 3.4891835310537336,
+   "false_per_1k_words": 5.582693649685973,
    "leak_rate": 0.052236806857755155,
    "clean_doc_rate": 0.28
   },
@@ -180,8 +180,8 @@
     "PERSON": {
      "gold": 1011,
      "recall": 0.9624134520276953,
-     "precision": 0.9954001839926403,
-     "f2": 0.9688347270027068,
+     "precision": 0.9972401103955841,
+     "f2": 0.969182814475901,
      "exact_recall": 0.8041543026706232
     },
     "BIRTH_DATE": {
@@ -207,10 +207,10 @@
     }
    },
    "recall": 0.9624134520276953,
-   "precision": 0.9747747747747748,
-   "f2": 0.9648605717608099,
+   "precision": 0.9765765765765766,
+   "f2": 0.9652131164703354,
    "special_category_recall": NaN,
-   "false_per_1k_words": 1.3614703880190606,
+   "false_per_1k_words": 1.2642225031605563,
    "leak_rate": 0.031896185798314235,
    "clean_doc_rate": 0.6513761467889908
   },
@@ -271,10 +271,10 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 0.9861523244312562,
-     "precision": 0.9941804073714839,
-     "f2": 0.9877475518591025,
-     "exact_recall": 0.874381800197824
+     "recall": 0.9891196834817013,
+     "precision": 0.9933460076045627,
+     "f2": 0.9899620688217841,
+     "exact_recall": 0.8427299703264095
     },
     "BIRTH_DATE": {
      "gold": 0,
@@ -298,13 +298,13 @@
      "exact_recall": NaN
     }
    },
-   "recall": 0.9861523244312562,
-   "precision": 0.9752616555661275,
-   "f2": 0.983954775583113,
+   "recall": 0.9891196834817013,
+   "precision": 0.9711895910780669,
+   "f2": 0.98548089581628,
    "special_category_recall": NaN,
-   "false_per_1k_words": 1.2778924604344835,
-   "leak_rate": 0.021888904837089135,
-   "clean_doc_rate": 0.8134556574923547
+   "false_per_1k_words": 1.523641010518038,
+   "leak_rate": 0.019210565811196158,
+   "clean_doc_rate": 0.7614678899082569
   },
   "health": {
    "types": {
@@ -332,8 +332,8 @@
     "HEALTH": {
      "gold": 10,
      "recall": 0.7,
-     "precision": 0.36363636363636365,
-     "f2": 0.5907172995780591,
+     "precision": 0.3181818181818182,
+     "f2": 0.564516129032258,
      "exact_recall": 0.1
     },
     "IBAN": {
@@ -359,10 +359,10 @@
     }
    },
    "recall": 0.7733333333333333,
-   "precision": 0.8367346938775511,
-   "f2": 0.7852331264033813,
+   "precision": 0.826530612244898,
+   "f2": 0.7834178228388474,
    "special_category_recall": 0.7,
-   "false_per_1k_words": 33.542976939203356,
+   "false_per_1k_words": 35.63941299790356,
    "leak_rate": 0.058823529411764705,
    "clean_doc_rate": 0.0
   },
@@ -399,8 +399,8 @@
     "EMAIL": {
      "gold": 10,
      "recall": 0.7,
-     "precision": 0.8695652173913043,
-     "f2": 0.72840790842872,
+     "precision": 0.6086956521739131,
+     "f2": 0.6796116504854368,
      "exact_recall": 0.0
     },
     "BIRTH_DATE": {
@@ -433,10 +433,10 @@
     }
    },
    "recall": 0.8300970873786407,
-   "precision": 0.9829787234042553,
-   "f2": 0.8567468734953086,
+   "precision": 0.9574468085106383,
+   "f2": 0.8527827648114901,
    "special_category_recall": 1.0,
-   "false_per_1k_words": 2.031488065007618,
+   "false_per_1k_words": 5.078720162519045,
    "leak_rate": 0.02377179080824089,
    "clean_doc_rate": 0.15
   },
@@ -512,8 +512,8 @@
     "PERSON": {
      "gold": 654,
      "recall": 0.3425076452599388,
-     "precision": 0.9889807162534435,
-     "f2": 0.3940199283457591,
+     "precision": 0.9834710743801653,
+     "f2": 0.39384411716035084,
      "exact_recall": 0.1819571865443425
     },
     "BIRTH_DATE": {
@@ -532,17 +532,17 @@
     }
    },
    "recall": 0.3425076452599388,
-   "precision": 0.9181585677749361,
-   "f2": 0.3916129685759033,
+   "precision": 0.9130434782608695,
+   "f2": 0.39142590866728794,
    "special_category_recall": NaN,
-   "false_per_1k_words": 2.1171022163413826,
+   "false_per_1k_words": 2.2494211048627193,
    "leak_rate": 0.5959069020866774,
    "clean_doc_rate": 0.11163895486935867
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.7801427719732753,
- "F2 generated": 0.790475296210535,
- "F2 all tracks": 0.7870311214647817,
- "leak_rate": 0.10414147965725588
+ "KVKK-F2": 0.7807066403179678,
+ "F2 generated": 0.7880108406627618,
+ "F2 all tracks": 0.7855761072144971,
+ "leak_rate": 0.10384388643215664
 }

@@ -34,9 +34,9 @@ def _katip(model_dir, trust):
     return det, {"size_mb": round(tg.size_mb + 0.3, 1), "params": _onnx_params(tg.onnx_file), "runs_locally": True, "runs_in_browser": True,
                  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules"}
 
-def _hf_snapshot(repo):
+def _hf_snapshot(repo, revision=None):
     from huggingface_hub import snapshot_download
-    return snapshot_download(repo, allow_patterns=["config.json", "tokenizer*", "vocab.txt", "onnx/model_quantized.onnx"])
+    return snapshot_download(repo, revision=revision, allow_patterns=["config.json", "tokenizer*", "vocab.txt", "onnx/model_quantized.onnx"])
 
 def _baseline(key):
     import baselines as BL
@@ -54,6 +54,8 @@ SYSTEMS = {
     "tiny": ("Katip Tiny: rules + katip-tr-name-tagger-tiny", lambda: _katip(K.TINY, None)),
     "tiny-f": ("Katip Tiny-F: rules + tiny tagger retrained with foreign names", lambda: _katip(HERE / "bench" / "models" / "katip-tiny-foreign", 0.5)),
     "berturk-v2": ("Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk", lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk"), 0.5)),
+    "berturk-v1": ("Katip BERTurk v1 (synthetic only, internal reference): rules + f1k/katip-tr-pii-berturk@a107b87",
+                   lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk", "a107b872080d28967eb8e57fcdc14127f54c3cb1"), 0.5)),
     "presidio": ("Presidio + spaCy xx (vanilla)", lambda: _baseline("presidio")),
     "savasy": ("savasy/bert-base-turkish-ner-cased", lambda: _baseline("savasy")),
     "akdeniz": ("akdeniz27/xlm-roberta-base-turkish-ner", lambda: _baseline("akdeniz")),

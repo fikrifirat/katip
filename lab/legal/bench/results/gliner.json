@@ -2,15 +2,15 @@
  "system": "gliner",
  "name": "urchade/gliner_multi_pii-v1 (person)",
  "split": "public",
- "version": "v0.1.1",
+ "version": "v0.1.2",
  "runs_locally": true,
  "runs_in_browser": false,
  "params": 288949504,
  "size_mb": 1155.8,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 74.3,
- "words_per_s": 544.0,
- "ms_per_page": 919.0,
+ "ms_per_doc": 71.6,
+ "words_per_s": 565.0,
+ "ms_per_page": 885.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -180,16 +180,16 @@
     "PERSON": {
      "gold": 1011,
      "recall": 0.9277942631058358,
-     "precision": 0.941908713692946,
-     "f2": 0.93058321081495,
+     "precision": 0.9336099585062241,
+     "f2": 0.928951598562623,
      "exact_recall": 0.8170128585558852
     }
    },
    "recall": 0.9277942631058358,
-   "precision": 0.941908713692946,
-   "f2": 0.93058321081495,
+   "precision": 0.9336099585062241,
+   "f2": 0.928951598562623,
    "special_category_recall": NaN,
-   "false_per_1k_words": 2.7229407760381212,
+   "false_per_1k_words": 3.1119323154721386,
    "leak_rate": 0.07682978594384816,
    "clean_doc_rate": 0.9418960244648318
   },
@@ -250,19 +250,19 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 0.933728981206726,
-     "precision": 0.9402677651905252,
-     "f2": 0.9350294523775841,
-     "exact_recall": 0.8160237388724035
+     "recall": 0.9327398615232443,
+     "precision": 0.9241803278688525,
+     "f2": 0.931015294033173,
+     "exact_recall": 0.8180019782393669
     }
    },
-   "recall": 0.933728981206726,
-   "precision": 0.9402677651905252,
-   "f2": 0.9350294523775841,
+   "recall": 0.9327398615232443,
+   "precision": 0.9241803278688525,
+   "f2": 0.931015294033173,
    "special_category_recall": NaN,
-   "false_per_1k_words": 2.850683180969232,
-   "leak_rate": 0.06882445815989666,
-   "clean_doc_rate": 0.9571865443425076
+   "false_per_1k_words": 3.637078541236607,
+   "leak_rate": 0.07324028215518535,
+   "clean_doc_rate": 0.9602446483180428
   },
   "health": {
    "types": {
@@ -460,23 +460,23 @@
     "PERSON": {
      "gold": 654,
      "recall": 0.882262996941896,
-     "precision": 0.7480211081794196,
-     "f2": 0.8516935518301731,
+     "precision": 0.7506596306068601,
+     "f2": 0.8523758093744646,
      "exact_recall": 0.5856269113149847
     }
    },
    "recall": 0.882262996941896,
-   "precision": 0.7480211081794196,
-   "f2": 0.8516935518301731,
+   "precision": 0.7506596306068601,
+   "f2": 0.8523758093744646,
    "special_category_recall": NaN,
-   "false_per_1k_words": 12.636453853787629,
+   "false_per_1k_words": 12.504134965266292,
    "leak_rate": 0.16599785981808454,
    "clean_doc_rate": 0.5558194774346793
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.9057687383409023,
+ "KVKK-F2": 0.9041142339900868,
  "F2 generated": 0.584863632859245,
- "F2 all tracks": 0.6918320013531309,
- "leak_rate": 0.4097457723355167
+ "F2 all tracks": 0.691280499902859,
+ "leak_rate": 0.41023641944610423
 }

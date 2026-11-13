@@ -2,15 +2,15 @@
  "system": "akdeniz",
  "name": "akdeniz27/xlm-roberta-base-turkish-ner",
  "split": "public",
- "version": "v0.1.1",
+ "version": "v0.1.2",
  "runs_locally": true,
  "runs_in_browser": false,
  "params": 277458439,
  "size_mb": 1109.8,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 15.0,
- "words_per_s": 2693.0,
- "ms_per_page": 186.0,
+ "ms_per_doc": 14.3,
+ "words_per_s": 2827.0,
+ "ms_per_page": 177.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
@@ -18,8 +18,8 @@
     "PERSON": {
      "gold": 50,
      "recall": 0.98,
-     "precision": 0.7701149425287356,
-     "f2": 0.9293438260771103,
+     "precision": 0.5632183908045977,
+     "f2": 0.8536585365853658,
      "exact_recall": 0.84
     },
     "TCKN": {
@@ -101,10 +101,10 @@
     }
    },
    "recall": 0.25,
-   "precision": 0.7701149425287356,
-   "f2": 0.2890422778257118,
+   "precision": 0.5632183908045977,
+   "f2": 0.28128587830080365,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 9.629272989889264,
+   "false_per_1k_words": 18.2956186807896,
    "leak_rate": 0.4916123019571295,
    "clean_doc_rate": 0.0
   },
@@ -113,8 +113,8 @@
     "PERSON": {
      "gold": 145,
      "recall": 0.9655172413793104,
-     "precision": 0.8957055214723927,
-     "f2": 0.9506976744186046,
+     "precision": 0.852760736196319,
+     "f2": 0.9406419180201082,
      "exact_recall": 0.9172413793103448
     },
     "EMAIL": {
@@ -168,10 +168,10 @@
     }
    },
    "recall": 0.6511627906976745,
-   "precision": 0.8957055214723927,
-   "f2": 0.6887720717077774,
+   "precision": 0.852760736196319,
+   "f2": 0.6834785051980894,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 11.863224005582694,
+   "false_per_1k_words": 16.748080949057922,
    "leak_rate": 0.3072595767479239,
    "clean_doc_rate": 0.0
   },
@@ -250,19 +250,19 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 0.9792284866468842,
-     "precision": 0.9939759036144579,
-     "f2": 0.9821428571428572,
-     "exact_recall": 0.933728981206726
+     "recall": 0.9831849653808111,
+     "precision": 0.9939698492462311,
+     "f2": 0.9853231783369343,
+     "exact_recall": 0.9495548961424333
     }
    },
-   "recall": 0.9792284866468842,
-   "precision": 0.9939759036144579,
-   "f2": 0.9821428571428572,
+   "recall": 0.9831849653808111,
+   "precision": 0.9939698492462311,
+   "f2": 0.9853231783369343,
    "special_category_recall": NaN,
    "false_per_1k_words": 0.29489826010026543,
-   "leak_rate": 0.011482704176833645,
-   "clean_doc_rate": 0.9204892966360856
+   "leak_rate": 0.010580819450697884,
+   "clean_doc_rate": 0.9357798165137615
   },
   "health": {
    "types": {
@@ -329,8 +329,8 @@
     "PERSON": {
      "gold": 95,
      "recall": 1.0,
-     "precision": 0.9279279279279279,
-     "f2": 0.9847036328871894,
+     "precision": 0.8558558558558559,
+     "f2": 0.9674134419551934,
      "exact_recall": 0.9578947368421052
     },
     "TCKN": {
@@ -391,10 +391,10 @@
     }
    },
    "recall": 0.46116504854368934,
-   "precision": 0.9279279279279279,
-   "f2": 0.5127493004391253,
+   "precision": 0.8558558558558559,
+   "f2": 0.5080213903743316,
    "special_category_recall": 0.0,
-   "false_per_1k_words": 4.062976130015236,
+   "false_per_1k_words": 8.125952260030472,
    "leak_rate": 0.35538827258320127,
    "clean_doc_rate": 0.0
   },
@@ -442,23 +442,23 @@
     "PERSON": {
      "gold": 654,
      "recall": 0.8562691131498471,
-     "precision": 0.8978658536585366,
-     "f2": 0.8642772395114936,
+     "precision": 0.8917682926829268,
+     "f2": 0.8631410323967709,
      "exact_recall": 0.5565749235474006
     }
    },
    "recall": 0.8562691131498471,
-   "precision": 0.8978658536585366,
-   "f2": 0.8642772395114936,
+   "precision": 0.8917682926829268,
+   "f2": 0.8631410323967709,
    "special_category_recall": NaN,
-   "false_per_1k_words": 4.4326827654647705,
+   "false_per_1k_words": 4.697320542507443,
    "leak_rate": 0.17683253076511504,
    "clean_doc_rate": 0.48931116389548696
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.9428527368478316,
- "F2 generated": 0.5788208811541128,
- "F2 all tracks": 0.700164833052019,
- "leak_rate": 0.25958227451669286
+ "KVKK-F2": 0.9435341082076163,
+ "F2 generated": 0.5758579018042145,
+ "F2 all tracks": 0.6984166372720151,
+ "leak_rate": 0.2594820651026778
 }
