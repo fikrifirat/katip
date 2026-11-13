@@ -77,6 +77,42 @@ def gliner():
     det.size_mb = round(sum(p.numel() * p.element_size() for p in m.parameters()) / 1e6, 1)
     return det
 
+
+LLM_TYPES = ["PERSON", "TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "HEALTH"]
+LLM_PROMPT = ("You mask personal data in Turkish documents under KVKK. List every piece of personal data in the text below, "
+              "copied exactly as it appears. Types: " + ", ".join(LLM_TYPES) + ". PERSON is a person's name (not companies, courts "
+              "or places); ADDRESS is a street address. Answer with JSON only: [{\"text\": \"...\", \"type\": \"...\"}]. "
+              "If there is none, answer [].\n\nText:\n")
+
+def llm(model_id, max_new_tokens=384):
+    """A small instruction-tuned LLM asked to list the personal data; each listed string is masked wherever it occurs."""
+    def make():
+        import re, torch
+        from transformers import AutoModelForCausalLM, AutoTokenizer
+        dev = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
+        tok = AutoTokenizer.from_pretrained(model_id)
+        model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16 if dev != "cpu" else torch.float32).to(dev).eval()
+        def det(text):
+            msgs = [{"role": "user", "content": LLM_PROMPT + text[:6000]}]
+            ids = tok.apply_chat_template(msgs, add_generation_prompt=True, return_tensors="pt").to(dev)
+            with torch.no_grad():
+                out = model.generate(ids, max_new_tokens=max_new_tokens, do_sample=False)
+            ans = tok.decode(out[0, ids.shape[1]:], skip_special_tokens=True)
+            m = re.search(r"\[.*\]", ans, re.S)
+            try: items = json.loads(m.group(0)) if m else []
+            except Exception: items = [{"text": t, "type": ty} for t, ty in re.findall(r'"text"\s*:\s*"([^"]+)"\s*,\s*"type"\s*:\s*"([A-Z_]+)"', ans)]
+            spans = []
+            for it in items if isinstance(items, list) else []:
+                if not isinstance(it, dict): continue
+                v, ty = str(it.get("text", "")).strip(), str(it.get("type", "")).upper()
+                if len(v) < 2 or ty not in LLM_TYPES: continue
+                for mm in re.finditer(r"(?<!\w)" + re.escape(v) + r"(?!\w)", text): spans.append((mm.start(), mm.end(), ty))
+            return spans
+        det.params = sum(p.numel() for p in model.parameters())
+        det.size_mb = round(det.params * 2 / 1e6, 0)   # fp16 weights
+        return det
+    return make
+
 BASELINES = {"presidio": ("R1 Presidio + spaCy xx (vanilla)", presidio),
              "savasy": ("X1 savasy BERTurk NER", _hf("savasy/bert-base-turkish-ner-cased")),
              "akdeniz": ("X2 XLM-R Turkish NER", _hf("akdeniz27/xlm-roberta-base-turkish-ner")),
@@ -84,6 +120,7 @@ BASELINES = {"presidio": ("R1 Presidio + spaCy xx (vanilla)", presidio),
              # Turkish PII models published on Hugging Face (added 13 Nov 2026, before any of them was run)
              "cosmos-pii": ("X4 ytu-ce-cosmos ModernBERT-TR PII", _hf("ytu-ce-cosmos/modernbert-tr-pii-ner")),
              "kvkk-pii-ner": ("X5 ersanbil kvkk-pii-ner", _hf("ersanbil/kvkk-pii-ner")),
+             "qwen-1.5b": ("L1 Qwen2.5-1.5B-Instruct, prompted (local LLM)", llm("Qwen/Qwen2.5-1.5B-Instruct")),
              "openmed-tr": ("X6 OpenMed PII Turkish (335M)", _hf("OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1"))}
 
 def with_rules(det):

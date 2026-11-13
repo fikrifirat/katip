@@ -24,8 +24,8 @@ VERSION = "v0.1"
 
 # ------------------------------------------------------------------------------------------ what we know per system
 SYSTEMS = {  # key: (short name, who made it / what it is, licence, link, kind)
-    "berturk-v2":   ("Katip BERTurk v2", "Katip: rules + a BERTurk model trained for Turkish PII", "CC BY-SA 4.0", "https://huggingface.co/f1k/katip-tr-pii-berturk", "katip"),
-    "tiny":         ("Katip Tiny", "Katip: rules + a 2.5M-parameter name tagger", "CC BY-NC 4.0", "https://huggingface.co/f1k/katip-tr-name-tagger-tiny", "katip"),
+    "berturk-v2":   ("Katip", "Katip's main model: rules + BERTurk trained for Turkish personal data", "CC BY-SA 4.0", "https://huggingface.co/f1k/katip-tr-pii-berturk", "katip"),
+    "tiny":         ("Katip Tiny", "Katip's small model: rules + a 2.5M-parameter name tagger, loads instantly", "CC BY-NC 4.0", "https://huggingface.co/f1k/katip-tr-name-tagger-tiny", "katip"),
     "rules":        ("Katip Rules", "Katip: patterns and checksums only, no model", "AGPL-3.0", "https://github.com/fikrifirat/katip", "katip"),
     "gliner":       ("GLiNER multi-PII", "urchade/gliner_multi_pii-v1, asked for \"person\"", "Apache-2.0", "https://huggingface.co/urchade/gliner_multi_pii-v1", "model"),
     "akdeniz":      ("XLM-R Turkish NER", "akdeniz27/xlm-roberta-base-turkish-ner", "MIT", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "model"),
@@ -33,10 +33,14 @@ SYSTEMS = {  # key: (short name, who made it / what it is, licence, link, kind)
     "cosmos-pii":   ("ModernBERT-TR PII", "ytu-ce-cosmos/modernbert-tr-pii-ner", "Apache-2.0", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner", "model"),
     "kvkk-pii-ner": ("kvkk-pii-ner", "ersanbil/kvkk-pii-ner", "Apache-2.0", "https://huggingface.co/ersanbil/kvkk-pii-ner", "model"),
     "openmed-tr":   ("OpenMed PII Turkish", "OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1. Uses US-style labels (CITY, ZIPCODE…) that mostly don't match ours, so this may understate it.", "Apache-2.0", "https://huggingface.co/OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1", "model"),
+    "qwen-1.5b":    ("Small LLM (Qwen 1.5B)", "Qwen2.5-1.5B-Instruct, asked to list the personal data. A local LLM, no training for this task.", "Apache-2.0", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct", "llm"),
     "presidio":     ("Presidio", "Microsoft Presidio + spaCy, out of the box. The standard open-source tool.", "MIT", "https://github.com/microsoft/presidio", "baseline"),
     "kvkk-pii":     ("kvkk-pii regex", "Turkish regex library, patterns only", "MIT", "https://pypi.org/project/kvkk-pii/", "baseline"),
 }
 BASELINE = "presidio"
+# Rows shown on the page. The rest are still scored (results/*.json) but left out to keep the table short:
+# Katip Rules is inside both Katip rows; savasy duplicates XLM-R NER; the regex library, ersanbil and OpenMed (label mismatch) add noise.
+SHOWN = ["berturk-v2", "tiny", "akdeniz", "gliner", "cosmos-pii", "qwen-1.5b", "presidio"]
 REAL_TRACKS = ["court", "court-real", "court-filled", "prose", "scan"]
 IDS = ["TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "IP_ADDRESS"]
 
@@ -63,7 +67,7 @@ def load_rows():
     rows = []
     for p in sorted(RESULTS.glob("*.json")):
         r = json.loads(p.read_text())
-        if r.get("system") not in SYSTEMS: continue
+        if r.get("system") not in SHOWN: continue
         tr = r["tracks"]
         ok = lambda x: x == x and x is not None
         real = [x["f2"] for t, x in tr.items() if t in REAL_TRACKS and ok(x["f2"])]
@@ -110,7 +114,7 @@ def table_html(rows, browser_only=False):
         if browser_only and not r.get("runs_in_browser"): continue
         rank += 1
         name, what, lic, link, kind = SYSTEMS[r["system"]]
-        badge = {"katip": '<span class="tag katip">Katip</span>', "baseline": '<span class="tag base">baseline</span>'}.get(kind, "")
+        badge = {"katip": '<span class="tag katip">Katip</span>', "baseline": '<span class="tag base">baseline</span>', "llm": '<span class="tag llm">LLM</span>'}.get(kind, "")
         delta = ""
         if base and r is not base and r["score"] == r["score"]:
             d = 100 * (r["score"] - base["score"])
@@ -215,8 +219,8 @@ def speed_df(rows):
 
 def size_chart(rows):
     fig = go.Figure()
-    colour = {"katip": "#2a78d6", "baseline": "#eb6834", "model": "#8a8f98"}
-    for kind, label in (("katip", "Katip"), ("model", "Public models"), ("baseline", "Baselines")):
+    colour = {"katip": "#2a78d6", "baseline": "#eb6834", "model": "#8a8f98", "llm": "#6250d6"}
+    for kind, label in (("katip", "Katip"), ("model", "Public models"), ("llm", "LLM"), ("baseline", "Baseline")):
         k = [r for r in rows if SYSTEMS[r["system"]][4] == kind and r["score"] == r["score"]]
         if not k: continue
         fig.add_trace(go.Scatter(x=[max(r.get("size_mb") or 0.1, 0.1) for r in k], y=[100 * r["score"] for r in k], name=label,
@@ -261,6 +265,14 @@ blacked out with what a person marked by hand.
 ### Baseline
 **Presidio** (Microsoft, with spaCy's multilingual model) as it comes: the most widely used open-source PII tool, so it shows
 what you get without any Turkish-specific work. *vs Presidio* in the table is the difference in score.
+
+**Small LLM**: Qwen2.5-1.5B-Instruct running locally, asked in plain words to list every piece of personal data; each string it
+lists is blacked out wherever it appears. It shows what a prompt alone gets you, with no model trained for the task.
+
+### Which tools are shown
+Katip's two pipelines (both include Katip's rules), the strongest public Turkish NER, PII and zero-shot models, one LLM and the baseline.
+We also scored Katip's rules alone, a second Turkish NER model, a regex library and two more PII models; their numbers are in the
+[result files](https://github.com/fikrifirat/katip/tree/legal-study/lab/legal/bench/results).
 
 ### Limits we know about
 Sample documents come from one generator, and there are only 80 of them. There are very few health and other KVKK article 6 examples.
@@ -314,7 +326,7 @@ td.num{white-space:nowrap;font-variant-numeric:tabular-nums} td.num b{font-weigh
 .bar{width:52px;height:7px;border-radius:4px;background:rgba(128,128,128,.18);display:inline-block;margin-right:8px;vertical-align:middle;overflow:hidden}
 .bar span{display:block;height:100%;border-radius:4px} .bar.g span{background:#1a9e5c} .bar.m span{background:#e0a100} .bar.b span{background:#d0453a}
 .tag{font-size:.68rem;padding:1px 7px;border-radius:999px;vertical-align:middle;font-weight:600}
-.tag.katip{background:rgba(42,120,214,.15);color:#2a78d6} .tag.base{background:rgba(235,104,52,.15);color:#c4521f}
+.tag.llm{background:rgba(98,80,214,.15);color:#6250d6} .tag.katip{background:rgba(42,120,214,.15);color:#2a78d6} .tag.base{background:rgba(235,104,52,.15);color:#c4521f}
 .exrow{display:grid;grid-template-columns:1fr 1fr;gap:14px} .ex h4{margin:.2rem 0 .5rem}
 .doc{border:1px solid var(--border-color-primary);border-radius:12px;padding:14px;font-family:ui-monospace,Menlo,monospace;font-size:.86rem;line-height:1.7;white-space:pre-wrap}
 .blk{background:#111;color:#111;border-radius:3px} .leak{background:#ffd5d0;color:#a3140b;font-weight:700;border-radius:3px;padding:0 1px}

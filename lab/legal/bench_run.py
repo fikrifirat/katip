@@ -42,7 +42,7 @@ def _baseline(key):
     import baselines as BL
     det = BL.BASELINES[key][1]()
     meta = {"runs_locally": True, "runs_in_browser": False}
-    if hasattr(det, "params"): meta.update(params=int(det.params), size_mb=det.size_mb, size_note="weights as loaded (fp32)")
+    if hasattr(det, "params"): meta.update(params=int(det.params), size_mb=det.size_mb, size_note="weights as loaded (fp32)" if key != "qwen-1.5b" else "fp16 weights")
     if key == "presidio": meta.update(params=None, size_mb=None, size_note="spaCy xx_ent_wiki_sm (~11 MB) + Presidio")
     return det, meta
 
@@ -60,6 +60,7 @@ SYSTEMS = {
     "cosmos-pii": ("ytu-ce-cosmos/modernbert-tr-pii-ner", lambda: _baseline("cosmos-pii")),
     "kvkk-pii-ner": ("ersanbil/kvkk-pii-ner (model only)", lambda: _baseline("kvkk-pii-ner")),
     "openmed-tr": ("OpenMed PII Turkish 335M", lambda: _baseline("openmed-tr")),
+    "qwen-1.5b": ("Qwen2.5-1.5B-Instruct, prompted to list personal data", lambda: _baseline("qwen-1.5b")),
 }
 
 def run(key, split="public"):
