@@ -3,8 +3,8 @@
   huggingface-cli login            # once, with a write token for the f1k account
   python lab/legal/bench/space/publish_space.py [--repo f1k/kvkk-bench-tr]
 
-Uploads only the app, its README and requirements, the public before/after examples and the score files
-(results/*.json, examples/*.json). No benchmark data from lab/data is uploaded.
+Uploads only the app, its README and requirements and the score files
+(results/*.json). No benchmark data from lab/data is uploaded.
 """
 import argparse, shutil, tempfile
 from pathlib import Path
@@ -14,8 +14,8 @@ HERE = Path(__file__).resolve().parent
 ap = argparse.ArgumentParser(); ap.add_argument("--repo", default="f1k/kvkk-bench-tr"); a = ap.parse_args()
 with tempfile.TemporaryDirectory() as d:
     d = Path(d)
-    for f in ("app.py", "README.md", "requirements.txt", "examples_gold.json"): shutil.copy(HERE / f, d / f)
-    for sub in ("results", "examples"):
+    for f in ("app.py", "README.md", "requirements.txt"): shutil.copy(HERE / f, d / f)
+    for sub in ("results",):
         (d / sub).mkdir()
         for f in (HERE.parent / sub).glob("*.json"): shutil.copy(f, d / sub / f.name)
     print("uploading:", sorted(str(p.relative_to(d)) for p in d.rglob("*") if p.is_file()))
