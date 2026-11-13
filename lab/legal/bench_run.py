@@ -52,7 +52,7 @@ SYSTEMS = {
     "kvkk-pii": ("kvkk-pii 0.2 (regex library, MIT)", lambda: (lambda t: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect_baseline(t)],
                                                                {"params": 0, "size_mb": 0.1, "runs_locally": True, "runs_in_browser": False})),
     "tiny": ("Katip Tiny: rules + katip-tr-name-tagger-tiny", lambda: _katip(K.TINY, None)),
-    "tiny-f": ("Katip Tiny-F: rules + tiny tagger retrained with foreign names", lambda: _katip(HERE / "bench" / "models" / "katip-tiny-foreign", None)),
+    "tiny-f": ("Katip Tiny-F: rules + tiny tagger retrained with foreign names", lambda: _katip(HERE / "bench" / "models" / "katip-tiny-foreign", 0.5)),
     "berturk-v2": ("Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk", lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk"), 0.5)),
     "presidio": ("Presidio + spaCy xx (vanilla)", lambda: _baseline("presidio")),
     "savasy": ("savasy/bert-base-turkish-ner-cased", lambda: _baseline("savasy")),

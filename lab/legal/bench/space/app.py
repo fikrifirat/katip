@@ -19,15 +19,15 @@ REQUESTS = HERE / "requests"
 VERSION = "v0.1.1 preview"
 
 # key: (name, link). Only these rows are shown; every other scored system stays in results/.
-SYSTEMS = {
-    "berturk-v2": ("Katip", "https://huggingface.co/f1k/katip-tr-pii-berturk"),
-    "tiny":       ("Katip Tiny", "https://huggingface.co/f1k/katip-tr-name-tagger-tiny"),
-    "tiny-f":     ("Katip Tiny-F (new, foreign names)", "https://github.com/fikrifirat/katip/pull/7"),
-    "akdeniz":    ("akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner"),
-    "gliner":     ("urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade/gliner_multi_pii-v1"),
-    "cosmos-pii": ("ytu-ce-cosmos/modernbert-tr-pii-ner", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner"),
-    "qwen-1.5b":  ("Qwen/Qwen2.5-1.5B-Instruct (prompted)", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct"),
-    "presidio":   ("Presidio + spaCy", "https://github.com/microsoft/presidio"),
+SYSTEMS = {   # key: (model name, credit line, model link, developer link)
+    "berturk-v2": ("Katip PII Base v2", "by Katip · fine-tuned from BERTurk (dbmdz)", "https://huggingface.co/f1k/katip-tr-pii-berturk", "https://huggingface.co/f1k"),
+    "tiny":       ("Katip PII Tiny v1", "by Katip · 2.5M tagger + rules", "https://huggingface.co/f1k/katip-tr-name-tagger-tiny", "https://huggingface.co/f1k"),
+    "tiny-f":     ("Katip PII Tiny v1.1 (preview)", "by Katip · adds foreign names, unreleased", "https://github.com/fikrifirat/katip/pull/7", "https://huggingface.co/f1k"),
+    "akdeniz":    ("XLM-RoBERTa Base Turkish NER", "by akdeniz27 · fine-tuned from XLM-R (Meta AI)", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27"),
+    "gliner":     ("GLiNER Multi PII v1", "by urchade · GLiNER, NAACL 2024", "https://huggingface.co/urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade"),
+    "cosmos-pii": ("ModernBERT-TR PII NER", "by COSMOS Lab, Yıldız Technical University", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner", "https://huggingface.co/ytu-ce-cosmos"),
+    "qwen-1.5b":  ("Qwen2.5 1.5B Instruct (zero-shot)", "by Qwen Team, Alibaba Cloud", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct", "https://huggingface.co/Qwen"),
+    "presidio":   ("Presidio", "by Microsoft · spaCy xx_ent_wiki_sm by Explosion", "https://github.com/microsoft/presidio", "https://github.com/microsoft"),
 }
 REAL_TRACKS = {"court", "court-real", "court-filled", "court-turkish", "court-foreign", "prose", "scan"}
 IDS = {"TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "IP_ADDRESS"}
@@ -52,9 +52,9 @@ DIMS = {
                                              "BIOMETRIC_GENETIC", "PHILOSOPHICAL", "ASSOCIATION", "DRESS"}, 10, False),
 }
 DIM_HELP = {
-    "tr_names": "Turkish names in real Yargıtay decisions, in court casing (Ahmet YILMAZ) and with suffixes (Kaya'nın).",
-    "foreign":  "Foreign clients' names (Arabic, Persian, Afghan, Georgian, Russian, Western…) in the same real Yargıtay sentences.",
-    "everyday": "Names in ordinary Turkish sentences (Wikipedia), outside legal writing.",
+    "tr_names": "Turkish names in real Yargıtay decisions, in court casing (Ahmet YILMAZ) and with suffixes (Kaya'nın). Source: TurkishLegalNER test split (Koç University, Apache-2.0).",
+    "foreign":  "Foreign clients' names (Arabic, Persian, Afghan, Georgian, Russian, Western…) in the same real Yargıtay sentences. Source: TurkishLegalNER test split (Koç University, Apache-2.0).",
+    "everyday": "Names in ordinary Turkish sentences (Wikipedia), outside legal writing. Source: Turkish Wiki NER (Altinok 2023, CC BY-SA 4.0).",
     "tckn":     "T.C. kimlik numbers.",
     "ids":      "Tax numbers, foreigner IDs (YKN), passports, IBANs, card numbers, plates, birth dates.",
     "contact":  "Phone numbers, e-mail and IP addresses.",
@@ -131,9 +131,9 @@ def size_bucket(mb):
 
 def cell(r, k, best):
     if k in NUM: return f"<b>{pct(r[k])}</b>" if r[k] == best[k] else pct(r[k])
-    name, link = SYSTEMS[r["system"]]
+    name, by, link, dev = SYSTEMS[r["system"]]
     return {"rank": str(r["rank"]), "type": f"<span title='{TYPES[r['kind']]}'>{TYPES[r['kind']].split()[0]}</span>",
-            "model": f"<a href='{link}' target='_blank'>{html.escape(name)}</a>",
+            "model": f"<a href='{link}' target='_blank'>{html.escape(name)}</a><div class='repo'><a href='{dev}' target='_blank'>{html.escape(by)}</a></div>",
             "params": params(r.get("params")), "size": size(r.get("size_mb")),
             "speed": f"{r['ms_per_page']:,.0f}" if r.get("ms_per_page") else "–",
             "browser": "✓" if r.get("runs_in_browser") else "", "licence": LICENCE.get(r["system"], "–")}[k]
@@ -150,7 +150,7 @@ def pick(rows, query, types, sizes, browser_only):
     q = (query or "").lower().strip()
     keep = {k for k, v in TYPES.items() if v in types}
     return [r for r in rows if r["kind"] in keep and size_bucket(r.get("size_mb")) in sizes
-            and (not browser_only or r.get("runs_in_browser")) and (not q or q in SYSTEMS[r["system"]][0].lower())]
+            and (not browser_only or r.get("runs_in_browser")) and (not q or q in " ".join(SYSTEMS[r["system"]][:2]).lower())]
 
 def chart(rows, x):
     import plotly.graph_objects as go
@@ -160,7 +160,7 @@ def chart(rows, x):
         pts = [r for r in rows if r["kind"] == kind and r.get(key)]
         if not pts: continue
         fig.add_scatter(x=[r[key] for r in pts], y=[100 * r["overall"] for r in pts], mode="markers+text", name=label,
-                        text=[SYSTEMS[r["system"]][0].split("/")[-1].split(" (")[0] for r in pts], textposition="top center",
+                        text=[SYSTEMS[r["system"]][0].split(" (")[0].split(" · ")[0] for r in pts], textposition="top center",
                         marker=dict(size=13, color={"katip": "#16a34a", "model": "#f59e0b", "llm": "#8b5cf6", "baseline": "#64748b"}[kind]),
                         hovertemplate="%{text}<br>Score %{y:.1f}<br>%{x}<extra></extra>")
     fig.update_layout(xaxis=dict(type="log", title=title), yaxis=dict(title="Score (KVKK-F2)", range=[0, 105]),
@@ -172,14 +172,17 @@ ABOUT = """
 **KVKK-Bench-TR** measures how well tools find personal data in Turkish text, so it can be masked before a document is shared,
 for example with a cloud AI. Every tool gets the same documents and the same scorer.
 
-**Test data (v0.1, public)**
-* 566 Yargıtay sentences from [TurkishLegalNER](https://github.com/koc-lab/turkish-legal-ner). The anonymised names are refilled with synthetic names.
-* 1,000 Turkish Wikipedia sentences with hand-marked names ([Turkish Wiki NER](https://huggingface.co/datasets/turkish-nlp-suite/turkish-wikiNER)).
-* 80 generated legal documents with ID numbers, IBANs, phones and addresses. These are used for the IDs column only.
+**Test data (v0.1.1, public)**
+* 327 Yargıtay sentences from the *test split* of [TurkishLegalNER](https://github.com/koc-lab/turkish-legal-ner) (Koç University, Apache-2.0), used twice:
+  the anonymised name slots are refilled once with unseen Turkish names (🇹🇷) and once with unseen foreign names (🌍), 1,011 names each.
+* 1,000 Turkish Wikipedia sentences with hand-marked names: [Turkish Wiki NER](https://huggingface.co/datasets/turkish-nlp-suite/turkish-wikiNER) (Altinok 2023, CC BY-SA 4.0).
+* 380 generated legal documents with ID numbers, IBANs, phones, addresses and health data. These feed the ◇ preview columns only.
+
+Thanks to the dataset authors, and to every model developer credited under the model names.
 
 A hidden test of 2025–26 court decisions is in preparation and will replace the public score.
 
-**Metrics.** *Score* is F2, averaged over the real-text tests. A value counts as found if the mask covers it, or at least half of it, with the right type.
+**Metrics.** *Overall* is a weighted average of the real-text columns, each scored as F2. A value counts as found if the mask covers it, or at least half of it, with the right type.
 *Leaked* is the share of personal-data characters left readable. Hover a column name for its definition.
 
 **Links:** [dataset card](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/README.md) ·
@@ -203,7 +206,7 @@ table.lb th{font-weight:600;cursor:help;position:sticky;top:0;background:var(--b
 table.lb .l{text-align:left} table.lb td:nth-child(-n+2),table.lb th:nth-child(-n+2){text-align:center;width:28px}
 table.lb tbody tr:hover td{background:var(--background-fill-secondary) !important}
 table.lb a{text-decoration:none}
-table.lb .sec{opacity:.6;font-size:.82rem} table.lb .gen{opacity:.55;font-style:italic} table.lb th.sec{border-left:none} table.lb td.ov{font-size:1rem}
+table.lb .sec{opacity:.6;font-size:.82rem} table.lb .gen{opacity:.55;font-style:italic} table.lb th.sec{border-left:none} table.lb td.ov{font-size:1rem} table.lb .repo{font-size:.74rem;margin-top:1px} table.lb .repo a{color:#888!important;text-decoration:none;font-weight:400}
 table.lb th.sec:first-of-type{padding-left:18px}
 .empty{opacity:.7;padding:20px 0}
 """
