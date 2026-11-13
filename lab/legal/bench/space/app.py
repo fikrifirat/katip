@@ -24,6 +24,7 @@ SYSTEMS = {   # key: (model name, credit line, model link, developer link)
     "tiny-f":     ("Katip-PII-TR-Nano v1.1 (preview)", "by Katip · 2.5M, runs in the browser", "https://github.com/fikrifirat/katip/pull/7", "https://huggingface.co/f1k"),
     "akdeniz":    ("XLM-RoBERTa Base Turkish NER", "by akdeniz27 · fine-tuned from XLM-R (Meta AI)", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27"),
     "gliner":     ("GLiNER Multi PII v1", "by urchade · GLiNER, NAACL 2024", "https://huggingface.co/urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade"),
+    "savasy":     ("BERTurk Turkish NER (cased)", "by savasy · fine-tuned from BERTurk (dbmdz)", "https://huggingface.co/savasy/bert-base-turkish-ner-cased", "https://huggingface.co/savasy"),
     "cosmos-pii": ("ModernBERT-TR PII NER", "by COSMOS Lab, Yıldız Technical University", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner", "https://huggingface.co/ytu-ce-cosmos"),
     "qwen-1.5b":  ("Qwen2.5 1.5B Instruct (zero-shot)", "by Qwen Team, Alibaba Cloud", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct", "https://huggingface.co/Qwen"),
     "presidio":   ("Presidio", "by Microsoft · spaCy xx_ent_wiki_sm by Explosion", "https://github.com/microsoft/presidio", "https://github.com/microsoft"),
