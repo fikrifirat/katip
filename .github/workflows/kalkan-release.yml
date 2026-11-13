@@ -29,4 +29,5 @@ jobs:
         run: |
           gh release create "$GITHUB_REF_NAME" connector/dist/katip-kalkan.mcpb \
             --title "Katip Kalkan ${GITHUB_REF_NAME#kalkan-v}" --prerelease \
-            --notes-file connector/RELEASE_NOTES.md
+            --notes-file connector/RELEASE_NOTES.md \
+          || gh release upload "$GITHUB_REF_NAME" connector/dist/katip-kalkan.mcpb --clobber
