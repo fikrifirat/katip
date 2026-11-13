@@ -68,8 +68,18 @@
       <li><b>2</b><span data-i18n="step2">Karartılanları kontrol edin</span></li>
       <li><b>3</b><span data-i18n="step3">Maskeli halini indirin</span></li>
     </ol>
-    <details class="claude" id="claudeUse">
-      <summary><span data-i18n="cTitle">Claude ile kullanın</span> <span class="muted" data-i18n="cSub">Claude belgeyi görmeden önce Katip kişisel verileri bilgisayarınızda maskeler</span></summary>
+    <section class="claude" id="claudeUse" aria-labelledby="cTitle">
+      <h3 class="claude-h" id="cTitle"><span data-i18n="cTitle">Claude ile kullanın</span></h3>
+      <p class="muted claude-sub" data-i18n="cSub">Claude belgeyi görmeden önce Katip kişisel verileri bilgisayarınızda maskeler</p>
+      <div class="chat" aria-label="Örnek sohbet" data-i18n-aria="cChatAria">
+        <div class="msg me"><span data-i18n="cAsk">dilekce.docx dosyasını özetle, cevap dilekçesi taslağı yaz ve gerçek isimlerle Masaüstüne kaydet.</span></div>
+        <div class="toolrow"><span class="lock" aria-hidden="true">🔒</span> <b>Katip</b> <code>mask_file</code> <span data-i18n="cTool1">16 kişisel veri maskelendi · belge bilgisayarınızda kaldı</span></div>
+        <div class="msg ai"><span class="who">Claude</span><span data-i18n="cAns1">Davacı</span> <span class="ph">[AD SOYAD-1]</span> <span data-i18n="cAns2">(T.C.</span> <span class="ph">[TCKN-1]</span><span data-i18n="cAns3">), davalı</span> <span class="ph">[AD SOYAD-2]</span> <span data-i18n="cAns4">aleyhine boşanma ve 542.391 TL maddi tazminat istiyor; vekili</span> <span class="ph">[AD SOYAD-3]</span><span data-i18n="cAns5">. Cevap dilekçesi taslağı hazır.</span></div>
+        <div class="toolrow"><span class="lock" aria-hidden="true">🔒</span> <b>Katip</b> <code>restore_to_file</code> <span data-i18n="cTool2">Gerçek isimler bilgisayarınızda geri kondu: Masaüstü/cevap.docx</span></div>
+        <p class="chat-cap" data-i18n="cCap">Claude yalnızca köşeli parantezli halini görür; gerçek değerler bilgisayarınızdan çıkmaz.</p>
+      </div>
+      <details class="claude-setup" id="claudeSetup">
+        <summary data-i18n="cSetup">Kurulum · 2 dakika</summary>
       <div class="claude-grid">
         <div><h3>Claude Desktop</h3>
           <ol><li><a href="https://github.com/fikrifirat/katip/releases/download/kalkan-v0.2.0-beta.1/katip-kalkan.mcpb" data-i18n="cDl">katip-kalkan.mcpb dosyasını indirin</a></li>
@@ -79,7 +89,8 @@
 claude plugin install katip-kalkan@katip</code></pre></div>
       </div>
       <p class="hint"><span data-i18n="cReq">Python 3.10 veya üstü gerekir. uv kuruluysa isim modeli de otomatik gelir.</span> <a href="https://github.com/fikrifirat/katip/tree/main/connector#readme" target="_blank" rel="noopener" data-i18n="cMore">Ayrıntılar</a></p>
-    </details>
+      </details>
+    </section>
     <p class="hint center" id="engineState"></p>
   </section>
 
@@ -178,7 +189,7 @@ claude plugin install katip-kalkan@katip</code></pre></div>
 <footer class="foot">
   <span id="version"></span> · <span data-i18n="foot">Açık kaynak · tamamen tarayıcıda çalışır</span>
   · <a href="https://github.com/fikrifirat/katip" id="srcLink" data-i18n="source">Kaynak kod</a>
-  · <a href="https://huggingface.co/spaces/f1k/kvkk-bench-tr" target="_blank" rel="noopener" data-i18n="bench">KVKK-Bench sıralaması</a>
+  · <a href="https://huggingface.co/spaces/f1k/kvkk-bench" target="_blank" rel="noopener" data-i18n="bench">KVKK-Bench sıralaması</a>
 </footer>
 <script src="vendor/jszip/dist/jszip.min.js"></script>
 <script type="module" src="app.js"></script>
