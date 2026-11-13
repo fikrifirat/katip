@@ -36,23 +36,45 @@ LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "akdeniz": "MIT
            "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 
+# Masking dimensions: what a masking tool has to catch. Each is scored as F2 (missing counts 4x more than over-masking).
+# (header, tracks, types, weight in Overall, measured on real text?)
+GEN_TRACKS = {"petition", "contract", "correspondence", "health", "court-generated", "petition-foreign"}
+DIMS = {
+    "tr_names": ("Turkish names", {"court", "court-real", "court-filled", "court-turkish"}, {"PERSON"}, 25, True),
+    "everyday": ("Everyday names", {"prose"}, {"PERSON"}, 10, True),
+    "foreign":  ("Foreign names", {"court-foreign"}, {"PERSON"}, 10, True),
+    "ids":      ("IDs", GEN_TRACKS, {"TCKN", "VKN", "YKN", "PASSPORT", "FOREIGN_ID", "IBAN", "CREDIT_CARD", "PLATE", "BIRTH_DATE"}, 20, False),
+    "contact":  ("Contact", GEN_TRACKS, {"PHONE", "EMAIL", "IP_ADDRESS"}, 10, False),
+    "address":  ("Address", GEN_TRACKS, {"ADDRESS"}, 15, False),
+    "health":   ("Health", GEN_TRACKS, {"HEALTH", "RELIGION", "ETHNICITY", "POLITICAL", "UNION", "SEXUAL_LIFE", "CRIMINAL_RECORD",
+                                             "BIOMETRIC_GENETIC", "PHILOSOPHICAL", "ASSOCIATION", "DRESS"}, 10, False),
+}
+DIM_HELP = {
+    "tr_names": "Turkish person names in real Yargıtay decisions, in court casing (Ahmet YILMAZ) and with suffixes (Kaya'nın).",
+    "everyday": "Person names in real everyday Turkish sentences (Wikipedia). Shows whether it works outside legal templates.",
+    "foreign":  "Foreign clients' names (Arabic, Persian, Russian, Georgian, Western…) in real court sentences.",
+    "ids":      "T.C. kimlik, tax and foreign ID numbers, passports, IBANs, card numbers, plates and birth dates.",
+    "contact":  "Phone numbers, e-mail and IP addresses.",
+    "address":  "Home and office addresses (the whole address).",
+    "health":   "Health and other KVKK article 6 special categories (religion, union membership…). The most sensitive data.",
+}
 COLUMNS = {  # key -> (header, tooltip, shown by default)
-    "rank":    ("#", "Position, ranked by Score.", True),
+    "rank":    ("#", "Position, ranked by Overall.", True),
     "type":    ("T", "🟢 Katip · 🔶 public model · 💬 LLM asked by prompt · ⚙️ baseline (standard open-source tool)", True),
     "model":   ("Model", "Click to open the model page.", True),
-    "score":   ("Score ⬆", "The ranking number, 0–100. How well the tool finds personal data in real Turkish text (court decisions and everyday sentences). Missing something counts 4× more than masking too much, because a leak is worse than an extra black box. Technically: F2.", True),
-    "names":   ("Names", "Of all person names in the real text, the share the tool masked.", True),
-    "ids":     ("IDs*", "Of all T.C. kimlik and tax numbers, IBANs, phones, e-mails, addresses and plates, the share the tool masked. *Measured on documents we generated, so it is a check and not part of the Score.", True),
-    "leak":    ("Leaked ⬇", "After masking, how much of the personal data you could still read (by characters, real text). Lower is better; 0 means nothing leaked.", True),
-    "prec":    ("Precision", "Of everything the tool masked, the share that really was personal data. Low precision means many unnecessary black boxes.", False),
-    "rec":     ("Recall", "Of all personal data in the real text, the share the tool found.", False),
-    "params":  ("Params", "How many learned weights the model has. Bigger models usually need more memory.", True),
+    "overall": ("Overall ⬆", "The ranking number, 0–100: the weighted average of the real-text masking dimensions (weights in the guide below). ◇ columns are previews and join the average once they have real test data.", True),
+    **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score: F2, where missing one counts 4× more than masking too much." +
+           ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), True)
+       for k, v in DIMS.items()},
+    "leak":    ("Leaked ⬇", "After masking, how much of the personal data in real text you could still read (by characters). Lower is better.", True),
+    "params":  ("Params", "How many learned weights the model has.", False),
     "size":    ("Size", "What you download to run it. Small means it fits on a laptop or in a browser tab.", True),
-    "speed":   ("ms/page", "Milliseconds to mask one page on a laptop CPU (Apple M-series, 12 cores). Lower is faster.", True),
+    "speed":   ("ms/page", "Milliseconds to mask one page on a laptop CPU (Apple M-series, 12 cores).", True),
     "browser": ("Browser", "Runs inside a web page: the document never leaves your computer.", True),
-    "licence": ("Licence", "Licence of the model. Check it before commercial use.", True),
+    "licence": ("Licence", "Licence of the model.", False),
 }
-NUM = ("score", "names", "ids", "leak", "prec", "rec")
+NUM = ("overall", *DIMS, "leak")
+SECONDARY = ("leak", "params", "size", "speed", "browser", "licence")
 
 def load_rows():
     rows = []
@@ -70,16 +92,21 @@ def load_rows():
                         if ty in types and v["gold"]: g += v["gold"]; f += v["gold"] * v["recall"]
             return f / g if g else float("nan")
         real = [x for t, x in tr.items() if t in REAL_TRACKS]
-        r["score"] = mean([x["f2"] for x in real if ok(x["f2"])])
-        r["names"] = recall(REAL_TRACKS, {"PERSON"})
-        r["ids"] = recall(set(tr), IDS)
+        f2 = lambda p, rc: 5 * p * rc / (4 * p + rc) if p + rc else 0.0
+        for k, (_, tracks, types, w, _) in DIMS.items():
+            g = f = pw = 0
+            for t, x in tr.items():
+                if t in tracks:
+                    for ty, v in x["types"].items():
+                        if ty in types and v["gold"]: g += v["gold"]; f += v["gold"] * v["recall"]; pw += v["gold"] * v["precision"]
+            r[k] = f2(pw / g, f / g) if g else float("nan")
+        have = [(DIMS[k][3], r[k]) for k in DIMS if ok(r[k]) and DIMS[k][4]]   # only real-text dimensions count, for now
+        r["overall"] = sum(w * v for w, v in have) / sum(w for w, _ in have) if have else float("nan")
         r["leak"] = mean([x["leak_rate"] for x in real if ok(x["leak_rate"])])
-        r["prec"] = mean([x["precision"] for x in real if ok(x.get("precision"))])
-        r["rec"] = mean([x["recall"] for x in real if ok(x.get("recall"))])
         if r["system"] == "presidio" and not r.get("size_mb"): r["size_mb"] = 11.0   # spaCy xx_ent_wiki_sm
         r["kind"] = KIND.get(r["system"], "model")
         rows.append(r)
-    rows.sort(key=lambda r: -(r["score"] if r["score"] == r["score"] else -1))
+    rows.sort(key=lambda r: -(r["overall"] if r["overall"] == r["overall"] else -1))
     for i, r in enumerate(rows, 1): r["rank"] = i
     return rows
 
@@ -111,7 +138,7 @@ def cell(r, k, best):
 def table(rows, cols):
     if not rows: return "<p class='empty'>No model matches the filters.</p>"
     best = {k: (min if k == "leak" else max)((r[k] for r in rows if r[k] == r[k]), default=None) for k in NUM}
-    cls = lambda k: " class='l'" if k in ("model", "licence") else ""
+    cls = lambda k: " class='l'" if k in ("model",) else " class='l sec'" if k == "licence" else " class='sec'" if k in SECONDARY else " class='ov'" if k == "overall" else " class='gen'" if k in DIMS and not DIMS[k][4] else ""
     head = "".join(f'<th{cls(k)} title="{html.escape(COLUMNS[k][1])}">{COLUMNS[k][0]}</th>' for k in cols)
     body = "".join("<tr>" + "".join(f"<td{cls(k)}>{cell(r, k, best)}</td>" for k in cols) + "</tr>" for r in rows)
     return f"<div class='wrap'><table class='lb'><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>"
@@ -129,7 +156,7 @@ def chart(rows, x):
     for kind, label in TYPES.items():
         pts = [r for r in rows if r["kind"] == kind and r.get(key)]
         if not pts: continue
-        fig.add_scatter(x=[r[key] for r in pts], y=[100 * r["score"] for r in pts], mode="markers+text", name=label,
+        fig.add_scatter(x=[r[key] for r in pts], y=[100 * r["overall"] for r in pts], mode="markers+text", name=label,
                         text=[SYSTEMS[r["system"]][0].split("/")[-1].split(" (")[0] for r in pts], textposition="top center",
                         marker=dict(size=13, color={"katip": "#16a34a", "model": "#f59e0b", "llm": "#8b5cf6", "baseline": "#64748b"}[kind]),
                         hovertemplate="%{text}<br>Score %{y:.1f}<br>%{x}<extra></extra>")
@@ -167,12 +194,14 @@ CSS = """
 .gradio-container{max-width:1320px !important}
 .intro p{margin:2px 0} .links a{margin-right:14px}
 .wrap{overflow-x:auto}
-table.lb{width:100%;border-collapse:collapse;border:none !important;font-size:.88rem;font-variant-numeric:tabular-nums}
-table.lb th,table.lb td{padding:7px 8px;border:none !important;border-bottom:1px solid var(--border-color-primary) !important;text-align:right;background:none !important;white-space:nowrap}
+table.lb{width:100%;border-collapse:collapse;border:none !important;font-size:.85rem;font-variant-numeric:tabular-nums}
+table.lb th,table.lb td{padding:7px 6px;border:none !important;border-bottom:1px solid var(--border-color-primary) !important;text-align:right;background:none !important;white-space:nowrap}
 table.lb th{font-weight:600;cursor:help;position:sticky;top:0;background:var(--background-fill-secondary) !important}
 table.lb .l{text-align:left} table.lb td:nth-child(-n+2),table.lb th:nth-child(-n+2){text-align:center;width:28px}
 table.lb tbody tr:hover td{background:var(--background-fill-secondary) !important}
 table.lb a{text-decoration:none}
+table.lb .sec{opacity:.6;font-size:.82rem} table.lb .gen{opacity:.55;font-style:italic} table.lb th.sec{border-left:none} table.lb td.ov{font-size:1rem}
+table.lb th.sec:first-of-type{padding-left:18px}
 .empty{opacity:.7;padding:20px 0}
 """
 
@@ -215,8 +244,9 @@ BY_TEST_HELP = """**Found** = share of personal data the tool masked. **Precisio
 
 def build():
     rows = load_rows()
-    default = [k for k, v in COLUMNS.items() if v[2]]
-    optional = [k for k in COLUMNS if k not in ("rank", "type", "model")]
+    empty = {k for k in DIMS if not any(r[k] == r[k] for r in rows)}   # dimensions with no test data yet (e.g. foreign names)
+    default = [k for k, v in COLUMNS.items() if v[2] and k not in empty]
+    optional = [k for k in COLUMNS if k not in ("rank", "type", "model") and k not in empty]
     with gr.Blocks(title="KVKK-Bench-TR", css=CSS, theme=gr.themes.Soft()) as demo:
         gr.Markdown(f"# 🛡️ KVKK-Bench-TR\n"
                     "Lawyers, doctors and HR teams want to use AI on their documents, but under **KVKK** sending a client's name, "
@@ -238,8 +268,21 @@ def build():
                     cols = gr.CheckboxGroup([(COLUMNS[k][0].rstrip(" ⬆⬇*"), k) for k in optional],
                                             value=[k for k in default if k in optional], show_label=False)
                 out = gr.HTML(table(rows, default))
-                gr.Markdown("### What we measure\n" + "\n".join(
-                    f"* **{COLUMNS[k][0].rstrip(' ⬆⬇*')}**: {COLUMNS[k][1]}" for k in COLUMNS if k not in ("rank", "model")), elem_classes="guide")
+                live = [k for k in DIMS if k not in empty]
+                now = sum(DIMS[k][3] for k in live if DIMS[k][4])
+                gr.Markdown(
+                    "### What we measure\n"
+                    "**Overall** is the weighted average of the masking dimensions that have real test data, each scored 0–100 as F2 "
+                    "(a missed item counts 4× more than an unnecessary mask, because a leak is worse than an extra black box).\n\n"
+                    "| Dimension | What it tests | Weight now | Planned weight | Test data |\n| --- | --- | ---: | ---: | --- |\n" +
+                    "\n".join(f"| **{DIMS[k][0]}** | {DIM_HELP[k]} | {f'{round(100 * DIMS[k][3] / now)}%' if DIMS[k][4] else '–'} | {DIMS[k][3]}% | "
+                              f"{'real text' if DIMS[k][4] else '◇ generated documents (preview)'} |" for k in live) +
+                    ("\n\n*Coming next:* " + ", ".join(DIMS[k][0].lower() for k in empty) + "." if empty else "") +
+                    "\n\n◇ IDs, phones, addresses and health data are, for now, measured only on documents from Katip's own generator, which Katip's models were also "
+                    "trained on. So they are shown as previews and left out of Overall. They join with the planned weight once the labelled 2025–26 court decisions are ready.\n\n"
+                    "**Also shown:** *Leaked* = share of personal data still readable after masking (real text, lower is better) · *Size* = download size · "
+                    "*ms/page* = time per page on a laptop CPU · *Browser* = runs inside a web page, so the document never leaves your computer. "
+                    "Params and licence are in *Columns*.", elem_classes="guide")
                 show = lambda *a: table(pick(rows, *a[:4]), ["rank", "type", "model"] + [k for k in COLUMNS if k in a[4]])
                 for c in (q, types, sizes, browser, cols):
                     c.change(show, [q, types, sizes, browser, cols], out)
