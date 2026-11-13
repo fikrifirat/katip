@@ -30,7 +30,7 @@ const I18N = {
     addrTip: "Mahalle, cadde/sokak, ilçe ve il kişisel veri değildir; bina adı, blok, kapı ve daire numarası kişiyi gösterir.||Varsayılan: Alparslan Türkeş Cad. gibi sokak adları görünür kalır, yalnızca bina, blok, kat, kapı ve daire maskelenir. Sokak adları hiçbir zaman kişi adı sayılmaz. Tüm adresi gizlemek için \"Adresin tamamı gizli\"yi seçin.",
     tipMore: "Ayrıntılar",
     markH: "Ortaya Katip logosu", markTip: "Her sayfanın ortasına soluk bir Katip logosu basar.||PDF ve görüntülerde. Kapalıyken alttaki tek satırlık filigran yine eklenir.",
-    wmH: "Filigran ekle", wmTip: "Çıktının altına küçük bir \"Katip Yerel ile maskelendi\" satırı ekler.||Tam metin: \"{wm}\". PDF'te bağlantılıdır. UYAP .udf dosyalarına eklenmez.",
+    wmH: "Filigran ekle", wmTip: "Çıktının altına küçük bir \"Katip Mask ile maskelendi\" satırı ekler.||Tam metin: \"{wm}\". PDF'te bağlantılıdır. UYAP .udf dosyalarına eklenmez.",
     viewReview: "Orijinal", viewResult: "Maskeli", apply: "Maskeleri uygula", reapply: "Yeniden uygula", download: "Maskeli belgeyi indir", report: "Hata bildir",
     copy: "Etiketli metni kopyala", forget: "Belgeyi unut",
     empty: "Soldan bir örnek seçin veya kendi belgenizi açın.",
@@ -55,11 +55,11 @@ const I18N = {
     rHowMail: "E-posta uygulamanız {to} adresine hazır bir mesajla açılır. Belgeyle ilgili bir sorunsa küçük bir rapor (.zip) da indirilir; onu ekleyin. Kişisel veri içeren hiçbir şey siz seçmeden eklenmez.",
     rHowSend: "\"Doğrudan gönder\" raporu {host} üzerinden iletir. Ya da raporu indirip e-postayla kendiniz gönderin.",
     rDownloaded: "{f} indirildi. E-posta açılmadıysa {to} adresine dosyayı ekleyerek yazın.", rSending: "Gönderiliyor…", rSent: "Gönderildi, teşekkürler.", rFailed: "Gönderilemedi",
-    foot: "Açık kaynak · tamamen tarayıcıda çalışır", source: "Kaynak kod", issues: "Soru ve öneriler",
+    foot: "Açık kaynak · tamamen cihazınızda çalışır", source: "Kaynak kod", issues: "Soru ve öneriler",
     onSpace: "Bu sayfa için çok büyük (110 MB) · Hugging Face'te deneyin →",
     ocrBest: "Küçük", ocrBestMeta: "Aynı doğruluk, 4 kat küçük · 2 MB", ocrFast: "Standart", ocrFastMeta: "Eski motor verisiyle · 7,7 MB",
     origAlt: "Orijinal sayfa", maskAlt: "Maskeli sayfa", ocrText: "Okunan metin",
-    trust: "Belgeniz bilgisayarınızdan çıkmaz", feedback: "Görüş bildir", feedbackH: "Görüşünüz bizim için çok değerli", hero: "Belgedeki kişisel verileri saniyeler içinde maskeleyin.", lead: "Ad, T.C. kimlik, adres, telefon, IBAN, sağlık bilgisi… Katip bulur ve karartır; siz kontrol edip indirirsiniz.", dropFormats: "PDF · fotoğraf · Word · UYAP .udf · metin", tryH: "Elinizde belge yok mu? Örnekle deneyin:", allSamples: "Tüm örnekler", openSample: "Aç", step1: "Belgeyi bırakın", step2: "Karartılanları kontrol edin", step3: "Maskeli halini indirin", newDoc: "← Yeni belge", listHint2: "Tik kaldırdığınız değer açık kalır. Belgedeki işarete tıklamak da aynı işi görür.", advH: "Gelişmiş ayarlar", modelH: "Algılama modeli", scanning: "Kişisel veriler aranıyor…", applying: "Karartılıyor…", sampleNote: "Örnek belge (kişiler uydurma). Cevap anahtarı:", leakFix: "Bunları da karart", qKira: "Kira sözleşmesi · fotoğraf", qDilekce: "Dava dilekçesi · UYAP .udf", qBilirkisi: "Bilirkişi raporu · tarama", qIs: "İş sözleşmesi · Word", rGeneral: "Genel görüş", rHowGeneral: "E-posta uygulamanız {to} adresine hazır bir mesajla açılır. Siz göndermeden hiçbir şey çıkmaz.",
+    trust: "Cihazınızda çalışır · belgeniz bilgisayarınızdan çıkmaz", feedback: "Görüş bildir", feedbackH: "Görüşünüz bizim için çok değerli", hero: "Belgedeki kişisel verileri saniyeler içinde maskeleyin.", lead: "Ad, T.C. kimlik, adres, telefon, IBAN, sağlık bilgisi… Katip bulur ve karartır; siz kontrol edip indirirsiniz.", dropFormats: "PDF · fotoğraf · Word · UYAP .udf · metin", tryH: "Elinizde belge yok mu? Örnekle deneyin:", allSamples: "Tüm örnekler", openSample: "Aç", step1: "Belgeyi bırakın", step2: "Karartılanları kontrol edin", step3: "Maskeli halini indirin", newDoc: "← Yeni belge", listHint2: "Tik kaldırdığınız değer açık kalır. Belgedeki işarete tıklamak da aynı işi görür.", advH: "Gelişmiş ayarlar", modelH: "Algılama modeli", scanning: "Kişisel veriler aranıyor…", applying: "Karartılıyor…", sampleNote: "Örnek belge (kişiler uydurma). Cevap anahtarı:", leakFix: "Bunları da karart", qKira: "Kira sözleşmesi · fotoğraf", qDilekce: "Dava dilekçesi · UYAP .udf", qBilirkisi: "Bilirkişi raporu · tarama", qIs: "İş sözleşmesi · Word", rGeneral: "Genel görüş", rHowGeneral: "E-posta uygulamanız {to} adresine hazır bir mesajla açılır. Siz göndermeden hiçbir şey çıkmaz.",
     profH: "Ne için maskeliyorsunuz?", pCourt: "Mahkemeye sunum", pAi: "Yapay zekâ ile paylaşım", pAnon: "Tam anonim", pCustom: "Özel seçim", pCourtHint: "Kişisel verilerin tamamı karartılır; sokak, dosya numarası ve tarihler okunur kalır. Delil ve dilekçe ekleri için.", pAiHint: "Buna ek olarak adresin tamamı, esas/karar ve UYAP numaraları, baro sicil numaraları ve sabıka bilgisi karartılır.", pAnonHint: "Buna ek olarak tarihler, il ve ilçeler, mahkeme, şirket ve kurum adları da karartılır. Metin okunur, kim olduğu çıkmaz.", pCustomHint: "Veri türlerini kendiniz seçtiniz.", pickTypes: "Türleri tek tek seç", baCap: "Örnek dava dilekçesi (kişiler uydurma). Çizgiyi kaydırın.", baOpen: "Bu örneği aç →", sampleN: "örnek", baMadeUp: "kişiler uydurma", pickType: "Örnek belge türü", pickVariant: "Örnek numarası", baOrigAlt: "Örnek dilekçe, orijinal", baMaskAlt: "Aynı dilekçe, Katip ile maskelenmiş", baAria: "Orijinal ile maskeli arasında kaydır",
   },
   en: {
@@ -82,7 +82,7 @@ const I18N = {
     addrTip: "Neighbourhood, street, district and province are not personal data; building name, block, door and flat number point to a person.||Default: street names such as Alparslan Türkeş Cad. stay readable and only the building, block, floor, door and flat are masked. Street names are never treated as people's names. Pick \"Whole address hidden\" to mask all of it.",
     tipMore: "Details",
     markH: "Katip logo in the centre", markTip: "Stamps a faint Katip logo across the middle of each page.||PDFs and images only. Off, the one-line watermark at the bottom is still added.",
-    wmH: "Add watermark", wmTip: "Adds a small \"Redacted with Katip Yerel\" line at the bottom.||Full text: \"{wm}\". Linked in PDFs. Not added to UYAP .udf files.",
+    wmH: "Add watermark", wmTip: "Adds a small \"Redacted with Katip Mask\" line at the bottom.||Full text: \"{wm}\". Linked in PDFs. Not added to UYAP .udf files.",
     viewReview: "Original", viewResult: "Masked", apply: "Apply masks", reapply: "Apply again", download: "Download masked file", report: "Report a mistake",
     copy: "Copy labelled text", forget: "Forget document",
     empty: "Pick a sample on the left or open your own file.",
@@ -107,11 +107,11 @@ const I18N = {
     rHowMail: "Your e-mail app opens a ready message to {to}. For a problem with a document a small report (.zip) is also downloaded; attach it. Nothing with personal data is added unless you tick it.",
     rHowSend: "\"Send directly\" delivers the report through {host}. Or download it and e-mail it yourself.",
     rDownloaded: "{f} downloaded. If no e-mail opened, write to {to} and attach the file.", rSending: "Sending…", rSent: "Sent, thank you.", rFailed: "Could not send",
-    foot: "Open source · runs entirely in your browser", source: "Source code", issues: "Questions and ideas",
+    foot: "Open source · runs entirely on your device", source: "Source code", issues: "Questions and ideas",
     onSpace: "Too big for this page (110 MB) · try it on Hugging Face →",
     ocrBest: "Compact", ocrBestMeta: "Same accuracy, 4× smaller · 2 MB", ocrFast: "Standard", ocrFastMeta: "Includes old engine data · 7.7 MB",
     origAlt: "Original page", maskAlt: "Masked page", ocrText: "Recognised text",
-    trust: "Your document never leaves your computer", feedback: "Send feedback", feedbackH: "We'd love your feedback", hero: "Mask personal data in legal documents in seconds.", lead: "Names, ID numbers, addresses, phones, IBANs, health details… Katip finds and blacks them out; you check and download.", dropFormats: "PDF · photo · Word · UYAP .udf · text", tryH: "No document at hand? Try a sample:", allSamples: "All samples", openSample: "Open", step1: "Drop the document", step2: "Check what's masked", step3: "Download the masked copy", newDoc: "← New document", listHint2: "Untick a value to leave it visible. Clicking a highlight in the document does the same.", advH: "Advanced settings", modelH: "Detection model", scanning: "Looking for personal data…", applying: "Masking…", sampleNote: "Sample document (made-up people). Answer key:", leakFix: "Mask these too", qKira: "Lease · photo", qDilekce: "Petition · UYAP .udf", qBilirkisi: "Expert report · scan", qIs: "Employment contract · Word", rGeneral: "General feedback", rHowGeneral: "Your e-mail app opens a ready message to {to}. Nothing leaves until you send it.",
+    trust: "Runs on your device · your file never leaves it", feedback: "Send feedback", feedbackH: "We'd love your feedback", hero: "Mask personal data in legal documents in seconds.", lead: "Names, ID numbers, addresses, phones, IBANs, health details… Katip finds and blacks them out; you check and download.", dropFormats: "PDF · photo · Word · UYAP .udf · text", tryH: "No document at hand? Try a sample:", allSamples: "All samples", openSample: "Open", step1: "Drop the document", step2: "Check what's masked", step3: "Download the masked copy", newDoc: "← New document", listHint2: "Untick a value to leave it visible. Clicking a highlight in the document does the same.", advH: "Advanced settings", modelH: "Detection model", scanning: "Looking for personal data…", applying: "Masking…", sampleNote: "Sample document (made-up people). Answer key:", leakFix: "Mask these too", qKira: "Lease · photo", qDilekce: "Petition · UYAP .udf", qBilirkisi: "Expert report · scan", qIs: "Employment contract · Word", rGeneral: "General feedback", rHowGeneral: "Your e-mail app opens a ready message to {to}. Nothing leaves until you send it.",
     profH: "What are you masking it for?", pCourt: "Court filing", pAi: "Sharing with AI", pAnon: "Fully anonymous", pCustom: "Custom", pCourtHint: "All personal data is masked; streets, case numbers and dates stay readable. For evidence and petition attachments.", pAiHint: "On top of that, the whole address, case and UYAP numbers, bar registry numbers and criminal records are masked.", pAnonHint: "On top of that, dates, provinces and districts, and court, company and institution names are masked too. The text reads, the people can't be traced.", pCustomHint: "You picked the data types yourself.", pickTypes: "Pick types one by one", baCap: "Sample petition (made-up people). Drag the line.", baOpen: "Open this sample →", sampleN: "sample", baMadeUp: "made-up people", pickType: "Sample document type", pickVariant: "Sample number", baOrigAlt: "Sample petition, original", baMaskAlt: "The same petition masked by Katip", baAria: "Slide between original and masked",
   },
 };
@@ -234,7 +234,7 @@ function applyLang() {
   document.querySelectorAll("[data-i18n-aria]").forEach(e => e.setAttribute("aria-label", t(e.dataset.i18nAria)));
   document.querySelectorAll("[data-i18n-tip]").forEach(e => { const s = t(e.dataset.i18nTip, { wm: wmText() }); e.dataset.tip = s; e.setAttribute("aria-label", s.split("||")[0]); e.setAttribute("role", "button"); });
   document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
-  document.title = lang === "tr" ? "Katip Yerel: belgedeki kişisel verileri maskeleyin" : "Katip Yerel: mask personal data in documents";
+  document.title = lang === "tr" ? "Katip Mask: belgedeki kişisel verileri maskeleyin" : "Katip Mask: mask personal data in documents";
   if (samples.length) { drawPicker(); buildModelUI(); buildEntityUI(); buildProfileUI(); }
   updateButtons(); if (res?.spans) render(); else if (preview) renderPreview();
 }
@@ -763,7 +763,7 @@ const KIND_TR = { general: "Genel görüş", missed: "Kaçan veri", false_positi
 const KIND_EN = { general: "General feedback", missed: "Left visible", false_positive: "Masked by mistake", broken: "File won't open", other: "Other" };
 function mailGeneral() {
   const kind = document.querySelector("#reportForm input[name=kind]:checked").value;
-  const subject = lang === "en" ? `Katip Yerel feedback: ${KIND_EN[kind]}` : `Katip Yerel görüş: ${KIND_TR[kind]}`;
+  const subject = lang === "en" ? `Katip Mask feedback: ${KIND_EN[kind]}` : `Katip Mask görüş: ${KIND_TR[kind]}`;
   const body = [$("rText").value, "", `${location.origin + location.pathname} · ${version.app} · ${version.rules}`,
     res?.spans ? `${res.kind} · ${res.settings.engineName} · ${res.spans.length}/${chosen().length}` : null].filter(x => x != null).join("\n");
   location.href = `mailto:${CONFIG.reportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.slice(0, 1800))}`;
@@ -780,7 +780,7 @@ $("rMail").onclick = async () => {
     `Belge: ${report.document.name} (${report.document.kind}, ${report.document.pages} sayfa)`, `Model: ${report.settings.engineName} · eşik ${report.settings.threshold} · OCR ${report.settings.ocrLang}`,
     sc && `Puan: yakalama ${(sc.recall * 100).toFixed(1)}%, kesinlik ${(sc.precision * 100).toFixed(1)}%`, `Sürüm: ${version.rules} (${version.built})`, "",
     `Lütfen indirilen ${fname} dosyasını bu e-postaya ekleyin. / Please attach ${fname}.`].filter(x => x !== null && x !== undefined && x !== false).join("\n");
-  const subject = `Katip Yerel hata bildirimi: ${KIND_TR[report.feedback.kind]} (${report.document.kind})`;
+  const subject = `Katip Mask hata bildirimi: ${KIND_TR[report.feedback.kind]} (${report.document.kind})`;
   location.href = `mailto:${CONFIG.reportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body.slice(0, 1800))}`;
   $("rStatus").textContent = t("rDownloaded", { f: fname, to: CONFIG.reportEmail });
   window.__lastMailto = { subject, body, fname };
@@ -790,7 +790,7 @@ $("rSend").onclick = async () => {
   try {
     const { id, report, blob } = await buildReport();
     const fd = new FormData();
-    fd.append("_subject", `Katip Yerel hata bildirimi ${id}`); fd.append("email", CONFIG.reportEmail);
+    fd.append("_subject", `Katip Mask hata bildirimi ${id}`); fd.append("email", CONFIG.reportEmail);
     fd.append("message", `${KIND_TR[report.feedback.kind]}: ${report.feedback.what}\n\n${report.feedback.text}`);
     fd.append("report", JSON.stringify(report)); fd.append("attachment", blob, `katip-rapor-${id}.zip`);
     const r = await fetch(CONFIG.reportEndpoint, { method: "POST", body: fd, headers: { Accept: "application/json" } });
@@ -805,7 +805,7 @@ $("rSend").onclick = async () => {
     [samples, models, version] = await Promise.all(["samples/manifest.json", "models/registry.json", "version.json"].map(async u => {
       const r = await fetch(u); if (!r.ok) throw new Error(`${u}: HTTP ${r.status}`); return r.json(); }));
   } catch (e) { status(t("error") + e.message); return; }
-  $("version").textContent = `Katip Yerel ${version.app} · ${version.rules} · ${version.built}`;
+  $("version").textContent = `Katip Mask ${version.app} · ${version.rules} · ${version.built}`;
   if (version.source) $("srcLink").href = version.source;
   buildColorUI(); buildSampleUI(); buildModelUI(); buildEntityUI(); buildProfileUI(); applyLang();
   const q = new URLSearchParams(location.search).get("sample");  // ?sample=dilekce:udf opens a sample directly (handy for sharing)
