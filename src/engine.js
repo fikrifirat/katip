@@ -284,6 +284,17 @@ export function attachBoxes(doc, spans) {
       byLine.set(key, [Math.min(box[0], cx0), Math.min(box[1], y0), Math.max(box[2], cx1), Math.max(box[3], y1)]);
     }
     sp.boxes = [...byLine.values()];
+    // handwriting: OCR often drops the first or last letter of a word, so grow the box over pen ink
+    // that touches it on the same line (not over tall blobs such as signatures)
+    if (page.ocr && page.pen?.length && sp.entity_type !== "ADDRESS") sp.boxes = sp.boxes.map(b => {
+      let [x0, y0, x1, y1] = b; const h = y1 - y0;
+      for (const q of page.pen) {
+        const vo = Math.min(y1, q[3]) - Math.max(y0, q[1]), gap = Math.max(x0, q[0]) - Math.min(x1, q[2]);
+        if (q[3] - q[1] <= 2 * h && vo > 0.5 * Math.min(h, q[3] - q[1]) && gap < 0.8 * h)
+          [x0, y0, x1, y1] = [Math.min(x0, q[0]), Math.min(y0, q[1]), Math.max(x1, q[2]), Math.max(y1, q[3])];
+      }
+      return [x0, y0, x1, y1];
+    });
   }
 }
 
@@ -342,6 +353,9 @@ export function redactPdf(mupdf, doc, spans, opts = {}) {
   const pdf = doc._doc, PAD = 1, color = opts.color ?? [0, 0, 0], wm = opts.watermark;
   const per = new Map();
   for (const sp of spans) if (sp.page != null) per.set(sp.page, [...(per.get(sp.page) ?? []), ...sp.boxes]);
+  // OCR pages: close small gaps between boxes on one line, so letters between two masked words
+  // of a handwritten name do not stay readable
+  for (const [pno, boxes] of per) if (doc.pages?.[pno]?.ocr) per.set(pno, closeGaps(boxes));
   for (const [pno, boxes] of per) {
     const page = pdf.loadPage(pno);
     for (const [x0, y0, x1, y1] of boxes) {
@@ -352,6 +366,10 @@ export function redactPdf(mupdf, doc, spans, opts = {}) {
     page.applyRedactions(false, mupdf.PDFPage.REDACT_IMAGE_PIXELS);
     paintBoxes(mupdf, pdf, page, boxes.map(([x0, y0, x1, y1]) => [x0 - PAD, y0 - PAD, x1 + PAD, y1 + PAD]), color);
   }
+  // Photographed or scanned pages: replace the page by its cleaned image (sheet only, shadows flattened,
+  // show-through from the back of the sheet wiped). Ink from the other side can carry the names and
+  // numbers we just masked on that page, mirrored and faint but readable with a contrast tweak.
+  if (opts.cleanScans !== false) for (const p of doc.pages ?? []) if (p.ocr) cleanScanPage(mupdf, pdf, p.number, per.get(p.number) ?? [], color);
   if (opts.mark) for (let i = 0; i < pdf.countPages(); i++) stampMark(mupdf, pdf, pdf.loadPage(i), opts.mark);
   const links = [];
   if (wm?.text) for (let i = 0; i < pdf.countPages(); i++) {
@@ -366,6 +384,37 @@ export function redactPdf(mupdf, doc, spans, opts = {}) {
     pdf.setMetaData(k, k === "info:Producer" || k === "info:Creator" ? "katip-yerel" : "");
   try { pdf.getTrailer().get("Root").delete("Metadata"); } catch { /* no XMP */ }
   return pdf.saveToBuffer("garbage=4,compress,clean").asUint8Array().slice();
+}
+
+export function closeGaps(boxes) {
+  const out = boxes.map(b => [...b]).sort((a, b) => a[1] - b[1] || a[0] - b[0]);
+  for (let merged = true; merged;) {
+    merged = false;
+    for (let i = 0; i < out.length && !merged; i++) for (let j = i + 1; j < out.length && !merged; j++) {
+      const a = out[i], b = out[j], h = Math.min(a[3] - a[1], b[3] - b[1]);
+      const vo = Math.min(a[3], b[3]) - Math.max(a[1], b[1]), gap = Math.max(a[0], b[0]) - Math.min(a[2], b[2]);
+      if (vo > 0.5 * h && gap < 1.5 * h) {
+        out[i] = [Math.min(a[0], b[0]), Math.min(a[1], b[1]), Math.max(a[2], b[2]), Math.max(a[3], b[3])];
+        out.splice(j, 1); merged = true;
+      }
+    }
+  }
+  return out;
+}
+
+function cleanScanPage(mupdf, pdf, i, boxes, color) {
+  const page = pdf.loadPage(i);
+  if (page.getObject().get("Rotate")?.asNumber?.()) return;  // rotated pages keep the plain redaction
+  const [x0, y0, x1, y1] = page.getBounds(), w = x1 - x0, h = y1 - y0, s = ocrScale(w, h);
+  const pix = page.toPixmap(mupdf.Matrix.scale(s, s), mupdf.ColorSpace.DeviceRGB, false);
+  if (!prepareScan(pix)) return;
+  const res = pdf.newDictionary(), xo = pdf.newDictionary();
+  xo.put("Im0", pdf.addImage(new mupdf.Image(pix)));
+  res.put("XObject", xo);
+  const np = pdf.addPage([0, 0, w, h], 0, res, `q ${w.toFixed(3)} 0 0 ${h.toFixed(3)} 0 0 cm /Im0 Do Q`);
+  pdf.insertPage(i, np); pdf.deletePage(i + 1);
+  // the masks went grey in the clean-up; paint them again, full colour, on top
+  if (boxes.length) paintBoxes(mupdf, pdf, pdf.loadPage(i), boxes.map(([a, b, c, d]) => [a - x0 - 1, b - y0 - 1, c - x0 + 1, d - y0 + 1]), color);
 }
 
 export function pdfText(mupdf, bytes) {
