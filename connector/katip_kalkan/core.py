@@ -48,19 +48,23 @@ def _propagate(text: str, spans: list[dict], known: list[tuple[str, str]]) -> li
     import re
     cands = {(s["entity_type"], s["text"].strip()) for s in spans if s["entity_type"] in PROPAGATE}
     cands |= {(t, v) for t, v in known if t in PROPAGATE}
-    taken = [(s["start"], s["end"]) for s in spans]
     out = list(spans)
     for typ, val in sorted(cands, key=lambda c: -len(c[1])):
         if len(val) < 4:
             continue
         pat = re.compile(r"(?<!\w)" + r"\s+".join(map(re.escape, val.split())) + r"(?!\w)", re.I)
         for m in pat.finditer(text):
-            if any(a < m.end() and m.start() < b for a, b in taken):
+            hit = [s for s in out if s["start"] < m.end() and m.start() < s["end"]]
+            # an occurrence already covered as a whole is fine; one covered only in part ("Yiğitalp
+            # [AD SOYAD-2]" when the model saw just the surname) is widened to the full value
+            if any(s["start"] <= m.start() and s["end"] >= m.end() for s in hit):
                 continue
-            taken.append((m.start(), m.end()))
+            if any(s["entity_type"] != typ or s["start"] < m.start() or s["end"] > m.end() for s in hit):
+                continue  # overlaps a different value: leave it to the detector
+            out = [s for s in out if s not in hit]
             out.append({"id": f"p{len(out):04d}", "entity_type": typ, "start": m.start(), "end": m.end(),
                         "text": m.group(0), "score": 1.0, "recognizer": "katip_propagate"})
-    return out
+    return sorted(out, key=lambda s: s["start"])
 
 
 def _detect(text: str, v) -> list[dict]:
@@ -137,7 +141,8 @@ def forget_matter(matter: str) -> dict:
 
 
 def status() -> dict:
-    return {"engine": "katip rules (local, offline)", "threshold": _threshold(),
+    from . import ner
+    return {"engine": ner.describe(), "threshold": _threshold(),
             "vault": "encrypted on this device" if vault.persistent() else "memory only",
             "expired_vaults_purged": vault.purge_expired(),
             "allowed_dirs": os.environ.get("KATIP_ALLOWED_DIRS") or "any"}

@@ -25,6 +25,14 @@ GOLD = json.loads((FIX / "dilekce_01.gold.json").read_text(encoding="utf-8"))
 HARD_IDS = {"TCKN", "PHONE", "EMAIL", "IBAN"}  # values that must never get through
 
 
+def _model_available():
+    import importlib.util
+    return all(importlib.util.find_spec(m) for m in ("onnxruntime", "numpy")) and os.environ.get("KATIP_MODEL") != "none"
+
+
+MODEL = _model_available()
+
+
 @pytest.fixture(autouse=True)
 def home(tmp_path, monkeypatch):
     monkeypatch.setenv("KATIP_HOME", str(tmp_path / "katip"))
@@ -47,10 +55,11 @@ def test_mask_file_formats(ext):
     text = doc["masked_text"]
     assert "[AD SOYAD-1]" in text and "[T.C. KİMLİK NO-1]" in text
     assert not [g for g in GOLD if g["entity_type"] in HARD_IDS and g["text"] in text]
-    # rules-only engine: the all-caps surname "YILDIRIM" is the one known miss in this file
-    # (BERTurk catches it in the browser app; see connector/README.md "Next")
-    assert set(_gold_left(text)) <= {"Emal YILDIRIM"}, _gold_left(text)
-    assert "Yiğitalp Tekinalp" not in text  # caught once, masked everywhere (propagation)
+    if MODEL:  # rules + Katip Mask Nano: every value in this file is masked
+        assert _gold_left(text) == [] and "YILDIRIM" not in text, _gold_left(text)
+    else:  # rules only: the all-caps surname "YILDIRIM" is the known miss
+        assert set(_gold_left(text)) <= {"Emal YILDIRIM"}, _gold_left(text)
+    assert "Yiğitalp" not in text and "Tekinalp" not in text  # caught once, masked everywhere (propagation)
     assert doc["file_name"] == f"belge.{ext}"  # the real file name is not echoed
 
 
@@ -69,7 +78,8 @@ def test_restore_roundtrip(home):
     res = core.restore_to_file(answer, str(out), "m1")
     assert res == {"output_path": str(out), "placeholders_restored": 2}
     restored = out.read_text(encoding="utf-8")
-    assert "Müvekkilimiz Emal adına" in restored and "75428707268" in restored
+    assert ("Müvekkilimiz Emal YILDIRIM adına" if MODEL else "Müvekkilimiz Emal") in restored
+    assert "75428707268" in restored
     assert oct(out.stat().st_mode & 0o777) == "0o600"
     with pytest.raises(FileExistsError):
         core.restore_to_file(answer, str(out), "m1")
@@ -166,7 +176,7 @@ def test_stdio_server_end_to_end(home):
         r = _rpc(proc, 4, "tools/call", {"name": "restore_to_file", "arguments": {
             "text": "Davacı [AD SOYAD-1]", "output_path": str(out), "matter": "e2e"}})["result"]
         assert "Emal" not in json.dumps(r, ensure_ascii=False)  # real values never go back to the model
-        assert out.read_text(encoding="utf-8") == "Davacı Emal"
+        assert out.read_text(encoding="utf-8") == ("Davacı Emal YILDIRIM" if MODEL else "Davacı Emal")
         bad = _rpc(proc, 5, "tools/call", {"name": "mask_file", "arguments": {"path": "/nope.docx"}})["result"]
         assert bad["isError"]
         assert _rpc(proc, 6, "nope")["error"]["code"] == -32601
@@ -245,3 +255,58 @@ def test_relay_upload_token(relay, monkeypatch):
     with pytest.raises(urllib.error.HTTPError) as e:
         _post(url + "/v1/drops", {"nonce": "AAAAAAAAAAAAAAAA", "ciphertext": "A" * 40})
     assert e.value.code == 401
+
+
+# ------------------------------------------------------------------ name model and new rules from main
+@pytest.mark.skipif(not MODEL, reason="onnxruntime not installed")
+def test_bundled_model_is_used():
+    from katip_kalkan import core, ner
+    st = core.status()
+    assert "katip-mask-nano-tr-v1.1" in st["engine"] and ner.trust() == 0.5
+
+
+def test_rules_only_switch(monkeypatch):
+    from katip_kalkan import core, ner
+    monkeypatch.setenv("KATIP_MODEL", "none")
+    ner._cache.clear()
+    assert core.status()["engine"].startswith("rules only")
+    ner._cache.clear()
+
+
+def test_wordpiece_matches_hf_tokenizers():
+    tk = pytest.importorskip("tokenizers")
+    from katip_kalkan.ner import WORD, WordPiece
+    folder = ROOT / "katip_kalkan" / "models" / "katip-mask-nano-tr-v1.1"
+    ref = tk.Tokenizer.from_file(str(folder / "tokenizer.json"))
+    wp = WordPiece(json.loads((folder / "tokenizer.json").read_text(encoding="utf-8")))
+    text = (FIX / "dilekce_01.txt").read_text(encoding="utf-8") + " Ahmet'in Müller-Lüdenscheidt O'Neil İĞNE café 1.234,56"
+    for m in WORD.finditer(text):
+        assert wp.encode(m.group(0)) == ref.encode(m.group(0), add_special_tokens=False).ids, m.group(0)
+
+
+def test_foreign_client_ids(tmp_path):
+    from katip_kalkan import core
+    f = tmp_path / "yabanci.txt"
+    f.write_text("Müvekkil Mohammad Reza Hosseini, Yabancı Kimlik No: 99123456782, pasaport no: U12345678, "
+                 "Bağdat Cad. No:12 D:4 Kadıköy/İstanbul adresinde ikamet etmektedir.", encoding="utf-8")
+    doc = core.mask_file(str(f), "foreign")
+    text = doc["masked_text"]
+    assert "99123456782" not in text and "U12345678" not in text
+    assert "[YABANCI KİMLİK NO-1]" in text or "YKN" in doc["entity_counts"]
+    if MODEL:
+        assert "Hosseini" not in text, text
+
+
+def test_udf_signature_is_dropped(tmp_path):
+    from katip_kalkan import core
+    src = tmp_path / "imzali.udf"
+    with zipfile.ZipFile(FIX / "dilekce_01.udf") as zin, zipfile.ZipFile(src, "w") as zout:
+        for i in zin.infolist():
+            zout.writestr(i, zin.read(i))
+        zout.writestr("sign.sgn", b"PKCS7 Av. Yigitalp Tekinalp serial 123")
+    doc = core.mask_file(str(src), "sig")  # the signature is not text: never sent
+    assert "Tekinalp" not in json.dumps(doc, ensure_ascii=False)
+    out = Path(core.write_redacted(str(src), "sig")["output_path"])
+    with zipfile.ZipFile(out) as z:
+        assert not [n for n in z.namelist() if n.lower().endswith(".sgn")]
+        assert "75428707268" not in z.read("content.xml").decode("utf-8")

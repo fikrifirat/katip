@@ -2,7 +2,7 @@
   "mcpServers": {
     "katip-kalkan": {
       "command": "python3",
-      "args": ["-m", "katip_kalkan.local_server"],
+      "args": ["-m", "katip_kalkan.launch"],
       "env": {"PYTHONPATH": "${CLAUDE_PLUGIN_ROOT}"}
     }
   }

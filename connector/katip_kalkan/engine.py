@@ -88,9 +88,14 @@ def read_text(path: Path) -> tuple[str, str, bytes]:
 
 def detect(text: str, threshold: float = 0.7, entities: list[str] | None = None,
            mask_terms=(), allow_terms=()) -> list[dict]:
+    """Rules, plus the on-device Katip Mask model when one is installed (see ner.py)."""
     det, _ = load()
-    spans = json.loads(det.detect_json(text, json.dumps({
-        "threshold": threshold, "entities": entities, "mask": list(mask_terms), "allow": list(allow_terms)})))
+    from . import ner
+    model = ner.get()
+    extra = [list(x) for x in model.spans(text)] if model else []
+    spans = det.detect(text, threshold, entities, list(mask_terms), list(allow_terms), extra,
+                       ner.trust() if model else None,
+                       address_detail=os.environ.get("KATIP_ADDRESS_DETAIL", "street"))
     return [s for s in spans if not s.get("flag_only")]
 
 

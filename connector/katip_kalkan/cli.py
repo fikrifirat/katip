@@ -35,6 +35,25 @@ def share(path: str, relay_url: str, matter: str = "default", token: str | None 
     return f"katip-{drop['id']}.{vault.b64u(key)}"
 
 
+def install_model(folder: str, name: str | None = None, trust: float | None = None) -> str:
+    import shutil
+    src = Path(folder).expanduser()
+    onnx = src / "onnx" / "model_quantized.onnx"
+    if not onnx.exists():
+        onnx = src / "onnx" / "model.onnx"
+    if not (src / "config.json").exists() or not (src / "tokenizer.json").exists() or not onnx.exists():
+        raise SystemExit("expected config.json, tokenizer.json and onnx/model_quantized.onnx (or model.onnx)")
+    dst = vault.katip_home() / "models" / (name or src.name)
+    (dst / "onnx").mkdir(parents=True, exist_ok=True)
+    for f in ("config.json", "tokenizer.json", "tokenizer_config.json"):
+        if (src / f).exists():
+            shutil.copyfile(src / f, dst / f)
+    shutil.copyfile(onnx, dst / "onnx" / onnx.name)
+    if trust is not None:
+        (dst / "katip.json").write_text(json.dumps({"trust": trust}))
+    return str(dst)
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="katip-kalkan")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -52,6 +71,10 @@ def main(argv=None):
     p.add_argument("text_file", help="file with the AI's answer (placeholders)")
     p.add_argument("output")
     p.add_argument("--matter", default="default")
+    p = sub.add_parser("install-model", help="copy a Katip Mask model folder into ~/.katip/models")
+    p.add_argument("folder")
+    p.add_argument("--name")
+    p.add_argument("--trust", type=float, help="0.5 for Base v2 and Nano v1.1 (as in registry.json)")
     p = sub.add_parser("forget")
     p.add_argument("--matter", default="default")
     a = ap.parse_args(argv)
@@ -76,5 +99,7 @@ def main(argv=None):
     elif a.cmd == "restore":
         text = Path(a.text_file).read_text(encoding="utf-8")
         print(json.dumps(core.restore_to_file(text, a.output, a.matter)))
+    elif a.cmd == "install-model":
+        print(install_model(a.folder, a.name, a.trust))
     elif a.cmd == "forget":
         print(json.dumps(core.forget_matter(a.matter)))

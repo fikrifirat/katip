@@ -19,8 +19,15 @@ for a file by its path and gets back only masked text, so the original never rea
 ```
 
 Or download `katip-kalkan.mcpb` and double-click it to install in Claude Desktop. You need
-Python 3.10 or later. Run `pip install cryptography` to keep the placeholder map between
-sessions; without it, the map lives in memory only.
+Python 3.10 or later. If [uv](https://docs.astral.sh/uv/) is installed, Katip fetches its three
+helpers (onnxruntime and numpy for the name model, cryptography for the encrypted map) once on
+first start. Without them it still runs, on rules only and with the map in memory only, and
+`katip_status` says so.
+
+**Models.** The plugin ships **Katip Mask Nano · tr v1.1** (2.5 MB, Turkish and foreign client
+names, trust 0.5) next to the rules. For the 110 MB **Katip Mask Base · tr v2**, download it from
+Hugging Face and run `katip-kalkan install-model <folder> --trust 0.5`. See
+[katip_kalkan/models/README.md](katip_kalkan/models/README.md).
 
 Then try:
 * "Summarise ~/Dosyalar/2026-123/dilekce.docx for matter 2026/123."
@@ -52,7 +59,7 @@ the relay. The relay only ever holds masked text, encrypted, in memory.
 
 ```
 cd connector
-python -m pytest -q                       # 15 tests: formats, vault crypto, stdio MCP, relay
+python -m pytest -q                       # 20 tests: formats, model, vault crypto, stdio MCP, relay
 python -m katip_kalkan.local_server       # stdio MCP server
 python -m katip_kalkan relay --port 8787  # relay (put TLS in front)
 python build_bundle.py                    # dist/katip-kalkan.mcpb
@@ -60,11 +67,15 @@ claude plugin validate ./connector
 bash tests/e2e_claude_code.sh            # real Claude Code run through the plugin
 ```
 
-There are no runtime dependencies; `cryptography` and `pymupdf` are optional. The detection
-engine is `katip_kalkan/engine.zip`, the same bundle the browser app runs (`docs/katip_py.zip`).
-Settings: `KATIP_THRESHOLD` (0.7), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
+There are no required dependencies; `onnxruntime`, `numpy`, `cryptography` and `pymupdf` are
+optional. The detection engine is `katip_kalkan/engine.zip`, the same bundle the browser app runs
+(`docs/katip_py.zip`; `build_bundle.py` refreshes it). `ner.py` is the Python twin of `src/ner.js`:
+same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
+Face `tokenizers` exactly.
+Settings: `KATIP_THRESHOLD` (0.7), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
+`KATIP_ADDRESS_DETAIL` (`street` keeps street names readable, `full`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`.
 
-Known gap: the rules engine misses some all-caps surnames (`Emal YILDIRIM` becomes
-`[AD SOYAD-1] YILDIRIM`). The BERTurk model fixes this in the browser app, and it's next for
-the connector.
+Blind set (80 synthetic legal documents, 757 values, threshold 0.7, whole-address scoring):
+rules only 717, rules + Nano v1 739, rules + Nano v1.1 743. Masked `.udf` copies drop
+`sign.sgn` (the e-imza certificate carries the signer's name).
