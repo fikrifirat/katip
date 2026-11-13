@@ -8,9 +8,9 @@
  "params": 288949504,
  "size_mb": 1155.8,
  "size_note": "weights as loaded (fp32)",
- "ms_per_doc": 68.2,
- "words_per_s": 489.0,
- "ms_per_page": 1022.0,
+ "ms_per_doc": 67.2,
+ "words_per_s": 497.0,
+ "ms_per_page": 1007.0,
  "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
