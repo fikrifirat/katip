@@ -1,0 +1,743 @@
+{
+ "Rules": {
+  "court-foreign": {
+   "gold": 1011,
+   "found": 779,
+   "recall": 0.7705242334322453,
+   "spans": 787,
+   "false": 1,
+   "precision": 0.9987293519695044,
+   "f1": 0.8699094066358414,
+   "f2": 0.807422717824951,
+   "recall_ci": [
+    0.7386807796731725,
+    0.8009382387706855
+   ],
+   "precision_ci": [
+    0.9954258182828368,
+    1.0
+   ]
+  },
+  "court-turkish": {
+   "gold": 1011,
+   "found": 940,
+   "recall": 0.9297725024727992,
+   "spans": 945,
+   "false": 1,
+   "precision": 0.9989417989417989,
+   "f1": 0.963116844776424,
+   "f2": 0.9428292868684757,
+   "recall_ci": [
+    0.9057236652236652,
+    0.9478435488113565
+   ],
+   "precision_ci": [
+    0.9961273123123688,
+    1.0
+   ]
+  },
+  "foreign_vs_turkish": {
+   "only_turkish_found": 194,
+   "only_foreign_found": 33,
+   "p": 6.239258105730362e-29
+  },
+  "by_group": {
+   "afghan": {
+    "gold": 74,
+    "recall": 0.918918918918919
+   },
+   "arab": {
+    "gold": 251,
+    "recall": 0.5936254980079682
+   },
+   "armenian": {
+    "gold": 86,
+    "recall": 0.8604651162790697
+   },
+   "azeri": {
+    "gold": 50,
+    "recall": 0.46
+   },
+   "georgian": {
+    "gold": 98,
+    "recall": 0.8877551020408163
+   },
+   "greek": {
+    "gold": 62,
+    "recall": 0.8870967741935484
+   },
+   "kept": {
+    "gold": 33,
+    "recall": 0.7272727272727273
+   },
+   "persian": {
+    "gold": 129,
+    "recall": 0.875968992248062
+   },
+   "slavic": {
+    "gold": 111,
+    "recall": 0.8828828828828829
+   },
+   "western": {
+    "gold": 117,
+    "recall": 0.7521367521367521
+   }
+  },
+  "petition-foreign names": {
+   "gold": 1594,
+   "found": 1382,
+   "recall": 0.8670012547051443,
+   "spans": 1947,
+   "false": 26,
+   "precision": 0.9866461222393426,
+   "f1": 0.9229624108351581,
+   "f2": 0.8885511461572189,
+   "recall_ci": [
+    0.8314390325005783,
+    0.8981018591772152
+   ],
+   "precision_ci": [
+    0.9769420668019095,
+    0.9947589784898412
+   ]
+  },
+  "petition-foreign ids": {
+   "FOREIGN_ID": {
+    "gold": 99,
+    "masked": 1.0,
+    "right_label": 0.9595959595959596
+   },
+   "PASSPORT": {
+    "gold": 219,
+    "masked": 1.0,
+    "right_label": 1.0
+   },
+   "YKN": {
+    "gold": 239,
+    "masked": 1.0,
+    "right_label": 1.0
+   }
+  },
+  "negatives-foreign": {
+   "words": 8948,
+   "PERSON": {
+    "per_1k_words": 0.5587840858292356,
+    "n": 5,
+    "examples": [
+     "Emir",
+     "Kabil",
+     "Kerim"
+    ]
+   }
+  },
+  "negatives": {
+   "words": 418
+  },
+  "_missed_examples": [
+   "ABDULKADAR IYAD ALRUBAİE",
+   "ABDULKADER EL-TURKMANY",
+   "ABDULKADER TAMAR AL-CHEİKH",
+   "AGAHADİ CƏMƏNZƏMİNLİ",
+   "AGAP USİK",
+   "ALBERT CHUGHURYAN",
+   "ALEXA WENDT",
+   "ALEXEİ MERİNO",
+   "ANİTA TASHCHYAN",
+   "ARAMAZD ZARUBİAN",
+   "ARTAVAZD ADİMZALİAN",
+   "ARİSTOVOULOS SPANOCHRİSTODOULOU",
+   "AYAN ƏSGƏROV",
+   "AYESHA AL-ZUBİ",
+   "Abdulkadar AL-ANİ",
+   "Abdulkadar Obadah bin Hazem Al-Sheikh",
+   "Abdulkader AL-ZOUBİ",
+   "Abdulkader ElAni",
+   "Abdulkader Tamar Kanaan",
+   "Abdulkader el-Attar",
+   "Abdulqader AL-ISSA",
+   "Abdulqader AL-SHAMMARİ",
+   "Abdulqader Salah AL-NAJAR",
+   "Abdulsalam AlTurkmani",
+   "Abdulsalam EL-NAJJAR",
+   "Abdulsalam ibn Salah KANAAN",
+   "Abdulvahab AL-TURKMANEE",
+   "Abdulvahab Othmen",
+   "Abdulvahab ibn Imed EL JABRİ",
+   "Abdulvahab ibn Obade al-Ani",
+   "Adrian Gaydamaka",
+   "Afaq CƏFƏROĞLU",
+   "Afentis Iseris",
+   "Afiq Əsgərli",
+   "Agap Sharova",
+   "Aida Gavaljjan",
+   "Akifə VƏLİOĞLU",
+   "Amirhossein Payam ALİZADEH",
+   "Archil BEJANİDZE",
+   "Arseniy Guryev"
+  ]
+ },
+ "Katip Tiny v1 (published)": {
+  "court-foreign": {
+   "gold": 1011,
+   "found": 812,
+   "recall": 0.8031651829871415,
+   "spans": 819,
+   "false": 3,
+   "precision": 0.9963369963369964,
+   "f1": 0.8893828472943697,
+   "f2": 0.8355654018782667,
+   "recall_ci": [
+    0.7697129522017452,
+    0.8333333333333334
+   ],
+   "precision_ci": [
+    0.9894165822357311,
+    1.0
+   ]
+  },
+  "court-turkish": {
+   "gold": 1011,
+   "found": 985,
+   "recall": 0.9742828882294757,
+   "spans": 962,
+   "false": 2,
+   "precision": 0.997920997920998,
+   "f1": 0.9859602842351665,
+   "f2": 0.9789204958373103,
+   "recall_ci": [
+    0.9605565928936239,
+    0.9852403753629373
+   ],
+   "precision_ci": [
+    0.9923853024373233,
+    1.0
+   ]
+  },
+  "foreign_vs_turkish": {
+   "only_turkish_found": 184,
+   "only_foreign_found": 11,
+   "p": 1.2334209947574997e-41
+  },
+  "by_group": {
+   "afghan": {
+    "gold": 74,
+    "recall": 0.918918918918919
+   },
+   "arab": {
+    "gold": 251,
+    "recall": 0.6852589641434262
+   },
+   "armenian": {
+    "gold": 86,
+    "recall": 0.872093023255814
+   },
+   "azeri": {
+    "gold": 50,
+    "recall": 0.6
+   },
+   "georgian": {
+    "gold": 98,
+    "recall": 0.8877551020408163
+   },
+   "greek": {
+    "gold": 62,
+    "recall": 0.8870967741935484
+   },
+   "kept": {
+    "gold": 33,
+    "recall": 0.7272727272727273
+   },
+   "persian": {
+    "gold": 129,
+    "recall": 0.875968992248062
+   },
+   "slavic": {
+    "gold": 111,
+    "recall": 0.9009009009009009
+   },
+   "western": {
+    "gold": 117,
+    "recall": 0.7521367521367521
+   }
+  },
+  "petition-foreign names": {
+   "gold": 1594,
+   "found": 1422,
+   "recall": 0.8920953575909661,
+   "spans": 1980,
+   "false": 28,
+   "precision": 0.9858585858585859,
+   "f1": 0.9366362479264552,
+   "f2": 0.9093935122548801,
+   "recall_ci": [
+    0.8617188151606756,
+    0.9190086259868093
+   ],
+   "precision_ci": [
+    0.9763816126888843,
+    0.9937675184166683
+   ]
+  },
+  "petition-foreign ids": {
+   "FOREIGN_ID": {
+    "gold": 99,
+    "masked": 1.0,
+    "right_label": 0.9595959595959596
+   },
+   "PASSPORT": {
+    "gold": 219,
+    "masked": 1.0,
+    "right_label": 1.0
+   },
+   "YKN": {
+    "gold": 239,
+    "masked": 1.0,
+    "right_label": 1.0
+   }
+  },
+  "negatives-foreign": {
+   "words": 8948,
+   "PERSON": {
+    "per_1k_words": 0.5587840858292356,
+    "n": 5,
+    "examples": [
+     "Emir",
+     "Kabil",
+     "Kerim"
+    ]
+   }
+  },
+  "negatives": {
+   "words": 418
+  },
+  "_missed_examples": [
+   "ABDULKADAR IYAD ALRUBAİE",
+   "ABDULKADER EL-TURKMANY",
+   "AGAHADİ CƏMƏNZƏMİNLİ",
+   "AGAP USİK",
+   "ALBERT CHUGHURYAN",
+   "ALEXA WENDT",
+   "ALEXEİ MERİNO",
+   "ANİTA TASHCHYAN",
+   "ARAMAZD ZARUBİAN",
+   "ARTAVAZD ADİMZALİAN",
+   "ARİSTOVOULOS SPANOCHRİSTODOULOU",
+   "Abdulkadar AL-ANİ",
+   "Abdulkadar Obadah bin Hazem Al-Sheikh",
+   "Abdulkader ElAni",
+   "Abdulkader Tamar Kanaan",
+   "Abdulkader el-Attar",
+   "Abdulqader Salah AL-NAJAR",
+   "Abdulsalam AlTurkmani",
+   "Abdulsalam EL-NAJJAR",
+   "Abdulsalam ibn Salah KANAAN",
+   "Abdulvahab Othmen",
+   "Abdulvahab ibn Imed EL JABRİ",
+   "Abdulvahab ibn Obade al-Ani",
+   "Adrian Gaydamaka",
+   "Afentis Iseris",
+   "Afiq Əsgərli",
+   "Agap Sharova",
+   "Aida Gavaljjan",
+   "Amirhossein Payam ALİZADEH",
+   "Archil BEJANİDZE",
+   "Athanasios Spanochristodoulou",
+   "Bahareh Jahanpûr",
+   "Barbara Baghdasaryan",
+   "Basam EL-ANİ",
+   "Bassam AL-CHEİKH",
+   "Bassam Moaz Al-Shammari",
+   "Bastiaan DUKE",
+   "Bağdasar Şalavasyan",
+   "Bernar Salbashyan",
+   "Berndt Barceló"
+  ]
+ },
+ "tiny_r_seed0 @ 0.5": {
+  "court-foreign": {
+   "gold": 1011,
+   "found": 791,
+   "recall": 0.7823936696340257,
+   "spans": 837,
+   "false": 14,
+   "precision": 0.983273596176822,
+   "f1": 0.871406580462078,
+   "f2": 0.8157236624306221,
+   "recall_ci": [
+    0.7489913224325875,
+    0.8129871787979787
+   ],
+   "precision_ci": [
+    0.9661305270297983,
+    0.9960002991026919
+   ]
+  },
+  "court-turkish": {
+   "gold": 1011,
+   "found": 954,
+   "recall": 0.9436201780415431,
+   "spans": 973,
+   "false": 18,
+   "precision": 0.9815005138746146,
+   "f1": 0.9621876628715451,
+   "f2": 0.9509605111369693,
+   "recall_ci": [
+    0.9242409387997623,
+    0.9580608557544497
+   ],
+   "precision_ci": [
+    0.9653082194296573,
+    0.9934640522875817
+   ]
+  },
+  "foreign_vs_turkish": {
+   "only_turkish_found": 191,
+   "only_foreign_found": 28,
+   "p": 5.112049710529943e-31
+  },
+  "by_group": {
+   "afghan": {
+    "gold": 74,
+    "recall": 0.918918918918919
+   },
+   "arab": {
+    "gold": 251,
+    "recall": 0.6374501992031872
+   },
+   "armenian": {
+    "gold": 86,
+    "recall": 0.8604651162790697
+   },
+   "azeri": {
+    "gold": 50,
+    "recall": 0.46
+   },
+   "georgian": {
+    "gold": 98,
+    "recall": 0.8877551020408163
+   },
+   "greek": {
+    "gold": 62,
+    "recall": 0.8870967741935484
+   },
+   "kept": {
+    "gold": 33,
+    "recall": 0.7272727272727273
+   },
+   "persian": {
+    "gold": 129,
+    "recall": 0.875968992248062
+   },
+   "slavic": {
+    "gold": 111,
+    "recall": 0.8828828828828829
+   },
+   "western": {
+    "gold": 117,
+    "recall": 0.7606837606837606
+   }
+  },
+  "petition-foreign names": {
+   "gold": 1594,
+   "found": 1435,
+   "recall": 0.9002509410288582,
+   "spans": 1997,
+   "false": 27,
+   "precision": 0.9864797195793691,
+   "f1": 0.9413948841759111,
+   "f2": 0.9162692693020381,
+   "recall_ci": [
+    0.8685493203745069,
+    0.9290124417692911
+   ],
+   "precision_ci": [
+    0.9771238105588922,
+    0.9943534720352105
+   ]
+  },
+  "petition-foreign ids": {
+   "FOREIGN_ID": {
+    "gold": 99,
+    "masked": 1.0,
+    "right_label": 0.9595959595959596
+   },
+   "PASSPORT": {
+    "gold": 219,
+    "masked": 1.0,
+    "right_label": 1.0
+   },
+   "YKN": {
+    "gold": 239,
+    "masked": 1.0,
+    "right_label": 1.0
+   }
+  },
+  "negatives-foreign": {
+   "words": 8948,
+   "PERSON": {
+    "per_1k_words": 8.717031738936075,
+    "n": 78,
+    "examples": [
+     "Afgan",
+     "Emir",
+     "Erbil",
+     "Kabil",
+     "Kerim",
+     "Nur",
+     "Rahim",
+     "Özbek",
+     "Şeriat"
+    ]
+   }
+  },
+  "negatives": {
+   "words": 418
+  },
+  "_missed_examples": [
+   "ABDULKADAR IYAD ALRUBAİE",
+   "ABDULKADER EL-TURKMANY",
+   "ABDULKADER TAMAR AL-CHEİKH",
+   "AGAHADİ CƏMƏNZƏMİNLİ",
+   "AGAP USİK",
+   "ALBERT CHUGHURYAN",
+   "ALEXA WENDT",
+   "ALEXEİ MERİNO",
+   "ANİTA TASHCHYAN",
+   "ARAMAZD ZARUBİAN",
+   "ARTAVAZD ADİMZALİAN",
+   "ARİSTOVOULOS SPANOCHRİSTODOULOU",
+   "AYAN ƏSGƏROV",
+   "AYESHA AL-ZUBİ",
+   "Abdulkadar Obadah bin Hazem Al-Sheikh",
+   "Abdulkader Tamar Kanaan",
+   "Abdulqader AL-SHAMMARİ",
+   "Abdulqader Salah AL-NAJAR",
+   "Abdulsalam ibn Salah KANAAN",
+   "Abdulvahab AL-TURKMANEE",
+   "Abdulvahab ibn Imed EL JABRİ",
+   "Abdulvahab ibn Obade al-Ani",
+   "Adrian Gaydamaka",
+   "Afaq CƏFƏROĞLU",
+   "Afentis Iseris",
+   "Afiq Əsgərli",
+   "Agap Sharova",
+   "Aida Gavaljjan",
+   "Akifə VƏLİOĞLU",
+   "Amirhossein Payam ALİZADEH",
+   "Archil BEJANİDZE",
+   "Arseniy Guryev",
+   "Athanasios Spanochristodoulou",
+   "Bahareh Jahanpûr",
+   "Barbara Baghdasaryan",
+   "Basam EL-ANİ",
+   "Bassam AL-CHEİKH",
+   "Bassam Moaz Al-Shammari",
+   "Bastiaan DUKE",
+   "Bağdasar Şalavasyan"
+  ]
+ },
+ "tiny_f_seed0 @ 0.5": {
+  "court-foreign": {
+   "gold": 1011,
+   "found": 959,
+   "recall": 0.9485657764589516,
+   "spans": 988,
+   "false": 43,
+   "precision": 0.9564777327935222,
+   "f1": 0.9525053248038375,
+   "f2": 0.9501376787769193,
+   "recall_ci": [
+    0.9284818963271685,
+    0.9647496295964143
+   ],
+   "precision_ci": [
+    0.9355952380952381,
+    0.9768314117165305
+   ]
+  },
+  "court-turkish": {
+   "gold": 1011,
+   "found": 997,
+   "recall": 0.9861523244312562,
+   "spans": 1035,
+   "false": 51,
+   "precision": 0.9507246376811594,
+   "f1": 0.9681144746755717,
+   "f2": 0.978857121989563,
+   "recall_ci": [
+    0.9777098563858035,
+    0.9934436909275377
+   ],
+   "precision_ci": [
+    0.9267176188191228,
+    0.9726807877159137
+   ]
+  },
+  "foreign_vs_turkish": {
+   "only_turkish_found": 50,
+   "only_foreign_found": 12,
+   "p": 1.2143807700186297e-06
+  },
+  "by_group": {
+   "afghan": {
+    "gold": 74,
+    "recall": 1.0
+   },
+   "arab": {
+    "gold": 251,
+    "recall": 0.9282868525896414
+   },
+   "armenian": {
+    "gold": 86,
+    "recall": 0.9651162790697675
+   },
+   "azeri": {
+    "gold": 50,
+    "recall": 0.74
+   },
+   "georgian": {
+    "gold": 98,
+    "recall": 0.9897959183673469
+   },
+   "greek": {
+    "gold": 62,
+    "recall": 1.0
+   },
+   "kept": {
+    "gold": 33,
+    "recall": 1.0
+   },
+   "persian": {
+    "gold": 129,
+    "recall": 0.9767441860465116
+   },
+   "slavic": {
+    "gold": 111,
+    "recall": 0.9459459459459459
+   },
+   "western": {
+    "gold": 117,
+    "recall": 0.9316239316239316
+   }
+  },
+  "petition-foreign names": {
+   "gold": 1594,
+   "found": 1541,
+   "recall": 0.966750313676286,
+   "spans": 2087,
+   "false": 29,
+   "precision": 0.9861044561571634,
+   "f1": 0.9763314784425322,
+   "f2": 0.9705601248632396,
+   "recall_ci": [
+    0.9479948031844317,
+    0.9827478792552605
+   ],
+   "precision_ci": [
+    0.976509909421204,
+    0.994078803925372
+   ]
+  },
+  "petition-foreign ids": {
+   "FOREIGN_ID": {
+    "gold": 99,
+    "masked": 1.0,
+    "right_label": 0.9595959595959596
+   },
+   "PASSPORT": {
+    "gold": 219,
+    "masked": 1.0,
+    "right_label": 1.0
+   },
+   "YKN": {
+    "gold": 239,
+    "masked": 1.0,
+    "right_label": 1.0
+   }
+  },
+  "negatives-foreign": {
+   "words": 8948,
+   "PERSON": {
+    "per_1k_words": 12.963790791238265,
+    "n": 116,
+    "examples": [
+     "Başkonsolosluğu",
+     "Emir",
+     "Erbil",
+     "Gürcü",
+     "Kabil",
+     "Kerim",
+     "Nur",
+     "Rahim",
+     "Tenfiz",
+     "Vatandaşlığı",
+     "Özbek",
+     "Şeriat"
+    ]
+   }
+  },
+  "negatives": {
+   "words": 418,
+   "PERSON": {
+    "per_1k_words": 2.3923444976076556,
+    "n": 1,
+    "examples": [
+     "Barolar"
+    ]
+   }
+  },
+  "_missed_examples": [
+   "AGAP USİK",
+   "ARAMAZD ZARUBİAN",
+   "ARTAVAZD ADİMZALİAN",
+   "Abdulqader Salah AL-NAJAR",
+   "Abdulsalam ibn Salah KANAAN",
+   "Abdulvahab Tamar el-Issa",
+   "Abdulvahab ibn Imed EL JABRİ",
+   "Abdulvahab ibn Obade al-Ani",
+   "Adrian Gaydamaka",
+   "Afiq Əsgərli",
+   "Basam EL-ANİ",
+   "Berndt Barceló",
+   "Bəşir Makulu",
+   "CİNGİZ CƏFƏROGLU",
+   "DUAAH OBADE KANAAN",
+   "Damián KRAMER",
+   "Efim Stepanova",
+   "Eldəniz TURALLI",
+   "Ernest Ovsiyenko",
+   "Faiq Fərəcov",
+   "Fəxrəddin Ehmedli",
+   "Gülnar Məhərrəmli",
+   "HODE NAVABY",
+   "Imad Othman",
+   "Imed Hazem EL ANİ",
+   "Iyad Al-Najjer",
+   "Käte Simó",
+   "Lodovico Ehlert",
+   "Marvan Al-Ani",
+   "Mattia Bullock",
+   "Meyransa Əlizadə",
+   "Moaz el-Sheikh",
+   "Məhəmməd TURALLI",
+   "NATAN KONOPLENKO",
+   "Nubar Msryan",
+   "Obadah Al-Şammari",
+   "Obadah el-Turkmany",
+   "PATİ KARDAVA",
+   "RUBEN SVİRİDENKO",
+   "Reimer Bouwhuisen"
+  ]
+ },
+ "tiny_f_seed0 @ 0.5 vs tiny_r_seed0 @ 0.5": {
+  "diff": 0.1661721068249258,
+  "ci": [
+   0.13907977963680881,
+   0.19035171709434437
+  ],
+  "p_bootstrap": 0.0,
+  "only_a": 4,
+  "only_b": 172,
+  "p_mcnemar": 8.256269791722192e-46
+ }
+}
