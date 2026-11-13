@@ -94,7 +94,8 @@ def llm(model_id, max_new_tokens=384):
         model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16 if dev != "cpu" else torch.float32).to(dev).eval()
         def det(text):
             msgs = [{"role": "user", "content": LLM_PROMPT + text[:6000]}]
-            ids = tok.apply_chat_template(msgs, add_generation_prompt=True, return_tensors="pt").to(dev)
+            ids = tok.apply_chat_template(msgs, add_generation_prompt=True, return_tensors="pt")
+            ids = (ids["input_ids"] if hasattr(ids, "keys") else ids).to(dev)   # transformers 5 returns a BatchEncoding
             with torch.no_grad():
                 out = model.generate(ids, max_new_tokens=max_new_tokens, do_sample=False)
             ans = tok.decode(out[0, ids.shape[1]:], skip_special_tokens=True)
