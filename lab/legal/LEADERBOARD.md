@@ -74,7 +74,7 @@ anything else is ignored. A missing `id` counts as no predictions for that docum
 
 ## Hosting
 
-* HF Space `f1k/kvkk-bench-tr` (Gradio, leaderboard table + submit tab), the same pattern as the Open LLM
+* HF Space `f1k/kvkk-bench` (Gradio, leaderboard table + submit tab), the same pattern as the Open LLM
   Leaderboard: a submission writes a request to a queue dataset; a scheduled evaluator runs it and writes a
   row to `f1k/kvkk-bench-results` (public).
 * Hidden test in a **private** dataset repo `f1k/kvkk-bench-hidden`, read by the evaluator with a token

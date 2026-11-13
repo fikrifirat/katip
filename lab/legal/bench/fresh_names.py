@@ -23,7 +23,7 @@ WORD = re.compile(r"[A-ZÇĞİÖŞÜ][a-zçğıöşüâîû]{2,}")
 
 def fetch(prop):
     url = ENDPOINT + "?" + urllib.parse.urlencode({"query": Q.format(prop=prop)})
-    req = urllib.request.Request(url, headers={"User-Agent": "kvkk-bench-tr/0.1 (benchmark builder)", "Accept": "application/sparql-results+json"})
+    req = urllib.request.Request(url, headers={"User-Agent": "kvkk-bench/0.1 (benchmark builder)", "Accept": "application/sparql-results+json"})
     for i in range(4):
         try:
             with urllib.request.urlopen(req, timeout=120) as f: return [(b["l"]["value"], int(b["n"]["value"])) for b in json.load(f)["results"]["bindings"]]

@@ -68,7 +68,7 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
     "model":   ("Model", "Click to open the model page.", True),
     "overall": ("Overall ⬆", "The ranking number, 0–100: the weighted average of the real-text masking dimensions (weights in the guide below). ◇ columns are previews and join the average once they have real test data.", True),
     **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score: F2, where missing one counts 4× more than masking too much." +
-           ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), True)
+           ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), v[4])
        for k, v in DIMS.items()},
     "leak":    ("Leaked ⬇", "After masking, how much of the personal data in real text you could still read (by characters). Lower is better.", True),
     "params":  ("Params", "How many learned weights the model has.", False),
@@ -299,7 +299,7 @@ def build():
                 gr.Markdown(
                     "**Overall** = weighted average of the masking columns, each scored as F2 (a miss counts 4× more than an extra mask): " +
                     " · ".join(f"{DIMS[k][0]} {round(100 * DIMS[k][3] / now)}%" for k in live if DIMS[k][4]) +
-                    ". ◇ columns use our generated documents, so they're shown but not counted yet. Hover any column for details.",
+                    ". ID, contact, address and health columns are hidden until we have real labelled documents for them (our generated ones would favour Katip); open **Columns** to see the ◇ previews.",
                     elem_classes="guide")
                 def show(qv, tv, sv, bv, cv, dv):
                     rs = pick(score(rows, dv), qv, tv, sv, bv)
