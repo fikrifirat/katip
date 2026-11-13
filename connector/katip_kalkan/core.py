@@ -14,7 +14,7 @@ PAGE_CHARS = int(os.environ.get("KATIP_PAGE_CHARS", 40_000))
 
 
 def _threshold() -> float:
-    return float(os.environ.get("KATIP_THRESHOLD", 0.7))
+    return float(os.environ.get("KATIP_THRESHOLD") or 0.7)
 
 
 def _counts(spans):
@@ -83,7 +83,7 @@ def _leaks(masked: str, spans: list[dict]) -> list[str]:
 
 
 def _profile(profile: str | None) -> str:
-    return profile or os.environ.get("KATIP_PROFILE", "ai")
+    return profile or os.environ.get("KATIP_PROFILE") or "ai"  # an unset plugin setting arrives as ""
 
 
 def _detect(text: str, v, profile: str, ocr_ranges=()) -> list[dict]:
