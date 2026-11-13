@@ -91,6 +91,20 @@ and 1 `UNION` value. This is the biggest gap, and the `special` track is meant t
 Not labelled: courts, institutions, companies, places other than addresses, dates other than birth dates.
 Titles stay outside the span (`Av. [Ayşe Kaya]`).
 
+## Baselines
+
+* **Reference baseline: Presidio + spaCy `xx_ent_wiki_sm`**, unmodified: Microsoft Presidio's default
+  recognizers with spaCy's multilingual NER. It is the most widely used open-source PII tool, so it is what a
+  team gets without Turkish-specific work.
+* **Floor baseline: `kvkk-pii` 0.2** (MIT), a Turkish regex library: what pattern matching alone gives.
+* Every other row (Katip's models, Turkish NER and PII models from Hugging Face, GLiNER) is compared to these two.
+  Inside the Katip study, the baseline for the trained models is BERTurk v1, trained on synthetic data only.
+
+Each row also lists the **parameter count**, the **size you download to run it** (the int8 ONNX file for Katip
+models, weights as loaded for Hugging Face models), **words per second** and **ms per 500-word page** on CPU,
+and whether it **runs in the browser**. Speeds are only comparable between rows measured on the same machine,
+which the results file records.
+
 ## Scoring
 
 `bench_score.py` (in the Katip repository, `lab/legal/`) is the reference scorer.

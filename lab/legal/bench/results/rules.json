@@ -4,8 +4,13 @@
  "split": "public",
  "version": "v0.1",
  "size_mb": 0.3,
+ "params": 0,
  "runs_locally": true,
- "ms_per_doc": 0.9,
+ "runs_in_browser": true,
+ "ms_per_doc": 0.8,
+ "words_per_s": 39819.0,
+ "ms_per_page": 13.0,
+ "machine": "x86_64 Linux, 4 CPUs",
  "tracks": {
   "contract": {
    "types": {

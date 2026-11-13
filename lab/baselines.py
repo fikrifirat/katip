@@ -43,13 +43,19 @@ def _hf(model_id):
     def make():
         from transformers import pipeline
         nlp = pipeline("token-classification", model=model_id, aggregation_strategy="simple")
-        return lambda text: [(e["start"], e["end"], t) for e in nlp(text) if (t := map_label(e["entity_group"]))]
+        det = lambda text: [(e["start"], e["end"], t) for e in nlp(text) if (t := map_label(e["entity_group"]))]
+        det.params = sum(p.numel() for p in nlp.model.parameters())
+        det.size_mb = round(sum(p.numel() * p.element_size() for p in nlp.model.parameters()) / 1e6, 1)  # weights as loaded
+        return det
     return make
 
 def gliner():
     from gliner import GLiNER
     m = GLiNER.from_pretrained("urchade/gliner_multi_pii-v1")
-    return lambda text: [(e["start"], e["end"], "PERSON") for e in m.predict_entities(text, ["person"], threshold=0.5)]
+    det = lambda text: [(e["start"], e["end"], "PERSON") for e in m.predict_entities(text, ["person"], threshold=0.5)]
+    det.params = sum(p.numel() for p in m.parameters())
+    det.size_mb = round(sum(p.numel() * p.element_size() for p in m.parameters()) / 1e6, 1)
+    return det
 
 BASELINES = {"presidio": ("R1 Presidio + spaCy xx (vanilla)", presidio),
              "savasy": ("X1 savasy BERTurk NER", _hf("savasy/bert-base-turkish-ner-cased")),

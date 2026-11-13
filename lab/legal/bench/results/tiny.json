@@ -3,9 +3,15 @@
  "name": "Katip Tiny: rules + katip-tr-name-tagger-tiny",
  "split": "public",
  "version": "v0.1",
- "size_mb": 2.6,
+ "size_mb": 2.9,
+ "params": 2478243,
  "runs_locally": true,
- "ms_per_doc": 2.4,
+ "runs_in_browser": true,
+ "size_note": "int8 ONNX the browser downloads + 0.3 MB rules",
+ "ms_per_doc": 2.3,
+ "words_per_s": 14549.0,
+ "ms_per_page": 34.0,
+ "machine": "x86_64 Linux, 4 CPUs",
  "tracks": {
   "contract": {
    "types": {

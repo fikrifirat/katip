@@ -4,7 +4,14 @@
  "split": "public",
  "version": "v0.1",
  "runs_locally": true,
+ "runs_in_browser": false,
+ "params": null,
+ "size_mb": null,
+ "size_note": "spaCy xx_ent_wiki_sm (~11 MB) + Presidio",
  "ms_per_doc": 4.4,
+ "words_per_s": 7627.0,
+ "ms_per_page": 66.0,
+ "machine": "x86_64 Linux, 4 CPUs",
  "tracks": {
   "contract": {
    "types": {

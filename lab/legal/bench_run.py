@@ -21,10 +21,17 @@ import bench_score as BS  # noqa: E402
 
 RES = HERE / "bench" / "results"
 
+def _onnx_params(f):
+    import onnx
+    from onnx import numpy_helper
+    m = onnx.load(str(f), load_external_data=False)
+    return int(sum(numpy_helper.to_array(t).size for t in m.graph.initializer if t.data_type in (1, 2, 3, 10)))  # float, uint8, int8, fp16 weights
+
 def _katip(model_dir, trust):
     tg = K.Tagger(model_dir)
     det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=tg(text), trust=trust)]
-    return det, {"size_mb": round(tg.size_mb, 1), "runs_locally": True}
+    return det, {"size_mb": round(tg.size_mb + 0.3, 1), "params": _onnx_params(tg.onnx_file), "runs_locally": True, "runs_in_browser": True,
+                 "size_note": "int8 ONNX the browser downloads + 0.3 MB rules"}
 
 def _hf_snapshot(repo):
     from huggingface_hub import snapshot_download
@@ -33,13 +40,16 @@ def _hf_snapshot(repo):
 def _baseline(key):
     import baselines as BL
     det = BL.BASELINES[key][1]()
-    return det, {"runs_locally": True}
+    meta = {"runs_locally": True, "runs_in_browser": False}
+    if hasattr(det, "params"): meta.update(params=int(det.params), size_mb=det.size_mb, size_note="weights as loaded (fp32)")
+    if key == "presidio": meta.update(params=None, size_mb=None, size_note="spaCy xx_ent_wiki_sm (~11 MB) + Presidio")
+    return det, meta
 
 SYSTEMS = {
     "rules": ("Katip Rules v0.2", lambda: (lambda t: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(t, extra=[])],
-                                           {"size_mb": 0.3, "runs_locally": True})),
+                                           {"size_mb": 0.3, "params": 0, "runs_locally": True, "runs_in_browser": True})),
     "kvkk-pii": ("kvkk-pii 0.2 (regex library, MIT)", lambda: (lambda t: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect_baseline(t)],
-                                                               {"runs_locally": True})),
+                                                               {"params": 0, "size_mb": 0.1, "runs_locally": True, "runs_in_browser": False})),
     "tiny": ("Katip Tiny: rules + katip-tr-name-tagger-tiny", lambda: _katip(K.TINY, None)),
     "berturk-v2": ("Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk", lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk"), 0.5)),
     "presidio": ("Presidio + spaCy xx (vanilla)", lambda: _baseline("presidio")),
@@ -55,12 +65,17 @@ def run(key, split="public"):
     name, make = SYSTEMS[key]
     det, meta = make()
     gold = [r for p in sorted((BB.OUT / split).glob("*.jsonl")) for r in BB.load(p)]
+    for r in gold[:20]: det(r["text"])  # warm-up, not timed
     t0 = time.time(); pred = []
     for r in gold:
         pred.append({"id": r["id"], "spans": [list(x[:3]) for x in det(r["text"])]})
     secs = time.time() - t0
+    words = sum(len(r["text"].split()) for r in gold)
+    import platform
     row = {"system": key, "name": name, "split": split, "version": BB.VERSION, **meta,
-           "ms_per_doc": round(1000 * secs / max(1, len(gold)), 1), **BS.score(gold, pred)}
+           "ms_per_doc": round(1000 * secs / max(1, len(gold)), 1), "words_per_s": round(words / secs, 0),
+           "ms_per_page": round(1000 * secs / words * 500, 0),   # a page = 500 words
+           "machine": f"{platform.machine()} {platform.system()}, {os.cpu_count()} CPUs", **BS.score(gold, pred)}
     RES.mkdir(parents=True, exist_ok=True)
     (RES / f"{key}{'' if split == 'public' else '_' + split}.json").write_text(json.dumps(row, indent=1, default=float))
     return row
