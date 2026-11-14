@@ -1,11 +1,11 @@
-# Katip Yerel: Turkish KVKK redaction that runs in your browser
+# Katip Mask: Turkish KVKK redaction that runs in your browser
 
 **English** · [Türkçe](README.tr.md)
 
 [![Live demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/f1k/katip-yerel)
-[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/f1k/katip-tr-name-tagger-tiny)
-[![BERTurk model](https://img.shields.io/badge/%F0%9F%A4%97%20model-pii--berturk-yellow)](https://huggingface.co/f1k/katip-tr-pii-berturk)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--mask-yellow)](https://huggingface.co/spaces/f1k/katip-mask)
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--nano-yellow)](https://huggingface.co/f1k/katip-mask-nano)
+[![Base model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--base-yellow)](https://huggingface.co/f1k/katip-mask-base)
 [![Licence: AGPL-3.0 + commercial](https://img.shields.io/badge/licence-AGPL--3.0%20%2B%20commercial-blue)](COMMERCIAL.md)
 
 Katip finds and masks personal data in Turkish legal documents (T.C. kimlik no, VKN, IBAN, phone,
@@ -17,7 +17,7 @@ Only the redacted copy you download leaves the machine.
 Built for law firms, in-house legal and compliance teams who need to share case files, contracts or
 court documents with clients, experts or AI tools under KVKK.
 
-![Katip Yerel](screenshot.png)
+![Katip Mask](screenshot.png)
 
 ## Key numbers
 
@@ -27,7 +27,7 @@ names never seen during development or training, in 16 document styles (4 of the
 | | Result |
 | --- | --- |
 | Values found (blind set, default settings) | **756 of 757 (99.9%)**, 10 extra highlights, all health terms |
-| Names found | 364 of 365 (99.7%); 98.4% with rules only |
+| Names found | 364 of 365 (99.7%) |
 | Values still readable after masking (full pipeline, rules only) | 0.8% for text, PDF, Word and UDF; 0.7–1.1% for photos and scans |
 | False alarms on name-free legal prose | 3 across 3 documents |
 | Time per document | 0.1–0.3 s for text, PDF, Word, UDF; 2–4.5 s with OCR (4-core cloud VM) |
@@ -38,16 +38,22 @@ names never seen during development or training, in 16 document styles (4 of the
 
 | Model | What it is | Values found (blind) | Names found |
 | --- | --- | --- | --- |
-| **Katip Mask Nano** (recommended) | Katip Rules + `katip-tr-name-tagger-tiny`, 2.6 MB | **756 / 757 (99.9%)** | 364 / 365 |
-| **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 751 / 757 (99.2%) | 359 / 365 |
+| **Katip Mask Nano · tr v1.1** (recommended) | Katip Rules + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2.5 MB, Turkish and foreign client names | **756 / 757 (99.9%)** | 364 / 365 |
+| **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 756 / 757 (99.9%) | 364 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
-| **Katip Mask Base** | Katip Rules + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-yerel) only | **757 / 757 (100%)** | **365 / 365** |
+| **Katip Mask Base** | Katip Rules + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-mask) only | **757 / 757 (100%)** | **365 / 365** |
+
+**Katip Mask Nano v1.1** (14 Nov 2026) is trained with foreign client names as they appear in Turkish documents.
+The rules now catch almost every value on the blind set, so its gain shows on harder text: in real Yargıtay prose
+with held-out foreign names filled in it finds 94.6% [92.5–96.2] of them (v1 80.3%, rules 77.1%) and 98.7% of
+Turkish names in the same slots. The price is more false names on trap text full of name-like words (9 per 1,000
+words, v1 0.6). Details: [model card](https://huggingface.co/f1k/katip-mask-nano), [`lab/foreign`](lab/foreign/README.md).
 
 **Katip Mask Base v2** is fine-tuned from BERTurk on 8,000 synthetic documents plus 17,967 real
 Turkish sentences (Turkish Wiki NER, names only), 3 epochs in 28 minutes on a Mac.
 
 **Full pipeline** (rules + Katip Mask Base, as the demo runs it, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
-every value on the blind set (757 / 757, names 365 / 365) and on the held-out set (618 / 618; Nano: 611),
+every value on the blind set (757 / 757, names 365 / 365) and on the held-out set (618 / 618; Nano v1.1: 614),
 3 false alarms on name-free prose (same as Nano). Model names scored 0.5 or higher keep their edges; that
 value was chosen on dev data (Wiki NER dev + held-out), not on the test sets below.
 
@@ -56,7 +62,7 @@ value was chosen on dev data (Wiki NER dev + held-out), not on the test sets bel
 | | Real court prose: Yargıtay sentences, anonymised names filled back in | Real Wikipedia sentences (Wiki NER test) |
 | --- | --- | --- |
 | Katip Rules | 90.6% found, 96.0% precision | 15.0% |
-| Katip Mask Nano | 93.9%, 95.9% | 14.8% |
+| Katip Mask Nano v1 | 93.9%, 95.9% | 14.8% |
 | Katip Mask Base v1 (synthetic only) | 98.6%, 95.9% | 40.7% |
 | **Katip Mask Base v2** | **99.3%, 96.2%** | **89.8%** [87.1–92.1], 89.9% precision |
 
@@ -72,8 +78,8 @@ the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Page
 | | Download | Detection time per document (text, no OCR) | Blind set | Held-out set |
 | --- | --- | --- | --- | --- |
 | Vanilla kvkk-pii | 0.1 MB | 1 ms | 183 / 757 (24.2%) | 154 / 618 |
-| Katip Rules | 0.3 MB | 3 ms | 751 / 757 (99.2%) | 605 / 618 |
-| Katip Mask Nano | + 2.6 MB | 7 ms | 756 / 757 (99.9%) | 611 / 618 |
+| Katip Rules | 0.3 MB | 3 ms | 756 / 757 (99.9%) | 606 / 618 |
+| Katip Mask Nano v1.1 | + 2.5 MB | 7 ms | 756 / 757 (99.9%) | 614 / 618 |
 | Katip Mask Base v2 | + 110.8 MB | 27 ms | **757 / 757 (100%)** | **618 / 618** |
 
 **Shrinking.** Both models ship as int8 ONNX: Katip Mask Nano 10.0 → 2.6 MB, Katip Mask Base 440.3 → 110.8 MB (4×
@@ -134,7 +140,7 @@ discharge summaries (epikriz) and expert reports.
 
 ## Try it
 
-- **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-yerel)).
+- **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-mask)).
   Pick one of 16 sample documents to see live recall, precision, misses and false alarms against its
   answer key, or open your own file.
 - The document shows up as soon as you pick it; detected values are highlighted on the page itself.
@@ -149,7 +155,7 @@ discharge summaries (epikriz) and expert reports.
 | Step | Component |
 | --- | --- |
 | Detection rules | Katip's Python recognizers and word lists, unchanged, in Pyodide (Python compiled to WebAssembly) |
-| Name tagger | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2.6 MB int8 ONNX, transformers.js; or [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk) (names, addresses, health), 110.8 MB |
+| Name tagger | [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2.5 MB int8 ONNX, transformers.js; or [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base) (names, addresses, health), 110.8 MB |
 | Text, UDF, Word | standard-library Python in Pyodide (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
 | Scans and photos | tesseract.js with the Turkish model; PaddleOCR PP-OCRv5 (small detector + Latin recogniser, 13 MB ONNX) on pages with ballpoint ink or a photographed sheet ([lab/ocr_bench](lab/ocr_bench/README.md)) |

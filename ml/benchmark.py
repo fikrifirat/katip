@@ -20,7 +20,8 @@ import eval_system as E  # noqa: E402  (loads the bundle and the model from KATI
 root = Path(sys.argv[1]); mode = sys.argv[2] if len(sys.argv) > 2 else "tiny"; out = {"model": mode, "sets": {}}
 def run(text):
     if mode == "vanilla": return E.local_detect.detect_baseline(text)
-    return E.local_detect.detect(text, extra=E.ner(text) if mode in ("tiny", "berturk") else [], trust=TRUST)
+    return E.local_detect.detect(text, extra=E.ner(text) if mode in ("tiny", "berturk") else [], trust=TRUST,
+                                  address_detail="full")  # whole-address scoring, as in the README tables
 TRUST = float(os.environ["KATIP_TRUST"]) if os.environ.get("KATIP_TRUST") else (0.5 if mode == "berturk" else None)  # same as registry.json
 def docs_of(name):
     if (root / f"{name}.jsonl.gz").exists():

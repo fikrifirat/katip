@@ -50,7 +50,7 @@ const OWN = process.env.OWN || "/mnt/project-files/katip-redact/eval/blind/kira_
     }
     if (c === "dilekce:txt") {
       const out = await page.evaluate(() => window.__katip().outText);
-      console.log("text watermark present:", /Katip Yerel/.test(out));
+      console.log("text watermark present:", /Katip Mask/.test(out));
       await page.click('[data-view="review"]'); await page.screenshot({ path: SHOTS + "/demo_text.png" });
     }
   }

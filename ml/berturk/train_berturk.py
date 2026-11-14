@@ -6,7 +6,7 @@ Turkish legal documents; the blind set's names never appear in training).
 
   python train_berturk.py                       # full run, ~30-60 min on an M1/M2/M3
   python train_berturk.py --limit 300 --epochs 1   # 3-minute smoke test
-  python train_berturk.py --push <hf-user>/katip-tr-pii-berturk   # also upload (after `hf auth login`)
+  python train_berturk.py --push <hf-user>/katip-mask-base   # also upload (after `hf auth login`)
   python train_berturk.py --real-text           # v2: also learn names from 17,967 real Turkish sentences
   python train_berturk.py --real-text --extra ../../lab/data/foreign/train_berturk_foreign.jsonl   # v3: + foreign clients
 
@@ -38,7 +38,7 @@ ap.add_argument("--device", default="auto", help="auto | mps | cuda | cpu")
 ap.add_argument("--no-onnx", action="store_true")
 ap.add_argument("--real-text", action="store_true", help="mix in Turkish Wiki NER's real sentences (PERSON labels only)")
 ap.add_argument("--extra", default="", help="extra training documents, JSONL {text, spans} (v3: lab/data/foreign/train_berturk_foreign.jsonl)")
-ap.add_argument("--push", default="", help="Hugging Face model repo to upload to, e.g. you/katip-tr-pii-berturk")
+ap.add_argument("--push", default="", help="Hugging Face model repo to upload to, e.g. you/katip-mask-base")
 a = ap.parse_args()
 
 random.seed(0); torch.manual_seed(0)

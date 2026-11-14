@@ -395,7 +395,7 @@ export function redactPdf(mupdf, doc, spans, opts = {}) {
   }
   for (const [i, r] of links) pdf.loadPage(i).createLink(r, wm.url);
   for (const k of ["info:Title", "info:Author", "info:Subject", "info:Keywords", "info:Creator", "info:Producer"])
-    pdf.setMetaData(k, k === "info:Producer" || k === "info:Creator" ? "katip-yerel" : "");
+    pdf.setMetaData(k, k === "info:Producer" || k === "info:Creator" ? "katip-mask" : "");
   try { pdf.getTrailer().get("Root").delete("Metadata"); } catch { /* no XMP */ }
   return pdf.saveToBuffer("garbage=4,compress,clean").asUint8Array().slice();
 }

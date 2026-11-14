@@ -1,0 +1,8 @@
+{
+ "real_docs": 4182,
+ "synth_docs": 8000,
+ "seed": 0,
+ "epochs": 5,
+ "seconds": 458,
+ "int8_mb": 2.58
+}
