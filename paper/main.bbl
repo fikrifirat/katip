@@ -1,0 +1,261 @@
+\begin{thebibliography}{40}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Altinok(2023)]{altinok2023}
+Duygu Altinok.
+\newblock A diverse set of freely available linguistic resources for {T}urkish.
+\newblock In \emph{Proceedings of the 61st Annual Meeting of the Association
+  for Computational Linguistics (ACL)}, 2023.
+\newblock Turkish Wiki NER, CC BY-SA 4.0.
+
+\bibitem[Bender and Friedman(2018)]{bender2018datastatements}
+Emily~M. Bender and Batya Friedman.
+\newblock Data statements for natural language processing: Toward mitigating
+  system bias and enabling better science.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  6:\penalty0 587--604, 2018.
+
+\bibitem[Cengiz et~al.(2025)Cengiz, Sever, {\"U}m{\"u}tl{\"u},
+  et~al.]{cengiz2025turkishbench}
+Ay{\c{s}}e~Aysu Cengiz, Ahmet~Kaan Sever, Elif~Ecem {\"U}m{\"u}tl{\"u}, et~al.
+\newblock Evaluating the quality of benchmark datasets for low-resource
+  languages: A case study on {T}urkish, 2025.
+
+\bibitem[{\c{C}}etinda{\u{g}} et~al.(2022){\c{C}}etinda{\u{g}},
+  Yaz{\i}c{\i}o{\u{g}}lu, and Ko{\c{c}}]{cetindag2022tlner}
+Can {\c{C}}etinda{\u{g}}, Berkay Yaz{\i}c{\i}o{\u{g}}lu, and Aykut Ko{\c{c}}.
+\newblock Named-entity recognition in {T}urkish legal texts.
+\newblock \emph{Natural Language Engineering}, 2022.
+\newblock Data: \url{https://github.com/koc-lab/turkishlegalner}, Apache-2.0.
+
+\bibitem[Conneau et~al.(2020)Conneau, Khandelwal, Goyal, Chaudhary, Wenzek,
+  Guzm{\'a}n, Grave, Ott, Zettlemoyer, and Stoyanov]{conneau2020xlmr}
+Alexis Conneau, Kartikay Khandelwal, Naman Goyal, Vishrav Chaudhary, Guillaume
+  Wenzek, Francisco Guzm{\'a}n, Edouard Grave, Myle Ott, Luke Zettlemoyer, and
+  Veselin Stoyanov.
+\newblock Unsupervised cross-lingual representation learning at scale.
+\newblock In \emph{Proceedings of ACL}, 2020.
+
+\bibitem[Efron and Tibshirani(1993)]{efron1993}
+Bradley Efron and Robert~J. Tibshirani.
+\newblock \emph{An Introduction to the Bootstrap}.
+\newblock Chapman \& Hall, 1993.
+
+\bibitem[F{\i}rat(2026{\natexlab{a}})]{firat2026kvkkbench}
+Fikri F{\i}rat.
+\newblock {KVKK-Bench}: a benchmark for personal-data masking in {T}urkish
+  documents.
+\newblock \url{https://huggingface.co/spaces/f1k/kvkk-bench},
+  2026{\natexlab{a}}.
+
+\bibitem[F{\i}rat(2026{\natexlab{b}})]{katip-repo}
+Fikri F{\i}rat.
+\newblock Katip: on-device personal-data masking for {T}urkish legal documents.
+\newblock \url{https://github.com/fikrifirat/katip}, 2026{\natexlab{b}}.
+\newblock Code AGPL-3.0.
+
+\bibitem[Gebru et~al.(2021)Gebru, Morgenstern, Vecchione, Vaughan, Wallach,
+  Daum{\'e}~III, and Crawford]{gebru2021datasheets}
+Timnit Gebru, Jamie Morgenstern, Briana Vecchione, Jennifer~Wortman Vaughan,
+  Hanna Wallach, Hal Daum{\'e}~III, and Kate Crawford.
+\newblock Datasheets for datasets.
+\newblock \emph{Communications of the ACM}, 64\penalty0 (12):\penalty0 86--92,
+  2021.
+\newblock arXiv:1803.09010.
+
+\bibitem[Graehl(2026)]{graehl2026privacytagging}
+Jonathan Graehl.
+\newblock Strong multilingual privacy tagging at encoder speed, 2026.
+
+\bibitem[Hahm et~al.(2025)Hahm, Kim, Lee, Park, and Lee]{hahm2025thunder}
+Sungen Hahm, Heejin Kim, Gyuseong Lee, Hyunji Park, and Jaejin Lee.
+\newblock {Thunder-DeID}: Accurate and efficient de-identification framework
+  for {K}orean court judgments, 2025.
+
+\bibitem[Holm(1979)]{holm1979}
+Sture Holm.
+\newblock A simple sequentially rejective multiple test procedure.
+\newblock \emph{Scandinavian Journal of Statistics}, 6\penalty0 (2):\penalty0
+  65--70, 1979.
+
+\bibitem[Jha(2026)]{jha2026piibench}
+Pritesh Jha.
+\newblock {PIIBench}: A unified multi-source benchmark corpus for personally
+  identifiable information detection, 2026.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma Kurulu}(2018)]{kvkk-2018-32}
+{Ki{\c{s}}isel Verileri Koruma Kurulu}.
+\newblock Decision 2018/32 of 2 april 2018 (lawyers exempted from registration
+  with verb{\.i}s).
+\newblock \url{https://www.kvkk.gov.tr/Icerik/4233/2018-32}, 2018.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma Kurulu}(2020)]{kvkk-2020-429}
+{Ki{\c{s}}isel Verileri Koruma Kurulu}.
+\newblock Decision 2020/429 of 28 may 2020 (lawyer processing relatives' and
+  colleagues' phone numbers).
+\newblock \url{https://www.kvkk.gov.tr/Icerik/6778/2020-429}, 2020.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma
+  Kurulu}(2021{\natexlab{a}})]{kvkk-2021-111}
+{Ki{\c{s}}isel Verileri Koruma Kurulu}.
+\newblock Decision 2021/111 of 9 february 2021 (administrative fine of
+  50,000~tl on a lawyer).
+\newblock \url{https://www.kvkk.gov.tr/Icerik/6917/2021-111},
+  2021{\natexlab{a}}.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma
+  Kurulu}(2021{\natexlab{b}})]{kvkk-2021-1111}
+{Ki{\c{s}}isel Verileri Koruma Kurulu}.
+\newblock Decision 2021/1111 of 2 november 2021 (lawyer used a witness's
+  criminal-record data in a petition), 2021{\natexlab{b}}.
+\newblock Quoted in \citet[pp.~103--104]{kvkk-lawyers-guide}.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma
+  Kurulu}(2021{\natexlab{c}})]{kvkk-2021-925}
+{Ki{\c{s}}isel Verileri Koruma Kurulu}.
+\newblock Decision 2021/925 of 16 september 2021 (union membership in a
+  reinstatement petition: no violation).
+\newblock \url{https://kvkk.gov.tr/Icerik/7142/2021-925}, 2021{\natexlab{c}}.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma Kurulu}(2023)]{kvkk-2023-1414}
+{Ki{\c{s}}isel Verileri Koruma Kurulu}.
+\newblock Decision 2023/1414 of 17 august 2023 (genetic data submitted to court
+  by a lawyer: lawful under art.~6), 2023.
+\newblock Quoted in \citet[p.~80]{kvkk-lawyers-guide}.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma Kurumu}(2024)]{kvkk-transfer-reg}
+{Ki{\c{s}}isel Verileri Koruma Kurumu}.
+\newblock Regulation on the procedures and principles for the transfer of
+  personal data abroad ({K}i{\c{s}}isel {V}erilerin {Y}urt {D}{\i}{\c{s}}{\i}na
+  {A}ktar{\i}lmas{\i}na {\.i}li{\c{s}}kin {U}sul ve {E}saslar {H}akk{\i}nda
+  {Y}{\"o}netmelik).
+\newblock \url{https://www.kvkk.gov.tr/Icerik/2053/Yurtdisina-Aktarim}, 2024.
+\newblock Resm{\^i} Gazete No. 32598, 10 July 2024.
+
+\bibitem[{Ki{\c{s}}isel Verileri Koruma Kurumu}(2026)]{kvkk-lawyers-guide}
+{Ki{\c{s}}isel Verileri Koruma Kurumu}.
+\newblock \emph{Avukatlar{\i}n Mesleki Faaliyetlerinde Ki{\c{s}}isel Verilerin
+  Korunmas{\i}na {\.I}li{\c{s}}kin Uygulama Rehberi (Application Guide on the
+  Protection of Personal Data in Lawyers' Professional Activities)}.
+\newblock KVKK Yay{\i}nlar{\i} No.~115, Ankara, 2026.
+\newblock Imprint dated July 2026; announced 22 September 2026, prepared with
+  input from the Union of Turkish Bar Associations.
+  \url{https://www.kvkk.gov.tr/Icerik/8990/}; accessed 14 November 2026.
+
+\bibitem[Mansfield et~al.(2022)Mansfield, Paullada, and
+  Howell]{mansfield2022behind}
+Courtney Mansfield, Amandalynne Paullada, and Kristen Howell.
+\newblock Behind the mask: Demographic bias in name detection for {PII}
+  masking, 2022.
+
+\bibitem[{Microsoft}(2018)]{presidio}
+{Microsoft}.
+\newblock Presidio: Data protection and de-identification {SDK}.
+\newblock \url{https://github.com/microsoft/presidio}, 2018.
+
+\bibitem[Mitchell et~al.(2019)Mitchell, Wu, Zaldivar, Barnes, Vasserman,
+  Hutchinson, Spitzer, Raji, and Gebru]{mitchell2019modelcards}
+Margaret Mitchell, Simone Wu, Andrew Zaldivar, Parker Barnes, Lucy Vasserman,
+  Ben Hutchinson, Elena Spitzer, Inioluwa~Deborah Raji, and Timnit Gebru.
+\newblock Model cards for model reporting.
+\newblock In \emph{Proceedings of the Conference on Fairness, Accountability,
+  and Transparency (FAT*)}, 2019.
+
+\bibitem[{OpenAI}(2026)]{openai-pf}
+{OpenAI}.
+\newblock Privacy filter (open-weight {PII} detection model).
+\newblock \url{https://huggingface.co/openai/privacy-filter}, 2026.
+
+\bibitem[{\"O}zt{\"u}rk et~al.(2026){\"O}zt{\"u}rk, T{\"u}rko{\u{g}}lu, and
+  Buz-Yalug]{ozturk2026hukukbert}
+Mehmet~Utku {\"O}zt{\"u}rk, Tansu T{\"u}rko{\u{g}}lu, and Buse Buz-Yalug.
+\newblock {HUKUKBERT}: Domain-specific language model for {T}urkish law, 2026.
+
+\bibitem[Pil{\'a}n et~al.(2022)Pil{\'a}n, Lison, {\O}vrelid, Papadopoulou,
+  S{\'a}nchez, and Batet]{pilan2022tab}
+Ildik{\'o} Pil{\'a}n, Pierre Lison, Lilja {\O}vrelid, Anthi Papadopoulou, David
+  S{\'a}nchez, and Montserrat Batet.
+\newblock The text anonymization benchmark ({TAB}): A dedicated corpus and
+  evaluation framework for text anonymization.
+\newblock \emph{Computational Linguistics}, 48\penalty0 (4):\penalty0
+  1053--1101, 2022.
+\newblock \doi{10.1162/coli_a_00458}.
+
+\bibitem[{Qwen Team}(2024)]{qwen2025}
+{Qwen Team}.
+\newblock {Qwen2.5} technical report, 2024.
+
+\bibitem[{Republic of T{\"u}rkiye}(2016)]{kvkk6698}
+{Republic of T{\"u}rkiye}.
+\newblock Law no. 6698 on the protection of personal data ({K}i{\c{s}}isel
+  {V}erilerin {K}orunmas{\i} {K}anunu).
+\newblock \url{https://www.mevzuat.gov.tr/mevzuatmetin/1.5.6698.pdf}, 2016.
+\newblock Resm{\^i} Gazete No. 29677, 7 April 2016; art.~9 amended by Law No.
+  7499 (Resm{\^i} Gazete No. 32487, 12 March 2024), in force 1 June 2024.
+
+\bibitem[Schweter(2020)]{schweter2020berturk}
+Stefan Schweter.
+\newblock {BERTurk} -- {BERT} models for {T}urkish, 2020.
+\newblock MIT licence.
+
+\bibitem[Singh and Narayanan(2025)]{singh2025unmasking}
+Devansh Singh and Sundaraparipurnan Narayanan.
+\newblock Unmasking the reality of {PII} masking models: Performance gaps and
+  the call for accountability, 2025.
+
+\bibitem[Stubbs and Uzuner(2015)]{stubbs2015i2b2}
+Amber Stubbs and {\"O}zlem Uzuner.
+\newblock Annotating longitudinal clinical narratives for de-identification:
+  The 2014 i2b2/{UTHealth} corpus.
+\newblock \emph{Journal of Biomedical Informatics}, 58:\penalty0 S20--S29,
+  2015.
+
+\bibitem[U{\u{g}}ur et~al.(2026)U{\u{g}}ur, G{\"o}ksu, {\c{C}}imen,
+  et~al.]{ugur2026mecellem}
+{\"O}zg{\"u}r U{\u{g}}ur, Mahmut G{\"o}ksu, Mahmut {\c{C}}imen, et~al.
+\newblock Mecellem models: {T}urkish models trained from scratch and
+  continually pre-trained for the legal domain, 2026.
+
+\bibitem[van Rijsbergen(1979)]{vanrijsbergen1979}
+C.~J. van Rijsbergen.
+\newblock \emph{Information Retrieval}.
+\newblock Butterworths, 2nd edition, 1979.
+
+\bibitem[Vats et~al.(2026)Vats, Agrawal, Singhal, et~al.]{vats2026redact}
+Guneesh Vats, Anubha Agrawal, Shikha Singhal, et~al.
+\newblock {REDACT}: A systematically controlled multilingual benchmark for
+  personal information detection, 2026.
+
+\bibitem[Y{\i}lmaz et~al.(2026)Y{\i}lmaz, Toraman, et~al.]{ocrturk2026}
+Deniz Y{\i}lmaz, {\c{C}}a{\u{g}}r{\i} Toraman, et~al.
+\newblock {OCRTurk}: A benchmark for {T}urkish document {OCR}, 2026.
+\newblock SIGTURK 2026.
+
+\bibitem[Zaratiana et~al.(2024)Zaratiana, Tomeh, Holat, and
+  Charnois]{zaratiana2024gliner}
+Urchade Zaratiana, Nadi Tomeh, Pierre Holat, and Thierry Charnois.
+\newblock {GLiNER}: Generalist model for named entity recognition using
+  bidirectional transformer.
+\newblock In \emph{Proceedings of NAACL}, 2024.
+
+\bibitem[Zaratiana et~al.(2026)Zaratiana, Lewis, and
+  Hurn-Maloney]{zaratiana2026gliner2pii}
+Urchade Zaratiana, Ash Lewis, and George Hurn-Maloney.
+\newblock {GLiNER2-PII}: A multilingual model for personally identifiable
+  information extraction, 2026.
+
+\bibitem[Zaratiana et~al.(2025)]{zaratiana2025gliner2}
+Urchade Zaratiana et~al.
+\newblock {GLiNER2}: An efficient multi-task information extraction system with
+  schema-driven interface, 2025.
+
+\bibitem[Zhu et~al.(2025)Zhu, Jin, Pruksachatkun, et~al.]{zhu2025abc}
+Yuxuan Zhu, Tengjun Jin, Yada Pruksachatkun, et~al.
+\newblock Establishing best practices for building rigorous agentic benchmarks,
+  2025.
+
+\end{thebibliography}
