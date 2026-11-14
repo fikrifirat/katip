@@ -52,7 +52,8 @@ names never seen during development or training, in 16 document styles (4 of the
 
 | Model | What it is | Values found (blind) | Names found |
 | --- | --- | --- | --- |
-| **Katip Mask Nano · tr v1.1** (recommended) | Katip Rules + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2.5 MB, Turkish and foreign client names | **756 / 757 (99.9%)** | 364 / 365 |
+| **Katip Mask Mini · tr v2** (recommended, default) | Katip Rules + [`katip-mask-mini`](https://huggingface.co/f1k/katip-mask-mini), 31 MB, distilled from Katip Mask Base; finds far more names in everyday prose than Nano (KVKK-Bench: 72.5% vs 52.9%) | MINI_BLIND | MINI_NAMES |
+| **Katip Mask Nano · tr v1.1** (fast mode) | Katip Rules + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2.5 MB, Turkish and foreign client names | **756 / 757 (99.9%)** | 364 / 365 |
 | **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 756 / 757 (99.9%) | 364 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
 | **Katip Mask Base** | Katip Rules + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-mask) only | **757 / 757 (100%)** | **365 / 365** |
@@ -84,8 +85,10 @@ The court set fills the "..." that courts put in place of names (TurkishLegalNER
 Apache-2.0) with common Turkish names, in court casing, with the case suffix re-inflected; a second version
 with rare unseen names scores within 0.5 points. Scripts: `lab/score_legal.py`, `lab/score_model.py`.
 
-It is 40 times bigger than Katip Mask Nano, so the demo keeps Nano as the default and offers Katip Mask Base on
-the Hugging Face Space (its 110.8 MB file is over GitHub's 100 MB limit for Pages).
+It is 40 times bigger than Katip Mask Nano, so the demo offers Katip Mask Base on the Hugging Face Space (its
+110.8 MB file is over GitHub's 100 MB limit for Pages). Since 14 Nov 2026 the demo's default is **Katip Mask Mini**
+(31 MB, about 1 s per page in the browser), with Nano as a fast mode for long digital files (about 0.03 s per page).
+On real everyday prose Mini finds 72.5% of names against Nano's 52.9% ([KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench)).
 
 ### Size, speed and accuracy side by side
 

@@ -1,0 +1,88 @@
+{
+ "mode": "smoke",
+ "init": "/tmp/claude-0/fake_distil",
+ "teacher": "none",
+ "candidates": [
+  {
+   "name": "L3-V8k",
+   "dir": "/home/claude/katip/lab/mini/runs_smoke/katip-mask-mini-v2-L3-V8k",
+   "int8_mb": 0.79,
+   "seconds": 6,
+   "trust": 0.9,
+   "wiki dev f2": 0.1790185277916875,
+   "wiki dev recall": 0.1506849315068493,
+   "wiki dev precision": 0.7222222222222222,
+   "heldout recall": 0.9563636363636364
+  }
+ ],
+ "winner": {
+  "name": "L3-V8k",
+  "dir": "/home/claude/katip/lab/mini/runs_smoke/katip-mask-mini-v2-L3-V8k",
+  "int8_mb": 0.79,
+  "seconds": 6,
+  "trust": 0.9,
+  "wiki dev f2": 0.1790185277916875,
+  "wiki dev recall": 0.1506849315068493,
+  "wiki dev precision": 0.7222222222222222,
+  "heldout recall": 0.9563636363636364
+ },
+ "test": {
+  "wiki test": {
+   "gold": 69,
+   "found": 7,
+   "recall": 0.10144927536231885,
+   "spans": 12,
+   "false": 5,
+   "precision": 0.5833333333333334,
+   "f1": 0.17283950617283952,
+   "f2": 0.12152777777777779,
+   "recall_ci": [
+    0.019230769230769232,
+    0.2
+   ],
+   "precision_ci": [
+    0.2,
+    0.8571428571428571
+   ],
+   "ms_per_doc": 1.121469930000103
+  },
+  "blind": {
+   "gold": 365,
+   "found": 364,
+   "recall": 0.9972602739726028,
+   "spans": 358,
+   "false": 0,
+   "precision": 1.0,
+   "f1": 0.9986282578875172,
+   "f2": 0.9978070175438597,
+   "recall_ci": [
+    0.9912790697674418,
+    1.0
+   ],
+   "precision_ci": [
+    1.0,
+    1.0
+   ],
+   "ms_per_doc": 4.573632837499986
+  },
+  "negatives": {
+   "gold": 0,
+   "found": 0,
+   "recall": NaN,
+   "spans": 0,
+   "false": 0,
+   "precision": NaN,
+   "f1": NaN,
+   "f2": NaN,
+   "recall_ci": [
+    NaN,
+    NaN
+   ],
+   "precision_ci": [
+    NaN,
+    NaN
+   ],
+   "ms_per_doc": 8.650517666666246
+  }
+ }
+}
