@@ -215,11 +215,13 @@ Masking on your own computer before anything leaves it is the simplest safeguard
 | | Examples | Status |
 |---|---|---|
 | Identity | names (Turkish and foreign) | ranked, on real text |
-| ID numbers | T.C. kimlik, foreign ID (99…), passport, tax number | ◇ preview, generated documents |
-| Contact and financial | phone, e-mail, address (building/door), IBAN | ◇ preview, generated documents |
-| Special category | health terms and diagnoses | ◇ preview, generated documents |
+| ID numbers | T.C. kimlik, foreign ID (99…), passport, tax number | synthetic data ◇ (not in the score) |
+| Contact and financial | phone, e-mail, address (building/door), IBAN | synthetic data ◇ (not in the score) |
+| Special category | health terms and diagnoses | synthetic data ◇ (not in the score) |
 
-◇ columns stay out of the score until we have real labelled documents for them. This is a technical benchmark, not legal advice:
+Why only names on real text: published Turkish court decisions are anonymised before release, so ID numbers, phones, IBANs and
+addresses are removed from them, and real documents that still contain them can't be published by definition. Real decisions do
+mention health (injury reports, diagnoses); labelling those is next. ◇ columns stay out of the score until real labelled data exists. This is a technical benchmark, not legal advice:
 masking reduces what is sent, but it doesn't by itself make a document anonymous.
 """
 
