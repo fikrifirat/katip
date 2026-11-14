@@ -442,3 +442,24 @@ def test_katip_prompt():
                       "params": {"name": "katip", "arguments": {"istek": "son eklediğim dilekçeyi özetle"}}})
     text = got["result"]["messages"][0]["content"]["text"]
     assert "mask_file" in text and "son eklediğim dilekçeyi özetle" in text
+
+
+def test_value_inside_its_own_placeholder_is_not_a_leak():
+    from katip_kalkan import core, vault
+    v = vault.open_vault("ph")
+    t = "Biyometrik kayıtlar ve genetik veriler. Sağlık durumu."
+    spans = [{"id": "a", "entity_type": "BIOMETRIC_GENETIC", "start": 0, "end": 10, "text": "Biyometrik", "score": 1.0},
+             {"id": "b", "entity_type": "BIOMETRIC_GENETIC", "start": 24, "end": 31, "text": "genetik", "score": 1.0},
+             {"id": "c", "entity_type": "HEALTH", "start": 41, "end": 47, "text": "Sağlık", "score": 1.0}]
+    masked, _ = core._mask_safely(t, v, spans)
+    assert "genetik" not in masked.replace("GENETİK", "") and "Biyometrik" not in masked
+
+
+def test_placeholder_lookalike_in_document_is_still_checked():
+    from katip_kalkan import core, vault
+    v = vault.open_vault("ph2")
+    t = "Davacı Reza Karimi. Dosyada [Reza Karimi-1] olarak geçer."
+    spans = [{"id": "a", "entity_type": "PERSON", "start": 7, "end": 18, "text": "Reza Karimi", "score": 1.0}]
+    assert core._leaks(t, spans) == ["a"]  # the bracketed copy is document text, so it counts
+    masked, _ = core._mask_safely(t, v, spans)
+    assert "Karimi" not in masked
