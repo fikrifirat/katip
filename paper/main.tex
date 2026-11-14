@@ -13,18 +13,18 @@
 \usepackage{enumitem}
 \setlist{nosep,leftmargin=1.1em}
 \setlength{\tabcolsep}{3.2pt}
-\newcommand{\pend}[1]{\textcolor{gray}{\emph{[pending: #1]}}}
+\newcommand{\pend}[1]{(#1: in progress)}
 
 \title{\textbf{KVKK-Bench: Measuring Personal-Data Masking in Turkish Legal Text,\\with Small On-Device Models}}
 \author{Fikri F{\i}rat\\{\small Katip \,\textperiodcentered\, \url{https://github.com/fikrifirat/katip}}}
-\date{Draft, 14 November 2026}
+\date{14 November 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Turkish lawyers increasingly paste client documents into general-purpose AI assistants. The Turkish
-data-protection authority's 2026 guide for lawyers states that this can amount to a transfer of personal data
+General-purpose AI assistants are now part of legal work. The Turkish data-protection authority's 2026 guide
+for lawyers states that uploading client documents to such assistants can amount to a transfer of personal data
 abroad under art.~9 of Law No.~6698 (KVKK), and recommends masking personal data first. Masking needs a detector
 that works on Turkish legal prose and can run on the lawyer's own machine, but published Turkish PII models are
 evaluated on their own, mostly synthetic, data. We release \textbf{KVKK-Bench}, a public benchmark with a fixed
@@ -74,13 +74,14 @@ validation split. Our own first model illustrates the risk: BERTurk fine-tuned o
 every name in synthetic tests and 41\% of names in real Wikipedia sentences \citep{katip-repo}.
 
 \textbf{Related work.} Anonymisation benchmarks with real text are English: TAB on ECHR judgments
-\citep{pilan2022tab} and i2b2 clinical notes \citep{stubbs2015i2b2}. Recent PII benchmarks are generated
-under controlled conditions (REDACT, 25 languages \citep{vats2026redact}; PII-style audits of popular masking
-models \citep{singh2025unmasking}) or pool existing corpora under one label set (PIIBench \citep{jha2026piibench}).
+\citep{pilan2022tab} and i2b2 clinical notes \citep{stubbs2015i2b2}. Recent multilingual PII benchmarks either
+generate records under controlled conditions (REDACT, 25 languages \citep{vats2026redact}) or pool existing
+corpora under one label set (PIIBench \citep{jha2026piibench}), and an audit of widely downloaded masking models
+on semi-synthetic sentences found large gaps \citep{singh2025unmasking}.
 Thunder-DeID is the closest analogue in a single jurisdiction: a de-identification dataset and model for Korean
 court judgments \citep{hahm2025thunder}. Name detectors are known to fail unevenly across demographic groups
-\citep{mansfield2022behind}, which motivates our foreign-name track. Independent multilingual evaluations also find
-Presidio and OpenAI Privacy Filter variants well behind trained encoders \citep{graehl2026privacytagging},
+\citep{mansfield2022behind}, which motivates our foreign-name track. An independent multilingual evaluation also finds
+Presidio and an OpenAI Privacy Filter fine-tune well behind a trained encoder \citep{graehl2026privacytagging},
 consistent with our results. For Turkish, legal NER data exists \citep{cetindag2022tlner} but its person names
 are mostly anonymised as ``\ldots''; Turkish legal encoders (Mecellem \citep{ugur2026mecellem}, HukukBERT
 \citep{ozturk2026hukukbert}) are candidate base models we have not yet tried; and an audit found that 70\% of
@@ -139,8 +140,8 @@ health terms; int8 ONNX. \textbf{Katip Mask Nano · tr v1.1}: a 2-layer BERT (hi
 scratch for 5 epochs (458\,s on 4 CPU cores) on 8,000 synthetic documents, 4,182 real-text documents (Wiki NER
 train, TurkishLegalNER \emph{train}-split sentences with filled names) and a transliterated foreign-name mix whose
 test families were held out. Both run inside Katip's rule engine (checksummed IDs, phones, IBANs, addresses,
-casing and suffix handling; 0.3\,MB) with the browser's own code at a confidence threshold of 0.5 chosen on dev
-data. \textbf{Baselines} (run unmodified, label maps written from each model's \texttt{id2label} before scoring):
+casing and suffix handling; 0.3\,MB) with the browser's own code, detection threshold 0.5 and \emph{trust} 0.5
+(model spans scored at or above it keep their edges; chosen on dev data). \textbf{Baselines} (run unmodified, label maps written from each model's \texttt{id2label} before scoring):
 Presidio with spaCy \texttt{xx\_ent\_wiki\_sm} \citep{presidio}; Turkish NER (BERTurk NER, XLM-R Base Turkish NER);
 XLM-R Large fine-tuned on English CoNLL-03 \citep{conneau2020xlmr}; GLiNER multi-PII \citep{zaratiana2024gliner}
 and GLiNER2-PII \citep{zaratiana2025gliner2,zaratiana2026gliner2pii} prompted with \emph{person}; Turkish PII models (ModernBERT-TR PII,
@@ -178,8 +179,8 @@ OpenMed PII Turkish 33M & 33M & 133 & 7.5 & 19.1 [16.4, 22.7] & 11.0 & 17.3 & 33
 name columns are per-track F2 (court-turkish, court-foreign, prose). Leak = share of gold characters left
 readable (lower is better). CIs: sentence-clustered bootstrap, 10,000 resamples. Size = what is downloaded to run
 (int8 ONNX plus rules for Katip; weights as loaded otherwise). Pages/s: Python on one Apple-silicon laptop; not an
-in-browser speed. Browser = run inside a web page via transformers.js/ONNX Runtime Web (not tested is not
-impossible). Numbers match the live leaderboard and the saved predictions.}
+in-browser speed. Browser = run inside a web page via transformers.js/ONNX Runtime Web; a dash means not
+tested, not that it cannot run there. Numbers match the live leaderboard and the saved predictions.}
 \label{tab:main}
 \end{table*}
 
@@ -188,7 +189,8 @@ Large is 1.1 points [0.3, 2.1], over XLM-R Base Turkish NER 1.3 [0.5, 2.2] and o
 13 paired differences remain significant after Holm correction (largest adjusted $p=0.008$). These margins are
 small, and the ranking depends on the metric: XLM-R Large leaks \emph{half as much} (3.4\% vs 6.9\%, difference
 3.5 points [2.5, 4.6]); the leak difference with XLM-R Base, GLiNER2, BERTurk NER and GLiNER is not significant
-(all $p>0.1$). Base is the best system that runs in a browser, at one twentieth of XLM-R Large's download size.
+(all $p>0.1$). Of the systems we have run in a browser (only the two Katip models so far), Base is the stronger, at one
+twentieth of XLM-R Large's download size.
 
 \textbf{Small models.} Nano reaches 93.3/93.1 F2 on Turkish and foreign names in court text at 2.9\,MB and
 50 pages/s, 29 times faster than Base, but collapses on general prose (57.8 F2, 44.5\% leak): a sub-5\,MB model
@@ -215,17 +217,23 @@ in open-domain text. XLM-R Large's false spans are mostly lone punctuation tagge
 
 \textbf{Generated tracks (not ranked).} With Katip's rules, Base and Nano find every TCKN, phone, e-mail and
 address in the generated documents, and Base finds 95.7 F2 of health terms. Name-only systems score 0 on these
-types by construction. One harness defect surfaced while writing: the benchmark run used a rule file without the
-YKN, passport and foreign-ID recognisers shipped in the app, so both Katip rows score 0 on those 557 values
-(``Other IDs'' 16.5). Re-running the shipped rules alone on that track finds 100\% of YKN and passports and 96\% of
-foreign IDs; the leaderboard rows will be re-run \pend{bench re-run with current rules}.
+types by construction. One harness defect: the v0.1.2 run of the Katip rows used a rule file without the
+YKN, passport and foreign-ID recognisers shipped in the app, so both rows score 0 on those 557 values
+(``Other IDs'' 16.5). The shipped rules alone find 100\% of YKN and passport numbers and 96\% of foreign IDs on
+that track. Because these are generated documents, Overall is unaffected; the rows will be re-scored in v0.1.3.
 
 \section{Distribution: local masking in front of AI assistants}
 Katip Mask runs as a static web page (rules in Python via Pyodide, models via transformers.js) and as
-\textbf{Katip Kalkan}, a local MCP server packaged as a Claude plugin
-(\texttt{claude plugin marketplace add fikrifirat/katip}). Kalkan masks a file on the device with Nano, gives the
-assistant only the masked text, and writes real values back into the assistant's answer locally, so originals
-never reach the AI provider. It also runs local OCR (PaddleOCR via ONNX) for scans and photos.
+\textbf{Katip Kalkan}, a local MCP server packaged as a Claude plugin and a Claude Desktop extension (AGPL-3.0;
+the bundled Nano model is CC BY-SA 4.0). The assistant asks Kalkan for a file in a local folder; Kalkan reads and
+masks it on the device (rules plus Nano, with local OCR for scans and photos via PaddleOCR PP-OCRv5 in ONNX) and
+returns only text with placeholders such as \texttt{[AD SOYAD-1]}. The placeholder map stays on the device, and a
+restore tool writes the assistant's answer with the real values back to a local file, returning only its path.
+Two caveats matter. A file \emph{attached} to the chat is uploaded with the message before any tool runs, so it
+must be opened through Kalkan instead. And on first start Kalkan downloads three Python packages (onnxruntime,
+numpy, cryptography) if \texttt{uv} is available; document processing itself makes no network calls. The
+connector's default detection threshold (0.7) is stricter than the benchmark setting (0.5), so its recall is
+not measured here.
 
 \section{Limitations and future work}
 \begin{itemize}
@@ -237,23 +245,24 @@ the generator family our models train on, so every non-name figure above is opti
 \item \textbf{In-domain advantage.} The prose track is the Wiki NER test split; Base and Nano were trained on its
 train split, and Nano on TurkishLegalNER's train split (the court tracks use its test split). Other models were
 trained on their own Turkish or multilingual NER data. A hidden test of 2025--26 Yarg{\i}tay/Dan{\i}{\c{s}}tay decisions
-and AYM judgments with court-published names is under construction \pend{hidden split}.
+and AYM judgments with court-published names is under construction.
 \item \textbf{Slot filling} puts names where courts wrote ``\ldots'', which a model could learn to exploit; the AYM
 real-name track is meant to check this.
-\item \textbf{One annotator}; inter-annotator agreement on 100 hidden documents is planned \pend{Cohen's $\kappa$}.
+\item \textbf{One annotator}; inter-annotator agreement on 100 hidden documents is planned.
 \item \textbf{Speed} is measured in Python on one laptop. ``Runs in the browser'' means demonstrated, not timed.
 \item \textbf{OCR} is tested only on Katip's own scans and synthetic phone photos. Adding OCRTurk
-\citep{ocrturk2026} as an OCR track awaits a licence from its authors \pend{licence}.
+\citep{ocrturk2026} as an OCR track awaits a licence from its authors.
 \item \textbf{Licences.} Both models are CC BY-SA 4.0 because they are trained on Wiki NER; code is AGPL-3.0. A v3
 retrained without Wikipedia data (synthetic, court decisions, TurkishLegalNER) would allow Apache-2.0, if it stays
-within about one Overall point \pend{v3}. Fine-tuning XLM-R on our data is running \pend{XLM-R fine-tune}.
+within about one Overall point. Fine-tuning XLM-R on our data is queued.
 \item \textbf{Masking is not anonymisation.} Masked documents remain personal data under KVKK; the tool reduces
 exposure but does not by itself make an AI workflow compliant.
 \end{itemize}
 
-\textbf{Reproducibility.} \texttt{lab/legal/bench\_build.py} rebuilds the public split from public sources;
-\texttt{bench\_run.py --rescore} re-scores the saved predictions; the CI script and figure are in
-\texttt{paper/}. All numbers in this draft were reproduced from those files on 14 November 2026.
+\textbf{Reproducibility.} \texttt{lab/foreign/build.py} (branch \texttt{main}) and
+\texttt{lab/legal/bench\_build.py} (branch \texttt{legal-study}, commit \texttt{14fa7ab}) rebuild the public split from
+public sources, and \texttt{lab/legal/bench\_run.py --rescore} re-scores the saved predictions; the bootstrap script and figure are
+in \texttt{paper/}. All numbers in this paper were reproduced from those files on 14 November 2026.
 
 \textbf{Ethics statement.} No private or client documents were used. Every personal value inserted into the
 benchmark is synthetic; the only real names are those that courts or Wikipedia published. The benchmark
