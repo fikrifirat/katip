@@ -70,3 +70,17 @@ https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset), so the model is 
 licence: credit Katip and the dataset, and share adaptations under CC BY-SA 4.0. v1 (synthetic data
 only) was released under CC BY-NC 4.0. Katip's code is AGPL-3.0; for a commercial licence for the
 code or support, open an issue at https://github.com/fikrifirat/katip.
+
+## Citation
+
+```bibtex
+@misc{firat2026katipmaskbase,
+  title  = {Katip Mask Base (tr): a Turkish personal-data tagger fine-tuned from BERTurk},
+  author = {F{\i}rat, Fikri},
+  year   = {2026},
+  url    = {https://huggingface.co/f1k/katip-mask-base},
+  note   = {Fine-tuned from BERTurk (Schweter, 2020)}
+}
+```
+
+Please also cite BERTurk (Stefan Schweter, https://doi.org/10.5281/zenodo.3770924) and Turkish Wiki NER (Altinok, 2023).

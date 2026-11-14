@@ -111,3 +111,16 @@ and the training data, and share adaptations under the same licence. Nano v1.1 i
 CC BY-SA 4.0, https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset). Earlier versions (v1.0)
 were released under CC BY-NC 4.0. Katip's code is AGPL-3.0, with a commercial licence on request:
 https://github.com/fikrifirat/katip.
+
+## Citation
+
+```bibtex
+@misc{firat2026katipmasknano,
+  title  = {Katip Mask Nano (tr): a 2.5M-parameter Turkish name tagger for the browser},
+  author = {F{\i}rat, Fikri},
+  year   = {2026},
+  url    = {https://huggingface.co/f1k/katip-mask-nano}
+}
+```
+
+Please also cite Turkish Wiki NER (Altinok, 2023).
