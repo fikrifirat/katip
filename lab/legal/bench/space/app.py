@@ -75,14 +75,14 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
     "model":   ("Model", "Click to open the model page.", True),
     "overall": ("Overall ⬆", "The ranking number, 0–100: the weighted average of the real-text masking dimensions (weights in the guide below). ◇ columns are previews and join the average once they have real test data.", True),
     "leak":    ("Leaked ⬇", "After masking, how much of the personal data you could still read (by characters), on the selected documents. Lower is better. On real text that is names; IDs, phones and addresses only appear in our generated (◇) documents so far.", True),
-    "speed":   ("Pages/s ⬆", "Pages masked per second on a laptop CPU (Apple M-series), one page = 500 words. Same machine for every model.", True),
+    "speed":   ("Pages/s ⬆", "Pages masked per second on a laptop CPU (Apple M-series), one page = 500 words. Same machine for every model. Measured in Python, not inside a browser: in-browser speed is not measured yet.", True),
     "size":    ("Size ⬇", "What you download to run it. Small means it fits on a laptop or in a browser tab.", True),
     **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score: F2, where missing one counts 4× more than masking too much." +
            ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), v[4])
        for k, v in DIMS.items()},
     "params":  ("Params", "How many learned weights the model has.", False),
     "offline": ("Offline", "Runs on your own machine with no internet connection, so documents never leave the firm.", True),
-    "browser": ("Browser", "✓ = we have run it inside a web page (Katip Mask demo: rules in Python via Pyodide/WebAssembly, model via transformers.js + ONNX Runtime Web). Nothing to install and the document never leaves the computer. Blank = not tested yet, not necessarily impossible.", True),
+    "browser": ("In browser", "✓ = we have run it inside a web page (Katip Mask demo: rules in Python via Pyodide/WebAssembly, model via transformers.js + ONNX Runtime Web). Nothing to install and the document never leaves the computer. Blank = not tested in a browser yet, not impossible. Pages/s is not an in-browser speed.", True),
     "licence": ("Licence", "Licence of the model. NC = no commercial use.", True),
 }
 NUM = ("overall", *DIMS, "leak")
@@ -178,7 +178,7 @@ def pick(rows, query, types, sizes, browser_only):
     q = (query or "").lower().strip()
     keep = {k for k, v in TYPES.items() if v in types}
     return [r for r in rows if r["kind"] in keep and size_bucket(r.get("size_mb")) in sizes
-            and ("Runs in browser" not in (browser_only or []) or r.get("runs_in_browser"))
+            and ("Tested in browser" not in (browser_only or []) or r.get("runs_in_browser"))
             and ("Commercial use OK" not in (browser_only or []) or "NC" not in LICENCE.get(r["system"], ""))
             and (not q or q in " ".join(SYSTEMS[r["system"]][:2]).lower())]
 
@@ -298,7 +298,7 @@ def build():
             with gr.Tab("🏅 Leaderboard"):
                 with gr.Row():
                     q = gr.Textbox(placeholder="🔍 Search models", show_label=False, scale=3)
-                    browser = gr.CheckboxGroup(["Runs in browser", "Commercial use OK"], value=[], show_label=False, scale=1)
+                    browser = gr.CheckboxGroup(["Tested in browser", "Commercial use OK"], value=[], show_label=False, scale=1)
                 order = gr.Radio(["Overall", "Least leaked", "Fastest", "Smallest"], value="Overall", label="Sort by",
                                  info="Pick what matters for your setup: masking quality, privacy, speed on a laptop, or download size.")
                 docs = gr.CheckboxGroup(list(DOC_TYPES), value=list(DOC_TYPES), label="Documents", info=DOC_HELP)
