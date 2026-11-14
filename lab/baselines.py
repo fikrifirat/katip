@@ -53,16 +53,17 @@ def _hf(model_id):
         # stride: long documents are split into overlapping windows instead of overflowing the position table
         nlp = pipeline("token-classification", model=model_id, tokenizer=tok, aggregation_strategy="simple", stride=64)
         # labels with no counterpart (LOC, ORG, KVKK_SPECIAL, ...) keep their own name: the text still counts as masked, never as a typed hit
-        def det(text):
+        def det(text, scores=False):
+            # scores=True: (start, end, type, score) with the lowest piece score; for hybrids that pass spans to the rules
             out = []
             for e in sorted(nlp(text), key=lambda e: e["start"]):
                 t = map_label(e["entity_group"]) or e["entity_group"]
                 # some tokenizers return a word as several pieces ('İs','tan','bu','l'): join touching pieces of the same type
                 if out and out[-1][2] == t and e["start"] - out[-1][1] <= 1 and not text[out[-1][1]:e["start"]].strip(" "):
-                    out[-1] = (out[-1][0], e["end"], t)
+                    out[-1] = (out[-1][0], e["end"], t, min(out[-1][3], float(e["score"])))
                 else:
-                    out.append((e["start"], e["end"], t))
-            return out
+                    out.append((e["start"], e["end"], t, float(e["score"])))
+            return out if scores else [x[:3] for x in out]
         det.params = sum(p.numel() for p in nlp.model.parameters())
         det.labels = sorted(set(nlp.model.config.id2label.values()))
         det.size_mb = round(sum(p.numel() * p.element_size() for p in nlp.model.parameters()) / 1e6, 1)  # weights as loaded

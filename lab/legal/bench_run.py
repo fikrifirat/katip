@@ -38,11 +38,28 @@ def _hf_snapshot(repo, revision=None):
     from huggingface_hub import snapshot_download
     return snapshot_download(repo, revision=revision, allow_patterns=["config.json", "tokenizer*", "vocab.txt", "onnx/model_quantized.onnx"])
 
+def _akdeniz_rules(trust):
+    """Hybrid: Katip rules + akdeniz27 XLM-R Turkish NER, PERSON spans only, passed to the rules the way
+    _katip passes the Katip tagger (case suffix after an apostrophe dropped, score kept so trust applies)."""
+    import baselines as BL
+    ak = BL.BASELINES["akdeniz"][1]()
+    def extra(text):
+        out = []
+        for s, e, t, sc in ak(text, scores=True):
+            if t != "PERSON":
+                continue
+            span = text[s:e]
+            out.append((s, s + min([span.find(c) for c in "'\u2019" if c in span] or [len(span)]), sc, "PERSON"))
+        return out
+    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=extra(text), trust=trust)]
+    return det, {"params": int(ak.params), "size_mb": round(ak.size_mb + 0.3, 1), "runs_locally": True, "runs_in_browser": False,
+                 "size_note": "XLM-R weights as loaded (fp32) + 0.3 MB rules"}
+
 def _baseline(key):
     import baselines as BL
     det = BL.BASELINES[key][1]()
     meta = {"runs_locally": True, "runs_in_browser": False}
-    if hasattr(det, "params"): meta.update(params=int(det.params), size_mb=det.size_mb, size_note="weights as loaded (fp32)" if key != "qwen-1.5b" else "fp16 weights")
+    if hasattr(det, "params"): meta.update(params=int(det.params), size_mb=det.size_mb, size_note="weights as loaded (fp32)" if key != "qwen-1.5b" else ("fp16 checkpoint, run in fp32 on CPU" if os.environ.get("KATIP_DEVICE") == "cpu" else "fp16 weights"))
     if key == "presidio": meta.update(params=None, size_mb=None, size_note="spaCy xx_ent_wiki_sm (~11 MB) + Presidio")
     return det, meta
 
@@ -58,6 +75,7 @@ SYSTEMS = {
                    lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk", "a107b872080d28967eb8e57fcdc14127f54c3cb1"), 0.5)),
     "presidio": ("Presidio + spaCy xx (vanilla)", lambda: _baseline("presidio")),
     "savasy": ("savasy/bert-base-turkish-ner-cased", lambda: _baseline("savasy")),
+    "akdeniz+rules": ("Katip rules + akdeniz27/xlm-roberta-base-turkish-ner (PERSON)", lambda: _akdeniz_rules(0.5)),
     "akdeniz": ("akdeniz27/xlm-roberta-base-turkish-ner", lambda: _baseline("akdeniz")),
     "gliner": ("urchade/gliner_multi_pii-v1 (person)", lambda: _baseline("gliner")),
     "cosmos-pii": ("ytu-ce-cosmos/modernbert-tr-pii-ner", lambda: _baseline("cosmos-pii")),
