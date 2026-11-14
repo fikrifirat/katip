@@ -453,3 +453,13 @@ def test_value_inside_its_own_placeholder_is_not_a_leak():
              {"id": "c", "entity_type": "HEALTH", "start": 41, "end": 47, "text": "Sağlık", "score": 1.0}]
     masked, _ = core._mask_safely(t, v, spans)
     assert "genetik" not in masked.replace("GENETİK", "") and "Biyometrik" not in masked
+
+
+def test_placeholder_lookalike_in_document_is_still_checked():
+    from katip_kalkan import core, vault
+    v = vault.open_vault("ph2")
+    t = "Davacı Reza Karimi. Dosyada [Reza Karimi-1] olarak geçer."
+    spans = [{"id": "a", "entity_type": "PERSON", "start": 7, "end": 18, "text": "Reza Karimi", "score": 1.0}]
+    assert core._leaks(t, spans) == ["a"]  # the bracketed copy is document text, so it counts
+    masked, _ = core._mask_safely(t, v, spans)
+    assert "Karimi" not in masked

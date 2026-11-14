@@ -169,17 +169,30 @@ def _leak_pat(value: str):
     return re.compile(r"(?<!\w)" + r"\W*".join(re.escape(w) for w in value.split()) + r"(?!\w)", re.I)
 
 
-def _leaks(masked: str, spans: list[dict]) -> list[str]:
-    """Detected values still readable in the output, as whole words (a 6-digit registry number inside a
-    16-digit Mersis number is not a leak; the browser's substring check would flag it)."""
-    import re
-    # look only at the document's own words: a value such as "genetik" or "sağlık" also appears inside its
-    # own placeholder ("[BİYOMETRİK/GENETİK-1]", "[SAĞLIK VERİSİ-1]"), which is not a leak (0.3.2 refused files)
-    bare = re.sub(r"\[[^\[\]\n]{1,60}-\d+\]", " ", masked)
+def _visible(text: str, spans: list[dict]) -> str:
+    """The document text that stays readable after masking: every span the masker replaces becomes " _ "
+    (same overlap rule as Vault.mask). Placeholder text never appears here, so a value such as "genetik"
+    can't be found inside its own placeholder "[BİYOMETRİK/GENETİK-1]" (0.3.2 refused files for that), and
+    anything in the document itself, even text that looks like a placeholder, is still checked."""
+    out, pos = [], 0
+    for sp in sorted(spans, key=lambda s: (s["start"], -s["end"])):
+        if sp["start"] < pos:
+            continue
+        out.append(text[pos:sp["start"]])
+        out.append(" _ ")  # "_" is a word character, so a value can't be matched across the gap
+        pos = sp["end"]
+    out.append(text[pos:])
+    return "".join(out)
+
+
+def _leaks(text: str, spans: list[dict]) -> list[str]:
+    """Detected values still readable after masking, as whole words, case-insensitive (a 6-digit
+    registry number inside a 16-digit Mersis number is not a leak)."""
+    visible = _visible(text, spans)
     out = []
     for s in spans:
         pat = _leak_pat(s["text"])
-        if pat and pat.search(bare):
+        if pat and pat.search(visible):
             out.append(s["id"])
     return out
 
@@ -206,14 +219,12 @@ def _repair(text: str, spans: list[dict], leaked: list[str]) -> list[dict]:
 def _mask_safely(text: str, v, spans: list[dict]) -> tuple[str, list[dict]]:
     """Mask, check that no detected value is still readable, repair and re-check. Raises with the kinds
     and line numbers of what could not be hidden (never the values)."""
-    masked = v.mask(text, spans)
     for _ in range(3):
-        leaks = _leaks(masked, spans)
+        leaks = _leaks(text, spans)
         if not leaks:
-            return masked, spans
+            return v.mask(text, spans), spans
         spans = _repair(text, spans, leaks)
-        masked = v.mask(text, spans)
-    bad = [s for s in spans if s["id"] in set(_leaks(masked, spans))]
+    bad = [s for s in spans if s["id"] in set(_leaks(text, spans))]
     where = sorted({engine.label_name(s["entity_type"]) for s in bad})
     raise RuntimeError(msg("leak", n=len(bad), kinds=", ".join(where)))
 
