@@ -48,6 +48,45 @@ Katip is a safety layer, not a guarantee, and not legal advice.
   before any tool runs. Put client files in your Katip folder instead (see below).
 * The software is provided as is, without warranty (AGPL-3.0, sections 15–16).
 
+## How it works and what it was trained on
+
+Katip finds personal data in four steps, all on your computer:
+
+1. **Rules** catch everything with a fixed shape or a checksum: T.C. kimlik (checksum), YKN (99-prefixed),
+   passport and foreign IDs, VKN, IBAN (checksum), card, phone, plate and e-mail, plus addresses, case and
+   bar numbers and KVKK art. 6 health terms from a word list.
+2. **A small name model**, Katip Mask Nano · tr v1.1 (2.5 MB, a 2-layer BERT trained from scratch), finds
+   person names the rules can't, including transliterated foreign names (Mohammad / Muhammed / Mhd).
+3. **Propagation:** a value found once is masked everywhere it appears in the document and in the same
+   matter, so a name caught in one sentence is also masked where the context was weaker.
+4. **Leak check:** if any value Katip found would still be readable after masking, Katip refuses to send
+   the text. It can't refuse for a value it never found, which is why step 2's recall matters.
+
+Scans and photos go through local OCR (PaddleOCR PP-OCRv5) first.
+
+**What the name model learned from.** No client or user documents, and Katip never learns from your files.
+The training mix was:
+
+* 8,000 synthetic legal documents generated from Katip's templates: petitions, judgments, leases, employment
+  contracts, powers of attorney, notices, e-mails, minutes, chats and expert reports, with made-up people.
+* 17,967 real Turkish sentences from Turkish Wiki NER (Altinok 2023, CC BY-SA 4.0), so it handles real prose
+  and not only templates.
+* Yargıtay sentences from the TurkishLegalNER *train* split, with the anonymised name slots filled in.
+* Transliterated foreign names from 10 origin groups (Syrian, Iranian, Afghan, Georgian, Armenian, Greek, Arab,
+  Russian/Ukrainian, Azerbaijani and Western), with the spelling variants seen in Turkish files.
+
+**How it was tested,** on data kept out of training:
+
+| Test | Result (rules + Nano v1.1) | What it shows |
+|---|---|---|
+| 80 blind synthetic legal documents, 757 values, names never seen in training | 743 / 757 masked (98%) at threshold 0.7 | All value types, document layouts. 12 of 16 styles share templates with training, so this is optimistic |
+| TurkishLegalNER *test* (real Yargıtay prose), name slots filled with held-out families, 1,011 names | Turkish names 98.7%, foreign names 94.6% [92.5–96.2] | Names in real court language |
+| [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench), 14 systems | See the board | Comparison with other Turkish and multilingual models on real text |
+
+Not tested yet: real case files, because they can't leave a law firm. We plan to measure on documents that
+pilot lawyers label on their own computers. Full details, confidence intervals and the training recipe:
+the [Katip Mask Nano model card](https://huggingface.co/f1k/katip-mask-nano) and `lab/foreign/` in this repo.
+
 ## What Katip runs, sends and fetches
 
 * **Runs:** a local MCP server (`python3 server.py`) on your computer. Claude Code, Cowork on your
