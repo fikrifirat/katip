@@ -191,7 +191,9 @@ Derleme, test ve eğitim adımları için [İngilizce README](README.md#develop)
 
 Kod ve demo: **[AGPL-3.0](LICENSE)**; AGPL'nin kaynak kodu paylaşma yükümlülüğü olmadan ürünlerde,
 kurum içi sistemlerde veya çevrimiçi hizmetlerde kullanım için **ticari lisans** vardır, bkz.
-[COMMERCIAL.md](COMMERCIAL.md). Modeller: CC BY-NC 4.0.
+[COMMERCIAL.md](COMMERCIAL.md). Modeller: **CC BY-SA 4.0** (Katip Mask Nano ve Base). Kısmen Turkish Wiki NER (Altinok, 2023; CC BY-SA 4.0)
+ile eğitildikleri için bu lisansı taşırlar. Katip Mask Base, Stefan Schweter / dbmdz'nin BERTurk modelini
+(MIT) temel alır. Hedef, Wikipedia verisi olmadan eğitilen ve skorunu koruyan bir v3'ü Apache-2.0 ile yayımlamak.
 
 Üçüncü taraf bileşenler: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; yalnızca karşılaştırma), Inter ve Space Grotesk yazı tipleri (SIL OFL 1.1), Pyodide (MPL-2.0), tesseract.js ve `tur` modeli
 (Apache-2.0), PaddleOCR PP-OCRv5 modelleri (Apache-2.0, PaddlePaddle), transformers.js (Apache-2.0), ONNX Runtime (MIT), OpenSubtitles sıklık listesinden

@@ -4,15 +4,15 @@
 anyone who builds it into a product, a firm's internal systems or a hosted service to publish their
 complete source code under the same licence. If you want to use Katip in real operations without
 that obligation (a law firm, a company's compliance workflow, a SaaS product, an on-premise
-installation), you need a commercial licence. The models (`katip-tr-*`) are CC BY-NC 4.0 and need
-one for any commercial use.
+installation), you need a commercial licence. The Katip Mask models are CC BY-SA 4.0:
+commercial use is allowed with credit, and adaptations stay under CC BY-SA 4.0.
 
 **Türkçe.** Katip'i [AGPL-3.0](LICENSE) kapsamında ücretsiz deneyebilir, inceleyebilir ve
 değiştirebilirsiniz. AGPL, Katip'i bir ürüne, şirket içi sistemlere veya bir çevrimiçi hizmete dahil
 edenlerin kendi kaynak kodunun tamamını aynı lisansla yayımlamasını şart koşar. Katip'i bu yükümlülük
 olmadan gerçek iş süreçlerinde kullanmak için (hukuk bürosu, şirket uyum süreçleri, SaaS ürünü,
-kurum içi kurulum) ticari lisans gerekir. Modeller (`katip-tr-*`) CC BY-NC 4.0 lisanslıdır; ticari
-her kullanım için lisans gerekir.
+kurum içi kurulum) ticari lisans gerekir. Katip Mask modelleri CC BY-SA 4.0 lisanslıdır:
+atıf yapılarak ticari kullanım serbesttir, uyarlamalar da CC BY-SA 4.0 ile paylaşılır.
 
 Contact / İletişim: **fikrifirat@gmail.com**, or open an issue:
 https://github.com/fikrifirat/katip/issues

@@ -1,0 +1,19 @@
+Katip Mask models (Katip Mask Nano, Katip Mask Base)
+Copyright (c) 2026 Fikri Fırat / Katip
+
+Licensed under the Creative Commons Attribution-ShareAlike 4.0 International licence (CC BY-SA 4.0).
+Full legal text: https://creativecommons.org/licenses/by-sa/4.0/legalcode
+
+You may share and adapt these models, also commercially, if you:
+  - give credit to Katip (https://github.com/fikrifirat/katip) and to the training data below,
+  - indicate if you made changes, and
+  - distribute your adaptations under CC BY-SA 4.0.
+
+Training data that requires attribution:
+  Turkish Wiki NER, Altinok, D. (2023). "A Diverse Set of Freely Available Linguistic Resources for
+  Turkish". ACL 2023. https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset (CC BY-SA 4.0)
+
+Katip Mask Base is fine-tuned from BERTurk (dbmdz/bert-base-turkish-cased) by Stefan Schweter /
+dbmdz, released under the MIT licence.
+
+Katip's code is separate and licensed under AGPL-3.0; see https://github.com/fikrifirat/katip.

@@ -13,12 +13,12 @@ U="${1:-f1k}"
 cd "$(dirname "$0")"
 python3 hf/rename_to_katip_mask.py "$U"
 
-hf upload "$U/katip-mask-nano" hf/nano . --repo-type model --delete "*" --commit-message "Katip Mask Nano · tr v1.1: foreign client names"
+hf upload "$U/katip-mask-nano" hf/nano . --repo-type model --delete "*" --commit-message "Katip Mask Nano · tr v1.1: CC BY-SA 4.0, credit Turkish Wiki NER"
 
 BT=ml/berturk/out
 if [ -f "$BT/onnx/model_quantized.onnx" ]; then
-  cp ml/berturk/MODEL_CARD.md "$BT/README.md"
-  hf upload "$U/katip-mask-base" "$BT" . --repo-type model --exclude "checkpoint-*" --commit-message "Katip Mask Base · tr v2: model card"
+  cp ml/berturk/MODEL_CARD.md "$BT/README.md"; cp hf/LICENSE.models "$BT/LICENSE"
+  hf upload "$U/katip-mask-base" "$BT" . --repo-type model --exclude "checkpoint-*" --commit-message "Katip Mask Base · tr v2: CC BY-SA 4.0, credit BERTurk and Turkish Wiki NER"
 fi
 
 tmp="$(mktemp -d)"; cp -r docs/. "$tmp/"; cp hf/space/README.md "$tmp/README.md"
