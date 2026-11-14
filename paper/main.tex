@@ -224,14 +224,17 @@ that track. Because these are generated documents, Overall is unaffected; the ro
 
 \section{Distribution: local masking in front of AI assistants}
 Katip Mask runs as a static web page (rules in Python via Pyodide, models via transformers.js) and as
-\textbf{Katip Kalkan}, a local MCP server packaged as a Claude plugin and a Claude Desktop extension (AGPL-3.0;
+\textbf{Katip Kalkan}, a local MCP server packaged as a Claude plugin and a Claude Desktop extension (version 0.3.5; AGPL-3.0;
 the bundled Nano model is CC BY-SA 4.0). The assistant asks Kalkan for a file in a local folder; Kalkan reads and
 masks it on the device (rules plus Nano, with local OCR for scans and photos via PaddleOCR PP-OCRv5 in ONNX) and
 returns only text with placeholders such as \texttt{[AD SOYAD-1]}. The placeholder map stays on the device, and a
-restore tool writes the assistant's answer with the real values back to a local file, returning only its path.
+restore tool writes the assistant's answer with the real values only into the user's Katip folder (as .docx, .txt
+or .md), returning only the path.
 Two caveats matter. A file \emph{attached} to the chat is uploaded with the message before any tool runs, so it
-must be opened through Kalkan instead. And on first start Kalkan downloads three Python packages (onnxruntime,
-numpy, cryptography) if \texttt{uv} is available; document processing itself makes no network calls. The
+must be opened through Kalkan instead. And on first start, if \texttt{uv} is present, Kalkan downloads exact pinned versions of
+onnxruntime, numpy, cryptography, pymupdf and rapidocr from PyPI (plus Python 3.12 if missing). Document
+processing makes no network calls; the only other network code is an explicit share-relay command that the
+plugin does not use. The
 connector's default detection threshold (0.7) is stricter than the benchmark setting (0.5), so its recall is
 not measured here.
 

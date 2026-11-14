@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.14)  14 NOV 2026 16:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.14)  14 NOV 2026 16:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -577,19 +577,19 @@ File: fig_overall_size.pdf Graphic file (type pdf)
 Package pdftex.def Info: fig_overall_size.pdf  used on input line 213.
 (pdftex.def)             Requested size: 243.91125pt x 184.78503pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 2512) has occurred while \output is active []
 
  [3{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc} <./fig_overall_size.pdf>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 262--266
+Underfull \hbox (badness 10000) in paragraph at lines 265--269
 \T1/lmtt/m/n/10 main\T1/lmr/m/n/10 (+20) ) and \T1/lmtt/m/n/10 lab/legal/bench_
 build.py \T1/lmr/m/n/10 (+20) (branch
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 262--266
+Underfull \hbox (badness 1210) in paragraph at lines 265--269
 \T1/lmr/m/n/10 (+20) from pub-lic sources, and \T1/lmtt/m/n/10 lab/legal/bench_
 run.py
  []
@@ -663,7 +663,7 @@ Here is how much of TeX's memory you used:
  211034 string characters out of 5778245
  1950975 words of memory out of 5000000
  35067 multiletter control sequences out of 15000+600000
- 635605 words of font info for 199 fonts, out of 8000000 for 9000
+ 635641 words of font info for 199 fonts, out of 8000000 for 9000
  350 hyphenation exceptions out of 8191
  75i,11n,79p,997b,623s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/ty
@@ -675,7 +675,7 @@ mr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fo
 nts/type1/public/lm/lmri9.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pf
 b></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmtt9.pfb>
-Output written on main.pdf (7 pages, 394362 bytes).
+Output written on main.pdf (7 pages, 394550 bytes).
 PDF statistics:
  372 PDF objects out of 1000 (max. 8388607)
  257 compressed objects within 3 object streams
