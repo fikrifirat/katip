@@ -50,9 +50,10 @@ SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 # (header, tracks, types, weight in Overall, measured on real text?)
 GEN_TRACKS = {"petition", "contract", "correspondence", "health", "court-generated", "petition-foreign"}
 DIMS = {
-    "tr_names": ("🇹🇷 Names", {"court", "court-real", "court-filled", "court-turkish", "petition", "contract", "correspondence", "health", "court-generated"}, {"PERSON"}, 25, True),
-    "foreign":  ("🌍 Names", {"court-foreign", "petition-foreign"}, {"PERSON"}, 10, True),
-    "everyday": ("📰 Names", {"prose"}, {"PERSON"}, 10, True),
+    "tr_names": ("🇹🇷 Legal, Turkish names", {"court", "court-real", "court-filled", "court-turkish", "petition", "contract", "correspondence", "health", "court-generated"}, {"PERSON"}, 25, True),
+    "foreign":  ("🌍 Legal, foreign names", {"court-foreign", "petition-foreign"}, {"PERSON"}, 10, True),
+    "everyday": ("📰 Everyday text", {"prose"}, {"PERSON"}, 10, True),
+    "legal":    ("⚖️ Legal text", {"court", "court-real", "court-filled", "court-turkish", "court-foreign", "petition", "contract", "correspondence", "health", "court-generated", "petition-foreign"}, {"PERSON"}, 0, True),
     "tckn":     ("🪪 TCKN", GEN_TRACKS, {"TCKN"}, 10, False),
     "ids":      ("🔢 Other IDs", GEN_TRACKS, {"VKN", "YKN", "PASSPORT", "FOREIGN_ID", "IBAN", "CREDIT_CARD", "PLATE", "BIRTH_DATE"}, 10, False),
     "contact":  ("📞 Contact", GEN_TRACKS, {"PHONE", "EMAIL", "IP_ADDRESS"}, 10, False),
@@ -64,6 +65,7 @@ DIM_HELP = {
     "tr_names": "Turkish names in real Yargıtay decisions, in court casing (Ahmet YILMAZ) and with suffixes (Kaya'nın). Source: TurkishLegalNER test split (Koç University, Apache-2.0).",
     "foreign":  "Foreign clients' names (Arabic, Persian, Afghan, Georgian, Russian, Western…) in the same real Yargıtay sentences. Source: TurkishLegalNER test split (Koç University, Apache-2.0).",
     "everyday": "Names in ordinary Turkish sentences (Wikipedia), outside legal writing. Source: Turkish Wiki NER (Altinok 2023, CC BY-SA 4.0).",
+    "legal":    "Names of Turkish and foreign clients in real Yargıtay decisions (the 🇹🇷 and 🌍 columns together). Source: TurkishLegalNER test split (Koç University, Apache-2.0).",
     "tckn":     "T.C. kimlik numbers.",
     "ids":      "Tax numbers, foreigner IDs (YKN), passports, IBANs, card numbers, plates, birth dates.",
     "contact":  "Phone numbers, e-mail and IP addresses.",
@@ -74,20 +76,22 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
     "rank":    ("#", "Position in the current sort (Overall by default).", True),
     "type":    ("T", "🔶 fine-tuned model · 💬 LLM asked by prompt · ⚙️ rule-based toolkit. Rows tagged baseline are standard reference points.", True),
     "model":   ("Model", "Click to open the model page.", True),
-    "overall": ("Overall ⬆", "The ranking number, 0–100: the weighted average of the real-text masking dimensions (weights in the guide below). ◇ columns are previews and join the average once they have real test data.", True),
-    "leak":    ("Leaked ⬇", "After masking, how much of the personal data you could still read (by characters), on the selected documents. Lower is better. On real text that is names; IDs, phones and addresses only appear in our generated (◇) documents so far.", True),
-    "speed":   ("Pages/s ⬆", "Pages masked per second on a laptop CPU (Apple M-series), one page = 500 words. Same machine for every model. Measured in Python, not inside a browser: in-browser speed is not measured yet.", True),
+    "overall": ("Overall /100 ⬆", "The ranking number, 0–100: the weighted average of the real-text masking dimensions (weights in the guide below). ◇ columns are previews and join the average once they have real test data.", True),
+    "leak":    ("Leaked % ⬇", "After masking, how much of the personal data you could still read (by characters), on the selected documents. Lower is better. On real text that is names; IDs, phones and addresses only appear in our generated (◇) documents so far.", True),
+    "speed":   ("Pages/sec ⬆", "Pages masked per second on a laptop CPU (Apple M-series), one page = 500 words. Same machine for every model. Measured in Python, not inside a browser: in-browser speed is not measured yet.", True),
     "size":    ("Size ⬇", "What you download to run it. Small means it fits on a laptop or in a browser tab.", True),
-    **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score: F2, where missing one counts 4× more than masking too much." +
+    **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score 0–100 (F2): a miss counts 4× more than an extra mask." +
            ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), v[4])
        for k, v in DIMS.items()},
-    "photo":   ("📱 Phone scans ◇", "60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Cell = Leaked / Over-masked. Leaked: share of personal values still readable after masking (a value counts as leaked if under 70% of its box is covered). Over-masked: share of the 360 ordinary street and district names on the forms that were masked anyway. Lower is better for both, and a good system is low on both: Leaked alone would rank a tool that masks everything first. ⚠ marks Over-masked of 50% or more. Sort: Phone scans orders by Leaked. Blank = not run on the photos yet.", True),
+    "photo":   ("📱 Form photos ◇<br><small>leaked % / over-masked %</small>", "60 phone photos of hand-filled paper forms (made by us, ◇), read with OCR. First number: % of personal details still readable. Second: % of ordinary street names hidden for no reason. Lower is better for both. ⚠ = hides most street names. Not in Overall.", True),
     "forms":   ("🗂️ Forms ◇", "306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. Blank = not run on the forms yet.", False),
     "params":  ("Params", "How many learned weights the model has.", False),
     "offline": ("Offline", "Runs on your own machine with no internet connection, so documents never leave the firm.", True),
     "browser": ("In browser", "✓ = we have run it inside a web page (Katip Mask demo: rules in Python via Pyodide/WebAssembly, model via transformers.js + ONNX Runtime Web). Nothing to install and the document never leaves the computer. Blank = not tested in a browser yet, not impossible. Pages/s is not an in-browser speed.", True),
     "licence": ("Licence", "Licence of the model. NC = no commercial use.", True),
 }
+for _k in ("tr_names", "foreign"): COLUMNS[_k] = (COLUMNS[_k][0], COLUMNS[_k][1], False)
+COLUMNS = {k: COLUMNS[k] for k in ["rank", "type", "model", "overall", "leak", "speed", "size", "legal", "everyday", *[k for k in COLUMNS if k not in ("rank", "type", "model", "overall", "leak", "speed", "size", "legal", "everyday")]]}
 NUM = ("overall", *DIMS, "leak", "photo", "forms")
 LOWER = ("leak", "photo")   # lower is better
 EXTRA = ("photo", "forms")  # separate synthetic tracks: read from results/photo and results/forms, never in Overall
@@ -361,14 +365,14 @@ def build():
                             sizes = gr.CheckboxGroup(SIZES, value=SIZES, label="Size")
                             browser = gr.CheckboxGroup(["Tested in browser", "Commercial use OK"], value=[], label="Must be")
                     with gr.Accordion("Columns", open=False):
-                        cols = gr.CheckboxGroup([(COLUMNS[k][0].rstrip(" ⬆⬇*"), k) for k in optional],
+                        cols = gr.CheckboxGroup([(re.sub(r"<br>.*", "", COLUMNS[k][0]).rstrip(" ⬆⬇*"), k) for k in optional],
                                                 value=[k for k in default if k in optional], show_label=False)
                 out = gr.HTML(table(rows, default))
                 live = [k for k in DIMS if k not in empty]
                 now = sum(DIMS[k][3] for k in live if DIMS[k][4])
                 gr.Markdown(
                     "**Overall** = weighted average of the masking columns, each scored as F2 (a miss counts 4× more than an extra mask): " +
-                    " · ".join(f"{DIMS[k][0]} {round(100 * DIMS[k][3] / now)}%" for k in live if DIMS[k][4]) +
+                    " · ".join(f"{DIMS[k][0]} {round(100 * DIMS[k][3] / now)}%" for k in live if DIMS[k][4] and DIMS[k][3]) +
                     ". ID, contact, address and health columns are hidden until we have real labelled documents for them (our generated ones would favour Katip); open **Columns** to see the ◇ previews.",
                     elem_classes="guide")
                 def show(qv, tv, sv, bv, cv, dv, ov="Overall"):
