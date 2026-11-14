@@ -30,7 +30,7 @@ def _onnx_params(f):
 
 def _katip(model_dir, trust):
     tg = K.Tagger(model_dir)
-    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=tg(text), trust=trust)]
+    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=tg(text), trust=trust, address_detail="full")]
     return det, {"size_mb": round(tg.size_mb + 0.3, 1), "params": _onnx_params(tg.onnx_file), "runs_locally": True, "runs_in_browser": True,
                  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules"}
 
