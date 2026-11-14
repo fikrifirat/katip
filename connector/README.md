@@ -31,6 +31,14 @@ Katip reads only the files Claude passes to it, inside its folder. That is `Docu
 default, created on first use, or the folder you pick in the settings. Ask Claude to "open my Katip folder"
 (the `open_folder` tool) to see it.
 
+**Don't attach client files to the chat.** A file you attach (paperclip or drag into the message box) is
+uploaded to Anthropic with your message, before any tool runs, so Katip can't mask it. Instead drop the file
+into your Katip folder and ask, for example: "Katip klasörüne az önce eklediğim dilekçeyi özetle." Katip
+opens the newest file (`file_id: "latest"`), masks it on your computer and gives Claude only the masked text.
+
+**Language.** Tool names, the permission-prompt line and errors are in Turkish by default. Set
+*Language / Dil* to `en` (Claude Desktop) or `KATIP_LANG=en` for English. Claude itself answers in your language.
+
 **File names are personal data too.** "Ayşe Kaya - epikriz.pdf" tells the AI who the client is. Katip's
 `list_files` only shows words from a small legal vocabulary ("… - Vatandaşlık Dava Dilekçesi.udf"), and
 Claude then opens files by id, so the name doesn't appear in the chat or in the permission prompt. Claude

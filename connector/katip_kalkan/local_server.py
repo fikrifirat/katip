@@ -14,6 +14,7 @@ import os
 import sys
 
 from . import __version__, core
+from .i18n import text, tool
 from .mcp_proto import Server, Tool
 
 PROFILE = {"type": "string", "enum": ["ai", "court", "anon"], "default": "ai",
@@ -35,7 +36,11 @@ user to paste or upload the original. Keep placeholders such as [AD SOYAD-1] exa
 When the user wants a final document with the real names, call restore_to_file with your text: Katip
 writes it on their computer and you will only get the file path back, never the real values.
 If the user asks where their files go or wants to see the folder, call open_folder. When a file is not
-in list_files, ask the user to put it in their Katip folder (open_folder shows it)."""
+in list_files, ask the user to put it in their Katip folder (open_folder shows it).
+If the user says "the file I just added" or similar, call mask_file with file_id "latest".
+If the user attaches a client document to the chat instead, it has already been uploaded with the message:
+say so plainly, don't analyse it further unless they confirm, and suggest dropping it into the Katip folder
+and asking again, so the next document stays on their computer."""
 
 def _privacy(text: str) -> dict:
     """A fixed argument whose only job is to show up in Claude Desktop's permission prompt, which shows
@@ -44,25 +49,18 @@ def _privacy(text: str) -> dict:
             "description": "Always send exactly this text; it tells the user what Katip does."}
 
 
-MASK_NOTE = _privacy("Dosya bu bilgisayarda maskelenir; Claude yalnızca [AD SOYAD-1] gibi yer tutucuları görür (KVKK).")
-LIST_NOTE = _privacy("Dosya adlarındaki kişi adları gizlenir; Claude yalnızca kısaltılmış adları görür (KVKK).")
-RESTORE_NOTE = _privacy("Gerçek adlar yalnızca bu bilgisayardaki dosyaya yazılır; Claude onları görmez (KVKK).")
-WHY = "Katip removes KVKK personal data on this computer, so Claude only sees placeholders. "
+MASK_NOTE = _privacy(text("privacy_mask"))
+LIST_NOTE = _privacy(text("privacy_list"))
+RESTORE_NOTE = _privacy(text("privacy_restore"))
 FILE_ID = {"type": "string", "description": "Id from list_files (preferred: keeps the file name private)"}
 
 TOOLS = [
-    Tool("list_files", "Dosyaları listele (adlar gizli) · List files, names hidden",
-         WHY + "List the documents in the user's Katip folder with ids, dates and shortened names: any word that "
-         "could be a person's name shows as …. Use this instead of any other file listing.",
+    Tool("list_files", *tool("list_files"),
          {"type": "object", "properties": {"privacy": LIST_NOTE}, "required": ["privacy"],
           "additionalProperties": False},
          lambda: core.list_files(),
          {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
-    Tool("mask_file", "Kişisel verileri bu bilgisayarda maskele · Mask before Claude reads",
-         WHY + "Open a .docx, .udf (UYAP), .txt, .pdf (also scanned) or photo (.jpg/.png) by its path on the "
-         "user's computer, read scans with local OCR, remove personal data (names, T.C. kimlik / YKN / "
-         "passport numbers, addresses, phones, IBAN, health and other KVKK Article 6 data) locally, and "
-         "return only the masked text. Long documents come in pages.",
+    Tool("mask_file", *tool("mask_file"),
          {"type": "object", "properties": {"privacy": MASK_NOTE, "file_id": FILE_ID,
                                            "path": {"type": "string", "description": "Absolute path, if no file_id"},
                                            "matter": MATTER, "profile": PROFILE,
@@ -72,40 +70,29 @@ TOOLS = [
              path, matter, page, profile, file_id),
          # reads the user's file; writes only the local encrypted vault; never reaches the internet
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
-    Tool("write_masked_copy", "Maskeli kopya kaydet · Save masked copy",
-         WHY + "Write a masked copy of a .docx, .udf or .txt file in the same format next to the original "
-         "(name.maskeli.ext) so the user can share it. Never overwrites a file. Returns the new path.",
+    Tool("write_masked_copy", *tool("write_masked_copy"),
          {"type": "object", "properties": {"privacy": MASK_NOTE, "file_id": FILE_ID, "path": {"type": "string"},
                                            "matter": MATTER, "profile": PROFILE, "output_path": {"type": "string"}},
           "required": ["privacy"], "additionalProperties": False},
          lambda path=None, matter="default", output_path=None, profile=None, file_id=None: core.write_redacted(
              path, matter, output_path, profile, file_id),
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
-    Tool("restore_to_file", "Gerçek adları bu bilgisayarda geri koy · Restore locally",
-         "Replace placeholders like [AD SOYAD-1] in the given text with the real values kept on the user's "
-         "computer, and save the result as a new local file. Returns only the file path and a count, never "
-         "the real values. Never overwrites a file.",
+    Tool("restore_to_file", *tool("restore_to_file"),
          {"type": "object", "properties": {"privacy": RESTORE_NOTE, "text": {"type": "string"},
                                            "output_path": {"type": "string", "description": "e.g. ~/Desktop/dilekce.txt"},
                                            "matter": MATTER},
           "required": ["privacy", "text", "output_path"], "additionalProperties": False},
          lambda text, output_path, matter="default": core.restore_to_file(text, output_path, matter),
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
-    Tool("forget_matter", "Delete the name map of a matter",
-         "Permanently delete the local placeholder map of a matter. After this, its placeholders can no "
-         "longer be restored.",
+    Tool("forget_matter", *tool("forget_matter"),
          {"type": "object", "properties": {"matter": MATTER}, "required": ["matter"], "additionalProperties": False},
          lambda matter: core.forget_matter(matter),
          {"readOnlyHint": False, "destructiveHint": True, "idempotentHint": True, "openWorldHint": False}),
-    Tool("open_folder", "Open my Katip folder",
-         "Open the user's Katip folder (where client files go) in Finder or Explorer on their computer, "
-         "creating it if needed. Returns the folder path and a file:// link.",
+    Tool("open_folder", *tool("open_folder"),
          {"type": "object", "properties": {}, "additionalProperties": False},
          lambda: core.open_folder(),
          {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
-    Tool("katip_status", "Katip status",
-         "Show the local engine, OCR, threshold, the user's Katip folder (with a link) and where the "
-         "placeholder map is kept.",
+    Tool("katip_status", *tool("katip_status"),
          {"type": "object", "properties": {}, "additionalProperties": False},
          lambda: core.status(),
          {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),

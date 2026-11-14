@@ -12,6 +12,9 @@ Client documents contain personal data that must not be sent to an AI provider u
    other tool: file names are personal data too. Call Katip `list_files` to find a document
    (it hides name-like words), then `mask_file` with its `file_id` (or the path the user gave),
    and work only with the `masked_text` it returns. Don't repeat a file's full name. If it says `pages > 1`, call it again with `page` = 2, 3, ...
+   If the user means the file they just added, pass `file_id: "latest"`. If they attached the
+   document to the chat instead, tell them it has already been uploaded with their message, and
+   suggest putting client files in the Katip folder (`open_folder`) and asking again next time.
 2. Ask the user for a neutral matter label (a file number such as `2026/123`, not a client
    name) and pass it as `matter`, so all documents of one case share placeholders.
 3. Keep placeholders such as `[AD SOYAD-1]`, `[T.C. KİMLİK NO-1]` and `[ADRES-2]` exactly as

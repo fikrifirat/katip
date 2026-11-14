@@ -397,3 +397,35 @@ def test_file_names_stay_private(tmp_path, monkeypatch):
     w = core.write_redacted(file_id=f["file_id"], matter="names")
     assert "Karimi" not in str(w)
     assert names.safe_title("Ara Miras İsmail Veli kira") == "… kira"
+
+
+def test_repeated_values_of_any_type_are_masked_not_refused(tmp_path, monkeypatch):
+    from katip_kalkan import core, vault
+    monkeypatch.delenv("KATIP_ALLOWED_DIRS", raising=False)
+    t = ("DAVACI: Reza KARIMI, Pasaport No: U12345678, YKN: 99123456789\n"
+         "Müvekkil Şii Müslüman olup pasaportu U12345678 ile girmiştir. YKN 99123456789. Kendisi Müslüman.\n"
+         "T.C. Kimlik No: 12345678901 (sağlama hatalı)\n")
+    p = tmp_path / "x.txt"
+    p.write_text(t, encoding="utf-8")
+    r = core.mask_file(str(p), "rep", profile="anon")
+    for val in ("U12345678", "99123456789", "12345678901", "KARIMI"):
+        assert val not in r["masked_text"], val
+
+
+def test_leak_repair_covers_overlaps():
+    from katip_kalkan import core, vault
+    v = vault.open_vault("rep2")
+    t = "Ayşe Kaya geldi. AyşeKaya ve Ayşe, Kaya da."
+    spans = [{"id": "a", "entity_type": "PERSON", "start": 0, "end": 9, "text": "Ayşe Kaya", "score": 1.0}]
+    masked, out = core._mask_safely(t, v, spans)
+    assert "Kaya" not in masked and "Ayşe" not in masked
+
+
+def test_language_setting(monkeypatch):
+    import importlib
+    from katip_kalkan import i18n, local_server
+    monkeypatch.setenv("KATIP_LANG", "en")
+    assert importlib.reload(local_server).TOOLS[1].title.startswith("Mask")
+    monkeypatch.setenv("KATIP_LANG", "")
+    assert importlib.reload(local_server).TOOLS[1].title.startswith("Kişisel")
+    assert "Claude" in i18n.msg("leak", n=2, kinds="Pasaport No")
