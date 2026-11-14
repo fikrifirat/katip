@@ -172,10 +172,14 @@ def _leak_pat(value: str):
 def _leaks(masked: str, spans: list[dict]) -> list[str]:
     """Detected values still readable in the output, as whole words (a 6-digit registry number inside a
     16-digit Mersis number is not a leak; the browser's substring check would flag it)."""
+    import re
+    # look only at the document's own words: a value such as "genetik" or "sağlık" also appears inside its
+    # own placeholder ("[BİYOMETRİK/GENETİK-1]", "[SAĞLIK VERİSİ-1]"), which is not a leak (0.3.2 refused files)
+    bare = re.sub(r"\[[^\[\]\n]{1,60}-\d+\]", " ", masked)
     out = []
     for s in spans:
         pat = _leak_pat(s["text"])
-        if pat and pat.search(masked):
+        if pat and pat.search(bare):
             out.append(s["id"])
     return out
 
