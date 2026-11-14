@@ -228,7 +228,7 @@ A hidden test of 2025–26 court decisions is in preparation and will replace th
 
 CSS = """
 .gradio-container{max-width:1320px !important}
-.intro p{margin:2px 0} .links a{margin-right:14px}
+.intro p{margin:2px 0} .intro h1{margin-bottom:4px} .links{font-size:.85rem;opacity:.8}
 .wrap{overflow-x:auto}
 table.lb{width:100%;border-collapse:collapse;border:none !important;font-size:.85rem;font-variant-numeric:tabular-nums}
 table.lb th,table.lb td{padding:7px 6px;border:none !important;border-bottom:1px solid var(--border-color-primary) !important;text-align:right;background:none !important;white-space:nowrap}
@@ -294,27 +294,28 @@ def build():
     optional = [k for k in COLUMNS if k not in ("rank", "type", "model") and k not in empty]
     with gr.Blocks(title="KVKK-Bench", css=CSS, theme=gr.themes.Soft()) as demo:
         gr.Markdown(f"# 🛡️ KVKK-Bench\n"
-                    "Lawyers, doctors and HR teams want to use AI on their documents, but under **KVKK** sending a client's name, "
-                    "T.C. kimlik number or health record to a cloud service can be a violation. The safe way is to **mask personal data "
-                    "on your own computer first**. This leaderboard tests which tools do that best on real Turkish text: same documents, same scorer for everyone.\n\n"
-                    f"<span class='links'>[📄 Dataset card](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/README.md)"
-                    "[⚖️ Scorer](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench_score.py)"
-                    f"[📊 Raw results](https://github.com/fikrifirat/katip/tree/legal-study/lab/legal/bench/results)</span> "
-                    f"· {len(rows)} models · *{VERSION}*", elem_classes="intro")
+                    "Which tool best **masks personal data in Turkish documents on your own computer**, before they go to an AI service? "
+                    "Same real texts, same scorer for every model.\n\n"
+                    "<span class='links'>[Dataset card](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/README.md) · "
+                    "[Scorer](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench_score.py) · "
+                    "[Raw results](https://github.com/fikrifirat/katip/tree/legal-study/lab/legal/bench/results) · "
+                    f"{len(rows)} models · {VERSION}</span>", elem_classes="intro")
         with gr.Tabs():
             with gr.Tab("🏅 Leaderboard"):
+                with gr.Row(equal_height=True):
+                    q = gr.Textbox(placeholder="🔍 Search models", show_label=False, scale=3, container=False)
+                    order = gr.Dropdown([(f"Sort: {o}", o) for o in ("Overall", "Least leaked", "Fastest", "Smallest")], value="Overall", show_label=False,
+                                        scale=1, min_width=160, container=False)
                 with gr.Row():
-                    q = gr.Textbox(placeholder="🔍 Search models", show_label=False, scale=3)
-                    browser = gr.CheckboxGroup(["Tested in browser", "Commercial use OK"], value=[], show_label=False, scale=1)
-                order = gr.Radio(["Overall", "Least leaked", "Fastest", "Smallest"], value="Overall", label="Sort by",
-                                 info="Pick what matters for your setup: masking quality, privacy, speed on a laptop, or download size.")
-                docs = gr.CheckboxGroup(list(DOC_TYPES), value=list(DOC_TYPES), label="Documents", info=DOC_HELP)
-                with gr.Row():
-                    types = gr.CheckboxGroup(list(TYPES.values()), value=list(TYPES.values()), label="Model type")
-                    sizes = gr.CheckboxGroup(SIZES, value=SIZES, label="Size")
-                with gr.Accordion("Columns", open=False):
-                    cols = gr.CheckboxGroup([(COLUMNS[k][0].rstrip(" ⬆⬇*"), k) for k in optional],
-                                            value=[k for k in default if k in optional], show_label=False)
+                    with gr.Accordion("Filters", open=False):
+                        docs = gr.CheckboxGroup(list(DOC_TYPES), value=list(DOC_TYPES), label="Documents", info=DOC_HELP)
+                        with gr.Row():
+                            types = gr.CheckboxGroup(list(TYPES.values()), value=list(TYPES.values()), label="Model type")
+                            sizes = gr.CheckboxGroup(SIZES, value=SIZES, label="Size")
+                            browser = gr.CheckboxGroup(["Tested in browser", "Commercial use OK"], value=[], label="Must be")
+                    with gr.Accordion("Columns", open=False):
+                        cols = gr.CheckboxGroup([(COLUMNS[k][0].rstrip(" ⬆⬇*"), k) for k in optional],
+                                                value=[k for k in default if k in optional], show_label=False)
                 out = gr.HTML(table(rows, default))
                 live = [k for k in DIMS if k not in empty]
                 now = sum(DIMS[k][3] for k in live if DIMS[k][4])
