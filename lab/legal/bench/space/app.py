@@ -20,7 +20,7 @@ VERSION = "v0.1.2 preview"
 
 # key: (name, link). Only these rows are shown; every other scored system stays in results/.
 SYSTEMS = {   # key: (model name, credit line, model link, developer link)
-    "berturk-v2": ("Katip Mask Base · tr v2", "by f1k · 110M, fine-tuned from BERTurk (dbmdz)", "https://huggingface.co/f1k/katip-mask-base", "https://huggingface.co/f1k"),
+    "berturk-v2": ("Katip Mask Base · tr v2", "by f1k · 110M, fine-tuned from BERTurk (dbmdz, MIT)", "https://huggingface.co/f1k/katip-mask-base", "https://huggingface.co/f1k"),
     "tiny-f":     ("Katip Mask Nano · tr v1.1", "by f1k · 2.5M, runs in the browser", "https://huggingface.co/f1k/katip-mask-nano", "https://huggingface.co/f1k"),
     "akdeniz":    ("XLM-RoBERTa Base Turkish NER", "by akdeniz27 · fine-tuned from XLM-R (Meta AI)", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27"),
     "gliner":     ("GLiNER Multi PII v1", "by urchade · GLiNER, NAACL 2024", "https://huggingface.co/urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade"),
