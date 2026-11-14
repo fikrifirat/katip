@@ -39,7 +39,7 @@ IDS = {"TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE
 KIND = {"qwen-1.5b": "llm", "presidio": "rules"}   # everything else: fine-tuned model
 TYPES = {"model": "🔶 Fine-tuned model", "llm": "💬 Prompted LLM", "rules": "⚙️ Rule-based toolkit"}
 BASELINES = {"presidio", "savasy"}   # reference points, marked with a tag
-LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-NC 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
+LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-SA 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
            "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT", "xlmr-conll": "MIT", "gliner2-pii": "Apache-2.0",
            "openai-pf": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
