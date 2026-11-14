@@ -45,6 +45,7 @@ LICENCE = {"berturk-v2": "CC BY-SA 4.0", "mini-v2": "CC BY-SA 4.0", "tiny": "CC 
            "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT", "xlmr-conll": "MIT", "gliner2-pii": "Apache-2.0",
            "openai-pf": "Apache-2.0", "openmed-pf-v2": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
+FORMATS = {"udf": "UDF", "docx": "Word", "pdf": "PDF", "scan": "Scanned PDF"}
 
 # Masking dimensions: what a masking tool has to catch. Each is scored as F2 (missing counts 4x more than over-masking).
 # (header, tracks, types, weight in Overall, measured on real text?)
@@ -85,6 +86,7 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
        for k, v in DIMS.items()},
     "photo":   ("📱 Form photos ◇<br><small>leaked % / over-masked %</small>", "60 phone photos of hand-filled paper forms (made by us, ◇), read with OCR. First number: % of personal details still readable. Second: % of ordinary street names hidden for no reason. Lower is better for both. ⚠ = hides most street names. Not in Overall.", True),
     "forms":   ("🗂️ Forms ◇", "306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. Blank = not run on the forms yet.", False),
+    **{f"fmt_{f}": (f"📄 {lab} %", f"Share of personal data still readable when the 306 forms are given as {lab} files (lower is better). ✗ = the tool can't open this file type on its own. Synthetic data ◇, not in Overall.", False) for f, lab in FORMATS.items()},
     "params":  ("Params", "How many learned weights the model has.", False),
     "offline": ("Offline", "Runs on your own machine with no internet connection, so documents never leave the firm.", True),
     "browser": ("In browser", "✓ = we have run it inside a web page (Katip Mask demo: rules in Python via Pyodide/WebAssembly, model via transformers.js + ONNX Runtime Web). Nothing to install and the document never leaves the computer. Blank = not tested in a browser yet, not impossible. Pages/s is not an in-browser speed.", True),
@@ -92,9 +94,9 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
 }
 for _k in ("tr_names", "foreign"): COLUMNS[_k] = (COLUMNS[_k][0], COLUMNS[_k][1], False)
 COLUMNS = {k: COLUMNS[k] for k in ["rank", "type", "model", "overall", "leak", "speed", "size", "legal", "everyday", *[k for k in COLUMNS if k not in ("rank", "type", "model", "overall", "leak", "speed", "size", "legal", "everyday")]]}
-NUM = ("overall", *DIMS, "leak", "photo", "forms")
-LOWER = ("leak", "photo")   # lower is better
-EXTRA = ("photo", "forms")  # separate synthetic tracks: read from results/photo and results/forms, never in Overall
+NUM = ("overall", *DIMS, "leak", "photo", "forms", *[f"fmt_{f}" for f in FORMATS])
+LOWER = ("leak", "photo", *[f"fmt_{f}" for f in FORMATS])   # lower is better
+EXTRA = ("photo", "forms", *[f"fmt_{f}" for f in FORMATS])  # separate synthetic tracks: read from results/photo and results/forms, never in Overall
 SECONDARY = ("params", "offline", "browser", "licence")
 
 # Document types a firm feeds in (the dataset taxonomy). Pick some and every score is recomputed on just those documents.
@@ -121,6 +123,11 @@ def load_rows():
         r["photo"] = pj.get("leak_rate", float("nan"))
         r["photo_over"] = pj["streets_over_masked"] / pj["streets"] if pj.get("streets") else float("nan")
         r["forms"] = json.loads(fo.read_text(), parse_constant=lambda c: float("nan"))["tracks"]["forms-id"]["f2"] if fo.exists() else float("nan")
+        fm = RESULTS / "format" / f"{r['system']}.json"
+        fmj = json.loads(fm.read_text(), parse_constant=lambda c: float("nan")).get("formats", {}) if fm.exists() else {}
+        for f in FORMATS:
+            x = fmj.get(f)
+            r[f"fmt_{f}"] = float("nan") if not x else -1.0 if not x.get("supported") else x.get("leak_rate", float("nan"))
         rows.append(r)
     return score(rows, list(DOC_TYPES))
 
@@ -170,6 +177,7 @@ def size_bucket(mb):
 
 def cell(r, k, best):
     if k in EXTRA and r[k] != r[k]: return ""
+    if k.startswith("fmt_") and r[k] < 0: return "<span title=\"can't open this file type\">✗</span>"
     if k == "photo":  # leaked / over-masked; best = least leaked; warn when over-masked >= 50%
         lk = f"<b>{pct(r[k])}</b>" if r[k] == best[k] else pct(r[k])
         ov = r["photo_over"]
@@ -186,7 +194,7 @@ def cell(r, k, best):
 
 def table(rows, cols):
     if not rows: return "<p class='empty'>No model matches the filters.</p>"
-    best = {k: (min if k in LOWER else max)((r[k] for r in rows if r[k] == r[k]), default=None) for k in NUM}
+    best = {k: (min if k in LOWER else max)((r[k] for r in rows if r[k] == r[k] and r[k] >= 0), default=None) for k in NUM}
     best["speed_ms"] = min((r["ms_per_page"] for r in rows if r.get("ms_per_page")), default=None)
     best["size_mb"] = min((r["size_mb"] for r in rows if r.get("size_mb")), default=None)
     cls = lambda k: " class='l'" if k in ("model",) else " class='l sec'" if k == "licence" else " class='sec'" if k in SECONDARY else " class='ov'" if k == "overall" else " class='ph'" if k == "photo" else " class='gen'" if (k in DIMS and not DIMS[k][4]) or k in EXTRA else ""
@@ -355,7 +363,7 @@ def build():
             with gr.Tab("🏅 Leaderboard"):
                 with gr.Row(equal_height=True):
                     q = gr.Textbox(placeholder="🔍 Search models", show_label=False, scale=3, container=False)
-                    order = gr.Dropdown([(f"Sort: {o}", o) for o in ("Overall", "Least leaked", "Phone scans", "Fastest", "Smallest")], value="Overall", show_label=False,
+                    order = gr.Dropdown([(f"Sort: {o}", o) for o in ("Overall", "Least leaked", "Phone scans", *[f"{lab} files" for lab in FORMATS.values()], "Fastest", "Smallest")], value="Overall", show_label=False,
                                         scale=1, min_width=160, container=False)
                 with gr.Row():
                     with gr.Accordion("Filters", open=False):
@@ -380,6 +388,7 @@ def build():
                     big = float("inf"); nan = lambda x: x if x == x else None
                     key = {"Least leaked": lambda r: nan(r["leak"]) if nan(r["leak"]) is not None else big,
                            "Phone scans": lambda r: nan(r["photo"]) if nan(r["photo"]) is not None else big,
+                           **{f"{lab} files": (lambda f: lambda r: r[f"fmt_{f}"] if r[f"fmt_{f}"] == r[f"fmt_{f}"] and r[f"fmt_{f}"] >= 0 else big)(f) for f, lab in FORMATS.items()},
                            "Fastest": lambda r: r.get("ms_per_page") or big,
                            "Smallest": lambda r: r.get("size_mb") or big}.get(ov, lambda r: -(nan(r["overall"]) or -1))
                     rs = sorted(rs, key=key)
