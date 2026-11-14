@@ -21,7 +21,8 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import suffix as S  # noqa: E402
 
-_DATA = Path("/tmp/katiplab_bundle/katip_redact/data")
+import katiplab as K  # noqa: E402  (unpacks the Pyodide bundle into the temp folder on import)
+_DATA = K._bundle / "katip_redact" / "data"
 UP = "A-ZÇĞİÖŞÜ"
 LO = "a-zçğıöşü"
 
