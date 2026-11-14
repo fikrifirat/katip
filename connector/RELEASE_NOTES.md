@@ -7,6 +7,13 @@ client files. Ask Claude to "open my Katip folder" to see it in Finder or Explor
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.3.2:**
+- Fixed: some files were refused with "leak check failed". A passport number, YKN, religion or case number found once is now masked everywhere it appears. Anything still readable is covered automatically before the text goes to Claude.
+- An 11-digit number starting with 99, or one written after "T.C. kimlik", "YKN" or "yabancı kimlik", is masked even if its checksum is wrong.
+- One language: everything the user sees is in Turkish (or English with the *Language* setting).
+- "The file I just added": Claude opens the newest file in the Katip folder.
+- `/katip <request>` in Claude Code. In Claude Desktop, *Katip ile güvenli çalış* in the + menu.
+
 **New in 0.3.1:**
 - File names stay private: `list_files` hides name-like words, and Claude opens files by id.
 - Permission prompts say in Turkish what Katip does.

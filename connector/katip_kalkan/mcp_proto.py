@@ -36,9 +36,13 @@ class Tool:
 
 
 class Server:
-    def __init__(self, name: str, version: str, instructions: str, tools: list[Tool]):
+    def __init__(self, name: str, version: str, instructions: str, tools: list[Tool],
+                 prompts: list[dict] | None = None):
+        """prompts: [{"name", "title", "description", "arguments": [...], "render": fn(args) -> str}]
+        (shown by Claude Desktop as ready-made requests, like a slash command)."""
         self.name, self.version, self.instructions = name, version, instructions
         self.tools = {t.name: t for t in tools}
+        self.prompts = {p["name"]: p for p in prompts or []}
 
     def handle(self, msg: dict) -> dict | None:
         """One JSON-RPC message in, one response out (None for notifications)."""
@@ -58,13 +62,23 @@ class Server:
         if method == "initialize":
             want = params.get("protocolVersion")
             return {"protocolVersion": want if want in SUPPORTED else SUPPORTED[0],
-                    "capabilities": {"tools": {"listChanged": False}},
+                    "capabilities": {"tools": {"listChanged": False},
+                                     **({"prompts": {"listChanged": False}} if self.prompts else {})},
                     "serverInfo": {"name": self.name, "version": self.version},
                     "instructions": self.instructions}
         if method == "ping":
             return {}
         if method == "tools/list":
             return {"tools": [t.describe() for t in self.tools.values()]}
+        if method == "prompts/list":
+            return {"prompts": [{k: v for k, v in p.items() if k != "render"} for p in self.prompts.values()]}
+        if method == "prompts/get":
+            p = self.prompts.get(params.get("name"))
+            if not p:
+                raise _RpcError(-32602, f"unknown prompt {params.get('name')!r}")
+            text = p["render"](params.get("arguments") or {})
+            return {"description": p["description"],
+                    "messages": [{"role": "user", "content": {"type": "text", "text": text}}]}
         if method == "tools/call":
             tool = self.tools.get(params.get("name"))
             if not tool:
