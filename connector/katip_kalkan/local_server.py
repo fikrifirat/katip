@@ -34,7 +34,8 @@ with any other tool (no file listing, Read, Bash or computer use), and do not re
 When the user gives a path, mask_file also accepts it. Work only with the masked text that mask_file returns. Use the default profile "ai" unless the user asks for a court copy
 ("court") or full anonymisation ("anon"). Do not open the original file with any other tool, and do not ask the
 user to paste or upload the original. Keep placeholders such as [AD SOYAD-1] exactly as written.
-When the user wants a final document with the real names, call restore_to_file with your text: Katip
+When the user wants a final document with the real names, call restore_to_file with your text and a file
+name such as cevap-dilekcesi.docx (.docx, .txt or .md; it is saved in the Katip folder). Never open that file. Katip
 writes it on their computer and you will only get the file path back, never the real values.
 If the user asks where their files go or wants to see the folder, call open_folder. When a file is not
 in list_files, ask the user to put it in their Katip folder (open_folder shows it).
@@ -86,7 +87,7 @@ TOOLS = [
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
     Tool("restore_to_file", *tool("restore_to_file"),
          {"type": "object", "properties": {INFO: RESTORE_NOTE, "text": {"type": "string"},
-                                           "output_path": {"type": "string", "description": "e.g. ~/Desktop/dilekce.txt"},
+                                           "output_path": {"type": "string", "description": "File name, saved in the Katip folder: .docx, .txt or .md (e.g. cevap-dilekcesi.docx)"},
                                            "matter": MATTER},
           "required": [INFO, "text", "output_path"], "additionalProperties": False},
          lambda text, output_path, matter="default": core.restore_to_file(text, output_path, matter),

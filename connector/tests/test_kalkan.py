@@ -37,6 +37,7 @@ MODEL = _model_available()
 def home(tmp_path, monkeypatch):
     monkeypatch.setenv("KATIP_HOME", str(tmp_path / "katip"))
     monkeypatch.setenv("KATIP_NO_KEYCHAIN", "1")
+    monkeypatch.setenv("KATIP_FOLDER", str(tmp_path))  # outputs may only go into the Katip folder
     monkeypatch.delenv("KATIP_VAULT_MEMORY_ONLY", raising=False)
     from katip_kalkan import vault
     vault._memory.clear()
@@ -76,7 +77,7 @@ def test_restore_roundtrip(home):
     answer = "Müvekkilimiz [AD SOYAD-1] adına, [T.C. KİMLİK NO-1] numaralı kimlikle başvurulmuştur."
     out = home / "out" / "cevap.txt"
     res = core.restore_to_file(answer, str(out), "m1")
-    assert res == {"output_path": str(out), "placeholders_restored": 2}
+    assert res["output_path"].endswith("cevap.txt") and res["placeholders_restored"] == 2
     restored = out.read_text(encoding="utf-8")
     assert ("Müvekkilimiz Emal YILDIRIM adına" if MODEL else "Müvekkilimiz Emal") in restored
     assert "75428707268" in restored
@@ -463,3 +464,48 @@ def test_placeholder_lookalike_in_document_is_still_checked():
     assert core._leaks(t, spans) == ["a"]  # the bracketed copy is document text, so it counts
     masked, _ = core._mask_safely(t, v, spans)
     assert "Karimi" not in masked
+
+
+def test_outputs_stay_in_the_katip_folder(home, tmp_path):
+    """A document can't talk the model into writing real names somewhere synced or shared."""
+    import zipfile
+    from katip_kalkan import core
+    core.mask_file(str(FIX / "dilekce_01.txt"), "m9")
+    with pytest.raises(PermissionError):
+        core.restore_to_file("[AD SOYAD-1]", str(tmp_path.parent / "elsewhere.txt"), "m9")
+    with pytest.raises(PermissionError):
+        core.restore_to_file("[AD SOYAD-1]", "../escape.txt", "m9")
+    with pytest.raises(ValueError):
+        core.restore_to_file("[AD SOYAD-1]", "cevap.pdf", "m9")
+    res = core.restore_to_file("Davacı [AD SOYAD-1]\nİkinci satır & <son>", "cevap.docx", "m9")
+    assert res["output_path"] == str(tmp_path / "cevap.docx")
+    with zipfile.ZipFile(tmp_path / "cevap.docx") as z:
+        xml = z.read("word/document.xml").decode()
+    assert "Davacı Emal" in xml and "&amp; &lt;son&gt;" in xml and xml.count("<w:p>") == 2
+
+
+CITATION_DOC = (
+    "İSTANBUL 5. SULH CEZA HAKİMLİĞİ'NE\n\n"
+    "Soruşturma No : 2024/48213\n"
+    "ŞÜPHELİ : Deniz Arslantaş (T.C. Kimlik No: 10000000146)\n\n"
+    "Tutuklama kararına itiraz ediyoruz. Yargıtay 1. Ceza Dairesi'nin 12.03.2019 tarih ve 2018/3121 E., "
+    "2019/1450 K. sayılı kararında da belirtildiği gibi, kuvvetli suç şüphesi somut delile dayanmalıdır.\n"
+    "Nitekim 2020/77 E., 2021/9 K. sayılı Yargıtay CGK kararı da aynı yöndedir.\n"
+    "Anayasa Mahkemesi'nin 2016/12345 başvuru numaralı kararı da bu ilkeyi tekrarlar.\n")
+
+
+@pytest.mark.parametrize("profile", ["court", "ai", "anon"])
+def test_precedent_citations_stay_readable(home, tmp_path, profile):
+    """A lawyer's precedent citations are public law: no profile masks them (Ozan, 14 Nov 2026)."""
+    from katip_kalkan import core
+    f = tmp_path / f"itiraz_{profile}.txt"
+    f.write_text(CITATION_DOC, encoding="utf-8")
+    out = core.mask_file(str(f), "cite-" + profile, profile=profile)["masked_text"]
+    for public in ("2018/3121 E.", "2019/1450 K.", "12.03.2019", "2020/77 E.", "2021/9 K.", "Yargıtay 1. Ceza Dairesi",
+                   "Anayasa Mahkemesi", "2016/12345"):
+        assert public in out, (profile, public)
+    assert "Deniz" not in out and "Arslantaş" not in out and "10000000146" not in out
+    own_case_visible = "2024/48213" in out
+    court_visible = "İSTANBUL 5. SULH CEZA" in out
+    assert own_case_visible == (profile == "court")  # the client's own file number: hidden for AI and anon
+    assert court_visible == (profile != "anon")  # the client's court: hidden only when fully anonymised

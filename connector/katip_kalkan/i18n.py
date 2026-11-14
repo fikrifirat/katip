@@ -18,6 +18,8 @@ T = {
         "too_big": "Dosya {mb} MB'tan büyük.",
         "outside": "Dosya Katip klasörünün dışında. Katip yalnızca ayarlarda seçilen klasördeki dosyaları açar.",
         "exists": "Bu adda bir dosya zaten var; başka bir output_path seçin.",
+        "outside_write": "Katip yalnızca Katip klasörüne yazar; output_path olarak yalnızca bir dosya adı verin (ör. cevap-dilekcesi.docx).",
+        "restore_ext": "Gerçek adlı metin .docx, .txt ya da .md olarak kaydedilebilir.",
         "no_burn": "PDF ve fotoğraflarda kalıcı karartma Katip uygulamasında yapılır; metin için mask_file kullanın.",
         "folder_note": "Müvekkil dosyalarını buraya koyun; Katip yalnızca bu klasördeki dosyaları açar.",
         "list_note": "Adlar bilerek kısaltıldı: kişi adı olabilecek sözcükler … olarak görünür. mask_file'a "
@@ -38,6 +40,8 @@ T = {
         "too_big": "The file is larger than {mb} MB.",
         "outside": "The file is outside the Katip folder. Katip only opens files in the folder picked in its settings.",
         "exists": "A file with this name already exists; pick another output_path.",
+        "outside_write": "Katip only writes into the Katip folder; give output_path as a file name only (e.g. cevap-dilekcesi.docx).",
+        "restore_ext": "The text with real names can be saved as .docx, .txt or .md.",
         "no_burn": "Burn-in redaction of PDFs and photos runs in the Katip app; use mask_file for the text.",
         "folder_note": "Put client files here; Katip only opens files in this folder.",
         "list_note": "Names are shortened on purpose: words that could be a person's name show as …. Pass "
@@ -52,7 +56,7 @@ T = {
 
 TOOLS = {
     "tr": {
-        "why": "Katip KVKK kapsamındaki kişisel verileri bu bilgisayarda çıkarır; Claude yalnızca yer tutucuları görür. ",
+        "why": "Katip KVKK kapsamındaki kişisel verileri bu bilgisayarda çıkarır; Claude, Katip'in bulduğu değerlerin yerine yer tutucuları görür. ",
         "list_files": ("Dosyaları listele (adlar gizli)",
                        "Katip klasöründeki belgeleri kimlik, tarih ve kısaltılmış adlarla listeler: kişi adı olabilecek "
                        "her sözcük … olarak görünür. En yeni dosya başta. Başka bir dosya listeleme aracı yerine bunu kullanın."),
@@ -85,12 +89,12 @@ TOOLS = {
         "info_key": "bilgi",
         "doc_key": "belge",
         "doc_desc": "list_files'taki kısaltılmış ad (ör. \"… - Vatandaşlık Dava Dilekçesi.udf\"); onay kutusunda kullanıcıya gösterilir",
-        "privacy_mask": "Dosya bu bilgisayarda maskelenir; Claude yalnızca [AD SOYAD-1] gibi yer tutucuları görür (KVKK).",
+        "privacy_mask": "Dosya bu bilgisayarda maskelenir; Claude bulunan değerlerin yerine [AD SOYAD-1] gibi yer tutucuları görür (KVKK).",
         "privacy_list": "Dosya adlarındaki kişi adları gizlenir; Claude yalnızca kısaltılmış adları görür (KVKK).",
         "privacy_restore": "Gerçek adlar yalnızca bu bilgisayardaki dosyaya yazılır; Claude onları görmez (KVKK).",
     },
     "en": {
-        "why": "Katip removes KVKK personal data on this computer, so Claude only sees placeholders. ",
+        "why": "Katip removes KVKK personal data on this computer, so Claude sees placeholders instead of the values it finds. ",
         "list_files": ("List files (names hidden)",
                        "List the documents in the user's Katip folder with ids, dates and shortened names: any word that "
                        "could be a person's name shows as …. Newest first. Use this instead of any other file listing."),
@@ -123,7 +127,7 @@ TOOLS = {
         "info_key": "privacy",
         "doc_key": "document",
         "doc_desc": "The shortened name from list_files; shown to the user in the permission prompt",
-        "privacy_mask": "The file is masked on this computer; Claude only sees placeholders like [AD SOYAD-1] (KVKK).",
+        "privacy_mask": "The file is masked on this computer; Claude sees placeholders like [AD SOYAD-1] instead of the values Katip finds (KVKK).",
         "privacy_list": "Names in file names are hidden; Claude only sees shortened names (KVKK).",
         "privacy_restore": "Real names are written only to a file on this computer; Claude never sees them (KVKK).",
     },

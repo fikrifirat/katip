@@ -67,6 +67,25 @@ def _nfc(p: Path) -> str:
     return unicodedata.normalize("NFC", str(p))  # macOS stores names decomposed (NFD); compare composed
 
 
+def _inside(p: Path, roots: list[Path]) -> bool:
+    """Is p inside one of the roots? Works with Windows separators and case-insensitive drives."""
+    norm = lambda x: os.path.normcase(_nfc(x))  # noqa: E731
+    return any(os.path.commonpath([norm(p), norm(r)]) == norm(r) for r in roots
+               if os.path.splitdrive(norm(p))[0] == os.path.splitdrive(norm(r))[0])
+
+
+def _out_path(output_path: str) -> Path:
+    """Where Katip may write: a bare name goes into the Katip folder; any path must stay in the allowed folders,
+    so a document can't talk the model into writing real names somewhere synced or shared."""
+    p = Path(os.path.expandvars(output_path)).expanduser()
+    if not p.is_absolute():
+        p = folder() / p
+    p = p.resolve()
+    if not _inside(p, _roots() or [folder()]):  # no folder setting (Claude Code): the Katip folder only
+        raise PermissionError(msg("outside_write"))
+    return p
+
+
 def _files(limit: int = 500) -> list[Path]:
     root = folder()
     out = []
@@ -125,7 +144,7 @@ def _resolve(path: str) -> Path:
     if p.stat().st_size > MAX_BYTES:
         raise ValueError(msg("too_big", mb=MAX_BYTES // 2**20))
     roots = _roots()
-    if roots and not any(_nfc(p).startswith(_nfc(r).rstrip("/") + "/") for r in roots):
+    if roots and not _inside(p, roots):
         raise PermissionError(msg("outside"))
     return p
 
@@ -322,7 +341,7 @@ def write_redacted(path: str | None = None, matter: str = "default", output_path
     for s in spans:  # register labels so restore works for this copy too
         v.label_for(s["entity_type"], s["text"])
     v.save()
-    out = Path(output_path).expanduser() if output_path else p.with_name(f"{p.stem}.maskeli{p.suffix}")
+    out = _out_path(output_path) if output_path else p.with_name(f"{p.stem}.maskeli{p.suffix}")
     if out.exists():
         raise FileExistsError(msg("exists"))
     out.write_bytes(engine.redact_bytes(kind, data, spans, "box"))
@@ -333,16 +352,46 @@ def write_redacted(path: str | None = None, matter: str = "default", output_path
 def restore_to_file(text: str, output_path: str, matter: str = "default") -> dict:
     """Swap placeholders back to real values and write the result to a local file.
     Returns only the path and a count: the real values never go back to the model."""
-    v = vault.open_vault(matter)
-    restored, n = v.unmask(text)
-    out = Path(output_path).expanduser()
+    out = _out_path(output_path)
+    if out.suffix.lower() not in (".docx", ".txt", ".md"):
+        raise ValueError(msg("restore_ext"))
     if out.exists():
         raise FileExistsError(msg("exists"))
+    v = vault.open_vault(matter)
+    restored, n = v.unmask(text)
     out.parent.mkdir(parents=True, exist_ok=True)
+    data = _docx(restored) if out.suffix.lower() == ".docx" else restored.encode("utf-8")
     fd = os.open(out, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
-    with os.fdopen(fd, "w", encoding="utf-8") as fh:
-        fh.write(restored)
-    return {"output_path": str(out), "placeholders_restored": n}
+    with os.fdopen(fd, "wb") as fh:
+        fh.write(data)
+    return {"output_path": str(out), "placeholders_restored": n, "saved": "in the Katip folder, on this computer"}
+
+
+def _docx(text: str) -> bytes:
+    """A plain Word document, one paragraph per line (standard library only)."""
+    import io
+    import zipfile
+    from xml.sax.saxutils import escape
+    paras = "".join(f'<w:p><w:r><w:t xml:space="preserve">{escape(line)}</w:t></w:r></w:p>'
+                    for line in text.replace("\r\n", "\n").split("\n"))
+    w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+    files = {
+        "[Content_Types].xml": '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.'
+        'openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.'
+        'openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/>'
+        '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.'
+        'wordprocessingml.document.main+xml"/></Types>',
+        "_rels/.rels": '<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.'
+        'openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.'
+        'org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>',
+        "word/document.xml": f'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="{w}">'
+                             f'<w:body>{paras}</w:body></w:document>',
+    }
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        for name, xml in files.items():
+            z.writestr(name, xml)
+    return buf.getvalue()
 
 
 def forget_matter(matter: str) -> dict:

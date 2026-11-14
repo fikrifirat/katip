@@ -1,10 +1,29 @@
 {
   "name": "katip-kalkan",
-  "version": "0.3.4",
-  "description": "KVKK-safe document work: Katip masks Turkish personal data on your computer, so Claude only ever sees placeholders such as [AD SOYAD-1]. Originals and the name map never leave the device.",
-  "author": {"name": "fikrifirat", "url": "https://github.com/fikrifirat"},
+  "version": "0.3.5",
+  "description": "Masks names, T.C. kimlik numbers, addresses and health data in Turkish legal documents on your computer, so Claude works with placeholders such as [AD SOYAD-1] instead of the values Katip finds. Avukatlar için yerel kişisel veri maskeleme (KVKK, GDPR, PII redaction).",
+  "author": {
+    "name": "fikrifirat",
+    "url": "https://github.com/fikrifirat"
+  },
   "homepage": "https://fikrifirat.github.io/katip",
   "repository": "https://github.com/fikrifirat/katip",
   "license": "AGPL-3.0-or-later",
-  "keywords": ["kvkk", "privacy", "pii", "legal", "turkish", "redaction"]
+  "keywords": [
+    "kvkk",
+    "gdpr",
+    "pii",
+    "pii-redaction",
+    "privacy",
+    "anonymization",
+    "pseudonymization",
+    "legal",
+    "lawyer",
+    "turkish",
+    "avukat",
+    "kisisel-veri",
+    "maskeleme",
+    "anonimlestirme",
+    "uyap"
+  ]
 }

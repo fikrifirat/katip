@@ -19,6 +19,18 @@ tags:
 - legal
 - privacy
 - webassembly
+- gdpr
+- anonymization
+- pseudonymization
+- de-identification
+- data-masking
+- personal-data
+- legal-nlp
+- lawyer
+- avukat
+- kisisel-veri
+- anonimlestirme
+- maskeleme
 ---
 
 # Katip Mask
