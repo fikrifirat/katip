@@ -17,7 +17,7 @@ What we measure, per answer (details in README.md):
 """
 from __future__ import annotations
 
-import argparse, json, math, os, platform, random, re, sys, time, urllib.request
+import argparse, json, math, os, platform, random, re, sys, time, urllib.error, urllib.request
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -51,10 +51,13 @@ def chat(base_url, api_key, model, system, user, temperature, max_tokens, timeou
     body = {"model": model, "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
             "temperature": temperature, "max_tokens": max_tokens, "seed": 7, "stream": False}
     req = urllib.request.Request(base_url.rstrip("/") + "/chat/completions", data=json.dumps(body).encode(),
-                                 headers={"Content-Type": "application/json", **({"Authorization": f"Bearer {api_key}"} if api_key else {})})
+                                 headers={"Content-Type": "application/json", "User-Agent": "katip-cite-bench/0.1", **({"Authorization": f"Bearer {api_key}"} if api_key else {})})
     t0 = time.time()
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        out = json.loads(r.read())
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            out = json.loads(r.read())
+    except urllib.error.HTTPError as e:   # show the server's reason (e.g. token lacks Inference Providers permission)
+        raise RuntimeError(f"HTTP {e.code}: {e.read()[:300].decode(errors='replace')}") from None
     msg = out["choices"][0]["message"]
     text = msg.get("content") or ""
     text = re.sub(r"<think>.*?</think>", "", text, flags=re.S).strip()     # reasoning models (qwen3 etc.)
@@ -77,6 +80,7 @@ def run(a):
     key = os.environ.get(a.api_key_env) if a.api_key_env else None
     todo = [(q, lang) for q in qs for lang in langs if (q["id"], lang) not in done]
     print(f"{a.model}: {len(todo)} to ask ({len(done)} cached) -> {path}")
+    ok = 0
     with open(path, "a") as f:
         for i, (q, lang) in enumerate(todo, 1):
             user = q["q_tr"] if lang == "tr" else q["q_en"]
@@ -95,6 +99,9 @@ def run(a):
                                 "temperature": a.temperature, "bench": VERSION}, ensure_ascii=False) + "\n")
             f.flush()
             print(f"  [{i}/{len(todo)}] {q['id']} {lang} {sec:5.1f}s {'ERR ' + err if err else ''}")
+            ok = ok + 1 if err is None else ok
+            if i == 3 and ok == 0 and err and err.startswith("RuntimeError: HTTP 4"):
+                sys.exit(f"stopping: the first 3 calls were refused ({err}). Fix the key or model id, then rerun.")
 
 
 # --------------------------------------------------------------------------------------------------------- score
