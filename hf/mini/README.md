@@ -51,6 +51,9 @@ Katip's rules plus the model, with the same detection code the browser runs. A v
 span of the same type covers it. Speed is measured in Python on an Apple M-series laptop CPU, one page being
 500 words.
 
+The leaderboard's *Overall* and *Leaked* columns cover only the three real-text name columns (court Turkish, foreign
+names, everyday prose): 92.8 and 11.9% for Mini. The KVKK-F2 and leak figures below cover all tracks, rules included.
+
 | | Nano v1.1 | **Mini v2** | Base v2 |
 | --- | --- | --- | --- |
 | Download (int8 ONNX) | 2.9 MB | **31 MB** | 111 MB |
