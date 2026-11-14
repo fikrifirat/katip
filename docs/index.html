@@ -72,23 +72,34 @@
       <h3 class="claude-h" id="cTitle"><span data-i18n="cTitle">Claude ile kullanın</span></h3>
       <p class="muted claude-sub" data-i18n="cSub">Claude belgeyi görmeden önce Katip kişisel verileri bilgisayarınızda maskeler</p>
       <div class="chat" aria-label="Örnek sohbet" data-i18n-aria="cChatAria">
-        <div class="msg me"><span data-i18n="cAsk">dilekce.docx dosyasını özetle, cevap dilekçesi taslağı yaz ve gerçek isimlerle Masaüstüne kaydet.</span></div>
+        <div class="msg me"><span data-i18n="cAsk">/katip son eklediğim dilekçeyi özetle ve cevap dilekçesi taslağı yaz</span></div>
+        <div class="perm" role="img" aria-label="Claude izin kutusu" data-i18n-aria="cPermAria">
+          <div class="perm-h"><span class="lock" aria-hidden="true">🔒</span> <b>Katip Kalkan (KVKK)</b> <span class="muted">· Mask file</span></div>
+          <dl><dt data-i18n="cDocKey">belge</dt><dd>… - Boşanma Dilekçesi.docx</dd>
+          <dt data-i18n="cInfoKey">bilgi</dt><dd data-i18n="cInfo">Dosya bu bilgisayarda maskelenir; Claude yalnızca [AD SOYAD-1] gibi yer tutucuları görür (KVKK).</dd></dl>
+          <div class="perm-b"><span data-i18n="cAllow">Bir kez izin ver</span><span class="on" data-i18n="cAlways">Her zaman izin ver</span></div>
+        </div>
         <div class="toolrow"><span class="lock" aria-hidden="true">🔒</span> <b>Katip</b> <code>mask_file</code> <span data-i18n="cTool1">16 kişisel veri maskelendi · belge bilgisayarınızda kaldı</span></div>
-        <div class="msg ai"><span class="who">Claude</span><span data-i18n="cAns1">Davacı</span> <span class="ph">[AD SOYAD-1]</span> <span data-i18n="cAns2">(T.C.</span> <span class="ph">[TCKN-1]</span><span data-i18n="cAns3">), davalı</span> <span class="ph">[AD SOYAD-2]</span> <span data-i18n="cAns4">aleyhine boşanma ve 542.391 TL maddi tazminat istiyor; vekili</span> <span class="ph">[AD SOYAD-3]</span><span data-i18n="cAns5">. Cevap dilekçesi taslağı hazır.</span></div>
-        <div class="toolrow"><span class="lock" aria-hidden="true">🔒</span> <b>Katip</b> <code>restore_to_file</code> <span data-i18n="cTool2">Gerçek isimler bilgisayarınızda geri kondu: Masaüstü/cevap.docx</span></div>
-        <p class="chat-cap" data-i18n="cCap">Claude yalnızca köşeli parantezli halini görür; gerçek değerler bilgisayarınızdan çıkmaz.</p>
+        <div class="msg ai"><span class="who">Claude</span><span data-i18n="cAns1">Davacı</span> <span class="ph">[AD SOYAD-1]</span> <span data-i18n="cAns2">(T.C.</span> <span class="ph">[TCKN-1]</span><span data-i18n="cAns3">), davalı</span> <span class="ph">[AD SOYAD-2]</span> <span data-i18n="cAns4">aleyhine boşanma ve 542.391 TL maddi tazminat istiyor; vekili</span> <span class="ph">[AD SOYAD-3]</span><span data-i18n="cAns5">. Cevap dilekçesi taslağı hazır. İsterseniz Katip gerçek isimleri yalnızca bilgisayarınızda geri koyar.</span></div>
+        <div class="msg me"><span data-i18n="cAsk2">Gerçek isimlerle Katip klasörüne kaydet</span></div>
+        <div class="toolrow"><span class="lock" aria-hidden="true">🔒</span> <b>Katip</b> <code>restore_to_file</code> <span data-i18n="cTool2">Gerçek isimler bilgisayarınızda geri kondu: katip-documents/cevap-dilekcesi.docx</span></div>
+        <p class="chat-cap" data-i18n="cCap">Claude yalnızca köşeli parantezli halini görür; gerçek değerler ve dosya adlarındaki isimler bilgisayarınızdan çıkmaz.</p>
       </div>
+      <p class="ctip"><b data-i18n="cTipH">Belgeyi sohbete eklemeyin.</b> <span data-i18n="cTip">Sohbete eklenen dosya Katip çalışmadan önce gönderilir. Belgeyi Katip klasörüne (Belgeler › katip-documents) koyun ve Claude'dan isteyin.</span></p>
       <details class="claude-setup" id="claudeSetup">
         <summary data-i18n="cSetup">Kurulum · 2 dakika</summary>
       <div class="claude-grid">
         <div><h3>Claude Desktop</h3>
-          <ol><li><a href="https://github.com/fikrifirat/katip/releases/download/kalkan-v0.3.1-beta.1/katip-kalkan.mcpb" data-i18n="cDl">katip-kalkan.mcpb dosyasını indirin</a></li>
-          <li data-i18n="cDbl">Dosyaya çift tıklayın, Claude kurulumu açar</li></ol></div>
+          <ol><li><a href="https://github.com/fikrifirat/katip/releases/download/kalkan-v0.3.4-beta.1/katip-kalkan.mcpb" data-i18n="cDl">katip-kalkan.mcpb dosyasını indirin</a></li>
+          <li data-i18n="cDbl">Dosyaya çift tıklayın ve Yükle'ye basın; ayar değiştirmeniz gerekmez</li>
+          <li data-i18n="cPut">Belgeyi Belgeler › katip-documents klasörüne koyun (Claude'a "Katip klasörümü aç" diyebilirsiniz)</li>
+          <li data-i18n="cUse">Sohbette + menüsünden "Katip ile güvenli çalış"ı seçin ya da isteğinizi yazın</li></ol></div>
         <div><h3>Claude Code</h3>
           <pre><code>claude plugin marketplace add fikrifirat/katip
-claude plugin install katip-kalkan@katip</code></pre></div>
+claude plugin install katip-kalkan@katip</code></pre>
+          <p class="hint" data-i18n="cCode">Sonra: /katip son eklediğim dilekçeyi özetle</p></div>
       </div>
-      <p class="hint"><span data-i18n="cReq">Python 3.10 veya üstü gerekir. uv kuruluysa isim modeli de otomatik gelir.</span> <a href="https://github.com/fikrifirat/katip/tree/main/connector#readme" target="_blank" rel="noopener" data-i18n="cMore">Ayrıntılar</a></p>
+      <p class="hint"><span data-i18n="cReq">Python 3.10 veya üstü gerekir. İlk açılışta yardımcı paketler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir zaman gönderilmez. Claude'un "doğrulanmamış geliştirici" uyarısı imzasız eklentilerin hepsinde çıkar; kaynak kodu açıktır.</span> <a href="https://github.com/fikrifirat/katip/tree/main/connector#readme" target="_blank" rel="noopener" data-i18n="cMore">Ayrıntılar</a></p>
       </details>
     </section>
     <p class="hint center" id="engineState"></p>

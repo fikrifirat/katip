@@ -168,6 +168,11 @@ section.claude{grid-column:1/-1;max-width:760px;margin:30px auto 0;width:100%;bo
 .chat .toolrow{align-self:flex-start;font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;padding:2px 4px}
 .chat .toolrow b{color:var(--ink)}.chat .toolrow code{font:12px var(--code);background:var(--off);padding:0 5px;border-radius:4px}
 .chat-cap{margin:4px 2px 0;font-size:12.5px;color:var(--muted)}
+.chat .perm{align-self:stretch;max-width:420px;margin:2px auto;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:10px 12px;font-size:13px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.perm-h{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-bottom:6px}.perm-h .muted{color:var(--muted)}
+.perm dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0 0 8px}.perm dt{font:600 12px var(--code);color:var(--muted)}.perm dd{margin:0;overflow-wrap:anywhere}
+.perm-b{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}.perm-b span{border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-size:12.5px}.perm-b .on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+section.claude .ctip{margin:10px 0 0;font-size:13px;padding:8px 12px;border-left:3px solid var(--accent);background:var(--bg);border-radius:6px}
 details.claude-setup{margin-top:12px}details.claude-setup summary{cursor:pointer;font-weight:600;font-size:14px}
 section.claude a{color:var(--accent)}
 .claude-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:12px 24px;margin-top:12px}@media(max-width:700px){.claude-grid{grid-template-columns:1fr}}
