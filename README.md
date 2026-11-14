@@ -211,6 +211,27 @@ and the sample documents from its `eval/blind` set.
 Training: `ml/gen_train.py` + `ml/train.py` (tiny tagger, about 6 minutes on CPU) and
 [`ml/berturk/`](ml/berturk/) (BERTurk fine-tune for a Mac or GPU).
 
+## Citation
+
+If Katip, its models or KVKK-Bench help your work, please cite them. GitHub's "Cite this repository" button
+uses [`CITATION.cff`](CITATION.cff).
+
+```bibtex
+@software{firat2026katip,
+  title  = {Katip: offline personal-data masking for Turkish legal documents},
+  author = {F{\i}rat, Fikri},
+  year   = {2026},
+  url    = {https://github.com/fikrifirat/katip}
+}
+
+@misc{firat2026kvkkbench,
+  title  = {KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
+  author = {F{\i}rat, Fikri},
+  year   = {2026},
+  url    = {https://huggingface.co/spaces/f1k/kvkk-bench}
+}
+```
+
 ## Licence
 
 Code and demo: **[AGPL-3.0](LICENSE)**, with a **commercial licence** for use in products, internal
