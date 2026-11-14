@@ -116,9 +116,7 @@ def load_rows():
         pj = json.loads(ph.read_text()) if ph.exists() else {}
         r["photo"] = pj.get("leak_rate", float("nan"))
         r["photo_over"] = pj["streets_over_masked"] / pj["streets"] if pj.get("streets") else float("nan")
-        fj = json.loads(fo.read_text(), parse_constant=lambda c: float("nan"))["tracks"]["forms-id"] if fo.exists() else {}
-        r["forms"] = fj.get("f2", float("nan"))
-        r["forms_leak"] = fj.get("leak_rate", float("nan"))
+        r["forms"] = json.loads(fo.read_text(), parse_constant=lambda c: float("nan"))["tracks"]["forms-id"]["f2"] if fo.exists() else float("nan")
         rows.append(r)
     return score(rows, list(DOC_TYPES))
 
@@ -191,75 +189,6 @@ def table(rows, cols):
     head = "".join(f'<th{cls(k)} title="{html.escape(COLUMNS[k][1])}">{COLUMNS[k][0]}</th>' for k in cols)
     body = "".join("<tr>" + "".join(f"<td{cls(k)}>{cell(r, k, best)}</td>" for k in cols) + "</tr>" for r in rows)
     return f"<div class='wrap'><table class='lb'><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>"
-
-# ---- Quick view: the questions a law firm or KVKK officer asks, in plain units ----
-QUICK_COLS = [  # key, header, tooltip
-    ("court",  "Court decisions", "Real Yargıtay sentences with Turkish and foreign client names. Out of every 100 personal details, how many were still readable after masking."),
-    ("prose",  "Everyday writing", "Real ordinary Turkish sentences (Wikipedia), closest to letters and e-mails. Out of every 100 personal details, how many were still readable after masking."),
-    ("forms",  "Petitions & forms ◇", "306 petitions and bar forms on real public layouts, filled with fake names, T.C. kimlik, tax numbers, IBANs and addresses (◇ = filled by us). Out of every 100 personal details, how many were still readable."),
-    ("photo",  "Phone photos of forms ◇", "60 phone photos of hand-filled paper forms, as a client would send them (◇ = made by us). Out of every 100 personal details, how many were still readable. A warning means it also hid most ordinary street names, which makes the document hard to use."),
-    ("fp",     "Hidden by mistake", "Ordinary words blacked out although they are not personal data, per page of 500 words, on the real texts. Lower keeps the document usable."),
-    ("where",  "Where it runs", "Every tool here runs on your own computer, so documents don't leave it. 'Browser tab' means nothing to install: open a web page and it works offline."),
-    ("time",   "10-page file", "Time to mask a 10-page file (500 words a page) on a laptop CPU, measured in Python. In a browser tab, larger models are slower."),
-    ("biz",    "Business use", "Whether the model's licence allows use in a law firm or company."),
-]
-
-def in100(x):
-    if x is None or x != x: return None
-    v = 100 * x
-    return "<1" if v < 0.5 else f"{v:.0f}"
-
-def badge(x, warn=""):
-    v = in100(x)
-    if v is None: return "<span class='na'>not tested</span>"
-    c = "good" if x <= 0.05 else "mid" if x <= 0.20 else "bad"
-    w = f"<div class='qw'>⚠ {warn}</div>" if warn else ""
-    return f"<span class='q {c}'>{v} <small>in 100</small></span>{w}"
-
-QUICK_SORT = {"Real text (court + everyday)": None, "Court decisions": "court", "Everyday writing": "prose",
-              "Petitions & forms ◇": "forms", "Phone photos of forms ◇": "photo", "Fewest hidden by mistake": "fp"}
-
-def quick_rows(rows, by=None):
-    out = []
-    for r in rows:
-        tr = r["tracks"]; lk = lambda t: tr.get(t, {}).get("leak_rate", float("nan"))
-        court = [v for v in (lk("court-turkish"), lk("court-foreign")) if v == v]
-        fps = [tr[t]["false_per_1k_words"] for t in ("court-turkish", "court-foreign", "prose", "no-pii") if t in tr and tr[t].get("false_per_1k_words") is not None]
-        q = {"r": r, "court": sum(court) / len(court) if court else float("nan"), "prose": lk("prose"),
-             "forms": r.get("forms_leak", float("nan")), "photo": r.get("photo", float("nan")),
-             "fp": sum(fps) / len(fps) / 2 if fps else float("nan")}
-        real = [v for v in (q["court"], q["prose"]) if v == v]
-        q["sort"] = sum(real) / len(real) if real else 9
-        if by: q["sort"] = q[by] if q[by] == q[by] else 9
-        out.append(q)
-    return sorted(out, key=lambda q: q["sort"])
-
-def quick_table(rows, rank_by="Real text (court + everyday)"):
-    qs = quick_rows(rows, QUICK_SORT.get(rank_by))
-    head = "<th>#</th><th class='l'>Tool</th>" + "".join(f'<th title="{html.escape(t)}">{h}</th>' for _, h, t in QUICK_COLS)
-    body = []
-    for i, q in enumerate(qs, 1):
-        r = q["r"]; name, by, link, dev = SYSTEMS[r["system"]]
-        ov = r.get("photo_over", float("nan"))
-        fp = q["fp"]
-        if fp != fp: fpc = "–"
-        elif fp < 0.5: fpc = "<span class='q good'>&lt;1 <small>per page</small></span>"
-        else: fpc = f"<span class='q {'good' if fp <= 1.5 else 'mid' if fp <= 5 else 'bad'}'>{fp:.0f} <small>per page</small></span>"
-        where = "Browser tab" if r.get("runs_in_browser") else "Your computer" if r.get("runs_locally", True) else "Cloud"
-        t = r.get("ms_per_page")
-        tm = "–" if not t else f"{10 * t / 1000:.0f} s" if 10 * t >= 1000 else "<1 s"
-        if t and 10 * t >= 60000: tm = f"{10 * t / 60000:.0f} min"
-        lic = LICENCE.get(r["system"], "not stated")
-        biz = "No (non-commercial)" if "NC" in lic else "Not stated" if lic == "not stated" else "Yes"
-        cells = {"court": badge(q["court"]), "prose": badge(q["prose"]), "forms": badge(q["forms"]),
-                 "photo": badge(q["photo"], f"hid {100 * ov:.0f} of 100 street names" if ov == ov and ov >= 0.5 else ""),
-                 "fp": fpc, "where": where, "time": tm, "biz": biz}
-        tag = "<span class='tag'>baseline</span>" if r["system"] in BASELINES else ""
-        body.append(f"<tr><td>{i}</td><td class='l'><a href='{link}' target='_blank'>{html.escape(name)}</a>{tag}<div class='repo'>{html.escape(by)}</div></td>" +
-                    "".join(f"<td>{cells[k]}</td>" for k, _, _ in QUICK_COLS) + "</tr>")
-    return f"<div class='wrap'><table class='lb quick'><thead><tr>{head}</tr></thead><tbody>{''.join(body)}</tbody></table></div>"
-
-QUICK_HELP = """**How to read it.** The first four columns count **personal details still readable after masking, out of every 100** (names, T.C. kimlik, IBANs, addresses…), on four kinds of documents. Lower is better: 🟢 5 or fewer · 🟠 up to 20 · 🔴 more. *Hidden by mistake* counts ordinary words blacked out per page: too many and the document becomes useless in court. ◇ marks test documents we made ourselves (fake people on real layouts), because real ones with ID numbers can't be published. Pick a document type above to rank every tool on just that. Hover a column name for details; the full numbers are under **Detailed scores**."""
 
 def pick(rows, query, types, sizes, browser_only):
     q = (query or "").lower().strip()
@@ -354,11 +283,6 @@ table.lb a{text-decoration:none}
 table.lb .sec{opacity:.6;font-size:.82rem} table.lb .gen{opacity:.55;font-style:italic} table.lb .ph{font-style:italic} table.lb .warn{color:#ea580c;font-weight:600} table.lb th.sec{border-left:none} table.lb td.ov{font-size:1rem} table.lb .tag{font-size:.68rem;color:#64748b;border:1px solid #cbd5e1;border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:1px} table.lb .repo{font-size:.74rem;margin-top:1px} table.lb .repo a{color:#888!important;text-decoration:none;font-weight:400}
 table.lb th.sec:first-of-type{padding-left:18px}
 .empty{opacity:.7;padding:20px 0}
-table.quick td{white-space:normal;vertical-align:middle} table.quick th{white-space:normal;text-align:center;font-size:.8rem} table.quick td{text-align:center}
-table.quick td.l{text-align:left;min-width:220px} table.quick th.l{text-align:left}
-.q{display:inline-block;min-width:64px;padding:3px 8px;border-radius:12px;font-weight:600;font-size:.9rem} .q small{font-weight:400;font-size:.72rem;opacity:.8}
-.q.good{background:#dcfce7;color:#166534} .q.mid{background:#fef3c7;color:#92400e} .q.bad{background:#fee2e2;color:#991b1b}
-.qw{font-size:.7rem;color:#c2410c;margin-top:2px} .na{font-size:.75rem;opacity:.5}
 """
 
 def submit(model_id):
@@ -424,12 +348,7 @@ def build():
         with gr.Accordion("What does KVKK require, and what does this board test?", open=False):
             gr.Markdown(KVKK_HELP)
         with gr.Tabs():
-            with gr.Tab("👩‍⚖️ Quick view"):
-                qby = gr.Radio(list(QUICK_SORT), value="Real text (court + everyday)", label="Rank by", container=False)
-                qout = gr.HTML(quick_table(rows))
-                qby.change(lambda v: quick_table(rows, v), qby, qout)
-                gr.Markdown(QUICK_HELP)
-            with gr.Tab("📊 Detailed scores"):
+            with gr.Tab("🏅 Leaderboard"):
                 with gr.Row(equal_height=True):
                     q = gr.Textbox(placeholder="🔍 Search models", show_label=False, scale=3, container=False)
                     order = gr.Dropdown([(f"Sort: {o}", o) for o in ("Overall", "Least leaked", "Phone scans", "Fastest", "Smallest")], value="Overall", show_label=False,
