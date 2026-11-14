@@ -22,8 +22,8 @@ court documents with clients, experts or AI tools under KVKK.
 ## Use it with Claude: Katip Kalkan
 
 [Katip Kalkan](connector/) is a Claude plugin and Claude Desktop extension that masks personal data in
-client documents **on your computer, before Claude reads them**. Claude only sees placeholders such as
-`[AD SOYAD-1]`, and Katip can put the real names back into the final document on your computer.
+client documents **on your computer, before Claude reads them**. Claude sees placeholders such as
+`[AD SOYAD-1]` instead of the values Katip finds, and Katip can put the real names back into the final document on your computer.
 
 ```
 claude plugin marketplace add fikrifirat/katip

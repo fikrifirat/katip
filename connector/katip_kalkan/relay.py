@@ -104,7 +104,7 @@ Never ask the user for the real names or for the original file."""
 
 TOOLS = [Tool(
     "open_masked_document", "Open a Katip-masked document",
-    "Fetch a document that the user already masked on their own computer with Katip (KVKK-safe). "
+    "Fetch a document that the user already masked on their own computer with Katip. "
     "Takes the share code the user pasted (katip-XXXX.YYYY). Codes work once and expire in 15 minutes.",
     {"type": "object", "properties": {"share_code": {"type": "string"}}, "required": ["share_code"],
      "additionalProperties": False},

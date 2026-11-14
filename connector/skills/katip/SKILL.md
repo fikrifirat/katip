@@ -1,11 +1,11 @@
 ---
 name: katip
-description: KVKK-safe document work. Use when the user types /katip, or asks Claude to read, summarise, review, translate or draft from a client document on their computer (dilekçe, sözleşme, bilirkişi raporu, epikriz, UYAP .udf, .docx, .pdf, scans, photos, .txt). Katip masks personal data on the computer before Claude sees it.
+description: Client-document work with KVKK masking. Use when the user types /katip, or asks Claude to read, summarise, review, translate or draft from a client document on their computer (dilekçe, sözleşme, bilirkişi raporu, epikriz, UYAP .udf, .docx, .pdf, scans, photos, .txt). Katip masks personal data on the computer before Claude sees it.
 argument-hint: "[istek / request, e.g. son eklediğim dilekçeyi özetle]"
 ---
 
 
-# KVKK-safe document work with Katip
+# Client-document work with Katip's KVKK masking
 
 `/katip <request>`, for example `/katip son eklediğim dilekçeyi özetle` or `/katip summarise the lease`.
 Answer in the language the user writes in. The request is: $ARGUMENTS

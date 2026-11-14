@@ -23,7 +23,7 @@ araçlarıyla KVKK'ya uygun paylaşması gereken hukuk büroları, şirket hukuk
 
 [Katip Kalkan](connector/), müvekkil belgelerindeki kişisel verileri **Claude okumadan önce kendi
 bilgisayarınızda** maskeleyen bir Claude eklentisidir (Claude Code, Cowork ve Claude Desktop). Claude
-yalnızca `[AD SOYAD-1]` gibi yer tutucuları görür; Katip gerçek adları son belgeye yine bilgisayarınızda
+Katip'in bulduğu değerlerin yerine `[AD SOYAD-1]` gibi yer tutucuları görür; Katip gerçek adları son belgeye yine bilgisayarınızda
 geri koyar. KVKK'ya uygun çalışmak isteyen avukatlar için yerel kişisel veri maskeleme ve anonimleştirme.
 
 ```

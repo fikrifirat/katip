@@ -56,7 +56,7 @@ T = {
 
 TOOLS = {
     "tr": {
-        "why": "Katip KVKK kapsamındaki kişisel verileri bu bilgisayarda çıkarır; Claude yalnızca yer tutucuları görür. ",
+        "why": "Katip KVKK kapsamındaki kişisel verileri bu bilgisayarda çıkarır; Claude, Katip'in bulduğu değerlerin yerine yer tutucuları görür. ",
         "list_files": ("Dosyaları listele (adlar gizli)",
                        "Katip klasöründeki belgeleri kimlik, tarih ve kısaltılmış adlarla listeler: kişi adı olabilecek "
                        "her sözcük … olarak görünür. En yeni dosya başta. Başka bir dosya listeleme aracı yerine bunu kullanın."),
@@ -89,12 +89,12 @@ TOOLS = {
         "info_key": "bilgi",
         "doc_key": "belge",
         "doc_desc": "list_files'taki kısaltılmış ad (ör. \"… - Vatandaşlık Dava Dilekçesi.udf\"); onay kutusunda kullanıcıya gösterilir",
-        "privacy_mask": "Dosya bu bilgisayarda maskelenir; Claude yalnızca [AD SOYAD-1] gibi yer tutucuları görür (KVKK).",
+        "privacy_mask": "Dosya bu bilgisayarda maskelenir; Claude bulunan değerlerin yerine [AD SOYAD-1] gibi yer tutucuları görür (KVKK).",
         "privacy_list": "Dosya adlarındaki kişi adları gizlenir; Claude yalnızca kısaltılmış adları görür (KVKK).",
         "privacy_restore": "Gerçek adlar yalnızca bu bilgisayardaki dosyaya yazılır; Claude onları görmez (KVKK).",
     },
     "en": {
-        "why": "Katip removes KVKK personal data on this computer, so Claude only sees placeholders. ",
+        "why": "Katip removes KVKK personal data on this computer, so Claude sees placeholders instead of the values it finds. ",
         "list_files": ("List files (names hidden)",
                        "List the documents in the user's Katip folder with ids, dates and shortened names: any word that "
                        "could be a person's name shows as …. Newest first. Use this instead of any other file listing."),
@@ -127,7 +127,7 @@ TOOLS = {
         "info_key": "privacy",
         "doc_key": "document",
         "doc_desc": "The shortened name from list_files; shown to the user in the permission prompt",
-        "privacy_mask": "The file is masked on this computer; Claude only sees placeholders like [AD SOYAD-1] (KVKK).",
+        "privacy_mask": "The file is masked on this computer; Claude sees placeholders like [AD SOYAD-1] instead of the values Katip finds (KVKK).",
         "privacy_list": "Names in file names are hidden; Claude only sees shortened names (KVKK).",
         "privacy_restore": "Real names are written only to a file on this computer; Claude never sees them (KVKK).",
     },

@@ -11,5 +11,5 @@
       "description": "Mask Turkish personal data (KVKK) on your computer before Claude reads a document."
     }
   ],
-  "description": "Katip: KVKK-safe AI for Turkish law firms. Personal data is masked on your computer before Claude reads a document."
+  "description": "Katip: on-device KVKK masking for Turkish law firms using AI. Personal data is masked on your computer before Claude reads a document."
 }

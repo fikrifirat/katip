@@ -1,4 +1,4 @@
-# Katip Kalkan: KVKK-safe Claude for Turkish legal documents
+# Katip Kalkan: mask client data before Claude reads Turkish legal documents
 
 **Katip Kalkan masks personal data in client documents on your computer, before Claude reads them.**
 Names, T.C. kimlik / YKN / passport numbers, addresses, phones, IBANs and health data in a dilekçe,
@@ -33,8 +33,11 @@ PDFs or scans, keeps the map in memory, and `katip_status` says so.
 
 Katip is a safety layer, not a guarantee, and not legal advice.
 
-* **It can miss things.** On 80 blind synthetic legal documents it masked 743 of 757 personal values
-  (98%), not all of them; see also [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench). Unusual spellings, OCR errors on
+* **It can miss things.** Katip refuses to send text in which a value it *found* would still be
+  readable, but a value it never found goes to Claude as is. On 80 blind synthetic legal documents
+  (threshold 0.7) it masked 743 of 757 personal values (98%). On real text the
+  [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) paper measures about 5% of name characters
+  missed in court decisions and more in free prose. Unusual spellings, OCR errors on
   handwriting and context-only identifiers ("the defendant's brother, the mayor of …") can slip through.
   Check the masked text when it matters, and use the `anon` profile for the most sensitive files.
 * **Masked text is still personal data under KVKK.** Pseudonymised text sent to Claude is less risky,
