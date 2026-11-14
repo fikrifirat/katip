@@ -1,0 +1,45 @@
+{
+ "system": "tiny-f",
+ "name": "Katip Tiny-F: rules + tiny tagger retrained with foreign names",
+ "track": "format",
+ "set": "forms-id v0.1 (306 docs) saved as UDF / DOCX / digital PDF / 200 dpi scan PDF",
+ "reader": "Katip's own file readers",
+ "formats": {
+  "udf": {
+   "supported": true,
+   "leak_rate": 0.0138,
+   "docs": 306,
+   "recall": 0.9776,
+   "precision": 0.9218,
+   "clean_doc_rate": 0.8007,
+   "gold_values_lost_by_reader": 0
+  },
+  "docx": {
+   "supported": true,
+   "leak_rate": 0.0138,
+   "docs": 306,
+   "recall": 0.9776,
+   "precision": 0.9218,
+   "clean_doc_rate": 0.8007,
+   "gold_values_lost_by_reader": 0
+  },
+  "pdf": {
+   "supported": true,
+   "leak_rate": 0.0214,
+   "docs": 306,
+   "recall": 0.9735,
+   "precision": 0.9131,
+   "clean_doc_rate": 0.5882,
+   "gold_values_lost_by_reader": 0
+  },
+  "scan": {
+   "supported": true,
+   "leak_rate": 0.0248,
+   "docs": 306,
+   "recall": 0.9636,
+   "precision": 0.8899,
+   "clean_doc_rate": 0.5556,
+   "gold_values_lost_by_reader": 0
+  }
+ }
+}

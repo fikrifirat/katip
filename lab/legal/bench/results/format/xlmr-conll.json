@@ -1,0 +1,39 @@
+{
+ "system": "xlmr-conll",
+ "name": "FacebookAI/xlm-roberta-large-finetuned-conll03-english",
+ "track": "format",
+ "set": "forms-id v0.1 (306 docs) saved as UDF / DOCX / digital PDF / 200 dpi scan PDF",
+ "reader": "with a generic text extractor (python-docx paragraphs / PDF text layer)",
+ "formats": {
+  "udf": {
+   "supported": false,
+   "leak_rate": null,
+   "docs": 0,
+   "note": "no UDF reader"
+  },
+  "docx": {
+   "supported": true,
+   "leak_rate": 0.3898,
+   "docs": 306,
+   "recall": 0.3799,
+   "precision": 0.6714,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
+  },
+  "pdf": {
+   "supported": true,
+   "leak_rate": 0.3899,
+   "docs": 306,
+   "recall": 0.3799,
+   "precision": 0.6717,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
+  },
+  "scan": {
+   "supported": false,
+   "leak_rate": null,
+   "docs": 0,
+   "note": "no OCR: a scan has no text layer"
+  }
+ }
+}
