@@ -74,6 +74,7 @@ CASES = [
     ("1475 sayılı Kanun m. 14 ve aynı Kanunun 17 nci maddesi", [("1475", "14", "OK"), ("1475", "17", "UNVERIFIED")]),
     ("**Law No. 5906 on Enforcement**, **Article 24**", [("5906", "24", "UNKNOWN_LAW")]),
     ("Law No. 6573 on the Regulation of Electronic Notifications (e-tebligat), Article 5", [("6573", "5", "UNKNOWN_LAW")]),
+    ("Aile Kanunu (1983/10 sayılı Kanun) nafakayı düzenler.", []),
     # not citations
     ("İtiraz yedi gün içinde yapılır.", []),
     ("2 hafta içinde 62 nci madde hükümleri dahilinde", []),

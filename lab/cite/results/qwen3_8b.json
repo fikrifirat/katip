@@ -10,63 +10,63 @@
   "commit": "9759778ce9adaa24f596967ec92a8337d9cc481b",
   "commit_date": "2026-11-11T15:34:17+00:00"
  },
- "machine": "arm64 Darwin",
- "questions": 63,
- "complete": true,
+ "machine": "x86_64 Linux",
+ "questions": 62,
+ "complete": false,
  "all": {
-  "n": 126,
+  "n": 119,
   "safe": 0.0,
   "safe_ci": [
    0.0,
    0.0
   ],
   "right_article": 0.0,
-  "key_fact": 0.30952380952380953,
+  "key_fact": 0.33766233766233766,
   "stale": 0,
-  "citations": 145,
-  "wrong_citations": 25,
-  "wrong_rate": 0.1724137931034483,
+  "citations": 144,
+  "wrong_citations": 24,
+  "wrong_rate": 0.16666666666666666,
   "answers_with_wrong": 0.14285714285714285,
-  "no_citation": 0.18253968253968253,
+  "no_citation": 0.13445378151260504,
   "decision_citations_per_answer": 0.0,
-  "seconds_per_answer": 24.46309523809524
+  "seconds_per_answer": 23.792773109243697
  },
  "by_lang": {
   "en": {
-   "n": 63,
+   "n": 59,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.38095238095238093,
+   "key_fact": 0.42105263157894735,
    "stale": 0,
    "citations": 73,
    "wrong_citations": 16,
    "wrong_rate": 0.2191780821917808,
-   "answers_with_wrong": 0.19047619047619047,
-   "no_citation": 0.15873015873015872,
+   "answers_with_wrong": 0.2033898305084746,
+   "no_citation": 0.1016949152542373,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 25.406190476190474
+   "seconds_per_answer": 24.63949152542373
   },
   "tr": {
-   "n": 63,
+   "n": 60,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.23809523809523808,
+   "key_fact": 0.2564102564102564,
    "stale": 0,
-   "citations": 72,
-   "wrong_citations": 9,
-   "wrong_rate": 0.125,
-   "answers_with_wrong": 0.09523809523809523,
-   "no_citation": 0.20634920634920634,
+   "citations": 71,
+   "wrong_citations": 8,
+   "wrong_rate": 0.11267605633802817,
+   "answers_with_wrong": 0.08333333333333333,
+   "no_citation": 0.16666666666666666,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 23.52
+   "seconds_per_answer": 22.960166666666666
   }
  },
  "by_area": {
@@ -80,10 +80,10 @@
    "right_article": 0.0,
    "key_fact": 0.5,
    "stale": 0,
-   "citations": 13,
-   "wrong_citations": 1,
-   "wrong_rate": 0.07692307692307693,
-   "answers_with_wrong": 0.08333333333333333,
+   "citations": 12,
+   "wrong_citations": 0,
+   "wrong_rate": 0.0,
+   "answers_with_wrong": 0.0,
    "no_citation": 0.16666666666666666,
    "decision_citations_per_answer": 0.0,
    "seconds_per_answer": 25.879166666666666
@@ -107,58 +107,58 @@
    "seconds_per_answer": 22.53833333333333
   },
   "icra": {
-   "n": 12,
+   "n": 11,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.08333333333333333,
+   "key_fact": 0.09090909090909091,
    "stale": 0,
    "citations": 11,
    "wrong_citations": 2,
    "wrong_rate": 0.18181818181818182,
-   "answers_with_wrong": 0.16666666666666666,
-   "no_citation": 0.08333333333333333,
+   "answers_with_wrong": 0.18181818181818182,
+   "no_citation": 0.0,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 24.621666666666666
+   "seconds_per_answer": 23.23
   },
   "is": {
-   "n": 12,
+   "n": 11,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.2,
+   "key_fact": 0.2222222222222222,
    "stale": 0,
    "citations": 12,
    "wrong_citations": 2,
    "wrong_rate": 0.16666666666666666,
-   "answers_with_wrong": 0.16666666666666666,
-   "no_citation": 0.16666666666666666,
+   "answers_with_wrong": 0.18181818181818182,
+   "no_citation": 0.09090909090909091,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 26.474166666666665
+   "seconds_per_answer": 25.69727272727273
   },
   "kira": {
-   "n": 12,
+   "n": 8,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.3,
+   "key_fact": 0.5,
    "stale": 0,
    "citations": 6,
    "wrong_citations": 0,
    "wrong_rate": 0.0,
    "answers_with_wrong": 0.0,
-   "no_citation": 0.5833333333333334,
+   "no_citation": 0.375,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 27.998333333333335
+   "seconds_per_answer": 24.2075
   },
   "kvkk": {
    "n": 12,
@@ -179,22 +179,22 @@
    "seconds_per_answer": 25.228333333333335
   },
   "miras": {
-   "n": 12,
+   "n": 11,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.5,
+   "key_fact": 0.5555555555555556,
    "stale": 0,
    "citations": 12,
    "wrong_citations": 1,
    "wrong_rate": 0.08333333333333333,
-   "answers_with_wrong": 0.08333333333333333,
-   "no_citation": 0.08333333333333333,
+   "answers_with_wrong": 0.09090909090909091,
+   "no_citation": 0.0,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 27.264166666666668
+   "seconds_per_answer": 26.675454545454546
   },
   "tuketici": {
    "n": 12,
@@ -253,44 +253,44 @@
  },
  "by_risk": {
   "high": {
-   "n": 64,
+   "n": 61,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.2,
+   "key_fact": 0.2127659574468085,
    "stale": 0,
    "citations": 68,
    "wrong_citations": 6,
    "wrong_rate": 0.08823529411764706,
-   "answers_with_wrong": 0.09375,
-   "no_citation": 0.15625,
+   "answers_with_wrong": 0.09836065573770492,
+   "no_citation": 0.11475409836065574,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 24.1165625
+   "seconds_per_answer": 23.50016393442623
   },
   "medium": {
-   "n": 62,
+   "n": 58,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.47058823529411764,
+   "key_fact": 0.5333333333333333,
    "stale": 0,
-   "citations": 77,
-   "wrong_citations": 19,
-   "wrong_rate": 0.24675324675324675,
-   "answers_with_wrong": 0.1935483870967742,
-   "no_citation": 0.20967741935483872,
+   "citations": 76,
+   "wrong_citations": 18,
+   "wrong_rate": 0.23684210526315788,
+   "answers_with_wrong": 0.1896551724137931,
+   "no_citation": 0.15517241379310345,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 24.820806451612906
+   "seconds_per_answer": 24.100517241379308
   }
  },
  "lang_gap": {
-  "paired": 63,
+  "paired": 57,
   "tr_minus_en": 0.0,
   "mcnemar_p": 1.0
  },
@@ -312,15 +312,6 @@
    "law": "4857",
    "article": "140",
    "note": "law 4857 has 122 articles"
-  },
-  {
-   "id": "aile-06",
-   "lang": "tr",
-   "text": "10 sayılı Kanun",
-   "verdict": "UNKNOWN_LAW",
-   "law": "10",
-   "article": null,
-   "note": "no law numbered 10 in the index"
   },
   {
    "id": "miras-05",
@@ -668,24 +659,6 @@
   },
   {
    "id": "is-05",
-   "lang": "tr",
-   "area": "is",
-   "risk": "medium",
-   "cites": 0,
-   "wrong": 0,
-   "ok": 0,
-   "unverified": 0,
-   "decisions": 0,
-   "right_art": false,
-   "fact": false,
-   "stale": false,
-   "safe": false,
-   "no_citation": true,
-   "seconds": 35.02,
-   "wrong_detail": []
-  },
-  {
-   "id": "is-05",
    "lang": "en",
    "area": "is",
    "risk": "medium",
@@ -755,42 +728,6 @@
    ]
   },
   {
-   "id": "kira-01",
-   "lang": "tr",
-   "area": "kira",
-   "risk": "medium",
-   "cites": 0,
-   "wrong": 0,
-   "ok": 0,
-   "unverified": 0,
-   "decisions": 0,
-   "right_art": false,
-   "fact": false,
-   "stale": false,
-   "safe": false,
-   "no_citation": true,
-   "seconds": 35.39,
-   "wrong_detail": []
-  },
-  {
-   "id": "kira-01",
-   "lang": "en",
-   "area": "kira",
-   "risk": "medium",
-   "cites": 0,
-   "wrong": 0,
-   "ok": 0,
-   "unverified": 0,
-   "decisions": 0,
-   "right_art": false,
-   "fact": false,
-   "stale": false,
-   "safe": false,
-   "no_citation": true,
-   "seconds": 33.21,
-   "wrong_detail": []
-  },
-  {
    "id": "kira-02",
    "lang": "tr",
    "area": "kira",
@@ -806,24 +743,6 @@
    "safe": false,
    "no_citation": false,
    "seconds": 30.2,
-   "wrong_detail": []
-  },
-  {
-   "id": "kira-02",
-   "lang": "en",
-   "area": "kira",
-   "risk": "high",
-   "cites": 0,
-   "wrong": 0,
-   "ok": 0,
-   "unverified": 0,
-   "decisions": 0,
-   "right_art": false,
-   "fact": false,
-   "stale": false,
-   "safe": false,
-   "no_citation": true,
-   "seconds": 36.28,
    "wrong_detail": []
   },
   {
@@ -950,24 +869,6 @@
    "safe": false,
    "no_citation": false,
    "seconds": 25.59,
-   "wrong_detail": []
-  },
-  {
-   "id": "kira-06",
-   "lang": "en",
-   "area": "kira",
-   "risk": "medium",
-   "cites": 0,
-   "wrong": 0,
-   "ok": 0,
-   "unverified": 0,
-   "decisions": 0,
-   "right_art": false,
-   "fact": false,
-   "stale": false,
-   "safe": false,
-   "no_citation": true,
-   "seconds": 37.44,
    "wrong_detail": []
   },
   {
@@ -1155,8 +1056,8 @@
    "lang": "tr",
    "area": "aile",
    "risk": "medium",
-   "cites": 2,
-   "wrong": 1,
+   "cites": 1,
+   "wrong": 0,
    "ok": 1,
    "unverified": 0,
    "decisions": 0,
@@ -1166,15 +1067,7 @@
    "safe": false,
    "no_citation": false,
    "seconds": 23.98,
-   "wrong_detail": [
-    {
-     "text": "10 sayılı Kanun",
-     "verdict": "UNKNOWN_LAW",
-     "law": "10",
-     "article": null,
-     "note": "no law numbered 10 in the index"
-    }
-   ]
+   "wrong_detail": []
   },
   {
    "id": "aile-06",
@@ -1384,24 +1277,6 @@
   },
   {
    "id": "miras-06",
-   "lang": "tr",
-   "area": "miras",
-   "risk": "high",
-   "cites": 0,
-   "wrong": 0,
-   "ok": 0,
-   "unverified": 0,
-   "decisions": 0,
-   "right_art": false,
-   "fact": false,
-   "stale": false,
-   "safe": false,
-   "no_citation": true,
-   "seconds": 33.74,
-   "wrong_detail": []
-  },
-  {
-   "id": "miras-06",
    "lang": "en",
    "area": "miras",
    "risk": "high",
@@ -1514,24 +1389,6 @@
    "safe": false,
    "no_citation": false,
    "seconds": 15.63,
-   "wrong_detail": []
-  },
-  {
-   "id": "icra-03",
-   "lang": "en",
-   "area": "icra",
-   "risk": "high",
-   "cites": 0,
-   "wrong": 0,
-   "ok": 0,
-   "unverified": 0,
-   "decisions": 0,
-   "right_art": false,
-   "fact": false,
-   "stale": false,
-   "safe": false,
-   "no_citation": true,
-   "seconds": 39.93,
    "wrong_detail": []
   },
   {

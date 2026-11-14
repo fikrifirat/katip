@@ -10,7 +10,7 @@
   "commit": "9759778ce9adaa24f596967ec92a8337d9cc481b",
   "commit_date": "2026-11-11T15:34:17+00:00"
  },
- "machine": "arm64 Darwin",
+ "machine": "x86_64 Linux",
  "questions": 63,
  "complete": true,
  "all": {

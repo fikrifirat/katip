@@ -72,7 +72,7 @@ def run(a):
     if path.exists():
         for l in path.read_text().splitlines():
             r = json.loads(l)
-            if r.get("answer") is not None:
+            if r.get("answer"):                 # empty answers are retried too
                 done.add((r["id"], r["lang"]))
     key = os.environ.get(a.api_key_env) if a.api_key_env else None
     todo = [(q, lang) for q in qs for lang in langs if (q["id"], lang) not in done]
@@ -85,6 +85,8 @@ def run(a):
             try:
                 text, sec, usage = chat(a.base_url, key, a.model, SYSTEM[lang], user, a.temperature, a.max_tokens, a.timeout)
                 err = None
+                if not text.strip():  # e.g. a reasoning model spent the whole budget thinking: retry on the next run
+                    text, err = None, f"empty answer after {usage.get('completion_tokens', '?')} tokens (raise --max-tokens)"
             except Exception as e:  # keep going; the row is retried next run
                 text, sec, usage, err = None, 0.0, {}, f"{type(e).__name__}: {e}"
             f.write(json.dumps({"id": q["id"], "lang": lang, "model": a.model, "name": a.name or a.model,
@@ -185,7 +187,7 @@ def score(a):
         latest = {}
         for l in p.read_text().splitlines():
             r = json.loads(l)
-            if r.get("answer") is not None and r["id"] in qs:
+            if r.get("answer") and r["id"] in qs:
                 latest[(r["id"], r["lang"])] = r
         if not latest:
             continue

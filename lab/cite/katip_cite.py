@@ -130,7 +130,7 @@ KIND = r"(?:ek\s+madde|geçici\s+madde|ek\s+md|geçici\s+md|ek\s+m|geç\s*m)"
 ART_AFTER = (r"(?:(?:" + KIND + r"\s*\.?\s*|(?:m|md|mad|madde|maddesi|art|article|articles)\s*\.?\s*)" + ART_NUM + PARA +
              r"|" + ART_NUM + PARA + r"\s*(?:\.|" + ORD + r")?\s*(?:maddesi|madde|maddesinde|maddesine|maddesinin|maddeleri|maddesiyle|md|m)(?![a-zçğıöşü]))")
 ART_BARE = ART_NUM + PARA                                          # "TBK 344", "HMK 345/1"
-LAW_NO_TR = r"(?<!\d)(?P<no>\d{2,4})(?!\d)\s*(?:s\.|sayili|no'?lu|numarali)\s*"
+LAW_NO_TR = r"(?<![\d/.])(?P<no>\d{2,4})(?!\d)\s*(?:s\.|sayili|no'?lu|numarali)\s*"
 LAW_NO_EN = r"(?:law|act|code)\s*(?:no\.?|number)\s*(?P<no2>\d{2,4})(?!\d)"
 DECISION = re.compile(
     r"(?P<court>Yargıtay|Yarg\.|YHGK|YCGK|Y\.?\s?\d{1,2}\.?\s?(?:HD|CD)|Danıştay|Dnş\.|Anayasa Mahkemesi|AYM|Court of Cassation|Council of State|Constitutional Court)"
