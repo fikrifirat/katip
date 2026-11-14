@@ -1,0 +1,53 @@
+{
+ "note": "Chrome 156 (Claude desktop browser pane, hidden tab), Apple M-series, 12 cores; transformers.js + onnxruntime-web wasm, 1 thread, int8 (q8), no browser cache, the app's ner.js. One page = 500 words. Medians over cold page loads.",
+ "models": {
+  "katip-mask-nano": {
+   "runs": 3,
+   "cold_runtime_import_ms": 95,
+   "cold_model_load_ms": 679,
+   "cold_first_result_ms": 32,
+   "cold_total_ms": 821,
+   "ms_per_page_samples_median": 28.9,
+   "ms_per_page_joined_948_words": 26.1,
+   "pages_per_s": 38.31,
+   "js_heap_mb_after": 37.8,
+   "wasm_heap_mb_after": 19.3,
+   "per_sample_ms_per_page_range": [
+    21.5,
+    47.1
+   ]
+  },
+  "katip-mask-mini": {
+   "runs": 3,
+   "cold_runtime_import_ms": 65,
+   "cold_model_load_ms": 717,
+   "cold_first_result_ms": 229,
+   "cold_total_ms": 1030,
+   "ms_per_page_samples_median": 977.5,
+   "ms_per_page_joined_948_words": 981.4,
+   "pages_per_s": 1.02,
+   "js_heap_mb_after": 66.1,
+   "wasm_heap_mb_after": 81.4,
+   "per_sample_ms_per_page_range": [
+    774.9,
+    1101.9
+   ]
+  },
+  "katip-mask-base": {
+   "runs": 3,
+   "cold_runtime_import_ms": 86,
+   "cold_model_load_ms": 826,
+   "cold_first_result_ms": 774,
+   "cold_total_ms": 1704,
+   "ms_per_page_samples_median": 3735.9,
+   "ms_per_page_joined_948_words": 3812.1,
+   "pages_per_s": 0.26,
+   "js_heap_mb_after": 141.5,
+   "wasm_heap_mb_after": 286.8,
+   "per_sample_ms_per_page_range": [
+    3013.5,
+    4345.9
+   ]
+  }
+ }
+}
