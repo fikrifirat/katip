@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.14)  14 NOV 2026 16:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.11.14)  14 NOV 2026 16:20
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -560,6 +560,9 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <9> on input line 24.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <5> on input line 24.
+
+Underfull \vbox (badness 1320) has occurred while \output is active []
+
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf/fonts/e
 nc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-ts1.enc}
 
@@ -571,30 +574,30 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <7> on input line 113.
  [2{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/e
 nc/dvips/lm/lm-mathit.enc}]
-<fig_overall_size.pdf, id=134, 238.49101pt x 180.675pt>
+<fig_overall_size.pdf, id=130, 238.49101pt x 180.675pt>
 File: fig_overall_size.pdf Graphic file (type pdf)
 <use fig_overall_size.pdf>
 Package pdftex.def Info: fig_overall_size.pdf  used on input line 213.
 (pdftex.def)             Requested size: 243.91125pt x 184.78503pt.
 
-Underfull \vbox (badness 2512) has occurred while \output is active []
+Underfull \hbox (badness 1303) in paragraph at lines 227--231
+\T1/lmr/m/n/10 (+20) Katip Mask runs as a static web page (rules in
+ []
 
- [3{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc} <./fig_overall_size.pdf>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 265--269
+[3{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc} <./fig_overall_size.pdf>]
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 291--295
 \T1/lmtt/m/n/10 main\T1/lmr/m/n/10 (+20) ) and \T1/lmtt/m/n/10 lab/legal/bench_
 build.py \T1/lmr/m/n/10 (+20) (branch
  []
 
 
-Underfull \hbox (badness 1210) in paragraph at lines 265--269
+Underfull \hbox (badness 1210) in paragraph at lines 291--295
 \T1/lmr/m/n/10 (+20) from pub-lic sources, and \T1/lmtt/m/n/10 lab/legal/bench_
 run.py
  []
 
-(./main.bbl [4]
+(./main.bbl
 Underfull \hbox (badness 1642) in paragraph at lines 37--42
 \T1/lmr/m/n/9 (+20) Vishrav Chaud-hary, Guil-laume Wen-zek, Fran-cisco
  []
@@ -630,7 +633,7 @@ Underfull \hbox (badness 5893) in paragraph at lines 131--138
 \T1/lmr/m/n/9 (+20) Ak-tar^^Yl-mas^^Yna il-i³kin Usul ve Esaslar Hakk^^Ynda
  []
 
-
+[5]
 Underfull \hbox (badness 3758) in paragraph at lines 156--159
 []\T1/lmr/m/n/9 (+20) Microsoft.  Pre-sidio: Data pro-tec-tion and de-
  []
@@ -646,26 +649,28 @@ Underfull \hbox (badness 2134) in paragraph at lines 169--172
  . co / openai /
  []
 
-[5])
+)
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[6] [7] (./main.aux)
+[6] [7
+
+] (./main.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 551D41ED80AC4B302BE2AE414D22C182;1122.
+(rerunfilecheck)             Checksum: B6FF30AAC3C8B7987D8F42311A46721B;1140.
  ) 
 Here is how much of TeX's memory you used:
- 13522 strings out of 475582
- 211034 string characters out of 5778245
- 1950975 words of memory out of 5000000
- 35067 multiletter control sequences out of 15000+600000
- 635641 words of font info for 199 fonts, out of 8000000 for 9000
+ 13525 strings out of 475582
+ 211068 string characters out of 5778245
+ 1958975 words of memory out of 5000000
+ 35068 multiletter control sequences out of 15000+600000
+ 635724 words of font info for 200 fonts, out of 8000000 for 9000
  350 hyphenation exceptions out of 8191
- 75i,11n,79p,997b,623s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,11n,79p,997b,603s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx8.pfb></us
 r/share/texmf/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/pu
@@ -675,10 +680,10 @@ mr9.pfb></usr/share/texmf/fonts/type1/public/lm/lmri10.pfb></usr/share/texmf/fo
 nts/type1/public/lm/lmri9.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pf
 b></usr/share/texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/ty
 pe1/public/lm/lmtt9.pfb>
-Output written on main.pdf (7 pages, 394550 bytes).
+Output written on main.pdf (7 pages, 399422 bytes).
 PDF statistics:
- 372 PDF objects out of 1000 (max. 8388607)
- 257 compressed objects within 3 object streams
+ 374 PDF objects out of 1000 (max. 8388607)
+ 259 compressed objects within 3 object streams
  61 named destinations out of 1000 (max. 500000)
  46150 words of extra memory for PDF output out of 51595 (max. 10000000)
 
