@@ -96,9 +96,14 @@ def run(a):
 
 
 # --------------------------------------------------------------------------------------------------------- score
+def fold_rx(rx):
+    """Fold a regex the way fold() folds text (i/ı/İ -> i, lower case) without touching regex syntax such as \\s*."""
+    return rx.replace("İ", "i").replace("I", "i").replace("ı", "i").lower()
+
+
 def matches(rx_list, text):
     t = fold(text)
-    return any(re.search(fold(rx), t) for rx in rx_list)
+    return any(re.search(fold_rx(rx), t) for rx in rx_list)
 
 
 def expected_hit(cits, expect):
@@ -118,7 +123,11 @@ def expected_hit(cits, expect):
 def score_answer(row, q, checker):
     text = row["answer"] or ""
     r = checker.check(text)
-    st = [c for c in r["citations"] if c["kind"] == "statute"]
+    seen, st = set(), []
+    for c in r["citations"]:                   # one answer repeating the same citation counts once
+        key = (c["law_no"], c["article"], c["verdict"])
+        if c["kind"] == "statute" and key not in seen:
+            seen.add(key); st.append(c)
     wrong = [c for c in st if c["verdict"] in BAD]
     hit = expected_hit(st, q["expect"])
     fact = matches(q["must"], text) if q["must"] else None

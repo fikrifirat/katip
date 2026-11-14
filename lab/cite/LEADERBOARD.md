@@ -4,16 +4,16 @@ Each model answers 63 Turkish legal questions in Turkish and in English (126 ans
 
 | # | Model | Local | Safe answers % | Right article % | Key fact % | Wrong citations % | Answers with a wrong citation % | Stale rule | TR safe % | EN safe % | TR−EN (p) | High-risk safe % | Case-law cites / answer | s / answer |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | gemma3:4b | yes | 3 [1–6] | 3 | 29 | 7.4 | 6 | 0 | 3 | 3 | +0 (1.00) | 0 | 0.00 | 3.8 |
-| 2 | llama3.2:3b | yes | 2 [0–6] | 3 | 24 | 8.2 | 4 | 0 | 0 | 5 | -5 (0.25) | 2 | 0.00 | 10.6 |
-| 3 | qwen3:8b | yes | 0 [0–0] | 0 | 27 | 7.2 | 8 | 0 | 0 | 0 | +0 (1.00) | 0 | 0.00 | 25.2 |
+| 1 | gemma3:4b | yes | 4 [1–8] | 4 | 29 | 8.7 | 6 | 0 | 5 | 3 | +2 (1.00) | 0 | 0.00 | 3.8 |
+| 2 | llama3.2:3b | yes | 2 [0–6] | 4 | 24 | 4.8 | 2 | 0 | 0 | 5 | -5 (0.25) | 2 | 0.00 | 10.6 |
+| 3 | qwen3:8b | yes | 0 [0–0] | 0 | 27 | 7.5 | 8 | 0 | 0 | 0 | +0 (1.00) | 0 | 0.00 | 25.2 |
 | ref | Reference: invents article numbers | yes | 0 [0–0] | 0 | 0 | 100.0 | 100 | 0 | 0 | 0 | +0 (1.00) | 0 | 0.00 | 0.0 |
-| ref | Reference: quotes the expected article | yes | 94 [89–98] | 100 | 93 | 2.7 | 2 | 0 | 94 | 94 | +0 (1.00) | 91 | 0.00 | 0.0 |
+| ref | Reference: quotes the expected article | yes | 95 [91–98] | 100 | 93 | 0.0 | 0 | 0 | 95 | 95 | +0 (1.00) | 94 | 0.00 | 0.0 |
 
 ## Safe answers by risk area (%)
 
 | Model | Labour | Rent | Family | Inheritance | Enforcement | Criminal | Procedure & deadlines | KVKK | Foreigners | Consumer & property |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| gemma3:4b | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 33 | 0 | 0 |
+| gemma3:4b | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 42 | 0 | 0 |
 | llama3.2:3b | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 17 | 6 | 0 |
 | qwen3:8b | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |  |

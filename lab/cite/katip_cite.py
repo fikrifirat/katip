@@ -36,9 +36,9 @@ BAD = {"ARTICLE_REPEALED", "NO_SUCH_ARTICLE", "LAW_REPEALED", "NUMBER_NAME_CLASH
 ALIASES = {
     "6098": ["TBK", "Türk Borçlar Kanunu", "Borçlar Kanunu", "Turkish Code of Obligations", "Code of Obligations", "TCO"],
     "818": ["BK", "eski Borçlar Kanunu", "mülga Borçlar Kanunu", "818 sayılı Borçlar Kanunu"],
-    "4721": ["TMK", "MK", "Türk Medeni Kanunu", "Medeni Kanun", "Turkish Civil Code", "Civil Code", "TCC"],
+    "4721": ["TMK", "MK", "Türk Medeni Kanunu", "Medeni Kanun", "Turkish Civil Code", "Civil Code"],
     "743": ["Türk Kanunu Medenisi", "eski Medeni Kanun", "mülga Medeni Kanun"],
-    "6100": ["HMK", "Hukuk Muhakemeleri Kanunu", "Code of Civil Procedure", "Civil Procedure Code", "CCP"],
+    "6100": ["HMK", "Hukuk Muhakemeleri Kanunu", "Code of Civil Procedure", "Turkish Code of Civil Procedure", "Civil Procedure Code", "CCP"],
     "1086": ["HUMK", "Hukuk Usulü Muhakemeleri Kanunu"],
     "4857": ["İş K", "İşK", "İş Kanunu", "Labour Law", "Labor Law", "Labour Act", "Labor Act", "Turkish Labour Law", "Turkish Labor Law", "Turkish Labour Code", "Turkish Labor Code"],
     "1475": ["1475 sayılı İş Kanunu", "eski İş Kanunu", "mülga İş Kanunu"],
@@ -47,7 +47,7 @@ ALIASES = {
     "5271": ["CMK", "Ceza Muhakemesi Kanunu", "Code of Criminal Procedure", "Criminal Procedure Code"],
     "1412": ["CMUK", "Ceza Muhakemeleri Usulü Kanunu"],
     "2004": ["İİK", "İcra ve İflas Kanunu", "Enforcement and Bankruptcy Law", "Execution and Bankruptcy Law", "Enforcement and Bankruptcy Code"],
-    "6102": ["TTK", "Türk Ticaret Kanunu", "Turkish Commercial Code", "Commercial Code", "TCC (commercial)"],
+    "6102": ["TTK", "Türk Ticaret Kanunu", "Turkish Commercial Code", "Commercial Code"],
     "6762": ["eski TTK", "mülga TTK", "6762 sayılı TTK"],
     "6698": ["KVKK", "KVKK'", "Kişisel Verilerin Korunması Kanunu", "Personal Data Protection Law", "Law on the Protection of Personal Data", "Personal Data Protection Law (KVKK)", "PDPL"],
     "6458": ["YUKK", "Yabancılar ve Uluslararası Koruma Kanunu", "Law on Foreigners and International Protection", "LFIP"],
@@ -80,7 +80,10 @@ ALIASES = {
     "7155": [],
 }
 
-FOLD = str.maketrans({"I": "i", "İ": "i", "ı": "i", "’": "'", "‘": "'", "`": "'"})
+# Repealed code -> the code that replaced it: "818 sayılı Borçlar Kanunu" names the old code, not a clash with TBK.
+PREDECESSOR = {"818": "6098", "743": "4721", "1475": "4857", "765": "5237", "1086": "6100", "6762": "6102", "1412": "5271"}
+
+FOLD = str.maketrans({"I": "i", "İ": "i", "ı": "i", "’": "'", "‘": "'", "`": "'", "*": " ", "#": " "})  # markdown ** and ## -> space
 
 
 def fold(s: str) -> str:
@@ -127,8 +130,8 @@ KIND = r"(?:ek\s+madde|geçici\s+madde|ek\s+md|geçici\s+md|ek\s+m|geç\s*m)"
 ART_AFTER = (r"(?:(?:" + KIND + r"\s*\.?\s*|(?:m|md|mad|madde|maddesi|art|article|articles)\s*\.?\s*)" + ART_NUM + PARA +
              r"|" + ART_NUM + PARA + r"\s*(?:\.|" + ORD + r")?\s*(?:maddesi|madde|maddesinde|maddesine|maddesinin|maddeleri|maddesiyle|md|m)(?![a-zçğıöşü]))")
 ART_BARE = ART_NUM + PARA                                          # "TBK 344", "HMK 345/1"
-LAW_NO_TR = r"(?P<no>\d{2,4})\s*(?:s\.|sayili|no'?lu|numarali)\s*"
-LAW_NO_EN = r"(?:law|act|code)\s*(?:no\.?|number)\s*(?P<no2>\d{2,4})"
+LAW_NO_TR = r"(?<!\d)(?P<no>\d{2,4})(?!\d)\s*(?:s\.|sayili|no'?lu|numarali)\s*"
+LAW_NO_EN = r"(?:law|act|code)\s*(?:no\.?|number)\s*(?P<no2>\d{2,4})(?!\d)"
 DECISION = re.compile(
     r"(?P<court>Yargıtay|Yarg\.|YHGK|YCGK|Y\.?\s?\d{1,2}\.?\s?(?:HD|CD)|Danıştay|Dnş\.|Anayasa Mahkemesi|AYM|Court of Cassation|Council of State|Constitutional Court)"
     r"[^\n]{0,120}?(?:E\.|Esas)\s*(?:No\s*[:.]?\s*)?(?P<ey>\d{4})\s*/\s*(?P<en>\d{1,6})"
@@ -167,12 +170,16 @@ class Checker:
         abbr = r"(?P<abbr>(?<![\wçğöşü])(?:" + alt(short) + r"))(?![a-zçğöşü])\.?"
         kanun = r"(?P<kanun>kanun|law|yasa)"
         # "6098 sayılı (Türk Borçlar) Kanun('un)", "Law No. 6458", "TBK", "İş Kanunu"
-        law = (r"(?:" + LAW_NO_TR + r"(?:" + law_name + r"|" + kanun + r")?|" + LAW_NO_EN + r"|" + law_name2 + r"(?:\s*\(\s*(?:law\s+)?(?:no\.?\s*|sayili\s*)?(?P<no3>\d{2,4})\s*(?:sayili)?\s*\))?|" + abbr + r")")
+        law = (r"(?:" + LAW_NO_TR + r"(?:" + law_name + r"|" + kanun + r")?|" + LAW_NO_EN + r"|" + law_name2 + r"(?:\s*\(\s*(?:law\s+)?(?:no\.?\s*|sayili\s*)?(?P<no3>\d{2,4})(?!\d)\s*(?:sayili)?\s*\))?|" + abbr + r")")
         suffix = r"(?:'?\s?(?:nin|nun|nün|in|un|ün|na|ne|ya|ye|da|de|ta|te|ndaki|ndeki|nda|nde|ca|ce|ça|çe)?)"
-        self.re_law_art = re.compile(law + suffix + r"\s*,?\s*(?:(?:the\s+)?)" + r"(?P<art>" + ART_AFTER + r"|" + ART_BARE + r")")
+        # between law and article allow: a parenthetical "(TCC)" / "(Law No. 4857)", an English "on the ..." title, commas
+        between = r"(?:\s*\((?:[^()\d]{1,15}|(?:law\s+)?no\.?\s*\d{2,4})\))?(?:\s+on\s+(?:the\s+)?[a-zçğöşü()\- ]{3,70}?(?=\s*,|\s+art))?\s*,?\s*(?:the\s+)?"
+        self.re_law_art = re.compile(law + suffix + between + r"(?P<art>" + ART_AFTER + r"|(?<=\s)" + ART_BARE + r")")
         # English order: "Article 18 of the Labour Law", "Art. 344 of Law No. 6098", "Article 54 of the LFIP"
         self.re_art_law = re.compile(r"(?:art|article)\s*\.?\s*(?P<art>" + ART_NUM + PARA + r")\s+(?:of\s+(?:the\s+)?)(?:turkish\s+)?" + law)
-        self.re_anaphora = re.compile(r"(?:ayni|söz konusu|bu|anilan|ilgili)\s+(?:kanun|yasa)(?:'?\s?(?:un|nun))?\s+(?P<art>" + ART_AFTER + r")|(?:the\s+same\s+(?:law|code)),?\s*(?:art|article)\s*\.?\s*(?P<art2>" + ART_NUM + r")")
+        # a law cited by number with no article: "Law No. 5837", "6493 sayılı Kanun" (fabricated law numbers are real errors)
+        self.re_law_only = re.compile(r"(?:" + LAW_NO_TR + r"(?:" + law_name + r"|" + kanun + r")|" + LAW_NO_EN + r")")
+        self.re_anaphora = re.compile(r"(?:ayni|söz konusu|anilan)\s+(?:kanun|yasa)(?:'?\s?(?:un|nun))?\s+(?P<art>" + ART_AFTER + r")|(?:the\s+same\s+(?:law|code)),?\s*(?:art|article)\s*\.?\s*(?P<art2>" + ART_NUM + r")")
         self.re_more = re.compile(r"^\s*(?:,|ve|and|ile|-|–|ila|to)\s*(?:m\.?\s*|md\.?\s*|madde\s*|art\.?\s*|article\s*)?(?P<num>\d{1,4})(?:\s*/\s*(?P<let>[a-zçğöşü])(?![a-zçğöşü]))?(?!\d|\s*/\s*\d{4}|\s*(?:sayili|s\.|numarali|no'?lu|tarih|yil|gün|ay\b|hafta|saat|%|tl|lira|year|day|month|week))" + PARA)
 
     def resolve(self, m) -> tuple[str | None, str, str]:
@@ -181,7 +188,7 @@ class Checker:
         no = g.get("no") or g.get("no2") or g.get("no3")
         name = g.get("name") or g.get("name2") or g.get("abbr")
         name_no = self.alias.get(norm(name)) if name else None
-        if no and name_no and no != name_no and not (no == "1475" and name_no == "4857"):
+        if no and name_no and no != name_no and PREDECESSOR.get(no) != name_no:
             return no, "number+name", f"number {no} but name '{name}' is law {name_no}"
         if no:
             return no, "number", ""
@@ -292,8 +299,28 @@ class Checker:
                 p = max(prev, key=lambda c: c.end)
                 kind, num = self.article_key(m.group("art") or m.group("art2"))
                 c = self._make(text, m.start(), m.end(), p.law_no, kind, num, "", p.law_title)
-                c.note = (c.note + "; " if c.note else "") + "law taken from the previous citation"
+                if c.verdict in BAD:                       # an inferred law is never grounds for an accusation
+                    c.note, c.verdict = f"{c.verdict} if the law is {p.law_no}; law inferred from the previous citation", "UNVERIFIED"
+                else:
+                    c.note = (c.note + "; " if c.note else "") + "law taken from the previous citation"
                 cits.append(c); taken.append((m.start(), m.end()))
+        for m in self.re_law_only.finditer(ft):
+            if not free(m.start(), m.end()):
+                continue
+            no, how, clash = self.resolve(m)
+            name = m.groupdict().get("name")
+            if clash:
+                verdict, note = "NUMBER_NAME_CLASH", clash
+            elif no not in self.by_no:
+                verdict, note = "UNKNOWN_LAW", f"no law numbered {no} in the index"
+            else:
+                main, _ = self.pick_slugs(no, name)
+                verdict, note = ("OK", "") if main and self.laws[main[0]]["status"] == "in_force" else ("LAW_REPEALED", f"law {no} is repealed")
+            slug = (self.pick_slugs(no, name)[0] or [None])[0] if no in self.by_no else None
+            law = self.laws.get(slug) if slug else None
+            cits.append(Citation("statute", text[m.start():m.end()], m.start(), m.end(), no, tr_title(law["title"]) if law else None,
+                                 None, verdict, note or "law cited without an article", law["source"] if law else None))
+            taken.append((m.start(), m.end()))
         for m in DECISION.finditer(text):
             if free(m.start(), m.end()):
                 cits.append(self._decision(m))
