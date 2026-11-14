@@ -28,7 +28,8 @@ MATTER = {"type": "string", "description": "Matter (dosya) label; files of the s
 INSTRUCTIONS = """Katip Kalkan masks Turkish personal data (KVKK) on the user's own computer, so that client
 names, ID numbers and health data never reach Claude or Anthropic's servers.
 File names are personal data too ("Ayşe Kaya - epikriz.pdf"). To find a document, call list_files: it
-returns ids and shortened names. Then call mask_file with file_id. Do not list, search or open the folder
+returns ids and shortened names. Then call mask_file with file_id, and put the shortened name from the
+list in the display field (belge / document) so the user sees which document they are approving. Do not list, search or open the folder
 with any other tool (no file listing, Read, Bash or computer use), and do not repeat a file's full name.
 When the user gives a path, mask_file also accepts it. Work only with the masked text that mask_file returns. Use the default profile "ai" unless the user asks for a court copy
 ("court") or full anonymisation ("anon"). Do not open the original file with any other tool, and do not ask the
@@ -40,7 +41,10 @@ in list_files, ask the user to put it in their Katip folder (open_folder shows i
 If the user says "the file I just added" or similar, call mask_file with file_id "latest".
 If the user attaches a client document to the chat instead, it has already been uploaded with the message:
 say so plainly, don't analyse it further unless they confirm, and suggest dropping it into the Katip folder
-and asking again, so the next document stays on their computer."""
+and asking again, so the next document stays on their computer.
+When a Katip tool fails, explain the error in one or two plain sentences in the user's language. Never suggest
+pasting the text, attaching the file, or removing names by hand and sending it: point to the Katip app
+(https://fikrifirat.github.io/katip) instead."""
 
 def _privacy(text: str) -> dict:
     """A fixed argument whose only job is to show up in Claude Desktop's permission prompt, which shows
@@ -52,36 +56,39 @@ def _privacy(text: str) -> dict:
 MASK_NOTE = _privacy(text("privacy_mask"))
 LIST_NOTE = _privacy(text("privacy_list"))
 RESTORE_NOTE = _privacy(text("privacy_restore"))
+INFO = text("info_key")  # the field's name is what Claude Desktop shows as its label ("Bilgi" / "Privacy")
+DOC = text("doc_key")    # display-only: the shortened file name, so the prompt says which document
+DOC_FIELD = {"type": "string", "description": text("doc_desc")}
 FILE_ID = {"type": "string", "description": "Id from list_files (preferred: keeps the file name private)"}
 
 TOOLS = [
     Tool("list_files", *tool("list_files"),
-         {"type": "object", "properties": {"privacy": LIST_NOTE}, "required": ["privacy"],
+         {"type": "object", "properties": {INFO: LIST_NOTE}, "required": [INFO],
           "additionalProperties": False},
          lambda: core.list_files(),
          {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
     Tool("mask_file", *tool("mask_file"),
-         {"type": "object", "properties": {"privacy": MASK_NOTE, "file_id": FILE_ID,
+         {"type": "object", "properties": {INFO: MASK_NOTE, DOC: DOC_FIELD, "file_id": FILE_ID,
                                            "path": {"type": "string", "description": "Absolute path, if no file_id"},
                                            "matter": MATTER, "profile": PROFILE,
                                            "page": {"type": "integer", "minimum": 1, "default": 1}},
-          "required": ["privacy"], "additionalProperties": False},
+          "required": [INFO], "additionalProperties": False},
          lambda path=None, matter="default", page=1, profile=None, file_id=None: core.mask_file(
              path, matter, page, profile, file_id),
          # reads the user's file; writes only the local encrypted vault; never reaches the internet
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
     Tool("write_masked_copy", *tool("write_masked_copy"),
-         {"type": "object", "properties": {"privacy": MASK_NOTE, "file_id": FILE_ID, "path": {"type": "string"},
+         {"type": "object", "properties": {INFO: MASK_NOTE, DOC: DOC_FIELD, "file_id": FILE_ID, "path": {"type": "string"},
                                            "matter": MATTER, "profile": PROFILE, "output_path": {"type": "string"}},
-          "required": ["privacy"], "additionalProperties": False},
+          "required": [INFO], "additionalProperties": False},
          lambda path=None, matter="default", output_path=None, profile=None, file_id=None: core.write_redacted(
              path, matter, output_path, profile, file_id),
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
     Tool("restore_to_file", *tool("restore_to_file"),
-         {"type": "object", "properties": {"privacy": RESTORE_NOTE, "text": {"type": "string"},
+         {"type": "object", "properties": {INFO: RESTORE_NOTE, "text": {"type": "string"},
                                            "output_path": {"type": "string", "description": "e.g. ~/Desktop/dilekce.txt"},
                                            "matter": MATTER},
-          "required": ["privacy", "text", "output_path"], "additionalProperties": False},
+          "required": [INFO, "text", "output_path"], "additionalProperties": False},
          lambda text, output_path, matter="default": core.restore_to_file(text, output_path, matter),
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
     Tool("forget_matter", *tool("forget_matter"),

@@ -1,6 +1,6 @@
 {
   "name": "katip-kalkan",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "KVKK-safe document work: Katip masks Turkish personal data on your computer, so Claude only ever sees placeholders such as [AD SOYAD-1]. Originals and the name map never leave the device.",
   "author": {"name": "fikrifirat", "url": "https://github.com/fikrifirat"},
   "homepage": "https://fikrifirat.github.io/katip",

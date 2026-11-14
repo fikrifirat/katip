@@ -7,6 +7,13 @@ client files. Ask Claude to "open my Katip folder" to see it in Finder or Explor
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.3.4 (wording):**
+- Install text in Turkish and English. It says what Katip does, why Claude Desktop warns, and that the first start takes about a minute.
+- Settings in plain words. The threshold setting is removed.
+- Permission boxes show which document is being opened ("Belge: … - Vatandaşlık Dava Dilekçesi.udf").
+- Errors say what to do next and never suggest pasting client text.
+- Claude mentions once that the final text can be saved with the real names on this computer.
+
 **New in 0.3.3:**
 - Fixed: files that mention biometric or genetic data (or "sağlık") were refused. The safety check found the word inside its own placeholder ("[BİYOMETRİK/GENETİK-1]") and counted it as a leak. Placeholders are now ignored by the check.
 

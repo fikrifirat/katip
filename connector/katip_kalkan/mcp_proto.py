@@ -85,7 +85,8 @@ class Server:
                 raise _RpcError(-32602, f"unknown tool {params.get('name')!r}")
             try:
                 args = dict(params.get("arguments") or {})
-                args.pop("privacy", None)  # shown in the permission prompt only
+                for k in ("privacy", "bilgi", "belge", "document"):  # shown in the permission prompt only
+                    args.pop(k, None)
                 out = tool.fn(**args)
                 return {"content": [{"type": "text", "text": json.dumps(out, ensure_ascii=False)}],
                         "structuredContent": out, "isError": False}
