@@ -82,7 +82,7 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
        for k, v in DIMS.items()},
     "params":  ("Params", "How many learned weights the model has.", False),
     "offline": ("Offline", "Runs on your own machine with no internet connection, so documents never leave the firm.", True),
-    "browser": ("Browser", "Runs inside a web page: nothing to install, and the document never leaves your computer.", True),
+    "browser": ("Browser", "✓ = we have run it inside a web page (Katip Mask demo: rules in Python via Pyodide/WebAssembly, model via transformers.js + ONNX Runtime Web). Nothing to install and the document never leaves the computer. Blank = not tested yet, not necessarily impossible.", True),
     "licence": ("Licence", "Licence of the model. NC = no commercial use.", True),
 }
 NUM = ("overall", *DIMS, "leak")
