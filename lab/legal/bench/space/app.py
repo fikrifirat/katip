@@ -29,6 +29,7 @@ SYSTEMS = {   # key: (model name, credit line, model link, developer link)
     "xlmr-conll": ("XLM-RoBERTa Large NER", "by FacebookAI · fine-tuned on English CoNLL-03", "https://huggingface.co/FacebookAI/xlm-roberta-large-finetuned-conll03-english", "https://huggingface.co/FacebookAI"),
     "gliner2-pii": ("GLiNER2 PII Multi", "by fastino · GLiNER2, 2026", "https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi", "https://huggingface.co/fastino"),
     "openai-pf":  ("Privacy Filter", "by OpenAI · open-weight PII model, 2026", "https://huggingface.co/openai/privacy-filter", "https://huggingface.co/openai"),
+    "openmed-pf-v2": ("Privacy Filter Multilingual v2", "by OpenMed · fine-tuned from OpenAI Privacy Filter", "https://huggingface.co/OpenMed/privacy-filter-multilingual-v2", "https://huggingface.co/OpenMed"),
     "piiranha":   ("Piiranha v1", "by iiiorg · DeBERTa-v3 PII model", "https://huggingface.co/iiiorg/piiranha-v1-detect-personal-information", "https://huggingface.co/iiiorg"),
     "openmed-tr-33m": ("OpenMed PII Turkish Small", "by OpenMed · ClinicalE5 33M", "https://huggingface.co/OpenMed/OpenMed-PII-Turkish-ClinicalE5-Small-33M-v1", "https://huggingface.co/OpenMed"),
     "qwen-1.5b":  ("Qwen2.5 1.5B Instruct (zero-shot)", "by Qwen Team, Alibaba Cloud", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct", "https://huggingface.co/Qwen"),
@@ -41,7 +42,7 @@ TYPES = {"model": "🔶 Fine-tuned model", "llm": "💬 Prompted LLM", "rules": 
 BASELINES = {"presidio", "savasy"}   # reference points, marked with a tag
 LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-SA 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
            "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT", "xlmr-conll": "MIT", "gliner2-pii": "Apache-2.0",
-           "openai-pf": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0"}
+           "openai-pf": "Apache-2.0", "openmed-pf-v2": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 
 # Masking dimensions: what a masking tool has to catch. Each is scored as F2 (missing counts 4x more than over-masking).
