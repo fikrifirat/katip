@@ -71,10 +71,21 @@ reduces but does not remove KVKK obligations.
 
 \textbf{Gap.} Several Turkish PII models are public, but each reports on its own data, usually synthetic or a
 validation split. Our own first model illustrates the risk: BERTurk fine-tuned on synthetic legal documents found
-every name in synthetic tests and 41\% of names in real Wikipedia sentences \citep{katip-repo}. Existing
-anonymisation benchmarks are English (TAB, ECHR cases \citep{pilan2022tab}; i2b2 clinical notes
-\citep{stubbs2015i2b2}). Turkish legal NER data exists \citep{cetindag2022tlner} but its person names are mostly
-anonymised as ``\ldots''.
+every name in synthetic tests and 41\% of names in real Wikipedia sentences \citep{katip-repo}.
+
+\textbf{Related work.} Anonymisation benchmarks with real text are English: TAB on ECHR judgments
+\citep{pilan2022tab} and i2b2 clinical notes \citep{stubbs2015i2b2}. Recent PII benchmarks are generated
+under controlled conditions (REDACT, 25 languages \citep{vats2026redact}; PII-style audits of popular masking
+models \citep{singh2025unmasking}) or pool existing corpora under one label set (PIIBench \citep{jha2026piibench}).
+Thunder-DeID is the closest analogue in a single jurisdiction: a de-identification dataset and model for Korean
+court judgments \citep{hahm2025thunder}. Name detectors are known to fail unevenly across demographic groups
+\citep{mansfield2022behind}, which motivates our foreign-name track. Independent multilingual evaluations also find
+Presidio and OpenAI Privacy Filter variants well behind trained encoders \citep{graehl2026privacytagging},
+consistent with our results. For Turkish, legal NER data exists \citep{cetindag2022tlner} but its person names
+are mostly anonymised as ``\ldots''; Turkish legal encoders (Mecellem \citep{ugur2026mecellem}, HukukBERT
+\citep{ozturk2026hukukbert}) are candidate base models we have not yet tried; and an audit found that 70\% of
+commonly used Turkish benchmarks fail basic quality criteria \citep{cengiz2025turkishbench}, which is why we
+document construction, licences and known defects in detail (Appendix~\ref{app:datasheet}).
 
 \section{KVKK-Bench}
 \label{sec:bench}
@@ -101,7 +112,8 @@ A name-free legal-prose track (3 documents) counts false alarms.
 and covers at least half of it (and $\geq$3 characters; whitespace- and case-insensitive). A predicted span is
 \emph{correct} if it overlaps a gold value of its type \emph{and} at least half of its letters and digits lie
 inside such values. The second condition is a fix in v0.1.2: before it, one span over the whole document scored
-100\% precision. Per dimension we compute F2 \citep{vanrijsbergen1979} from pooled recall and precision (a miss
+100\% precision, the same class of defect that benchmark audits report elsewhere (e.g.\ empty responses counted
+as successes \citep{zhu2025abc}). Per dimension we compute F2 \citep{vanrijsbergen1979} from pooled recall and precision (a miss
 costs four times a false alarm). \textbf{Overall} is the weighted mean of three real-text name dimensions:
 Turkish names in court text (weight 25), foreign names in court text (10), names in general prose (10). The
 \textbf{leak rate} is the share of gold personal-data characters left unmasked by any predicted span, averaged
@@ -131,7 +143,7 @@ casing and suffix handling; 0.3\,MB) with the browser's own code at a confidence
 data. \textbf{Baselines} (run unmodified, label maps written from each model's \texttt{id2label} before scoring):
 Presidio with spaCy \texttt{xx\_ent\_wiki\_sm} \citep{presidio}; Turkish NER (BERTurk NER, XLM-R Base Turkish NER);
 XLM-R Large fine-tuned on English CoNLL-03 \citep{conneau2020xlmr}; GLiNER multi-PII \citep{zaratiana2024gliner}
-and GLiNER2 PII \citep{zaratiana2025gliner2} prompted with \emph{person}; Turkish PII models (ModernBERT-TR PII,
+and GLiNER2-PII \citep{zaratiana2025gliner2,zaratiana2026gliner2pii} prompted with \emph{person}; Turkish PII models (ModernBERT-TR PII,
 OpenMed PII Turkish 33M); multilingual PII models (OpenAI Privacy Filter \citep{openai-pf}, OpenMed Privacy Filter
 v2, Piiranha); and Qwen2.5-1.5B-Instruct \citep{qwen2025} prompted to list personal data as JSON. All systems
 receive identical text and are timed on one Apple-silicon laptop (12 CPUs) in Python; a page is 500 words.
@@ -187,7 +199,8 @@ both slow (80\,s per page on CPU) and unreliable (57.5, CI width 22 points).
 \textbf{Error analysis (Base).} On court-turkish it misses 1 of 1,011 names; its 5 false spans are rapporteur
 names whose span also swallowed the title (\emph{Tetkik Hakimi \ldots}), so the name is masked but the span fails
 the 50\% rule. On court-foreign it misses 30 of 1,011; recall by origin is 95--100\% except Azerbaijani names
-(82\%, 41/50), which are often built from Turkish word stems (XLM-R Large: 98\%). On prose it misses 67 of 654:
+(82\%, 41/50), which are often built from Turkish word stems (XLM-R Large: 98\%); per-group gaps of this kind
+are the demographic failure mode reported for English PII masking \citep{mansfield2022behind}. On prose it misses 67 of 654:
 single-token names 11\% (32/300) and names of three or more tokens 27\% (22/81), versus 5\% for two-token names;
 false spans are mostly titles of works and organisations (\emph{Bohemian Rhapsody}, \emph{Florya Metin Oktay}).
 The higher leak rate of Base versus XLM-R Large comes from prose (17.6\% vs 9.8\%), i.e.\ long and single-token names
@@ -242,8 +255,73 @@ exposure but does not by itself make an AI workflow compliant.
 \texttt{bench\_run.py --rescore} re-scores the saved predictions; the CI script and figure are in
 \texttt{paper/}. All numbers in this draft were reproduced from those files on 14 November 2026.
 
+\textbf{Ethics statement.} No private or client documents were used. Every personal value inserted into the
+benchmark is synthetic; the only real names are those that courts or Wikipedia published. The benchmark
+measures leakage so that tools can be compared, not to certify compliance. Reporting follows Datasheets
+\citep{gebru2021datasheets}, Data Statements \citep{bender2018datastatements} and Model Cards
+\citep{mitchell2019modelcards} (Appendix~\ref{app:datasheet}; model cards on Hugging Face).
+
 \small
 \bibliographystyle{plainnat}
 \bibliography{refs}
+
+\normalsize
+\appendix
+\section{Per-track results}
+\label{app:tracks}
+\begin{table*}[h]
+\centering\footnotesize
+\setlength{\tabcolsep}{2.6pt}
+\begin{tabular}{@{}l rrrrr rrrrr rrrrr@{}}
+\toprule
+& \multicolumn{5}{c}{court-turkish} & \multicolumn{5}{c}{court-foreign} & \multicolumn{5}{c}{prose} \\
+\cmidrule(lr){2-6}\cmidrule(lr){7-11}\cmidrule(lr){12-16}
+System & R & P & Leak & Clean & FA/1k & R & P & Leak & Clean & FA/1k & R & P & Leak & Clean & FA/1k \\
+\midrule
+Katip Mask Base & 99.9 & 93.5 & 0.2 & 99 & 3.3 & 97.0 & 93.3 & 2.9 & 90 & 3.3 & 89.8 & 85.7 & 17.6 & 52 & 6.7 \\
+XLM-R Large (CoNLL-en) & 99.1 & 92.2 & 0.1 & 97 & 4.1 & 99.1 & 91.7 & 0.2 & 95 & 4.3 & 89.3 & 92.6 & 9.8 & 59 & 3.2 \\
+XLM-R Base Turkish NER & 98.3 & 99.4 & 1.1 & 94 & 0.3 & 97.9 & 99.4 & 1.2 & 90 & 0.3 & 85.6 & 89.2 & 17.7 & 49 & 4.7 \\
+GLiNER2 PII & 98.7 & 95.7 & 1.8 & 94 & 2.1 & 98.7 & 96.4 & 1.8 & 93 & 1.8 & 91.1 & 63.6 & 13.8 & 57 & 23.0 \\
+BERTurk NER & 96.9 & 99.5 & 2.2 & 87 & 0.2 & 89.9 & 99.6 & 4.7 & 69 & 0.2 & 74.5 & 89.6 & 17.3 & 47 & 4.0 \\
+GLiNER multi PII & 93.3 & 92.4 & 7.3 & 96 & 3.6 & 92.8 & 93.4 & 7.7 & 94 & 3.1 & 88.2 & 75.1 & 16.6 & 56 & 12.5 \\
+Katip Mask Nano & 95.0 & 87.1 & 5.6 & 80 & 6.9 & 94.8 & 87.0 & 5.4 & 79 & 6.8 & 57.5 & 58.9 & 44.5 & 28 & 19.2 \\
+ModernBERT-TR PII & 98.9 & 97.1 & 1.9 & 76 & 1.5 & 96.2 & 97.7 & 3.2 & 65 & 1.3 & 34.3 & 91.3 & 59.6 & 11 & 2.2 \\
+Qwen2.5-1.5B, prompted & 55.9 & 60.1 & 40.4 & 51 & 19.3 & 54.0 & 59.9 & 41.5 & 50 & 18.6 & 56.3 & 29.4 & 41.5 & 33 & 65.1 \\
+OpenMed Privacy Filter v2 & 56.1 & 60.9 & 35.2 & 32 & 25.6 & 53.4 & 60.3 & 35.2 & 31 & 27.3 & 52.9 & 35.9 & 38.8 & 28 & 54.3 \\
+OpenAI Privacy Filter & 54.0 & 73.6 & 42.9 & 23 & 10.2 & 53.8 & 76.6 & 44.0 & 23 & 8.6 & 24.6 & 53.8 & 70.7 & 17 & 9.6 \\
+Piiranha v1 & 36.1 & 84.3 & 58.6 & 35 & 4.4 & 56.1 & 85.1 & 31.9 & 54 & 6.0 & 55.7 & 61.0 & 45.6 & 35 & 17.1 \\
+Presidio + spaCy xx & 40.6 & 33.4 & 42.2 & 28 & 43.6 & 45.8 & 36.5 & 40.7 & 23 & 43.3 & 75.1 & 33.9 & 12.4 & 76 & 58.9 \\
+OpenMed PII Turkish 33M & 9.8 & 21.2 & 85.9 & 1 & 46.3 & 15.8 & 27.9 & 76.7 & 7 & 45.7 & 35.0 & 28.1 & 56.5 & 14 & 49.4 \\
+\bottomrule
+\end{tabular}
+\caption{Recall (R), precision (P), leak rate, clean-document rate (documents with nothing left readable) and
+false alarms per 1,000 words (FA/1k), all in \%, except FA/1k. Point estimates on the public split.}
+\label{tab:tracks}
+\end{table*}
+
+\section{Datasheet summary}
+\label{app:datasheet}
+\begin{itemize}
+\item \textbf{Motivation.} Compare Turkish personal-data maskers on the same text with the same scorer; built by
+one developer (Katip), unfunded.
+\item \textbf{Composition.} Public split v0.1.2: court-turkish 327 docs / 1,011 names; court-foreign 327 / 1,011;
+prose 1,000 / 654; generated tracks 380 docs (80 Katip documents in 16 styles, 300 foreign-client petitions) with
+TCKN, VKN, YKN, passport, foreign ID, IBAN, card, phone, e-mail, address, plate, birth date and health values;
+no-pii 3 docs. Language: Turkish (court register and Wikipedia); names from ten origin groups.
+\item \textbf{Collection and labelling.} Court text: TurkishLegalNER test split, original PER tags; slots refilled
+programmatically, so gold is exact by construction. Names: Wikidata (CC0) via QLever, filtered against every
+Katip lexicon and training set. Prose: Turkish Wiki NER test annotations as published. One annotator for checks;
+no crowd work.
+\item \textbf{Preprocessing.} Case suffixes re-inflected to the new name; casing sampled to match court style;
+titles kept outside spans; a canary string heads every file.
+\item \textbf{Uses.} Evaluating detectors before masking documents for AI tools. Not for training (the canary
+asks crawlers to exclude it) and not as evidence of legal compliance.
+\item \textbf{Distribution.} GitHub (scorer, builder, predictions) and the Hugging Face Space; licences per source
+(Apache-2.0, CC BY-SA 4.0, CC BY 4.0).
+\item \textbf{Maintenance.} Label errors and privacy requests via GitHub issues (privacy removals within 7 days);
+versioned changelog; every system is re-scored when labels change.
+\item \textbf{Known defects.} Listed in the limitations; the YKN/passport harness defect is reported in
+Section~\ref{sec:results}.
+\end{itemize}
 
 \end{document}
