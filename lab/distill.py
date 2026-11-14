@@ -24,10 +24,13 @@ import katiplab as K
 LABELS = ["O", "B-PER", "I-PER"]
 WORD = regex.compile(K.WORD_RE)
 
-ARCH = {  # name: (hidden, layers, heads, intermediate); vocab 16k for all
+ARCH = {  # name: (hidden, layers, heads, intermediate); vocab 16k unless train_student gets another
     "tiny":  (128, 2, 2, 512),     # today's katip-tr-name-tagger-tiny, ~2.6 MB int8
     "mini":  (192, 3, 3, 768),     # ~4.6 MB
     "small": (256, 4, 4, 1024),    # ~7.6 MB
+    "mini-a": (384, 4, 6, 1536),   # Katip Mask Mini candidates (15-30 MB int8 with a 32k vocab)
+    "mini-b": (384, 6, 6, 1536),
+    "mini-c": (512, 4, 8, 2048),
 }
 
 
@@ -175,7 +178,7 @@ def soft_labels(teacher_dir, docs, device="auto", bs=32, maxtok=256, log=print) 
 
 # ---------------------------------------------------------------------------------------------- student
 def train_student(out, docs, soft=None, arch="tiny", kd_weight=0.5, temperature=2.0, epochs=5, seed=0, maxtok=256,
-                  vocab=16000, log=print) -> dict:
+                  vocab=16000, log=print, device="cpu", lr=1e-3, bs=32) -> dict:
     """Train a BERT tagger from scratch, like ml/train.py. With `soft` (teacher log-probs per doc, from soft_labels;
     None entries allowed), the loss is (1 - kd_weight) * cross-entropy(gold) + kd_weight * T² * KL(teacher_T || student_T).
     kd_weight=0 reproduces plain training."""
@@ -216,10 +219,11 @@ def train_student(out, docs, soft=None, arch="tiny", kd_weight=0.5, temperature=
     h, L, H, I = ARCH[arch] if isinstance(arch, str) else arch
     cfg = BertConfig(vocab_size=tok.get_vocab_size(), hidden_size=h, num_hidden_layers=L, num_attention_heads=H, intermediate_size=I,
                      max_position_embeddings=maxtok, num_labels=3, id2label=dict(enumerate(LABELS)), label2id={l: i for i, l in enumerate(LABELS)})
-    model = BertForTokenClassification(cfg)
-    BS = 32; n_seqs = len(sequences(False)); steps = epochs * math.ceil(n_seqs / BS)
-    opt = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=0.01)
-    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=1e-3, total_steps=steps + 50, pct_start=0.1)
+    dev = _device(device)
+    model = BertForTokenClassification(cfg).to(dev)
+    BS = bs; n_seqs = len(sequences(False)); steps = epochs * math.ceil(n_seqs / BS)
+    opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.01)
+    sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=lr, total_steps=steps + 50, pct_start=0.1)
     log(f"student {arch}: {sum(p.numel() for p in model.parameters()):,} params · {len(docs)} docs · {n_seqs} windows · "
         f"KD weight {kd_weight if soft is not None else 0} · T {temperature}")
     t0, step = time.time(), 0; model.train(); T = temperature
@@ -232,6 +236,7 @@ def train_student(out, docs, soft=None, arch="tiny", kd_weight=0.5, temperature=
             for r, (a, b, t, hs) in enumerate(chunk):
                 ids[r, :len(a)] = torch.tensor(a); y[r, :len(b)] = torch.tensor(b); m[r, :len(a)] = 1
                 tl[r, :len(a)] = torch.from_numpy(t); has[r, :len(a)] = torch.from_numpy(hs)
+            ids, y, m, tl, has = ids.to(dev), y.to(dev), m.to(dev), tl.to(dev), has.to(dev)
             logits = model(input_ids=ids, attention_mask=m).logits
             ce = F.cross_entropy(logits.reshape(-1, 3), y.reshape(-1), ignore_index=-100)
             if soft is not None and kd_weight > 0 and has.any():
@@ -244,7 +249,7 @@ def train_student(out, docs, soft=None, arch="tiny", kd_weight=0.5, temperature=
             if step < steps + 49: sched.step()
             step += 1
         log(f"  epoch {ep + 1}/{epochs}  loss {loss.item():.4f}  ({time.time() - t0:.0f}s)")
-    model.eval(); model.save_pretrained(out)
+    model = model.cpu().eval(); model.save_pretrained(out)
     tok.save(str(out / "tokenizer.json"))
     PreTrainedTokenizerFast(tokenizer_file=str(out / "tokenizer.json"), cls_token="[CLS]", sep_token="[SEP]", pad_token="[PAD]",
                             unk_token="[UNK]", mask_token="[MASK]", model_max_length=maxtok).save_pretrained(out)
