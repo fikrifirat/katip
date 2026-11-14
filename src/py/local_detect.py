@@ -116,6 +116,38 @@ def _join_model_names(text, extra):
     return out
 
 
+def _name_repeats(text, results):
+    """A word of a full name found in the document (two or more words) is masked again where it appears alone,
+    capitalised ("Ayşe Vardar ... Vardar'ın evi"). Ordinary words (Türk in "Ahmet Türk"), stop words, place and
+    title words and all-capital acronyms are left alone."""
+    words = {}
+    for r in results:
+        if r.entity_type != "PERSON":
+            continue
+        toks = [m for m in _TOK.finditer(text[r.start:r.end])]
+        if len(toks) < 2:
+            continue
+        for m in toks:
+            w = m.group(0)
+            f = fold(w)
+            if (len(w) >= 3 and w[0].isupper() and not w.isupper() and f not in _stopwords() and f not in _person_stop()
+                    and not is_lexical(w)):
+                words[w] = r.score
+    covered = [(r.start, r.end) for r in results if r.entity_type == "PERSON"]
+    out = []
+    for w, sc in words.items():
+        for m in re.finditer(rf"(?<![{TR_LETTER}]){re.escape(w)}(?![{TR_LETTER}])", text):
+            a, b = m.span()
+            if any(x < b and y > a for x, y in covered):
+                continue
+            nxt = re.match(rf"[ \t]+([{TR_LETTER}]+)", text[b:b + 40])
+            if nxt and nxt.group(1)[0].isupper() and is_lexical(nxt.group(1)):
+                continue  # part of a title: "Türk Vatandaşlığı Kanunu", "Yıldız Teknik Üniversitesi"
+            covered.append((a, b))
+            out.append(_result("PERSON", a, b, sc, "same name word found earlier in the document", "name_repeat"))
+    return out
+
+
 def _stopwords():
     from katip_redact.textutil import wordlist
     return wordlist("stopwords_caps.txt")
@@ -317,6 +349,8 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
             _add_model_span(text, results, s, e, sc, trust)
         else:
             _add_model_typed(text, results, typ, s, e, sc)
+    if "PERSON" in entities:
+        results += _name_repeats(text, results)
     if "TCKN" in entities:
         results += [_result("TCKN", s, e, sc, why, "tckn_ocr") for s, e, sc, why in ocr_tckn(text, ocr_ranges) if sc >= threshold]
     results += [_result(t, s, e, sc, why, "form_row_ocr") for t, s, e, sc, why in ocr_form_values(text, ocr_ranges)

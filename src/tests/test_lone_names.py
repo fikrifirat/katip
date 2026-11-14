@@ -52,6 +52,16 @@ def test_unsure_common_word_stays_readable():
     assert people("Bu konuda Tüm tarafların onayı alındı.", [("Tüm", 0.6)]) == []
 
 
+def test_surname_repeated_alone_is_masked():
+    t = "Davacı Ayşe Vardar ile görüşüldü. Vardar'ın beyanı dosyadadır."
+    assert "Vardar" in people(t, [("Ayşe Vardar", 0.9)])
+
+
+def test_name_word_inside_a_law_title_stays_readable():
+    t = "Davacı Ahmet Türk, Türk Medenî Kanunu uyarınca başvurdu."
+    assert people(t, [("Ahmet Türk", 0.9)]) == ["Ahmet Türk"]
+
+
 if __name__ == "__main__":
     fails = 0
     for n, f in list(globals().items()):
