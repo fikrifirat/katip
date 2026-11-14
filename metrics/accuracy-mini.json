@@ -1,0 +1,205 @@
+{
+ "model": "berturk",
+ "sets": {
+  "blind": {
+   "docs": 80,
+   "ms_per_doc": 11.2,
+   "types": {
+    "ADDRESS": {
+     "gold": 80,
+     "found": 80,
+     "spans": 80,
+     "false": 0
+    },
+    "BIRTH_DATE": {
+     "gold": 35,
+     "found": 35,
+     "spans": 35,
+     "false": 0
+    },
+    "CREDIT_CARD": {
+     "gold": 5,
+     "found": 5,
+     "spans": 5,
+     "false": 0
+    },
+    "EMAIL": {
+     "gold": 45,
+     "found": 45,
+     "spans": 45,
+     "false": 0
+    },
+    "HEALTH": {
+     "gold": 26,
+     "found": 26,
+     "spans": 36,
+     "false": 10
+    },
+    "IBAN": {
+     "gold": 35,
+     "found": 35,
+     "spans": 35,
+     "false": 0
+    },
+    "PERSON": {
+     "gold": 365,
+     "found": 364,
+     "spans": 359,
+     "false": 0
+    },
+    "PHONE": {
+     "gold": 55,
+     "found": 55,
+     "spans": 55,
+     "false": 0
+    },
+    "PLATE": {
+     "gold": 20,
+     "found": 20,
+     "spans": 20,
+     "false": 0
+    },
+    "TCKN": {
+     "gold": 75,
+     "found": 73,
+     "spans": 73,
+     "false": 0
+    },
+    "UNION": {
+     "gold": 1,
+     "found": 1,
+     "spans": 1,
+     "false": 0
+    },
+    "VKN": {
+     "gold": 15,
+     "found": 15,
+     "spans": 15,
+     "false": 0
+    },
+    "YKN": {
+     "gold": 0,
+     "found": 0,
+     "spans": 2,
+     "false": 0
+    }
+   },
+   "total": {
+    "gold": 757,
+    "found": 754,
+    "spans": 761,
+    "false": 10
+   }
+  },
+  "heldout": {
+   "docs": 60,
+   "ms_per_doc": 10.7,
+   "types": {
+    "ADDRESS": {
+     "gold": 70,
+     "found": 70,
+     "spans": 70,
+     "false": 0
+    },
+    "BIRTH_DATE": {
+     "gold": 30,
+     "found": 30,
+     "spans": 30,
+     "false": 0
+    },
+    "CREDIT_CARD": {
+     "gold": 5,
+     "found": 5,
+     "spans": 5,
+     "false": 0
+    },
+    "EMAIL": {
+     "gold": 40,
+     "found": 40,
+     "spans": 40,
+     "false": 0
+    },
+    "HEALTH": {
+     "gold": 26,
+     "found": 26,
+     "spans": 31,
+     "false": 5
+    },
+    "IBAN": {
+     "gold": 30,
+     "found": 30,
+     "spans": 30,
+     "false": 0
+    },
+    "PERSON": {
+     "gold": 275,
+     "found": 274,
+     "spans": 272,
+     "false": 0
+    },
+    "PHONE": {
+     "gold": 45,
+     "found": 45,
+     "spans": 45,
+     "false": 0
+    },
+    "PLATE": {
+     "gold": 20,
+     "found": 20,
+     "spans": 20,
+     "false": 0
+    },
+    "TCKN": {
+     "gold": 60,
+     "found": 59,
+     "spans": 59,
+     "false": 0
+    },
+    "UNION": {
+     "gold": 2,
+     "found": 2,
+     "spans": 2,
+     "false": 0
+    },
+    "VKN": {
+     "gold": 15,
+     "found": 15,
+     "spans": 15,
+     "false": 0
+    },
+    "YKN": {
+     "gold": 0,
+     "found": 0,
+     "spans": 1,
+     "false": 0
+    }
+   },
+   "total": {
+    "gold": 618,
+    "found": 616,
+    "spans": 620,
+    "false": 5
+   }
+  },
+  "negatives": {
+   "docs": 3,
+   "ms_per_doc": 15.8,
+   "types": {
+    "HEALTH": {
+     "gold": 0,
+     "found": 0,
+     "spans": 1,
+     "false": 1
+    }
+   },
+   "total": {
+    "gold": 0,
+    "found": 0,
+    "spans": 1,
+    "false": 1
+   }
+  }
+ },
+ "trust": 0.5,
+ "model_dir": "katip-mask-mini"
+}

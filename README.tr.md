@@ -53,7 +53,7 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 
 | Model | Nedir | Bulunan değer (kör set) | Bulunan isim |
 | --- | --- | --- | --- |
-| **Katip Mask Mini · tr v2** (önerilen, varsayılan) | Katip Kural + [`katip-mask-mini`](https://huggingface.co/f1k/katip-mask-mini), 31 MB, Katip Mask Base'ten damıtıldı; gündelik metinde Nano'dan çok daha fazla isim bulur (KVKK-Bench: %72,5'e karşı %52,9) | MINI_BLIND | MINI_NAMES |
+| **Katip Mask Mini · tr v2** (önerilen, varsayılan) | Katip Kural + [`katip-mask-mini`](https://huggingface.co/f1k/katip-mask-mini), 31 MB, Katip Mask Base'ten damıtıldı; gündelik metinde Nano'dan çok daha fazla isim bulur (KVKK-Bench: %72,5'e karşı %52,9) | 757'de 754 (%99,6) | 365'te 364 |
 | **Katip Mask Nano · tr v1.1** (hızlı mod) | Katip Kural + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2,5 MB, Türk ve yabancı müvekkil isimleri | **757'de 756 (%99,9)** | 365'te 364 |
 | **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 756 (%99,9) | 365'te 364 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |

@@ -52,7 +52,7 @@ names never seen during development or training, in 16 document styles (4 of the
 
 | Model | What it is | Values found (blind) | Names found |
 | --- | --- | --- | --- |
-| **Katip Mask Mini · tr v2** (recommended, default) | Katip Rules + [`katip-mask-mini`](https://huggingface.co/f1k/katip-mask-mini), 31 MB, distilled from Katip Mask Base; finds far more names in everyday prose than Nano (KVKK-Bench: 72.5% vs 52.9%) | MINI_BLIND | MINI_NAMES |
+| **Katip Mask Mini · tr v2** (recommended, default) | Katip Rules + [`katip-mask-mini`](https://huggingface.co/f1k/katip-mask-mini), 31 MB, distilled from Katip Mask Base; finds far more names in everyday prose than Nano (KVKK-Bench: 72.5% vs 52.9%) | 754 / 757 (99.6%) | 364 / 365 |
 | **Katip Mask Nano · tr v1.1** (fast mode) | Katip Rules + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2.5 MB, Turkish and foreign client names | **756 / 757 (99.9%)** | 364 / 365 |
 | **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 756 / 757 (99.9%) | 364 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |

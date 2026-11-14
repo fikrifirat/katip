@@ -1,5 +1,5 @@
 {
- "transformers_version": "5.23.0",
+ "transformers_version": "5.22.1",
  "architectures": [
   "DistilBertForTokenClassification"
  ],
@@ -19,13 +19,13 @@
   "I-PER": 2
  },
  "problem_type": null,
- "vocab_size": 8000,
+ "vocab_size": 12000,
  "max_position_embeddings": 512,
- "sinusoidal_pos_embds": false,
+ "sinusoidal_pos_embds": true,
  "n_layers": 3,
- "n_heads": 2,
- "dim": 64,
- "hidden_dim": 128,
+ "n_heads": 12,
+ "dim": 768,
+ "hidden_dim": 3072,
  "dropout": 0.1,
  "attention_dropout": 0.1,
  "activation": "gelu",
@@ -36,8 +36,10 @@
  "eos_token_id": null,
  "bos_token_id": null,
  "tie_word_embeddings": true,
- "_name_or_path": "/tmp/claude-0/fake_distil",
+ "_name_or_path": "/root/.cache/huggingface/hub/models--dbmdz--distilbert-base-turkish-cased/snapshots/8ecd4d034c2612d4c5940795b4f2552a9f3543d6",
  "model_type": "distilbert",
+ "output_past": true,
+ "tie_weights_": true,
  "output_attentions": false,
  "katip": {
   "word_regex": "[\\p{L}\\p{N}][\\p{L}\\p{N}'\u2019.-]*",
@@ -45,15 +47,15 @@
   "labels": "word-level BIO on first sub-token",
   "lab": {
    "role": "mini-v2",
-   "init": "/tmp/claude-0/fake_distil",
+   "init": "dbmdz/distilbert-base-turkish-cased",
    "layers": [
     0,
     2,
     5
    ],
-   "vocab": 8000,
-   "teacher": "none",
-   "epochs": 1
+   "vocab": 12000,
+   "teacher": "f1k/katip-mask-base",
+   "epochs": 4
   }
  }
 }
