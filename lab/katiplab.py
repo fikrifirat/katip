@@ -141,7 +141,8 @@ class Tagger:
         self.sess = ort.InferenceSession(str(f), so)
         self.onnx_file = f
         self.word = regex.compile(self.cfg["katip"]["word_regex"]); self.maxtok = self.cfg["katip"]["max_tokens"]
-        self.CLS, self.SEP, self.UNK = (self.tok.token_to_id(t) for t in ("[CLS]", "[SEP]", "[UNK]"))
+        tid = lambda *ts: next(i for i in map(self.tok.token_to_id, ts) if i is not None)
+        self.CLS, self.SEP, self.UNK = tid("[CLS]", "<s>"), tid("[SEP]", "</s>"), tid("[UNK]", "<unk>")   # BERT or XLM-R vocab
         self.id2label = {int(k): v for k, v in self.cfg["id2label"].items()}
         self.inputs = {i.name for i in self.sess.get_inputs()}
 
