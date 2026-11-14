@@ -1,0 +1,594 @@
+{
+ "system": "openmed-sc-44m",
+ "name": "OpenMed/OpenMed-PII-SuperClinical-Small-44M-v1",
+ "split": "public",
+ "version": "v0.1.2",
+ "runs_locally": true,
+ "runs_in_browser": false,
+ "params": 141385834,
+ "size_mb": 565.5,
+ "size_note": "weights as loaded (fp32)",
+ "ms_per_doc": 23.3,
+ "words_per_s": 1737.0,
+ "ms_per_page": 288.0,
+ "machine": "arm64 Darwin, 12 CPUs",
+ "tracks": {
+  "contract": {
+   "types": {
+    "PERSON": {
+     "gold": 50,
+     "recall": 0.3,
+     "precision": 0.3333333333333333,
+     "f2": 0.3061224489795918,
+     "exact_recall": 0.0
+    },
+    "TCKN": {
+     "gold": 30,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "BIRTH_DATE": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "ADDRESS": {
+     "gold": 25,
+     "recall": 0.0,
+     "precision": 0.7142857142857143,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PHONE": {
+     "gold": 20,
+     "recall": 0.85,
+     "precision": 0.88,
+     "f2": 0.8558352402745996,
+     "exact_recall": 0.0
+    },
+    "EMAIL": {
+     "gold": 20,
+     "recall": 1.0,
+     "precision": 0.8,
+     "f2": 0.9523809523809523,
+     "exact_recall": 0.0
+    },
+    "HEALTH": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "VKN": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "CREDIT_CARD": {
+     "gold": 5,
+     "recall": 1.0,
+     "precision": 0.2,
+     "f2": 0.5555555555555556,
+     "exact_recall": 0.0
+    },
+    "IBAN": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "UNION": {
+     "gold": 1,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PLATE": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    }
+   },
+   "recall": 0.29081632653061223,
+   "precision": 0.4972677595628415,
+   "f2": 0.3171507184347294,
+   "special_category_recall": 0.0,
+   "false_per_1k_words": 44.29465575349061,
+   "leak_rate": 0.4923112767940354,
+   "clean_doc_rate": 0.0
+  },
+  "correspondence": {
+   "types": {
+    "PERSON": {
+     "gold": 145,
+     "recall": 0.6344827586206897,
+     "precision": 0.7909604519774012,
+     "f2": 0.6606212301505889,
+     "exact_recall": 0.0
+    },
+    "EMAIL": {
+     "gold": 15,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 0.3333333333333333
+    },
+    "PHONE": {
+     "gold": 15,
+     "recall": 0.3333333333333333,
+     "precision": 0.8888888888888888,
+     "f2": 0.38095238095238093,
+     "exact_recall": 0.0
+    },
+    "ADDRESS": {
+     "gold": 15,
+     "recall": 0.0,
+     "precision": 0.6818181818181818,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "HEALTH": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "CREDIT_CARD": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "TCKN": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "IBAN": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PLATE": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 1.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    }
+   },
+   "recall": 0.5209302325581395,
+   "precision": 0.7682403433476395,
+   "f2": 0.5567775333822125,
+   "special_category_recall": 0.0,
+   "false_per_1k_words": 37.68318213538032,
+   "leak_rate": 0.3986070184837932,
+   "clean_doc_rate": 0.0
+  },
+  "court-foreign": {
+   "types": {
+    "PERSON": {
+     "gold": 1011,
+     "recall": 0.42136498516320475,
+     "precision": 0.8699397071490095,
+     "f2": 0.4698160700550728,
+     "exact_recall": 0.0
+    },
+    "PLATE": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "TCKN": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    }
+   },
+   "recall": 0.42136498516320475,
+   "precision": 0.8669527896995708,
+   "f2": 0.469641301713919,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 7.536711076534085,
+   "leak_rate": 0.4452731793099266,
+   "clean_doc_rate": 0.21100917431192662
+  },
+  "court-generated": {
+   "types": {
+    "PERSON": {
+     "gold": 40,
+     "recall": 0.45,
+     "precision": 0.8095238095238095,
+     "f2": 0.49386701097482244,
+     "exact_recall": 0.0
+    },
+    "TCKN": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "ADDRESS": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 1.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "VKN": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "BIRTH_DATE": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PHONE": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.6666666666666666,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "CREDIT_CARD": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    }
+   },
+   "recall": 0.27692307692307694,
+   "precision": 0.7090909090909091,
+   "f2": 0.31536388140161725,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 23.529411764705884,
+   "leak_rate": 0.5648464163822525,
+   "clean_doc_rate": 0.0
+  },
+  "court-turkish": {
+   "types": {
+    "PERSON": {
+     "gold": 1011,
+     "recall": 0.34817012858555885,
+     "precision": 0.8432327166504382,
+     "f2": 0.3944913666189738,
+     "exact_recall": 0.0
+    },
+    "TCKN": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    }
+   },
+   "recall": 0.34817012858555885,
+   "precision": 0.8407766990291262,
+   "f2": 0.3943835738372081,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 8.060552442740589,
+   "leak_rate": 0.5280654359897944,
+   "clean_doc_rate": 0.1651376146788991
+  },
+  "health": {
+   "types": {
+    "PERSON": {
+     "gold": 35,
+     "recall": 0.5142857142857142,
+     "precision": 1.0,
+     "f2": 0.5696202531645569,
+     "exact_recall": 0.0
+    },
+    "BIRTH_DATE": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PLATE": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "HEALTH": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "IBAN": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "ADDRESS": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "CREDIT_CARD": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "TCKN": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PHONE": {
+     "gold": 5,
+     "recall": 0.2,
+     "precision": 1.0,
+     "f2": 0.23809523809523808,
+     "exact_recall": 0.0
+    }
+   },
+   "recall": 0.25333333333333335,
+   "precision": 0.6136363636363636,
+   "f2": 0.287041181736795,
+   "special_category_recall": 0.0,
+   "false_per_1k_words": 35.63941299790356,
+   "leak_rate": 0.38519924098671726,
+   "clean_doc_rate": 0.0
+  },
+  "no-pii": {
+   "types": {
+    "PERSON": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    }
+   },
+   "recall": NaN,
+   "precision": 0.0,
+   "f2": NaN,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 2.3923444976076556,
+   "leak_rate": NaN,
+   "clean_doc_rate": NaN
+  },
+  "petition": {
+   "types": {
+    "PERSON": {
+     "gold": 95,
+     "recall": 0.5052631578947369,
+     "precision": 0.6885245901639344,
+     "f2": 0.5336721728081321,
+     "exact_recall": 0.0
+    },
+    "TCKN": {
+     "gold": 25,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "ADDRESS": {
+     "gold": 35,
+     "recall": 0.0,
+     "precision": 0.7714285714285715,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PHONE": {
+     "gold": 10,
+     "recall": 0.4,
+     "precision": 1.0,
+     "f2": 0.45454545454545453,
+     "exact_recall": 0.0
+    },
+    "EMAIL": {
+     "gold": 10,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 0.0
+    },
+    "BIRTH_DATE": {
+     "gold": 10,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PLATE": {
+     "gold": 5,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "IBAN": {
+     "gold": 15,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "CREDIT_CARD": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "HEALTH": {
+     "gold": 1,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    }
+   },
+   "recall": 0.30097087378640774,
+   "precision": 0.625,
+   "f2": 0.33578856152513,
+   "special_category_recall": 0.0,
+   "false_per_1k_words": 39.61401726764855,
+   "leak_rate": 0.48335974643423135,
+   "clean_doc_rate": 0.0
+  },
+  "petition-foreign": {
+   "types": {
+    "PERSON": {
+     "gold": 2108,
+     "recall": 0.6546489563567363,
+     "precision": 0.7573867367038739,
+     "f2": 0.6729045492867295,
+     "exact_recall": 0.0
+    },
+    "PASSPORT": {
+     "gold": 219,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "ADDRESS": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "YKN": {
+     "gold": 239,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "CREDIT_CARD": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "FOREIGN_ID": {
+     "gold": 99,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PHONE": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "TCKN": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "VKN": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    }
+   },
+   "recall": 0.5178236397748592,
+   "precision": 0.7109399075500771,
+   "f2": 0.5475715771745591,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 48.626231207879734,
+   "leak_rate": 0.33718487394957986,
+   "clean_doc_rate": 0.02
+  },
+  "prose": {
+   "types": {
+    "PERSON": {
+     "gold": 654,
+     "recall": 0.7171253822629969,
+     "precision": 0.46579804560260585,
+     "f2": 0.6472761455476179,
+     "exact_recall": 0.14678899082568808
+    },
+    "BIRTH_DATE": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "ADDRESS": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    },
+    "PLATE": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    }
+   },
+   "recall": 0.7171253822629969,
+   "precision": 0.4437548487199379,
+   "f2": 0.6384618350387192,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 47.43632153489911,
+   "leak_rate": 0.242776886035313,
+   "clean_doc_rate": 0.43705463182897863
+  }
+ },
+ "missing_predictions": 0,
+ "KVKK-F2": 0.5008289035299488,
+ "F2 generated": 0.3932822422758406,
+ "F2 all tracks": 0.4291311293605433,
+ "leak_rate": 0.43084711937396036
+}

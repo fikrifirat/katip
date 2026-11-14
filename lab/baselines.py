@@ -13,7 +13,7 @@ X3  gliner     urchade/gliner_multi_pii-v1, zero-shot label "person" (pip instal
 Each is scored alone and merged with Katip's rules (R0 ∪ X), on the same sets as score_legal.py.
 Writes lab/results/baselines.json.
 """
-import json, os, sys
+import json, os, re, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 import katiplab as K  # noqa: E402
@@ -44,7 +44,9 @@ def map_label(lab):
         if any(k == u or k in u.split("_") or (len(k) >= 4 and u.startswith(k)) for k in keys): return t
     return None
 
-def _hf(model_id):
+def _hf(model_id, labmap=None):
+    """labmap: explicit {model label: our type}, checked against the model's id2label; labels left out keep their own
+    name (masked text, never a typed hit). Without it, map_label guesses."""
     def make():
         from transformers import pipeline
         from transformers import AutoTokenizer
@@ -57,7 +59,8 @@ def _hf(model_id):
             # scores=True: (start, end, type, score) with the lowest piece score; for hybrids that pass spans to the rules
             out = []
             for e in sorted(nlp(text), key=lambda e: e["start"]):
-                t = map_label(e["entity_group"]) or e["entity_group"]
+                g = re.sub(r"^[BIES]-", "", e["entity_group"])   # BIOES models (privacy-filter) leave E-/S- on the group
+                t = labmap.get(g, g) if labmap is not None else (map_label(g) or g)
                 # some tokenizers return a word as several pieces ('İs','tan','bu','l'): join touching pieces of the same type
                 if out and out[-1][2] == t and e["start"] - out[-1][1] <= 1 and not text[out[-1][1]:e["start"]].strip(" "):
                     out[-1] = (out[-1][0], e["end"], t, min(out[-1][3], float(e["score"])))
@@ -67,8 +70,37 @@ def _hf(model_id):
         det.params = sum(p.numel() for p in nlp.model.parameters())
         det.labels = sorted(set(nlp.model.config.id2label.values()))
         det.size_mb = round(sum(p.numel() * p.element_size() for p in nlp.model.parameters()) / 1e6, 1)  # weights as loaded
+        if labmap is not None:
+            groups = {re.sub(r"^[BIES]-", "", l) for l in det.labels} - {"O"}
+            if set(labmap) - groups: raise ValueError(f"labmap names labels the model lacks: {sorted(set(labmap) - groups)}")
+            det.unmapped = sorted(groups - set(labmap))
         return det
     return make
+
+# Explicit label maps (14 Nov 2026), written from each model's config id2label. Left out on purpose: dates, times, cities and
+# other places, organisations, account numbers of unknown kind, usernames, URLs: masked if found, but never a typed hit.
+_OPENAI_PF = {"private_person": "PERSON", "private_address": "ADDRESS", "private_email": "EMAIL", "private_phone": "PHONE"}
+_OPENMED_ML = {"FIRSTNAME": "PERSON", "MIDDLENAME": "PERSON", "LASTNAME": "PERSON", "SSN": "TCKN", "PHONE": "PHONE", "EMAIL": "EMAIL",
+               "IBAN": "IBAN", "CREDITCARD": "CREDIT_CARD", "DATEOFBIRTH": "BIRTH_DATE", "STREET": "ADDRESS", "BUILDINGNUMBER": "ADDRESS",
+               "SECONDARYADDRESS": "ADDRESS", "ZIPCODE": "ADDRESS", "VRM": "PLATE"}   # same schema in the Turkish OpenMed models
+_PIIRANHA = {"GIVENNAME": "PERSON", "SURNAME": "PERSON", "IDCARDNUM": "TCKN", "SOCIALNUM": "TCKN", "TAXNUM": "VKN", "TELEPHONENUM": "PHONE",
+             "EMAIL": "EMAIL", "CREDITCARDNUMBER": "CREDIT_CARD", "DATEOFBIRTH": "BIRTH_DATE", "STREET": "ADDRESS", "BUILDINGNUM": "ADDRESS",
+             "ZIPCODE": "ADDRESS"}
+_PIILOT = {"p_nm": "PERSON", "p_rrn": "TCKN", "p_ph": "PHONE", "p_em": "EMAIL", "p_add": "ADDRESS"}
+_OPENMED_SC = {"first_name": "PERSON", "last_name": "PERSON", "ssn": "TCKN", "tax_id": "VKN", "phone_number": "PHONE", "fax_number": "PHONE",
+               "email": "EMAIL", "credit_debit_card": "CREDIT_CARD", "date_of_birth": "BIRTH_DATE", "street_address": "ADDRESS",
+               "postcode": "ADDRESS", "license_plate": "PLATE"}
+_CONLL = {"PER": "PERSON"}
+
+def gliner2_pii():
+    from gliner2 import GLiNER2
+    m = GLiNER2.from_pretrained("fastino/gliner2-privacy-filter-PII-multi")
+    def det(text):
+        r = m.extract_entities(text, ["person"], threshold=0.5, include_spans=True)
+        return [(e["start"], e["end"], "PERSON") for e in r.get("entities", {}).get("person", [])]
+    det.params = sum(p.numel() for p in m.parameters())
+    det.size_mb = round(sum(p.numel() * p.element_size() for p in m.parameters()) / 1e6, 1)
+    return det
 
 def gliner():
     from gliner import GLiNER
@@ -123,7 +155,18 @@ BASELINES = {"presidio": ("R1 Presidio + spaCy xx (vanilla)", presidio),
              "cosmos-pii": ("X4 ytu-ce-cosmos ModernBERT-TR PII", _hf("ytu-ce-cosmos/modernbert-tr-pii-ner")),
              "kvkk-pii-ner": ("X5 ersanbil kvkk-pii-ner", _hf("ersanbil/kvkk-pii-ner")),
              "qwen-1.5b": ("L1 Qwen2.5-1.5B-Instruct, prompted (local LLM)", llm("Qwen/Qwen2.5-1.5B-Instruct")),
-             "openmed-tr": ("X6 OpenMed PII Turkish (335M)", _hf("OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1"))}
+             "openmed-tr": ("X6 OpenMed PII Turkish (335M)", _hf("OpenMed/OpenMed-PII-Turkish-BiomedELECTRA-Large-335M-v1")),
+             # model-selection audit, 14 Nov 2026: most-downloaded PII / Turkish token-classification models on HF, explicit label maps
+             "openai-pf": ("openai/privacy-filter", _hf("openai/privacy-filter", _OPENAI_PF)),
+             "openmed-pf-v2": ("OpenMed privacy-filter multilingual v2", _hf("OpenMed/privacy-filter-multilingual-v2", _OPENMED_ML)),
+             "openmed-pf": ("OpenMed privacy-filter multilingual", _hf("OpenMed/privacy-filter-multilingual", _OPENMED_ML)),
+             "gliner2-pii": ("fastino GLiNER2 PII multi", gliner2_pii),
+             "openmed-tr-33m": ("OpenMed PII Turkish ClinicalE5 33M", _hf("OpenMed/OpenMed-PII-Turkish-ClinicalE5-Small-33M-v1", _OPENMED_ML)),
+             "xlmr-conll": ("XLM-R large CoNLL03 English", _hf("FacebookAI/xlm-roberta-large-finetuned-conll03-english", _CONLL)),
+             "piiranha": ("piiranha v1", _hf("iiiorg/piiranha-v1-detect-personal-information", _PIIRANHA)),
+             "piilot": ("PIILOT NER", _hf("ParkJunSeong/PIILOT_NER_Model", _PIILOT)),
+             "openmed-sc-44m": ("OpenMed PII SuperClinical 44M", _hf("OpenMed/OpenMed-PII-SuperClinical-Small-44M-v1", _OPENMED_SC)),
+             "openmed-sc-434m": ("OpenMed PII SuperClinical 434M", _hf("OpenMed/OpenMed-PII-SuperClinical-Large-434M-v1", _OPENMED_SC))}
 
 def with_rules(det):
     r = K.rules()
