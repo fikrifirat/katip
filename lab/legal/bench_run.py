@@ -80,6 +80,7 @@ SYSTEMS = {
     "tiny-f": ("Katip Tiny-F: rules + tiny tagger retrained with foreign names", lambda: _katip(HERE / "bench" / "models" / "katip-tiny-foreign", 0.5)),
     "mini": ("Katip Mask Mini: rules + Mini tagger (distilled from Base)", lambda: _katip(HERE / "bench" / "models" / "katip-mask-mini", _trust_file(HERE / "bench" / "models" / "katip-mask-mini"))),
     "xlmr": ("Katip XLM-R: rules + XLM-R base tagger trained in Colab", lambda: _katip(HERE / "bench" / "models" / "katip-xlmr", _trust_file(HERE / "bench" / "models" / "katip-xlmr"))),
+    "mini-v2": ("Katip Mask Mini v2: rules + Mini v2 tagger (DistilBERTurk L3, 12k vocab, distilled from Base)", lambda: _katip(HERE / "bench" / "models" / "katip-mask-mini-v2", _trust_file(HERE / "bench" / "models" / "katip-mask-mini-v2"))),
     "nano-v2": ("Katip Mask Nano v2: rules + Nano retrained, distilled from Base", lambda: _katip(HERE / "bench" / "models" / "katip-mask-nano-v2", _trust_file(HERE / "bench" / "models" / "katip-mask-nano-v2"))),
     "berturk-v2": ("Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk", lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk"), 0.5)),
     "berturk-clean": ("Katip BERTurk clean: rules + BERTurk trained on synthetic + public legal web text (no real decisions)",
@@ -150,7 +151,7 @@ def rescore(key):
 # Katip rows also get the masks Katip draws from pen ink alone (engine.unreadSpans: handwriting in an ID / name row,
 # unreadable handwriting next to a personal-data label); "+ ink masks" in the name says so.
 PH = HERE / "bench" / "photos"
-KATIP_KEYS = {"rules", "tiny", "tiny-f", "mini", "nano-v2", "xlmr", "berturk-v2", "berturk-clean", "berturk-v1", "akdeniz+rules"}
+KATIP_KEYS = {"rules", "tiny", "tiny-f", "mini", "mini-v2", "nano-v2", "xlmr", "berturk-v2", "berturk-clean", "berturk-v1", "akdeniz+rules"}
 
 def _attach_boxes(page, s, e, typ):
     """Port of engine.attachBoxes: span offsets -> one box per OCR line, grown over touching pen ink."""
