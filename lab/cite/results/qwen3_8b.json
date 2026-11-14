@@ -10,63 +10,63 @@
   "commit": "9759778ce9adaa24f596967ec92a8337d9cc481b",
   "commit_date": "2026-11-11T15:34:17+00:00"
  },
- "machine": "x86_64 Linux",
- "questions": 51,
- "complete": false,
+ "machine": "arm64 Darwin",
+ "questions": 63,
+ "complete": true,
  "all": {
-  "n": 101,
+  "n": 126,
   "safe": 0.0,
   "safe_ci": [
    0.0,
    0.0
   ],
   "right_article": 0.0,
-  "key_fact": 0.2702702702702703,
+  "key_fact": 0.30952380952380953,
   "stale": 0,
-  "citations": 107,
-  "wrong_citations": 8,
-  "wrong_rate": 0.07476635514018691,
-  "answers_with_wrong": 0.07920792079207921,
-  "no_citation": 0.19801980198019803,
+  "citations": 145,
+  "wrong_citations": 25,
+  "wrong_rate": 0.1724137931034483,
+  "answers_with_wrong": 0.14285714285714285,
+  "no_citation": 0.18253968253968253,
   "decision_citations_per_answer": 0.0,
-  "seconds_per_answer": 25.235148514851485
+  "seconds_per_answer": 24.46309523809524
  },
  "by_lang": {
   "en": {
-   "n": 50,
+   "n": 63,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.32432432432432434,
+   "key_fact": 0.38095238095238093,
    "stale": 0,
-   "citations": 49,
-   "wrong_citations": 5,
-   "wrong_rate": 0.10204081632653061,
-   "answers_with_wrong": 0.1,
-   "no_citation": 0.2,
+   "citations": 73,
+   "wrong_citations": 16,
+   "wrong_rate": 0.2191780821917808,
+   "answers_with_wrong": 0.19047619047619047,
+   "no_citation": 0.15873015873015872,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 26.121799999999997
+   "seconds_per_answer": 25.406190476190474
   },
   "tr": {
-   "n": 51,
+   "n": 63,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.21621621621621623,
+   "key_fact": 0.23809523809523808,
    "stale": 0,
-   "citations": 58,
-   "wrong_citations": 3,
-   "wrong_rate": 0.05172413793103448,
-   "answers_with_wrong": 0.058823529411764705,
-   "no_citation": 0.19607843137254902,
+   "citations": 72,
+   "wrong_citations": 9,
+   "wrong_rate": 0.125,
+   "answers_with_wrong": 0.09523809523809523,
+   "no_citation": 0.20634920634920634,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 24.365882352941178
+   "seconds_per_answer": 23.52
   }
  },
  "by_area": {
@@ -196,6 +196,24 @@
    "decision_citations_per_answer": 0.0,
    "seconds_per_answer": 27.264166666666668
   },
+  "tuketici": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.75,
+   "stale": 0,
+   "citations": 21,
+   "wrong_citations": 15,
+   "wrong_rate": 0.7142857142857143,
+   "answers_with_wrong": 0.6666666666666666,
+   "no_citation": 0.16666666666666666,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 19.2075
+  },
   "usul": {
    "n": 12,
    "safe": 0.0,
@@ -215,64 +233,64 @@
    "seconds_per_answer": 19.912499999999998
   },
   "yabanci": {
-   "n": 5,
+   "n": 18,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 1.0,
+   "key_fact": 0.625,
    "stale": 0,
-   "citations": 5,
-   "wrong_citations": 0,
-   "wrong_rate": 0.0,
-   "answers_with_wrong": 0.0,
-   "no_citation": 0.2,
+   "citations": 22,
+   "wrong_citations": 2,
+   "wrong_rate": 0.09090909090909091,
+   "answers_with_wrong": 0.1111111111111111,
+   "no_citation": 0.1111111111111111,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 29.95
+   "seconds_per_answer": 25.15888888888889
   }
  },
  "by_risk": {
   "high": {
-   "n": 53,
+   "n": 64,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.1590909090909091,
+   "key_fact": 0.2,
    "stale": 0,
-   "citations": 52,
-   "wrong_citations": 4,
-   "wrong_rate": 0.07692307692307693,
-   "answers_with_wrong": 0.07547169811320754,
-   "no_citation": 0.18867924528301888,
+   "citations": 68,
+   "wrong_citations": 6,
+   "wrong_rate": 0.08823529411764706,
+   "answers_with_wrong": 0.09375,
+   "no_citation": 0.15625,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 23.960188679245285
+   "seconds_per_answer": 24.1165625
   },
   "medium": {
-   "n": 48,
+   "n": 62,
    "safe": 0.0,
    "safe_ci": [
     0.0,
     0.0
    ],
    "right_article": 0.0,
-   "key_fact": 0.43333333333333335,
+   "key_fact": 0.47058823529411764,
    "stale": 0,
-   "citations": 55,
-   "wrong_citations": 4,
-   "wrong_rate": 0.07272727272727272,
-   "answers_with_wrong": 0.08333333333333333,
-   "no_citation": 0.20833333333333334,
+   "citations": 77,
+   "wrong_citations": 19,
+   "wrong_rate": 0.24675324675324675,
+   "answers_with_wrong": 0.1935483870967742,
+   "no_citation": 0.20967741935483872,
    "decision_citations_per_answer": 0.0,
-   "seconds_per_answer": 26.642916666666665
+   "seconds_per_answer": 24.820806451612906
   }
  },
  "lang_gap": {
-  "paired": 50,
+  "paired": 63,
   "tr_minus_en": 0.0,
   "mcnemar_p": 1.0
  },
@@ -348,6 +366,159 @@
    "law": "6698",
    "article": "45",
    "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "yabanci-05",
+   "lang": "tr",
+   "text": "5901 sayılı Türk Medeni Kanunu (TBK) m. 10",
+   "verdict": "NUMBER_NAME_CLASH",
+   "law": "5901",
+   "article": "10",
+   "note": "number 5901 but name 'türk medeni kanunu' is law 4721"
+  },
+  {
+   "id": "yabanci-05",
+   "lang": "en",
+   "text": "Law No. 5907, Article 10",
+   "verdict": "UNKNOWN_LAW",
+   "law": "5907",
+   "article": "10",
+   "note": "no law numbered 5907 in the index"
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "en",
+   "text": "Law No. 6505, Article 10",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": "10",
+   "note": "no law numbered 6505 in the index"
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "en",
+   "text": "Law No. 6505, Article 9",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": "9",
+   "note": "no law numbered 6505 in the index"
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "en",
+   "text": "Law No. 6505, Article 11",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": "11",
+   "note": "no law numbered 6505 in the index"
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "en",
+   "text": "Law No. 6505, Article 14",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": "14",
+   "note": "no law numbered 6505 in the index"
+  },
+  {
+   "id": "tuketici-02",
+   "lang": "en",
+   "text": "Law No. 6505**, **Article 9",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": "9",
+   "note": "no law numbered 6505 in the index"
+  },
+  {
+   "id": "tuketici-03",
+   "lang": "en",
+   "text": "Law No. 6503**, **Article 12",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6503",
+   "article": "12",
+   "note": "no law numbered 6503 in the index"
+  },
+  {
+   "id": "tuketici-04",
+   "lang": "en",
+   "text": "Law No. 6505",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": null,
+   "note": "no law numbered 6505 in the index"
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "tr",
+   "text": "TBK m. 734",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "734",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "tr",
+   "text": "TBK m. 735",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "735",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "tr",
+   "text": "TBK m. 736",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "736",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "tr",
+   "text": "TBK m. 737",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "737",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "en",
+   "text": "TCO Article 711",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "711",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "en",
+   "text": "TCO Article 712",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "712",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "tuketici-06",
+   "lang": "tr",
+   "text": "6505 sayılı Kanun** m. 14",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": "14",
+   "note": "no law numbered 6505 in the index"
+  },
+  {
+   "id": "tuketici-06",
+   "lang": "en",
+   "text": "Law No. 6505",
+   "verdict": "UNKNOWN_LAW",
+   "law": "6505",
+   "article": null,
+   "note": "no law numbered 6505 in the index"
   }
  ],
  "rows": [
@@ -2232,6 +2403,585 @@
    "no_citation": true,
    "seconds": 36.68,
    "wrong_detail": []
+  },
+  {
+   "id": "yabanci-03",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 0,
+   "ok": 2,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 40.05,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-04",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 1,
+   "wrong": 0,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 33.47,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-04",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 0,
+   "ok": 2,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 28.24,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-05",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 1,
+   "wrong": 1,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 20.96,
+   "wrong_detail": [
+    {
+     "text": "5901 sayılı Türk Medeni Kanunu (TBK) m. 10",
+     "verdict": "NUMBER_NAME_CLASH",
+     "law": "5901",
+     "article": "10",
+     "note": "number 5901 but name 'türk medeni kanunu' is law 4721"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-05",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 1,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 18.2,
+   "wrong_detail": [
+    {
+     "text": "Law No. 5907, Article 10",
+     "verdict": "UNKNOWN_LAW",
+     "law": "5907",
+     "article": "10",
+     "note": "no law numbered 5907 in the index"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-06",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 1,
+   "wrong": 0,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 33.51,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-06",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 1,
+   "wrong": 0,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 18.51,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-07",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 0,
+   "ok": 2,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 18.36,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-07",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 1,
+   "wrong": 0,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": true,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 21.14,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-08",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 1,
+   "wrong": 0,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": true,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 17.82,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-08",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 0,
+   "ok": 2,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": true,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 23.31,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-09",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "medium",
+   "cites": 0,
+   "wrong": 0,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": true,
+   "seconds": 11.04,
+   "wrong_detail": []
+  },
+  {
+   "id": "yabanci-09",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "medium",
+   "cites": 1,
+   "wrong": 0,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 18.5,
+   "wrong_detail": []
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 0,
+   "ok": 2,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 20.24,
+   "wrong_detail": []
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 4,
+   "wrong": 4,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 26.23,
+   "wrong_detail": [
+    {
+     "text": "Law No. 6505, Article 10",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": "10",
+     "note": "no law numbered 6505 in the index"
+    },
+    {
+     "text": "Law No. 6505, Article 9",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": "9",
+     "note": "no law numbered 6505 in the index"
+    },
+    {
+     "text": "Law No. 6505, Article 11",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": "11",
+     "note": "no law numbered 6505 in the index"
+    },
+    {
+     "text": "Law No. 6505, Article 14",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": "14",
+     "note": "no law numbered 6505 in the index"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-02",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 1,
+   "wrong": 0,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": true,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 14.73,
+   "wrong_detail": []
+  },
+  {
+   "id": "tuketici-02",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 1,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": true,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 18.51,
+   "wrong_detail": [
+    {
+     "text": "Law No. 6505**, **Article 9",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": "9",
+     "note": "no law numbered 6505 in the index"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-03",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 0,
+   "wrong": 0,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": true,
+   "seconds": 14.3,
+   "wrong_detail": []
+  },
+  {
+   "id": "tuketici-03",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 1,
+   "wrong": 1,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": true,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 16.93,
+   "wrong_detail": [
+    {
+     "text": "Law No. 6503**, **Article 12",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6503",
+     "article": "12",
+     "note": "no law numbered 6503 in the index"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-04",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 0,
+   "wrong": 0,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": true,
+   "seconds": 15.01,
+   "wrong_detail": []
+  },
+  {
+   "id": "tuketici-04",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 1,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 22.6,
+   "wrong_detail": [
+    {
+     "text": "Law No. 6505",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": null,
+     "note": "no law numbered 6505 in the index"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 4,
+   "wrong": 4,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 26.54,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 734",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "734",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "TBK m. 735",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "735",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "TBK m. 736",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "736",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "TBK m. 737",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "737",
+     "note": "law 6098 has 649 articles"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 3,
+   "wrong": 2,
+   "ok": 1,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 28.42,
+   "wrong_detail": [
+    {
+     "text": "TCO Article 711",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "711",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "TCO Article 712",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "712",
+     "note": "law 6098 has 649 articles"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-06",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 1,
+   "wrong": 1,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 13.12,
+   "wrong_detail": [
+    {
+     "text": "6505 sayılı Kanun** m. 14",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": "14",
+     "note": "no law numbered 6505 in the index"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-06",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 1,
+   "wrong": 1,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 13.86,
+   "wrong_detail": [
+    {
+     "text": "Law No. 6505",
+     "verdict": "UNKNOWN_LAW",
+     "law": "6505",
+     "article": null,
+     "note": "no law numbered 6505 in the index"
+    }
+   ]
   }
  ]
 }
