@@ -280,6 +280,13 @@ BY_TEST_HELP = """**Found** = share of personal data the tool masked. **Precisio
 **Leaked** = share of personal data still readable. **Docs fully clean** = documents with nothing left readable.
 **False alarms** = masks on words that weren't personal data, per 1,000 words. The type columns show how much of each kind was found (the number in brackets is how many there are)."""
 
+CITATION = r"""@misc{firat2026kvkkbench,
+  title  = {KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
+  author = {F{\i}rat, Fikri},
+  year   = {2026},
+  url    = {https://huggingface.co/spaces/f1k/kvkk-bench}
+}"""
+
 def build():
     rows = load_rows()
     empty = {k for k in DIMS if not any(r[k] == r[k] for r in rows)}   # dimensions with no test data yet (e.g. foreign names)
@@ -346,6 +353,9 @@ def build():
                 mid = gr.Textbox(label="Model id", placeholder="user/model")
                 res = gr.Markdown()
                 gr.Button("Submit", variant="primary").click(submit, mid, res)
+        with gr.Accordion("📙 Cite KVKK-Bench", open=False):
+            gr.Textbox(CITATION, lines=6, show_label=False, show_copy_button=True, interactive=False)
+            gr.Markdown("Please also cite the models you compare, using the links in each row.")
     return demo
 
 if __name__ == "__main__":

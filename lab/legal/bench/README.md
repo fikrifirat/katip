@@ -193,11 +193,11 @@ data that should not be here, report it (below) and we remove it within 7 days.
 ## Citation
 
 ```bibtex
-@misc{kvkkbenchtr2026,
+@misc{firat2026kvkkbench,
   title  = {KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
-  author = {{Katip contributors}},
+  author = {F{\i}rat, Fikri},
   year   = {2026},
-  url    = {https://github.com/fikrifirat/katip}
+  url    = {https://huggingface.co/spaces/f1k/kvkk-bench}
 }
 ```
 Please also cite TurkishLegalNER (Çetindağ, Yazıcıoğlu & Koç, 2022, *Natural Language Engineering*) and

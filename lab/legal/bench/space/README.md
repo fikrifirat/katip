@@ -22,3 +22,14 @@ tags:
 Ranks tools that mask personal data in Turkish documents, on real text, with a missed item weighted 4× a false alarm.
 Results live in `results/` (or the dataset in `RESULTS_REPO`). Submissions go to `REQUESTS_REPO` when `HF_TOKEN` is set.
 Benchmark card, scorer and runner: github.com/fikrifirat/katip, `lab/legal/`.
+
+## Citation
+
+```bibtex
+@misc{firat2026kvkkbench,
+  title  = {KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
+  author = {F{\i}rat, Fikri},
+  year   = {2026},
+  url    = {https://huggingface.co/spaces/f1k/kvkk-bench}
+}
+```
