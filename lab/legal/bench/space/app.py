@@ -81,17 +81,16 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
     **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score: F2, where missing one counts 4× more than masking too much." +
            ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), v[4])
        for k, v in DIMS.items()},
-    "photo":   ("📱 Leaked ◇", "60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Leaked: share of personal values still readable after masking (a value counts as leaked if under 70% of its box is covered). Over-masked: share of the 360 ordinary street and district names that were masked anyway. A good system is low on both: Leaked alone would rank a tool that masks everything first. Lower is better. Blank = not run on the photos yet.", True),
-    "photo_over": ("📱 Over-masked ◇", "60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Over-masked: share of the 360 ordinary street and district names on the forms that were masked anyway (not personal data on their own). A good system is low on both: Leaked alone would rank a tool that masks everything first. Lower is better. Blank = not run on the photos yet.", True),
+    "photo":   ("📱 Phone scans ◇", "60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Cell = Leaked / Over-masked. Leaked: share of personal values still readable after masking (a value counts as leaked if under 70% of its box is covered). Over-masked: share of the 360 ordinary street and district names on the forms that were masked anyway. Lower is better for both, and a good system is low on both: Leaked alone would rank a tool that masks everything first. ⚠ marks Over-masked of 50% or more. Sort: Phone scans orders by Leaked. Blank = not run on the photos yet.", True),
     "forms":   ("🗂️ Forms ◇", "306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. Blank = not run on the forms yet.", False),
     "params":  ("Params", "How many learned weights the model has.", False),
     "offline": ("Offline", "Runs on your own machine with no internet connection, so documents never leave the firm.", True),
     "browser": ("In browser", "✓ = we have run it inside a web page (Katip Mask demo: rules in Python via Pyodide/WebAssembly, model via transformers.js + ONNX Runtime Web). Nothing to install and the document never leaves the computer. Blank = not tested in a browser yet, not impossible. Pages/s is not an in-browser speed.", True),
     "licence": ("Licence", "Licence of the model. NC = no commercial use.", True),
 }
-NUM = ("overall", *DIMS, "leak", "photo", "photo_over", "forms")
-LOWER = ("leak", "photo", "photo_over")   # lower is better
-EXTRA = ("photo", "photo_over", "forms")  # separate synthetic tracks: read from results/photo and results/forms, never in Overall
+NUM = ("overall", *DIMS, "leak", "photo", "forms")
+LOWER = ("leak", "photo")   # lower is better
+EXTRA = ("photo", "forms")  # separate synthetic tracks: read from results/photo and results/forms, never in Overall
 SECONDARY = ("params", "offline", "browser", "licence")
 
 # Document types a firm feeds in (the dataset taxonomy). Pick some and every score is recomputed on just those documents.
@@ -167,6 +166,11 @@ def size_bucket(mb):
 
 def cell(r, k, best):
     if k in EXTRA and r[k] != r[k]: return ""
+    if k == "photo":  # leaked / over-masked; best = least leaked; warn when over-masked >= 50%
+        lk = f"<b>{pct(r[k])}</b>" if r[k] == best[k] else pct(r[k])
+        ov = r["photo_over"]
+        om = "–" if ov != ov else f"<span class='warn'>⚠ {pct(ov)}</span>" if ov >= 0.5 else pct(ov)
+        return f"{lk} / {om}"
     if k in NUM: return f"<b>{pct(r[k])}</b>" if r[k] == best[k] else pct(r[k])
     name, by, link, dev = SYSTEMS[r["system"]]
     tag = "<span class='tag'>baseline</span>" if r["system"] in BASELINES else ""
@@ -181,7 +185,7 @@ def table(rows, cols):
     best = {k: (min if k in LOWER else max)((r[k] for r in rows if r[k] == r[k]), default=None) for k in NUM}
     best["speed_ms"] = min((r["ms_per_page"] for r in rows if r.get("ms_per_page")), default=None)
     best["size_mb"] = min((r["size_mb"] for r in rows if r.get("size_mb")), default=None)
-    cls = lambda k: " class='l'" if k in ("model",) else " class='l sec'" if k == "licence" else " class='sec'" if k in SECONDARY else " class='ov'" if k == "overall" else " class='gen'" if (k in DIMS and not DIMS[k][4]) or k in EXTRA else ""
+    cls = lambda k: " class='l'" if k in ("model",) else " class='l sec'" if k == "licence" else " class='sec'" if k in SECONDARY else " class='ov'" if k == "overall" else " class='ph'" if k == "photo" else " class='gen'" if (k in DIMS and not DIMS[k][4]) or k in EXTRA else ""
     head = "".join(f'<th{cls(k)} title="{html.escape(COLUMNS[k][1])}">{COLUMNS[k][0]}</th>' for k in cols)
     body = "".join("<tr>" + "".join(f"<td{cls(k)}>{cell(r, k, best)}</td>" for k in cols) + "</tr>" for r in rows)
     return f"<div class='wrap'><table class='lb'><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>"
@@ -230,7 +234,7 @@ Masking on your own computer before anything leaves it is the simplest safeguard
 | ID numbers | T.C. kimlik, foreign ID (99…), passport, tax number | synthetic data ◇ (not in the score) |
 | Contact and financial | phone, e-mail, address (building/door), IBAN | synthetic data ◇ (not in the score) |
 | Special category | health terms and diagnoses | synthetic data ◇ (not in the score) |
-| 📱 Phone scans (Leaked, Over-masked) | 60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. A good system is low on both: Leaked alone would rank a tool that masks everything first. | synthetic data ◇ (not in the score) |
+| 📱 Phone scans | 60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Cell = Leaked / Over-masked. Leaked: share of personal values still readable after masking (a value counts as leaked if under 70% of its box is covered). Over-masked: share of the 360 ordinary street and district names on the forms that were masked anyway. Lower is better for both, and a good system is low on both: Leaked alone would rank a tool that masks everything first. ⚠ marks Over-masked of 50% or more. Sort: Phone scans orders by Leaked. Blank = not run on the photos yet. |
 | 🗂️ Forms | 306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. | synthetic data ◇ (not in the score) |
 
 Why only names on real text: published Turkish court decisions are anonymised before release, so ID numbers, phones, IBANs and
@@ -248,7 +252,7 @@ for example with a cloud AI (see *What does KVKK require* above). Every tool get
   the anonymised name slots are refilled once with unseen Turkish names (🇹🇷) and once with unseen foreign names (🌍), 1,011 names each.
 * 1,000 Turkish Wikipedia sentences with hand-marked names: [Turkish Wiki NER](https://huggingface.co/datasets/turkish-nlp-suite/turkish-wikiNER) (Altinok 2023, CC BY-SA 4.0).
 * 380 generated legal documents with ID numbers, IBANs, phones, addresses and health data. These feed the ◇ preview columns only.
-* 📱 **Phone scans ◇** (Leaked and Over-masked): 60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Over-masked is the share of 360 ordinary street and district names that were masked anyway; a good system is low on both: Leaked alone would rank a tool that masks everything first. Masked boxes come from each tool's spans on the OCR text; a value counts as leaked if under 70% of its box is covered.
+* 📱 **Phone scans ◇**: 60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Cell = Leaked / Over-masked. Leaked: share of personal values still readable after masking (a value counts as leaked if under 70% of its box is covered). Over-masked: share of the 360 ordinary street and district names on the forms that were masked anyway. Lower is better for both, and a good system is low on both: Leaked alone would rank a tool that masks everything first. ⚠ marks Over-masked of 50% or more. Sort: Phone scans orders by Leaked. Blank = not run on the photos yet. Masked boxes come from each tool's spans on the OCR text.
 * 🗂️ **Forms ◇**: 306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. Layout sources and legal basis: [forms SOURCES.md](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/forms/SOURCES.md).
 
 Thanks to the dataset authors, and to every model developer credited under the model names.
@@ -276,7 +280,7 @@ table.lb th{font-weight:600;cursor:help;position:sticky;top:0;background:var(--b
 table.lb .l{text-align:left} table.lb td:nth-child(-n+2),table.lb th:nth-child(-n+2){text-align:center;width:28px}
 table.lb tbody tr:hover td{background:var(--background-fill-secondary) !important}
 table.lb a{text-decoration:none}
-table.lb .sec{opacity:.6;font-size:.82rem} table.lb .gen{opacity:.55;font-style:italic} table.lb th.sec{border-left:none} table.lb td.ov{font-size:1rem} table.lb .tag{font-size:.68rem;color:#64748b;border:1px solid #cbd5e1;border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:1px} table.lb .repo{font-size:.74rem;margin-top:1px} table.lb .repo a{color:#888!important;text-decoration:none;font-weight:400}
+table.lb .sec{opacity:.6;font-size:.82rem} table.lb .gen{opacity:.55;font-style:italic} table.lb .ph{font-style:italic} table.lb .warn{color:#ea580c;font-weight:600} table.lb th.sec{border-left:none} table.lb td.ov{font-size:1rem} table.lb .tag{font-size:.68rem;color:#64748b;border:1px solid #cbd5e1;border-radius:4px;padding:0 4px;margin-left:6px;vertical-align:1px} table.lb .repo{font-size:.74rem;margin-top:1px} table.lb .repo a{color:#888!important;text-decoration:none;font-weight:400}
 table.lb th.sec:first-of-type{padding-left:18px}
 .empty{opacity:.7;padding:20px 0}
 """
@@ -347,7 +351,7 @@ def build():
             with gr.Tab("🏅 Leaderboard"):
                 with gr.Row(equal_height=True):
                     q = gr.Textbox(placeholder="🔍 Search models", show_label=False, scale=3, container=False)
-                    order = gr.Dropdown([(f"Sort: {o}", o) for o in ("Overall", "Least leaked", "Fastest", "Smallest")], value="Overall", show_label=False,
+                    order = gr.Dropdown([(f"Sort: {o}", o) for o in ("Overall", "Least leaked", "Phone scans", "Fastest", "Smallest")], value="Overall", show_label=False,
                                         scale=1, min_width=160, container=False)
                 with gr.Row():
                     with gr.Accordion("Filters", open=False):
@@ -371,6 +375,7 @@ def build():
                     rs = pick(score(rows, dv), qv, tv, sv, bv)
                     big = float("inf"); nan = lambda x: x if x == x else None
                     key = {"Least leaked": lambda r: nan(r["leak"]) if nan(r["leak"]) is not None else big,
+                           "Phone scans": lambda r: nan(r["photo"]) if nan(r["photo"]) is not None else big,
                            "Fastest": lambda r: r.get("ms_per_page") or big,
                            "Smallest": lambda r: r.get("size_mb") or big}.get(ov, lambda r: -(nan(r["overall"]) or -1))
                     rs = sorted(rs, key=key)
