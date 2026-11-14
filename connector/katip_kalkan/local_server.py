@@ -19,7 +19,8 @@ from .mcp_proto import Server, Tool
 
 PROFILE = {"type": "string", "enum": ["ai", "court", "anon"], "default": "ai",
            "description": "ai = Yapay zekâ ile paylaşım (default: all personal data, the whole address, case and "
-                          "bar numbers); court = Mahkemeye sunum (streets, case numbers and dates stay readable); "
+                          "bar numbers); court = Mahkemeye sunum (parties' own addresses, UETS and bar numbers masked; the disputed "
+                          "property's address, case numbers and dates stay readable); "
                           "anon = Tam anonim (also dates, provinces, courts, companies and institutions)."}
 MATTER = {"type": "string", "description": "Matter (dosya) label; files of the same case share placeholders. "
                                            "Use a neutral label such as a file number, not a client name.",

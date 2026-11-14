@@ -26,11 +26,18 @@ Muylafa YAVAS
 
 
 def test_street_names_stay_visible():
-    f = found(FORM)
+    # an address with no party or property cue keeps the street-level rule
+    f = found("Toplantı Ege Mah. Alparslan Türkeş Cad. 707 Sk. Trend Royal-1 A Blok D:25 Kuşadası/AYDIN adresinde yapıldı.")
     assert ("ADDRESS", "Trend Royal-1 A Blok D:25") in f, f
     assert not any("Alparslan" in t or "Ege" == t for _, t in f), f
-    assert ("ADDRESS", "No: 12") in found("Adres: Atatürk Bulvarı No: 12 Çankaya/ANKARA")
+    assert ("ADDRESS", "No: 12") in found("Toplantı Atatürk Bulvarı No: 12 Çankaya/ANKARA adresinde yapıldı.")
     assert found("Fevzi Çakmak Caddesi üzerinde yürüdü.") == []  # a street alone is not personal data
+
+
+def test_party_address_on_form_masked_whole():
+    # the landlord's own address on a lease form is a party's address: masked whole, also in the court profile
+    assert ("ADDRESS", "Ege Mah. Alparslan Türkeş Cad. 707 Sk. Trend Royal-1 A Blok D:25 Kuşadası/AYDIN") in found(FORM)
+    assert ("ADDRESS", "Atatürk Bulvarı No: 12 Çankaya/ANKARA") in found("Adres: Atatürk Bulvarı No: 12 Çankaya/ANKARA")
 
 
 def test_full_address_mode():

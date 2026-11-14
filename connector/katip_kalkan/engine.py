@@ -28,7 +28,8 @@ KINDS = {".txt": "txt", ".md": "txt", ".udf": "udf", ".docx": "docx", ".pdf": "p
 CASE = ["CASE_NO", "BAR_NO"]
 ANON = ["DATE", "PLACE", "INSTITUTION"]
 PROFILES = {
-    "court": {"label": "Mahkemeye sunum", "addr": "street", "extra": [], "drop": ["CRIMINAL_RECORD"]},
+    # a masked lawyer's bar registry number would give the name away, so it goes with the names
+    "court": {"label": "Mahkemeye sunum", "addr": "street", "extra": ["BAR_NO"], "drop": ["CRIMINAL_RECORD"]},
     "ai": {"label": "Yapay zekâ ile paylaşım", "addr": "full", "extra": CASE, "drop": []},
     "anon": {"label": "Tam anonim", "addr": "full", "extra": CASE + ANON, "drop": []},
 }
