@@ -80,8 +80,8 @@ numbers you can't trust.
 
 Turkish Wiki NER: https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset (CC BY-SA 4.0).
 Cite: Altinok, D. (2023). *A Diverse Set of Freely Available Linguistic Resources for Turkish*. ACL 2023.
-A model trained on it may have to carry ShareAlike terms. Katip's models are CC BY-NC 4.0 today, so
-check this before you publish a pii-names-tiny model.
+A model trained on it carries ShareAlike terms, so Katip Mask Nano and Base are CC BY-SA 4.0 (since
+2026-11-14). A v3 trained without Wikipedia data could be Apache-2.0.
 
 Conformal risk control: Angelopoulos, Bates, Fisch, Lei, Schuster, *Conformal Risk Control*, ICLR 2024,
 https://arxiv.org/abs/2208.02814. Distillation: Hinton, Vinyals, Dean, *Distilling the Knowledge in a

@@ -31,5 +31,5 @@ warning appears for every extension installed from a file. To check this downloa
 Needs Python 3.10+. With [uv](https://docs.astral.sh/uv/) installed, Katip fetches its model runtime
 and encryption library on first start; without it, it runs on rules only.
 
-Bundled model: Katip Mask Nano · tr v1.1 (CC BY-NC 4.0). Code: AGPL-3.0, commercial licence on request.
+Bundled model: Katip Mask Nano · tr v1.1 (CC BY-SA 4.0, trained partly on Turkish Wiki NER, Altinok 2023). Code: AGPL-3.0, commercial licence on request.
 Pre-release for testing with synthetic or public documents. See connector/README.md and DESIGN.md.

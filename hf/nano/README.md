@@ -1,6 +1,7 @@
 ---
 language: tr
-license: cc-by-nc-4.0
+license: cc-by-sa-4.0
+datasets: [turkish-nlp-suite/turkish-wikiNER]
 library_name: transformers.js
 pipeline_tag: token-classification
 tags:
@@ -104,5 +105,9 @@ repository.
 
 ## Licence
 
-CC BY-NC 4.0: free for research, evaluation and other non-commercial use. For commercial or production use
-(inside a product, a firm's own workflow or a hosted service), open an issue at https://github.com/fikrifirat/katip.
+**CC BY-SA 4.0** (see `LICENSE`). You may use, share and adapt the model, also commercially. Credit Katip
+and the training data, and share adaptations under the same licence. Nano v1.1 is trained partly on Turkish Wiki NER
+(Altinok, D. (2023). *A Diverse Set of Freely Available Linguistic Resources for Turkish*. ACL 2023;
+CC BY-SA 4.0, https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset). Earlier versions (v1.0)
+were released under CC BY-NC 4.0. Katip's code is AGPL-3.0, with a commercial licence on request:
+https://github.com/fikrifirat/katip.

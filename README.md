@@ -215,7 +215,9 @@ Training: `ml/gen_train.py` + `ml/train.py` (tiny tagger, about 6 minutes on CPU
 
 Code and demo: **[AGPL-3.0](LICENSE)**, with a **commercial licence** for use in products, internal
 systems or hosted services without the AGPL's source-sharing obligation; see [COMMERCIAL.md](COMMERCIAL.md).
-Models: CC BY-NC 4.0.
+Models: **CC BY-SA 4.0** (Katip Mask Nano and Base), because they are trained partly on Turkish Wiki NER
+(Altinok, 2023; CC BY-SA 4.0). Katip Mask Base builds on BERTurk by Stefan Schweter / dbmdz (MIT). A v3
+trained without Wikipedia data, under Apache-2.0, is the goal if it keeps its scores.
 
 Third-party parts: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; baseline only), Inter and Space Grotesk fonts (SIL OFL 1.1), Pyodide (MPL-2.0), tesseract.js and the `tur` model
 (Apache-2.0), PaddleOCR PP-OCRv5 models (Apache-2.0, PaddlePaddle), transformers.js (Apache-2.0), ONNX Runtime (MIT), `common_words.txt` from the

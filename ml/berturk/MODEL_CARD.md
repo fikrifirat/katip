@@ -63,7 +63,9 @@ https://github.com/fikrifirat/katip#size-speed-and-accuracy-side-by-side
 Labels are word-level BIO on each word's first sub-token; use the word split in `config.json`
 (`katip.word_regex`) as Katip's `src/ner.js` does.
 
-**Licence:** CC BY-SA 4.0. v2 is trained partly on Turkish Wiki NER (Altinok, 2023; CC BY-SA 4.0,
+**Base model:** BERTurk (`dbmdz/bert-base-turkish-cased`) by Stefan Schweter / dbmdz, MIT licence.
+
+**Licence:** CC BY-SA 4.0 (see `LICENSE`). v2 is trained partly on Turkish Wiki NER (Altinok, 2023; CC BY-SA 4.0,
 https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset), so the model is shared under the same
 licence: credit Katip and the dataset, and share adaptations under CC BY-SA 4.0. v1 (synthetic data
 only) was released under CC BY-NC 4.0. Katip's code is AGPL-3.0; for a commercial licence for the
