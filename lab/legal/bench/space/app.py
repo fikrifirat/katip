@@ -26,6 +26,11 @@ SYSTEMS = {   # key: (model name, credit line, model link, developer link)
     "gliner":     ("GLiNER Multi PII v1", "by urchade · GLiNER, NAACL 2024", "https://huggingface.co/urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade"),
     "savasy":     ("BERTurk NER", "by savasy · BERTurk (dbmdz) fine-tuned for Turkish NER", "https://huggingface.co/savasy/bert-base-turkish-ner-cased", "https://huggingface.co/savasy"),
     "cosmos-pii": ("ModernBERT-TR PII NER", "by COSMOS Lab, Yıldız Technical University", "https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner", "https://huggingface.co/ytu-ce-cosmos"),
+    "xlmr-conll": ("XLM-RoBERTa Large NER", "by FacebookAI · fine-tuned on English CoNLL-03", "https://huggingface.co/FacebookAI/xlm-roberta-large-finetuned-conll03-english", "https://huggingface.co/FacebookAI"),
+    "gliner2-pii": ("GLiNER2 PII Multi", "by fastino · GLiNER2, 2026", "https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi", "https://huggingface.co/fastino"),
+    "openai-pf":  ("Privacy Filter", "by OpenAI · open-weight PII model, 2026", "https://huggingface.co/openai/privacy-filter", "https://huggingface.co/openai"),
+    "piiranha":   ("Piiranha v1", "by iiiorg · DeBERTa-v3 PII model", "https://huggingface.co/iiiorg/piiranha-v1-detect-personal-information", "https://huggingface.co/iiiorg"),
+    "openmed-tr-33m": ("OpenMed PII Turkish Small", "by OpenMed · ClinicalE5 33M", "https://huggingface.co/OpenMed/OpenMed-PII-Turkish-ClinicalE5-Small-33M-v1", "https://huggingface.co/OpenMed"),
     "qwen-1.5b":  ("Qwen2.5 1.5B Instruct (zero-shot)", "by Qwen Team, Alibaba Cloud", "https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct", "https://huggingface.co/Qwen"),
     "presidio":   ("Presidio", "by Microsoft · spaCy xx_ent_wiki_sm by Explosion", "https://github.com/microsoft/presidio", "https://github.com/microsoft"),
 }
@@ -35,7 +40,8 @@ KIND = {"qwen-1.5b": "llm", "presidio": "rules"}   # everything else: fine-tuned
 TYPES = {"model": "🔶 Fine-tuned model", "llm": "💬 Prompted LLM", "rules": "⚙️ Rule-based toolkit"}
 BASELINES = {"presidio", "savasy"}   # reference points, marked with a tag
 LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-NC 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
-           "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT"}
+           "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT", "xlmr-conll": "MIT", "gliner2-pii": "Apache-2.0",
+           "openai-pf": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 
 # Masking dimensions: what a masking tool has to catch. Each is scored as F2 (missing counts 4x more than over-masking).
@@ -63,23 +69,23 @@ DIM_HELP = {
     "health":   "Health and other KVKK article 6 special categories.",
 }
 COLUMNS = {  # key -> (header, tooltip, shown by default)
-    "rank":    ("#", "Position, ranked by Overall.", True),
+    "rank":    ("#", "Position in the current sort (Overall by default).", True),
     "type":    ("T", "🔶 fine-tuned model · 💬 LLM asked by prompt · ⚙️ rule-based toolkit. Rows tagged baseline are standard reference points.", True),
     "model":   ("Model", "Click to open the model page.", True),
     "overall": ("Overall ⬆", "The ranking number, 0–100: the weighted average of the real-text masking dimensions (weights in the guide below). ◇ columns are previews and join the average once they have real test data.", True),
+    "leak":    ("Leaked ⬇", "After masking, how much of the personal data you could still read (by characters), on the selected documents. Lower is better. On real text that is names; IDs, phones and addresses only appear in our generated (◇) documents so far.", True),
+    "speed":   ("Pages/s ⬆", "Pages masked per second on a laptop CPU (Apple M-series), one page = 500 words. Same machine for every model.", True),
+    "size":    ("Size ⬇", "What you download to run it. Small means it fits on a laptop or in a browser tab.", True),
     **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score: F2, where missing one counts 4× more than masking too much." +
            ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), v[4])
        for k, v in DIMS.items()},
-    "leak":    ("Leaked ⬇", "After masking, how much of the personal data in real text you could still read (by characters). Lower is better.", True),
     "params":  ("Params", "How many learned weights the model has.", False),
-    "size":    ("Size", "What you download to run it. Small means it fits on a laptop or in a browser tab.", True),
-    "speed":   ("ms/page", "Milliseconds to mask one page on a laptop CPU (Apple M-series, 12 cores).", True),
     "offline": ("Offline", "Runs on your own machine with no internet connection, so documents never leave the firm.", True),
     "browser": ("Browser", "Runs inside a web page: nothing to install, and the document never leaves your computer.", True),
     "licence": ("Licence", "Licence of the model. NC = no commercial use.", True),
 }
 NUM = ("overall", *DIMS, "leak")
-SECONDARY = ("leak", "params", "size", "speed", "offline", "browser", "licence")
+SECONDARY = ("params", "offline", "browser", "licence")
 
 # Document types a firm feeds in (the dataset taxonomy). Pick some and every score is recomputed on just those documents.
 DOC_TYPES = {
@@ -139,6 +145,10 @@ def params(n):
     if n == 0: return "0 (rules)"
     return f"{n / 1e6:.0f}M" if n < 1e9 else f"{n / 1e9:.1f}B"
 
+def pps(ms):
+    v = 1000 / ms
+    return "<0.1" if v < 0.1 else f"{v:.1f}" if v < 10 else f"{v:.0f}"
+
 def size_bucket(mb):
     mb = mb or 0
     return SIZES[0] if mb < 10 else SIZES[1] if mb <= 500 else SIZES[2]
@@ -149,13 +159,15 @@ def cell(r, k, best):
     tag = "<span class='tag'>baseline</span>" if r["system"] in BASELINES else ""
     return {"rank": str(r["rank"]), "type": f"<span title='{TYPES[r['kind']]}'>{TYPES[r['kind']].split()[0]}</span>",
             "model": f"<a href='{link}' target='_blank'>{html.escape(name)}</a>{tag}<div class='repo'><a href='{dev}' target='_blank'>{html.escape(by)}</a></div>",
-            "params": params(r.get("params")), "size": size(r.get("size_mb")),
-            "speed": f"{r['ms_per_page']:,.0f}" if r.get("ms_per_page") else "–",
+            "params": params(r.get("params")), "size": f"<b>{size(r.get('size_mb'))}</b>" if r.get("size_mb") and r.get("size_mb") == best.get("size_mb") else size(r.get("size_mb")),
+            "speed": (f"<b>{pps(r['ms_per_page'])}</b>" if r['ms_per_page'] == best.get("speed_ms") else pps(r['ms_per_page'])) if r.get("ms_per_page") else "–",
             "offline": "✓" if r.get("runs_locally", True) else "", "browser": "✓" if r.get("runs_in_browser") else "", "licence": LICENCE.get(r["system"], "not stated")}[k]
 
 def table(rows, cols):
     if not rows: return "<p class='empty'>No model matches the filters.</p>"
     best = {k: (min if k == "leak" else max)((r[k] for r in rows if r[k] == r[k]), default=None) for k in NUM}
+    best["speed_ms"] = min((r["ms_per_page"] for r in rows if r.get("ms_per_page")), default=None)
+    best["size_mb"] = min((r["size_mb"] for r in rows if r.get("size_mb")), default=None)
     cls = lambda k: " class='l'" if k in ("model",) else " class='l sec'" if k == "licence" else " class='sec'" if k in SECONDARY else " class='ov'" if k == "overall" else " class='gen'" if k in DIMS and not DIMS[k][4] else ""
     head = "".join(f'<th{cls(k)} title="{html.escape(COLUMNS[k][1])}">{COLUMNS[k][0]}</th>' for k in cols)
     body = "".join("<tr>" + "".join(f"<td{cls(k)}>{cell(r, k, best)}</td>" for k in cols) + "</tr>" for r in rows)
@@ -286,6 +298,8 @@ def build():
                 with gr.Row():
                     q = gr.Textbox(placeholder="🔍 Search models", show_label=False, scale=3)
                     browser = gr.CheckboxGroup(["Runs in browser", "Commercial use OK"], value=[], show_label=False, scale=1)
+                order = gr.Radio(["Overall", "Least leaked", "Fastest", "Smallest"], value="Overall", label="Sort by",
+                                 info="Pick what matters for your setup: masking quality, privacy, speed on a laptop, or download size.")
                 docs = gr.CheckboxGroup(list(DOC_TYPES), value=list(DOC_TYPES), label="Documents", info=DOC_HELP)
                 with gr.Row():
                     types = gr.CheckboxGroup(list(TYPES.values()), value=list(TYPES.values()), label="Model type")
@@ -301,12 +315,18 @@ def build():
                     " · ".join(f"{DIMS[k][0]} {round(100 * DIMS[k][3] / now)}%" for k in live if DIMS[k][4]) +
                     ". ID, contact, address and health columns are hidden until we have real labelled documents for them (our generated ones would favour Katip); open **Columns** to see the ◇ previews.",
                     elem_classes="guide")
-                def show(qv, tv, sv, bv, cv, dv):
+                def show(qv, tv, sv, bv, cv, dv, ov="Overall"):
                     rs = pick(score(rows, dv), qv, tv, sv, bv)
+                    big = float("inf"); nan = lambda x: x if x == x else None
+                    key = {"Least leaked": lambda r: nan(r["leak"]) if nan(r["leak"]) is not None else big,
+                           "Fastest": lambda r: r.get("ms_per_page") or big,
+                           "Smallest": lambda r: r.get("size_mb") or big}.get(ov, lambda r: -(nan(r["overall"]) or -1))
+                    rs = sorted(rs, key=key)
+                    for i, r in enumerate(rs, 1): r["rank"] = i
                     shown = [k for k in COLUMNS if k in cv and not (k in DIMS and not any(r[k] == r[k] for r in rs))]
                     return table(rs, ["rank", "type", "model"] + shown)
-                for c in (q, types, sizes, browser, cols, docs):
-                    c.change(show, [q, types, sizes, browser, cols, docs], out)
+                for c in (q, types, sizes, browser, cols, docs, order):
+                    c.change(show, [q, types, sizes, browser, cols, docs, order], out)
             with gr.Tab("📂 By test"):
                 tracks = [t for t in TRACK_NAMES if any(t in r["tracks"] for r in rows)]
                 dd = gr.Dropdown([(TRACK_NAMES[t], t) for t in tracks], value=tracks[0] if tracks else None, label="Test set")
