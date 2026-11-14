@@ -186,9 +186,40 @@ def _place_words():
     return _PLACES
 
 
+# Precedent citations ("Yargıtay 3. Ceza Dairesi'nin 12.03.2019 tarih ve 2018/123 E., 2019/45 K. sayılı kararı") are
+# public law, not personal data, and a lawyer needs them readable: the case types never mask inside one, in any profile.
+_HIGH_COURT = re.compile(
+    r"(?<![\w])(?:Yargıtay|YARGITAY|Danıştay|DANIŞTAY|Anayasa\s+Mahkemesi|ANAYASA\s+MAHKEMESİ|AYM|Uyuşmazlık\s+Mahkemesi|"
+    r"(?:[A-ZÇĞİÖŞÜ][\wçğıöşü]+\s+)?Bölge\s+(?:Adliye|İdare)\s+Mahkemesi|BAM|BİM|YCGK|YHGK|CGK|HGK|İBK|İBBGK|"
+    r"AİHM|Avrupa\s+İnsan\s+Hakları\s+Mahkemesi|Y\.?\s?\d{1,2}\.\s?(?:C|H)\.?\s?D\.?)(?![\wçğıöşü])")
+_CITE_END = re.compile(r"(?:kararı|kararında|kararıyla|kararları|ilamı|ilamında|içtihadı|içtihatları|sayılı)\w*", re.I)
+_CITE_BEFORE = re.compile(r"(?:E\.|K\.|Esas|Karar)[^\n]{0,80}(?:sayılı|tarihli|tarih\s+ve)[^\n]{0,10}$", re.I)
+
+
+def citation_windows(text):
+    """(start, end) of each precedent citation: from a high court's name to the end of the reference
+    ("... sayılı kararı"), plus the number written just before it ("2019/45 K. sayılı Yargıtay ... kararı")."""
+    out = []
+    for m in _HIGH_COURT.finditer(text):
+        lim = text.find("\n", m.end())
+        lim = min(lim if lim >= 0 else len(text), m.end() + 260)
+        end = _CITE_END.search(text, m.end(), lim)
+        e = end.end() if end else lim
+        b = m.start()
+        line = text.rfind("\n", 0, b) + 1
+        pre = text[max(line, b - 140):b]
+        if _CITE_BEFORE.search(pre):
+            b = max(line, b - 140)
+        out.append((b, e))
+    return out
+
+
 def _case_results(text, entities):
     out = []
+    cites = citation_windows(text)
     def add(typ, s, e, sc, why):
+        if any(a <= s and e <= b for a, b in cites):
+            return  # part of a precedent citation: public, keep it readable
         out.append(_result(typ, s, e, sc, why, "case_details"))
     if "CASE_NO" in entities:
         for rx in _CASE_RES:

@@ -482,3 +482,30 @@ def test_outputs_stay_in_the_katip_folder(home, tmp_path):
     with zipfile.ZipFile(tmp_path / "cevap.docx") as z:
         xml = z.read("word/document.xml").decode()
     assert "Davacı Emal" in xml and "&amp; &lt;son&gt;" in xml and xml.count("<w:p>") == 2
+
+
+CITATION_DOC = (
+    "İSTANBUL 5. SULH CEZA HAKİMLİĞİ'NE\n\n"
+    "Soruşturma No : 2024/48213\n"
+    "ŞÜPHELİ : Deniz Arslantaş (T.C. Kimlik No: 10000000146)\n\n"
+    "Tutuklama kararına itiraz ediyoruz. Yargıtay 1. Ceza Dairesi'nin 12.03.2019 tarih ve 2018/3121 E., "
+    "2019/1450 K. sayılı kararında da belirtildiği gibi, kuvvetli suç şüphesi somut delile dayanmalıdır.\n"
+    "Nitekim 2020/77 E., 2021/9 K. sayılı Yargıtay CGK kararı da aynı yöndedir.\n"
+    "Anayasa Mahkemesi'nin 2016/12345 başvuru numaralı kararı da bu ilkeyi tekrarlar.\n")
+
+
+@pytest.mark.parametrize("profile", ["court", "ai", "anon"])
+def test_precedent_citations_stay_readable(home, tmp_path, profile):
+    """A lawyer's precedent citations are public law: no profile masks them (Ozan, 14 Nov 2026)."""
+    from katip_kalkan import core
+    f = tmp_path / f"itiraz_{profile}.txt"
+    f.write_text(CITATION_DOC, encoding="utf-8")
+    out = core.mask_file(str(f), "cite-" + profile, profile=profile)["masked_text"]
+    for public in ("2018/3121 E.", "2019/1450 K.", "12.03.2019", "2020/77 E.", "2021/9 K.", "Yargıtay 1. Ceza Dairesi",
+                   "Anayasa Mahkemesi", "2016/12345"):
+        assert public in out, (profile, public)
+    assert "Deniz" not in out and "Arslantaş" not in out and "10000000146" not in out
+    own_case_visible = "2024/48213" in out
+    court_visible = "İSTANBUL 5. SULH CEZA" in out
+    assert own_case_visible == (profile == "court")  # the client's own file number: hidden for AI and anon
+    assert court_visible == (profile != "anon")  # the client's court: hidden only when fully anonymised

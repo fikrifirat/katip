@@ -8,6 +8,7 @@ warning appears for every extension installed from a file. To check this downloa
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
 **New in 0.3.5 (safety and publishing):**
+- Precedent citations stay readable in every profile: "Yargıtay 1. Ceza Dairesi'nin … 2018/123 E., 2019/45 K. sayılı kararı", Danıştay, Anayasa Mahkemesi, BAM/BİM, CGK/HGK. Before, the AI and Tam anonim profiles masked their numbers, dates and court names (lawyer feedback).
 - Restored documents (with real names) are written only into your Katip folder, as a real Word file (.docx), .txt or .md. Before, a document could steer Claude into writing them anywhere, and ".docx" got plain text.
 - Folder checks work with Windows paths.
 - First-start helpers are pinned to exact, tested versions (and Python 3.12 if missing), so an upstream release can't change what runs.
