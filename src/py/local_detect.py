@@ -87,12 +87,87 @@ def _add_model_span(text, results, s, e, score, trust=None):
     # not taken from the model alone; inside a sentence, or once the name is known in the document, it still is
     # a single ordinary word that is in no name list ("TALEBİ", "Barolar") is not a name from the model alone,
     # unless it carries a proper-noun case suffix ("Topçu'nun") inside a sentence
+    # A lone word the model is sure of is still taken inside a sentence when it is only *guessed* to be an
+    # ordinary word (an unknown foreign first name such as "Peter" can look like an inflected Turkish word),
+    # but never when it is a dictionary or stop word itself ("Hazine", "Mart"), and never at a sentence start.
+    mid = re.search(r"(?:^|[.!?:;\n(\"“]\s*)$", text[max(0, s - 4):s]) is None
     lone_word = (len(toks) == 1 and not known and is_lexical(text[s:e])
-                 and not (text[e:e + 1] in "'’" and re.search(r"(?:^|[.!?:;\n(\"“]\s*)$", text[max(0, s - 4):s]) is None))
+                 and not (text[e:e + 1] in "'’" and mid)
+                 and not (mid and not _never_lone_name(text[s:e], score)))
     if capital and (len(toks) >= 2 or (sure and not lone_word) or known):
         r = RecognizerResult("PERSON", s, e, score)
         r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: "name_tagger", "explanation": "on-device model"}
         results.append(r)
+
+
+def _join_model_names(text, extra):
+    """Join PERSON spans the model returns word by word ("Jim" + "Jonsin", "Peter" + "Aufschnaiter") when only
+    spaces separate them, so the pair is judged as one full name rather than as two lone words."""
+    out = []
+    for x in sorted(extra, key=lambda x: x[0]):
+        typ = x[3] if len(x) > 3 else None
+        prev = out[-1] if out else None
+        if (prev is not None and typ in (None, "PERSON") and (prev[3] if len(prev) > 3 else None) in (None, "PERSON")
+                and 0 < x[0] - prev[1] <= 2 and text[prev[1]:x[0]].strip(" ") == ""
+                and not any(fold(text[a:b]) in _person_stop() or fold(text[a:b]) in _stopwords() for a, b in (prev[:2], x[:2]))):
+            out[-1] = (prev[0], x[1], min(prev[2], x[2])) + tuple(prev[3:4])
+        else:
+            out.append(tuple(x))
+    return out
+
+
+def _name_repeats(text, results):
+    """A word of a full name found in the document (two or more words) is masked again where it appears alone,
+    capitalised ("Ayşe Vardar ... Vardar'ın evi"). Ordinary words (Türk in "Ahmet Türk"), stop words, place and
+    title words and all-capital acronyms are left alone."""
+    words = {}
+    for r in results:
+        if r.entity_type != "PERSON":
+            continue
+        toks = [m for m in _TOK.finditer(text[r.start:r.end])]
+        if len(toks) < 2:
+            continue
+        for m in toks:
+            w = m.group(0)
+            f = fold(w)
+            if (len(w) >= 3 and w[0].isupper() and not w.isupper() and f not in _stopwords() and f not in _person_stop()
+                    and not is_lexical(w)):
+                words[w] = r.score
+    covered = [(r.start, r.end) for r in results if r.entity_type == "PERSON"]
+    out = []
+    for w, sc in words.items():
+        for m in re.finditer(rf"(?<![{TR_LETTER}]){re.escape(w)}(?![{TR_LETTER}])", text):
+            a, b = m.span()
+            if any(x < b and y > a for x, y in covered):
+                continue
+            nxt = re.match(rf"[ \t]+([{TR_LETTER}]+)", text[b:b + 40])
+            if nxt and nxt.group(1)[0].isupper() and is_lexical(nxt.group(1)):
+                continue  # part of a title: "Türk Vatandaşlığı Kanunu", "Yıldız Teknik Üniversitesi"
+            covered.append((a, b))
+            out.append(_result("PERSON", a, b, sc, "same name word found earlier in the document", "name_repeat"))
+    return out
+
+
+def _stopwords():
+    from katip_redact.textutil import wordlist
+    return wordlist("stopwords_caps.txt")
+
+
+def _never_lone_name(tok, score):
+    """A capitalised lone word the model calls a name is still refused when it is a stop word (Hazine, Mahkeme,
+    Barolar), a place/institution/title word, all capitals (TALEBİ), a Roman numeral (III), an inflected ordinary
+    word (Savcısının), or a word from the 30k common-word list that the model is not very sure of. That list comes from film subtitles and
+    holds many foreign first names (Peter, Madeleine), which a very confident model may still mask."""
+    from katip_redact.textutil import wordlist
+    f = fold(tok)
+    if f in wordlist("stopwords_caps.txt") or f in _person_stop() or tok.isupper() or re.fullmatch(r"[IVXLC]+", tok):
+        return True
+    if f not in wordlist("common_words.txt"):
+        return is_lexical(tok)  # an inflected ordinary word (Barolar, Savcısının): never a lone name
+    return score < LONE_NAME_SCORE
+
+
+LONE_NAME_SCORE = 0.85
 
 
 _STOP = None
@@ -263,6 +338,7 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
             if r.score >= threshold and key not in seen:
                 seen.add(key)
                 results.append(r)
+    extra = _join_model_names(text, extra)
     # names first, so a new address/health span can see them
     for x in sorted(extra, key=lambda x: (len(x) > 3 and x[3] not in (None, "PERSON"))):
         s, e, sc = x[:3]
@@ -273,6 +349,8 @@ def detect(text, threshold=0.5, entities=None, mask_terms=(), allow_terms=(), ex
             _add_model_span(text, results, s, e, sc, trust)
         else:
             _add_model_typed(text, results, typ, s, e, sc)
+    if "PERSON" in entities:
+        results += _name_repeats(text, results)
     if "TCKN" in entities:
         results += [_result("TCKN", s, e, sc, why, "tckn_ocr") for s, e, sc, why in ocr_tckn(text, ocr_ranges) if sc >= threshold]
     results += [_result(t, s, e, sc, why, "form_row_ocr") for t, s, e, sc, why in ocr_form_values(text, ocr_ranges)
