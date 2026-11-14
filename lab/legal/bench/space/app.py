@@ -21,6 +21,7 @@ VERSION = "v0.1.2 preview"
 # key: (name, link). Only these rows are shown; every other scored system stays in results/.
 SYSTEMS = {   # key: (model name, credit line, model link, developer link)
     "berturk-v2": ("Katip Mask Base · tr v2", "by f1k · 110M, fine-tuned from BERTurk (dbmdz, MIT)", "https://huggingface.co/f1k/katip-mask-base", "https://huggingface.co/f1k"),
+    "mini-v2":    ("Katip Mask Mini · tr v2", "by f1k · ~31 MB, distilled from Katip Mask Base, on DistilBERTurk (dbmdz, MIT)", "https://huggingface.co/f1k/katip-mask-mini", "https://huggingface.co/f1k"),
     "tiny-f":     ("Katip Mask Nano · tr v1.1", "by f1k · 2.5M, runs in the browser", "https://huggingface.co/f1k/katip-mask-nano", "https://huggingface.co/f1k"),
     "akdeniz":    ("XLM-RoBERTa Base Turkish NER", "by akdeniz27 · fine-tuned from XLM-R (Meta AI)", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27"),
     "gliner":     ("GLiNER Multi PII v1", "by urchade · GLiNER, NAACL 2024", "https://huggingface.co/urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade"),
@@ -40,7 +41,7 @@ IDS = {"TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE
 KIND = {"qwen-1.5b": "llm", "presidio": "rules"}   # everything else: fine-tuned model
 TYPES = {"model": "🔶 Fine-tuned model", "llm": "💬 Prompted LLM", "rules": "⚙️ Rule-based toolkit"}
 BASELINES = {"presidio", "savasy"}   # reference points, marked with a tag
-LICENCE = {"berturk-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-SA 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
+LICENCE = {"berturk-v2": "CC BY-SA 4.0", "mini-v2": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-SA 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
            "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT", "xlmr-conll": "MIT", "gliner2-pii": "Apache-2.0",
            "openai-pf": "Apache-2.0", "openmed-pf-v2": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
