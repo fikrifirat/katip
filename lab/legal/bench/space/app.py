@@ -81,12 +81,17 @@ COLUMNS = {  # key -> (header, tooltip, shown by default)
     **{k: (v[0] + ("" if v[4] else " ◇"), DIM_HELP[k] + " Score: F2, where missing one counts 4× more than masking too much." +
            ("" if v[4] else " ◇ Preview: measured on documents we generated, which Katip's models were also trained on, so not yet in Overall."), v[4])
        for k, v in DIMS.items()},
+    "photo":   ("📱 Leaked ◇", "60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Leaked: share of personal values still readable after masking (a value counts as leaked if under 70% of its box is covered). Over-masked: share of the 360 ordinary street and district names that were masked anyway. A good system is low on both: Leaked alone would rank a tool that masks everything first. Lower is better. Blank = not run on the photos yet.", True),
+    "photo_over": ("📱 Over-masked ◇", "60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Over-masked: share of the 360 ordinary street and district names on the forms that were masked anyway (not personal data on their own). A good system is low on both: Leaked alone would rank a tool that masks everything first. Lower is better. Blank = not run on the photos yet.", True),
+    "forms":   ("🗂️ Forms ◇", "306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. Blank = not run on the forms yet.", False),
     "params":  ("Params", "How many learned weights the model has.", False),
     "offline": ("Offline", "Runs on your own machine with no internet connection, so documents never leave the firm.", True),
     "browser": ("In browser", "✓ = we have run it inside a web page (Katip Mask demo: rules in Python via Pyodide/WebAssembly, model via transformers.js + ONNX Runtime Web). Nothing to install and the document never leaves the computer. Blank = not tested in a browser yet, not impossible. Pages/s is not an in-browser speed.", True),
     "licence": ("Licence", "Licence of the model. NC = no commercial use.", True),
 }
-NUM = ("overall", *DIMS, "leak")
+NUM = ("overall", *DIMS, "leak", "photo", "photo_over", "forms")
+LOWER = ("leak", "photo", "photo_over")   # lower is better
+EXTRA = ("photo", "photo_over", "forms")  # separate synthetic tracks: read from results/photo and results/forms, never in Overall
 SECONDARY = ("params", "offline", "browser", "licence")
 
 # Document types a firm feeds in (the dataset taxonomy). Pick some and every score is recomputed on just those documents.
@@ -108,6 +113,11 @@ def load_rows():
         if r.get("system") not in SYSTEMS or r.get("split", "public") != "public" or r.get("version") not in ("v0.1.2",): continue
         if r["system"] == "presidio" and not r.get("size_mb"): r["size_mb"] = 11.0   # spaCy xx_ent_wiki_sm
         r["kind"] = KIND.get(r["system"], "model")
+        ph, fo = RESULTS / "photo" / f"{r['system']}.json", RESULTS / "forms" / f"{r['system']}.json"
+        pj = json.loads(ph.read_text()) if ph.exists() else {}
+        r["photo"] = pj.get("leak_rate", float("nan"))
+        r["photo_over"] = pj["streets_over_masked"] / pj["streets"] if pj.get("streets") else float("nan")
+        r["forms"] = json.loads(fo.read_text(), parse_constant=lambda c: float("nan"))["tracks"]["forms-id"]["f2"] if fo.exists() else float("nan")
         rows.append(r)
     return score(rows, list(DOC_TYPES))
 
@@ -156,6 +166,7 @@ def size_bucket(mb):
     return SIZES[0] if mb < 10 else SIZES[1] if mb <= 500 else SIZES[2]
 
 def cell(r, k, best):
+    if k in EXTRA and r[k] != r[k]: return ""
     if k in NUM: return f"<b>{pct(r[k])}</b>" if r[k] == best[k] else pct(r[k])
     name, by, link, dev = SYSTEMS[r["system"]]
     tag = "<span class='tag'>baseline</span>" if r["system"] in BASELINES else ""
@@ -167,10 +178,10 @@ def cell(r, k, best):
 
 def table(rows, cols):
     if not rows: return "<p class='empty'>No model matches the filters.</p>"
-    best = {k: (min if k == "leak" else max)((r[k] for r in rows if r[k] == r[k]), default=None) for k in NUM}
+    best = {k: (min if k in LOWER else max)((r[k] for r in rows if r[k] == r[k]), default=None) for k in NUM}
     best["speed_ms"] = min((r["ms_per_page"] for r in rows if r.get("ms_per_page")), default=None)
     best["size_mb"] = min((r["size_mb"] for r in rows if r.get("size_mb")), default=None)
-    cls = lambda k: " class='l'" if k in ("model",) else " class='l sec'" if k == "licence" else " class='sec'" if k in SECONDARY else " class='ov'" if k == "overall" else " class='gen'" if k in DIMS and not DIMS[k][4] else ""
+    cls = lambda k: " class='l'" if k in ("model",) else " class='l sec'" if k == "licence" else " class='sec'" if k in SECONDARY else " class='ov'" if k == "overall" else " class='gen'" if (k in DIMS and not DIMS[k][4]) or k in EXTRA else ""
     head = "".join(f'<th{cls(k)} title="{html.escape(COLUMNS[k][1])}">{COLUMNS[k][0]}</th>' for k in cols)
     body = "".join("<tr>" + "".join(f"<td{cls(k)}>{cell(r, k, best)}</td>" for k in cols) + "</tr>" for r in rows)
     return f"<div class='wrap'><table class='lb'><thead><tr>{head}</tr></thead><tbody>{body}</tbody></table></div>"
@@ -219,6 +230,8 @@ Masking on your own computer before anything leaves it is the simplest safeguard
 | ID numbers | T.C. kimlik, foreign ID (99…), passport, tax number | synthetic data ◇ (not in the score) |
 | Contact and financial | phone, e-mail, address (building/door), IBAN | synthetic data ◇ (not in the score) |
 | Special category | health terms and diagnoses | synthetic data ◇ (not in the score) |
+| 📱 Phone scans (Leaked, Over-masked) | 60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. A good system is low on both: Leaked alone would rank a tool that masks everything first. | synthetic data ◇ (not in the score) |
+| 🗂️ Forms | 306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. | synthetic data ◇ (not in the score) |
 
 Why only names on real text: published Turkish court decisions are anonymised before release, so ID numbers, phones, IBANs and
 addresses are removed from them, and real documents that still contain them can't be published by definition. Real decisions do
@@ -235,6 +248,8 @@ for example with a cloud AI (see *What does KVKK require* above). Every tool get
   the anonymised name slots are refilled once with unseen Turkish names (🇹🇷) and once with unseen foreign names (🌍), 1,011 names each.
 * 1,000 Turkish Wikipedia sentences with hand-marked names: [Turkish Wiki NER](https://huggingface.co/datasets/turkish-nlp-suite/turkish-wikiNER) (Altinok 2023, CC BY-SA 4.0).
 * 380 generated legal documents with ID numbers, IBANs, phones, addresses and health data. These feed the ◇ preview columns only.
+* 📱 **Phone scans ◇** (Leaked and Over-masked): 60 synthetic phone photos of hand-filled paper forms (as a client would send them), after Katip's OCR; share of personal data still readable. Synthetic data ◇, not in the Overall score. Over-masked is the share of 360 ordinary street and district names that were masked anyway; a good system is low on both: Leaked alone would rank a tool that masks everything first. Masked boxes come from each tool's spans on the OCR text; a value counts as leaked if under 70% of its box is covered.
+* 🗂️ **Forms ◇**: 306 petitions and bar forms on real public layouts (HMK petitions, İİK forms, bar applications), filled with fake, checksum-valid names, T.C. kimlik, tax numbers, IBANs and addresses. Score: F2. Synthetic data ◇, not in the Overall score. Layout sources and legal basis: [forms SOURCES.md](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/forms/SOURCES.md).
 
 Thanks to the dataset authors, and to every model developer credited under the model names.
 

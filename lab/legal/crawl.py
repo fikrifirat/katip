@@ -5,6 +5,7 @@
   python lab/legal/crawl.py --quick         # 30 decisions per court, to check it works
   python lab/legal/crawl.py --court aym     # one court
   python lab/legal/crawl.py --court yargitay --gap 3 --max-stops 10   # Yargıtay throttles at 1 req/s
+  python lab/legal/crawl.py --court yargitay --gap 3 --max-stops 10 --health   # KVKK-Bench special-health set
 
 Sources: Yargıtay (Bedesten API behind mevzuat.adalet.gov.tr), Danıştay (karararama.danistay.gov.tr),
 AYM individual applications (kararlarbilgibankasi.anayasa.gov.tr). Requests go through the MIT-licensed
@@ -34,6 +35,10 @@ QUERIES = {
     "aym": ["adil yargılanma", "ifade özgürlüğü", "mülkiyet hakkı", "kişi özgürlüğü", "özel hayat", "kötü muamele",
             "yaşam hakkı", "eşitlik", "toplantı", "din özgürlüğü", "makul süre", "kişisel veri"],
 }
+# KVKK-Bench v0.2 special-health (bench/DATA_PLAN.md section 1): extra queries for decisions that quote medical
+# reports. Kept in a separate file so the pre-registered crawl above is unchanged.
+HEALTH_QUERIES = ["maluliyet", "Adli Tıp raporu", "engellilik", "iş kazası"]
+HEALTH_OUT = ROOT / "lab" / "data" / "legal_web" / "health_raw.jsonl"
 TARGET = {"yargitay": 4000, "danistay": 2500, "aym": 1200}
 PER_PAGE = 50
 
@@ -102,10 +107,17 @@ def main():
     ap.add_argument("--court", choices=list(QUERIES), action="append")
     ap.add_argument("--quick", action="store_true")
     ap.add_argument("--gap", type=float, default=1.0, help="seconds between requests to one site (Yargıtay needs ~3)")
+    ap.add_argument("--health", action="store_true", help="health queries into health_raw.jsonl (Yargıtay only)")
+    ap.add_argument("--per-query", type=int, default=50, help="--health: decisions per query")
     ap.add_argument("--max-stops", type=int, default=3, help="give up on a court after this many rate-limit stops")
     a = ap.parse_args()
-    global MAX_STOPS
+    global MAX_STOPS, OUT
     MAX_STOPS = a.max_stops
+    if a.health:
+        OUT = HEALTH_OUT
+        for c in QUERIES: QUERIES[c] = HEALTH_QUERIES
+        a.court = a.court or ["yargitay"]
+        TARGET.update({c: a.per_query * len(HEALTH_QUERIES) for c in QUERIES})
     from turk_hukuku_ictihat import ortak
     ortak.ARALIK = max(ortak.ARALIK, a.gap)
     OUT.parent.mkdir(parents=True, exist_ok=True)

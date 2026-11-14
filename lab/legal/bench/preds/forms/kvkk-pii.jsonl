@@ -1,0 +1,306 @@
+{"id": "forms-dava-alacak-table-0", "spans": [[89, 100, "TCKN"], [375, 386, "TCKN"]]}
+{"id": "forms-dava-alacak-table-1", "spans": [[125, 136, "TCKN"], [404, 415, "TCKN"]]}
+{"id": "forms-dava-alacak-table-2", "spans": [[118, 129, "TCKN"]]}
+{"id": "forms-dava-alacak-prose-0", "spans": [[113, 124, "TCKN"], [330, 341, "TCKN"]]}
+{"id": "forms-dava-alacak-prose-1", "spans": [[365, 376, "TCKN"], [709, 735, "IBAN"]]}
+{"id": "forms-dava-alacak-prose-2", "spans": [[379, 390, "TCKN"], [704, 730, "IBAN"]]}
+{"id": "forms-dava-alacak-uyap-0", "spans": [[278, 289, "PHONE"], [314, 335, "EMAIL"], [614, 624, "VKN"], [766, 777, "PHONE"], [802, 826, "EMAIL"]]}
+{"id": "forms-dava-alacak-uyap-1", "spans": [[114, 125, "TCKN"], [264, 280, "PHONE"], [305, 328, "EMAIL"], [507, 523, "PHONE"], [803, 827, "EMAIL"], [1046, 1072, "IBAN"]]}
+{"id": "forms-dava-alacak-uyap-2", "spans": [[299, 315, "PHONE"], [340, 362, "EMAIL"], [545, 556, "PHONE"], [823, 846, "EMAIL"], [1079, 1105, "IBAN"]]}
+{"id": "forms-cevap-table-0", "spans": []}
+{"id": "forms-cevap-table-1", "spans": []}
+{"id": "forms-cevap-table-2", "spans": [[89, 100, "TCKN"]]}
+{"id": "forms-cevap-prose-0", "spans": [[77, 88, "TCKN"]]}
+{"id": "forms-cevap-prose-1", "spans": [[85, 96, "TCKN"], [179, 193, "PHONE"]]}
+{"id": "forms-cevap-prose-2", "spans": [[82, 93, "TCKN"], [175, 186, "PHONE"]]}
+{"id": "forms-cevap-uyap-0", "spans": [[111, 122, "TCKN"], [264, 275, "PHONE"], [300, 321, "EMAIL"], [497, 511, "PHONE"], [579, 590, "TCKN"], [767, 787, "EMAIL"]]}
+{"id": "forms-cevap-uyap-1", "spans": [[113, 124, "TCKN"], [263, 277, "PHONE"], [302, 326, "EMAIL"], [507, 518, "PHONE"], [783, 794, "PHONE"], [819, 843, "EMAIL"]]}
+{"id": "forms-cevap-uyap-2", "spans": [[282, 293, "PHONE"], [318, 339, "EMAIL"], [663, 674, "TCKN"], [779, 795, "PHONE"], [820, 844, "EMAIL"]]}
+{"id": "forms-itiraz-bilirkisi-table-0", "spans": []}
+{"id": "forms-itiraz-bilirkisi-table-1", "spans": [[88, 99, "TCKN"]]}
+{"id": "forms-itiraz-bilirkisi-table-2", "spans": []}
+{"id": "forms-itiraz-bilirkisi-prose-0", "spans": [[90, 101, "TCKN"], [180, 194, "PHONE"]]}
+{"id": "forms-itiraz-bilirkisi-prose-1", "spans": [[332, 343, "TCKN"], [426, 437, "PHONE"]]}
+{"id": "forms-itiraz-bilirkisi-prose-2", "spans": []}
+{"id": "forms-itiraz-bilirkisi-uyap-0", "spans": [[282, 293, "PHONE"], [318, 341, "EMAIL"], [528, 542, "PHONE"], [616, 627, "TCKN"], [763, 777, "PHONE"], [802, 825, "EMAIL"]]}
+{"id": "forms-itiraz-bilirkisi-uyap-1", "spans": [[115, 126, "TCKN"], [264, 278, "PHONE"], [303, 324, "EMAIL"], [514, 530, "PHONE"], [761, 772, "PHONE"], [797, 820, "EMAIL"]]}
+{"id": "forms-itiraz-bilirkisi-uyap-2", "spans": [[108, 119, "TCKN"], [256, 270, "PHONE"], [295, 322, "EMAIL"], [503, 519, "PHONE"], [774, 788, "PHONE"], [813, 832, "EMAIL"]]}
+{"id": "forms-adli-yardim-table-0", "spans": [[118, 129, "TCKN"]]}
+{"id": "forms-adli-yardim-table-1", "spans": [[97, 108, "TCKN"]]}
+{"id": "forms-adli-yardim-table-2", "spans": [[128, 139, "TCKN"]]}
+{"id": "forms-adli-yardim-prose-0", "spans": [[97, 108, "TCKN"], [188, 202, "PHONE"]]}
+{"id": "forms-adli-yardim-prose-1", "spans": []}
+{"id": "forms-adli-yardim-prose-2", "spans": []}
+{"id": "forms-adli-yardim-uyap-0", "spans": [[125, 136, "TCKN"], [275, 286, "PHONE"], [311, 333, "EMAIL"]]}
+{"id": "forms-adli-yardim-uyap-1", "spans": [[294, 305, "PHONE"], [330, 353, "EMAIL"]]}
+{"id": "forms-adli-yardim-uyap-2", "spans": [[124, 135, "TCKN"], [319, 342, "EMAIL"]]}
+{"id": "forms-tedbir-table-0", "spans": [[95, 106, "TCKN"], [606, 615, "PLATE"]]}
+{"id": "forms-tedbir-table-1", "spans": [[438, 448, "VKN"], [612, 621, "PLATE"]]}
+{"id": "forms-tedbir-table-2", "spans": [[103, 114, "TCKN"], [624, 633, "PLATE"]]}
+{"id": "forms-tedbir-prose-0", "spans": [[98, 109, "TCKN"], [543, 552, "PLATE"]]}
+{"id": "forms-tedbir-prose-1", "spans": [[632, 642, "PLATE"]]}
+{"id": "forms-tedbir-prose-2", "spans": [[91, 102, "TCKN"], [335, 346, "TCKN"], [533, 542, "PLATE"]]}
+{"id": "forms-tedbir-uyap-0", "spans": [[312, 328, "PHONE"], [353, 381, "EMAIL"], [817, 833, "PHONE"], [858, 881, "EMAIL"], [970, 980, "PLATE"]]}
+{"id": "forms-tedbir-uyap-1", "spans": [[324, 340, "PHONE"], [365, 386, "EMAIL"], [567, 583, "PHONE"], [815, 829, "PHONE"], [854, 878, "EMAIL"], [967, 977, "PLATE"]]}
+{"id": "forms-tedbir-uyap-2", "spans": [[349, 360, "PHONE"], [385, 407, "EMAIL"], [588, 602, "PHONE"], [677, 688, "TCKN"], [823, 839, "PHONE"], [864, 886, "EMAIL"], [974, 983, "PLATE"]]}
+{"id": "forms-icra-takip-table-0", "spans": [[117, 128, "TCKN"], [400, 411, "TCKN"]]}
+{"id": "forms-icra-takip-table-1", "spans": []}
+{"id": "forms-icra-takip-table-2", "spans": [[124, 135, "TCKN"], [701, 727, "IBAN"]]}
+{"id": "forms-icra-takip-prose-0", "spans": [[75, 86, "TCKN"], [168, 182, "PHONE"]]}
+{"id": "forms-icra-takip-prose-1", "spans": [[312, 323, "TCKN"], [614, 640, "IBAN"]]}
+{"id": "forms-icra-takip-prose-2", "spans": [[70, 81, "TCKN"], [168, 182, "PHONE"], [305, 316, "TCKN"], [401, 415, "PHONE"]]}
+{"id": "forms-icra-takip-uyap-0", "spans": [[320, 344, "EMAIL"], [527, 538, "PHONE"], [653, 664, "TCKN"], [808, 829, "EMAIL"]]}
+{"id": "forms-icra-takip-uyap-1", "spans": [[113, 124, "TCKN"], [260, 271, "PHONE"], [296, 319, "EMAIL"], [580, 591, "TCKN"], [730, 744, "PHONE"], [769, 792, "EMAIL"], [981, 1007, "IBAN"]]}
+{"id": "forms-icra-takip-uyap-2", "spans": [[328, 353, "EMAIL"], [528, 542, "PHONE"], [803, 817, "PHONE"], [842, 863, "EMAIL"], [1051, 1077, "IBAN"]]}
+{"id": "forms-odeme-emri-itiraz-table-0", "spans": [[240, 251, "TCKN"]]}
+{"id": "forms-odeme-emri-itiraz-table-1", "spans": []}
+{"id": "forms-odeme-emri-itiraz-table-2", "spans": []}
+{"id": "forms-odeme-emri-itiraz-prose-0", "spans": [[245, 256, "TCKN"], [339, 353, "PHONE"]]}
+{"id": "forms-odeme-emri-itiraz-prose-1", "spans": []}
+{"id": "forms-odeme-emri-itiraz-prose-2", "spans": [[259, 270, "TCKN"]]}
+{"id": "forms-odeme-emri-itiraz-uyap-0", "spans": [[115, 126, "TCKN"], [302, 325, "EMAIL"], [573, 587, "PHONE"], [612, 638, "EMAIL"]]}
+{"id": "forms-odeme-emri-itiraz-uyap-1", "spans": [[113, 124, "TCKN"], [265, 276, "PHONE"], [301, 326, "EMAIL"], [589, 600, "PHONE"], [625, 646, "EMAIL"]]}
+{"id": "forms-odeme-emri-itiraz-uyap-2", "spans": [[115, 126, "TCKN"], [308, 328, "EMAIL"], [432, 442, "VKN"], [589, 603, "PHONE"], [628, 650, "EMAIL"]]}
+{"id": "forms-sikayet-icra-table-0", "spans": [[124, 135, "TCKN"], [412, 423, "TCKN"]]}
+{"id": "forms-sikayet-icra-table-1", "spans": []}
+{"id": "forms-sikayet-icra-table-2", "spans": [[89, 100, "TCKN"], [404, 414, "VKN"]]}
+{"id": "forms-sikayet-icra-prose-0", "spans": [[94, 105, "TCKN"], [186, 200, "PHONE"]]}
+{"id": "forms-sikayet-icra-prose-1", "spans": [[97, 108, "TCKN"]]}
+{"id": "forms-sikayet-icra-prose-2", "spans": [[109, 120, "TCKN"]]}
+{"id": "forms-sikayet-icra-uyap-0", "spans": [[322, 346, "EMAIL"], [613, 624, "TCKN"], [763, 774, "PHONE"], [799, 821, "EMAIL"]]}
+{"id": "forms-sikayet-icra-uyap-1", "spans": [[121, 132, "TCKN"], [273, 287, "PHONE"], [312, 337, "EMAIL"], [656, 667, "TCKN"], [768, 779, "PHONE"], [804, 831, "EMAIL"]]}
+{"id": "forms-sikayet-icra-uyap-2", "spans": [[341, 365, "EMAIL"], [633, 644, "TCKN"], [783, 797, "PHONE"], [822, 842, "EMAIL"]]}
+{"id": "forms-vekaletname-table-0", "spans": [[78, 89, "TCKN"]]}
+{"id": "forms-vekaletname-table-1", "spans": []}
+{"id": "forms-vekaletname-table-2", "spans": [[69, 80, "TCKN"], [583, 609, "IBAN"]]}
+{"id": "forms-vekaletname-prose-0", "spans": [[83, 94, "TCKN"]]}
+{"id": "forms-vekaletname-prose-1", "spans": []}
+{"id": "forms-vekaletname-prose-2", "spans": []}
+{"id": "forms-vekaletname-uyap-0", "spans": [[89, 100, "TCKN"], [248, 262, "PHONE"], [287, 311, "EMAIL"], [758, 784, "IBAN"]]}
+{"id": "forms-vekaletname-uyap-1", "spans": [[302, 328, "EMAIL"]]}
+{"id": "forms-vekaletname-uyap-2", "spans": [[84, 95, "TCKN"], [239, 255, "PHONE"], [280, 303, "EMAIL"]]}
+{"id": "forms-ihtarname-table-0", "spans": [[447, 457, "VKN"], [888, 914, "IBAN"]]}
+{"id": "forms-ihtarname-table-1", "spans": [[389, 400, "TCKN"], [784, 810, "IBAN"]]}
+{"id": "forms-ihtarname-table-2", "spans": []}
+{"id": "forms-ihtarname-prose-0", "spans": [[109, 120, "TCKN"], [814, 840, "IBAN"]]}
+{"id": "forms-ihtarname-prose-1", "spans": [[344, 355, "TCKN"]]}
+{"id": "forms-ihtarname-prose-2", "spans": [[91, 102, "TCKN"], [185, 199, "PHONE"], [331, 342, "TCKN"]]}
+{"id": "forms-ihtarname-uyap-0", "spans": [[341, 364, "EMAIL"], [791, 802, "PHONE"], [827, 848, "EMAIL"]]}
+{"id": "forms-ihtarname-uyap-1", "spans": [[338, 362, "EMAIL"], [543, 554, "PHONE"], [798, 812, "PHONE"], [837, 861, "EMAIL"]]}
+{"id": "forms-ihtarname-uyap-2", "spans": [[114, 125, "TCKN"], [264, 278, "PHONE"], [303, 325, "EMAIL"], [753, 767, "PHONE"], [792, 814, "EMAIL"]]}
+{"id": "forms-kira-tahliye-table-0", "spans": [[95, 106, "TCKN"], [383, 394, "TCKN"], [811, 822, "PHONE"]]}
+{"id": "forms-kira-tahliye-table-1", "spans": [[101, 112, "TCKN"], [408, 419, "TCKN"], [822, 836, "PHONE"]]}
+{"id": "forms-kira-tahliye-table-2", "spans": [[92, 103, "TCKN"], [808, 819, "PHONE"]]}
+{"id": "forms-kira-tahliye-prose-0", "spans": [[83, 94, "TCKN"]]}
+{"id": "forms-kira-tahliye-prose-1", "spans": [[103, 114, "TCKN"], [333, 344, "TCKN"], [428, 439, "PHONE"], [766, 782, "PHONE"]]}
+{"id": "forms-kira-tahliye-prose-2", "spans": [[90, 101, "TCKN"], [184, 198, "PHONE"], [359, 370, "TCKN"], [786, 800, "PHONE"]]}
+{"id": "forms-kira-tahliye-uyap-0", "spans": [[302, 313, "PHONE"], [338, 363, "EMAIL"], [807, 823, "PHONE"], [848, 869, "EMAIL"], [1199, 1213, "PHONE"]]}
+{"id": "forms-kira-tahliye-uyap-1", "spans": [[276, 290, "PHONE"], [315, 339, "EMAIL"], [520, 534, "PHONE"], [793, 809, "PHONE"], [834, 860, "EMAIL"], [1196, 1207, "PHONE"]]}
+{"id": "forms-kira-tahliye-uyap-2", "spans": [[127, 138, "TCKN"], [285, 301, "PHONE"], [326, 349, "EMAIL"], [529, 545, "PHONE"], [852, 876, "EMAIL"], [1225, 1239, "PHONE"]]}
+{"id": "forms-is-iscilik-table-0", "spans": [[84, 95, "TCKN"], [670, 696, "IBAN"]]}
+{"id": "forms-is-iscilik-table-1", "spans": [[83, 94, "TCKN"]]}
+{"id": "forms-is-iscilik-table-2", "spans": []}
+{"id": "forms-is-iscilik-prose-0", "spans": [[354, 364, "VKN"]]}
+{"id": "forms-is-iscilik-prose-1", "spans": [[90, 101, "TCKN"]]}
+{"id": "forms-is-iscilik-prose-2", "spans": [[119, 130, "TCKN"], [696, 722, "IBAN"]]}
+{"id": "forms-is-iscilik-uyap-0", "spans": [[109, 120, "TCKN"], [261, 275, "PHONE"], [300, 325, "EMAIL"], [504, 518, "PHONE"], [819, 840, "EMAIL"], [1034, 1060, "IBAN"]]}
+{"id": "forms-is-iscilik-uyap-1", "spans": [[263, 274, "PHONE"], [299, 320, "EMAIL"], [507, 518, "PHONE"], [792, 803, "PHONE"], [828, 846, "EMAIL"]]}
+{"id": "forms-is-iscilik-uyap-2", "spans": [[105, 116, "TCKN"], [297, 318, "EMAIL"], [502, 516, "PHONE"], [818, 841, "EMAIL"]]}
+{"id": "forms-is-arabulucu-table-0", "spans": [[81, 92, "TCKN"], [526, 542, "PHONE"], [560, 584, "EMAIL"]]}
+{"id": "forms-is-arabulucu-table-1", "spans": [[529, 543, "PHONE"], [561, 582, "EMAIL"]]}
+{"id": "forms-is-arabulucu-table-2", "spans": [[554, 568, "PHONE"], [586, 608, "EMAIL"]]}
+{"id": "forms-is-arabulucu-prose-0", "spans": [[82, 93, "TCKN"], [581, 600, "EMAIL"]]}
+{"id": "forms-is-arabulucu-prose-1", "spans": [[117, 127, "VKN"], [592, 617, "EMAIL"]]}
+{"id": "forms-is-arabulucu-prose-2", "spans": [[124, 135, "TCKN"], [576, 590, "PHONE"], [608, 630, "EMAIL"]]}
+{"id": "forms-is-arabulucu-uyap-0", "spans": [[268, 279, "PHONE"], [304, 327, "EMAIL"], [581, 597, "PHONE"], [622, 646, "EMAIL"], [825, 836, "PHONE"], [854, 877, "EMAIL"]]}
+{"id": "forms-is-arabulucu-uyap-1", "spans": [[119, 130, "TCKN"], [268, 282, "PHONE"], [307, 332, "EMAIL"], [570, 584, "PHONE"], [609, 631, "EMAIL"], [810, 824, "PHONE"], [842, 867, "EMAIL"]]}
+{"id": "forms-is-arabulucu-uyap-2", "spans": [[184, 195, "TCKN"], [298, 312, "PHONE"], [337, 361, "EMAIL"], [610, 624, "PHONE"], [649, 671, "EMAIL"], [850, 864, "PHONE"], [882, 906, "EMAIL"]]}
+{"id": "forms-bosanma-table-0", "spans": [[95, 106, "TCKN"], [368, 379, "TCKN"]]}
+{"id": "forms-bosanma-table-1", "spans": [[94, 105, "TCKN"], [370, 381, "TCKN"]]}
+{"id": "forms-bosanma-table-2", "spans": [[94, 105, "TCKN"], [358, 369, "TCKN"]]}
+{"id": "forms-bosanma-prose-0", "spans": [[317, 328, "TCKN"], [415, 431, "PHONE"]]}
+{"id": "forms-bosanma-prose-1", "spans": [[88, 99, "TCKN"]]}
+{"id": "forms-bosanma-prose-2", "spans": [[92, 103, "TCKN"], [185, 196, "PHONE"], [369, 380, "TCKN"]]}
+{"id": "forms-bosanma-uyap-0", "spans": [[111, 122, "TCKN"], [258, 274, "PHONE"], [299, 319, "EMAIL"], [497, 513, "PHONE"], [580, 591, "TCKN"], [770, 792, "EMAIL"]]}
+{"id": "forms-bosanma-uyap-1", "spans": [[112, 123, "TCKN"], [264, 278, "PHONE"], [303, 325, "EMAIL"], [504, 520, "PHONE"], [594, 605, "TCKN"], [782, 808, "EMAIL"]]}
+{"id": "forms-bosanma-uyap-2", "spans": [[281, 295, "PHONE"], [320, 341, "EMAIL"], [523, 534, "PHONE"], [667, 678, "TCKN"], [824, 846, "EMAIL"]]}
+{"id": "forms-nafaka-table-0", "spans": [[82, 93, "TCKN"], [372, 383, "TCKN"]]}
+{"id": "forms-nafaka-table-1", "spans": [[91, 102, "TCKN"], [369, 380, "TCKN"]]}
+{"id": "forms-nafaka-table-2", "spans": [[74, 85, "TCKN"]]}
+{"id": "forms-nafaka-prose-0", "spans": [[101, 112, "TCKN"], [311, 322, "TCKN"], [648, 674, "IBAN"]]}
+{"id": "forms-nafaka-prose-1", "spans": [[350, 361, "TCKN"], [674, 700, "IBAN"]]}
+{"id": "forms-nafaka-prose-2", "spans": [[91, 102, "TCKN"], [296, 307, "TCKN"], [390, 404, "PHONE"]]}
+{"id": "forms-nafaka-uyap-0", "spans": [[141, 152, "TCKN"], [283, 297, "PHONE"], [322, 346, "EMAIL"], [530, 541, "PHONE"], [609, 620, "TCKN"], [761, 772, "PHONE"], [797, 819, "EMAIL"], [1045, 1071, "IBAN"]]}
+{"id": "forms-nafaka-uyap-1", "spans": [[308, 326, "EMAIL"], [500, 516, "PHONE"], [637, 648, "TCKN"], [797, 816, "EMAIL"]]}
+{"id": "forms-nafaka-uyap-2", "spans": [[103, 114, "TCKN"], [254, 265, "PHONE"], [290, 310, "EMAIL"], [488, 504, "PHONE"], [580, 591, "TCKN"], [728, 739, "PHONE"], [764, 787, "EMAIL"]]}
+{"id": "forms-vesayet-table-0", "spans": [[265, 276, "TCKN"]]}
+{"id": "forms-vesayet-table-1", "spans": [[83, 94, "TCKN"], [231, 242, "TCKN"]]}
+{"id": "forms-vesayet-table-2", "spans": [[93, 104, "TCKN"], [248, 259, "TCKN"]]}
+{"id": "forms-vesayet-prose-0", "spans": [[80, 91, "TCKN"], [175, 186, "PHONE"], [252, 263, "TCKN"]]}
+{"id": "forms-vesayet-prose-1", "spans": [[267, 278, "TCKN"]]}
+{"id": "forms-vesayet-prose-2", "spans": [[77, 88, "TCKN"], [169, 185, "PHONE"], [261, 272, "TCKN"]]}
+{"id": "forms-vesayet-uyap-0", "spans": [[294, 310, "PHONE"], [335, 359, "EMAIL"], [427, 438, "TCKN"]]}
+{"id": "forms-vesayet-uyap-1", "spans": [[332, 355, "EMAIL"], [436, 447, "TCKN"]]}
+{"id": "forms-vesayet-uyap-2", "spans": [[191, 202, "TCKN"], [350, 375, "EMAIL"], [442, 453, "TCKN"]]}
+{"id": "forms-mirasciik-table-0", "spans": [[90, 101, "TCKN"], [260, 271, "TCKN"]]}
+{"id": "forms-mirasciik-table-1", "spans": [[101, 112, "TCKN"], [282, 293, "TCKN"]]}
+{"id": "forms-mirasciik-table-2", "spans": [[90, 101, "TCKN"], [264, 275, "TCKN"]]}
+{"id": "forms-mirasciik-prose-0", "spans": [[80, 91, "TCKN"], [176, 192, "PHONE"], [283, 294, "TCKN"]]}
+{"id": "forms-mirasciik-prose-1", "spans": [[105, 116, "TCKN"], [283, 294, "TCKN"]]}
+{"id": "forms-mirasciik-prose-2", "spans": [[99, 110, "TCKN"], [284, 295, "TCKN"]]}
+{"id": "forms-mirasciik-uyap-0", "spans": [[116, 127, "TCKN"], [265, 279, "PHONE"], [304, 329, "EMAIL"], [425, 436, "TCKN"]]}
+{"id": "forms-mirasciik-uyap-1", "spans": [[112, 123, "TCKN"], [258, 274, "PHONE"], [299, 322, "EMAIL"], [407, 418, "TCKN"]]}
+{"id": "forms-mirasciik-uyap-2", "spans": [[109, 120, "TCKN"], [262, 276, "PHONE"], [301, 323, "EMAIL"], [409, 420, "TCKN"]]}
+{"id": "forms-tapu-iptal-table-0", "spans": [[116, 127, "TCKN"]]}
+{"id": "forms-tapu-iptal-table-1", "spans": [[98, 109, "TCKN"], [373, 384, "TCKN"]]}
+{"id": "forms-tapu-iptal-table-2", "spans": [[89, 100, "TCKN"]]}
+{"id": "forms-tapu-iptal-prose-0", "spans": [[72, 83, "TCKN"], [308, 319, "TCKN"], [408, 424, "PHONE"]]}
+{"id": "forms-tapu-iptal-prose-1", "spans": [[86, 97, "TCKN"], [187, 201, "PHONE"], [341, 351, "VKN"]]}
+{"id": "forms-tapu-iptal-prose-2", "spans": [[78, 89, "TCKN"]]}
+{"id": "forms-tapu-iptal-uyap-0", "spans": [[117, 128, "TCKN"], [270, 284, "PHONE"], [309, 334, "EMAIL"], [506, 522, "PHONE"], [590, 601, "TCKN"], [745, 759, "PHONE"], [784, 806, "EMAIL"]]}
+{"id": "forms-tapu-iptal-uyap-1", "spans": [[175, 186, "TCKN"], [290, 301, "PHONE"], [326, 348, "EMAIL"], [616, 627, "TCKN"], [763, 774, "PHONE"], [799, 827, "EMAIL"]]}
+{"id": "forms-tapu-iptal-uyap-2", "spans": [[111, 122, "TCKN"], [264, 278, "PHONE"], [303, 329, "EMAIL"], [504, 520, "PHONE"], [589, 600, "TCKN"], [738, 754, "PHONE"], [779, 802, "EMAIL"]]}
+{"id": "forms-trafik-tazminat-table-0", "spans": [[92, 103, "TCKN"], [584, 593, "PLATE"], [623, 632, "PLATE"]]}
+{"id": "forms-trafik-tazminat-table-1", "spans": [[452, 463, "TCKN"], [642, 652, "PLATE"], [682, 692, "PLATE"]]}
+{"id": "forms-trafik-tazminat-table-2", "spans": [[653, 663, "PLATE"]]}
+{"id": "forms-trafik-tazminat-prose-0", "spans": [[74, 85, "TCKN"], [168, 184, "PHONE"], [555, 565, "PLATE"], [595, 604, "PLATE"]]}
+{"id": "forms-trafik-tazminat-prose-1", "spans": [[107, 118, "TCKN"], [339, 350, "TCKN"], [531, 540, "PLATE"], [570, 579, "PLATE"]]}
+{"id": "forms-trafik-tazminat-prose-2", "spans": [[561, 571, "PLATE"], [601, 610, "PLATE"]]}
+{"id": "forms-trafik-tazminat-uyap-0", "spans": [[179, 190, "TCKN"], [328, 351, "EMAIL"], [529, 545, "PHONE"], [613, 624, "TCKN"], [763, 779, "PHONE"], [804, 832, "EMAIL"], [935, 945, "PLATE"], [975, 985, "PLATE"]]}
+{"id": "forms-trafik-tazminat-uyap-1", "spans": [[114, 125, "TCKN"], [306, 330, "EMAIL"], [774, 788, "PHONE"], [813, 838, "EMAIL"], [935, 945, "PLATE"], [975, 985, "PLATE"]]}
+{"id": "forms-trafik-tazminat-uyap-2", "spans": [[124, 135, "TCKN"], [798, 812, "PHONE"], [837, 860, "EMAIL"], [966, 975, "PLATE"], [1005, 1015, "PLATE"]]}
+{"id": "forms-tuketici-table-0", "spans": [[100, 111, "TCKN"], [579, 593, "PHONE"], [595, 624, "EMAIL"]]}
+{"id": "forms-tuketici-table-1", "spans": [[113, 124, "TCKN"], [593, 615, "EMAIL"]]}
+{"id": "forms-tuketici-table-2", "spans": [[93, 104, "TCKN"], [473, 499, "IBAN"], [551, 562, "PHONE"], [564, 587, "EMAIL"]]}
+{"id": "forms-tuketici-prose-0", "spans": [[84, 95, "TCKN"], [600, 627, "EMAIL"]]}
+{"id": "forms-tuketici-prose-1", "spans": [[602, 618, "PHONE"], [620, 644, "EMAIL"]]}
+{"id": "forms-tuketici-prose-2", "spans": [[607, 632, "EMAIL"]]}
+{"id": "forms-tuketici-uyap-0", "spans": [[177, 188, "TCKN"], [330, 353, "EMAIL"], [642, 663, "EMAIL"], [899, 922, "EMAIL"]]}
+{"id": "forms-tuketici-uyap-1", "spans": [[111, 122, "TCKN"], [300, 322, "EMAIL"], [563, 579, "PHONE"], [604, 625, "EMAIL"], [861, 883, "EMAIL"]]}
+{"id": "forms-tuketici-uyap-2", "spans": [[121, 132, "TCKN"], [270, 284, "PHONE"], [309, 329, "EMAIL"], [622, 644, "EMAIL"], [780, 806, "IBAN"], [858, 872, "PHONE"], [874, 894, "EMAIL"]]}
+{"id": "forms-suc-duyurusu-table-0", "spans": [[72, 83, "TCKN"], [334, 345, "TCKN"], [583, 609, "IBAN"], [668, 684, "PHONE"]]}
+{"id": "forms-suc-duyurusu-table-1", "spans": [[80, 91, "TCKN"], [357, 368, "TCKN"]]}
+{"id": "forms-suc-duyurusu-table-2", "spans": [[82, 93, "TCKN"], [719, 735, "PHONE"]]}
+{"id": "forms-suc-duyurusu-prose-0", "spans": [[320, 331, "TCKN"], [667, 678, "PHONE"]]}
+{"id": "forms-suc-duyurusu-prose-1", "spans": [[95, 106, "TCKN"], [304, 315, "TCKN"], [390, 404, "PHONE"], [661, 675, "PHONE"]]}
+{"id": "forms-suc-duyurusu-prose-2", "spans": [[337, 348, "TCKN"], [593, 619, "IBAN"], [678, 689, "PHONE"]]}
+{"id": "forms-suc-duyurusu-uyap-0", "spans": [[290, 306, "PHONE"], [331, 358, "EMAIL"], [787, 798, "PHONE"], [823, 846, "EMAIL"], [1130, 1141, "PHONE"]]}
+{"id": "forms-suc-duyurusu-uyap-1", "spans": [[104, 115, "TCKN"], [256, 270, "PHONE"], [295, 318, "EMAIL"], [495, 506, "PHONE"], [753, 769, "PHONE"], [794, 819, "EMAIL"], [1076, 1092, "PHONE"]]}
+{"id": "forms-suc-duyurusu-uyap-2", "spans": [[152, 163, "TCKN"], [313, 339, "EMAIL"], [522, 536, "PHONE"], [809, 835, "EMAIL"], [1007, 1033, "IBAN"]]}
+{"id": "forms-tutuklama-itiraz-table-0", "spans": [[76, 87, "TCKN"]]}
+{"id": "forms-tutuklama-itiraz-table-1", "spans": [[85, 96, "TCKN"]]}
+{"id": "forms-tutuklama-itiraz-table-2", "spans": [[87, 98, "TCKN"]]}
+{"id": "forms-tutuklama-itiraz-prose-0", "spans": [[84, 95, "TCKN"]]}
+{"id": "forms-tutuklama-itiraz-prose-1", "spans": [[77, 88, "TCKN"], [173, 187, "PHONE"]]}
+{"id": "forms-tutuklama-itiraz-prose-2", "spans": [[81, 92, "TCKN"], [176, 187, "PHONE"]]}
+{"id": "forms-tutuklama-itiraz-uyap-0", "spans": [[114, 125, "TCKN"], [306, 330, "EMAIL"], [517, 528, "PHONE"]]}
+{"id": "forms-tutuklama-itiraz-uyap-1", "spans": [[109, 120, "TCKN"], [261, 272, "PHONE"], [297, 318, "EMAIL"]]}
+{"id": "forms-tutuklama-itiraz-uyap-2", "spans": [[108, 119, "TCKN"], [257, 268, "PHONE"], [293, 317, "EMAIL"]]}
+{"id": "forms-uzlasma-table-0", "spans": [[95, 106, "TCKN"], [225, 236, "TCKN"]]}
+{"id": "forms-uzlasma-table-1", "spans": [[99, 110, "TCKN"], [245, 256, "TCKN"]]}
+{"id": "forms-uzlasma-table-2", "spans": [[97, 108, "TCKN"], [232, 243, "TCKN"], [430, 456, "IBAN"]]}
+{"id": "forms-uzlasma-prose-0", "spans": [[96, 107, "TCKN"], [193, 209, "PHONE"], [284, 295, "TCKN"]]}
+{"id": "forms-uzlasma-prose-1", "spans": [[262, 273, "TCKN"]]}
+{"id": "forms-uzlasma-prose-2", "spans": [[106, 117, "TCKN"], [257, 268, "TCKN"]]}
+{"id": "forms-uzlasma-uyap-0", "spans": [[117, 128, "TCKN"], [268, 279, "PHONE"], [304, 329, "EMAIL"], [408, 419, "TCKN"], [561, 572, "PHONE"], [597, 621, "EMAIL"], [741, 767, "IBAN"]]}
+{"id": "forms-uzlasma-uyap-1", "spans": [[119, 130, "TCKN"], [273, 289, "PHONE"], [314, 338, "EMAIL"], [412, 423, "TCKN"], [561, 577, "PHONE"], [602, 623, "EMAIL"]]}
+{"id": "forms-uzlasma-uyap-2", "spans": [[164, 175, "TCKN"], [319, 341, "EMAIL"], [409, 420, "TCKN"], [559, 575, "PHONE"], [600, 623, "EMAIL"]]}
+{"id": "forms-baro-staj-table-0", "spans": [[385, 401, "PHONE"], [412, 436, "EMAIL"]]}
+{"id": "forms-baro-staj-table-1", "spans": [[379, 393, "PHONE"], [404, 425, "EMAIL"]]}
+{"id": "forms-baro-staj-table-2", "spans": [[92, 103, "TCKN"], [398, 423, "EMAIL"]]}
+{"id": "forms-baro-staj-prose-0", "spans": [[388, 404, "PHONE"], [415, 442, "EMAIL"]]}
+{"id": "forms-baro-staj-prose-1", "spans": [[60, 71, "TCKN"], [395, 418, "EMAIL"]]}
+{"id": "forms-baro-staj-prose-2", "spans": [[371, 385, "PHONE"], [396, 418, "EMAIL"]]}
+{"id": "forms-baro-staj-uyap-0", "spans": [[96, 107, "TCKN"], [241, 257, "PHONE"], [282, 304, "EMAIL"], [506, 522, "PHONE"], [533, 555, "EMAIL"]]}
+{"id": "forms-baro-staj-uyap-1", "spans": [[161, 172, "TCKN"], [275, 286, "PHONE"], [311, 333, "EMAIL"], [534, 545, "PHONE"], [556, 578, "EMAIL"]]}
+{"id": "forms-baro-staj-uyap-2", "spans": [[276, 287, "PHONE"], [312, 334, "EMAIL"], [535, 546, "PHONE"], [557, 579, "EMAIL"]]}
+{"id": "forms-baro-staj-nakil-table-0", "spans": [[67, 78, "TCKN"], [375, 386, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-table-1", "spans": [[70, 81, "TCKN"], [374, 385, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-table-2", "spans": [[78, 89, "TCKN"], [386, 397, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-prose-0", "spans": [[61, 72, "TCKN"], [154, 168, "PHONE"], [391, 402, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-prose-1", "spans": [[66, 77, "TCKN"], [160, 176, "PHONE"], [398, 409, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-prose-2", "spans": [[62, 73, "TCKN"], [392, 403, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-uyap-0", "spans": [[97, 108, "TCKN"], [249, 260, "PHONE"], [285, 310, "EMAIL"], [530, 541, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-uyap-1", "spans": [[98, 109, "TCKN"], [242, 256, "PHONE"], [281, 303, "EMAIL"], [533, 544, "TCKN"]]}
+{"id": "forms-baro-staj-nakil-uyap-2", "spans": [[100, 111, "TCKN"], [284, 309, "EMAIL"], [531, 542, "TCKN"]]}
+{"id": "forms-baro-ruhsat-table-0", "spans": [[337, 353, "PHONE"]]}
+{"id": "forms-baro-ruhsat-table-1", "spans": [[75, 86, "TCKN"], [323, 339, "PHONE"]]}
+{"id": "forms-baro-ruhsat-table-2", "spans": [[67, 78, "TCKN"]]}
+{"id": "forms-baro-ruhsat-prose-0", "spans": [[66, 77, "TCKN"], [160, 176, "PHONE"], [346, 362, "PHONE"]]}
+{"id": "forms-baro-ruhsat-prose-1", "spans": [[60, 71, "TCKN"], [157, 171, "PHONE"], [344, 358, "PHONE"]]}
+{"id": "forms-baro-ruhsat-prose-2", "spans": []}
+{"id": "forms-baro-ruhsat-uyap-0", "spans": [[97, 108, "TCKN"], [292, 313, "EMAIL"]]}
+{"id": "forms-baro-ruhsat-uyap-1", "spans": [[302, 325, "EMAIL"]]}
+{"id": "forms-baro-ruhsat-uyap-2", "spans": [[162, 173, "TCKN"], [278, 292, "PHONE"], [317, 341, "EMAIL"], [511, 525, "PHONE"]]}
+{"id": "forms-baro-adli-yardim-table-0", "spans": [[86, 97, "TCKN"], [367, 381, "PHONE"]]}
+{"id": "forms-baro-adli-yardim-table-1", "spans": [[85, 96, "TCKN"]]}
+{"id": "forms-baro-adli-yardim-table-2", "spans": [[107, 118, "TCKN"], [388, 402, "PHONE"]]}
+{"id": "forms-baro-adli-yardim-prose-0", "spans": [[100, 110, "VKN"], [384, 395, "PHONE"]]}
+{"id": "forms-baro-adli-yardim-prose-1", "spans": []}
+{"id": "forms-baro-adli-yardim-prose-2", "spans": [[76, 87, "TCKN"]]}
+{"id": "forms-baro-adli-yardim-uyap-0", "spans": [[109, 120, "TCKN"], [295, 318, "EMAIL"]]}
+{"id": "forms-baro-adli-yardim-uyap-1", "spans": [[169, 180, "TCKN"], [286, 302, "PHONE"], [327, 347, "EMAIL"], [540, 556, "PHONE"]]}
+{"id": "forms-baro-adli-yardim-uyap-2", "spans": [[108, 119, "TCKN"], [298, 324, "EMAIL"]]}
+{"id": "forms-yabanci-ikamet-table-0", "spans": []}
+{"id": "forms-yabanci-ikamet-table-1", "spans": [[120, 131, "TCKN"]]}
+{"id": "forms-yabanci-ikamet-table-2", "spans": [[112, 123, "TCKN"]]}
+{"id": "forms-yabanci-ikamet-prose-0", "spans": [[87, 98, "TCKN"]]}
+{"id": "forms-yabanci-ikamet-prose-1", "spans": [[88, 99, "TCKN"]]}
+{"id": "forms-yabanci-ikamet-prose-2", "spans": []}
+{"id": "forms-yabanci-ikamet-uyap-0", "spans": [[162, 173, "TCKN"], [275, 291, "PHONE"], [316, 342, "EMAIL"]]}
+{"id": "forms-yabanci-ikamet-uyap-1", "spans": [[275, 289, "PHONE"], [314, 334, "EMAIL"], [512, 526, "PHONE"]]}
+{"id": "forms-yabanci-ikamet-uyap-2", "spans": [[159, 170, "TCKN"], [277, 291, "PHONE"], [316, 340, "EMAIL"]]}
+{"id": "forms-idare-iptal-table-0", "spans": [[108, 118, "VKN"]]}
+{"id": "forms-idare-iptal-table-1", "spans": []}
+{"id": "forms-idare-iptal-table-2", "spans": [[92, 103, "TCKN"]]}
+{"id": "forms-idare-iptal-prose-0", "spans": []}
+{"id": "forms-idare-iptal-prose-1", "spans": []}
+{"id": "forms-idare-iptal-prose-2", "spans": []}
+{"id": "forms-idare-iptal-uyap-0", "spans": [[287, 298, "PHONE"], [323, 343, "EMAIL"], [521, 532, "PHONE"], [786, 797, "PHONE"], [822, 847, "EMAIL"]]}
+{"id": "forms-idare-iptal-uyap-1", "spans": [[318, 340, "EMAIL"], [519, 533, "PHONE"], [828, 845, "EMAIL"]]}
+{"id": "forms-idare-iptal-uyap-2", "spans": [[118, 129, "TCKN"], [313, 333, "EMAIL"], [516, 532, "PHONE"], [787, 801, "PHONE"], [826, 849, "EMAIL"]]}
+{"id": "forms-vergi-itiraz-table-0", "spans": []}
+{"id": "forms-vergi-itiraz-table-1", "spans": []}
+{"id": "forms-vergi-itiraz-table-2", "spans": []}
+{"id": "forms-vergi-itiraz-prose-0", "spans": []}
+{"id": "forms-vergi-itiraz-prose-1", "spans": [[100, 110, "VKN"]]}
+{"id": "forms-vergi-itiraz-prose-2", "spans": []}
+{"id": "forms-vergi-itiraz-uyap-0", "spans": [[278, 289, "PHONE"], [314, 338, "EMAIL"], [518, 529, "PHONE"]]}
+{"id": "forms-vergi-itiraz-uyap-1", "spans": [[285, 296, "PHONE"], [321, 341, "EMAIL"]]}
+{"id": "forms-vergi-itiraz-uyap-2", "spans": [[276, 290, "PHONE"], [315, 341, "EMAIL"], [519, 533, "PHONE"]]}
+{"id": "forms-kvkk-basvuru-table-0", "spans": [[127, 138, "TCKN"], [527, 551, "EMAIL"], [603, 617, "PHONE"]]}
+{"id": "forms-kvkk-basvuru-table-1", "spans": [[509, 531, "EMAIL"]]}
+{"id": "forms-kvkk-basvuru-table-2", "spans": [[115, 126, "TCKN"], [517, 536, "EMAIL"]]}
+{"id": "forms-kvkk-basvuru-prose-0", "spans": [[111, 122, "TCKN"], [205, 221, "PHONE"], [552, 574, "EMAIL"], [626, 642, "PHONE"]]}
+{"id": "forms-kvkk-basvuru-prose-1", "spans": [[123, 134, "TCKN"], [544, 572, "EMAIL"], [624, 638, "PHONE"]]}
+{"id": "forms-kvkk-basvuru-prose-2", "spans": [[104, 115, "TCKN"], [201, 217, "PHONE"], [553, 576, "EMAIL"], [628, 644, "PHONE"]]}
+{"id": "forms-kvkk-basvuru-uyap-0", "spans": [[117, 128, "TCKN"], [308, 330, "EMAIL"], [619, 642, "EMAIL"], [788, 810, "EMAIL"]]}
+{"id": "forms-kvkk-basvuru-uyap-1", "spans": [[137, 148, "TCKN"], [287, 298, "PHONE"], [323, 345, "EMAIL"], [650, 671, "EMAIL"], [817, 839, "EMAIL"], [891, 902, "PHONE"]]}
+{"id": "forms-kvkk-basvuru-uyap-2", "spans": [[136, 147, "TCKN"], [322, 341, "EMAIL"], [452, 462, "VKN"], [601, 612, "PHONE"], [637, 658, "EMAIL"], [804, 823, "EMAIL"]]}
+{"id": "forms-tanik-listesi-table-0", "spans": [[397, 408, "TCKN"], [644, 655, "PHONE"]]}
+{"id": "forms-tanik-listesi-table-1", "spans": [[642, 653, "PHONE"]]}
+{"id": "forms-tanik-listesi-table-2", "spans": [[706, 722, "PHONE"], [792, 818, "IBAN"]]}
+{"id": "forms-tanik-listesi-prose-0", "spans": [[74, 85, "TCKN"], [166, 180, "PHONE"], [327, 338, "TCKN"], [599, 613, "PHONE"]]}
+{"id": "forms-tanik-listesi-prose-1", "spans": [[69, 80, "TCKN"], [166, 182, "PHONE"], [310, 321, "TCKN"], [589, 603, "PHONE"], [673, 699, "IBAN"]]}
+{"id": "forms-tanik-listesi-prose-2", "spans": [[633, 647, "PHONE"]]}
+{"id": "forms-tanik-listesi-uyap-0", "spans": [[276, 287, "PHONE"], [312, 338, "EMAIL"], [514, 530, "PHONE"], [761, 775, "PHONE"], [800, 826, "EMAIL"], [1000, 1016, "PHONE"], [1086, 1112, "IBAN"]]}
+{"id": "forms-tanik-listesi-uyap-1", "spans": [[106, 117, "TCKN"], [261, 272, "PHONE"], [297, 320, "EMAIL"], [494, 510, "PHONE"], [767, 783, "PHONE"], [808, 831, "EMAIL"], [1006, 1022, "PHONE"], [1092, 1118, "IBAN"]]}
+{"id": "forms-tanik-listesi-uyap-2", "spans": [[287, 301, "PHONE"], [326, 348, "EMAIL"], [522, 538, "PHONE"], [774, 785, "PHONE"], [810, 835, "EMAIL"], [1010, 1021, "PHONE"]]}
+{"id": "forms-feragat-table-0", "spans": [[81, 92, "TCKN"]]}
+{"id": "forms-feragat-table-1", "spans": [[83, 94, "TCKN"], [358, 369, "TCKN"]]}
+{"id": "forms-feragat-table-2", "spans": [[77, 88, "TCKN"]]}
+{"id": "forms-feragat-prose-0", "spans": []}
+{"id": "forms-feragat-prose-1", "spans": []}
+{"id": "forms-feragat-prose-2", "spans": [[78, 89, "TCKN"], [174, 185, "PHONE"]]}
+{"id": "forms-feragat-uyap-0", "spans": [[146, 157, "TCKN"], [259, 275, "PHONE"], [300, 324, "EMAIL"], [494, 505, "PHONE"], [745, 761, "PHONE"], [786, 812, "EMAIL"]]}
+{"id": "forms-feragat-uyap-1", "spans": [[104, 115, "TCKN"], [291, 316, "EMAIL"], [498, 512, "PHONE"], [754, 770, "PHONE"], [795, 817, "EMAIL"]]}
+{"id": "forms-feragat-uyap-2", "spans": [[127, 137, "VKN"], [283, 294, "PHONE"], [319, 342, "EMAIL"], [527, 538, "PHONE"], [807, 818, "PHONE"], [843, 866, "EMAIL"]]}
+{"id": "forms-istinaf-table-0", "spans": [[197, 207, "VKN"], [475, 486, "TCKN"]]}
+{"id": "forms-istinaf-table-1", "spans": [[177, 188, "TCKN"], [454, 465, "TCKN"]]}
+{"id": "forms-istinaf-table-2", "spans": [[162, 173, "TCKN"]]}
+{"id": "forms-istinaf-prose-0", "spans": [[171, 182, "TCKN"], [395, 406, "TCKN"]]}
+{"id": "forms-istinaf-prose-1", "spans": [[172, 183, "TCKN"]]}
+{"id": "forms-istinaf-prose-2", "spans": []}
+{"id": "forms-istinaf-uyap-0", "spans": [[256, 267, "TCKN"], [371, 385, "PHONE"], [410, 430, "EMAIL"], [760, 771, "TCKN"], [872, 888, "PHONE"], [913, 936, "EMAIL"]]}
+{"id": "forms-istinaf-uyap-1", "spans": [[359, 373, "PHONE"], [398, 422, "EMAIL"], [686, 697, "TCKN"], [834, 848, "PHONE"], [873, 895, "EMAIL"]]}
+{"id": "forms-istinaf-uyap-2", "spans": [[261, 272, "TCKN"], [385, 401, "PHONE"], [426, 447, "EMAIL"], [626, 637, "PHONE"], [715, 726, "TCKN"], [863, 874, "PHONE"], [899, 923, "EMAIL"]]}

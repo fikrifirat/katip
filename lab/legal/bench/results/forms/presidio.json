@@ -1,0 +1,114 @@
+{
+ "system": "presidio",
+ "name": "Presidio + spaCy xx (vanilla)",
+ "track": "forms-id",
+ "set": "forms-id v0.1 (102 templates, 306 docs, seed 20261114)",
+ "runs_locally": true,
+ "runs_in_browser": false,
+ "params": null,
+ "size_mb": null,
+ "size_note": "spaCy xx_ent_wiki_sm (~11 MB) + Presidio",
+ "ms_per_doc": 7.8,
+ "tracks": {
+  "forms-id": {
+   "types": {
+    "PERSON": {
+     "gold": 1310,
+     "recall": 0.46412213740458014,
+     "precision": 0.22284482758620688,
+     "f2": 0.3815090638987873,
+     "exact_recall": 0.24198473282442748
+    },
+    "TCKN": {
+     "gold": 216,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "ADDRESS": {
+     "gold": 801,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "IBAN": {
+     "gold": 90,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "PHONE": {
+     "gold": 367,
+     "recall": 0.9209809264305178,
+     "precision": 0.556836902800659,
+     "f2": 0.8144578313253013,
+     "exact_recall": 0.9209809264305178
+    },
+    "YKN": {
+     "gold": 84,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PASSPORT": {
+     "gold": 72,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "VKN": {
+     "gold": 137,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "EMAIL": {
+     "gold": 207,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "BIRTH_DATE": {
+     "gold": 96,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "FOREIGN_ID": {
+     "gold": 31,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    },
+    "PLATE": {
+     "gold": 27,
+     "recall": 0.0,
+     "precision": 0.0,
+     "f2": 0.0,
+     "exact_recall": 0.0
+    }
+   },
+   "recall": 0.36154741128563117,
+   "precision": 0.3573200992555831,
+   "f2": 0.3606939659046347,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 67.3580182698872,
+   "leak_rate": 0.3729942292239889,
+   "clean_doc_rate": 0.0
+  }
+ },
+ "missing_predictions": 0,
+ "KVKK-F2": NaN,
+ "F2 generated": 0.3606939659046347,
+ "F2 all tracks": 0.3606939659046347,
+ "leak_rate": 0.3729942292239889
+}

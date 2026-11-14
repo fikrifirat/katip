@@ -228,10 +228,27 @@ def run_photo(key, ink=None):
     (RES / "photo" / f"{key}{suffix}.json").write_text(json.dumps(row, indent=1))
     return row
 
+# ---- forms-id track: synthetic petitions / applications on re-typed public layouts (lab/legal/forms_build.py)
+FORMS = HERE.parent / "data" / "bench" / "forms-id" / "public" / "forms-id.jsonl"
+
+def run_forms(key):
+    name, make = SYSTEMS[key]
+    det, meta = make()
+    gold = BB.load(FORMS if FORMS.exists() else HERE / "bench" / "forms" / "forms-id.jsonl")
+    for r in gold[:10]: det(r["text"])
+    t0 = time.time(); pred = [{"id": r["id"], "spans": [list(x[:3]) for x in det(r["text"])]} for r in gold]
+    secs = time.time() - t0
+    row = {"system": key, "name": name, "track": "forms-id", "set": "forms-id v0.1 (102 templates, 306 docs, seed 20261114)", **meta,
+           "ms_per_doc": round(1000 * secs / len(gold), 1), **BS.score(gold, pred)}
+    for d in ("results", "preds"): (HERE / "bench" / d / "forms").mkdir(parents=True, exist_ok=True)
+    (HERE / "bench" / "preds" / "forms" / f"{key}.jsonl").write_text("".join(json.dumps(p, ensure_ascii=False) + "\n" for p in pred))
+    (RES / "forms" / f"{key}.json").write_text(json.dumps(row, indent=1, default=float))
+    return row
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("systems", nargs="+"); ap.add_argument("--split", default="public")
     ap.add_argument("--rescore", action="store_true", help="re-score saved predictions instead of running the models")
-    ap.add_argument("--track", default="text", choices=["text", "photo"], help="photo: score masks on the photo set (bench/photos)")
+    ap.add_argument("--track", default="text", choices=["text", "photo", "forms"], help="photo: score masks on the photo set (bench/photos)")
     ap.add_argument("--no-ink", action="store_true", help="photo track: leave out Katip's pen-ink masks")
     a = ap.parse_args()
     if a.track == "photo":
@@ -240,6 +257,14 @@ if __name__ == "__main__":
             except Exception as e: print(f"skip {k}: {type(e).__name__}: {str(e)[:150]}"); continue
             print(f"{r['name']:60} leak {100 * r['leak_rate']:5.1f}%  " + "  ".join(f"{t} {x['leaked']}/{x['n']}" for t, x in r["per_type"].items()) +
                   f"  streets over-masked {r['streets_over_masked']}/{r['streets']}  false masks/page {r['false_masks_per_page']:.1f}", flush=True)
+        sys.exit(0)
+    if a.track == "forms":
+        for k in a.systems:
+            try: r = run_forms(k)
+            except Exception as e: print(f"skip {k}: {type(e).__name__}: {str(e)[:150]}"); continue
+            x = r["tracks"]["forms-id"]
+            print(f"{r['name']:60} F2 {100 * x['f2']:5.1f}  R {100 * x['recall']:5.1f}  P {100 * x['precision']:5.1f}  leak {100 * x['leak_rate']:5.2f}%  " +
+                  "  ".join(f"{t}:{100 * v['recall']:.0f}" for t, v in x["types"].items()), flush=True)
         sys.exit(0)
     for k in a.systems:
         try: r = rescore(k) if a.rescore else run(k, a.split)

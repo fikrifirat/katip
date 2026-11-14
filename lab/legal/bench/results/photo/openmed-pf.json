@@ -1,0 +1,32 @@
+{
+ "system": "openmed-pf",
+ "name": "OpenMed/privacy-filter-multilingual",
+ "track": "photo",
+ "set": "photo v0.1.3 (60 synthetic phone photos, seed 3011)",
+ "ocr": "Katip Otomatik (PaddleOCR PP-OCRv5 on handwriting, Tesseract tur otherwise), run once",
+ "ink_masks": false,
+ "docs": 60,
+ "leak_rate": 0.7291666666666666,
+ "per_type": {
+  "PERSON": {
+   "n": 120,
+   "leaked": 94
+  },
+  "TCKN": {
+   "n": 120,
+   "leaked": 31
+  },
+  "ADDRESS": {
+   "n": 120,
+   "leaked": 113
+  },
+  "PERSON (signature)": {
+   "n": 120,
+   "leaked": 112
+  }
+ },
+ "streets_over_masked": 36,
+ "streets": 360,
+ "false_masks_per_page": 4.2,
+ "detect_ms_per_page": 638.0
+}

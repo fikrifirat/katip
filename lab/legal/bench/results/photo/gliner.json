@@ -1,0 +1,32 @@
+{
+ "system": "gliner",
+ "name": "urchade/gliner_multi_pii-v1 (person)",
+ "track": "photo",
+ "set": "photo v0.1.3 (60 synthetic phone photos, seed 3011)",
+ "ocr": "Katip Otomatik (PaddleOCR PP-OCRv5 on handwriting, Tesseract tur otherwise), run once",
+ "ink_masks": false,
+ "docs": 60,
+ "leak_rate": 0.5083333333333333,
+ "per_type": {
+  "PERSON": {
+   "n": 120,
+   "leaked": 2
+  },
+  "TCKN": {
+   "n": 120,
+   "leaked": 120
+  },
+  "ADDRESS": {
+   "n": 120,
+   "leaked": 120
+  },
+  "PERSON (signature)": {
+   "n": 120,
+   "leaked": 2
+  }
+ },
+ "streets_over_masked": 1,
+ "streets": 360,
+ "false_masks_per_page": 0.03333333333333333,
+ "detect_ms_per_page": 130.0
+}
