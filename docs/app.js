@@ -761,7 +761,7 @@ async function buildReport() {
   const id = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 14);
   const ev = res.eval;
   const report = {
-    id, created: new Date().toISOString(), app: "katip-yerel", version, page: location.origin + location.pathname, ui_lang: lang,
+    id, created: new Date().toISOString(), app: "katip-mask", version, page: location.origin + location.pathname, ui_lang: lang,
     feedback: { kind, what: $("rWhat").value, text: $("rText").value },
     document: { name: res.isSample ? res.name : "(kullanıcı belgesi)", sample: res.isSample, kind: res.kind, pages: res.pages, ocrPages: res.ocrPages, chars: res.text.length },
     settings: { ...res.settings, mask: $("incDetections").checked ? res.settings.mask : `${res.settings.mask.length} terim`, color: maskColor, watermark: $("watermark").checked, centerMark: $("centerMark").checked },

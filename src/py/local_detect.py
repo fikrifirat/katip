@@ -85,8 +85,10 @@ def _add_model_span(text, results, s, e, score, trust=None):
     known = len(toks) == 1 and text[s:e].casefold() in _known_name_words(text, results)
     # one ordinary word opening a sentence ("Emir komuta zinciri...", "Selam verip...", "Rahmetli murisin...") is
     # not taken from the model alone; inside a sentence, or once the name is known in the document, it still is
+    # a single ordinary word that is in no name list ("TALEBİ", "Barolar") is not a name from the model alone,
+    # unless it carries a proper-noun case suffix ("Topçu'nun") inside a sentence
     lone_word = (len(toks) == 1 and not known and is_lexical(text[s:e])
-                 and re.search(r"(?:^|[.!?:;\n(\"“]\s*)$", text[max(0, s - 4):s]) is not None)
+                 and not (text[e:e + 1] in "'’" and re.search(r"(?:^|[.!?:;\n(\"“]\s*)$", text[max(0, s - 4):s]) is None))
     if capital and (len(toks) >= 2 or (sure and not lone_word) or known):
         r = RecognizerResult("PERSON", s, e, score)
         r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: "name_tagger", "explanation": "on-device model"}
