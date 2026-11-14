@@ -3,6 +3,8 @@ name: Katip Kalkan release
 on:
   push:
     tags: ["kalkan-v*"]
+    branches: [main]
+    paths: ["connector/manifest.json"]  # a version bump merged to main publishes that version
   workflow_dispatch:
 
 permissions:
@@ -15,28 +17,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Which release
+        id: rel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/* ]]; then tag="$GITHUB_REF_NAME"; else
+            tag="kalkan-v$(python3 -c 'import json;print(json.load(open("connector/manifest.json"))["version"])')-beta.1"; fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag" >/dev/null 2>&1 && [[ "$GITHUB_REF" != refs/tags/* ]]; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"; echo "$tag is already released"; else echo "publish=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Engine in the plugin matches the app's
+        run: cmp connector/katip_kalkan/engine.zip docs/katip_py.zip || { echo "Run python connector/build_bundle.py and commit engine.zip"; exit 1; }
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Test
         run: |
-          pip install pytest cryptography onnxruntime numpy tokenizers pymupdf rapidocr
+          pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0  # = launch.py
           cd connector && python -m pytest -q
       - name: Build bundle
         run: |
           python connector/build_bundle.py
           cd connector/dist && sha256sum katip-kalkan.mcpb > katip-kalkan.mcpb.sha256
       - name: Attest build provenance
-        if: startsWith(github.ref, 'refs/tags/')
+        if: steps.rel.outputs.publish == 'true' && github.event_name != 'workflow_dispatch'
         uses: actions/attest-build-provenance@v2
         with:
           subject-path: connector/dist/katip-kalkan.mcpb
       - name: Publish
-        if: startsWith(github.ref, 'refs/tags/')
+        if: steps.rel.outputs.publish == 'true' && github.event_name != 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" connector/dist/katip-kalkan.mcpb connector/dist/katip-kalkan.mcpb.sha256 \
-            --title "Katip Kalkan ${GITHUB_REF_NAME#kalkan-v}" --prerelease \
+          TAG="${{ steps.rel.outputs.tag }}"
+          gh release create "$TAG" connector/dist/katip-kalkan.mcpb connector/dist/katip-kalkan.mcpb.sha256 \
+            --target "$GITHUB_SHA" --title "Katip Kalkan ${TAG#kalkan-v}" --prerelease \
             --notes-file connector/RELEASE_NOTES.md \
-          || gh release upload "$GITHUB_REF_NAME" connector/dist/katip-kalkan.mcpb connector/dist/katip-kalkan.mcpb.sha256 --clobber
+          || gh release upload "$TAG" connector/dist/katip-kalkan.mcpb connector/dist/katip-kalkan.mcpb.sha256 --clobber

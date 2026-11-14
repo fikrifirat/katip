@@ -7,6 +7,10 @@ client files. Ask Claude to "open my Katip folder" to see it in Finder or Explor
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.3.6 (names):**
+- Finds a lone first or last name inside a sentence when the name model is sure of it, joins names the model returns word by word, and masks a word of a full name found elsewhere in the document when it appears alone (KVKK-Bench, Base: 92.0 → 93.1, leaks 3.3% → 3.1%, no new false alarms on court text).
+- Releases now publish themselves when the version in manifest.json changes on main.
+
 **New in 0.3.5 (safety and publishing):**
 - Precedent citations stay readable in every profile: "Yargıtay 1. Ceza Dairesi'nin … 2018/123 E., 2019/45 K. sayılı kararı", Danıştay, Anayasa Mahkemesi, BAM/BİM, CGK/HGK. Before, the AI and Tam anonim profiles masked their numbers, dates and court names (lawyer feedback).
 - Restored documents (with real names) are written only into your Katip folder, as a real Word file (.docx), .txt or .md. Before, a document could steer Claude into writing them anywhere, and ".docx" got plain text.

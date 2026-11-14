@@ -1,6 +1,6 @@
 {
   "name": "katip-kalkan",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Masks names, T.C. kimlik numbers, addresses and health data in Turkish legal documents on your computer, so Claude works with placeholders such as [AD SOYAD-1] instead of the values Katip finds. Avukatlar için yerel kişisel veri maskeleme (KVKK, GDPR, PII redaction).",
   "author": {
     "name": "fikrifirat",
