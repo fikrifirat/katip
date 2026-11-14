@@ -198,11 +198,36 @@ def chart(rows, x):
                       template="plotly_white")
     return fig
 
-ABOUT = """
-**KVKK-Bench** measures how well tools find personal data in Turkish text, so it can be masked before a document is shared,
-for example with a cloud AI. Every tool gets the same documents and the same scorer.
+KVKK_HELP = """
+**KVKK** ([Law No. 6698](https://www.mevzuat.gov.tr/mevzuatmetin/1.5.6698.pdf), 2016; [English text](https://www.kvkk.gov.tr/Icerik/6649/Personal-Data-Protection-Law)) protects any information about an identified or identifiable person.
+For a lawyer, doctor or HR team using AI, three rules matter most:
 
-**Test data (v0.1.1, public)**
+* **Only what is necessary** (Art. 4): process no more personal data than the purpose needs.
+* **Special categories** (Art. 6): health, biometric and genetic data, criminal convictions, religion or belief, ethnic origin, political opinion,
+  union or association membership, sex life, and appearance and dress. These need stricter grounds and extra safeguards.
+* **Transfer abroad** (Art. 9, amended in 2024): most cloud AI services process data outside Turkey. That needs an adequacy decision,
+  standard contractual clauses notified to the KVKK Authority, or a narrow exception. Fines are set in Art. 18.
+
+Masking on your own computer before anything leaves it is the simplest safeguard: whatever has been masked is not sent.
+
+**What the board tests**
+
+| | Examples | Status |
+|---|---|---|
+| Identity | names (Turkish and foreign) | ranked, on real text |
+| ID numbers | T.C. kimlik, foreign ID (99…), passport, tax number | ◇ preview, generated documents |
+| Contact and financial | phone, e-mail, address (building/door), IBAN | ◇ preview, generated documents |
+| Special category | health terms and diagnoses | ◇ preview, generated documents |
+
+◇ columns stay out of the score until we have real labelled documents for them. This is a technical benchmark, not legal advice:
+masking reduces what is sent, but it doesn't by itself make a document anonymous.
+"""
+
+ABOUT = """
+**KVKK-Bench** measures how well tools find the personal data that KVKK protects, so it can be masked on your own computer before a document is shared,
+for example with a cloud AI (see *What does KVKK require* above). Every tool gets the same documents and the same scorer.
+
+**Test data (v0.1.2, public)**
 * 327 Yargıtay sentences from the *test split* of [TurkishLegalNER](https://github.com/koc-lab/turkish-legal-ner) (Koç University, Apache-2.0), used twice:
   the anonymised name slots are refilled once with unseen Turkish names (🇹🇷) and once with unseen foreign names (🌍), 1,011 names each.
 * 1,000 Turkish Wikipedia sentences with hand-marked names: [Turkish Wiki NER](https://huggingface.co/datasets/turkish-nlp-suite/turkish-wikiNER) (Altinok 2023, CC BY-SA 4.0).
@@ -220,10 +245,7 @@ A hidden test of 2025–26 court decisions is in preparation and will replace th
 [all results](https://github.com/fikrifirat/katip/tree/legal-study/lab/legal/bench/results) ·
 [report a label error](https://github.com/fikrifirat/katip/issues/new/choose)
 
-```
-@misc{kvkkbenchtr2026, title={KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
-  author={{Katip contributors}}, year={2026}, url={https://github.com/fikrifirat/katip}}
-```
+**Cite:** see *Cite KVKK-Bench* at the bottom of the page.
 """
 
 CSS = """
@@ -294,12 +316,15 @@ def build():
     optional = [k for k in COLUMNS if k not in ("rank", "type", "model") and k not in empty]
     with gr.Blocks(title="KVKK-Bench", css=CSS, theme=gr.themes.Soft()) as demo:
         gr.Markdown(f"# 🛡️ KVKK-Bench\n"
-                    "Which tool best **masks personal data in Turkish documents on your own computer**, before they go to an AI service? "
-                    "Same real texts, same scorer for every model.\n\n"
+                    "Under **KVKK**, Turkey's personal data law, sending a client's name, ID number or health data to a cloud AI service can be an unlawful transfer. "
+                    "This board ranks the tools that **mask personal data on your own computer first**: same real texts, same scorer for every model.\n\n"
                     "<span class='links'>[Dataset card](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench/README.md) · "
                     "[Scorer](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/bench_score.py) · "
                     "[Raw results](https://github.com/fikrifirat/katip/tree/legal-study/lab/legal/bench/results) · "
+                    "[KVKK, Law No. 6698](https://www.mevzuat.gov.tr/mevzuatmetin/1.5.6698.pdf) · "
                     f"{len(rows)} models · {VERSION}</span>", elem_classes="intro")
+        with gr.Accordion("What does KVKK require, and what does this board test?", open=False):
+            gr.Markdown(KVKK_HELP)
         with gr.Tabs():
             with gr.Tab("🏅 Leaderboard"):
                 with gr.Row(equal_height=True):
