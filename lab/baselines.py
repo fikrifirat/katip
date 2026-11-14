@@ -13,7 +13,7 @@ X3  gliner     urchade/gliner_multi_pii-v1, zero-shot label "person" (pip instal
 Each is scored alone and merged with Katip's rules (R0 ∪ X), on the same sets as score_legal.py.
 Writes lab/results/baselines.json.
 """
-import json, sys
+import json, os, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 import katiplab as K  # noqa: E402
@@ -89,7 +89,7 @@ def llm(model_id, max_new_tokens=384):
     def make():
         import re, torch
         from transformers import AutoModelForCausalLM, AutoTokenizer
-        dev = "mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu"
+        dev = os.environ.get("KATIP_DEVICE") or ("mps" if torch.backends.mps.is_available() else "cuda" if torch.cuda.is_available() else "cpu")
         tok = AutoTokenizer.from_pretrained(model_id)
         model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float16 if dev != "cpu" else torch.float32).to(dev).eval()
         def det(text):
