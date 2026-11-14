@@ -79,6 +79,8 @@ SYSTEMS = {
     "mini": ("Katip Mask Mini: rules + Mini tagger (distilled from Base)", lambda: _katip(HERE / "bench" / "models" / "katip-mask-mini", _trust_file(HERE / "bench" / "models" / "katip-mask-mini"))),
     "nano-v2": ("Katip Mask Nano v2: rules + Nano retrained, distilled from Base", lambda: _katip(HERE / "bench" / "models" / "katip-mask-nano-v2", _trust_file(HERE / "bench" / "models" / "katip-mask-nano-v2"))),
     "berturk-v2": ("Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk", lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk"), 0.5)),
+    "berturk-clean": ("Katip BERTurk clean: rules + BERTurk trained on synthetic + public legal web text (no real decisions)",
+                      lambda: _katip(HERE.parent.parent / "ml" / "berturk" / "out_clean", 0.5)),
     "berturk-v1": ("Katip BERTurk v1 (synthetic only, internal reference): rules + f1k/katip-tr-pii-berturk@a107b87",
                    lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk", "a107b872080d28967eb8e57fcdc14127f54c3cb1"), 0.5)),
     "presidio": ("Presidio + spaCy xx (vanilla)", lambda: _baseline("presidio")),
