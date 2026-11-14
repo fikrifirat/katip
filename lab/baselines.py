@@ -102,6 +102,24 @@ def gliner2_pii():
     det.size_mb = round(sum(p.numel() * p.element_size() for p in m.parameters()) / 1e6, 1)
     return det
 
+# Full card label set (42 types) mapped to KVKK-Bench types; the card has no plate or health/medical label.
+_GLINER2_FULL = {"person": "PERSON", "date_of_birth": "BIRTH_DATE", "email": "EMAIL", "phone_number": "PHONE",
+                 "address": "ADDRESS", "national_id_number": "TCKN", "government_id": "TCKN", "passport_number": "PASSPORT",
+                 "tax_id": "VKN", "tax_number": "VKN", "iban": "IBAN", "bank_account": "IBAN",
+                 "card_number": "CREDIT_CARD", "payment_card": "CREDIT_CARD"}
+
+def gliner2_pii_full():
+    from gliner2 import GLiNER2
+    m = GLiNER2.from_pretrained("fastino/gliner2-privacy-filter-PII-multi")
+    labels = list(_GLINER2_FULL)
+    def det(text):
+        r = m.extract_entities(text, labels, threshold=0.5, include_spans=True)
+        return [(e["start"], e["end"], _GLINER2_FULL[lab]) for lab, es in r.get("entities", {}).items()
+                if lab in _GLINER2_FULL for e in es]
+    det.params = sum(p.numel() for p in m.parameters())
+    det.size_mb = round(sum(p.numel() * p.element_size() for p in m.parameters()) / 1e6, 1)
+    return det
+
 def gliner():
     from gliner import GLiNER
     m = GLiNER.from_pretrained("urchade/gliner_multi_pii-v1")
@@ -161,6 +179,7 @@ BASELINES = {"presidio": ("R1 Presidio + spaCy xx (vanilla)", presidio),
              "openmed-pf-v2": ("OpenMed privacy-filter multilingual v2", _hf("OpenMed/privacy-filter-multilingual-v2", _OPENMED_ML)),
              "openmed-pf": ("OpenMed privacy-filter multilingual", _hf("OpenMed/privacy-filter-multilingual", _OPENMED_ML)),
              "gliner2-pii": ("fastino GLiNER2 PII multi", gliner2_pii),
+             "gliner2-pii-full": ("fastino GLiNER2 PII multi, full label set", gliner2_pii_full),
              "openmed-tr-33m": ("OpenMed PII Turkish ClinicalE5 33M", _hf("OpenMed/OpenMed-PII-Turkish-ClinicalE5-Small-33M-v1", _OPENMED_ML)),
              "xlmr-conll": ("XLM-R large CoNLL03 English", _hf("FacebookAI/xlm-roberta-large-finetuned-conll03-english", _CONLL)),
              "piiranha": ("piiranha v1", _hf("iiiorg/piiranha-v1-detect-personal-information", _PIIRANHA)),

@@ -86,6 +86,7 @@ SYSTEMS = {
     "openmed-pf-v2": ("OpenMed/privacy-filter-multilingual-v2", lambda: _baseline("openmed-pf-v2")),
     "openmed-pf": ("OpenMed/privacy-filter-multilingual", lambda: _baseline("openmed-pf")),
     "gliner2-pii": ("fastino/gliner2-privacy-filter-PII-multi (person)", lambda: _baseline("gliner2-pii")),
+    "gliner2-pii-full": ("fastino/gliner2-privacy-filter-PII-multi (full labels)", lambda: _baseline("gliner2-pii-full")),
     "openmed-tr-33m": ("OpenMed/OpenMed-PII-Turkish-ClinicalE5-Small-33M-v1", lambda: _baseline("openmed-tr-33m")),
     "xlmr-conll": ("FacebookAI/xlm-roberta-large-finetuned-conll03-english", lambda: _baseline("xlmr-conll")),
     "piiranha": ("iiiorg/piiranha-v1-detect-personal-information", lambda: _baseline("piiranha")),
