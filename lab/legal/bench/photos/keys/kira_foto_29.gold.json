@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim ÇETİN",
+   "box": [
+    438.4,
+    609.8,
+    608.0,
+    654.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "19365392682",
+   "box": [
+    431.2,
+    661.3,
+    583.3,
+    693.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi D Blok D:13",
+   "box": [
+    433.0,
+    744.3,
+    712.5,
+    786.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen KAYA",
+   "box": [
+    435.5,
+    795.8,
+    595.0,
+    839.0
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "47831165522",
+   "box": [
+    434.7,
+    846.7,
+    581.5,
+    879.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi C Blok D:27",
+   "box": [
+    434.8,
+    930.1,
+    736.3,
+    972.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen KAYA",
+   "box": [
+    261.0,
+    1318.2,
+    423.7,
+    1364.6
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim ÇETİN",
+   "box": [
+    731.3,
+    1327.4,
+    909.1,
+    1376.9
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Yenişehir Mah.",
+   "box": [
+    435.0,
+    455.1,
+    615.5,
+    497.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2312 Sk. Mimar Sinan Cad.",
+   "box": [
+    435.1,
+    500.5,
+    761.6,
+    543.5
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Bahçelievler Mah. Kazım Karabekir Cad. 409 Sk.",
+   "box": [
+    429.7,
+    701.0,
+    1030.6,
+    761.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    741.3,
+    754.5,
+    945.0,
+    799.4
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. Necip Fazıl Cad. 1133 Sk.",
+   "box": [
+    429.9,
+    894.4,
+    948.4,
+    945.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    770.1,
+    934.9,
+    974.7,
+    979.8
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 66
+}

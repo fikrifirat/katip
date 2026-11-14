@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Yiğit GÜNEŞ",
+   "box": [
+    422.7,
+    688.6,
+    565.0,
+    727.6
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "32165362334",
+   "box": [
+    427.8,
+    746.6,
+    575.3,
+    777.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. A Blok D:1",
+   "box": [
+    425.2,
+    817.9,
+    635.2,
+    859.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem GÜNEŞ",
+   "box": [
+    429.5,
+    871.9,
+    593.8,
+    907.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "76520762612",
+   "box": [
+    429.9,
+    923.4,
+    568.6,
+    952.4
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları B Blok D:31",
+   "box": [
+    429.7,
+    995.8,
+    720.4,
+    1031.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem GÜNEŞ",
+   "box": [
+    267.7,
+    1376.7,
+    431.3,
+    1420.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Yiğit GÜNEŞ",
+   "box": [
+    701.0,
+    1372.5,
+    838.0,
+    1415.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Ege Mah.",
+   "box": [
+    423.9,
+    532.3,
+    530.8,
+    569.8
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2636 Sk. Mimar Sinan Cad.",
+   "box": [
+    422.7,
+    579.4,
+    736.6,
+    619.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Ege Mah. Mimar Sinan Cad. 1157 Sk.",
+   "box": [
+    424.3,
+    791.4,
+    838.4,
+    832.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    664.3,
+    820.1,
+    849.9,
+    859.5
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Bahçelievler Mah. Fevzi Çakmak Cad. 2253 Sk.",
+   "box": [
+    423.2,
+    960.5,
+    966.4,
+    1006.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    749.3,
+    997.5,
+    906.5,
+    1031.4
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 80
+}

@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru KILIÇ",
+   "box": [
+    465.9,
+    780.5,
+    613.8,
+    818.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "15949191054",
+   "box": [
+    463.1,
+    835.6,
+    632.5,
+    862.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. B Blok D:37",
+   "box": [
+    464.0,
+    916.2,
+    737.3,
+    960.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Çağrı DOĞAN",
+   "box": [
+    461.1,
+    957.5,
+    629.0,
+    1000.3
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "31601264430",
+   "box": [
+    466.5,
+    1022.5,
+    634.5,
+    1049.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri B Blok D:2",
+   "box": [
+    465.8,
+    1095.3,
+    730.6,
+    1131.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Çağrı DOĞAN",
+   "box": [
+    298.0,
+    1470.2,
+    464.7,
+    1518.5
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru KILIÇ",
+   "box": [
+    738.8,
+    1469.1,
+    878.0,
+    1507.1
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Cumhuriyet Mah.",
+   "box": [
+    467.2,
+    616.8,
+    671.8,
+    657.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1395 Sk. Mimar Sinan Cad.",
+   "box": [
+    465.1,
+    666.8,
+    795.9,
+    713.0
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Kazım Dirik Mah. Adnan Menderes Cad. 1635 Sk.",
+   "box": [
+    459.3,
+    877.1,
+    1039.7,
+    925.0
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    765.3,
+    913.5,
+    1046.4,
+    955.3
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Karşıyaka Mah. Alparslan Türkeş Cad. 505 Sk.",
+   "box": [
+    456.2,
+    1061.8,
+    1001.9,
+    1106.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    763.8,
+    1100.9,
+    935.7,
+    1134.4
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 66
+}

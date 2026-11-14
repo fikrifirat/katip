@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra DEMİR",
+   "box": [
+    393.9,
+    709.5,
+    560.4,
+    751.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "52672242998",
+   "box": [
+    395.3,
+    763.3,
+    569.5,
+    797.6
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi A Blok D:40",
+   "box": [
+    396.1,
+    846.6,
+    680.8,
+    880.5
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Zeynep AYDIN",
+   "box": [
+    391.9,
+    896.2,
+    579.2,
+    932.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "92519808406",
+   "box": [
+    394.8,
+    947.4,
+    537.1,
+    976.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi B Blok D:6",
+   "box": [
+    399.5,
+    1024.0,
+    686.7,
+    1059.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Zeynep AYDIN",
+   "box": [
+    236.0,
+    1396.7,
+    422.3,
+    1433.5
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra DEMİR",
+   "box": [
+    674.9,
+    1395.4,
+    840.4,
+    1437.7
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Bahçelievler Mah.",
+   "box": [
+    388.4,
+    553.3,
+    604.9,
+    592.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "296 Sk. Atatürk Cad.",
+   "box": [
+    394.5,
+    608.1,
+    652.5,
+    643.8
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Esentepe Mah. İsmet İnönü Cad. 539 Sk.",
+   "box": [
+    388.7,
+    808.9,
+    905.2,
+    853.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    708.9,
+    847.9,
+    886.5,
+    882.9
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Güzelyalı Mah. Yunus Emre Cad. 300 Sk.",
+   "box": [
+    395.2,
+    990.5,
+    902.7,
+    1033.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    717.1,
+    1027.5,
+    913.8,
+    1060.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 71
+}

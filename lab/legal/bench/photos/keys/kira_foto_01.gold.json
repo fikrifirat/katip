@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim KILIÇ",
+   "box": [
+    455.6,
+    676.5,
+    619.9,
+    716.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "27768308438",
+   "box": [
+    454.7,
+    733.8,
+    601.4,
+    755.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. C Blok D:28",
+   "box": [
+    461.0,
+    801.7,
+    720.1,
+    841.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan ARSLAN",
+   "box": [
+    453.4,
+    842.2,
+    667.8,
+    872.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "73642923938",
+   "box": [
+    456.1,
+    896.2,
+    599.6,
+    920.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi B Blok D:26",
+   "box": [
+    456.5,
+    963.0,
+    767.0,
+    997.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan ARSLAN",
+   "box": [
+    297.5,
+    1307.2,
+    517.1,
+    1343.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim KILIÇ",
+   "box": [
+    728.4,
+    1320.4,
+    899.3,
+    1357.7
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Yenişehir Mah.",
+   "box": [
+    458.6,
+    539.0,
+    634.1,
+    571.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1069 Sk. Mehmet Akif Ersoy Cad.",
+   "box": [
+    459.8,
+    582.7,
+    879.9,
+    625.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Kazım Dirik Mah. Fevzi Çakmak Cad. 2286 Sk.",
+   "box": [
+    453.7,
+    767.6,
+    1037.9,
+    807.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    747.5,
+    803.9,
+    988.4,
+    844.9
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Ege Mah. Turgut Özal Cad. 2768 Sk.",
+   "box": [
+    458.9,
+    932.2,
+    918.8,
+    976.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    796.8,
+    964.1,
+    1021.0,
+    1002.0
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 55
+}

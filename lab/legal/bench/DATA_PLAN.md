@@ -58,6 +58,10 @@ Order of work: 1 → 3 → 4 → 2 → 5. #2 is the richest real-name source but
 ## 5. Photo and scan tracks
 
 * v0.1.3 photo set (60 synthetic photos, seed 3011) scored on box coverage: leaked < 70 % covered, over-masked > 30 %.
+* First scores (`bench_run.py --track photo`, same OCR for every system): Katip rows leak 5.2–6.7 %, 0 TCKN/name
+  leaks, misses are building/door numbers; Presidio 51.5 %, kvkk-pii 77.9 %. Over-masked readable streets 18–22 %.
+* OCRTurk (local count only): 180 one-page PDFs (45 each academic / non-academic / slides / thesis), all with a
+  text layer, 19 with a full-page image; rules find ~107 person mentions in 33 docs, mostly authors. Low value for KVKK.
 * Real scans come from #2; Çankaya council PDFs could add name-free scan negatives.
 
 ## Belediye meclis kararları: dropped for PII

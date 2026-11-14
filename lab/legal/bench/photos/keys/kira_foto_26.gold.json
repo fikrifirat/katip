@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Zeynep KOÇ",
+   "box": [
+    423.8,
+    765.9,
+    558.0,
+    799.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "49356699360",
+   "box": [
+    431.5,
+    811.0,
+    591.4,
+    836.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. C Blok D:15",
+   "box": [
+    427.5,
+    880.6,
+    678.3,
+    917.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Elif TEKİN",
+   "box": [
+    421.2,
+    923.6,
+    549.0,
+    958.0
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "75800122016",
+   "box": [
+    424.2,
+    976.6,
+    581.4,
+    1002.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:32",
+   "box": [
+    431.8,
+    1045.3,
+    721.8,
+    1084.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Elif TEKİN",
+   "box": [
+    269.3,
+    1384.8,
+    395.6,
+    1422.2
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Zeynep KOÇ",
+   "box": [
+    686.1,
+    1379.3,
+    815.4,
+    1414.3
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Bahçelievler Mah.",
+   "box": [
+    424.9,
+    616.8,
+    619.7,
+    647.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2303 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    431.0,
+    658.4,
+    776.3,
+    698.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Hürriyet Mah. Barış Manço Cad. 568 Sk.",
+   "box": [
+    422.1,
+    847.0,
+    872.0,
+    893.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    705.9,
+    872.5,
+    919.1,
+    910.2
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Güzelyalı Mah. Mimar Sinan Cad. 1361 Sk.",
+   "box": [
+    422.6,
+    1011.7,
+    883.6,
+    1055.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    751.2,
+    1034.3,
+    988.5,
+    1074.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 73
+}

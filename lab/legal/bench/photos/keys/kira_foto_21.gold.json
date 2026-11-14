@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Doğan ÖZTÜRK",
+   "box": [
+    432.0,
+    791.5,
+    598.8,
+    833.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "37529541028",
+   "box": [
+    433.4,
+    839.2,
+    578.5,
+    869.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi A Blok D:3",
+   "box": [
+    435.2,
+    919.6,
+    670.6,
+    955.8
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan YILDIZ",
+   "box": [
+    431.9,
+    959.8,
+    585.4,
+    992.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "46424584726",
+   "box": [
+    431.8,
+    1009.1,
+    571.4,
+    1041.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri A Blok D:31",
+   "box": [
+    430.5,
+    1084.5,
+    680.1,
+    1122.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan YILDIZ",
+   "box": [
+    284.1,
+    1431.9,
+    436.3,
+    1463.6
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Doğan ÖZTÜRK",
+   "box": [
+    701.7,
+    1437.0,
+    861.6,
+    1476.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Bahçelievler Mah.",
+   "box": [
+    428.5,
+    640.1,
+    621.6,
+    678.5
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "536 Sk. Yunus Emre Cad.",
+   "box": [
+    432.2,
+    689.3,
+    701.9,
+    728.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Karşıyaka Mah. Atatürk Cad. 1862 Sk.",
+   "box": [
+    433.1,
+    876.0,
+    840.2,
+    938.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    698.4,
+    920.6,
+    939.0,
+    965.9
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Esentepe Mah. Turgut Özal Cad. 2825 Sk.",
+   "box": [
+    437.0,
+    1055.4,
+    881.3,
+    1110.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    706.3,
+    1098.0,
+    922.0,
+    1138.9
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 66
+}

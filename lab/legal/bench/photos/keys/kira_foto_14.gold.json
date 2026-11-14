@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Şükrü ARSLAN",
+   "box": [
+    420.0,
+    737.8,
+    636.6,
+    779.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "23935708490",
+   "box": [
+    425.3,
+    783.6,
+    625.8,
+    821.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları C Blok D:27",
+   "box": [
+    421.2,
+    865.7,
+    816.6,
+    913.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Elif ÖZDEMİR",
+   "box": [
+    423.1,
+    907.9,
+    629.7,
+    952.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "44763091240",
+   "box": [
+    416.0,
+    963.5,
+    607.0,
+    998.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi C Blok D:21",
+   "box": [
+    415.9,
+    1047.6,
+    762.4,
+    1092.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Elif ÖZDEMİR",
+   "box": [
+    235.3,
+    1413.8,
+    445.2,
+    1459.0
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Şükrü ARSLAN",
+   "box": [
+    698.4,
+    1434.0,
+    920.2,
+    1479.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Bahçelievler Mah.",
+   "box": [
+    424.7,
+    577.0,
+    677.5,
+    619.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "200 Sk. Atatürk Cad.",
+   "box": [
+    430.5,
+    634.0,
+    736.7,
+    672.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Bahçelievler Mah. Kazım Karabekir Cad. 2960 Sk.",
+   "box": [
+    420.3,
+    822.9,
+    1148.2,
+    899.0
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    849.1,
+    878.6,
+    1059.4,
+    919.2
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Hürriyet Mah. Yunus Emre Cad. 1559 Sk.",
+   "box": [
+    416.9,
+    1001.9,
+    1021.2,
+    1067.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    794.2,
+    1056.1,
+    1101.7,
+    1106.6
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 59
+}

@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir KILIÇ",
+   "box": [
+    418.8,
+    688.4,
+    570.4,
+    721.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "65770929432",
+   "box": [
+    421.6,
+    745.6,
+    601.2,
+    773.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 D Blok D:1",
+   "box": [
+    419.9,
+    821.5,
+    755.3,
+    861.5
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim DEMİR",
+   "box": [
+    413.0,
+    861.7,
+    606.6,
+    896.0
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "85041540692",
+   "box": [
+    414.1,
+    920.7,
+    584.4,
+    947.3
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları B Blok D:24",
+   "box": [
+    417.4,
+    992.5,
+    774.0,
+    1024.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim DEMİR",
+   "box": [
+    243.8,
+    1371.4,
+    442.5,
+    1412.2
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir KILIÇ",
+   "box": [
+    713.2,
+    1373.2,
+    866.7,
+    1414.3
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Karşıyaka Mah.",
+   "box": [
+    417.8,
+    539.5,
+    615.4,
+    576.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2078 Sk. Turgut Özal Cad.",
+   "box": [
+    418.9,
+    586.1,
+    772.9,
+    627.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Bahçelievler Mah. Yunus Emre Cad. 1139 Sk.",
+   "box": [
+    420.2,
+    789.1,
+    1002.2,
+    825.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    784.4,
+    816.3,
+    995.3,
+    857.3
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Güzelyalı Mah. Alparslan Türkeş Cad. 1186 Sk.",
+   "box": [
+    418.5,
+    955.3,
+    1035.7,
+    999.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    800.1,
+    995.2,
+    1099.9,
+    1029.6
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 59
+}

@@ -1,0 +1,32 @@
+{
+ "system": "kvkk-pii",
+ "name": "kvkk-pii 0.2 (regex library, MIT)",
+ "track": "photo",
+ "set": "photo v0.1.3 (60 synthetic phone photos, seed 3011)",
+ "ocr": "Katip Otomatik (PaddleOCR PP-OCRv5 on handwriting, Tesseract tur otherwise), run once",
+ "ink_masks": false,
+ "docs": 60,
+ "leak_rate": 0.7791666666666667,
+ "per_type": {
+  "PERSON": {
+   "n": 120,
+   "leaked": 120
+  },
+  "TCKN": {
+   "n": 120,
+   "leaked": 14
+  },
+  "ADDRESS": {
+   "n": 120,
+   "leaked": 120
+  },
+  "PERSON (signature)": {
+   "n": 120,
+   "leaked": 120
+  }
+ },
+ "streets_over_masked": 0,
+ "streets": 360,
+ "false_masks_per_page": 0.0,
+ "detect_ms_per_page": 4.0
+}

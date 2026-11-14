@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan ÇETİN",
+   "box": [
+    442.7,
+    705.9,
+    632.1,
+    744.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "32069866280",
+   "box": [
+    448.6,
+    763.3,
+    597.9,
+    787.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi B Blok D:6",
+   "box": [
+    451.6,
+    837.6,
+    737.4,
+    875.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem TEKİN",
+   "box": [
+    451.6,
+    883.5,
+    618.2,
+    916.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "34861114682",
+   "box": [
+    445.5,
+    943.1,
+    585.0,
+    970.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri B Blok D:35",
+   "box": [
+    450.0,
+    1010.3,
+    742.1,
+    1050.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem TEKİN",
+   "box": [
+    295.8,
+    1393.9,
+    462.8,
+    1428.5
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan ÇETİN",
+   "box": [
+    742.1,
+    1371.4,
+    926.3,
+    1414.1
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Hürriyet Mah.",
+   "box": [
+    443.9,
+    551.4,
+    613.2,
+    595.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2061 Sk. Atatürk Cad.",
+   "box": [
+    441.6,
+    599.0,
+    721.5,
+    636.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Ege Mah. Yunus Emre Cad. 1832 Sk.",
+   "box": [
+    448.6,
+    800.4,
+    899.0,
+    856.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    764.4,
+    827.0,
+    999.3,
+    876.4
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Bahçelievler Mah. İsmet İnönü Cad. 1396 Sk.",
+   "box": [
+    446.2,
+    974.5,
+    989.9,
+    1023.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    774.6,
+    1003.9,
+    1052.6,
+    1043.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 75
+}

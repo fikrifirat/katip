@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer KOÇ",
+   "box": [
+    440.5,
+    724.6,
+    537.8,
+    760.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "99429057184",
+   "box": [
+    443.1,
+    783.7,
+    581.7,
+    809.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. B Blok D:8",
+   "box": [
+    437.4,
+    856.2,
+    619.4,
+    887.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer ŞAHİN",
+   "box": [
+    433.2,
+    901.5,
+    561.8,
+    936.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "64073294308",
+   "box": [
+    435.2,
+    955.7,
+    575.7,
+    977.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri D Blok D:28",
+   "box": [
+    434.1,
+    1029.4,
+    657.7,
+    1054.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer ŞAHİN",
+   "box": [
+    268.5,
+    1375.4,
+    396.2,
+    1410.0
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer KOÇ",
+   "box": [
+    683.3,
+    1372.5,
+    774.0,
+    1403.5
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Ege Mah.",
+   "box": [
+    444.9,
+    576.3,
+    536.8,
+    607.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "366 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    443.7,
+    627.5,
+    729.9,
+    664.0
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Karşıyaka Mah. Atatürk Cad. 605 Sk.",
+   "box": [
+    437.4,
+    825.4,
+    794.7,
+    861.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    644.9,
+    860.2,
+    829.5,
+    891.7
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Hürriyet Mah. Turgut Özal Cad. 2404 Sk.",
+   "box": [
+    431.0,
+    996.1,
+    814.5,
+    1027.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    686.4,
+    1031.5,
+    848.0,
+    1062.8
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 71
+}

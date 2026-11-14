@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir KARA",
+   "box": [
+    468.4,
+    754.0,
+    574.8,
+    781.0
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "18106951898",
+   "box": [
+    458.9,
+    802.5,
+    575.0,
+    829.8
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları D Blok D:23",
+   "box": [
+    459.4,
+    866.9,
+    705.9,
+    901.5
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan KILIÇ",
+   "box": [
+    458.2,
+    919.9,
+    581.3,
+    947.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "72544694618",
+   "box": [
+    456.3,
+    963.2,
+    573.6,
+    989.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 C Blok D:12",
+   "box": [
+    446.7,
+    1035.4,
+    695.6,
+    1073.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan KILIÇ",
+   "box": [
+    284.5,
+    1387.8,
+    408.3,
+    1415.4
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir KARA",
+   "box": [
+    709.3,
+    1381.8,
+    819.4,
+    1407.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Esentepe Mah.",
+   "box": [
+    469.9,
+    612.4,
+    601.4,
+    646.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "116 Sk. Barış Manço Cad.",
+   "box": [
+    470.9,
+    656.1,
+    700.6,
+    690.8
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Alparslan Türkeş Cad. 1125 Sk.",
+   "box": [
+    461.8,
+    829.0,
+    915.8,
+    881.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    728.9,
+    858.3,
+    871.2,
+    890.2
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. Mehmet Akif Ersoy Cad. 1856 Sk.",
+   "box": [
+    449.3,
+    994.3,
+    924.5,
+    1048.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    724.5,
+    1028.4,
+    915.8,
+    1066.0
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 64
+}

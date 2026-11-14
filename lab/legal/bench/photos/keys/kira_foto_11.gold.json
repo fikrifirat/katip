@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan KOÇ",
+   "box": [
+    410.5,
+    686.3,
+    584.9,
+    733.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "79244955094",
+   "box": [
+    416.3,
+    744.5,
+    575.6,
+    773.6
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. C Blok D:39",
+   "box": [
+    412.7,
+    817.6,
+    687.6,
+    866.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ayşe ŞAHİN",
+   "box": [
+    412.1,
+    865.7,
+    587.4,
+    913.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "83826116612",
+   "box": [
+    410.8,
+    924.4,
+    565.5,
+    954.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:36",
+   "box": [
+    411.1,
+    986.5,
+    777.8,
+    1042.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ayşe ŞAHİN",
+   "box": [
+    255.0,
+    1377.1,
+    431.2,
+    1427.1
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan KOÇ",
+   "box": [
+    696.0,
+    1364.9,
+    870.2,
+    1413.8
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Esentepe Mah.",
+   "box": [
+    418.6,
+    532.2,
+    623.6,
+    576.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1294 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    410.0,
+    571.6,
+    839.8,
+    632.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Karşıyaka Mah. Atatürk Cad. 1432 Sk.",
+   "box": [
+    418.9,
+    775.5,
+    941.8,
+    834.0
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    713.4,
+    810.0,
+    924.7,
+    847.8
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Hürriyet Mah. Alparslan Türkeş Cad. 2479 Sk.",
+   "box": [
+    418.1,
+    950.7,
+    1046.8,
+    1011.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    807.5,
+    986.5,
+    1044.7,
+    1034.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 64
+}

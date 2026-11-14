@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Çağrı GÜNEŞ",
+   "box": [
+    432.5,
+    728.8,
+    571.4,
+    764.3
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "36867788744",
+   "box": [
+    433.3,
+    777.8,
+    549.4,
+    802.6
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 D Blok D:16",
+   "box": [
+    428.8,
+    840.2,
+    701.8,
+    882.8
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen ÇETİN",
+   "box": [
+    437.1,
+    892.4,
+    582.1,
+    924.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "74940314046",
+   "box": [
+    433.2,
+    944.5,
+    547.0,
+    968.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları B Blok D:8",
+   "box": [
+    434.8,
+    1012.0,
+    689.1,
+    1048.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen ÇETİN",
+   "box": [
+    265.1,
+    1379.3,
+    415.6,
+    1413.4
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Çağrı GÜNEŞ",
+   "box": [
+    702.6,
+    1366.3,
+    846.5,
+    1402.5
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Ege Mah.",
+   "box": [
+    440.3,
+    588.5,
+    529.2,
+    621.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2372 Sk. Adnan Menderes Cad.",
+   "box": [
+    435.2,
+    626.8,
+    751.1,
+    660.0
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Barış Manço Cad. 502 Sk.",
+   "box": [
+    433.9,
+    804.4,
+    882.7,
+    851.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    726.6,
+    837.2,
+    948.7,
+    872.3
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Kazım Dirik Mah. Adnan Menderes Cad. 1709 Sk.",
+   "box": [
+    430.9,
+    971.6,
+    921.7,
+    1015.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    716.5,
+    1002.2,
+    874.1,
+    1028.3
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 64
+}

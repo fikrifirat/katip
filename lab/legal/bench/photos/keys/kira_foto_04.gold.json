@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan ÖZDEMİR",
+   "box": [
+    393.1,
+    698.4,
+    597.7,
+    724.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "16973276786",
+   "box": [
+    401.1,
+    754.9,
+    550.3,
+    774.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. D Blok D:11",
+   "box": [
+    397.1,
+    826.7,
+    657.6,
+    861.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem ERDOĞAN",
+   "box": [
+    395.1,
+    873.4,
+    591.4,
+    902.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "75430322534",
+   "box": [
+    396.2,
+    923.8,
+    558.0,
+    950.3
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri B Blok D:14",
+   "box": [
+    392.3,
+    998.8,
+    663.0,
+    1032.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem ERDOĞAN",
+   "box": [
+    228.2,
+    1356.1,
+    424.8,
+    1390.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan ÖZDEMİR",
+   "box": [
+    672.8,
+    1362.0,
+    878.6,
+    1393.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Cumhuriyet Mah.",
+   "box": [
+    397.6,
+    553.8,
+    592.8,
+    587.0
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1022 Sk. İsmet İnönü Cad.",
+   "box": [
+    394.0,
+    598.8,
+    701.2,
+    631.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Yunus Emre Cad. 202 Sk.",
+   "box": [
+    401.3,
+    793.1,
+    908.6,
+    832.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    683.1,
+    824.1,
+    920.2,
+    861.3
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. İsmet İnönü Cad. 2170 Sk.",
+   "box": [
+    399.5,
+    965.9,
+    914.3,
+    1009.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    697.2,
+    1006.8,
+    899.8,
+    1038.4
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 73
+}

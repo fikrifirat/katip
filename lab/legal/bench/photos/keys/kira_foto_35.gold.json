@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya YAVAŞ",
+   "box": [
+    387.4,
+    658.1,
+    526.2,
+    692.6
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "41818058678",
+   "box": [
+    390.1,
+    719.0,
+    533.6,
+    742.4
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. B Blok D:32",
+   "box": [
+    395.9,
+    783.3,
+    602.8,
+    817.5
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya KARA",
+   "box": [
+    395.2,
+    828.8,
+    518.6,
+    860.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "56327728998",
+   "box": [
+    400.2,
+    888.4,
+    545.5,
+    911.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları C Blok D:20",
+   "box": [
+    399.1,
+    958.1,
+    668.3,
+    992.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya KARA",
+   "box": [
+    242.1,
+    1318.2,
+    366.6,
+    1350.2
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya YAVAŞ",
+   "box": [
+    680.7,
+    1330.1,
+    823.8,
+    1363.3
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Hürriyet Mah.",
+   "box": [
+    388.7,
+    517.4,
+    532.0,
+    550.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1320 Sk. Fevzi Çakmak Cad.",
+   "box": [
+    395.0,
+    565.0,
+    672.1,
+    603.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Karşıyaka Mah. Adnan Menderes Cad. 2943 Sk.",
+   "box": [
+    391.3,
+    745.4,
+    876.1,
+    798.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    629.9,
+    791.7,
+    853.5,
+    830.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Hürriyet Mah. Atatürk Cad. 856 Sk.",
+   "box": [
+    397.6,
+    920.5,
+    767.8,
+    966.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    694.0,
+    967.7,
+    872.3,
+    1000.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 75
+}

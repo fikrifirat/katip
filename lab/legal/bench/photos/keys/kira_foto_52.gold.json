@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Erdem POLAT",
+   "box": [
+    434.6,
+    752.3,
+    585.9,
+    784.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "80853292456",
+   "box": [
+    435.5,
+    798.5,
+    579.7,
+    828.8
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. A Blok D:27",
+   "box": [
+    434.5,
+    871.2,
+    684.3,
+    915.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen KURT",
+   "box": [
+    431.1,
+    918.3,
+    573.7,
+    954.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "52302173586",
+   "box": [
+    433.6,
+    965.9,
+    583.6,
+    993.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:24",
+   "box": [
+    431.1,
+    1033.6,
+    720.9,
+    1077.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen KURT",
+   "box": [
+    271.1,
+    1398.9,
+    417.0,
+    1436.4
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Erdem POLAT",
+   "box": [
+    690.0,
+    1381.1,
+    843.1,
+    1411.9
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Güzelyalı Mah.",
+   "box": [
+    429.7,
+    607.0,
+    584.8,
+    645.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1202 Sk. Fevzi Çakmak Cad.",
+   "box": [
+    437.8,
+    652.2,
+    739.7,
+    693.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Fevzi Çakmak Cad. 2178 Sk.",
+   "box": [
+    431.2,
+    828.0,
+    928.1,
+    883.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    706.8,
+    865.1,
+    913.7,
+    907.9
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Karşıyaka Mah. Mehmet Akif Ersoy Cad. 2316 Sk.",
+   "box": [
+    427.8,
+    985.4,
+    962.8,
+    1049.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    750.1,
+    1025.2,
+    941.7,
+    1059.2
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 65
+}

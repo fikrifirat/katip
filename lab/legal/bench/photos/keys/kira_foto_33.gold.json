@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Ayşe ERDOĞAN",
+   "box": [
+    415.4,
+    695.4,
+    582.7,
+    733.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "32216700900",
+   "box": [
+    419.5,
+    745.9,
+    545.5,
+    773.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi B Blok D:5",
+   "box": [
+    416.7,
+    816.0,
+    678.0,
+    848.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya ÖZKAN",
+   "box": [
+    417.7,
+    864.3,
+    559.0,
+    902.0
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "85354038398",
+   "box": [
+    422.0,
+    917.9,
+    564.5,
+    945.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. A Blok D:33",
+   "box": [
+    426.2,
+    988.3,
+    691.9,
+    1023.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya ÖZKAN",
+   "box": [
+    280.1,
+    1348.7,
+    422.1,
+    1386.6
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ayşe ERDOĞAN",
+   "box": [
+    713.2,
+    1346.6,
+    881.5,
+    1384.6
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Güzelyalı Mah.",
+   "box": [
+    414.4,
+    545.1,
+    573.9,
+    584.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "209 Sk. Atatürk Cad.",
+   "box": [
+    415.5,
+    595.4,
+    644.4,
+    626.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Güzelyalı Mah. Alparslan Türkeş Cad. 970 Sk.",
+   "box": [
+    424.0,
+    782.1,
+    936.0,
+    827.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    700.8,
+    819.1,
+    878.9,
+    853.2
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. Necip Fazıl Cad. 521 Sk.",
+   "box": [
+    428.8,
+    952.8,
+    898.0,
+    994.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    716.9,
+    988.3,
+    875.1,
+    1023.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 57
+}

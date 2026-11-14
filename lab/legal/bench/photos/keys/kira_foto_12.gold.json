@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Doğan ÖZDEMİR",
+   "box": [
+    430.7,
+    685.8,
+    672.4,
+    732.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "75095608202",
+   "box": [
+    431.3,
+    742.1,
+    627.0,
+    773.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi D Blok D:16",
+   "box": [
+    431.2,
+    814.5,
+    784.8,
+    850.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen ARSLAN",
+   "box": [
+    436.5,
+    859.0,
+    666.9,
+    897.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "74166322832",
+   "box": [
+    435.6,
+    913.5,
+    634.0,
+    947.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 D Blok D:9",
+   "box": [
+    429.2,
+    989.8,
+    804.9,
+    1039.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gülşen ARSLAN",
+   "box": [
+    269.7,
+    1351.8,
+    498.4,
+    1398.1
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Doğan ÖZDEMİR",
+   "box": [
+    716.5,
+    1364.0,
+    971.1,
+    1415.3
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Cumhuriyet Mah.",
+   "box": [
+    434.8,
+    544.6,
+    678.7,
+    583.0
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "438 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    433.2,
+    584.2,
+    875.2,
+    628.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Ege Mah. Adnan Menderes Cad. 1228 Sk.",
+   "box": [
+    431.2,
+    786.3,
+    1047.6,
+    828.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    819.7,
+    824.2,
+    1035.8,
+    858.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Karşıyaka Mah. İsmet İnönü Cad. 2809 Sk.",
+   "box": [
+    433.2,
+    951.2,
+    1076.0,
+    1004.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    837.4,
+    996.0,
+    1124.5,
+    1043.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 65
+}

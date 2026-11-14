@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan KAYA",
+   "box": [
+    387.7,
+    740.5,
+    565.4,
+    772.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "93604970312",
+   "box": [
+    384.8,
+    795.6,
+    526.2,
+    821.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:9",
+   "box": [
+    386.5,
+    863.1,
+    713.2,
+    908.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Sevgi KAYA",
+   "box": [
+    385.1,
+    914.6,
+    531.6,
+    957.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "96917659080",
+   "box": [
+    385.3,
+    968.9,
+    525.8,
+    995.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. D Blok D:7",
+   "box": [
+    385.5,
+    1043.3,
+    642.4,
+    1086.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Sevgi KAYA",
+   "box": [
+    226.0,
+    1411.5,
+    374.8,
+    1456.9
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Nurcan KAYA",
+   "box": [
+    647.3,
+    1411.5,
+    827.3,
+    1442.9
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Esentepe Mah.",
+   "box": [
+    386.0,
+    591.7,
+    577.3,
+    630.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "645 Sk. Necip Fazıl Cad.",
+   "box": [
+    386.8,
+    637.6,
+    707.4,
+    680.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Hürriyet Mah. Necip Fazıl Cad. 620 Sk.",
+   "box": [
+    381.0,
+    831.9,
+    886.6,
+    879.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    741.3,
+    866.3,
+    1004.0,
+    910.9
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Kazım Dirik Mah. Alparslan Türkeş Cad. 1519 Sk.",
+   "box": [
+    382.3,
+    1000.8,
+    1012.9,
+    1048.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    668.3,
+    1033.2,
+    965.6,
+    1069.6
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 61
+}

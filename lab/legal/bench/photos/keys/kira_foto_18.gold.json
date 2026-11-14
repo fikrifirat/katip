@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru ŞİMŞEK",
+   "box": [
+    415.0,
+    698.7,
+    573.3,
+    739.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "49433917066",
+   "box": [
+    415.6,
+    745.9,
+    555.4,
+    777.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. B Blok D:3",
+   "box": [
+    415.9,
+    822.0,
+    638.9,
+    861.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir POLAT",
+   "box": [
+    417.2,
+    868.4,
+    562.7,
+    901.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "63615197558",
+   "box": [
+    416.2,
+    923.8,
+    543.4,
+    952.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:31",
+   "box": [
+    420.2,
+    992.2,
+    703.2,
+    1031.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir POLAT",
+   "box": [
+    259.7,
+    1347.2,
+    406.1,
+    1380.6
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru ŞİMŞEK",
+   "box": [
+    671.5,
+    1341.9,
+    825.3,
+    1381.7
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Yenişehir Mah.",
+   "box": [
+    414.3,
+    550.7,
+    585.2,
+    589.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2468 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    414.1,
+    594.2,
+    771.2,
+    637.0
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Ege Mah. Adnan Menderes Cad. 392 Sk.",
+   "box": [
+    418.3,
+    789.3,
+    880.0,
+    831.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    660.5,
+    827.4,
+    884.7,
+    867.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Karşıyaka Mah. Turgut Özal Cad. 1586 Sk.",
+   "box": [
+    416.7,
+    959.5,
+    881.5,
+    1003.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    733.3,
+    997.4,
+    957.0,
+    1036.6
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 64
+}

@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya KARA",
+   "box": [
+    424.5,
+    666.2,
+    594.5,
+    707.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "24035444950",
+   "box": [
+    423.4,
+    708.5,
+    621.9,
+    745.6
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları B Blok D:11",
+   "box": [
+    419.1,
+    777.5,
+    795.6,
+    815.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mehmet YILDIZ",
+   "box": [
+    420.9,
+    827.5,
+    650.6,
+    859.6
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "37982841024",
+   "box": [
+    421.9,
+    881.9,
+    618.4,
+    914.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri D Blok D:3",
+   "box": [
+    416.8,
+    954.5,
+    745.2,
+    991.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mehmet YILDIZ",
+   "box": [
+    262.5,
+    1308.3,
+    492.3,
+    1349.5
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya KARA",
+   "box": [
+    696.7,
+    1325.4,
+    882.3,
+    1372.5
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Kazım Dirik Mah.",
+   "box": [
+    427.3,
+    513.4,
+    671.7,
+    557.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "382 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    421.0,
+    555.0,
+    860.1,
+    609.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Adnan Menderes Cad. 417 Sk.",
+   "box": [
+    424.4,
+    731.0,
+    1133.4,
+    798.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    822.1,
+    762.4,
+    1172.9,
+    816.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Yenişehir Mah. Mimar Sinan Cad. 977 Sk.",
+   "box": [
+    416.2,
+    918.0,
+    1036.9,
+    966.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    776.5,
+    949.7,
+    1044.1,
+    985.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 65
+}

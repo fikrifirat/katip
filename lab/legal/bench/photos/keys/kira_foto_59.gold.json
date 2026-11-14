@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Yiğit GÖKER",
+   "box": [
+    406.4,
+    690.9,
+    539.9,
+    730.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "39359085956",
+   "box": [
+    404.9,
+    745.1,
+    535.4,
+    774.3
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri C Blok D:1",
+   "box": [
+    410.9,
+    814.3,
+    640.0,
+    848.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru KARA",
+   "box": [
+    413.8,
+    858.2,
+    536.1,
+    888.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "51034885880",
+   "box": [
+    410.9,
+    909.8,
+    537.6,
+    936.4
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi D Blok D:35",
+   "box": [
+    412.4,
+    974.1,
+    677.3,
+    1013.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru KARA",
+   "box": [
+    256.1,
+    1336.4,
+    377.6,
+    1365.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Yiğit GÖKER",
+   "box": [
+    677.6,
+    1327.8,
+    810.1,
+    1365.1
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Hürriyet Mah.",
+   "box": [
+    404.8,
+    540.9,
+    552.7,
+    582.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1773 Sk. İsmet İnönü Cad.",
+   "box": [
+    408.6,
+    583.0,
+    692.8,
+    622.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Yenişehir Mah. Fevzi Çakmak Cad. 485 Sk.",
+   "box": [
+    406.4,
+    772.8,
+    870.5,
+    826.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    668.5,
+    807.3,
+    834.4,
+    838.7
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. Mimar Sinan Cad. 1876 Sk.",
+   "box": [
+    411.6,
+    934.9,
+    896.5,
+    999.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    699.7,
+    966.3,
+    940.9,
+    1013.7
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 70
+}

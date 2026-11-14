@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra GÜNEŞ",
+   "box": [
+    376.6,
+    785.4,
+    523.3,
+    819.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "89241786904",
+   "box": [
+    376.6,
+    836.7,
+    515.1,
+    861.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. D Blok D:29",
+   "box": [
+    375.7,
+    914.9,
+    597.4,
+    948.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mustafa ŞİMŞEK",
+   "box": [
+    381.2,
+    960.4,
+    558.9,
+    993.6
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "94346479040",
+   "box": [
+    379.6,
+    1013.4,
+    517.4,
+    1038.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. A Blok D:39",
+   "box": [
+    382.7,
+    1087.8,
+    601.6,
+    1125.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mustafa ŞİMŞEK",
+   "box": [
+    221.3,
+    1435.0,
+    394.8,
+    1468.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra GÜNEŞ",
+   "box": [
+    661.4,
+    1445.5,
+    807.9,
+    1480.5
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Hürriyet Mah.",
+   "box": [
+    377.5,
+    630.3,
+    528.1,
+    662.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1924 Sk. Barış Manço Cad.",
+   "box": [
+    382.2,
+    683.9,
+    667.4,
+    713.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Ege Mah. Kazım Karabekir Cad. 1461 Sk.",
+   "box": [
+    383.6,
+    887.9,
+    821.4,
+    922.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    625.8,
+    915.1,
+    853.4,
+    957.3
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Güzelyalı Mah. Alparslan Türkeş Cad. 708 Sk.",
+   "box": [
+    376.4,
+    1052.5,
+    875.4,
+    1097.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    630.0,
+    1092.3,
+    800.9,
+    1119.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 80
+}

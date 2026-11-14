@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Ilgaz UYSAL",
+   "box": [
+    435.3,
+    785.7,
+    578.3,
+    825.6
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "25438661814",
+   "box": [
+    428.1,
+    840.2,
+    580.1,
+    867.8
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. C Blok D:35",
+   "box": [
+    431.3,
+    916.3,
+    701.8,
+    956.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Şükrü KARA",
+   "box": [
+    434.8,
+    957.3,
+    578.1,
+    994.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "38607258616",
+   "box": [
+    431.5,
+    1012.9,
+    590.4,
+    1039.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri B Blok D:32",
+   "box": [
+    427.1,
+    1084.6,
+    708.7,
+    1122.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Şükrü KARA",
+   "box": [
+    276.6,
+    1444.1,
+    415.7,
+    1480.3
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ilgaz UYSAL",
+   "box": [
+    699.6,
+    1449.7,
+    842.5,
+    1489.3
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Yenişehir Mah.",
+   "box": [
+    431.1,
+    633.2,
+    603.7,
+    666.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2348 Sk. Fevzi Çakmak Cad.",
+   "box": [
+    435.3,
+    678.7,
+    769.8,
+    718.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Yenişehir Mah. Alparslan Türkeş Cad. 873 Sk.",
+   "box": [
+    436.9,
+    880.6,
+    984.3,
+    924.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    728.9,
+    912.7,
+    976.8,
+    961.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Bahçelievler Mah. Atatürk Cad. 901 Sk.",
+   "box": [
+    428.0,
+    1053.8,
+    888.2,
+    1097.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    735.8,
+    1086.9,
+    951.8,
+    1128.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 62
+}

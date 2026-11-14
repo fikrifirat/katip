@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya KARA",
+   "box": [
+    440.6,
+    654.9,
+    576.7,
+    685.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "57467307098",
+   "box": [
+    436.2,
+    708.5,
+    598.3,
+    732.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi B Blok D:3",
+   "box": [
+    445.0,
+    782.3,
+    694.5,
+    815.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru KURT",
+   "box": [
+    437.3,
+    831.7,
+    568.2,
+    860.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "49998448364",
+   "box": [
+    439.4,
+    885.9,
+    597.9,
+    910.4
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 C Blok D:22",
+   "box": [
+    442.6,
+    966.7,
+    738.8,
+    997.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru KURT",
+   "box": [
+    283.0,
+    1345.6,
+    413.9,
+    1372.2
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hülya KARA",
+   "box": [
+    731.0,
+    1344.7,
+    866.0,
+    1378.5
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Güzelyalı Mah.",
+   "box": [
+    442.4,
+    492.8,
+    600.0,
+    525.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1580 Sk. Fevzi Çakmak Cad.",
+   "box": [
+    434.6,
+    538.5,
+    744.6,
+    574.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Güzelyalı Mah. Fevzi Çakmak Cad. 1041 Sk.",
+   "box": [
+    437.3,
+    741.8,
+    916.7,
+    785.3
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    722.1,
+    785.1,
+    889.0,
+    813.6
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Bahçelievler Mah. Mimar Sinan Cad. 109 Sk.",
+   "box": [
+    443.1,
+    926.3,
+    943.4,
+    973.0
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    765.6,
+    967.1,
+    1013.7,
+    1002.9
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 65
+}

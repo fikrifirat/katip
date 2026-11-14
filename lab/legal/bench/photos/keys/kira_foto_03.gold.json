@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra ŞAHİN",
+   "box": [
+    391.5,
+    731.9,
+    551.8,
+    768.3
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "60580125142",
+   "box": [
+    395.6,
+    787.6,
+    555.9,
+    813.8
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi B Blok D:14",
+   "box": [
+    392.3,
+    857.3,
+    658.0,
+    888.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim GÜNEŞ",
+   "box": [
+    389.9,
+    901.2,
+    577.1,
+    938.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "79510478012",
+   "box": [
+    401.3,
+    962.7,
+    559.4,
+    988.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:28",
+   "box": [
+    400.5,
+    1034.9,
+    697.1,
+    1068.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim GÜNEŞ",
+   "box": [
+    224.9,
+    1401.6,
+    413.6,
+    1440.6
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra ŞAHİN",
+   "box": [
+    688.0,
+    1405.0,
+    848.5,
+    1440.3
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Kazım Dirik Mah.",
+   "box": [
+    398.7,
+    573.1,
+    590.5,
+    602.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2261 Sk. Mimar Sinan Cad.",
+   "box": [
+    398.8,
+    624.7,
+    704.5,
+    660.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Mimar Sinan Cad. 2029 Sk.",
+   "box": [
+    392.3,
+    831.5,
+    896.3,
+    869.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    683.8,
+    865.3,
+    885.1,
+    896.0
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Kazım Dirik Mah. Alparslan Türkeş Cad. 2873 Sk.",
+   "box": [
+    398.9,
+    998.7,
+    948.5,
+    1045.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    724.6,
+    1037.7,
+    911.4,
+    1073.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 66
+}

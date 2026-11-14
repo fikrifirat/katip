@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Erdem GÖKER",
+   "box": [
+    390.8,
+    777.3,
+    537.8,
+    804.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "75135796654",
+   "box": [
+    401.7,
+    831.1,
+    546.3,
+    852.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları D Blok D:12",
+   "box": [
+    393.3,
+    905.7,
+    659.8,
+    933.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan ÖZTÜRK",
+   "box": [
+    397.6,
+    947.8,
+    569.2,
+    979.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "30073642746",
+   "box": [
+    395.1,
+    1009.9,
+    540.9,
+    1029.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. A Blok D:36",
+   "box": [
+    391.8,
+    1086.2,
+    619.8,
+    1117.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Gökhan ÖZTÜRK",
+   "box": [
+    229.0,
+    1460.9,
+    402.1,
+    1489.8
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Erdem GÖKER",
+   "box": [
+    689.9,
+    1459.9,
+    838.0,
+    1490.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Karşıyaka Mah.",
+   "box": [
+    395.7,
+    624.9,
+    553.2,
+    654.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2784 Sk. Adnan Menderes Cad.",
+   "box": [
+    394.1,
+    676.9,
+    705.9,
+    705.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Güzelyalı Mah. Adnan Menderes Cad. 493 Sk.",
+   "box": [
+    401.7,
+    880.3,
+    847.8,
+    909.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    692.1,
+    911.7,
+    888.4,
+    941.2
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Ege Mah. Alparslan Türkeş Cad. 1679 Sk.",
+   "box": [
+    397.6,
+    1055.8,
+    812.6,
+    1084.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    646.4,
+    1087.5,
+    831.9,
+    1113.2
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 57
+}

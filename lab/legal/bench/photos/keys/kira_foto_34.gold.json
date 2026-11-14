@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Hüseyin ÇETİN",
+   "box": [
+    445.7,
+    710.4,
+    586.7,
+    749.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "71635760386",
+   "box": [
+    446.8,
+    766.5,
+    574.0,
+    793.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi B Blok D:16",
+   "box": [
+    437.4,
+    834.9,
+    655.9,
+    869.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Elif ÖZTÜRK",
+   "box": [
+    439.2,
+    875.6,
+    560.3,
+    910.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "48740297922",
+   "box": [
+    444.7,
+    935.5,
+    572.5,
+    960.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 B Blok D:37",
+   "box": [
+    443.2,
+    1006.6,
+    686.5,
+    1043.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Elif ÖZTÜRK",
+   "box": [
+    287.6,
+    1354.4,
+    410.4,
+    1390.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hüseyin ÇETİN",
+   "box": [
+    700.3,
+    1378.3,
+    844.6,
+    1415.4
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Güzelyalı Mah.",
+   "box": [
+    444.8,
+    567.2,
+    572.0,
+    600.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2384 Sk. Adnan Menderes Cad.",
+   "box": [
+    445.9,
+    612.4,
+    728.4,
+    651.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Yenişehir Mah. Alparslan Türkeş Cad. 647 Sk.",
+   "box": [
+    445.7,
+    804.6,
+    859.2,
+    852.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    683.0,
+    845.6,
+    861.5,
+    883.7
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. İsmet İnönü Cad. 2134 Sk.",
+   "box": [
+    442.0,
+    969.4,
+    848.2,
+    1022.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    712.3,
+    1017.1,
+    934.8,
+    1054.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 73
+}

@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru YILDIZ",
+   "box": [
+    451.2,
+    759.3,
+    617.5,
+    793.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "16272779360",
+   "box": [
+    455.1,
+    817.7,
+    619.0,
+    847.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. D Blok D:28",
+   "box": [
+    454.3,
+    884.7,
+    721.1,
+    926.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Sevgi KURT",
+   "box": [
+    453.2,
+    924.9,
+    589.2,
+    961.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "28864427696",
+   "box": [
+    450.4,
+    980.6,
+    613.8,
+    1011.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi D Blok D:8",
+   "box": [
+    455.6,
+    1052.0,
+    713.5,
+    1089.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Sevgi KURT",
+   "box": [
+    299.4,
+    1394.5,
+    433.5,
+    1428.8
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ebru YILDIZ",
+   "box": [
+    712.5,
+    1403.7,
+    876.1,
+    1437.1
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Esentepe Mah.",
+   "box": [
+    458.0,
+    610.4,
+    629.2,
+    649.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2231 Sk. Mimar Sinan Cad.",
+   "box": [
+    454.5,
+    662.0,
+    774.5,
+    701.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Bahçelievler Mah. Atatürk Cad. 1103 Sk.",
+   "box": [
+    458.4,
+    856.6,
+    929.8,
+    902.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    751.9,
+    892.4,
+    945.6,
+    934.3
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Hürriyet Mah. Yunus Emre Cad. 694 Sk.",
+   "box": [
+    450.7,
+    1015.5,
+    912.9,
+    1062.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    742.0,
+    1057.9,
+    1020.9,
+    1098.0
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 57
+}

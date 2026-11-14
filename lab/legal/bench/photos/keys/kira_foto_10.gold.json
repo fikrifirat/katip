@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Mustafa KOÇ",
+   "box": [
+    399.9,
+    688.7,
+    564.7,
+    731.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "55414506662",
+   "box": [
+    399.6,
+    743.4,
+    563.5,
+    776.6
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 D Blok D:8",
+   "box": [
+    405.2,
+    820.2,
+    731.3,
+    866.8
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir KOÇ",
+   "box": [
+    402.5,
+    874.9,
+    532.0,
+    914.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "53499645948",
+   "box": [
+    399.8,
+    926.3,
+    581.8,
+    961.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi B Blok D:15",
+   "box": [
+    408.5,
+    1002.6,
+    719.0,
+    1046.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir KOÇ",
+   "box": [
+    243.5,
+    1387.6,
+    371.4,
+    1426.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mustafa KOÇ",
+   "box": [
+    692.8,
+    1384.4,
+    857.9,
+    1425.5
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Bahçelievler Mah.",
+   "box": [
+    395.9,
+    525.2,
+    625.8,
+    567.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2064 Sk. Mimar Sinan Cad.",
+   "box": [
+    398.9,
+    579.6,
+    759.2,
+    624.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Kazım Dirik Mah. İsmet İnönü Cad. 867 Sk.",
+   "box": [
+    404.8,
+    782.6,
+    971.4,
+    827.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    764.6,
+    813.9,
+    1076.7,
+    856.4
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Bahçelievler Mah. Mehmet Akif Ersoy Cad. 1420 Sk.",
+   "box": [
+    400.3,
+    966.4,
+    1081.4,
+    1017.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    749.9,
+    1002.3,
+    938.1,
+    1044.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 61
+}

@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Mehmet KILIÇ",
+   "box": [
+    407.6,
+    710.4,
+    554.4,
+    744.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "31621600188",
+   "box": [
+    412.8,
+    765.1,
+    536.2,
+    789.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri A Blok D:36",
+   "box": [
+    411.4,
+    837.2,
+    664.1,
+    866.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hüseyin TEKİN",
+   "box": [
+    416.6,
+    882.7,
+    590.6,
+    920.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "41606655294",
+   "box": [
+    408.0,
+    934.2,
+    546.2,
+    959.3
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi B Blok D:22",
+   "box": [
+    418.2,
+    1006.7,
+    681.2,
+    1039.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Hüseyin TEKİN",
+   "box": [
+    255.5,
+    1375.1,
+    435.0,
+    1417.0
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mehmet KILIÇ",
+   "box": [
+    699.6,
+    1360.5,
+    849.8,
+    1398.6
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Esentepe Mah.",
+   "box": [
+    411.9,
+    566.0,
+    575.7,
+    597.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2263 Sk. Yunus Emre Cad.",
+   "box": [
+    407.9,
+    610.8,
+    706.5,
+    635.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Bahçelievler Mah. Turgut Özal Cad. 1574 Sk.",
+   "box": [
+    414.1,
+    797.6,
+    904.5,
+    843.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    689.9,
+    831.0,
+    857.9,
+    857.9
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Yenişehir Mah. Adnan Menderes Cad. 2244 Sk.",
+   "box": [
+    409.2,
+    969.1,
+    926.9,
+    1007.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Bornova/İZMİR",
+   "box": [
+    710.1,
+    995.6,
+    880.2,
+    1026.8
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 65
+}

@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Mustafa KOÇ",
+   "box": [
+    416.2,
+    653.3,
+    564.2,
+    684.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "17632241220",
+   "box": [
+    411.6,
+    715.2,
+    540.2,
+    739.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları D Blok D:13",
+   "box": [
+    419.2,
+    790.5,
+    697.4,
+    821.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ayşe DOĞAN",
+   "box": [
+    421.9,
+    835.9,
+    574.3,
+    874.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "70598674938",
+   "box": [
+    422.1,
+    899.3,
+    540.4,
+    920.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:7",
+   "box": [
+    415.3,
+    968.0,
+    692.1,
+    1008.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ayşe DOĞAN",
+   "box": [
+    267.5,
+    1350.4,
+    417.2,
+    1386.9
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mustafa KOÇ",
+   "box": [
+    717.2,
+    1358.1,
+    869.2,
+    1387.3
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Hürriyet Mah.",
+   "box": [
+    412.7,
+    492.0,
+    557.7,
+    532.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2572 Sk. Turgut Özal Cad.",
+   "box": [
+    404.7,
+    542.4,
+    696.6,
+    588.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Yenişehir Mah. Mimar Sinan Cad. 2136 Sk.",
+   "box": [
+    419.0,
+    749.0,
+    870.5,
+    788.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    731.6,
+    781.1,
+    983.4,
+    811.8
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Ege Mah. İsmet İnönü Cad. 765 Sk.",
+   "box": [
+    420.0,
+    936.7,
+    801.1,
+    977.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    724.3,
+    962.2,
+    977.6,
+    992.2
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 55
+}

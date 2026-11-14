@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Fatma POLAT",
+   "box": [
+    439.6,
+    663.8,
+    611.7,
+    696.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "56992667066",
+   "box": [
+    438.8,
+    717.6,
+    597.2,
+    754.1
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 C Blok D:8",
+   "box": [
+    435.1,
+    803.7,
+    743.7,
+    850.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Tuğba KOÇ",
+   "box": [
+    440.0,
+    852.3,
+    578.4,
+    894.1
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "44460196262",
+   "box": [
+    435.9,
+    908.8,
+    593.2,
+    942.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 C Blok D:23",
+   "box": [
+    438.7,
+    985.4,
+    765.6,
+    1027.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Tuğba KOÇ",
+   "box": [
+    286.4,
+    1367.2,
+    423.1,
+    1405.4
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Fatma POLAT",
+   "box": [
+    720.0,
+    1358.7,
+    881.3,
+    1389.0
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Bahçelievler Mah.",
+   "box": [
+    434.6,
+    494.8,
+    659.1,
+    542.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2765 Sk. Mimar Sinan Cad.",
+   "box": [
+    428.7,
+    549.7,
+    781.3,
+    598.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Karşıyaka Mah. Necip Fazıl Cad. 1556 Sk.",
+   "box": [
+    434.5,
+    759.9,
+    949.4,
+    811.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    774.7,
+    806.2,
+    949.3,
+    849.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Karşıyaka Mah. Necip Fazıl Cad. 1120 Sk.",
+   "box": [
+    439.1,
+    955.8,
+    934.4,
+    998.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    799.3,
+    990.2,
+    1042.6,
+    1028.1
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 71
+}

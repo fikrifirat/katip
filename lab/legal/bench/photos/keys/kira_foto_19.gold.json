@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem YILDIZ",
+   "box": [
+    447.9,
+    692.6,
+    611.9,
+    732.0
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "32217241754",
+   "box": [
+    443.5,
+    752.7,
+    597.0,
+    783.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları B Blok D:29",
+   "box": [
+    443.1,
+    821.6,
+    760.6,
+    865.2
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer YILMAZ",
+   "box": [
+    443.2,
+    863.3,
+    610.9,
+    900.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "74450311702",
+   "box": [
+    441.0,
+    917.1,
+    588.5,
+    950.6
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi B Blok D:32",
+   "box": [
+    437.0,
+    987.8,
+    721.7,
+    1024.4
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer YILMAZ",
+   "box": [
+    279.3,
+    1337.7,
+    451.6,
+    1379.8
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Özlem YILDIZ",
+   "box": [
+    702.1,
+    1353.0,
+    871.7,
+    1395.1
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Ege Mah.",
+   "box": [
+    448.4,
+    557.9,
+    555.0,
+    592.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "1231 Sk. Fevzi Çakmak Cad.",
+   "box": [
+    448.5,
+    603.6,
+    771.0,
+    645.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Kazım Karabekir Cad. 509 Sk.",
+   "box": [
+    442.0,
+    777.0,
+    1001.5,
+    851.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    789.1,
+    835.1,
+    956.4,
+    868.5
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. Necip Fazıl Cad. 251 Sk.",
+   "box": [
+    444.7,
+    949.6,
+    944.1,
+    1012.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kuşadası/AYDIN",
+   "box": [
+    752.7,
+    1004.6,
+    943.0,
+    1042.4
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 80
+}

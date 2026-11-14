@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Çağrı AYDIN",
+   "box": [
+    468.8,
+    687.2,
+    646.8,
+    733.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "41606195080",
+   "box": [
+    470.1,
+    748.2,
+    631.1,
+    780.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri D Blok D:32",
+   "box": [
+    467.2,
+    823.0,
+    793.1,
+    859.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ilgaz ŞAHİN",
+   "box": [
+    462.8,
+    868.4,
+    635.5,
+    916.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "12924346102",
+   "box": [
+    468.1,
+    932.9,
+    630.2,
+    961.8
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi D Blok D:34",
+   "box": [
+    462.0,
+    998.8,
+    787.2,
+    1040.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ilgaz ŞAHİN",
+   "box": [
+    299.3,
+    1385.6,
+    470.0,
+    1431.0
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Çağrı AYDIN",
+   "box": [
+    740.9,
+    1367.1,
+    915.4,
+    1413.2
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Güzelyalı Mah.",
+   "box": [
+    469.1,
+    530.1,
+    674.6,
+    577.6
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2355 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    466.3,
+    580.9,
+    930.5,
+    632.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Mehmet Akif Ersoy Cad. 2067 Sk.",
+   "box": [
+    468.1,
+    777.4,
+    1195.1,
+    837.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    826.0,
+    814.2,
+    1045.2,
+    852.0
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Ege Mah. Necip Fazıl Cad. 1937 Sk.",
+   "box": [
+    463.7,
+    966.9,
+    945.0,
+    1019.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    812.0,
+    995.6,
+    1071.4,
+    1034.2
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 69
+}

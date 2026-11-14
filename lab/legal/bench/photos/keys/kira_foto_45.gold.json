@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim KARA",
+   "box": [
+    462.3,
+    795.3,
+    640.3,
+    825.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "35781370004",
+   "box": [
+    470.1,
+    856.6,
+    635.1,
+    881.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 B Blok D:21",
+   "box": [
+    464.8,
+    926.3,
+    795.2,
+    962.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer KAYA",
+   "box": [
+    465.6,
+    969.7,
+    611.3,
+    998.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "26372819446",
+   "box": [
+    465.7,
+    1020.0,
+    634.9,
+    1045.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:2",
+   "box": [
+    471.2,
+    1096.7,
+    787.1,
+    1132.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ömer KAYA",
+   "box": [
+    309.2,
+    1431.4,
+    453.7,
+    1465.5
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim KARA",
+   "box": [
+    725.0,
+    1424.8,
+    889.3,
+    1455.2
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Yenişehir Mah.",
+   "box": [
+    465.2,
+    645.3,
+    652.0,
+    682.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "967 Sk. Yunus Emre Cad.",
+   "box": [
+    468.4,
+    696.8,
+    790.4,
+    728.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Bahçelievler Mah. Atatürk Cad. 678 Sk.",
+   "box": [
+    460.9,
+    885.7,
+    952.6,
+    933.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    822.6,
+    928.5,
+    996.2,
+    956.4
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Ege Mah. Turgut Özal Cad. 177 Sk.",
+   "box": [
+    464.2,
+    1061.9,
+    889.9,
+    1100.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Kadıköy/İSTANBUL",
+   "box": [
+    815.6,
+    1094.3,
+    1037.8,
+    1129.9
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 77
+}

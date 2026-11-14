@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Yiğit ÖZTÜRK",
+   "box": [
+    451.9,
+    787.4,
+    608.8,
+    826.3
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "86062824242",
+   "box": [
+    443.7,
+    851.8,
+    605.3,
+    873.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Lale Konutları A Blok D:25",
+   "box": [
+    439.6,
+    918.2,
+    732.6,
+    948.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Fatma YILDIZ",
+   "box": [
+    443.4,
+    960.8,
+    619.2,
+    989.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "48229752706",
+   "box": [
+    445.6,
+    1015.2,
+    602.0,
+    1037.3
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi B Blok D:25",
+   "box": [
+    445.1,
+    1081.1,
+    702.7,
+    1118.0
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Fatma YILDIZ",
+   "box": [
+    288.5,
+    1427.0,
+    463.6,
+    1458.8
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Yiğit ÖZTÜRK",
+   "box": [
+    700.6,
+    1407.9,
+    851.1,
+    1447.9
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Ege Mah.",
+   "box": [
+    445.3,
+    645.0,
+    551.2,
+    675.5
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "796 Sk. Alparslan Türkeş Cad.",
+   "box": [
+    449.0,
+    696.2,
+    778.6,
+    728.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Kazım Dirik Mah. Mimar Sinan Cad. 1572 Sk.",
+   "box": [
+    445.9,
+    882.7,
+    951.6,
+    925.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    757.1,
+    915.4,
+    959.1,
+    948.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Ege Mah. İsmet İnönü Cad. 2394 Sk.",
+   "box": [
+    438.2,
+    1049.0,
+    849.1,
+    1091.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    727.1,
+    1080.5,
+    928.5,
+    1114.9
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 77
+}

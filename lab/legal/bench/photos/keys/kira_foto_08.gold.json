@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim ŞİMŞEK",
+   "box": [
+    450.1,
+    671.9,
+    659.1,
+    713.0
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "65951586454",
+   "box": [
+    456.0,
+    725.3,
+    614.3,
+    754.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. D Blok D:1",
+   "box": [
+    448.3,
+    792.4,
+    695.1,
+    836.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Doğan ERDOĞAN",
+   "box": [
+    449.2,
+    840.1,
+    690.4,
+    890.9
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "66924043318",
+   "box": [
+    448.1,
+    900.3,
+    592.6,
+    927.5
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi C Blok D:33",
+   "box": [
+    450.8,
+    966.2,
+    738.6,
+    1006.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Doğan ERDOĞAN",
+   "box": [
+    265.8,
+    1335.3,
+    512.1,
+    1388.2
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "İbrahim ŞİMŞEK",
+   "box": [
+    717.0,
+    1348.7,
+    932.0,
+    1388.9
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Güzelyalı Mah.",
+   "box": [
+    457.9,
+    521.8,
+    639.4,
+    567.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2161 Sk. Adnan Menderes Cad.",
+   "box": [
+    457.0,
+    564.7,
+    845.0,
+    604.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Güzelyalı Mah. Alparslan Türkeş Cad. 1785 Sk.",
+   "box": [
+    452.8,
+    761.9,
+    1044.5,
+    821.8
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    719.6,
+    800.8,
+    955.1,
+    840.5
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Hürriyet Mah. Atatürk Cad. 330 Sk.",
+   "box": [
+    449.0,
+    935.1,
+    896.6,
+    988.6
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    763.2,
+    976.3,
+    1044.6,
+    1021.6
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 60
+}

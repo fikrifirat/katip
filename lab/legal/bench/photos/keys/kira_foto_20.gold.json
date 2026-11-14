@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Ilgaz ÇELİK",
+   "box": [
+    378.0,
+    768.2,
+    537.1,
+    810.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "72376952696",
+   "box": [
+    384.3,
+    821.3,
+    570.3,
+    850.6
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:3",
+   "box": [
+    385.7,
+    899.3,
+    731.3,
+    937.8
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra ŞİMŞEK",
+   "box": [
+    382.5,
+    950.5,
+    579.8,
+    990.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "22183676476",
+   "box": [
+    386.4,
+    1004.9,
+    571.4,
+    1030.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Deniz Apt. C Blok D:29",
+   "box": [
+    391.8,
+    1084.1,
+    709.6,
+    1124.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra ŞİMŞEK",
+   "box": [
+    240.5,
+    1448.1,
+    434.2,
+    1487.4
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Ilgaz ÇELİK",
+   "box": [
+    670.0,
+    1444.0,
+    826.8,
+    1483.4
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Karşıyaka Mah.",
+   "box": [
+    376.5,
+    607.0,
+    579.8,
+    647.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "954 Sk. İsmet İnönü Cad.",
+   "box": [
+    374.8,
+    655.5,
+    725.2,
+    697.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Yenişehir Mah. Mimar Sinan Cad. 2873 Sk.",
+   "box": [
+    386.4,
+    864.9,
+    978.7,
+    909.0
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Nilüfer/BURSA",
+   "box": [
+    760.6,
+    900.6,
+    960.0,
+    936.1
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Cumhuriyet Mah. Barış Manço Cad. 2553 Sk.",
+   "box": [
+    383.0,
+    1045.9,
+    999.7,
+    1090.4
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    734.0,
+    1082.6,
+    1018.2,
+    1119.0
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 73
+}

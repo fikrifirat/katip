@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Zeynep KARA",
+   "box": [
+    417.9,
+    688.0,
+    598.1,
+    721.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "13717109706",
+   "box": [
+    417.1,
+    737.1,
+    570.2,
+    767.2
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Mavi Sitesi C Blok D:37",
+   "box": [
+    418.2,
+    808.0,
+    737.2,
+    846.9
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Tuğba ERDOĞAN",
+   "box": [
+    425.2,
+    853.0,
+    648.4,
+    895.2
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "29687435318",
+   "box": [
+    419.7,
+    900.7,
+    601.7,
+    931.7
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Trend Royal-1 A Blok D:1",
+   "box": [
+    427.1,
+    976.3,
+    754.6,
+    1017.1
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Tuğba ERDOĞAN",
+   "box": [
+    278.4,
+    1318.2,
+    496.6,
+    1361.7
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Zeynep KARA",
+   "box": [
+    702.4,
+    1336.5,
+    880.3,
+    1374.1
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Esentepe Mah.",
+   "box": [
+    417.8,
+    529.1,
+    610.0,
+    565.3
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "652 Sk. Mimar Sinan Cad.",
+   "box": [
+    424.1,
+    581.0,
+    777.4,
+    617.2
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Cumhuriyet Mah. Yunus Emre Cad. 1374 Sk.",
+   "box": [
+    422.4,
+    776.9,
+    1013.1,
+    826.2
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Atakum/SAMSUN",
+   "box": [
+    763.1,
+    815.8,
+    994.5,
+    848.3
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Hürriyet Mah. Mimar Sinan Cad. 694 Sk.",
+   "box": [
+    422.8,
+    948.3,
+    966.9,
+    992.9
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Merkezefendi/DENİZLİ",
+   "box": [
+    780.4,
+    984.2,
+    1085.2,
+    1023.4
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 72
+}

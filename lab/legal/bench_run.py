@@ -28,9 +28,11 @@ def _onnx_params(f):
     m = onnx.load(str(f), load_external_data=False)
     return int(sum(numpy_helper.to_array(t).size for t in m.graph.initializer if t.data_type in (1, 2, 3, 10)))  # float, uint8, int8, fp16 weights
 
+DETECT_KW = {"address_detail": "full"}   # the photo track switches this to what Katip Yerel uses on scans (see run_photo)
+
 def _katip(model_dir, trust):
     tg = K.Tagger(model_dir)
-    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=tg(text), trust=trust, address_detail="full")]
+    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=tg(text), trust=trust, **DETECT_KW)]
     return det, {"size_mb": round(tg.size_mb + 0.3, 1), "params": _onnx_params(tg.onnx_file), "runs_locally": True, "runs_in_browser": True,
                  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules"}
 
@@ -57,7 +59,7 @@ def _akdeniz_rules(trust):
             span = text[s:e]
             out.append((s, s + min([span.find(c) for c in "'\u2019" if c in span] or [len(span)]), sc, "PERSON"))
         return out
-    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=extra(text), trust=trust)]
+    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=extra(text), trust=trust, **DETECT_KW)]
     return det, {"params": int(ak.params), "size_mb": round(ak.size_mb + 0.3, 1), "runs_locally": True, "runs_in_browser": False,
                  "size_note": "XLM-R weights as loaded (fp32) + 0.3 MB rules"}
 
@@ -70,7 +72,7 @@ def _baseline(key):
     return det, meta
 
 SYSTEMS = {
-    "rules": ("Katip Rules v0.2", lambda: (lambda t: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(t, extra=[])],
+    "rules": ("Katip Rules v0.2", lambda: (lambda t: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(t, extra=[], **DETECT_KW)],
                                            {"size_mb": 0.3, "params": 0, "runs_locally": True, "runs_in_browser": True})),
     "kvkk-pii": ("kvkk-pii 0.2 (regex library, MIT)", lambda: (lambda t: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect_baseline(t)],
                                                                {"params": 0, "size_mb": 0.1, "runs_locally": True, "runs_in_browser": False})),
@@ -139,10 +141,104 @@ def rescore(key):
     (RES / f"{key}.json").write_text(json.dumps(row, indent=1, default=float))
     return row
 
+# ---- photo track (v0.1.3): phone photos of hand-filled forms, scored on boxes, not on text
+# OCR ran once (lab/legal/bench/photos/ocr_dump.mjs, Katip's "Otomatik" OCR); every system gets the same OCR text,
+# its spans become boxes the way the browser does it (engine.attachBoxes), and a gold value counts as
+#   leaked       if less than 70% of its box is covered by masks;
+#   over-masked  a street / mahalle name that must stay readable and is more than 30% covered.
+# Katip rows also get the masks Katip draws from pen ink alone (engine.unreadSpans: handwriting in an ID / name row,
+# unreadable handwriting next to a personal-data label); "+ ink masks" in the name says so.
+PH = HERE / "bench" / "photos"
+KATIP_KEYS = {"rules", "tiny", "tiny-f", "mini", "nano-v2", "berturk-v2", "berturk-clean", "berturk-v1", "akdeniz+rules"}
+
+def _attach_boxes(page, s, e, typ):
+    """Port of engine.attachBoxes: span offsets -> one box per OCR line, grown over touching pen ink."""
+    import re
+    by_line = {}
+    for w in page["words"]:
+        if w["end"] <= s or w["start"] >= e: continue
+        x0, y0, x1, y1 = w["bbox"]; n = max(1, len(w["text"]))
+        a, b = max(s, w["start"]) - w["start"], min(e, w["end"]) - w["start"]
+        if not re.search(r"[^\W_]", w["text"][:a]): a = 0
+        if not re.search(r"[^\W_]", w["text"][b:]): b = n
+        cw = (x1 - x0) / n
+        cx0, cx1 = x0 + cw * a - (cw / 2 if a else 0), x0 + cw * b + (cw / 2 if b < n else 0)
+        k = round((y0 + y1) / 2 / 4)
+        q = by_line.get(k, [cx0, y0, cx1, y1])
+        by_line[k] = [min(q[0], cx0), min(q[1], y0), max(q[2], cx1), max(q[3], y1)]
+    boxes = list(by_line.values())
+    if page["ocr"] and page["pen"] and typ != "ADDRESS":
+        grown = []
+        for x0, y0, x1, y1 in boxes:
+            h = y1 - y0
+            for q in page["pen"]:
+                vo, gap = min(y1, q[3]) - max(y0, q[1]), max(x0, q[0]) - min(x1, q[2])
+                if q[3] - q[1] <= 2 * h and vo > 0.5 * min(h, q[3] - q[1]) and gap < 0.8 * h:
+                    x0, y0, x1, y1 = min(x0, q[0]), min(y0, q[1]), max(x1, q[2]), max(y1, q[3])
+            grown.append([x0, y0, x1, y1])
+        boxes = grown
+    return boxes
+
+def _coverage(box, masks, N=24):
+    x0, y0, x1, y1 = box; hit = 0
+    for i in range(N):
+        for j in range(N):
+            x, y = x0 + (i + .5) * (x1 - x0) / N, y0 + (j + .5) * (y1 - y0) / N
+            hit += any(a - 1 <= x <= c + 1 and b - 1 <= y <= d + 1 for a, b, c, d in masks)
+    return hit / N / N
+
+def _overlaps(m, b): return m[0] < b[2] and m[2] > b[0] and m[1] < b[3] and m[3] > b[1]
+
+def run_photo(key, ink=None):
+    global DETECT_KW
+    name, make = SYSTEMS[key]
+    default_ink = key in KATIP_KEYS
+    ink = default_ink if ink is None else ink
+    docs = [json.loads(l) for l in (PH / "ocr.jsonl").read_text().splitlines()]
+    det, meta = make()
+    tot, over, false_masks, t0 = {}, [0, 0], 0, time.time()
+    for d in docs:
+        gold = json.loads((PH / "keys" / f"{d['id']}.gold.json").read_text())
+        ocr_ranges = [(p["start"], p["end"]) for p in d["pages"] if p["ocr"]]
+        DETECT_KW = {"address_detail": "street", "ocr_ranges": ocr_ranges, "threshold": 0.7}   # as Katip Yerel on scans
+        masks = []
+        for s, e, typ in det(d["text"]):
+            page = next((p for p in d["pages"] if p["start"] <= s < p["end"]), None)
+            if page and page["number"] == 0: masks += _attach_boxes(page, s, e, typ)
+        if ink: masks += [m["box"] for m in d["ink_masks"] if m["page"] == 0]
+        for g in gold["entities"]:
+            t = tot.setdefault(g["entity_type"] + (" (signature)" if g.get("part") == "signature block" else ""), [0, 0])
+            t[0] += 1; t[1] += _coverage(g["box"], masks) < 0.7
+        for v in gold["visible"]:
+            over[0] += 1; over[1] += _coverage(v["box"], masks) > 0.3
+        gb = [g["box"] for g in gold["entities"] + gold["visible"]]
+        false_masks += sum(not any(_overlaps(m, b) for b in gb) for m in masks)
+    DETECT_KW = {"address_detail": "full"}
+    n_ent, n_leak = sum(t[0] for t in tot.values()), sum(t[1] for t in tot.values())
+    row = {"system": key, "name": name + (" + ink masks" if ink else ""), "track": "photo", "set": "photo v0.1.3 (60 synthetic phone photos, seed 3011)",
+           "ocr": "Katip Otomatik (PaddleOCR PP-OCRv5 on handwriting, Tesseract tur otherwise), run once",
+           "ink_masks": ink, "docs": len(docs), "leak_rate": n_leak / n_ent,
+           "per_type": {k: {"n": n, "leaked": l} for k, (n, l) in tot.items()},
+           "streets_over_masked": over[1], "streets": over[0], "false_masks_per_page": false_masks / len(docs),
+           "detect_ms_per_page": round(1000 * (time.time() - t0) / len(docs), 0)}
+    (RES / "photo").mkdir(parents=True, exist_ok=True)
+    suffix = "" if ink == default_ink else ("+ink" if ink else "-noink")
+    (RES / "photo" / f"{key}{suffix}.json").write_text(json.dumps(row, indent=1))
+    return row
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("systems", nargs="+"); ap.add_argument("--split", default="public")
     ap.add_argument("--rescore", action="store_true", help="re-score saved predictions instead of running the models")
+    ap.add_argument("--track", default="text", choices=["text", "photo"], help="photo: score masks on the photo set (bench/photos)")
+    ap.add_argument("--no-ink", action="store_true", help="photo track: leave out Katip's pen-ink masks")
     a = ap.parse_args()
+    if a.track == "photo":
+        for k in a.systems:
+            try: r = run_photo(k, ink=False if a.no_ink else None)
+            except Exception as e: print(f"skip {k}: {type(e).__name__}: {str(e)[:150]}"); continue
+            print(f"{r['name']:60} leak {100 * r['leak_rate']:5.1f}%  " + "  ".join(f"{t} {x['leaked']}/{x['n']}" for t, x in r["per_type"].items()) +
+                  f"  streets over-masked {r['streets_over_masked']}/{r['streets']}  false masks/page {r['false_masks_per_page']:.1f}", flush=True)
+        sys.exit(0)
     for k in a.systems:
         try: r = rescore(k) if a.rescore else run(k, a.split)
         except Exception as e: print(f"skip {k}: {type(e).__name__}: {str(e)[:150]}"); continue

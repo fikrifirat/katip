@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir TEKİN",
+   "box": [
+    413.4,
+    720.2,
+    532.5,
+    750.5
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "18202827684",
+   "box": [
+    409.1,
+    769.0,
+    523.4,
+    796.4
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Yıldız Sitesi C Blok D:12",
+   "box": [
+    410.8,
+    843.9,
+    646.7,
+    881.8
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra AYDIN",
+   "box": [
+    405.9,
+    890.9,
+    531.7,
+    925.7
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "71521679402",
+   "box": [
+    404.5,
+    946.6,
+    521.0,
+    973.8
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Gül Apt. A Blok D:30",
+   "box": [
+    403.3,
+    1019.4,
+    604.3,
+    1057.7
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Büşra AYDIN",
+   "box": [
+    253.3,
+    1384.2,
+    381.6,
+    1424.4
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Kadir TEKİN",
+   "box": [
+    667.5,
+    1391.8,
+    792.0,
+    1425.7
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Ege Mah.",
+   "box": [
+    414.6,
+    574.1,
+    507.3,
+    610.1
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "2160 Sk. Barış Manço Cad.",
+   "box": [
+    407.5,
+    617.8,
+    663.4,
+    658.4
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Ege Mah. Turgut Özal Cad. 1141 Sk.",
+   "box": [
+    411.9,
+    812.9,
+    760.9,
+    857.7
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    674.2,
+    847.2,
+    876.4,
+    886.2
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Ege Mah. Mehmet Akif Ersoy Cad. 1189 Sk.",
+   "box": [
+    403.0,
+    982.6,
+    828.7,
+    1033.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Tepebaşı/ESKİŞEHİR",
+   "box": [
+    626.1,
+    1021.8,
+    830.3,
+    1061.8
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 64
+}

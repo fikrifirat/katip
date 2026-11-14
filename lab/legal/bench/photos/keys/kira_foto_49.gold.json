@@ -1,0 +1,151 @@
+{
+ "entities": [
+  {
+   "entity_type": "PERSON",
+   "text": "Mehmet YAVAŞ",
+   "box": [
+    438.2,
+    645.1,
+    623.2,
+    683.4
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "92349269576",
+   "box": [
+    437.5,
+    696.6,
+    577.3,
+    722.0
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri D Blok D:15",
+   "box": [
+    440.2,
+    776.5,
+    716.9,
+    803.6
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Şükrü YILDIZ",
+   "box": [
+    441.0,
+    828.6,
+    603.0,
+    863.8
+   ]
+  },
+  {
+   "entity_type": "TCKN",
+   "text": "30436462806",
+   "box": [
+    441.9,
+    886.2,
+    585.8,
+    908.9
+   ]
+  },
+  {
+   "entity_type": "ADDRESS",
+   "text": "Park Evleri B Blok D:21",
+   "box": [
+    448.5,
+    961.8,
+    720.3,
+    992.3
+   ],
+   "part": "building, block, door"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Şükrü YILDIZ",
+   "box": [
+    288.5,
+    1338.2,
+    450.8,
+    1375.3
+   ],
+   "part": "signature block"
+  },
+  {
+   "entity_type": "PERSON",
+   "text": "Mehmet YAVAŞ",
+   "box": [
+    727.5,
+    1330.3,
+    905.5,
+    1365.4
+   ],
+   "part": "signature block"
+  }
+ ],
+ "visible": [
+  {
+   "text": "Cumhuriyet Mah.",
+   "box": [
+    437.2,
+    473.5,
+    645.3,
+    520.9
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "325 Sk. Mehmet Akif Ersoy Cad.",
+   "box": [
+    441.2,
+    532.0,
+    838.6,
+    582.7
+   ],
+   "why": "address of the leased property, named after a person"
+  },
+  {
+   "text": "Bahçelievler Mah. Yunus Emre Cad. 2655 Sk.",
+   "box": [
+    441.9,
+    734.1,
+    979.9,
+    777.5
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Çankaya/ANKARA",
+   "box": [
+    748.8,
+    779.6,
+    969.6,
+    823.7
+   ],
+   "why": "district and province"
+  },
+  {
+   "text": "Esentepe Mah. Mimar Sinan Cad. 2114 Sk.",
+   "box": [
+    449.5,
+    924.0,
+    941.1,
+    959.1
+   ],
+   "why": "mahalle and street of a person's address"
+  },
+  {
+   "text": "Muratpaşa/ANTALYA",
+   "box": [
+    745.1,
+    951.7,
+    1000.5,
+    994.5
+   ],
+   "why": "district and province"
+  }
+ ],
+ "jpeg_quality": 78
+}
