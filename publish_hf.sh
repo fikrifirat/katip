@@ -15,6 +15,17 @@ python3 hf/rename_to_katip_mask.py "$U"
 
 hf upload "$U/katip-mask-nano" hf/nano . --repo-type model --delete "*" --commit-message "Katip Mask Nano · tr v1.1: CC BY-SA 4.0, credit Turkish Wiki NER"
 
+# Katip Mask Mini: hf/mini holds the card and LICENSE; the weights come from lab/legal/bench/models/katip-mask-mini-v2
+# (distilled by lab/mini/train_mini_v2.py, not in git). Uploaded only if that folder exists.
+MI=lab/legal/bench/models/katip-mask-mini-v2
+if [ -f "$MI/onnx/model_quantized.onnx" ]; then
+  mt="$(mktemp -d)"; mkdir -p "$mt/onnx"
+  cp "$MI/config.json" "$MI/tokenizer.json" "$MI/tokenizer_config.json" "$MI/katip_trust.json" "$mt/"
+  cp "$MI/onnx/model_quantized.onnx" "$mt/onnx/"; cp hf/mini/README.md hf/mini/LICENSE "$mt/"
+  echo '{"trust": 0.5}' > "$mt/katip.json"
+  hf upload "$U/katip-mask-mini" "$mt" . --repo-type model --commit-message "Katip Mask Mini · tr v2: CC BY-SA 4.0, distilled from Katip Mask Base"
+fi
+
 BT=ml/berturk/out
 if [ -f "$BT/onnx/model_quantized.onnx" ]; then
   cp ml/berturk/MODEL_CARD.md "$BT/README.md"; cp hf/LICENSE.models "$BT/LICENSE"
@@ -38,5 +49,6 @@ if [ -f "$BT/onnx/model_quantized.onnx" ]; then
 fi
 hf upload "$U/katip-mask" "$tmp" . --repo-type space --delete "*" --commit-message "Katip Mask demo"
 echo "Model: https://huggingface.co/$U/katip-mask-nano"
+[ -f "$MI/onnx/model_quantized.onnx" ] && echo "Model: https://huggingface.co/$U/katip-mask-mini"
 [ -f "$BT/onnx/model_quantized.onnx" ] && echo "Model: https://huggingface.co/$U/katip-mask-base"
 echo "Space: https://huggingface.co/spaces/$U/katip-mask"
