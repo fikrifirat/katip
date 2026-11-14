@@ -7,6 +7,13 @@ client files. Ask Claude to "open my Katip folder" to see it in Finder or Explor
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.3.5 (safety and publishing):**
+- Restored documents (with real names) are written only into your Katip folder, as a real Word file (.docx), .txt or .md. Before, a document could steer Claude into writing them anywhere, and ".docx" got plain text.
+- Folder checks work with Windows paths.
+- First-start helpers are pinned to exact, tested versions (and Python 3.12 if missing), so an upstream release can't change what runs.
+- The plugin starts from `server.py` directly.
+- README and privacy policy say what Katip runs, sends and fetches, what it can miss, and that masked text is still personal data under KVKK. Third-party licences are in NOTICE.md.
+
 **New in 0.3.4 (wording):**
 - Install text in Turkish and English. It says what Katip does, why Claude Desktop warns, and that the first start takes about a minute.
 - Settings in plain words. The threshold setting is removed.

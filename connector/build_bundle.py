@@ -27,6 +27,8 @@ out = dist / "katip-kalkan.mcpb"
 with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
     z.write(HERE / "manifest.json", "manifest.json")
     z.write(HERE / "PRIVACY.md", "PRIVACY.md")
+    z.write(HERE / "NOTICE.md", "NOTICE.md")
+    z.write(HERE / "README.md", "README.md")
     z.write(HERE / ".claude-plugin" / "icon.png", "icon.png")
     for f in sorted((HERE / "katip_kalkan").rglob("*")):
         if f.is_file() and "__pycache__" not in f.parts:

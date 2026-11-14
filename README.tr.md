@@ -19,6 +19,21 @@ araçlarıyla KVKK'ya uygun paylaşması gereken hukuk büroları, şirket hukuk
 
 ![Katip Mask](screenshot.png)
 
+## Claude ile kullanın: Katip Kalkan
+
+[Katip Kalkan](connector/), müvekkil belgelerindeki kişisel verileri **Claude okumadan önce kendi
+bilgisayarınızda** maskeleyen bir Claude eklentisidir (Claude Code, Cowork ve Claude Desktop). Claude
+yalnızca `[AD SOYAD-1]` gibi yer tutucuları görür; Katip gerçek adları son belgeye yine bilgisayarınızda
+geri koyar. KVKK'ya uygun çalışmak isteyen avukatlar için yerel kişisel veri maskeleme ve anonimleştirme.
+
+```
+claude plugin marketplace add fikrifirat/katip
+claude plugin install katip-kalkan@katip
+```
+
+Sonra `/katip son eklediğim dilekçeyi özetle` yazın. Claude Desktop kurulumu, sınırlar ve gizlilik
+politikası için [connector/README.md](connector/README.md).
+
 ## Temel sonuçlar
 
 Katip'in sentetik Türkçe hukuk belgeleri üzerinde ölçüldü. **Kör set**, geliştirme ve eğitim

@@ -26,8 +26,11 @@ Client documents contain personal data that must not be sent to an AI provider u
    written, including in Turkish suffixes: write `[AD SOYAD-1]'in`, not a guessed name.
 4. Never ask the user for the real values behind a placeholder.
 5. When the user wants the final text with real names, call `restore_to_file` with your text
-   and an output path. Tell the user the path. You will not see the real values, and that is
-   intended.
+   and a file name such as `cevap-dilekcesi.docx` (.docx, .txt or .md; it is saved in the Katip
+   folder). Tell the user the file name. You will not see the real values, and that is intended:
+   never open the restored file with Read, Bash or any other tool.
+10. Remind the user, once, to review your draft: Katip can miss a value and your legal analysis
+   can be wrong.
 6. If the user wants to send a masked copy to someone, use `write_masked_copy`.
 7. Scans and phone photos are read with OCR on the user's computer. The result says so in `ocr`;
    mention that OCR can misread a letter, so the user should check unusual spellings.

@@ -37,6 +37,7 @@ MODEL = _model_available()
 def home(tmp_path, monkeypatch):
     monkeypatch.setenv("KATIP_HOME", str(tmp_path / "katip"))
     monkeypatch.setenv("KATIP_NO_KEYCHAIN", "1")
+    monkeypatch.setenv("KATIP_FOLDER", str(tmp_path))  # outputs may only go into the Katip folder
     monkeypatch.delenv("KATIP_VAULT_MEMORY_ONLY", raising=False)
     from katip_kalkan import vault
     vault._memory.clear()
@@ -76,7 +77,7 @@ def test_restore_roundtrip(home):
     answer = "Müvekkilimiz [AD SOYAD-1] adına, [T.C. KİMLİK NO-1] numaralı kimlikle başvurulmuştur."
     out = home / "out" / "cevap.txt"
     res = core.restore_to_file(answer, str(out), "m1")
-    assert res == {"output_path": str(out), "placeholders_restored": 2}
+    assert res["output_path"].endswith("cevap.txt") and res["placeholders_restored"] == 2
     restored = out.read_text(encoding="utf-8")
     assert ("Müvekkilimiz Emal YILDIRIM adına" if MODEL else "Müvekkilimiz Emal") in restored
     assert "75428707268" in restored
@@ -463,3 +464,21 @@ def test_placeholder_lookalike_in_document_is_still_checked():
     assert core._leaks(t, spans) == ["a"]  # the bracketed copy is document text, so it counts
     masked, _ = core._mask_safely(t, v, spans)
     assert "Karimi" not in masked
+
+
+def test_outputs_stay_in_the_katip_folder(home, tmp_path):
+    """A document can't talk the model into writing real names somewhere synced or shared."""
+    import zipfile
+    from katip_kalkan import core
+    core.mask_file(str(FIX / "dilekce_01.txt"), "m9")
+    with pytest.raises(PermissionError):
+        core.restore_to_file("[AD SOYAD-1]", str(tmp_path.parent / "elsewhere.txt"), "m9")
+    with pytest.raises(PermissionError):
+        core.restore_to_file("[AD SOYAD-1]", "../escape.txt", "m9")
+    with pytest.raises(ValueError):
+        core.restore_to_file("[AD SOYAD-1]", "cevap.pdf", "m9")
+    res = core.restore_to_file("Davacı [AD SOYAD-1]\nİkinci satır & <son>", "cevap.docx", "m9")
+    assert res["output_path"] == str(tmp_path / "cevap.docx")
+    with zipfile.ZipFile(tmp_path / "cevap.docx") as z:
+        xml = z.read("word/document.xml").decode()
+    assert "Davacı Emal" in xml and "&amp; &lt;son&gt;" in xml and xml.count("<w:p>") == 2

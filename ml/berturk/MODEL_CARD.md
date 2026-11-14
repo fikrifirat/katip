@@ -5,10 +5,12 @@ library_name: transformers.js
 pipeline_tag: token-classification
 base_model: dbmdz/bert-base-turkish-cased
 datasets: [turkish-nlp-suite/turkish-wikiNER]
-tags: [ner, pii, kvkk, turkish, legal, onnx, privacy, redaction, berturk]
+tags: [ner, pii, kvkk, turkish, legal, onnx, privacy, redaction, berturk, gdpr, anonymization, pseudonymization, de-identification, data-masking, personal-data, legal-nlp, lawyer, avukat, kisisel-veri, anonimlestirme, maskeleme]
 ---
 
 # Katip Mask Base · tr v2 (katip-mask-base)
+
+*Türkçe:* Türkçe hukuk belgelerinde ad soyad, adres ve KVKK md. 6 sağlık verilerini bulan, cihazda çalışan kişisel veri maskeleme / anonimleştirme modeli.
 
 BERTurk (`dbmdz/bert-base-turkish-cased`) fine-tuned to tag **person names, addresses and KVKK
 art. 6 health terms** in Turkish legal documents, as the on-device model for

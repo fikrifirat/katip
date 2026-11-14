@@ -9,6 +9,7 @@ WORK="$(mktemp -d)"
 mkdir -p "$WORK/Dosyalar"
 cp "$REPO/connector/tests/fixtures/dilekce_01.docx" "$REPO/connector/tests/fixtures/kira_foto_01.pdf" "$WORK/Dosyalar/"
 export KATIP_HOME="$WORK/.katip"
+export KATIP_FOLDER="$WORK"  # restored files may only go into the Katip folder
 claude plugin marketplace add "$REPO" >/dev/null
 claude plugin install katip-kalkan@katip >/dev/null
 P=mcp__plugin_katip-kalkan_katip-kalkan__

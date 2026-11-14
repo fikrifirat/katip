@@ -18,6 +18,8 @@ T = {
         "too_big": "Dosya {mb} MB'tan büyük.",
         "outside": "Dosya Katip klasörünün dışında. Katip yalnızca ayarlarda seçilen klasördeki dosyaları açar.",
         "exists": "Bu adda bir dosya zaten var; başka bir output_path seçin.",
+        "outside_write": "Katip yalnızca Katip klasörüne yazar; output_path olarak yalnızca bir dosya adı verin (ör. cevap-dilekcesi.docx).",
+        "restore_ext": "Gerçek adlı metin .docx, .txt ya da .md olarak kaydedilebilir.",
         "no_burn": "PDF ve fotoğraflarda kalıcı karartma Katip uygulamasında yapılır; metin için mask_file kullanın.",
         "folder_note": "Müvekkil dosyalarını buraya koyun; Katip yalnızca bu klasördeki dosyaları açar.",
         "list_note": "Adlar bilerek kısaltıldı: kişi adı olabilecek sözcükler … olarak görünür. mask_file'a "
@@ -38,6 +40,8 @@ T = {
         "too_big": "The file is larger than {mb} MB.",
         "outside": "The file is outside the Katip folder. Katip only opens files in the folder picked in its settings.",
         "exists": "A file with this name already exists; pick another output_path.",
+        "outside_write": "Katip only writes into the Katip folder; give output_path as a file name only (e.g. cevap-dilekcesi.docx).",
+        "restore_ext": "The text with real names can be saved as .docx, .txt or .md.",
         "no_burn": "Burn-in redaction of PDFs and photos runs in the Katip app; use mask_file for the text.",
         "folder_note": "Put client files here; Katip only opens files in this folder.",
         "list_note": "Names are shortened on purpose: words that could be a person's name show as …. Pass "
