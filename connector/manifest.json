@@ -2,9 +2,9 @@
   "manifest_version": "0.3",
   "name": "katip-kalkan",
   "display_name": "Katip Kalkan (KVKK)",
-  "version": "0.3.3",
-  "description": "Mask Turkish personal data on your computer before Claude reads a document.",
-  "long_description": "Why: KVKK. Client names, ID numbers and health data should not reach an AI provider. Katip opens client documents (.docx, UYAP .udf, .txt, .pdf, scans and phone photos (local OCR)) on your computer, removes names, T.C. kimlik numbers, addresses, phones, IBANs and KVKK Article 6 data locally, and gives Claude only the masked text. The placeholder map stays encrypted on your computer; restore_to_file writes the final document with real names locally, without showing them to Claude. No network access. File names are hidden too: Claude sees ids and shortened names.",
+  "version": "0.3.4",
+  "description": "Müvekkil belgelerindeki KVKK verilerini Claude görmeden bu bilgisayarda maskeler · Masks KVKK personal data on your computer before Claude reads a document.",
+  "long_description": "Katip müvekkil belgelerinizi (.docx, UYAP .udf, .pdf, taramalar ve fotoğraflar) bu bilgisayarda açar ve Claude'a göndermeden önce ad soyad, T.C. kimlik / YKN / pasaport no, adres, telefon, IBAN ve sağlık gibi KVKK verilerini [AD SOYAD-1] gibi yer tutucularla değiştirir. Belgenin aslı ve gerçek adlar bilgisayarınızdan çıkmaz; isterseniz son metni gerçek adlarla yine bilgisayarınıza kaydeder. Claude Desktop \"bilgisayarınıza erişim\" uyarısını her eklenti için gösterir; Katip yalnızca seçtiğiniz klasördeki dosyaları açar. İlk açılışta açık kaynak yardımcı bileşenler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir sunucuya gönderilmez.\n\nKatip opens client documents (.docx, UYAP .udf, .pdf, scans and photos) on your computer and replaces names, T.C. kimlik / YKN / passport numbers, addresses, phones, IBANs and health data with placeholders such as [AD SOYAD-1] before Claude sees them. The original and the real names stay on your computer; Katip can save the final text with the real names there. Claude Desktop shows its \"access to your computer\" warning for every extension; Katip only opens files in the folder you pick. On first start it downloads its open-source helpers once (about a minute); your documents are never sent to any server.",
   "author": {
     "name": "fikrifirat",
     "url": "https://github.com/fikrifirat"
@@ -38,7 +38,6 @@
       ],
       "env": {
         "PYTHONPATH": "${__dirname}/server",
-        "KATIP_THRESHOLD": "${user_config.threshold}",
         "KATIP_PROFILE": "${user_config.profile}",
         "KATIP_LANG": "${user_config.language}"
       }
@@ -77,29 +76,22 @@
   "user_config": {
     "allowed_dir": {
       "type": "directory",
-      "title": "Client files folder",
-      "description": "Katip only opens files inside this folder. Leave it as is to use Documents/katip-documents, which Katip creates for you.",
+      "title": "Müvekkil dosyaları klasörü / Client files folder",
+      "description": "Katip yalnızca bu klasördeki dosyaları açar. Değiştirmeden kaydedebilirsiniz: Belgeler/katip-documents oluşturulur. · Katip only opens files in this folder; leave it to use Documents/katip-documents.",
       "required": false,
       "default": "${HOME}/Documents/katip-documents"
     },
-    "threshold": {
-      "type": "string",
-      "title": "Detection threshold",
-      "description": "0.7 is the tested default.",
-      "required": false,
-      "default": "0.7"
-    },
     "profile": {
       "type": "string",
-      "title": "Masking profile",
-      "description": "ai = Yapay zekâ ile paylaşım (recommended); court = Mahkemeye sunum; anon = Tam anonim.",
+      "title": "Maskeleme düzeyi / Masking level",
+      "description": "ai = Yapay zekâ ile paylaşım (önerilen: tüm kişisel veriler); court = Mahkemeye sunum (sokak, dosya no ve tarihler görünür); anon = Tam anonim (tarih, il, kurum da gizlenir).",
       "required": false,
       "default": "ai"
     },
     "language": {
       "type": "string",
-      "title": "Language / Dil",
-      "description": "tr = Türkçe (default), en = English. Tool names, permission prompts and errors use this language.",
+      "title": "Dil / Language",
+      "description": "tr = Türkçe (varsayılan), en = English",
       "required": false,
       "default": "tr"
     }

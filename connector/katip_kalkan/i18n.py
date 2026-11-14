@@ -9,9 +9,9 @@ import os
 
 T = {
     "tr": {
-        "leak": "Güvenlik kontrolü: {n} değer ({kinds}) maskelendikten sonra hâlâ okunabiliyordu, bu yüzden Claude'a "
-                "hiçbir şey gönderilmedi. Dosyayı Katip uygulamasında açıp bu değerleri elle işaretleyin, "
-                "ya da bu dosyayı bize (değerleri paylaşmadan) bildirin.",
+        "leak": "Bu belge Claude'a gönderilmedi: maskelemeden sonra {kinds} türünde {n} değer hâlâ okunabiliyordu. "
+                "Belgeyi Katip uygulamasında (https://fikrifirat.github.io/katip) açıp bu değerleri elle "
+                "işaretleyebilirsiniz. Belgenin aslını sohbete eklemeyin.",
         "not_found": "Dosya bulunamadı. Katip klasörünüze koyun (open_folder klasörü açar) ve list_files ile tekrar arayın.",
         "no_id": "Bu kimlikte dosya yok; list_files'ı tekrar çalıştırın.",
         "need_file": "file_id (list_files'tan) ya da dosya yolu gerekli.",
@@ -25,12 +25,13 @@ T = {
                      "Liste en yeni dosyayla başlar.",
         "ocr": "{n} sayfa bu bilgisayarda OCR ile okundu ({readers}); olağandışı yazımları kontrol edin.",
         "placeholders": "[AD SOYAD-1] gibi yer tutucular yalnızca kullanıcının bilgisayarında saklanan gerçek "
-                        "değerlerin yerine geçer. Yanıtınızda onları aynen koruyun ki Katip yerelde geri koyabilsin.",
+                        "değerlerin yerine geçer. Yanıtınızda onları aynen koruyun ki Katip yerelde geri koyabilsin. Kullanıcıya bir kez "
+                        "söyleyin: son metni gerçek adlarla bilgisayarına kaydetmenizi isteyebilir (restore_to_file).",
     },
     "en": {
-        "leak": "Safety check: {n} values ({kinds}) were still readable after masking, so nothing was sent to "
-                "Claude. Open the file in the Katip app and mark them by hand, or report this file to us "
-                "(without the values).",
+        "leak": "This document was not sent to Claude: after masking, {n} values of type {kinds} were still "
+                "readable. You can open it in the Katip app (https://fikrifirat.github.io/katip) and mark them by "
+                "hand. Don't attach the original to the chat.",
         "not_found": "File not found. Put it in your Katip folder (open_folder shows it) and look again with list_files.",
         "no_id": "No file with this id; run list_files again.",
         "need_file": "Give file_id (from list_files) or a path.",
@@ -43,7 +44,8 @@ T = {
                      "file_id to mask_file. Ask the user which file they mean if it is unclear. Newest first.",
         "ocr": "{n} page(s) read with OCR on this computer ({readers}); check unusual spellings.",
         "placeholders": "Placeholders like [AD SOYAD-1] stand for real values kept only on the user's computer. "
-                        "Keep them exactly as written in your answer so Katip can restore them locally.",
+                        "Keep them exactly as written in your answer so Katip can restore them locally. Tell the user once that "
+                        "you can save the final text with the real names on their computer (restore_to_file).",
     },
 }
 
@@ -80,6 +82,9 @@ TOOLS = {
                    "Katip ile çalış: önce list_files ile Katip klasöründeki dosyayı bul (istek 'son eklediğim' "
                    "diyorsa file_id \"latest\"), mask_file ile bu bilgisayarda maskele ve yalnızca maskeli metinle "
                    "çalış. Dosyayı başka bir araçla açma. Yer tutucuları aynen koru. Türkçe yanıt ver.\n\nİstek: {req}"),
+        "info_key": "bilgi",
+        "doc_key": "belge",
+        "doc_desc": "list_files'taki kısaltılmış ad (ör. \"… - Vatandaşlık Dava Dilekçesi.udf\"); onay kutusunda kullanıcıya gösterilir",
         "privacy_mask": "Dosya bu bilgisayarda maskelenir; Claude yalnızca [AD SOYAD-1] gibi yer tutucuları görür (KVKK).",
         "privacy_list": "Dosya adlarındaki kişi adları gizlenir; Claude yalnızca kısaltılmış adları görür (KVKK).",
         "privacy_restore": "Gerçek adlar yalnızca bu bilgisayardaki dosyaya yazılır; Claude onları görmez (KVKK).",
@@ -115,6 +120,9 @@ TOOLS = {
                    "request says 'just added'), mask it on this computer with mask_file and work only with the masked "
                    "text. Don't open the file with any other tool. Keep placeholders exactly as written. Answer in "
                    "English.\n\nRequest: {req}"),
+        "info_key": "privacy",
+        "doc_key": "document",
+        "doc_desc": "The shortened name from list_files; shown to the user in the permission prompt",
         "privacy_mask": "The file is masked on this computer; Claude only sees placeholders like [AD SOYAD-1] (KVKK).",
         "privacy_list": "Names in file names are hidden; Claude only sees shortened names (KVKK).",
         "privacy_restore": "Real names are written only to a file on this computer; Claude never sees them (KVKK).",

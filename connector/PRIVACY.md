@@ -4,7 +4,7 @@ Last updated: 13 November 2026. Contact: open an issue at https://github.com/fik
 
 ## Local connector (Claude plugin and Claude Desktop extension)
 
-* **What it collects:** nothing. Katip runs on your computer and makes no network requests.
+* **What it collects:** nothing. Katip runs on your computer. Your documents, the masked text it gives Claude and the name map are never sent to us or to any server by Katip. The only network request is on first start, when the launcher downloads open-source helpers (onnxruntime, numpy, cryptography, pymupdf, rapidocr) once from PyPI through `uv`; set `KATIP_AUTO_DEPS=0` to turn that off.
 * **What it processes:** the files you ask the AI to open with `mask_file` or `write_masked_copy`.
   They are read on your computer, masked on your computer, and only the masked text is returned
   to the AI app you use.
