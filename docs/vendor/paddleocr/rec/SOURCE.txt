@@ -1,0 +1,2 @@
+https://huggingface.co/PaddlePaddle/latin_PP-OCRv5_mobile_rec_onnx/tree/89d3a50e2c27e2e7cceeab0e944c25c807d5db4f
+Licence: Apache-2.0 (PaddlePaddle/PaddleOCR)

@@ -7,7 +7,7 @@ import json, re, sys, time
 from pathlib import Path
 import numpy as np, onnxruntime as ort, regex
 from tokenizers import Tokenizer
-_b = Path(__file__).parent / "bundle"
+_b = Path(__import__('os').environ.get('KBUNDLE', Path(__file__).parent / 'bundle'))
 if not (_b / "local_detect.py").exists():  # no unzipped build: use the one in docs/
     import tempfile, zipfile; _b = Path(tempfile.mkdtemp()); zipfile.ZipFile(Path(__file__).parents[1] / "docs" / "katip_py.zip").extractall(_b)
 sys.path.insert(0, str(_b))

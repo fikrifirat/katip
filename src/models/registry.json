@@ -2,23 +2,24 @@
  {
   "id": "rules+tagger",
   "name": {
-   "tr": "Katip Tiny",
-   "en": "Katip Tiny"
+   "tr": "Katip Mask Nano",
+   "en": "Katip Mask Nano"
   },
   "badge": {
    "tr": "önerilen",
    "en": "recommended"
   },
   "meta": {
-   "tr": "Kurallar + 2,6 MB isim modeli · kör sette %99,9",
-   "en": "Rules + 2.6 MB name model · 99.9% on blind set"
+   "tr": "Kurallar + 2,5 MB isim modeli · yabancı isimlerde %94,6",
+   "en": "Rules + 2.5 MB name model · 94.6% on foreign names"
   },
   "info": {
-   "tr": "Çoğu belge için en iyisi: hızlı ve kör testte %99,9.||Katip Kural'a ek olarak tarayıcıda çalışan 2,6 MB'lık Türkçe isim modeli (katip-tr-name-tagger-tiny). Kör test setinde 757 değerin 756'sını buldu; isimlerde %98,4 → %99,7, yeni yanlış isim yok. İlk kullanımda model ve çalıştırıcısı (yaklaşık 30 MB) indirilir.",
-   "en": "Best for most documents: fast, 99.9% on the blind test.||Katip Rules plus a 2.6 MB Turkish name model that runs in the tab (katip-tr-name-tagger-tiny). Found 756 of 757 values on the blind test set; names 98.4% → 99.7% with no new false names. The model and its runtime (about 30 MB) download on first use."
+   "tr": "Çoğu belge için en iyisi: hızlı, Türk ve yabancı müvekkil isimlerini bulur.||Katip Kural'a ek olarak tarayıcıda çalışan 2,5 MB'lık isim modeli (Katip Mask Nano · tr v1.1, katip-mask-nano). Gerçek Yargıtay metninde yabancı isimlerin %94,6'sını (v1: %80,3), Türk isimlerin %98,7'sini buldu; Suriyeli, İranlı, Afgan, Gürcü, Ermeni, Yunan, Arap, Rus ve Batılı isimlerin farklı yazımlarıyla eğitildi. Kör test setinde 757 değerin 754'ü. İlk kullanımda model ve çalıştırıcısı (yaklaşık 30 MB) indirilir.",
+   "en": "Best for most documents: fast, and finds Turkish and foreign client names.||Katip Rules plus a 2.5 MB name model that runs in the tab (Katip Mask Nano · tr v1.1, katip-mask-nano). In real Yargıtay prose it found 94.6% of foreign names (v1: 80.3%) and 98.7% of Turkish names; trained with Syrian, Iranian, Afghan, Georgian, Armenian, Greek, Arab, Russian and Western names in their varied spellings. 754 of 757 values on the blind test set. The model and its runtime (about 30 MB) download on first use."
   },
-  "ner": "katip-tr-name-tagger-tiny",
-  "dtype": "q8"
+  "ner": "katip-mask-nano",
+  "dtype": "q8",
+  "trust": 0.5
  },
  {
   "id": "rules",
@@ -27,12 +28,12 @@
    "en": "Katip Rules"
   },
   "meta": {
-   "tr": "Yalnız kurallar · kör sette %99,2 · 0,3 MB",
-   "en": "Rules only · 99.2% on blind set · 0.3 MB"
+   "tr": "Yalnız kurallar · kör sette %99,6 · 0,3 MB",
+   "en": "Rules only · 99.6% on blind set · 0.3 MB"
   },
   "info": {
-   "tr": "Model indirmeden, yalnızca Katip'in kurallarıyla.||Katip sunucusundakiyle birebir aynı Türkçe kurallar (v0.2): sağlama kontrollü T.C. kimlik/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim listeleri ve bağlam kuralları, KVKK md. 6 terimleri. Kör test setinde 757 değerin 751'ini buldu.",
-   "en": "Katip's rules only, nothing extra to download.||The same Turkish rules as the Katip server (v0.2): checksum-validated ID/tax/IBAN/card numbers, phone, e-mail, plate, address, name lists and context rules, KVKK art. 6 terms. Found 751 of 757 values on the blind test set."
+   "tr": "Model indirmeden, yalnızca Katip'in kurallarıyla.||Katip sunucusundakiyle birebir aynı Türkçe kurallar (v0.2): sağlama kontrollü T.C. kimlik/VKN/IBAN/kart, telefon, e-posta, plaka, adres, isim listeleri ve bağlam kuralları, KVKK md. 6 terimleri. Kör test setinde 757 değerin 754'ünü buldu.",
+   "en": "Katip's rules only, nothing extra to download.||The same Turkish rules as the Katip server (v0.2): checksum-validated ID/tax/IBAN/card numbers, phone, e-mail, plate, address, name lists and context rules, KVKK art. 6 terms. Found 754 of 757 values on the blind test set."
   }
  },
  {
@@ -58,8 +59,8 @@
  {
   "id": "berturk",
   "name": {
-   "tr": "Katip BERTurk",
-   "en": "Katip BERTurk"
+   "tr": "Katip Mask Base",
+   "en": "Katip Mask Base"
   },
   "badge": {
    "tr": "en doğru",
@@ -70,12 +71,12 @@
    "en": "Rules + 110 MB BERTurk · 100% on blind set, 90% on real text"
   },
   "info": {
-   "tr": "En doğru model: kör testte 757 değerin hepsini, gerçek Türkçe metinde isimlerin %90'ını buldu. İlk açılışta 110 MB indirir ve Tiny'den yavaştır.||Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış model (katip-tr-pii-berturk v2): isim, adres ve sağlık terimlerini birlikte bulur. Sentetik belgeler ve 17.967 gerçek Türkçe cümleyle eğitildi. Kör sette 757'de 757, ayrılmış sette 618'de 618; gerçek Yargıtay metninde isimlerin %99,3'ü, Vikipedi cümlelerinde %89,8'i (v1: %40,7). İsim içermeyen metinde 3 yanlış alarm (Tiny ile aynı).",
-   "en": "The most accurate model: found all 757 values on the blind test and 90% of names in real Turkish text. Downloads 110 MB the first time and is slower than Tiny.||Katip Rules plus a model fine-tuned from BERTurk (katip-tr-pii-berturk v2) that finds names, addresses and health terms together. Trained on synthetic documents and 17,967 real Turkish sentences. Blind set 757 of 757, held-out 618 of 618; 99.3% of names in real Yargıtay prose and 89.8% in Wikipedia sentences (v1: 40.7%). 3 false alarms on name-free text (same as Tiny)."
+   "tr": "En doğru model: kör testte 757 değerin hepsini, gerçek Türkçe metinde isimlerin %90'ını buldu. İlk açılışta 110 MB indirir ve Nano'dan yavaştır.||Katip Kural'a ek olarak BERTurk'ten ince ayarlanmış model (katip-mask-base v2): isim, adres ve sağlık terimlerini birlikte bulur. Sentetik belgeler ve 17.967 gerçek Türkçe cümleyle eğitildi. Kör sette 757'de 757, ayrılmış sette 618'de 618; gerçek Yargıtay metninde isimlerin %99,3'ü, Vikipedi cümlelerinde %89,8'i (v1: %40,7). İsim içermeyen metinde 3 yanlış alarm (Nano ile aynı).",
+   "en": "The most accurate model: found all 757 values on the blind test and 90% of names in real Turkish text. Downloads 110 MB the first time and is slower than Nano.||Katip Rules plus a model fine-tuned from BERTurk (katip-mask-base v2) that finds names, addresses and health terms together. Trained on synthetic documents and 17,967 real Turkish sentences. Blind set 757 of 757, held-out 618 of 618; 99.3% of names in real Yargıtay prose and 89.8% in Wikipedia sentences (v1: 40.7%). 3 false alarms on name-free text (same as Nano)."
   },
-  "ner": "katip-tr-pii-berturk",
+  "ner": "katip-mask-base",
   "dtype": "q8",
-  "hosted": "https://huggingface.co/spaces/f1k/katip-yerel",
+  "hosted": "https://huggingface.co/spaces/f1k/katip-mask",
   "trust": 0.5
  },
  {

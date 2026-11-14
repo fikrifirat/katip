@@ -15,9 +15,10 @@ a = ap.parse_args()
 src, nm, out, here = Path(a.src), Path(a.nm), Path(a.out), Path(__file__).parent
 subprocess.run([sys.executable, str(here / "build_core.py"), str(src), str(nm), str(out)], check=True)
 
-for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg"):
+for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "paddle_ocr.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg"):
     shutil.copy2(here / f, out / f)
 shutil.copytree(here / "fonts", out / "fonts", dirs_exist_ok=True)  # Geist (SIL OFL), self-hosted
+shutil.copytree(here / "hero", out / "hero", dirs_exist_ok=True)  # before/after images on the home screen
 (out / "README.md").unlink(missing_ok=True)
 (out / ".nojekyll").write_text("")
 
@@ -27,11 +28,20 @@ for name, d in (("best_int", "4.0.0_best_int"), ("fast", "4.0.0")):
     shutil.copy2(nm / "@tesseract.js-data/tur" / d / "tur.traineddata.gz", out / "vendor/tessdata" / name / "tur.traineddata.gz")
 (out / "vendor/tessdata/tur.traineddata.gz").unlink(missing_ok=True)
 
+# PaddleOCR PP-OCRv5 (Apache-2.0) for handwriting and phone photos: small text-line detector + Latin
+# recogniser (covers Turkish), official ONNX exports from huggingface.co/PaddlePaddle, fetched once into
+# models/paddleocr by fetch_paddleocr.py and served from this site like every other model
+pp = here / "models/paddleocr"
+if (pp / "det/inference.onnx").exists():
+    shutil.copytree(pp, out / "vendor/paddleocr", dirs_exist_ok=True)
+else:
+    print("warning: src/models/paddleocr missing (run src/fetch_paddleocr.py): handwriting OCR option will not load")
+
 # transformers.js + ONNX Runtime (only loaded when a NER model is picked)
 (out / "vendor/transformers").mkdir(parents=True, exist_ok=True)
 shutil.copy2(nm / "@huggingface/transformers/dist/transformers.min.js", out / "vendor/transformers/transformers.min.js")
 (out / "vendor/ort").mkdir(parents=True, exist_ok=True)
-for f in ("ort-wasm-simd-threaded.asyncify.mjs", "ort-wasm-simd-threaded.asyncify.wasm"):
+for f in ("ort-wasm-simd-threaded.asyncify.mjs", "ort-wasm-simd-threaded.asyncify.wasm", "ort.wasm.min.mjs"):
     shutil.copy2(nm / "onnxruntime-web/dist" / f, out / "vendor/ort" / f)
 
 # samples: one synthetic document per type, every format it has, plus its answer key
@@ -43,16 +53,19 @@ ORDER = ["pdf", "scan.pdf", "png", "docx", "udf", "txt"]
 blind = src / "eval/blind"
 man = json.loads((blind / "manifest.json").read_text())
 (out / "samples").mkdir(exist_ok=True)
-picked = []
+picked, pdfs = [], []
 for t, title in TITLES.items():
-    cands = [m for m in man if m["doc_type"] == t]
-    if not cands: continue
-    m = max(cands, key=lambda m: (len(m["formats"]), -int(m["id"].split("_")[-1])))
-    for f in m["formats"]:
-        shutil.copy2(blind / f"{m['id']}.{f}", out / "samples" / f"{m['id']}.{f}")
-    gold = json.loads((blind / f"{m['id']}.gold.json").read_text())
-    picked.append({"id": m["id"], "type": t, "title": title, "formats": [f for f in ORDER if f in m["formats"]],
-                   "gold": [{"entity_type": g["entity_type"], "text": g["text"]} for g in gold]})
+    # every variant of each document type (5 per type), so the home screen can offer a sub-selector
+    for m in sorted((m for m in man if m["doc_type"] == t), key=lambda m: m["id"]):
+        for f in m["formats"]:
+            dst = out / "samples" / f"{m['id']}.{f}"
+            if f.endswith("pdf"): pdfs += [str(blind / f"{m['id']}.{f}"), str(dst)]
+            else: shutil.copy2(blind / f"{m['id']}.{f}", dst)
+        gold = json.loads((blind / f"{m['id']}.gold.json").read_text())
+        picked.append({"id": m["id"], "type": t, "title": title, "n": int(m["id"].split("_")[-1]), "formats": [f for f in ORDER if f in m["formats"]],
+                       "gold": [{"entity_type": g["entity_type"], "text": g["text"]} for g in gold]})
+# sample PDFs embed whole fonts (~775 KB each); MuPDF subsets and compresses them (~45 KB) and checks the text is unchanged
+subprocess.run(["node", str(here / "compress_pdf.mjs"), str(out / "vendor/mupdf/dist/mupdf.js"), *pdfs], check=True)
 (out / "samples/manifest.json").write_text(json.dumps(picked, ensure_ascii=False, indent=1))
 
 # models
@@ -67,7 +80,7 @@ for m in reg:
 
 # version
 rules_hash = hashlib.sha256((src / "katip_redact/recognizers.py").read_bytes() + (src / "katip_redact/textutil.py").read_bytes()).hexdigest()[:8]
-(out / "version.json").write_text(json.dumps({"app": "0.3", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
+(out / "version.json").write_text(json.dumps({"app": "0.6", "rules": f"v0.2+{rules_hash}", "built": datetime.date.today().isoformat(), "source": a.source}))
 
 # CSP from config.js: own origin only, plus the report endpoint if one is set
 cfg = (here / "config.js").read_text()

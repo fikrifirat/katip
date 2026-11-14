@@ -6,8 +6,9 @@ Turkish legal documents; the blind set's names never appear in training).
 
   python train_berturk.py                       # full run, ~30-60 min on an M1/M2/M3
   python train_berturk.py --limit 300 --epochs 1   # 3-minute smoke test
-  python train_berturk.py --push <hf-user>/katip-tr-pii-berturk   # also upload (after `hf auth login`)
+  python train_berturk.py --push <hf-user>/katip-mask-base   # also upload (after `hf auth login`)
   python train_berturk.py --real-text           # v2: also learn names from 17,967 real Turkish sentences
+  python train_berturk.py --real-text --extra ../../lab/data/foreign/train_berturk_foreign.jsonl   # v3: + foreign clients
 
 --real-text downloads Turkish Wiki NER (Altinok 2023, CC BY-SA 4.0) once into data/wikiner/ and mixes its
 sentences into training, eight to a pseudo-document. Only its PERSON labels are used. On real text this
@@ -40,8 +41,9 @@ ap.add_argument("--seed", type=int, default=0, help="random seed (data order, in
 ap.add_argument("--legal", default="", help="slot-filled legal decisions to mix in (lab/data/legal_web/train.jsonl)")
 ap.add_argument("--exclude-court", default="", help="drop this court from --legal (e.g. danistay, for the out-of-domain run)")
 ap.add_argument("--extra-synth", default="", help="volume control: N extra synthetic docs, or 'match' = as many as --legal would add")
-ap.add_argument("--push", default="", help="Hugging Face model repo to upload to, e.g. you/katip-tr-pii-berturk")
 ap.add_argument("--extra-synth-match", default="", help="with --extra-synth match: the legal file whose size to match")
+ap.add_argument("--extra", default="", help="extra training documents, JSONL {text, spans} (v3: lab/data/foreign/train_berturk_foreign.jsonl)")
+ap.add_argument("--push", default="", help="Hugging Face model repo to upload to, e.g. you/katip-mask-base")
 a = ap.parse_args()
 
 random.seed(a.seed); torch.manual_seed(a.seed)
@@ -130,6 +132,12 @@ if a.extra_synth:
     if n_extra > len(extra): print(f"! only {len(extra)} extra synthetic docs available (asked {n_extra})", flush=True)
     train = train + extra[:n_extra]
     print(f"+ {min(n_extra, len(extra))} extra synthetic documents (volume control)", flush=True)
+if a.extra:
+    extra = [json.loads(l) for l in open(a.extra, encoding="utf-8") if l.strip()]
+    extra = [{"text": d["text"], "spans": [x for x in d["spans"] if x[2] in TYPES]} for d in extra]
+    if a.limit: extra = extra[:a.limit]
+    print(f"+ {len(extra)} extra documents from {a.extra} ({sum(len(d['spans']) for d in extra)} spans)", flush=True)
+    train = train + extra
 
 print(f"device {dev_name} · base {a.base} · labels {LABELS} · {len(train)} train docs", flush=True)
 tok = AutoTokenizer.from_pretrained(a.base)
@@ -247,7 +255,7 @@ for ep in range(a.epochs):
     print(f"epoch {ep + 1} done ({time.time() - t0:.0f}s)"); show("dev", score(dev))
 
 results = {"base": a.base, "labels": LABELS, "real_text": a.real_text, "seed": a.seed, "legal": a.legal, "n_legal": n_legal,
-           "exclude_court": a.exclude_court, "extra_synth": a.extra_synth, "epochs": a.epochs, "train_docs": len(train), "device": dev_name,
+           "exclude_court": a.exclude_court, "extra_synth": a.extra_synth, "extra": a.extra, "epochs": a.epochs, "train_docs": len(train), "device": dev_name,
            "train_seconds": round(time.time() - t0), "sets": {}}
 print("final scores (model alone, no rules):")
 for n, docs in tests.items():
@@ -280,6 +288,6 @@ if a.push:
     api = HfApi(); api.create_repo(a.push, repo_type="model", exist_ok=True)
     card = HERE / "MODEL_CARD.md"
     if card.exists() and not (out / "README.md").exists(): (out / "README.md").write_text(card.read_text())
-    api.upload_folder(repo_id=a.push, folder_path=str(out), repo_type="model", commit_message=f"fine-tune of {a.base}" + (" with real text (v2)" if a.real_text else ""))
+    api.upload_folder(repo_id=a.push, folder_path=str(out), repo_type="model", commit_message=f"fine-tune of {a.base}" + (" with real text" if a.real_text else "") + (" + foreign clients (v3)" if a.extra else ""))
     print(f"uploaded: https://huggingface.co/{a.push}")
 print(f"done in {time.time() - t0:.0f}s → {out}")

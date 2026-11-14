@@ -1,0 +1,26 @@
+Rules
+  foreign names (court)  77.1% [73.9–80.1]  prec  99.9%   Turkish names, same slots  93.0% [90.6–94.8]  McNemar p=6.2e-29
+  by group: afghan 92% (n=74), arab 59% (n=251), armenian 86% (n=86), azeri 46% (n=50), georgian 89% (n=98), greek 89% (n=62), kept 73% (n=33), persian 88% (n=129), slavic 88% (n=111), western 75% (n=117)
+  petition foreign names  86.7% [83.1–89.8]
+  IDs: FOREIGN_ID:  0.0% readable / 96.0% right label PASSPORT:  0.0% readable / 100.0% right label YKN:  0.0% readable / 100.0% right label
+  false names /1k words: foreign traps 0.56, Katip negatives 0.00
+Katip Tiny v1 (published)
+  foreign names (court)  80.3% [77.0–83.3]  prec  99.6%   Turkish names, same slots  97.4% [96.1–98.5]  McNemar p=1.2e-41
+  by group: afghan 92% (n=74), arab 69% (n=251), armenian 87% (n=86), azeri 60% (n=50), georgian 89% (n=98), greek 89% (n=62), kept 73% (n=33), persian 88% (n=129), slavic 90% (n=111), western 75% (n=117)
+  petition foreign names  89.2% [86.2–91.9]
+  IDs: FOREIGN_ID:  0.0% readable / 96.0% right label PASSPORT:  0.0% readable / 100.0% right label YKN:  0.0% readable / 100.0% right label
+  false names /1k words: foreign traps 0.56, Katip negatives 0.00
+tiny_r_seed0 @ 0.5
+  foreign names (court)  78.2% [74.9–81.3]  prec  98.3%   Turkish names, same slots  94.4% [92.4–95.8]  McNemar p=5.1e-31
+  by group: afghan 92% (n=74), arab 64% (n=251), armenian 86% (n=86), azeri 46% (n=50), georgian 89% (n=98), greek 89% (n=62), kept 73% (n=33), persian 88% (n=129), slavic 88% (n=111), western 76% (n=117)
+  petition foreign names  90.0% [86.9–92.9]
+  IDs: FOREIGN_ID:  0.0% readable / 96.0% right label PASSPORT:  0.0% readable / 100.0% right label YKN:  0.0% readable / 100.0% right label
+  false names /1k words: foreign traps 8.72, Katip negatives 0.00
+tiny_f_seed0 @ 0.5
+  foreign names (court)  94.9% [92.8–96.5]  prec  95.6%   Turkish names, same slots  98.6% [97.8–99.3]  McNemar p=1.2e-06
+  by group: afghan 100% (n=74), arab 93% (n=251), armenian 97% (n=86), azeri 74% (n=50), georgian 99% (n=98), greek 100% (n=62), kept 100% (n=33), persian 98% (n=129), slavic 95% (n=111), western 93% (n=117)
+  petition foreign names  96.7% [94.8–98.3]
+  IDs: FOREIGN_ID:  0.0% readable / 96.0% right label PASSPORT:  0.0% readable / 100.0% right label YKN:  0.0% readable / 100.0% right label
+  false names /1k words: foreign traps 12.96, Katip negatives 2.39
+tiny_f_seed0 @ 0.5 vs tiny_r_seed0 @ 0.5: foreign-name recall +16.6 points [+13.9, +19.0], McNemar p=8.3e-46 (found only by new 172, only by control 4)
+wrote /home/claude/katip/lab/results/foreign_final.json

@@ -6,13 +6,38 @@ import * as mupdf from "./vendor/mupdf/dist/mupdf.js";
 import * as E from "./engine.js";
 import { loadNer, runNer } from "./ner.js";
 import { MARK, drawMark } from "./brand.js";
+import { createPaddleOcr, decodeImage } from "./paddle_ocr.js";
 
 let py, current = null, ocrSeq = 0, T = null;
 const pendingOcr = new Map();
 const progress = msg => postMessage({ type: "progress", msg });
 const here = p => new URL(p, import.meta.url).href;
 
+// PaddleOCR (handwriting and phone photos) runs here in the worker on ONNX Runtime; Tesseract runs in
+// its own worker started by the page, so its requests go through postMessage
+let paddle = null;
+function getPaddle() {
+  return paddle ??= (async () => {
+    progress("El yazısı OCR modeli yükleniyor");
+    const ort = await import("./vendor/ort/ort.wasm.min.mjs");
+    ort.env.wasm.numThreads = 1; ort.env.logLevel = "error";  // the exported graphs carry unused initialisers: harmless warnings
+    ort.env.wasm.wasmPaths = { mjs: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.mjs"), wasm: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.wasm") };
+    const get = async f => new Uint8Array(await (await fetch(here("./vendor/paddleocr/" + f))).arrayBuffer());
+    const [det, rec, dict] = await Promise.all([get("det/inference.onnx"), get("rec/inference.onnx"), fetch(here("./vendor/paddleocr/rec/dict.json")).then(r => r.json())]);
+    return createPaddleOcr(ort, { det, rec, dict });
+  })().catch(e => { paddle = null; throw e; });
+}
+
+const paddleRead = Object.assign(async png => (await getPaddle()).recognize(decodeImage(mupdf, png)), { engine: "paddle" });
+
+// lang: "auto" (PaddleOCR for handwriting and phone photos, Tesseract compact for printed scans),
+// "paddle" (PaddleOCR for every page), or a Tesseract model ("best_int", "fast")
 function ocrWith(lang) {
+  if (lang === "paddle") return paddleRead;
+  if (lang === "auto") { const tess = tessWith("best_int"); return Object.assign(png => tess(png), { forPage: p => (p.handwriting ? paddleRead : tess) }); }
+  return tessWith(lang);
+}
+function tessWith(lang) {
   return png => new Promise((resolve, reject) => {
     const id = ++ocrSeq; pendingOcr.set(id, { resolve, reject });
     postMessage({ type: "ocr", id, png, lang }, [png.buffer]);
@@ -67,7 +92,7 @@ function renderPages(bytes, max = 12, scale = 1.25) {
   return out;
 }
 
-async function detectWithModel(text, s) {
+async function detectWithModel(text, s, doc = null) {
   const t0 = performance.now();
   let extra = [];
   if (s.ner) {
@@ -77,29 +102,35 @@ async function detectWithModel(text, s) {
     extra = await runNer(T, ner, text, { minScore: s.threshold });
   }
   const tn = performance.now();
-  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null, trust: s.trust ?? null });
+  const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null, trust: s.trust ?? null,
+    ocr_ranges: (doc?.pages ?? []).filter(p => p.ocr).map(p => [p.start, p.end]), address_detail: s.addressDetail ?? "street" });
   return { spans, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
 }
 
+// Analyses can overlap (OCR awaits the main thread), so only the newest one may become the current document.
+let newestSeq = -1;
 async function analyze({ name, bytes, settings, seq }) {
+  newestSeq = Math.max(newestSeq, seq ?? 0);
   const t0 = performance.now(), kind = E.kindOf(name), ocr = ocrWith(settings.ocrLang);
   let doc;
   if (kind === "pdf") doc = await E.parsePdf(mupdf, bytes, ocr, { onProgress: progress });
-  else if (kind === "image") { progress("OCR"); doc = await E.parseImage(bytes.slice(), ocr); }
+  else if (kind === "image") { progress("OCR"); doc = await E.parseImage(bytes.slice(), ocr, null, mupdf); }
   else doc = { kind, text: E.pyExtract(py, kind, bytes) };
   const parseMs = Math.round(performance.now() - t0);
   progress("Kişisel veriler aranıyor");
-  const r = await detectWithModel(doc.text, settings);
+  if ((seq ?? 0) < newestSeq) return;  // a newer document was opened meanwhile
+  const r = await detectWithModel(doc.text, settings, doc);
+  if ((seq ?? 0) < newestSeq) return;
   current = { name, kind, bytes, doc };
-  if (kind === "pdf" || kind === "image") E.attachBoxes(doc, r.spans);
+  if (kind === "pdf" || kind === "image") { E.attachBoxes(doc, r.spans); if (!settings.entities || settings.entities.includes("UNREAD")) r.spans.push(...E.unreadSpans(doc)); }
   const previews = kind === "pdf" ? renderPages(bytes) : [];
   postMessage({ type: "analyzed", seq, kind, text: doc.text, spans: r.spans, ocrPages: doc.ocrPages ?? 0, pages: doc.pages?.length ?? 1, pageSizes: pageSizes(doc),
                 timing: { parse: parseMs, ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount, previews }, previews.map(p => p.buffer));
 }
 
 async function redetect({ settings }) {
-  const r = await detectWithModel(current.doc.text, settings);
-  if (current.kind === "pdf" || current.kind === "image") E.attachBoxes(current.doc, r.spans);
+  const r = await detectWithModel(current.doc.text, settings, current.doc);
+  if (current.kind === "pdf" || current.kind === "image") { E.attachBoxes(current.doc, r.spans); if (!settings.entities || settings.entities.includes("UNREAD")) r.spans.push(...E.unreadSpans(current.doc)); }
   postMessage({ type: "redetected", spans: r.spans, timing: { ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount });
 }
 

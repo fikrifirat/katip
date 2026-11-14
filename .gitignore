@@ -8,3 +8,6 @@ ml/berturk/out/
 ml/berturk/.venv/
 __pycache__/
 ml/berturk/data/wikiner/
+lab/results/
+src/models/paddleocr/
+connector/dist/

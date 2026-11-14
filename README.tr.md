@@ -1,11 +1,11 @@
-# Katip Yerel: tarayıcıda çalışan KVKK maskeleme
+# Katip Mask: tarayıcıda çalışan KVKK maskeleme
 
 [English](README.md) · **Türkçe**
 
 [![Canlı demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--yerel-yellow)](https://huggingface.co/spaces/f1k/katip-yerel)
-[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-name--tagger--tiny-yellow)](https://huggingface.co/f1k/katip-tr-name-tagger-tiny)
-[![BERTurk modeli](https://img.shields.io/badge/%F0%9F%A4%97%20model-pii--berturk-yellow)](https://huggingface.co/f1k/katip-tr-pii-berturk)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--mask-yellow)](https://huggingface.co/spaces/f1k/katip-mask)
+[![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--nano-yellow)](https://huggingface.co/f1k/katip-mask-nano)
+[![Base modeli](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--base-yellow)](https://huggingface.co/f1k/katip-mask-base)
 [![Lisans: AGPL-3.0 + ticari](https://img.shields.io/badge/lisans-AGPL--3.0%20%2B%20ticari-blue)](COMMERCIAL.md)
 
 Katip, Türkçe hukuk belgelerindeki kişisel verileri (T.C. kimlik no, VKN, IBAN, telefon, e-posta,
@@ -17,7 +17,22 @@ gönderilmesini engeller. Bilgisayardan yalnızca indirdiğiniz maskelenmiş kop
 Dava dosyalarını, sözleşmeleri veya mahkeme belgelerini müvekkil, bilirkişi ya da yapay zekâ
 araçlarıyla KVKK'ya uygun paylaşması gereken hukuk büroları, şirket hukuk ve uyum ekipleri için.
 
-![Katip Yerel](screenshot.png)
+![Katip Mask](screenshot.png)
+
+## Claude ile kullanın: Katip Kalkan
+
+[Katip Kalkan](connector/), müvekkil belgelerindeki kişisel verileri **Claude okumadan önce kendi
+bilgisayarınızda** maskeleyen bir Claude eklentisidir (Claude Code, Cowork ve Claude Desktop). Claude
+Katip'in bulduğu değerlerin yerine `[AD SOYAD-1]` gibi yer tutucuları görür; Katip gerçek adları son belgeye yine bilgisayarınızda
+geri koyar. KVKK'ya uygun çalışmak isteyen avukatlar için yerel kişisel veri maskeleme ve anonimleştirme.
+
+```
+claude plugin marketplace add fikrifirat/katip
+claude plugin install katip-kalkan@katip
+```
+
+Sonra `/katip son eklediğim dilekçeyi özetle` yazın. Claude Desktop kurulumu, sınırlar ve gizlilik
+politikası için [connector/README.md](connector/README.md).
 
 ## Temel sonuçlar
 
@@ -27,7 +42,7 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 | | Sonuç |
 | --- | --- |
 | Bulunan değerler (kör set, varsayılan ayarlar) | **757'de 756 (%99,9)**; 10 fazladan işaretleme, hepsi sağlık terimi |
-| Bulunan isimler | 365'te 364 (%99,7); yalnızca kurallarla %98,4 |
+| Bulunan isimler | 365'te 364 (%99,7) |
 | Maskeden sonra hâlâ okunabilen değerler (uçtan uca, yalnızca kurallar) | metin, PDF, Word ve UDF'de %0,8; fotoğraf ve taramalarda %0,7–1,1 |
 | İsim içermeyen hukuk metninde yanlış alarm | 3 belgede toplam 3 |
 | Belge başına süre | metin, PDF, Word, UDF'de 0,1–0,3 sn; OCR ile 2–4,5 sn (4 çekirdekli bulut sunucusu) |
@@ -38,12 +53,19 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 
 | Model | Nedir | Bulunan değer (kör set) | Bulunan isim |
 | --- | --- | --- | --- |
-| **Katip Tiny** (önerilen) | Katip Kural + `katip-tr-name-tagger-tiny`, 2,6 MB | **757'de 756 (%99,9)** | 365'te 364 |
-| **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 751 (%99,2) | 365'te 359 |
+| **Katip Mask Nano · tr v1.1** (önerilen) | Katip Kural + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2,5 MB, Türk ve yabancı müvekkil isimleri | **757'de 756 (%99,9)** | 365'te 364 |
+| **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 756 (%99,9) | 365'te 364 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
-| **Katip BERTurk** | Katip Kural + [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-yerel) | **757'de 757 (%100)** | **365'te 365** |
+| **Katip Mask Base** | Katip Kural + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-mask) | **757'de 757 (%100)** | **365'te 365** |
 
-**Katip BERTurk, model tek başına** (kurallar olmadan); BERTurk'ten 8.000 sentetik belgeyle bir
+**Katip Mask Nano v1.1** (14 Kasım 2026) Türk belgelerinde geçtiği haliyle yabancı müvekkil isimleriyle eğitildi.
+Kurallar kör setteki değerlerin neredeyse hepsini yakaladığı için farkı zor metinde görülüyor: gerçek Yargıtay
+cümlelerine yerleştirilen, eğitimde görülmemiş yabancı isimlerin %94,6'sını [92,5–96,2] buluyor (v1 %80,3, kurallar
+%77,1), aynı yerlerdeki Türk isimlerin %98,7'sini. Bedeli: isim gibi görünen sözcüklerle dolu tuzak metinde 1.000
+sözcükte 9 yanlış isim (v1: 0,6). Ayrıntılar: [model kartı](https://huggingface.co/f1k/katip-mask-nano),
+[`lab/foreign`](lab/foreign/README.md).
+
+**Katip Mask Base, model tek başına** (kurallar olmadan); BERTurk'ten 8.000 sentetik belgeyle bir
 Mac'te 25,5 dakikada ince ayarlandı:
 
 | Set | İsimler | Adresler | Sağlık terimleri | Fazladan |
@@ -52,15 +74,15 @@ Mac'te 25,5 dakikada ince ayarlandı:
 | Ayrılmış (60 belge) | **275'te 275** (kurallar + tiny: 268) | 70'te 70 | 26'da 26 | 0 |
 | İsim içermeyen hukuk metni | | | | **0** (kurallar + tiny: 3) |
 
-**Tüm akış** (demodaki gibi kurallar + BERTurk, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
+**Tüm akış** (demodaki gibi kurallar + Katip Mask Base, [`metrics/accuracy-berturk.json`](metrics/accuracy-berturk.json)):
 kör setteki tüm değerler (757'de 757, isimler 365'te 365, bir fazladan isim işareti) ve ayrılmış setteki
-tüm değerler (618'de 618; Tiny: 611). İsim içermeyen metinde yanlış alarm Tiny ile aynı, 3. Bunun için tek bir
+tüm değerler (618'de 618; Nano v1.1: 614). İsim içermeyen metinde yanlış alarm Nano ile aynı, 3. Bunun için tek bir
 ayar gerekiyor: BERTurk'ün %90 ve üzeri güvenle bulduğu isimler olduğu gibi tutulur. Bu ayar olmadan, küçük
 etiketleyici için yazılan birleştirme kuralları *Esila* gibi aynı zamanda sıradan sözcük olan adları atıyordu
-ve sonuç Tiny ile aynıydı ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
+ve sonuç Nano ile aynıydı ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
 %90 değeri bu ölçümden önce bir kez belirlendi, ayarlanmadı; ayrılmış set geliştirme sırasında incelenmişti, kör set incelenmemişti.
 
-Katip Tiny'den 40 kat büyük olduğu için demoda varsayılan Tiny olarak kalıyor; BERTurk Hugging Face
+Katip Mask Nano'dan 40 kat büyük olduğu için demoda varsayılan Nano olarak kalıyor; Katip Mask Base Hugging Face
 Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırını aşıyor). Ham veriler:
 [`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
 
@@ -69,14 +91,14 @@ Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırın
 | | İndirme | Belge başına tespit süresi (metin, OCR yok) | Kör set | Ayrılmış set |
 | --- | --- | --- | --- | --- |
 | Vanilla kvkk-pii | 0,1 MB | 1 ms | 757'de 183 (%24,2) | 618'de 154 |
-| Katip Kural | 0,3 MB | 3 ms | 757'de 751 (%99,2) | 618'de 605 |
-| Katip Tiny | + 2,6 MB | 7 ms | 757'de 756 (%99,9) | 618'de 611 |
-| Katip BERTurk | + 110,8 MB | 28 ms | **757'de 757 (%100)** | **618'de 618** |
+| Katip Kural | 0,3 MB | 3 ms | 757'de 756 (%99,9) | 618'de 606 |
+| Katip Mask Nano v1.1 | + 2,5 MB | 7 ms | 757'de 756 (%99,9) | 618'de 614 |
+| Katip Mask Base | + 110,8 MB | 28 ms | **757'de 757 (%100)** | **618'de 618** |
 
-**Küçültme.** İki model de int8 ONNX olarak dağıtılıyor: Katip Tiny 10,0 → 2,6 MB, BERTurk 440,3 → 110,8 MB
+**Küçültme.** İki model de int8 ONNX olarak dağıtılıyor: Katip Mask Nano 10,0 → 2,6 MB, Katip Mask Base 440,3 → 110,8 MB
 (ikisi de 4 kat küçük). Yukarıdaki tüm skorlar int8 dosyalarla ölçüldü; küçültme doğruluktan bir şey
 götürmedi. OCR'da küçük Türkçe model 7,7 MB yerine 2 MB ve bulma oranı neredeyse aynı (96 taramada 49'a karşı 48 kaçan).
-**Süreler** Python onnxruntime ile; Tiny ve kurallar 4 çekirdekli bulut sunucusunda, BERTurk Apple silikon
+**Süreler** Python onnxruntime ile; Nano ve kurallar 4 çekirdekli bulut sunucusunda, Katip Mask Base Apple silikon
 Mac'te ölçüldü. Tarayıcı süreleri (WebAssembly, tek iş parçacığı) daha yavaştır ve henüz ölçülmedi.
 BERTurk'ü GitHub Pages'e sığacak boyuta damıtmak yol haritasında.
 
@@ -113,7 +135,7 @@ Pages'e sığacak kadar küçük bir modele damıtmak ve tüm ölçümleri pilot
 | Belge | Yöntem |
 | --- | --- |
 | Metin katmanlı PDF | kutunun altındaki karakterler gerçekten silinir (MuPDF `applyRedactions`), meta veriler temizlenir |
-| Taranmış PDF, fotoğraf (PNG, JPG) | Türkçe OCR (Tesseract), kutular görüntüye işlenir |
+| Taranmış PDF, fotoğraf (PNG, JPG) | OCR (basılı taramada Tesseract, el yazısı ve telefon fotoğrafında PaddleOCR), kutular görüntüye işlenir |
 | Word `.docx` | metin, izlenen silmeler, yorum yazarları ve belge özellikleri maskelenir |
 | UYAP `.udf` | yerinde maskelenir, geçerli bir UDF olarak kalır |
 | Düz metin | |
@@ -131,7 +153,7 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 
 ## Deneyin
 
-- **Demo:** https://fikrifirat.github.io/katip/ (veya [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-yerel)).
+- **Demo:** https://fikrifirat.github.io/katip/ (veya [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-mask)).
   16 örnek belgeden birini seçip cevap anahtarına göre bulma oranını, isabeti, kaçanları ve yanlış
   alarmları canlı görün ya da kendi dosyanızı açın.
 - Belge seçer seçmez görünür; bulunan değerler sayfanın üzerinde işaretlenir.
@@ -146,10 +168,10 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 | Adım | Bileşen |
 | --- | --- |
 | Tespit kuralları | Katip'in Python tanıyıcıları ve sözcük listeleri, değiştirilmeden, Pyodide içinde (WebAssembly'ye derlenmiş Python) |
-| İsim etiketleyici | [`katip-tr-name-tagger-tiny`](https://huggingface.co/f1k/katip-tr-name-tagger-tiny), 2,6 MB int8 ONNX, transformers.js; ya da [`katip-tr-pii-berturk`](https://huggingface.co/f1k/katip-tr-pii-berturk) (isim, adres, sağlık), 110,8 MB |
+| İsim etiketleyici | [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2,5 MB int8 ONNX, transformers.js; ya da [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base) (isim, adres, sağlık), 110,8 MB |
 | Metin, UDF, Word | Pyodide içinde standart kütüphane Python (`src/py/local_formats.py`) |
 | PDF | MuPDF.js |
-| Tarama ve fotoğraf | Türkçe modelle tesseract.js |
+| Tarama ve fotoğraf | Türkçe modelle tesseract.js; tükenmez kalem izi olan ya da fotoğraftan kesilen sayfalarda PaddleOCR PP-OCRv5 (küçük algılayıcı + Latin okuyucu, 13 MB ONNX) ([lab/ocr_bench](lab/ocr_bench/README.md)) |
 | Sızıntı kontrolü | çıktı her maskelenen değer için yeniden okunur (metin katmanı veya ikinci OCR) |
 
 Tarayıcıdaki kurallar Katip'in sunucu motoruyla birebir aynı sonucu verir (1.803 değerde 0 fark);
@@ -184,8 +206,10 @@ Derleme, test ve eğitim adımları için [İngilizce README](README.md#develop)
 
 Kod ve demo: **[AGPL-3.0](LICENSE)**; AGPL'nin kaynak kodu paylaşma yükümlülüğü olmadan ürünlerde,
 kurum içi sistemlerde veya çevrimiçi hizmetlerde kullanım için **ticari lisans** vardır, bkz.
-[COMMERCIAL.md](COMMERCIAL.md). Modeller: CC BY-NC 4.0.
+[COMMERCIAL.md](COMMERCIAL.md). Modeller: **CC BY-SA 4.0** (Katip Mask Nano ve Base). Kısmen Turkish Wiki NER (Altinok, 2023; CC BY-SA 4.0)
+ile eğitildikleri için bu lisansı taşırlar. Katip Mask Base, Stefan Schweter / dbmdz'nin BERTurk modelini
+(MIT) temel alır. Hedef, Wikipedia verisi olmadan eğitilen ve skorunu koruyan bir v3'ü Apache-2.0 ile yayımlamak.
 
 Üçüncü taraf bileşenler: MuPDF (AGPL-3.0, Artifex), kvkk-pii (MIT, Aleonis; yalnızca karşılaştırma), Inter ve Space Grotesk yazı tipleri (SIL OFL 1.1), Pyodide (MPL-2.0), tesseract.js ve `tur` modeli
-(Apache-2.0), transformers.js (Apache-2.0), ONNX Runtime (MIT), OpenSubtitles sıklık listesinden
+(Apache-2.0), PaddleOCR PP-OCRv5 modelleri (Apache-2.0, PaddlePaddle), transformers.js (Apache-2.0), ONNX Runtime (MIT), OpenSubtitles sıklık listesinden
 `common_words.txt` (CC BY-SA 4.0). Örnek belgeler sentetiktir; gerçek kişilerle benzerlik tesadüfidir.

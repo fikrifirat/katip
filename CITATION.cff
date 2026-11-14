@@ -1,0 +1,42 @@
+cff-version: 1.2.0
+message: "If you use Katip, its models or KVKK-Bench, please cite it as below."
+title: "Katip: offline personal-data masking for Turkish legal documents"
+type: software
+authors:
+  - family-names: "Fırat"
+    given-names: "Fikri"
+repository-code: "https://github.com/fikrifirat/katip"
+url: "https://fikrifirat.github.io/katip"
+license: AGPL-3.0-only
+date-released: "2026-11-14"
+keywords:
+  - KVKK
+  - personal data
+  - de-identification
+  - PII
+  - Turkish
+  - legal NLP
+references:
+  - type: data
+    title: "KVKK-Bench: a benchmark for personal-data masking in Turkish documents"
+    authors:
+      - family-names: "Fırat"
+        given-names: "Fikri"
+    year: 2026
+    url: "https://huggingface.co/spaces/f1k/kvkk-bench"
+  - type: software
+    title: "Katip Mask Base (tr): a Turkish personal-data tagger fine-tuned from BERTurk"
+    authors:
+      - family-names: "Fırat"
+        given-names: "Fikri"
+    year: 2026
+    url: "https://huggingface.co/f1k/katip-mask-base"
+    license: CC-BY-SA-4.0
+  - type: software
+    title: "Katip Mask Nano (tr): a 2.5M-parameter Turkish name tagger for the browser"
+    authors:
+      - family-names: "Fırat"
+        given-names: "Fikri"
+    year: 2026
+    url: "https://huggingface.co/f1k/katip-mask-nano"
+    license: CC-BY-SA-4.0

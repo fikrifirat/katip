@@ -1,0 +1,119 @@
+{
+  "manifest_version": "0.3",
+  "name": "katip-kalkan",
+  "display_name": "Katip Kalkan (KVKK)",
+  "version": "0.3.5",
+  "description": "Müvekkil belgelerindeki KVKK verilerini Claude görmeden bu bilgisayarda maskeler · Masks KVKK personal data on your computer before Claude reads a document.",
+  "long_description": "Katip müvekkil belgelerinizi (.docx, UYAP .udf, .pdf, taramalar ve fotoğraflar) bu bilgisayarda açar ve Claude'a göndermeden önce ad soyad, T.C. kimlik / YKN / pasaport no, adres, telefon, IBAN ve sağlık gibi KVKK verilerini [AD SOYAD-1] gibi yer tutucularla değiştirir. Belgenin aslı ve gerçek adlar bilgisayarınızdan çıkmaz; isterseniz son metni gerçek adlarla yine bilgisayarınıza kaydeder. Claude Desktop \"bilgisayarınıza erişim\" uyarısını her eklenti için gösterir; Katip yalnızca seçtiğiniz klasördeki dosyaları açar. İlk açılışta açık kaynak yardımcı bileşenler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir sunucuya gönderilmez. Katip bir güvenlik katmanıdır, garanti değildir: bazı değerleri kaçırabilir, maskeli metin KVKK'ya göre hâlâ kişisel veridir ve Claude'un yanıtlarını kontrol etmeniz gerekir.\n\nKatip opens client documents (.docx, UYAP .udf, .pdf, scans and photos) on your computer and replaces names, T.C. kimlik / YKN / passport numbers, addresses, phones, IBANs and health data with placeholders such as [AD SOYAD-1] before Claude sees them. The original and the real names stay on your computer; Katip can save the final text with the real names there. Claude Desktop shows its \"access to your computer\" warning for every extension; Katip only opens files in the folder you pick. On first start it downloads its open-source helpers once (about a minute); your documents are never sent to any server. Katip is a safety layer, not a guarantee: it can miss values, masked text is still personal data under KVKK, and you should review Claude's answers.",
+  "author": {
+    "name": "fikrifirat",
+    "url": "https://github.com/fikrifirat"
+  },
+  "homepage": "https://fikrifirat.github.io/katip",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fikrifirat/katip"
+  },
+  "license": "AGPL-3.0-or-later",
+  "keywords": [
+    "kvkk",
+    "gdpr",
+    "privacy",
+    "pii",
+    "redaction",
+    "anonymization",
+    "legal",
+    "turkish",
+    "avukat",
+    "maskeleme"
+  ],
+  "privacy_policies": [
+    "https://github.com/fikrifirat/katip/blob/main/connector/PRIVACY.md"
+  ],
+  "server": {
+    "type": "python",
+    "entry_point": "server/katip_kalkan/launch.py",
+    "mcp_config": {
+      "command": "python3",
+      "args": [
+        "-m",
+        "katip_kalkan.launch",
+        "--allow",
+        "${user_config.allowed_dir}"
+      ],
+      "env": {
+        "PYTHONPATH": "${__dirname}/server",
+        "KATIP_PROFILE": "${user_config.profile}",
+        "KATIP_LANG": "${user_config.language}"
+      },
+      "platform_overrides": {
+        "win32": {
+          "command": "python"
+        }
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "list_files",
+      "description": "List client files with ids; names that could identify a person are hidden"
+    },
+    {
+      "name": "mask_file",
+      "description": "Open a document, scan or photo on this computer and return only masked text"
+    },
+    {
+      "name": "write_masked_copy",
+      "description": "Save a masked copy next to the original"
+    },
+    {
+      "name": "restore_to_file",
+      "description": "Write the final text with real values into the Katip folder (.docx, .txt, .md)"
+    },
+    {
+      "name": "forget_matter",
+      "description": "Delete the local placeholder map of a matter"
+    },
+    {
+      "name": "open_folder",
+      "description": "Open the Katip folder in Finder or Explorer"
+    },
+    {
+      "name": "katip_status",
+      "description": "Show engine, threshold and vault location"
+    }
+  ],
+  "user_config": {
+    "allowed_dir": {
+      "type": "directory",
+      "title": "Müvekkil dosyaları klasörü / Client files folder",
+      "description": "Katip yalnızca bu klasördeki dosyaları açar. Değiştirmeden kaydedebilirsiniz: Belgeler/katip-documents oluşturulur. · Katip only opens files in this folder; leave it to use Documents/katip-documents.",
+      "required": false,
+      "default": "${HOME}/Documents/katip-documents"
+    },
+    "profile": {
+      "type": "string",
+      "title": "Maskeleme düzeyi / Masking level",
+      "description": "ai = Yapay zekâ ile paylaşım (önerilen: tüm kişisel veriler); court = Mahkemeye sunum (sokak, dosya no ve tarihler görünür); anon = Tam anonim (tarih, il, kurum da gizlenir).",
+      "required": false,
+      "default": "ai"
+    },
+    "language": {
+      "type": "string",
+      "title": "Dil / Language",
+      "description": "tr = Türkçe (varsayılan), en = English",
+      "required": false,
+      "default": "tr"
+    }
+  },
+  "compatibility": {
+    "platforms": [
+      "darwin",
+      "win32"
+    ],
+    "runtimes": {
+      "python": ">=3.9"
+    }
+  },
+  "icon": "icon.png"
+}

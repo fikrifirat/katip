@@ -16,6 +16,9 @@ import zipfile
 from collections import defaultdict
 
 from katip_redact.recognizers import ENTITY_LABELS_TR
+
+# labels for the browser-only case-detail types (local_detect.CASE_TYPES)
+ENTITY_LABELS_TR = {**ENTITY_LABELS_TR, "CASE_NO": "Dosya No", "BAR_NO": "Sicil No", "DATE": "Tarih", "PLACE": "Yer", "INSTITUTION": "Kurum"}
 from katip_redact.textutil import tr_upper
 
 import local_detect
@@ -66,14 +69,18 @@ def udf_redact(data: bytes, spans) -> bytes:
                 chars[k] = BLOCK  # same length: UDF styling is offset based
     new_text = "".join(chars).replace("]]>", "]]&gt;")
     xml = UDF_CDATA.sub(lambda m: m.group(1) + new_text + m.group(3), xml, count=1)
-    return _rezip(data, {"content.xml": xml.encode("utf-8")})
+    # sign.sgn is the e-imza signature (PKCS#7): it carries the signer's certificate (name, title, city, serial
+    # number) and no longer matches the masked text, so it is left out of the masked copy
+    return _rezip(data, {"content.xml": xml.encode("utf-8")}, drop=lambda n: n.lower().endswith(".sgn"))
 
 
 # ------------------------------------------------------------------ DOCX
-def _rezip(data, replace):
+def _rezip(data, replace, drop=lambda name: False):
     out = io.BytesIO()
     with zipfile.ZipFile(io.BytesIO(data)) as zin, zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as zout:
         for item in zin.infolist():
+            if drop(item.filename):
+                continue
             zout.writestr(item, replace.get(item.filename, zin.read(item.filename)))
     return out.getvalue()
 

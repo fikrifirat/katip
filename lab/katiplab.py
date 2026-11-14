@@ -36,7 +36,9 @@ BERTURK = ROOT / "ml" / "berturk" / "out"         # your local BERTurk run, if y
 
 # ----------------------------------------------------------------------------------------- the rules
 # The exact detection code the browser runs (Pyodide bundle), unzipped once into a temp folder.
-_bundle = Path(tempfile.gettempdir()) / "katiplab_bundle"
+_zip = ROOT / "docs" / "katip_py.zip"
+# keyed by the zip's hash, so a newer rule bundle is never shadowed by a stale unzipped copy
+_bundle = Path(tempfile.gettempdir()) / f"katiplab_bundle_{__import__('hashlib').sha1(_zip.read_bytes()).hexdigest()[:10]}"
 if not (_bundle / "local_detect.py").exists():
     zipfile.ZipFile(ROOT / "docs" / "katip_py.zip").extractall(_bundle)
 sys.path.insert(0, str(_bundle))

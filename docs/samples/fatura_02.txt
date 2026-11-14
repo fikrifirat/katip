@@ -1,0 +1,23 @@
+e-Arşiv Fatura
+
+Akdeniz Turizm A.Ş.
+Vergi Dairesi: Büyük Mükellefler VKN: 9437242463
+Mersis No: 0123456789000015   Ticaret Sicil No: 123456
+
+SAYIN
+Safinaz KILIÇARSLAN
+Yenişehir Mahallesi Çınar Sokak No: 77/5 Üsküdar / İstanbul
+TCKN: 73495653068
+Tel: 05558998641
+E-Posta: safinaz.kilicarslan@outlook.com
+
+Fatura No: GIB2025234224833
+Fatura Tarihi: 12.09.2024
+ETTN: 8e1a0cc7-bcc3-4287-8602-8b3ebe6e5d4f
+
+Mal Hizmet            Miktar   Birim Fiyat    KDV Oranı   Tutar
+Danışmanlık hizmeti    1        722.661,00 TL   %20         716.796,00 TL
+Toplam: 251.011,00 TL  Hesaplanan KDV: 277.598,00 TL  Ödenecek Tutar: 28.275,00 TL
+
+Ödeme için banka hesabımız: Akdeniz Bankası TR IBAN numarası bilgisi faturanın arkasındadır.
+Kredi kartı ile yapılan ödeme: 4177 2489 7677 0820

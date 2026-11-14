@@ -5,14 +5,16 @@ library_name: transformers.js
 pipeline_tag: token-classification
 base_model: dbmdz/bert-base-turkish-cased
 datasets: [turkish-nlp-suite/turkish-wikiNER]
-tags: [ner, pii, kvkk, turkish, legal, onnx, privacy, redaction, berturk]
+tags: [ner, pii, kvkk, turkish, legal, onnx, privacy, redaction, berturk, gdpr, anonymization, pseudonymization, de-identification, data-masking, personal-data, legal-nlp, lawyer, avukat, kisisel-veri, anonimlestirme, maskeleme]
 ---
 
-# katip-tr-pii-berturk
+# Katip Mask Base · tr v2 (katip-mask-base)
+
+*Türkçe:* Türkçe hukuk belgelerinde ad soyad, adres ve KVKK md. 6 sağlık verilerini bulan, cihazda çalışan kişisel veri maskeleme / anonimleştirme modeli.
 
 BERTurk (`dbmdz/bert-base-turkish-cased`) fine-tuned to tag **person names, addresses and KVKK
 art. 6 health terms** in Turkish legal documents, as the on-device model for
-[Katip Yerel](https://github.com/fikrifirat/katip). Exported to ONNX (fp32 and int8) for transformers.js.
+[Katip Mask](https://huggingface.co/spaces/f1k/katip-mask). Exported to ONNX (fp32 and int8) for transformers.js.
 
 **v2 (13 Nov 2026)** adds 17,967 real Turkish sentences (Turkish Wiki NER, person names only) to the
 synthetic training documents. v1 found every name in Katip's synthetic test sets but only 41% of names in
@@ -63,8 +65,24 @@ https://github.com/fikrifirat/katip#size-speed-and-accuracy-side-by-side
 Labels are word-level BIO on each word's first sub-token; use the word split in `config.json`
 (`katip.word_regex`) as Katip's `src/ner.js` does.
 
-**Licence:** CC BY-SA 4.0. v2 is trained partly on Turkish Wiki NER (Altinok, 2023; CC BY-SA 4.0,
+**Base model:** BERTurk (`dbmdz/bert-base-turkish-cased`) by Stefan Schweter / dbmdz, MIT licence.
+
+**Licence:** CC BY-SA 4.0 (see `LICENSE`). v2 is trained partly on Turkish Wiki NER (Altinok, 2023; CC BY-SA 4.0,
 https://github.com/turkish-nlp-suite/Turkish-Wiki-NER-Dataset), so the model is shared under the same
 licence: credit Katip and the dataset, and share adaptations under CC BY-SA 4.0. v1 (synthetic data
 only) was released under CC BY-NC 4.0. Katip's code is AGPL-3.0; for a commercial licence for the
 code or support, open an issue at https://github.com/fikrifirat/katip.
+
+## Citation
+
+```bibtex
+@misc{firat2026katipmaskbase,
+  title  = {Katip Mask Base (tr): a Turkish personal-data tagger fine-tuned from BERTurk},
+  author = {F{\i}rat, Fikri},
+  year   = {2026},
+  url    = {https://huggingface.co/f1k/katip-mask-base},
+  note   = {Fine-tuned from BERTurk (Schweter, 2020)}
+}
+```
+
+Please also cite BERTurk (Stefan Schweter, https://doi.org/10.5281/zenodo.3770924) and Turkish Wiki NER (Altinok, 2023).
