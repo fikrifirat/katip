@@ -34,6 +34,12 @@ def _katip(model_dir, trust):
     return det, {"size_mb": round(tg.size_mb + 0.3, 1), "params": _onnx_params(tg.onnx_file), "runs_locally": True, "runs_in_browser": True,
                  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules"}
 
+def _trust_file(d):
+    """Trust chosen on dev by lab/mini/train_mini.py, stored next to the model as katip_trust.json."""
+    f = Path(d) / "katip_trust.json"
+    return json.loads(f.read_text())["trust"] if f.exists() else 0.5
+
+
 def _hf_snapshot(repo, revision=None):
     from huggingface_hub import snapshot_download
     return snapshot_download(repo, revision=revision, allow_patterns=["config.json", "tokenizer*", "vocab.txt", "onnx/model_quantized.onnx"])
@@ -70,6 +76,8 @@ SYSTEMS = {
                                                                {"params": 0, "size_mb": 0.1, "runs_locally": True, "runs_in_browser": False})),
     "tiny": ("Katip Tiny: rules + katip-tr-name-tagger-tiny", lambda: _katip(K.TINY, None)),
     "tiny-f": ("Katip Tiny-F: rules + tiny tagger retrained with foreign names", lambda: _katip(HERE / "bench" / "models" / "katip-tiny-foreign", 0.5)),
+    "mini": ("Katip Mask Mini: rules + Mini tagger (distilled from Base)", lambda: _katip(HERE / "bench" / "models" / "katip-mask-mini", _trust_file(HERE / "bench" / "models" / "katip-mask-mini"))),
+    "nano-v2": ("Katip Mask Nano v2: rules + Nano retrained, distilled from Base", lambda: _katip(HERE / "bench" / "models" / "katip-mask-nano-v2", _trust_file(HERE / "bench" / "models" / "katip-mask-nano-v2"))),
     "berturk-v2": ("Katip BERTurk v2: rules + f1k/katip-tr-pii-berturk", lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk"), 0.5)),
     "berturk-v1": ("Katip BERTurk v1 (synthetic only, internal reference): rules + f1k/katip-tr-pii-berturk@a107b87",
                    lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk", "a107b872080d28967eb8e57fcdc14127f54c3cb1"), 0.5)),
