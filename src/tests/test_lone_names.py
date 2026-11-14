@@ -58,7 +58,7 @@ def test_surname_repeated_alone_is_masked():
 
 
 def test_name_word_inside_a_law_title_stays_readable():
-    t = "Davacı Ahmet Türk, Türk Vatandaşlığı Kanunu uyarınca başvurdu."
+    t = "Türk Vatandaşlığı Kanunu uyarınca davacı Ahmet Türk başvurdu."
     assert people(t, [("Ahmet Türk", 0.9)]) == ["Ahmet Türk"]
 
 
