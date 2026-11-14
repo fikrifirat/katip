@@ -429,3 +429,16 @@ def test_language_setting(monkeypatch):
     monkeypatch.setenv("KATIP_LANG", "")
     assert importlib.reload(local_server).TOOLS[1].title.startswith("Kişisel")
     assert "Claude" in i18n.msg("leak", n=2, kinds="Pasaport No")
+
+
+def test_katip_prompt():
+    from katip_kalkan import local_server
+    srv = local_server.build()
+    init = srv.handle({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2025-06-18"}})
+    assert "prompts" in init["result"]["capabilities"]
+    lst = srv.handle({"jsonrpc": "2.0", "id": 2, "method": "prompts/list"})["result"]["prompts"]
+    assert [p["name"] for p in lst] == ["katip"] and "render" not in lst[0]
+    got = srv.handle({"jsonrpc": "2.0", "id": 3, "method": "prompts/get",
+                      "params": {"name": "katip", "arguments": {"istek": "son eklediğim dilekçeyi özetle"}}})
+    text = got["result"]["messages"][0]["content"]["text"]
+    assert "mask_file" in text and "son eklediğim dilekçeyi özetle" in text

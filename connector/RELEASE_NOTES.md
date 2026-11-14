@@ -12,6 +12,7 @@ warning appears for every extension installed from a file. To check this downloa
 - An 11-digit number starting with 99, or one written after "T.C. kimlik", "YKN" or "yabancı kimlik", is masked even if its checksum is wrong.
 - One language: everything the user sees is in Turkish (or English with the *Language* setting).
 - "The file I just added": Claude opens the newest file in the Katip folder.
+- `/katip <request>` in Claude Code. In Claude Desktop, *Katip ile güvenli çalış* in the + menu.
 
 **New in 0.3.1:**
 - File names stay private: `list_files` hides name-like words, and Claude opens files by id.

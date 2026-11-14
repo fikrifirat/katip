@@ -99,8 +99,15 @@ TOOLS = [
 ]
 
 
+def _prompts() -> list[dict]:
+    title, desc, arg, body = text("prompt")
+    return [{"name": "katip", "title": title, "description": desc,
+             "arguments": [{"name": "istek", "description": arg, "required": False}],
+             "render": lambda a: body.format(req=(a.get("istek") or "").strip() or "…")}]
+
+
 def build() -> Server:
-    return Server("katip-kalkan", __version__, INSTRUCTIONS, TOOLS)
+    return Server("katip-kalkan", __version__, INSTRUCTIONS, TOOLS, _prompts())
 
 
 def main() -> None:

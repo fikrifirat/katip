@@ -74,6 +74,12 @@ TOOLS = {
         "katip_status": ("Katip durumu",
                          "Yerel motoru, OCR'ı, eşiği, Katip klasörünü (bağlantısıyla) ve eşleşme haritasının nerede "
                          "saklandığını gösterir."),
+        "prompt": ("Katip ile güvenli çalış",
+                   "Katip klasöründeki belgeyi bu bilgisayarda maskeleyip isteğinizi yanıtlar.",
+                   "İstek (ör. son eklediğim dilekçeyi özetle)",
+                   "Katip ile çalış: önce list_files ile Katip klasöründeki dosyayı bul (istek 'son eklediğim' "
+                   "diyorsa file_id \"latest\"), mask_file ile bu bilgisayarda maskele ve yalnızca maskeli metinle "
+                   "çalış. Dosyayı başka bir araçla açma. Yer tutucuları aynen koru. Türkçe yanıt ver.\n\nİstek: {req}"),
         "privacy_mask": "Dosya bu bilgisayarda maskelenir; Claude yalnızca [AD SOYAD-1] gibi yer tutucuları görür (KVKK).",
         "privacy_list": "Dosya adlarındaki kişi adları gizlenir; Claude yalnızca kısaltılmış adları görür (KVKK).",
         "privacy_restore": "Gerçek adlar yalnızca bu bilgisayardaki dosyaya yazılır; Claude onları görmez (KVKK).",
@@ -102,6 +108,13 @@ TOOLS = {
         "katip_status": ("Katip status",
                          "Show the local engine, OCR, threshold, the Katip folder (with a link) and where the "
                          "placeholder map is kept."),
+        "prompt": ("Work safely with Katip",
+                   "Masks a document from your Katip folder on this computer, then answers your request.",
+                   "Request (e.g. summarise the lease I just added)",
+                   "Work with Katip: find the file in the Katip folder with list_files (file_id \"latest\" if the "
+                   "request says 'just added'), mask it on this computer with mask_file and work only with the masked "
+                   "text. Don't open the file with any other tool. Keep placeholders exactly as written. Answer in "
+                   "English.\n\nRequest: {req}"),
         "privacy_mask": "The file is masked on this computer; Claude only sees placeholders like [AD SOYAD-1] (KVKK).",
         "privacy_list": "Names in file names are hidden; Claude only sees shortened names (KVKK).",
         "privacy_restore": "Real names are written only to a file on this computer; Claude never sees them (KVKK).",

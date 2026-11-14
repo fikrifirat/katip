@@ -36,6 +36,10 @@ uploaded to Anthropic with your message, before any tool runs, so Katip can't ma
 into your Katip folder and ask, for example: "Katip klasörüne az önce eklediğim dilekçeyi özetle." Katip
 opens the newest file (`file_id: "latest"`), masks it on your computer and gives Claude only the masked text.
 
+**Shortcut.** In Claude Code / Cowork, type `/katip son eklediğim dilekçeyi özetle` (the plugin's `katip`
+skill). In Claude Desktop, choose *Katip ile güvenli çalış* from the **+** menu (an MCP prompt) and type
+your request.
+
 **Language.** Tool names, the permission-prompt line and errors are in Turkish by default. Set
 *Language / Dil* to `en` (Claude Desktop) or `KATIP_LANG=en` for English. Claude itself answers in your language.
 

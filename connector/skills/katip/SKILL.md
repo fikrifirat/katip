@@ -1,9 +1,14 @@
 ---
-name: kvkk-safe-documents
-description: Use whenever the user asks Claude to read, summarise, review, translate or draft from a client document on their computer (dilekçe, sözleşme, bilirkişi raporu, epikriz, UYAP .udf, .docx, .pdf, scans, photos, .txt). Masks personal data locally with Katip before Claude sees it.
+name: katip
+description: KVKK-safe document work. Use when the user types /katip, or asks Claude to read, summarise, review, translate or draft from a client document on their computer (dilekçe, sözleşme, bilirkişi raporu, epikriz, UYAP .udf, .docx, .pdf, scans, photos, .txt). Katip masks personal data on the computer before Claude sees it.
+argument-hint: "[istek / request, e.g. son eklediğim dilekçeyi özetle]"
 ---
 
+
 # KVKK-safe document work with Katip
+
+`/katip <request>`, for example `/katip son eklediğim dilekçeyi özetle` or `/katip summarise the lease`.
+Answer in the language the user writes in. The request is: $ARGUMENTS
 
 Client documents contain personal data that must not be sent to an AI provider unmasked
 (KVKK m.4, m.9 and the KVKK lawyers' guide of 22 Sep 2026).
