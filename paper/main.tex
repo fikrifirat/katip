@@ -5,6 +5,7 @@
 \usepackage{microtype}
 \usepackage[margin=0.75in,columnsep=0.25in]{geometry}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage[numbers,sort&compress]{natbib}
@@ -169,6 +170,33 @@ receive identical text and are timed on one Apple-silicon laptop (12 CPUs) in Py
 \section{Results}
 \label{sec:results}
 
+\textbf{Which setup for which use case.} Table~\ref{tab:usecase} turns the results below into a recommendation per
+task; every number is read from the saved results by \texttt{paper/use\_cases.py}, which also writes the same table as
+\texttt{paper/use\_cases.json} and \texttt{.csv} for tools. Court leak is Turkish / foreign names in court text; forms,
+file types and photos are synthetic and not ranked.
+
+\begin{table*}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.9cm}@{}}
+\toprule
+Use case & Recommended setup & Runs on & Leak \% (lower is better) & Speed & Watch out \\
+\midrule
+Send a court file to an AI assistant (computer) & Kalkan + Base & laptop, offline & court 0.2 / 2.8; forms 0.3 & 1.7 p/s & Kalkan ships Nano; pick Base\\
+Mask in a browser, nothing installed & Mini (default) & browser tab & court 0.8 / 3.1; forms 0.7 & 1.0 s/p (browser) & everyday text leaks 31.9\%\\
+Many court pages fast, weak device & Nano (fast mode) & browser or laptop & court 6.1 / 5.0; forms 1.4 & 43 p/s; 0.03 s/p & not for everyday text (49.0\%)\\
+Scanned PDFs & Base + PaddleOCR & laptop, offline & scan 1.3 (digital PDF 0.5) & 1.7 p/s + OCR & synthetic forms\\
+UYAP UDF and Word files & Base & laptop or browser & UDF 0.3, Word 0.3 & 1.7 p/s & synthetic forms\\
+Phone photos of filled forms & Base + Katip OCR & laptop or browser & 5.2; over-masks 19.7\% of streets & -- & misses are addresses\\
+Everyday text (letters, e-mails) & Base + human review & laptop or browser & 21.5 (XLM-R Large 9.8, server only) & 1.7 p/s & no setup is safe without review\\
+\bottomrule
+\end{tabular}
+\caption{Recommended setup per use case, with the evidence behind it. p/s = pages per second on one laptop CPU;
+s/p = seconds per page in one Chrome tab. Base = Katip Mask Base, Mini and Nano likewise; Kalkan = the local connector
+(Section~\ref{sec:kalkan}). Machine-readable copy: \texttt{paper/use\_cases.json}.}
+\label{tab:usecase}
+\end{table*}
+
 \begin{table*}[t]
 \centering\footnotesize
 \setlength{\tabcolsep}{2.6pt}
@@ -207,9 +235,32 @@ its lead over XLM-R Large (0.2 [$-$0.7, 1.2], $p=0.73$), XLM-R Base Turkish NER 
 and GLiNER2 (1.1 [0.2, 2.1], $p=0.02$) is not significant after Holm correction over the 14 comparisons; the
 other 11 differences remain significant (raw $p\le0.009$). The ranking also depends on the metric: XLM-R Large leaks less than half
 as much (3.4\% vs 8.2\%, difference 4.8 points [3.7, 5.9]). Of the systems we have run in a browser (only the
-Katip models so far), Base is the strongest, at one twentieth of XLM-R Large's download size.
+Katip models so far), Base is the strongest, at one twentieth of XLM-R Large's download size. Figure~\ref{fig:tracks} shows where the systems differ: every system shown scores at least 91.7 on court text, but 39--90 on everyday text.
 
-\textbf{Small models.} Nano reaches 94.4/95.5 F2 on Turkish and foreign names in court text at 2.9\,MB and
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_overall_size.pdf}
+\caption{Overall (95\% CI) against download size. Blue: Katip Mask models, all three run in a browser.}
+\label{fig:size}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_leak_speed.pdf}
+\caption{Leak rate (95\% CI) against speed. Up and right is better. Blue: Katip Mask models. Nano is by far the fastest
+(43 pages/s, 20\% leak); the only other system above 10 pages/s, Presidio, leaks 32\%. Base and Mini leak 8--12\%, close to the much larger general models (3--7\%).}
+\label{fig:speed}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_tracks.pdf}
+\caption{F2 per real-text track with 95\% CIs (sentence-clustered bootstrap) for the eight strongest systems. Every system shown scores at least 91.7 on
+court text; they separate on everyday text (39--90), where the small models fall off.}
+\label{fig:tracks}
+\end{figure*}
+
+\textbf{Small models.} Figure~\ref{fig:speed} shows the speed trade-off. Nano reaches 94.4/95.5 F2 on Turkish and foreign names in court text at 2.9\,MB and
 43 pages/s, 26 times faster than Base, but collapses on general prose (52.9 F2, 49.0\% leak): a sub-5\,MB model
 covers legal register, not open-domain Turkish. Mini, distilled from Base into 31\,MB, keeps court text
 (99.1/97.2) and recovers about 60\% of the prose gap (72.5 F2, 31.9\% leak), 7.4 Overall points above Nano and 3.3 below Base
@@ -228,13 +279,6 @@ false names;
 false spans are mostly titles of works and organisations (\emph{Bohemian Rhapsody}, \emph{Florya Metin Oktay}).
 The higher leak rate of Base versus XLM-R Large comes from prose (21.5\% vs 9.8\%), i.e.\ long and single-token names
 in open-domain text. XLM-R Large's false spans are mostly lone punctuation tagged PER (harmless for privacy).
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig_overall_size.pdf}
-\caption{Overall (95\% CI) against download size. Blue: Katip Mask models, all three run in a browser.}
-\label{fig:size}
-\end{figure}
 
 \textbf{Generated tracks (not ranked).} With Katip's rules, Base and Nano find every TCKN, phone, e-mail and
 address in the generated documents, and Base finds 95.7 F2 of health terms. Name-only systems score 0 on these
@@ -260,30 +304,30 @@ leaks least (2.3\%) by masking 95\% of the street names.
 
 \begin{table}[t]
 \centering\footnotesize
-\setlength{\tabcolsep}{2.4pt}
+\setlength{\tabcolsep}{2.0pt}
 \begin{tabular}{@{}lrrrrrr@{}}
 \toprule
-& \multicolumn{2}{c}{Form photos} & Forms & \multicolumn{3}{c}{Leak \% by file type} \\
+& \multicolumn{2}{c}{Form photos} & Forms & \multicolumn{3}{c}{File-type leak} \\
 \cmidrule(lr){2-3}\cmidrule(lr){5-7}
-System & Leak & Over & F2 & UDF/Word & PDF & Scan \\
+System & Leak & Over & F2 & UDF & PDF & Scan \\
 \midrule
 Katip Mask Base & 5.2 & 19.7 & \textbf{98.3} & \textbf{0.3} & \textbf{0.5} & \textbf{1.3} \\
 Katip Mask Mini & 5.8 & 19.4 & 97.5 & 0.7 & 1.8 & 2.3 \\
 Katip Mask Nano & 5.4 & 22.2 & 96.6 & 1.4 & 2.1 & 2.5 \\
 Katip rules only & 6.5 & 18.3 & 97.5 & 1.1 & 2.4 & 2.9 \\
 ModernBERT-TR PII & \textbf{2.3} & 95.0 & -- & 2.4 & 2.4 & 2.4 \\
-XLM-R Base Turkish NER & 29.6 & 97.2 & -- & 32.8 & 32.9 & 32.9 \\
+XLM-R Base TR NER & 29.6 & 97.2 & -- & 32.8 & 32.9 & 32.9 \\
 XLM-R Large (CoNLL-en) & 37.1 & 96.1 & 41.6 & 39.0 & 39.0 & 39.1 \\
 BERTurk NER & 37.5 & 88.1 & 38.3 & 50.4 & 50.4 & 50.4 \\
-OpenMed Privacy Filter v2 & 44.4 & 60.6 & -- & 24.6 & 25.9 & 26.1 \\
-OpenAI Privacy Filter & 49.0 & 43.6 & -- & 45.0 & 39.9 & 39.0 \\
+OpenMed PF v2 & 44.4 & 60.6 & -- & 24.6 & 25.9 & 26.1 \\
+OpenAI PF & 49.0 & 43.6 & -- & 45.0 & 39.9 & 39.0 \\
 GLiNER multi PII & 50.8 & \textbf{0.3} & -- & 77.3 & 77.3 & 77.3 \\
 GLiNER2 PII & 51.5 & 2.2 & 43.2 & 77.2 & 77.2 & 77.3 \\
-Presidio + spaCy xx & 51.5 & 65.0 & 36.1 & 37.3 & 38.1 & 38.5 \\
+Presidio + spaCy & 51.5 & 65.0 & 36.1 & 37.3 & 38.1 & 38.5 \\
 \bottomrule
 \end{tabular}
 \caption{Synthetic tracks (not ranked). Form photos: leak and over-masked street names (\%). Forms: F2 over all
-value types. File types: leak (\%) on the 306 forms through one shared reader; UDF and Word give identical text.
+value types. File types: leak (\%) on the 306 forms through one shared reader; the UDF column also holds for Word, which gives identical text.
 -- = not run.}
 \label{tab:extra}
 \end{table}
@@ -362,7 +406,7 @@ below Base, at 2.5 times the size.
 exposure but does not by itself make an AI workflow compliant.
 \end{itemize}
 
-\textbf{Reproducibility.} \texttt{lab/foreign/build.py} (branch \texttt{main}) and
+\textbf{Reproducibility.} \texttt{paper/use\_cases.py}, \texttt{make\_fig.py} and \texttt{make\_fig2.py} rebuild Table~\ref{tab:usecase} (with its JSON/CSV) and Figures 1--3 from the saved results. \texttt{lab/foreign/build.py} (branch \texttt{main}) and
 \texttt{lab/legal/bench\_build.py} (branch \texttt{legal-study}, commit \texttt{14fa7ab}) rebuild the public split from
 public sources, and \texttt{lab/legal/bench\_run.py --rescore} re-scores the saved predictions; the bootstrap script and figure are
 in \texttt{paper/}. All numbers in this paper were reproduced from those files on 15 November 2026 (\texttt{legal-study} commit \texttt{bfb7911}).

@@ -1,6 +1,6 @@
 # arXiv submission sheet
 
-Upload `kvkk-bench-arxiv-source.tar.gz` (main.tex, main.bbl, refs.bib, fig_overall_size.pdf). It compiles with pdflatex, no bibtex step needed.
+Upload `kvkk-bench-arxiv-source.tar.gz` (main.tex, main.bbl, refs.bib, fig_overall_size.pdf, fig_leak_speed.pdf, fig_tracks.pdf). It compiles with pdflatex, no bibtex step needed.
 
 * **Title:** KVKK-Bench: Measuring Personal-Data Masking in Turkish Legal Text, with Small On-Device Models
 * **Authors:** Fikri Fırat
