@@ -33,7 +33,7 @@ The generator also verifies that it has seen every regular expression in the eng
 the engine cannot be skipped by the JavaScript port without CI failing.
 
 ```bash
-python sdk/tools/check.py --check                     # vendored engine, generated tables, spec copy, versions
+python sdk/tools/check.py --check                     # vendored engine, generated tables, spec copy, versions (Python 3.14: tables are pinned to its Unicode 16)
 python sdk/parity/golden.py --fuzz 1500 > sdk/parity/cases.jsonl
 cd sdk/js && npm ci && npm run build && npm test      # unit, parity and browser tests
 cd sdk/python && pip install -e ".[model,test]" && pytest
