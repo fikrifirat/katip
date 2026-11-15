@@ -1,0 +1,46 @@
+{
+ "system": "openmed-pf-v2",
+ "name": "OpenMed/privacy-filter-multilingual-v2",
+ "track": "format",
+ "set": "forms-id v0.1 (306 docs) saved as UDF / DOCX / digital PDF / 200 dpi scan PDF",
+ "reader": "shared",
+ "reader_detail": "same text for every system: UDF content.xml / python-docx paragraphs / pymupdf text layer / PaddleOCR (rapidocr, 200 dpi scan)",
+ "formats": {
+  "udf": {
+   "supported": true,
+   "leak_rate": 0.2464,
+   "docs": 306,
+   "recall": 0.5631,
+   "precision": 0.6324,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
+  },
+  "docx": {
+   "supported": true,
+   "leak_rate": 0.2464,
+   "docs": 306,
+   "recall": 0.5631,
+   "precision": 0.6324,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
+  },
+  "pdf": {
+   "supported": true,
+   "leak_rate": 0.259,
+   "docs": 306,
+   "recall": 0.5564,
+   "precision": 0.6281,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
+  },
+  "scan": {
+   "supported": true,
+   "leak_rate": 0.2609,
+   "docs": 306,
+   "recall": 0.5524,
+   "precision": 0.6449,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
+  }
+ }
+}

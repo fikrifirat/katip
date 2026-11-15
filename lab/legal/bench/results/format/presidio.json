@@ -3,13 +3,17 @@
  "name": "Presidio + spaCy xx (vanilla)",
  "track": "format",
  "set": "forms-id v0.1 (306 docs) saved as UDF / DOCX / digital PDF / 200 dpi scan PDF",
- "reader": "with a generic text extractor (python-docx paragraphs / PDF text layer)",
+ "reader": "shared",
+ "reader_detail": "same text for every system: UDF content.xml / python-docx paragraphs / pymupdf text layer / PaddleOCR (rapidocr, 200 dpi scan)",
  "formats": {
   "udf": {
-   "supported": false,
-   "leak_rate": null,
-   "docs": 0,
-   "note": "no UDF reader"
+   "supported": true,
+   "leak_rate": 0.373,
+   "docs": 306,
+   "recall": 0.3615,
+   "precision": 0.3573,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
   },
   "docx": {
    "supported": true,
@@ -30,10 +34,13 @@
    "gold_values_lost_by_reader": 0
   },
   "scan": {
-   "supported": false,
-   "leak_rate": null,
-   "docs": 0,
-   "note": "no OCR: a scan has no text layer"
+   "supported": true,
+   "leak_rate": 0.3848,
+   "docs": 306,
+   "recall": 0.3444,
+   "precision": 0.3496,
+   "clean_doc_rate": 0.0,
+   "gold_values_lost_by_reader": 0
   }
  }
 }

@@ -3,7 +3,8 @@
  "name": "Katip Rules v0.2",
  "track": "format",
  "set": "forms-id v0.1 (306 docs) saved as UDF / DOCX / digital PDF / 200 dpi scan PDF",
- "reader": "Katip's own file readers",
+ "reader": "shared",
+ "reader_detail": "same text for every system: UDF content.xml / python-docx paragraphs / pymupdf text layer / PaddleOCR (rapidocr, 200 dpi scan)",
  "formats": {
   "udf": {
    "supported": true,

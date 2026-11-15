@@ -10,12 +10,12 @@ Two steps, because the readers and the models live in different Python environme
 
 Files and read-back text go to lab/data/bench/format/ (git-ignored). Scores go to bench/results/format/<system>.json.
 
-Readers
-  katip    Katip's own file pipeline (connector engine.read_text = the browser's local_formats.py for UDF/DOCX;
-           pymupdf text layer for PDF, local OCR (PaddleOCR/Tesseract) for pages without one).
-  generic  what a firm gets with a stock text extractor in front of a plain text model: body paragraphs of the DOCX
-           (python-docx's doc.paragraphs), the PDF text layer (pdftotext-style). No UDF reader, no OCR, so UDF and
-           scans are "not supported".
+Readers (build step reads every file both ways; score uses ONE shared reader per format, same text for every system)
+  udf   content.xml text (Katip's local_formats reader; equals the source text)
+  docx  python-docx body paragraphs
+  pdf   pymupdf text layer (pages joined with a newline)
+  scan  PaddleOCR (rapidocr, local), the same OCR as the photo track; its page ranges go to Katip as ocr_ranges
+So the numbers compare the masking models on identical input; the reader is a fixed baseline, not part of the system.
 Gold spans are moved onto the read-back text with a character alignment (difflib); a value the reader lost entirely
 is not counted (it is not in the output, so it cannot leak). Leak rate is the same as on every other track:
 share of gold PII characters left readable.
@@ -186,8 +186,10 @@ def score(a):
     docs = {d["id"]: d for d in load_forms()}
     read = [json.loads(l) for l in (OUT / "read.jsonl").open(encoding="utf-8")]
     RES.mkdir(parents=True, exist_ok=True)
+    # one shared reader per format, the same text for every system
+    pick = {"udf": "katip", "docx": "generic", "pdf": "generic", "scan": "katip"}
+    shared = {fmt: [r for r in read if r["format"] == fmt and r["reader"] == pick[fmt]] for fmt in FORMATS}
     for key in a.systems:
-        reader = "katip" if key in KATIP_SYSTEMS else "generic"
         name, make = BR.SYSTEMS[key]
         det, _ = make()
         cached = {}
@@ -195,13 +197,12 @@ def score(a):
         if pf.exists(): cached = {p["id"]: p["spans"] for p in map(json.loads, pf.open(encoding="utf-8"))}
         row = {"system": key, "name": name, "track": "format",
                "set": "forms-id v0.1 (306 docs) saved as UDF / DOCX / digital PDF / 200 dpi scan PDF",
-               "reader": "Katip's own file readers" if reader == "katip" else "with a generic text extractor (python-docx paragraphs / PDF text layer)",
+               "reader": "shared",
+               "reader_detail": "same text for every system: UDF content.xml / python-docx paragraphs / pymupdf text layer / "
+                                "PaddleOCR (rapidocr, 200 dpi scan)",
                "formats": {}}
         for fmt in FORMATS:
-            rs = [r for r in read if r["format"] == fmt and r["reader"] == reader]
-            if not rs or all(r["text"] is None for r in rs):
-                why = "no UDF reader" if fmt == "udf" else ("no OCR: a scan has no text layer" if fmt == "scan" else "no reader")
-                row["formats"][fmt] = {"supported": False, "leak_rate": None, "docs": 0, "note": why}; continue
+            rs = shared[fmt]
             gold, pred, lost, t0 = [], [], 0, time.time()
             for r in rs:
                 d = docs[r["id"]]
@@ -219,7 +220,7 @@ def score(a):
                                    "recall": round(x["recall"], 4), "precision": round(x["precision"], 4),
                                    "clean_doc_rate": round(x["clean_doc_rate"], 4), "gold_values_lost_by_reader": lost}
         (RES / f"{key}.json").write_text(json.dumps(row, indent=1, ensure_ascii=False))
-        print(f"{name[:55]:55} " + "  ".join(f"{f}: " + (f"{100 * v['leak_rate']:5.2f}%" if v["supported"] else "  n/a ") for f, v in row["formats"].items()), flush=True)
+        print(f"{name[:55]:55} " + "  ".join(f"{f}: " + f"{100 * v['leak_rate']:5.2f}%" for f, v in row["formats"].items()), flush=True)
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); sub = ap.add_subparsers(dest="cmd", required=True)
