@@ -8,10 +8,10 @@
  "runs_locally": true,
  "runs_in_browser": true,
  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules",
- "ms_per_doc": 2.5,
- "words_per_s": 15895.0,
- "ms_per_page": 31.0,
- "machine": "x86_64 Linux, 4 CPUs",
+ "ms_per_doc": 1.9,
+ "words_per_s": 21288.0,
+ "ms_per_page": 23.0,
+ "machine": "arm64 Darwin, 12 CPUs",
  "tracks": {
   "contract": {
    "types": {
@@ -285,10 +285,10 @@
    "types": {
     "PERSON": {
      "gold": 1011,
-     "recall": 0.9881305637982196,
-     "precision": 0.9579256360078278,
-     "f2": 0.9819381476586397,
-     "exact_recall": 0.9169139465875371
+     "recall": 0.9406528189910979,
+     "precision": 0.9592668024439919,
+     "f2": 0.9443175996609976,
+     "exact_recall": 0.8536102868447082
     },
     "CRIMINAL_RECORD": {
      "gold": 0,
@@ -312,13 +312,13 @@
      "exact_recall": NaN
     }
    },
-   "recall": 0.9881305637982196,
-   "precision": 0.9023041474654377,
-   "f2": 0.9696834676088059,
+   "recall": 0.9406528189910979,
+   "precision": 0.9014354066985646,
+   "f2": 0.9325387035384218,
    "special_category_recall": NaN,
-   "false_per_1k_words": 5.209869261771355,
-   "leak_rate": 0.01284627529783264,
-   "clean_doc_rate": 0.9327217125382263
+   "false_per_1k_words": 5.062420131721223,
+   "leak_rate": 0.06085847215968783,
+   "clean_doc_rate": 0.8195718654434251
   },
   "health": {
    "types": {
@@ -573,8 +573,8 @@
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.8126357553925315,
+ "KVKK-F2": 0.8002541673690703,
  "F2 generated": 0.9878103284753689,
- "F2 all tracks": 0.9294188041144231,
- "leak_rate": 0.0668355504746268
+ "F2 all tracks": 0.9252916081066027,
+ "leak_rate": 0.07217023901483294
 }
