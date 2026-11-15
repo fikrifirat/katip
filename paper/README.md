@@ -4,7 +4,7 @@
 
 Every number comes from the KVKK-Bench v0.1.2 public split and the saved predictions on the `legal-study`
 branch (`lab/legal/bench/results`, `lab/legal/bench/preds`), which are identical to the files on the live
-Space `f1k/kvkk-bench` (checked 14 Nov 2026).
+Space `f1k/kvkk-bench` (checked 15 Nov 2026, `legal-study` commit `bfb7911`).
 
 * `bootstrap_ci.py`: sentence-clustered bootstrap (10,000 resamples, seed 20261114) for Table 1 and the paired
   comparisons; output in `bootstrap_output.txt`. Run it in a `legal-study` checkout after building the public split.

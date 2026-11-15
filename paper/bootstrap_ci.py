@@ -11,7 +11,7 @@ import bench_score as S, bench_build as B
 D=ROOT+'/lab/data/bench/v0.1.2/public/'
 TR=['court-turkish','court-foreign','prose']; W={'court-turkish':25,'court-foreign':10,'prose':10}
 gold={t:B.load(D+t+'.jsonl') for t in TR}
-SYS=['berturk-v2','xlmr-conll','akdeniz','gliner2-pii','savasy','gliner','tiny-f','cosmos-pii','qwen-1.5b','openmed-pf-v2','openai-pf','piiranha','presidio','openmed-tr-33m']
+SYS=['berturk-v2','mini-v2','xlmr-conll','akdeniz','gliner2-pii','savasy','gliner','tiny-f','cosmos-pii','qwen-1.5b','openmed-pf-v2','openai-pf','piiranha','presidio','openmed-tr-33m']
 def key(t,g): return g['id'].split('-',2)[2].split('#')[0] if t!='prose' else g['id']
 # cluster index: court sentences shared across the two court tracks
 clusters={}
