@@ -23,21 +23,21 @@
 \maketitle
 
 \begin{abstract}
-General-purpose AI assistants are now part of legal work. The Turkish data-protection authority's 2026 guide
-for lawyers states that uploading client documents to such assistants can amount to a transfer of personal data
-abroad under art.~9 of Law No.~6698 (KVKK), and recommends masking personal data first. Masking needs a detector
-that works on Turkish legal prose and can run on the lawyer's own machine, but published Turkish PII models are
-evaluated on their own, mostly synthetic, data. We release \textbf{KVKK-Bench}, a public benchmark with a fixed
-scorer that ranks systems on real text only (Yarg{\i}tay sentences with held-out Turkish and foreign names, and
-Wikipedia sentences), reports a character-level \emph{leak rate}, and closes a loophole by which over-masking
-scored perfect precision. We evaluate 15 systems and release three small models, \textbf{Katip Mask Base}
-(110M parameters, 111\,MB int8), \textbf{Katip Mask Mini} (31M, 31\,MB) and \textbf{Katip Mask Nano} (2.5M,
-2.9\,MB, 43 pages/s on a laptop CPU), all of which run in a browser. Base scores 96.1 Overall [95\% CI 95.4--96.6],
-level with the best general model (XLM-R Large, 95.9; difference not significant) and with over twice its leak
-rate (8.2\% vs 3.4\%). Unranked synthetic tracks add phone photos of hand-filled forms, forms on real petition
-layouts, and the same forms as UDF, Word, PDF and scanned files read by one shared reader. We do not claim a state of the art: the
-margins are small, part of the test is in-domain for our models, and no real client documents are labelled yet.
-The contribution is a shared, reproducible yardstick, a practical model family for local masking, and a local connector for AI assistants whose guarantee we state precisely: it fails closed on every value it detects, and its residual risk is the detector's measured miss rate.
+Türkiye's data-protection authority now says that uploading client documents to a foreign AI assistant can be
+a transfer of personal data abroad (art.~9, Law No.~6698, KVKK), and recommends masking personal data first.
+Masking needs a detector that works on Turkish legal text and runs on the lawyer's own machine. Turkish PII
+models exist, but each is tested on its own, mostly synthetic, data, so their scores cannot be compared.
+We release \textbf{KVKK-Bench}, a public benchmark for that question. Unlike general PII benchmarks, it
+(i) scores on real court text, with Turkish and foreign names that no system has seen in training;
+(ii) asks what a lawyer needs to know, \emph{how much personal data is still readable} after masking
+(a character-level leak rate), next to a recall-weighted F2; and (iii) penalises masking everything, which a naive span
+scorer (including our own first version) rewards with perfect precision. We evaluate 15 systems and release three small models that run in a
+browser: \textbf{Katip Mask Base} (111\,MB), \textbf{Mini} (31\,MB) and \textbf{Nano} (2.9\,MB, 43 pages/s on a
+laptop CPU). Base scores 96.1 Overall [95\% CI 95.4--96.6], a statistical tie with the best general model
+(XLM-R Large, 95.9) at one twentieth of its size, but it leaks more than twice as much (8.2\% vs 3.4\%).
+Unranked synthetic tracks add forms, phone photos of forms, and the same forms as UDF, Word, PDF and scanned
+files. We do not claim a state of the art: margins are small, part of the test is in-domain for our models, and
+no real client documents are labelled yet.
 \end{abstract}
 
 \section{Motivation}
@@ -75,7 +75,16 @@ reduces but does not remove KVKK obligations.
 validation split. Our own first model illustrates the risk: BERTurk fine-tuned on synthetic legal documents found
 every name in synthetic tests and 41\% of names in real Wikipedia sentences \citep{katip-repo}.
 
-\textbf{Related work.} Anonymisation benchmarks with real text are English: TAB on ECHR judgments
+\textbf{What KVKK-Bench adds.} Generic PII benchmarks ask whether a model tags entities; KVKK-Bench asks whether a
+lawyer can send the masked text. Concretely: (i) the ranked text is real Turkish court and encyclopaedic text, with
+court casing, case suffixes and foreign clients' names; (ii) the inserted names are held out from every training set we
+know of, so memorisation does not help; (iii) the headline error is the share of personal-data characters left
+readable, not only F1; (iv) masking a whole document no longer scores perfect precision, and name-free legal text
+counts false alarms, because an over-masked document is harder to use in court; and (v) unranked tracks cover the
+file types lawyers actually exchange (UYAP's UDF, scans, phone photos). Each piece exists somewhere for English;
+the combination, for Turkish legal work and on-device models, does not.
+
+\textbf{Related work.} \citet{lison2021anonymisation} survey text anonymisation and argue that it should be judged by the privacy risk left and the utility kept, not by entity F1 alone; our leak rate and false-alarm counts follow that view. Anonymisation benchmarks with real text are English: TAB on ECHR judgments
 \citep{pilan2022tab} and i2b2 clinical notes \citep{stubbs2015i2b2}. Recent multilingual PII benchmarks either
 generate records under controlled conditions (REDACT, 25 languages \citep{vats2026redact}) or pool existing
 corpora under one label set (PIIBench \citep{jha2026piibench}), and an audit of widely downloaded masking models
@@ -85,8 +94,9 @@ court judgments \citep{hahm2025thunder}. Name detectors are known to fail uneven
 \citep{mansfield2022behind}, which motivates our foreign-name track. An independent multilingual evaluation also finds
 Presidio and an OpenAI Privacy Filter fine-tune well behind a trained encoder \citep{graehl2026privacytagging},
 consistent with our results. For Turkish, legal NER data exists \citep{cetindag2022tlner} but its person names
-are mostly anonymised as ``\ldots''; Turkish legal encoders (Mecellem \citep{ugur2026mecellem}, HukukBERT
-\citep{ozturk2026hukukbert}) are candidate base models we have not yet tried; and an audit found that 70\% of
+are mostly anonymised as ``\ldots''; two Turkish legal encoders have appeared, Mecellem \citep{ugur2026mecellem} and HukukBERT
+\citep{ozturk2026hukukbert}; neither is a PII detector, so testing them means training one on top of them
+(Section~\ref{sec:limits}); and an audit found that 70\% of
 commonly used Turkish benchmarks fail basic quality criteria \citep{cengiz2025turkishbench}, which is why we
 document construction, licences and known defects in detail (Appendix~\ref{app:datasheet}).
 
@@ -126,7 +136,7 @@ false alarms per 1,000 words.
 \textbf{Uncertainty.} 95\% CIs come from a percentile bootstrap \citep{efron1993} with 10,000 resamples that
 resamples the 109 court sentences as clusters (keeping their three fills and both court tracks together) and the
 1,000 prose sentences independently. Comparisons with Katip Mask Base are paired (same resample for both systems);
-we report two-sided bootstrap $p$-values and correct across the 13 comparisons with Holm's method \citep{holm1979}.
+we report two-sided bootstrap $p$-values and correct across the 14 comparisons with Holm's method \citep{holm1979}.
 
 \textbf{Release.} Public split, scorer, runner, saved predictions of every system and the leaderboard Space are
 open \citep{firat2026kvkkbench,katip-repo}; a canary string marks every file. Licences follow the sources:
@@ -136,13 +146,13 @@ CC BY-SA 4.0, generated documents CC BY 4.0. Every inserted value is synthetic.
 \section{Systems}
 \label{sec:systems}
 
-\textbf{Katip Mask Base · tr v2}: BERTurk \citep{schweter2020berturk} fine-tuned for 3 epochs on 8,000 synthetic
+\textbf{Katip Mask Base · tr v2}: BERTurk \citep{schweter2020berturk}, a Turkish BERT \citep{devlin2019bert}, fine-tuned for 3 epochs on 8,000 synthetic
 legal documents plus 17,967 Turkish Wiki NER \emph{train} sentences (person names), tagging names, addresses and
 health terms; int8 ONNX. \textbf{Katip Mask Nano · tr v1.1}: a 2-layer BERT (hidden 128, 16k WordPiece) trained from
 scratch for 5 epochs (458\,s on 4 CPU cores) on 8,000 synthetic documents, 4,182 real-text documents (Wiki NER
 train, TurkishLegalNER \emph{train}-split sentences with filled names) and a transliterated foreign-name mix whose
-test families were held out. \textbf{Katip Mask Mini · tr v2}: DistilBERTurk (dbmdz, MIT) cut to 3 layers
-and a 12k vocabulary, then distilled from Base (loss $0.5\,\mathrm{CE}+0.5\,T^2\mathrm{KL}$, $T=2$) on the same
+test families were held out. \textbf{Katip Mask Mini · tr v2}: DistilBERTurk (dbmdz, MIT; DistilBERT recipe \citep{sanh2019distilbert}) cut to 3 layers
+and a 12k vocabulary, then distilled from Base \citep{hinton2015distilling} (loss $0.5\,\mathrm{CE}+0.5\,T^2\mathrm{KL}$, $T=2$) on the same
 training text for 4 epochs on one Colab T4; the 3-layer, 12k-vocabulary variant was chosen over two smaller ones on
 dev data before any test scoring. All three run inside Katip's rule engine (checksummed IDs, phones, IBANs, addresses,
 casing and suffix handling; 0.3\,MB) with the browser's own code, detection threshold 0.5 and \emph{trust} 0.5
@@ -202,7 +212,7 @@ Katip models so far), Base is the strongest, at one twentieth of XLM-R Large's d
 \textbf{Small models.} Nano reaches 94.4/95.5 F2 on Turkish and foreign names in court text at 2.9\,MB and
 43 pages/s, 26 times faster than Base, but collapses on general prose (52.9 F2, 49.0\% leak): a sub-5\,MB model
 covers legal register, not open-domain Turkish. Mini, distilled from Base into 31\,MB, keeps court text
-(99.1/97.2) and recovers about half of the prose gap (72.5 F2, 31.9\% leak), 7.4 Overall points above Nano and 3.3 below Base
+(99.1/97.2) and recovers about 60\% of the prose gap (72.5 F2, 31.9\% leak), 7.4 Overall points above Nano and 3.3 below Base
 (paired difference with Base 3.3 [2.5, 4.0]). Off-the-shelf multilingual PII models of 1.4B parameters score
 51--57, below the 11\,MB Presidio on prose and far below Turkish NER models on court text; a prompted 1.5B LLM is
 both slow (80\,s per page on CPU) and unreliable (57.5, CI width 22 points).
@@ -242,8 +252,9 @@ text, so the score isolates masking from file handling. \emph{Form photos}: 60 p
 (handwriting fonts, tilt, shadow, blur), read once by Katip's OCR; a value counts as leaked if under 70\% of its
 box is covered, and we also count \emph{over-masking}, the share of 360 street and district names, which should stay
 readable, that were masked. Katip's rules were not tuned on any of these documents, but its generator shares
-their style, so they stay out of the ranking. Two findings hold regardless: general NER and PII models miss whole
-value types (T.C. kimlik, IBAN, tax numbers), so their leak is 25--77\% on every file type, while file type itself
+their style, so they stay out of the ranking. Two findings hold regardless: name-only NER models and the multilingual PII models miss whole
+value types (T.C. kimlik, IBAN, tax numbers), so their leak is 25--77\% on every file type (the Turkish
+ModernBERT-TR PII is the exception, at 2.4\%), while file type itself
 moves Katip's leak by at most two points (scans); and on photos, low leak alone is misleading: ModernBERT-TR PII
 leaks least (2.3\%) by masking 95\% of the street names.
 
@@ -320,6 +331,7 @@ message before any tool runs, so it bypasses Kalkan entirely. (iv) The user's ow
 Kalkan therefore reduces exposure; it does not prove the absence of leakage, and the user remains the reviewer.
 
 \section{Limitations and future work}
+\label{sec:limits}
 \begin{itemize}
 \item \textbf{No real client documents.} Court sentences with filled slots and Wikipedia are proxies. Contracts,
 petitions and e-mails from practice are the target of a consented pilot whose documents never leave the firm;
@@ -338,6 +350,10 @@ real-name track is meant to check this.
 lower for the larger models.
 \item \textbf{OCR} is tested only on synthetic scans and phone photos. OCRTurk \citep{ocrturk2026} turned out to
 be born-digital pages whose only personal data are author names, so it was not added.
+\item \textbf{Legal encoders not tested.} HukukBERT's weights are not public. Mecellem's encoder
+(Mursit, ModernBERT, 155M, Apache-2.0) is, but it is a base model with no NER head, so it needs the same
+fine-tuning as our Base; we have not run it. A Turkish legal base model could narrow Base's prose gap, and its
+Apache-2.0 licence matters for the release below, so it is our next base-model comparison.
 \item \textbf{Licences.} All three models are CC BY-SA 4.0 because they are trained on Wiki NER; code is AGPL-3.0.
 A Base retrained without Wikipedia data (synthetic and court-decision text only) scored about 25 points below Base on
 the real-text tracks, so an Apache-2.0 release waits for new real labelled text. XLM-R Base fine-tuned on our data scored 2 points

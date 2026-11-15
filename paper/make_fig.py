@@ -12,7 +12,7 @@ for s,p in B['point'].items():
     size=R[s]['size_mb'] or 11.0; y=100*p[0]; katip=s in('berturk-v2','mini-v2','tiny-f')
     c='#2a78d6' if katip else '#8a8984'
     ax.errorbar(size,y,yerr=[[y-100*lo],[100*hi-y]],fmt='o',ms=4.2 if katip else 3.2,color=c,mec='#fcfcfb',mew=.8,elinewidth=.9,capsize=0,zorder=3 if katip else 2)
-    pos={'berturk-v2':(85,96.1,'right',False),'mini-v2':(21,91.2,'right',False),'tiny-f':(4,85.4,'left',False),'savasy':(330,88.4,'right',False),'cosmos-pii':(400,80.5,'right',False),
+    pos={'berturk-v2':(85,97.2,'right',False),'mini-v2':(31,89.6,'center',False),'tiny-f':(4,84.0,'left',False),'savasy':(440,99.6,'center',True),'cosmos-pii':(500,80.8,'right',False),
          'presidio':(14,45,'left',False),'openmed-tr-33m':(170,19.1,'left',False),
          'xlmr-conll':(13000,99.5,'left',True),'akdeniz':(13000,95.5,'left',True),'gliner2-pii':(13000,91.5,'left',True),'gliner':(13000,87.5,'left',True),
          'qwen-1.5b':(13000,62,'left',True),'openmed-pf-v2':(13000,57,'left',True),'openai-pf':(13000,52,'left',True),'piiranha':(13000,47,'left',True)}
