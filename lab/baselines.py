@@ -129,6 +129,40 @@ def gliner():
     return det
 
 
+# NewMind GLiNER2.5 KVKK models (github.com/newmindai/nm-kvkk). Run as their extract_kvkk.py does: labels = the
+# "stack21" subset of the model's kvkk_schema.json under its Turkish names, threshold 0.5, the whole document in one
+# call. Entity ids map to bench types; other ids keep their own name (masked, never a typed hit). Both models are run
+# with the patched GLiNER2 from that repo (set NMKVKK_GLINER2=<nm-kvkk>/GLiNER2): the Mursit model needs it (the PyPI
+# gliner2 loads it but ignores native tokenization and gives wrong output), and the fork reads the mDeBERTa v2 as upstream does.
+_NEWMIND = {"full_name": "PERSON", "national_id_number": "TCKN", "tax_id_number": "VKN", "passport_number": "PASSPORT",
+            "phone_number": "PHONE", "email_address": "EMAIL", "iban": "IBAN", "full_address": "ADDRESS",
+            "date_of_birth": "BIRTH_DATE", "card_number": "CREDIT_CARD", "ip_address": "IP_ADDRESS", "license_plate": "PLATE"}
+
+def _newmind(repo, subset="stack21"):
+    lib = os.environ.get("NMKVKK_GLINER2")
+    if lib and lib not in sys.path: sys.path.insert(0, lib)
+    import gliner2
+    if not hasattr(gliner2, "__nm_kvkk__"):
+        raise RuntimeError("needs the nm-kvkk GLiNER2 library: set NMKVKK_GLINER2=<nm-kvkk>/GLiNER2")
+    from gliner2 import AutoExtractor
+    from huggingface_hub import hf_hub_download
+    S = json.loads(open(hf_hub_download(repo, "kvkk_schema.json"), encoding="utf-8").read())
+    name = {e["id"]: e["name"] for e in S["entities"]}
+    ids = S["subsets"][subset]
+    to_type = {name[i]: _NEWMIND.get(i, i) for i in ids}
+    m = AutoExtractor.from_pretrained(repo)
+    schema = m.create_schema().entities([name[i] for i in ids])
+    def det(text):
+        r = m.extract(text, schema, threshold=0.5, include_spans=True)
+        return [(e["start"], e["end"], to_type.get(lab, lab)) for lab, es in (r.get("entities") or {}).items() for e in es]
+    det.params = sum(p.numel() for p in m.parameters())
+    det.size_mb = round(sum(p.numel() * p.element_size() for p in m.parameters()) / 1e6, 1)
+    return det
+
+newmind_mursit = lambda: _newmind("newmindai/gliner2.5-mursit-kvkk-tr-v1")
+newmind_v2 = lambda: _newmind("newmindai/gliner2.5-kvkk-tr-v2")
+
+
 LLM_TYPES = ["PERSON", "TCKN", "VKN", "PHONE", "EMAIL", "IBAN", "CREDIT_CARD", "ADDRESS", "PLATE", "BIRTH_DATE", "HEALTH"]
 LLM_PROMPT = ("You mask personal data in Turkish documents under KVKK. List every piece of personal data in the text below, "
               "copied exactly as it appears. Types: " + ", ".join(LLM_TYPES) + ". PERSON is a person's name (not companies, courts "
@@ -180,6 +214,8 @@ BASELINES = {"presidio": ("R1 Presidio + spaCy xx (vanilla)", presidio),
              "openmed-pf": ("OpenMed privacy-filter multilingual", _hf("OpenMed/privacy-filter-multilingual", _OPENMED_ML)),
              "gliner2-pii": ("fastino GLiNER2 PII multi", gliner2_pii),
              "gliner2-pii-full": ("fastino GLiNER2 PII multi, full label set", gliner2_pii_full),
+             "newmind-mursit-kvkk": ("newmindai/gliner2.5-mursit-kvkk-tr-v1 (stack21 labels)", newmind_mursit),
+    "newmind-kvkk-v2": ("newmindai/gliner2.5-kvkk-tr-v2 (stack21 labels)", newmind_v2),
              "openmed-tr-33m": ("OpenMed PII Turkish ClinicalE5 33M", _hf("OpenMed/OpenMed-PII-Turkish-ClinicalE5-Small-33M-v1", _OPENMED_ML)),
              "xlmr-conll": ("XLM-R large CoNLL03 English", _hf("FacebookAI/xlm-roberta-large-finetuned-conll03-english", _CONLL)),
              "piiranha": ("piiranha v1", _hf("iiiorg/piiranha-v1-detect-personal-information", _PIIRANHA)),
