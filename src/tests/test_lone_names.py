@@ -48,8 +48,9 @@ def test_all_caps_and_roman_numerals_never_lone_names():
 
 
 def test_unsure_common_word_stays_readable():
-    # an ordinary word the model is not very sure of stays readable inside a sentence
-    assert people("Bu konuda Tüm tarafların onayı alındı.", [("Tüm", 0.6)]) == []
+    # an ordinary word the model is not sure of (below LONE_NAME_SCORE, 0.5 since the 15 Nov dev sweep) stays
+    # readable inside a sentence; at 0.5 or above it is now masked, the accepted cost of catching more lone names
+    assert people("Bu konuda Tüm tarafların onayı alındı.", [("Tüm", 0.45)]) == []
 
 
 def test_surname_repeated_alone_is_masked():

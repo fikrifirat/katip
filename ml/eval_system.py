@@ -17,6 +17,7 @@ mdir = Path(sys.argv[1] if __name__ == "__main__" else __import__("os").environ[
 tok = Tokenizer.from_file(str(mdir / "tokenizer.json"))
 onnx_file = mdir / "onnx" / ("model_quantized.onnx" if "--q8" in sys.argv or __name__ != "__main__" else "model.onnx")
 sess = ort.InferenceSession(str(onnx_file))
+INPUTS = {i.name for i in sess.get_inputs()}
 WORD = regex.compile(cfg["katip"]["word_regex"]); MAXTOK = cfg["katip"]["max_tokens"]
 CLS, SEP, UNK = (tok.token_to_id(t) for t in ("[CLS]", "[SEP]", "[UNK]"))
 id2label = {int(k): v for k, v in cfg["id2label"].items()}
@@ -30,7 +31,8 @@ def ner(text, min_score=float(__import__("os").environ.get("MINS", 0.5))):
             first.append(len(ids)); ids += words[w][2]; w += 1
         if w == w0: labels[w0] = ("O", 1.0); w0 += 1; continue
         ids.append(SEP); a = np.array([ids], dtype=np.int64)
-        lg = sess.run(["logits"], {"input_ids": a, "attention_mask": np.ones_like(a), "token_type_ids": np.zeros_like(a)})[0][0]
+        feed = {"input_ids": a, "attention_mask": np.ones_like(a), "token_type_ids": np.zeros_like(a)}
+        lg = sess.run(["logits"], {k: v for k, v in feed.items() if k in INPUTS})[0][0]  # DistilBERT (Mini) has no token_type_ids
         for j, pos in enumerate(first):
             z = lg[pos] - lg[pos].max(); p = np.exp(z) / np.exp(z).sum(); b = int(p.argmax())
             labels[w0 + j] = (id2label[b], float(p[b]))

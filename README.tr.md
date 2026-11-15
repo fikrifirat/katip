@@ -53,7 +53,8 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 
 | Model | Nedir | Bulunan değer (kör set) | Bulunan isim |
 | --- | --- | --- | --- |
-| **Katip Mask Nano · tr v1.1** (önerilen) | Katip Kural + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2,5 MB, Türk ve yabancı müvekkil isimleri | **757'de 756 (%99,9)** | 365'te 364 |
+| **Katip Mask Mini · tr v2** (önerilen, varsayılan) | Katip Kural + [`katip-mask-mini`](https://huggingface.co/f1k/katip-mask-mini), 31 MB, Katip Mask Base'ten damıtıldı; gündelik metinde Nano'dan çok daha fazla isim bulur (KVKK-Bench: %72,5'e karşı %52,9) | 757'de 754 (%99,6) | 365'te 364 |
+| **Katip Mask Nano · tr v1.1** (hızlı mod) | Katip Kural + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2,5 MB, Türk ve yabancı müvekkil isimleri | **757'de 756 (%99,9)** | 365'te 364 |
 | **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 756 (%99,9) | 365'te 364 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
 | **Katip Mask Base** | Katip Kural + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-mask) | **757'de 757 (%100)** | **365'te 365** |
@@ -82,8 +83,10 @@ etiketleyici için yazılan birleştirme kuralları *Esila* gibi aynı zamanda s
 ve sonuç Nano ile aynıydı ([`accuracy-berturk-no-trust.json`](metrics/accuracy-berturk-no-trust.json)).
 %90 değeri bu ölçümden önce bir kez belirlendi, ayarlanmadı; ayrılmış set geliştirme sırasında incelenmişti, kör set incelenmemişti.
 
-Katip Mask Nano'dan 40 kat büyük olduğu için demoda varsayılan Nano olarak kalıyor; Katip Mask Base Hugging Face
-Space'te çalışıyor (110,8 MB'lık dosyası GitHub Pages'in 100 MB sınırını aşıyor). Ham veriler:
+Katip Mask Nano'dan 40 kat büyük olduğu için Katip Mask Base Hugging Face Space'te çalışıyor (110,8 MB'lık dosyası
+GitHub Pages'in 100 MB sınırını aşıyor). 14 Kasım 2026'dan beri demonun varsayılanı **Katip Mask Mini** (31 MB,
+tarayıcıda sayfa başına yaklaşık 1 sn); uzun dijital dosyalar için Nano hızlı mod olarak duruyor (sayfa başına yaklaşık
+0,03 sn). Gerçek gündelik metinde Mini isimlerin %72,5'ini, Nano %52,9'unu buluyor ([KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench)). Ham veriler:
 [`metrics/berturk-model-alone.json`](metrics/berturk-model-alone.json).
 
 ### Boyut, hız ve doğruluk yan yana

@@ -9,6 +9,7 @@ warning appears for every extension installed from a file. To check this downloa
 
 **New in 0.3.6 (names):**
 - Finds a lone first or last name inside a sentence when the name model is sure of it, joins names the model returns word by word, and masks a word of a full name found elsewhere in the document when it appears alone (KVKK-Bench, Base: 92.0 → 93.1, leaks 3.3% → 3.1%, no new false alarms on court text).
+- Default detection threshold 0.5 (was 0.7), tuned on the dev split, the same rules and threshold as the katip-mask 0.1.0 SDK. Blind set: 748 of 757 values masked.
 - Releases now publish themselves when the version in manifest.json changes on main.
 
 **New in 0.3.5 (safety and publishing):**
