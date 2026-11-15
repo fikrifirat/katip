@@ -1,19 +1,15 @@
 {
   "name": "katip-mask",
   "version": "0.1.0",
-  "description": "Find and mask Turkish personal data (KVKK) in the browser or Node, on the user's device: rules plus small on-device name models. Same output as the Python package.",
+  "description": "Detect and mask Turkish personal data (KVKK) in Node or the browser, locally. Same output as the Python package.",
   "keywords": [
     "kvkk",
     "pii",
-    "anonymization",
     "redaction",
+    "anonymization",
     "turkish",
     "privacy",
-    "masking",
-    "de-identification",
-    "legal",
-    "onnx",
-    "browser"
+    "onnx"
   ],
   "homepage": "https://github.com/fikrifirat/katip/tree/main/sdk/js#readme",
   "bugs": "https://github.com/fikrifirat/katip/issues",

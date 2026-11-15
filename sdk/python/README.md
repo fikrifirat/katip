@@ -1,91 +1,80 @@
-# katip-mask (Python)
+# katip-mask
 
-Find and mask Turkish personal data (KVKK) in text, on your own machine. Same detection engine as the
-[Katip web demo](https://fikrifirat.github.io/katip) and the Katip Kalkan connector, plus optional small
-name models that run locally with ONNX Runtime. A JavaScript package with identical output is on npm as
+Detect and mask Turkish personal data (KVKK) in text, locally. It uses the same rules as the
+[Katip demo](https://fikrifirat.github.io/katip) and the Katip Kalkan connector, with optional small name
+models (ONNX). A JavaScript version with identical output is on npm as
 [`katip-mask`](https://www.npmjs.com/package/katip-mask).
 
 ```bash
 pip install katip-mask            # rules only, no dependencies
-pip install "katip-mask[model]"   # + on-device name models (onnxruntime, numpy)
+pip install "katip-mask[model]"   # adds onnxruntime and numpy for the name models
 ```
 
 ```python
 from katip_mask import Masker
 
-masker = Masker("ai", model="mini")       # profile + model; model=None runs the rules only
-result = masker.mask(open("dilekce.txt", encoding="utf-8").read())
+masker = Masker("ai", model="mini")
+result = masker.mask(text)
 
 result.text      # 'Davacı [AD SOYAD-1] (T.C. Kimlik No: [T.C. KİMLİK NO-1]) ...'
-result.spans     # (Span(entity_type='PERSON', start=7, end=19, text='Ahmet YILMAZ', score=0.95, ...), ...)
-result.mapping   # {'[AD SOYAD-1]': 'Ahmet YILMAZ', ...}  keep this on your side
+result.spans     # what was masked, with offsets, type and score
+result.mapping   # {'[AD SOYAD-1]': 'Ahmet YILMAZ', ...}
 
-answer = call_your_llm(result.text)       # the model only ever sees placeholders
-print(result.restore(answer))             # placeholders back to the real values
+result.restore(answer)   # put the original values back, e.g. into an LLM's reply
 ```
 
-## What it promises, and what it does not
+## Limits
 
-Every value the detector finds is masked **everywhere** it occurs in the text (other spellings of the
-same value included, case-insensitive), or `mask()` raises `LeakError` instead of returning text. That
-is the whole guarantee. A value the detector does not find is not masked, so this is not a promise that a
-document is anonymous or "KVKK-compliant": review the output where it matters. Detection quality per
-document type and per model is published on the
-[KVKK-Bench leaderboard](https://huggingface.co/spaces/f1k/kvkk-bench).
+Each detected value is masked everywhere it appears in the text, or `mask()` raises `LeakError`.
+Values the detector misses stay in the text, so check the output before relying on it. Detection rates
+by document type and model are on the [KVKK-Bench leaderboard](https://huggingface.co/spaces/f1k/kvkk-bench).
 
-Nothing is sent anywhere. The only network access is the one-time model download you ask for
-(`model="mini"`), from Hugging Face at a pinned commit, with every file checked against a SHA-256 in the
-package before it is used.
+Text never leaves the machine. The only network call is the model download, which happens only when you
+pass `model=`.
 
 ## Profiles
 
-One argument sets which data types are masked and how much of an address stays readable. Each profile
-masks everything the one before it does.
-
-| profile | for | masks | keeps readable |
+| profile | use | masks | leaves readable |
 |---|---|---|---|
-| `court` (default) | evidence and petition attachments | all personal data: names, T.C./YKN/passport/foreign IDs, tax no, IBAN, cards, phones, e-mails, plates, birth dates, IPs, building/door/flat numbers, KVKK art. 6 special categories | mahalle, street, district, province, case numbers, dates, court names, precedent citations |
-| `ai` | sending a document to ChatGPT, Claude, etc. | `court` + whole addresses, case/UYAP numbers, bar/registry numbers, criminal-record terms | dates, places, institutions, precedent citations |
-| `anon` | publishing, research | `ai` + dates, provinces/districts, court, company and institution names | precedent citations (public law) |
-
-The entity types and Turkish placeholder names are in `katip_mask.ENTITY_TYPES` and `katip_mask.LABELS_TR`.
+| `court` (default) | court filings | names, ID/passport/tax numbers, IBAN, cards, phones, e-mails, plates, birth dates, IPs, building and door numbers, health and other special-category data | street, district, province, case numbers, dates, courts, precedent citations |
+| `ai` | sending text to an LLM | `court`, plus full addresses, case and UYAP numbers, bar numbers, criminal-record terms | dates, places, institutions, precedent citations |
+| `anon` | publishing, research | `ai`, plus dates, places, courts, companies and institutions | precedent citations |
 
 ## Options
 
 ```python
 Masker(
-    profile="court",          # "court" | "ai" | "anon"
-    model=None,               # None | "mini" | "nano" | "base" | "/path/to/model-folder"
-    threshold=0.5,            # minimum confidence for a rule or model hit
-    entities=None,            # your own list of types instead of the profile's
-    address_detail=None,      # "street" | "full" (default: the profile's)
-    allow=(),                 # terms never masked, e.g. your firm's name
-    deny=(),                  # terms always masked, e.g. client names you know in advance
-    style="label",            # "label" -> [AD SOYAD-1] (reversible), "block" -> ██████
+    profile="court",       # "court" | "ai" | "anon"
+    model=None,            # None (rules only) | "mini" | "nano" | "base" | path to a model folder
+    threshold=0.5,         # minimum confidence
+    entities=None,         # replace the profile's entity types (see katip_mask.ENTITY_TYPES)
+    address_detail=None,   # "street" | "full"; default comes from the profile
+    allow=(),              # never mask these terms
+    deny=(),               # always mask these terms
+    style="label",         # "label": [AD SOYAD-1], reversible; "block": ██████
 )
-masker.mask(text, ocr_ranges=[(0, len(text))])   # text that came from OCR: misread IDs are still caught
+masker.mask(text, ocr_ranges=[(0, len(text))])   # mark OCR text so misread ID numbers are still caught
 masker.detect(text)                                # spans only
 ```
 
-`mask(text, profile, **options)`, `detect(...)` and `restore(text, mapping)` are one-call shortcuts.
-Offsets are Python string indices (code points).
+`mask()`, `detect()` and `restore()` are also available as functions. Offsets are Python string indices.
 
 ## Models
 
-| model | size | runs | note |
-|---|---|---|---|
-| `nano` | 2.6 MB | fastest | finds names well in court text, misses more in everyday prose |
-| `mini` | 31 MB | fast | recommended: names in court text and in petitions, e-mails, messages |
-| `base` | 111 MB | slower | most accurate; also tags addresses and health terms |
+| model | size | |
+|---|---|---|
+| `nano` | 2.6 MB | fastest, weaker on informal text |
+| `mini` | 31 MB | recommended |
+| `base` | 111 MB | most accurate, also tags addresses and health terms |
 
-The models are CC BY-SA 4.0 ([f1k/katip-mask-mini](https://huggingface.co/f1k/katip-mask-mini) and siblings),
-built on BERTurk by dbmdz (MIT). They are downloaded on first use into `~/.cache/katip-mask` (or
-`$KATIP_MASK_CACHE`), shared with the JavaScript package in Node.
+Models are downloaded from Hugging Face ([f1k/katip-mask-mini](https://huggingface.co/f1k/katip-mask-mini)
+and siblings) at a fixed commit and checked against SHA-256 hashes in the package. They are cached in
+`~/.cache/katip-mask` (or `$KATIP_MASK_CACHE`), which the Node package shares.
 
 ```bash
-katip-mask download mini        # e.g. while building a container image
-export KATIP_MASK_OFFLINE=1     # then never touch the network
-export KATIP_MASK_ENDPOINT=https://your-mirror.example   # or HF_ENDPOINT
+katip-mask download mini       # fetch ahead of time
+export KATIP_MASK_OFFLINE=1    # never use the network
+export KATIP_MASK_ENDPOINT=https://your-mirror.example
 ```
 
 ## Command line
@@ -97,11 +86,10 @@ katip-mask restore cevap.txt --mapping result.json
 katip-mask detect dilekce.txt
 ```
 
-The `--json` output is the same from the JavaScript CLI, so the two are interchangeable. Exit code 3 means masking was refused because a detected value would have stayed readable.
+The JSON matches the JavaScript CLI's. Exit code 3 means masking was refused (`LeakError`).
 
 ## Licence
 
-Code: AGPL-3.0, with a commercial licence for products, internal systems or hosted services that cannot
-meet the AGPL's source-sharing terms (see
-[COMMERCIAL.md](https://github.com/fikrifirat/katip/blob/main/COMMERCIAL.md)). Models: CC BY-SA 4.0.
-Cite with [CITATION.cff](https://github.com/fikrifirat/katip/blob/main/CITATION.cff).
+Code: AGPL-3.0, or a [commercial licence](https://github.com/fikrifirat/katip/blob/main/COMMERCIAL.md).
+Models: CC BY-SA 4.0, based on BERTurk (dbmdz, MIT).
+Citation: [CITATION.cff](https://github.com/fikrifirat/katip/blob/main/CITATION.cff).
