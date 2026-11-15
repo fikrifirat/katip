@@ -1,0 +1,89 @@
+name: SDKs (katip-mask)
+
+on:
+  pull_request:
+    paths: ["sdk/**", "docs/katip_py.zip", ".github/workflows/sdk*.yml"]
+  push:
+    branches: [main]
+    paths: ["sdk/**", "docs/katip_py.zip", ".github/workflows/sdk*.yml"]
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  in-step:
+    name: Engine, tables, spec and versions in step
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.14" }
+      - run: python sdk/tools/check.py --check
+
+  python:
+    name: Python ${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # 3.14 is current; 3.10 stays as the floor because Ubuntu 22.04 LTS (supported to 2027) ships it
+        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        os: [ubuntu-latest]
+        include:
+          - { python: "3.14", os: windows-latest }
+          - { python: "3.14", os: macos-latest }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "${{ matrix.python }}" }
+      - run: pip install -e "sdk/python[test]"
+      - run: pytest -q sdk/python/tests
+
+  js:
+    name: Node ${{ matrix.node }} (unit + parity with Python)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["22", "24", "26"]  # maintenance LTS, active LTS, current
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.14" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ matrix.node }}", cache: npm, cache-dependency-path: sdk/js/package-lock.json }
+      - name: Golden cases from the Python package
+        run: python sdk/parity/golden.py --fuzz 1500 > sdk/parity/cases.jsonl
+      - working-directory: sdk/js
+        run: npm ci && npm run build && npm test
+
+  models:
+    name: Models in Python, Node and Chromium
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.14" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "24", cache: npm, cache-dependency-path: sdk/js/package-lock.json }
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/katip-mask
+          key: katip-mask-models-${{ hashFiles('sdk/spec/models.json') }}
+      - run: pip install -e "sdk/python[model,test]"
+      - name: Download and verify the pinned models
+        run: for m in nano mini base; do katip-mask download $m; done
+      - name: Python with models
+        run: KATIP_MASK_TEST_MODELS=1 pytest -q sdk/python/tests
+      - name: Node and Chromium with models
+        working-directory: sdk/js
+        env:
+          KATIP_MASK_TEST_MODELS: "1"
+          KATIP_MASK_BROWSER_MODEL: mini
+        run: |
+          npm ci && npm run build
+          npm install --no-save playwright@1.49.1
+          npx playwright install --with-deps chromium
+          node --test test/api.test.mjs test/browser.test.mjs

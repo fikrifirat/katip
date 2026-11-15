@@ -1,0 +1,77 @@
+{
+ "$comment": "Katip Mask ONNX models, pinned to a Hugging Face commit and verified by SHA-256 before use. Update with sdk/tools/pin_models.py.",
+ "version": 1,
+ "default": "mini",
+ "endpoint": "https://huggingface.co",
+ "models": {
+  "mini": {
+   "name": "Katip Mask Mini",
+   "repo": "f1k/katip-mask-mini",
+   "revision": "9da15d3a1ac7eec16ca906dbd1e6dc0a30a5da8e",
+   "license": "CC-BY-SA-4.0",
+   "description": "Recommended in the browser. DistilBERTurk pruned to 3 layers, distilled from Base. About 1 s per page in a browser tab.",
+   "trust": 0.5,
+   "max_tokens": 256,
+   "files": {
+    "config.json": {
+     "sha256": "26b4c6e4763afc401ebc69818d4e96a1dac47c1bec4f6987d89a0c12030b9a3e",
+     "size": 1359
+    },
+    "tokenizer.json": {
+     "sha256": "4fa4fc1dd1dc8fd1907d29cf2ab1bbcb060afeef665ef482e59ae9f9182eb2df",
+     "size": 259969
+    },
+    "onnx/model_quantized.onnx": {
+     "sha256": "dcf5af17468b580e5d315517a608fc872a86f80ce215e1735949c172acf56e0a",
+     "size": 31092433
+    }
+   }
+  },
+  "nano": {
+   "name": "Katip Mask Nano",
+   "repo": "f1k/katip-mask-nano",
+   "revision": "b4b754ffbed3f44222c6021fe2135e360230b5ab",
+   "license": "CC-BY-SA-4.0",
+   "description": "Fast mode. About 0.03 s per page; misses more names than Mini in everyday prose.",
+   "trust": 0.5,
+   "max_tokens": 256,
+   "files": {
+    "config.json": {
+     "sha256": "b1548ce4290127bdaa0ba373bd096815f6fd3e90d32ca7b8037c7680c4d88fda",
+     "size": 986
+    },
+    "tokenizer.json": {
+     "sha256": "a1dbeb48791771c9f73496d961f725f8e9e96e98f02a380196e409f81fcc55ff",
+     "size": 351619
+    },
+    "onnx/model_quantized.onnx": {
+     "sha256": "86a01742aec80234676f40c6432676acaa7694b973af42d72603ac507327102b",
+     "size": 2580051
+    }
+   }
+  },
+  "base": {
+   "name": "Katip Mask Base",
+   "repo": "f1k/katip-mask-base",
+   "revision": "7136c1f6cf9f30ff2d424f7c7ee113d73e3c1f92",
+   "license": "CC-BY-SA-4.0",
+   "description": "Most accurate; for servers and desktops. BERTurk base; also tags addresses and health terms.",
+   "trust": 0.5,
+   "max_tokens": 256,
+   "files": {
+    "config.json": {
+     "sha256": "47aa40a0bd29c3c522c832804eedb1e3c5442aaf02a6ed530045d048acb77c06",
+     "size": 1110
+    },
+    "tokenizer.json": {
+     "sha256": "d424e0bceb7f017dfced77157d14647505b28b41bfc8d9bffd5631f1b1fe61e5",
+     "size": 754526
+    },
+    "onnx/model_quantized.onnx": {
+     "sha256": "2209159ff0df0e2fc67f69721b3209cac6101e75e45e17af73a9da6b825d1762",
+     "size": 110799608
+    }
+   }
+  }
+ }
+}

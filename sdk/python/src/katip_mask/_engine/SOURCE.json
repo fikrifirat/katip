@@ -1,0 +1,20 @@
+{
+ "source": "docs/katip_py.zip",
+ "sha256": "dfb86f1e753f1ea2c5446ef8ac1bb2420f6831c3b36d47fa1fb9af7506817428",
+ "files": {
+  "__init__.py": "236f1d704ea51e27f90965555b05d68137e297e293f45cf0a7322ed376641489",
+  "_analyzer_core.py": "8fbd70f5874115cfcffd3fc2024e5fa8b6e3464a9b8c57aa5616feca24044bba",
+  "_presidio_shim.py": "8598f4566cabf5bb496a5c97e9c5b1cb1ff7014aedd22b183dd668d9ebcc368d",
+  "data/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "data/ambiguous_first.txt": "e1dee257c47277b8c92da6471abe6340bc9309ed6290580eb0563e49ebce1076",
+  "data/common_words.txt": "ce7d0a95014b29241b7c21a0b48a299f194948904d084e7a86fc5155ea802e44",
+  "data/districts.txt": "2eee72d189d6691fea13617ddf0f4f79dcde01a52e6ce850ee85626747bfe9cc",
+  "data/first_names.txt": "487590a9211aaaafa449e5f04383832d4982e3a06ba1aa6a381d3744677a6661",
+  "data/last_names.txt": "ec20f897ec31a40ec8ba156b5e46d82250ce1abf23036294c0f33b3a424e4fc8",
+  "data/provinces.txt": "a4ff7b3aa79de3a983c1c9031365c52adf615ae964f5393c5e43227e58ae8ce2",
+  "data/stopwords_caps.txt": "d2fbd07ac0566b404bd715821b448039453ce7578ba2beb3a0898fcb5384e790",
+  "local_detect.py": "2dceb4730d81ac49b37cb1101561c93d1feb316a3ae075deb37c1f8aa6fc239e",
+  "recognizers.py": "2f460f45467d2eaf8f371d0ebde6b8e74d3117e92da88129e1af4bf79d786c0a",
+  "textutil.py": "28233b9dd26841c06062ed1eaf881eadfb4cad0d9eb5c7b4de9ad59c007a6936"
+ }
+}
