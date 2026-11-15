@@ -7,7 +7,7 @@ name = "katip-mask"
 version = "0.1.0"
 description = "Find and mask Turkish personal data (KVKK) on your own machine: rules plus small on-device name models."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = "AGPL-3.0-only"
 license-files = ["LICENSE"]
 authors = [{ name = "Fikri Fırat" }]
@@ -20,11 +20,11 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Security",
   "Topic :: Text Processing :: Linguistic",
   "Typing :: Typed",

@@ -33,7 +33,7 @@ export function dyn(source: string, mode: "g" | "y" = "g"): RegExp {
   if (!r) {
     r = new RegExp(source, "du" + mode);
     compiled.set(key, r);
-    if (compiled.size > 5000) compiled.clear();
+    if (compiled.size > 512) compiled.clear();  // dynamic patterns are per document; keep compiled code small
   }
   return r;
 }

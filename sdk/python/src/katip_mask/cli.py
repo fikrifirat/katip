@@ -21,14 +21,14 @@ from .safety import LeakError
 def _read(path: str) -> str:
     if path == "-":
         return sys.stdin.buffer.read().decode("utf-8")
-    with open(path, encoding="utf-8") as f:
+    with open(path, encoding="utf-8", newline="") as f:  # keep \r\n as is, like the JavaScript CLI
         return f.read()
 
 
 def main(argv=None) -> int:
     for stream in (sys.stdout, sys.stderr):  # Turkish text on consoles that default to cp1252/cp857
         if hasattr(stream, "reconfigure"):
-            stream.reconfigure(encoding="utf-8")
+            stream.reconfigure(encoding="utf-8", newline="\n")
     ap = argparse.ArgumentParser(prog="katip-mask", description="Mask Turkish personal data (KVKK) on this machine.")
     ap.add_argument("--version", action="version", version=f"katip-mask {__version__}")
     sub = ap.add_subparsers(dest="cmd", required=True)

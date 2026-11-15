@@ -128,13 +128,13 @@ def test_cli(tmp_path):
     f = tmp_path / "d.txt"
     f.write_text(DOC, encoding="utf-8")
     out = subprocess.run([sys.executable, "-m", "katip_mask", "mask", str(f), "--profile", "ai", "--json"],
-                         capture_output=True, text=True, check=True).stdout
+                         capture_output=True, text=True, encoding="utf-8", check=True).stdout
     res = json.loads(out)
     assert "Ahmet" not in res["text"] and res["mapping"]
     (tmp_path / "m.json").write_text(out, encoding="utf-8")
     (tmp_path / "a.txt").write_text("[AD SOYAD-1] haklı.", encoding="utf-8")
     back = subprocess.run([sys.executable, "-m", "katip_mask", "restore", str(tmp_path / "a.txt"), "--mapping", str(tmp_path / "m.json")],
-                          capture_output=True, text=True, check=True).stdout
+                          capture_output=True, text=True, encoding="utf-8", check=True).stdout
     assert back == "Ahmet YILMAZ haklı."
 
 

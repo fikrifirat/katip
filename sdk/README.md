@@ -5,8 +5,8 @@ engine as the [web demo](https://fikrifirat.github.io/katip) and the Katip Kalka
 
 | | install | docs |
 |---|---|---|
-| Python ≥ 3.9 | `pip install katip-mask` (`"katip-mask[model]"` for the name models) | [python/README.md](python/README.md) |
-| JavaScript / TypeScript, Node ≥ 18 and browsers | `npm install katip-mask` (+ `onnxruntime-node` or `onnxruntime-web`) | [js/README.md](js/README.md) |
+| Python ≥ 3.10 | `pip install katip-mask` (`"katip-mask[model]"` for the name models) | [python/README.md](python/README.md) |
+| JavaScript / TypeScript, Node ≥ 22 and browsers | `npm install katip-mask` (+ `onnxruntime-node` or `onnxruntime-web`) | [js/README.md](js/README.md) |
 
 Both give the same result for the same input and options: same masked text, same spans, same placeholder
 mapping, same refusals. Python offsets count code points, JavaScript offsets count UTF-16 units; that is
