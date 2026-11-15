@@ -15,7 +15,7 @@ PAGE_CHARS = int(os.environ.get("KATIP_PAGE_CHARS", 40_000))
 
 
 def _threshold() -> float:
-    return float(os.environ.get("KATIP_THRESHOLD") or 0.7)
+    return float(os.environ.get("KATIP_THRESHOLD") or 0.5)
 
 
 def _counts(spans):

@@ -202,7 +202,7 @@ are optional, pinned in `katip_kalkan/launch.py`. The detection engine is `katip
 (`docs/katip_py.zip`; `build_bundle.py` refreshes it). `ner.py` is the Python twin of `src/ner.js`:
 same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
 Face `tokenizers` exactly.
-Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.7), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
+Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.5; was 0.7 before 0.3.6), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
 `KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`.
 

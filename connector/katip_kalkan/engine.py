@@ -117,7 +117,7 @@ def read_text(path: Path) -> tuple[str, str, bytes, list[tuple[int, int]], list[
     return kind, fmt.extract(kind, data), data, [], []
 
 
-def detect(text: str, threshold: float = 0.7, entities: list[str] | None = None,
+def detect(text: str, threshold: float = 0.5, entities: list[str] | None = None,
            mask_terms=(), allow_terms=(), ocr_ranges=(), address_detail: str | None = None) -> list[dict]:
     """Rules, plus the on-device Katip Mask model when one is installed (see ner.py)."""
     det, _ = load()
