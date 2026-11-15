@@ -86,8 +86,8 @@ def main() -> None:
     want = build()
     if a.check:
         stale = [k for k, v in want.items() if not (DST / k).exists() or (DST / k).read_bytes() != v]
-        extra = [str(p.relative_to(DST)) for p in DST.rglob("*") if p.is_file() and "__pycache__" not in p.parts
-                 and str(p.relative_to(DST)) not in want]
+        extra = [p.relative_to(DST).as_posix() for p in DST.rglob("*") if p.is_file() and "__pycache__" not in p.parts
+                 and p.relative_to(DST).as_posix() not in want]
         if stale or extra:
             sys.exit(f"vendored engine is out of date (run sdk/tools/sync_engine.py): {stale + extra}")
         print("vendored engine matches docs/katip_py.zip")
