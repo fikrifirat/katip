@@ -156,7 +156,7 @@ def _stopwords():
 def _never_lone_name(tok, score):
     """A capitalised lone word the model calls a name is still refused when it is a stop word (Hazine, Mahkeme,
     Barolar), a place/institution/title word, all capitals (TALEBİ), a Roman numeral (III), an inflected ordinary
-    word (Savcısının), or a word from the 30k common-word list that the model is not very sure of. That list comes from film subtitles and
+    word (Savcısının), or a word from the 30k common-word list that the model scores below LONE_NAME_SCORE. That list comes from film subtitles and
     holds many foreign first names (Peter, Madeleine), which a very confident model may still mask."""
     from katip_redact.textutil import wordlist
     f = fold(tok)
@@ -167,7 +167,7 @@ def _never_lone_name(tok, score):
     return score < LONE_NAME_SCORE
 
 
-LONE_NAME_SCORE = 0.85
+LONE_NAME_SCORE = 0.5  # tuned on dev data 15 Nov 2026 (Wiki NER validation + TurkishLegalNER train); was 0.85
 
 
 _STOP = None
