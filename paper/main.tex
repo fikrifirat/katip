@@ -366,10 +366,10 @@ reaches the assistant in readable form.}
 what was never found. The residual risk is the detector's miss rate, which KVKK-Bench measures: with the shipped
 Nano model, 6.1\% of name characters stay readable on Turkish court text and 5.0\% on foreign names in court text,
 but 49.0\% on general prose (Appendix~\ref{app:tracks}); Base, installable as an option, leaks 0.2\%, 2.8\% and
-21.5\%. These figures are at the benchmark threshold (0.5). Kalkan's default is 0.7, which keeps fewer
-candidate spans, so its residual risk on KVKK-Bench is not yet measured; its own release check, on Katip's 80
-synthetic blind documents at 0.7 with rules plus Nano, masked 743 of 757 values (98\%), a generated-text figure
-that is optimistic for the reasons in Section~\ref{sec:bench}. (ii) Detected values shorter than four
+21.5\%. These figures are at the benchmark threshold (0.5). Kalkan used 0.7 until 15 November 2026, which
+raised Nano's leak from 7.2\% to 9.3\% and Base's from 3.1\% to 3.6\% (KVKK-F2 tracks); it now ships at 0.5, so
+the figures above describe what it runs. A dev-tuned change to the lone-name rule shipped the same day (Nano
+KVKK-F2 80.0 to 80.8, Mini 88.6 to 88.9, Base unchanged); the tables keep the 14 November rules. (ii) Detected values shorter than four
 letters or digits are masked but not re-checked. (iii) A file \emph{attached} to the chat is uploaded with the
 message before any tool runs, so it bypasses Kalkan entirely. (iv) The user's own typed prompts are not masked.
 Kalkan therefore reduces exposure; it does not prove the absence of leakage, and the user remains the reviewer.
