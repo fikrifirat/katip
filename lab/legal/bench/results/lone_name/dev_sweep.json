@@ -1,0 +1,272 @@
+{
+ "berturk-v2": {
+  "0.5": {
+   "prose_f2": 0.8343093909863198,
+   "prose_recall": 0.8299531981279251,
+   "prose_prec": 0.8522012578616353,
+   "prose_leak": 0.21716830881360508,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.6": {
+   "prose_f2": 0.8330032494175927,
+   "prose_recall": 0.828393135725429,
+   "prose_prec": 0.8519685039370078,
+   "prose_leak": 0.2177081927385612,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.7": {
+   "prose_f2": 0.8321652084039743,
+   "prose_recall": 0.8268330733229329,
+   "prose_prec": 0.8541996830427893,
+   "prose_leak": 0.21905790255095153,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.75": {
+   "prose_f2": 0.8308567398181353,
+   "prose_recall": 0.8252730109204368,
+   "prose_prec": 0.8539682539682539,
+   "prose_leak": 0.22067755432581995,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.8": {
+   "prose_f2": 0.829547449355756,
+   "prose_recall": 0.8237129485179407,
+   "prose_prec": 0.8537360890302067,
+   "prose_leak": 0.2217573221757322,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.85": {
+   "prose_f2": 0.8269263997009771,
+   "prose_recall": 0.8205928237129485,
+   "prose_prec": 0.8532695374800638,
+   "prose_leak": 0.22324200296936159,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.9": {
+   "prose_f2": 0.8269263997009771,
+   "prose_recall": 0.8205928237129485,
+   "prose_prec": 0.8532695374800638,
+   "prose_leak": 0.22324200296936159,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.95": {
+   "prose_f2": 0.8206133752877484,
+   "prose_recall": 0.8127925117004681,
+   "prose_prec": 0.8534621578099839,
+   "prose_leak": 0.2268862194628155,
+   "court_person_fa_1k": 0.15884361845762845,
+   "court_all_fa_1k": 2.382654276864427,
+   "court_person_f2": 0.9890584970111016,
+   "court_leak": 0.010607321131447587,
+   "nopii_person_fa_1k": NaN
+  }
+ },
+ "mini-v2": {
+  "0.5": {
+   "prose_f2": 0.7358175840145809,
+   "prose_recall": 0.7254290171606864,
+   "prose_prec": 0.7805280528052805,
+   "prose_leak": 0.30341476582534754,
+   "court_person_fa_1k": 0.24961140043341615,
+   "court_all_fa_1k": 2.4166921951053473,
+   "court_person_f2": 0.987763511070139,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": 2.3923444976076556
+  },
+  "0.6": {
+   "prose_f2": 0.7342619198494795,
+   "prose_recall": 0.7223088923556942,
+   "prose_prec": 0.7863105175292153,
+   "prose_leak": 0.3054393305439331,
+   "court_person_fa_1k": 0.24961140043341615,
+   "court_all_fa_1k": 2.4166921951053473,
+   "court_person_f2": 0.987763511070139,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": 2.3923444976076556
+  },
+  "0.7": {
+   "prose_f2": 0.7316604835979886,
+   "prose_recall": 0.719188767550702,
+   "prose_prec": 0.7861952861952862,
+   "prose_leak": 0.30935348899986503,
+   "court_person_fa_1k": 0.2382654276864427,
+   "court_all_fa_1k": 2.4053462223583737,
+   "court_person_f2": 0.9879242747522313,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.75": {
+   "prose_f2": 0.7275944381370799,
+   "prose_recall": 0.7145085803432137,
+   "prose_prec": 0.7851099830795262,
+   "prose_leak": 0.31110811175597247,
+   "court_person_fa_1k": 0.2382654276864427,
+   "court_all_fa_1k": 2.4053462223583737,
+   "court_person_f2": 0.9879242747522313,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.8": {
+   "prose_f2": 0.7262373675315528,
+   "prose_recall": 0.7129485179407177,
+   "prose_prec": 0.7847457627118644,
+   "prose_leak": 0.31151302469968956,
+   "court_person_fa_1k": 0.2382654276864427,
+   "court_all_fa_1k": 2.4053462223583737,
+   "court_person_f2": 0.9879242747522313,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.85": {
+   "prose_f2": 0.7221609778565886,
+   "prose_recall": 0.7082683307332294,
+   "prose_prec": 0.7836456558773425,
+   "prose_leak": 0.31421244432447026,
+   "court_person_fa_1k": 0.2382654276864427,
+   "court_all_fa_1k": 2.4053462223583737,
+   "court_person_f2": 0.9879242747522313,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.9": {
+   "prose_f2": 0.7196651556025252,
+   "prose_recall": 0.7051482059282371,
+   "prose_prec": 0.7842465753424658,
+   "prose_leak": 0.31650695100553383,
+   "court_person_fa_1k": 0.2382654276864427,
+   "court_all_fa_1k": 2.4053462223583737,
+   "court_person_f2": 0.9879242747522313,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.95": {
+   "prose_f2": 0.7185284089720617,
+   "prose_recall": 0.7035881435257411,
+   "prose_prec": 0.7852233676975945,
+   "prose_leak": 0.31772168983668514,
+   "court_person_fa_1k": 0.2382654276864427,
+   "court_all_fa_1k": 2.4053462223583737,
+   "court_person_f2": 0.9879242747522313,
+   "court_leak": 0.010815307820299502,
+   "nopii_person_fa_1k": NaN
+  }
+ },
+ "tiny-f": {
+  "0.5": {
+   "prose_f2": 0.5359275630097692,
+   "prose_recall": 0.5241809672386896,
+   "prose_prec": 0.5886970172684458,
+   "prose_leak": 0.4726683762990957,
+   "court_person_fa_1k": 2.428038167852321,
+   "court_all_fa_1k": 4.595118962524252,
+   "court_person_f2": 0.9534745777403182,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.6": {
+   "prose_f2": 0.5278617961842718,
+   "prose_recall": 0.514820592823713,
+   "prose_prec": 0.587378640776699,
+   "prose_leak": 0.4817114320421109,
+   "court_person_fa_1k": 2.257848576647719,
+   "court_all_fa_1k": 4.42492937131965,
+   "court_person_f2": 0.9557470978414176,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.7": {
+   "prose_f2": 0.525273550445861,
+   "prose_recall": 0.5101404056162246,
+   "prose_prec": 0.5959933222036727,
+   "prose_leak": 0.48684032932919424,
+   "court_person_fa_1k": 2.1670807946719313,
+   "court_all_fa_1k": 4.3341615893438625,
+   "court_person_f2": 0.9569635435664434,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.75": {
+   "prose_f2": 0.5213918411832259,
+   "prose_recall": 0.5054602184087363,
+   "prose_prec": 0.5966101694915255,
+   "prose_leak": 0.490079632878931,
+   "court_person_fa_1k": 2.144388849177984,
+   "court_all_fa_1k": 4.311469643849915,
+   "court_person_f2": 0.9572681389813803,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.8": {
+   "prose_f2": 0.5132862107491143,
+   "prose_recall": 0.4960998439937597,
+   "prose_prec": 0.5958549222797928,
+   "prose_leak": 0.49615332703468756,
+   "court_person_fa_1k": 2.0763130126961435,
+   "court_all_fa_1k": 4.243393807368075,
+   "court_person_f2": 0.9581830897475908,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.85": {
+   "prose_f2": 0.513795526364241,
+   "prose_recall": 0.4960998439937597,
+   "prose_prec": 0.5993031358885017,
+   "prose_leak": 0.49655823997840465,
+   "court_person_fa_1k": 2.0763130126961435,
+   "court_all_fa_1k": 4.243393807368075,
+   "court_person_f2": 0.9581830897475908,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.9": {
+   "prose_f2": 0.5109612269594213,
+   "prose_recall": 0.49297971918876754,
+   "prose_prec": 0.5982456140350877,
+   "prose_leak": 0.49871777567822917,
+   "court_person_fa_1k": 2.06496703994917,
+   "court_all_fa_1k": 4.232047834621102,
+   "court_person_f2": 0.9583357516115135,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  },
+  "0.95": {
+   "prose_f2": 0.505330908503693,
+   "prose_recall": 0.48673946957878317,
+   "prose_prec": 0.5964601769911504,
+   "prose_leak": 0.5029018760966393,
+   "court_person_fa_1k": 2.0536210672021964,
+   "court_all_fa_1k": 4.220701861874128,
+   "court_person_f2": 0.9584884621286816,
+   "court_leak": 0.02093732667775929,
+   "nopii_person_fa_1k": NaN
+  }
+ }
+}
