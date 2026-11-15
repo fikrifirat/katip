@@ -46,6 +46,27 @@ def _hf_snapshot(repo, revision=None):
     from huggingface_hub import snapshot_download
     return snapshot_download(repo, revision=revision, allow_patterns=["config.json", "tokenizer*", "vocab.txt", "onnx/model_quantized.onnx"])
 
+def _gliner2_katip(path, trust=0.5):
+    """Katip rules + a GLiNER2 model fine-tuned on Base v2's data (ml/gliner2/train_gliner2.py), passed to the rules
+    like the Katip tagger: PERSON, ADDRESS and HEALTH spans with their scores, case suffix after an apostrophe dropped."""
+    from gliner2 import GLiNER2
+    m = GLiNER2.from_pretrained(str(path)); m.eval()
+    inv = {"person": "PERSON", "address": "ADDRESS", "health condition": "HEALTH"}
+    def extra(text):
+        r = m.extract_entities(text, list(inv), threshold=0.3, include_spans=True, include_confidence=True)
+        out = []
+        for t, es in (r.get("entities") or {}).items():
+            for e in es:
+                s, e_ = e["start"], e["end"]; span = text[s:e_]
+                if inv.get(t) == "PERSON":
+                    e_ = s + min([span.find(c) for c in "'\u2019" if c in span] or [len(span)])
+                out.append((s, e_, float(e.get("confidence", 0.9)), inv[t]))
+        return out
+    det = lambda text: [(d["start"], d["end"], d["entity_type"]) for d in local_detect.detect(text, extra=extra(text), trust=trust, **DETECT_KW)]
+    n = sum(p.numel() for p in m.parameters())
+    return det, {"params": int(n), "size_mb": round(sum(p.numel() * p.element_size() for p in m.parameters()) / 1e6 + 0.3, 1),
+                 "runs_locally": True, "runs_in_browser": False, "size_note": "weights as loaded + 0.3 MB rules"}
+
 def _akdeniz_rules(trust):
     """Hybrid: Katip rules + akdeniz27 XLM-R Turkish NER, PERSON spans only, passed to the rules the way
     _katip passes the Katip tagger (case suffix after an apostrophe dropped, score kept so trust applies)."""
@@ -89,6 +110,7 @@ SYSTEMS = {
                    lambda: _katip(_hf_snapshot("f1k/katip-tr-pii-berturk", "a107b872080d28967eb8e57fcdc14127f54c3cb1"), 0.5)),
     "presidio": ("Presidio + spaCy xx (vanilla)", lambda: _baseline("presidio")),
     "savasy": ("savasy/bert-base-turkish-ner-cased", lambda: _baseline("savasy")),
+    "gliner2-katip": ("Katip rules + GLiNER2 PII multi fine-tuned on Base v2's data (Colab)", lambda: _gliner2_katip(HERE / "bench" / "models" / "katip-gliner2" / "model")),
     "akdeniz+rules": ("Katip rules + akdeniz27/xlm-roberta-base-turkish-ner (PERSON)", lambda: _akdeniz_rules(0.5)),
     "akdeniz": ("akdeniz27/xlm-roberta-base-turkish-ner", lambda: _baseline("akdeniz")),
     "gliner": ("urchade/gliner_multi_pii-v1 (person)", lambda: _baseline("gliner")),
@@ -151,7 +173,7 @@ def rescore(key):
 # Katip rows also get the masks Katip draws from pen ink alone (engine.unreadSpans: handwriting in an ID / name row,
 # unreadable handwriting next to a personal-data label); "+ ink masks" in the name says so.
 PH = HERE / "bench" / "photos"
-KATIP_KEYS = {"rules", "tiny", "tiny-f", "mini", "mini-v2", "nano-v2", "xlmr", "berturk-v2", "berturk-clean", "berturk-v1", "akdeniz+rules"}
+KATIP_KEYS = {"rules", "tiny", "tiny-f", "mini", "mini-v2", "nano-v2", "xlmr", "berturk-v2", "berturk-clean", "berturk-v1", "akdeniz+rules", "gliner2-katip"}
 
 def _attach_boxes(page, s, e, typ):
     """Port of engine.attachBoxes: span offsets -> one box per OCR line, grown over touching pen ink."""
