@@ -37,6 +37,7 @@ ENTITY_LABELS_TR = {
     "YKN": "Yabancı Kimlik No",
     "PASSPORT": "Pasaport No",
     "FOREIGN_ID": "Yabancı Ülke Kimlik No",
+    "UETS": "UETS (e-Tebligat) Adresi",
 }
 ALL_ENTITIES = list(ENTITY_LABELS_TR)
 
@@ -242,6 +243,27 @@ class ForeignIDRecognizer(_Base):
             d = m.group(1).replace("-", "")
             if iran_melli_valid(d) and _has_context(text, m.start(), ("iran", "melli", "kod", "ulusal", "national"), 50):
                 out.append(self._r(m.start(1), m.end(1), 0.9, "Iranian national code, check digit ok"))
+        return out
+
+
+class UETSRecognizer(_Base):
+    """UETS (Ulusal Elektronik Tebligat Sistemi) addresses: 15 digits, usually written 5-5-5
+    ("UETS: 16013-10288-73541"). The address belongs to one person or firm, so it identifies a lawyer as surely as
+    the name: wherever names are masked, it is masked too. The 5-5-5 shape is distinctive enough alone; 15 plain
+    digits need a UETS / e-Tebligat cue."""
+    ENTITY, NAME = "UETS", "uets"
+    SHAPED = re.compile(r"(?<![\d/-])(\d{5}[ -]\d{5}[ -]\d{5})(?![\d/-])")
+    CUED = re.compile(r"(?i:uets|e-?\s?tebligat|elektronik\s+tebligat)(?:\s+(?i:adresi|adres|no|numaras[ıi]))?\s*[:.]?\s*(\d{15})(?!\d)")
+    CTX = ("uets", "tebligat", "kep")
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        out = []
+        for m in self.SHAPED.finditer(text):
+            cue = _has_context(text, m.start(1), self.CTX, 40)
+            out.append(self._r(m.start(1), m.end(1), 0.95 if cue else 0.8,
+                               "UETS e-Tebligat address" + (" after a UETS cue" if cue else " (5-5-5 digits)")))
+        for m in self.CUED.finditer(text):
+            out.append(self._r(m.start(1), m.end(1), 0.95, "15 digits after a UETS / e-Tebligat cue"))
         return out
 
 
@@ -712,7 +734,7 @@ ADDR_ANCHOR = re.compile(
 ADDR_LABEL = re.compile(r"(?:Adres(?:i)?|ADRES(?:İ)?|İkametgah|İkamet Adresi|Tebligat Adresi|Yazışma Adresi)\s*[:：]\s*", re.I)
 ADDR_FORM_ROW = re.compile(r"(?m)^[ \t|]*(?:İkametgah[ıi]?|İKAMETGAHI|İkamet(?:gâh)?|Adresi|ADRESİ|İkamatgah[ıi]?)[ \t]+(?=\S)")
 ADDR_TOKEN = re.compile(
-    rf"(?:No\s*[:.]?\s*\d+[/A-Za-z0-9-]*|Daire\s*[:.]?\s*\d+|D\s*[:.]\s*\d+|Kat\s*[:.]?\s*\d+|[{TR_UPPER}][{TR_LETTER}'’]*\.?|"
+    rf"(?:No\s*[:.]?\s*\d+[/A-Za-z0-9-]*|Daire\s*[:.]?\s*\d+|D\s*[:.]\s*\d+|Kat\s*[:.]?\s*\d+|K\s*[:.]\s*\d+|[{TR_UPPER}][{TR_LETTER}'’]*\.?|"
     rf"\d+[./]?\d*\s*(?:Sok\.?|Sk\.?|Cad\.?|Cd\.?)|\d{{5}}|\d+[A-Za-z]?|[/,\-]|[{TR_LOWER}]{{1,4}}\.)"
 )
 
@@ -977,17 +999,80 @@ def address_parts(text, start, end):
     return parts
 
 
+# Address roles (court filings). A party's own address is personal data and is masked whole; the address of the
+# property a case is about (the leased flat, the parcel, the building in dispute) is evidence the court must read.
+_PROPERTY = (r"kiralanan\w*|kira\s+konusu|mecur\w*|ta[şs][ıi]nmaz\w*|gayrimenkul\w*|tapu\w*|ba[ğg][ıi]ms[ıi]z\s+b[öo]l[üu]m\w*|"
+             r"dava\s+konusu|tahliye\w*|ada\s+\d+\s+parsel|\d+\s+ada\b")
+_PROPERTY_NOUN = r"ta[şs][ıi]nmaz|daire|d[üu]kkan|i[şs]yeri|mesken|bina|arsa|ba[ğg][ıi]ms[ıi]z\s+b[öo]l[üu]m|kiralanan|mecur|gayrimenkul|konut"
+PROPERTY_BEFORE = re.compile(rf"(?i:{_PROPERTY})[^\n.;]{{0,60}}$")
+PROPERTY_AFTER = re.compile(rf"^[ \t,]*(?i:adres(?:inde|indeki|li|teki)?)\s*(?i:(?:bulunan|kain|kâin|yer\s+alan|mevcut)\s+)?"
+                            rf"[^\n.;]{{0,30}}?(?i:{_PROPERTY_NOUN})")
+_PARTY = (r"[şs][üu]pheli|san[ıi]k|m[üu][şs]teki|ma[ğg]dur|kat[ıi]lan|m[üu]dafi|vekil(?:i|leri)?|davac[ıi]|daval[ıi]|"
+          r"bor[çc]lu|alacakl[ıi]|ihtar\s+eden|muhatap|ta[ns][ıi]k|itiraz\s+eden|ba[şs]vurucu|ba[şs]vuran|talep\s+eden|"
+          r"m[üu]vekkil|kirac[ıi]|kiraya\s+veren|mal\s+sahibi|i[şs][çc]i|i[şs]veren|hasta|veli|vasi")
+PARTY_LINE = re.compile(rf"(?im)^[ \t]*(?:{_PARTY})(?:[ \t]+(?:{_PARTY}))?[ \t]*(?:\([^)\n]*\))?[ \t]*[:：]")
+# a form row with the address right after the party's label, no colon: "Kiraya verenin Ege Mah. ...", "Kiracının adresi ..."
+PARTY_LABEL_ONLY = re.compile(rf"(?i)^[ \t|]*(?:{_PARTY})(?:n[ıi]n|[ıi]n|nin|n[ıi]n\s+adresi|[ıi]n\s+adresi)?[ \t]*[:：]?[ \t|]*$")
+RESIDENCE_BEFORE = re.compile(r"(?i:ikamet\w*|yerle[şs]im\s+yeri\w*|oturdu[ğg]u|mukim|adres(?:i|leri)?\s*[:：])[^\n.;]{0,25}$")
+RESIDENCE_AFTER = re.compile(r"^[ \t,]*(?i:adres(?:inde|indeki)?)\s*(?i:ikamet\w*|otur\w*|mukim|yerle[şs]\w*|sakin\w*)")
+
+
+def address_role(text, start, end):
+    """'property' (evidence: keep readable in a court copy), 'party' (someone's own address: mask whole) or None.
+    Property cues win: "Kiralananın Adresi:" is a label too, but it names the leased flat, not a home."""
+    line = text.rfind("\n", 0, start) + 1
+    before = text[max(line, start - 90):start]
+    after = text[end:end + 80]
+    if PROPERTY_BEFORE.search(before) or PROPERTY_AFTER.match(after):
+        return "property"
+    if RESIDENCE_BEFORE.search(before) or RESIDENCE_AFTER.match(after):
+        return "party"
+    # the address sits under (or on) a party's line: "Şüpheli : Ad Soyad (TC: ...)" then the address on the next line
+    if PARTY_LINE.match(text[line:start]) or PARTY_LABEL_ONLY.match(text[line:start]):
+        return "party"
+    if not text[line:start].strip():
+        prev_end = line - 1
+        prev = text.rfind("\n", 0, max(prev_end, 0)) + 1
+        if prev_end > 0 and PARTY_LINE.match(text[prev:prev_end]):
+            return "party"
+    return None
+
+
+def _under_a_name(text, start, results):
+    """The address opens its line and the line before it is just a person's name."""
+    line = text.rfind("\n", 0, start) + 1
+    if text[line:start].strip(" \t|") or line == 0:
+        return False
+    prev = text.rfind("\n", 0, line - 1) + 1
+    a, b = prev, line - 1
+    while a < b and text[a] in " \t|":
+        a += 1
+    while b > a and text[b - 1] in " \t|,":
+        b -= 1
+    return b > a and any(r.entity_type == "PERSON" and r.start <= a and r.end >= b for r in results)
+
+
 def split_addresses(text, results, make):
-    """Street-visible mode: replace every ADDRESS result by its house-level parts (see address_parts).
+    """Street-visible mode (the court profile): an address is handled by its role (see address_role).
+    A party's own address is masked whole; a property in dispute stays readable; any other address keeps
+    only its house-level parts masked (see address_parts).
     make(entity, start, end, score, why, name=...) builds a result of the caller's type."""
     out = []
     for r in results:
         if r.entity_type != "ADDRESS":
             out.append(r)
             continue
+        role = address_role(text, r.start, r.end)
+        if role is None and _under_a_name(text, r.start, results):
+            role = "party"  # an addressee block: "SAYIN | Ad SOYAD | <address>"
+        name = (r.recognition_metadata or {}).get(RecognizerResult.RECOGNIZER_NAME_KEY, "tr_address")
+        if role == "party":
+            out.append(make("ADDRESS", r.start, r.end, r.score, "a party's own address (masked whole)", name=name))
+            continue
+        if role == "property":
+            continue  # the address of the property the case is about: evidence, left readable
         for s, e in address_parts(text, r.start, r.end):
-            out.append(make("ADDRESS", s, e, r.score, "building, door or flat of an address (street left visible)",
-                            name=(r.recognition_metadata or {}).get(RecognizerResult.RECOGNIZER_NAME_KEY, "tr_address")))
+            out.append(make("ADDRESS", s, e, r.score, "building, door or flat of an address (street left visible)", name=name))
     return out
 
 
@@ -1104,6 +1189,6 @@ def ocr_tckn(text, ranges):
 
 
 def default_recognizers():
-    return [TCKNRecognizer(), PassportRecognizer(), ForeignIDRecognizer(), VKNRecognizer(), IBANRecognizer(), CreditCardRecognizer(),
+    return [TCKNRecognizer(), PassportRecognizer(), ForeignIDRecognizer(), UETSRecognizer(), VKNRecognizer(), IBANRecognizer(), CreditCardRecognizer(),
             EmailRecognizer(), PhoneRecognizer(), PlateRecognizer(), IPRecognizer(),
             BirthDateRecognizer(), PersonRecognizer(), AddressRecognizer(), SpecialCategoryRecognizer()]

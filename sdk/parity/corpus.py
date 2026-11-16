@@ -38,6 +38,10 @@ TEMPLATES = [
     "Alevi; sendika üyesi; HIV; adli sicil kaydı; parmak izi; cinsel yönelim; Kürt kökenli; parti üyesi.",
     "{name} ({email}) {phone2} numaralı telefondan aradı. UYAP 12345678901 dosya.",
     "ANKARA {n}. ASLİYE HUKUK MAHKEMESİ\nESAS NO: {case}\nDAVACI : {name_caps}\nVEKİLİ : Av. {name}\nBaro Sicil No: 12345",
+    "MÜDAFİ : Av. {name}\nUETS: {uets}\ne-Tebligat adresi: {uets15}\nKEP {uets}",
+    "Kiralananın Adresi: {addr}\nKiracının adresi {addr}\nKiraya veren: {name}\n{addr}",
+    "Şüpheli : {name_caps} (TC: {tckn})\n{addr}\n\n{addr} adresindeki taşınmaz dava konusudur.",
+    "SAYIN\n{name}\n{addr}\n\n{year}/{k} Sorgu sayılı dosya; {year}/{k} No'lu karar ve {year}/{k}1 E.",
 ]
 
 
@@ -108,7 +112,9 @@ def fuzz_doc(rng: random.Random) -> str:
             iban=_iban(rng), plate=rng.choice(["06 ABC 123", "34 AB 1234", "35 K 12345", "06 TL 100"]),
             case=f"20{rng.randint(10, 26)}/{rng.randint(1, 9999)} E.", passport=rng.choice(["U12345678", "C01X00T47"]),
             foreign=rng.choice(["AB1234567", "123-456789-0"]), vkn=_vkn(rng), card=_luhn(rng),
-            ip=f"192.168.{rng.randint(0, 255)}.{rng.randint(0, 255)}", n=rng.randint(1, 30)))
+            ip=f"192.168.{rng.randint(0, 255)}.{rng.randint(0, 255)}", n=rng.randint(1, 30),
+            uets=rng.choice(["-", " "]).join(str(rng.randint(10000, 99999)) for _ in range(3)),
+            uets15="".join(str(rng.randint(0, 9)) for _ in range(15)), year=rng.randint(2015, 2026), k=rng.randint(1, 999)))
     text = "\n\n".join(parts)
     # sprinkle troublemakers
     chars = list(text)
