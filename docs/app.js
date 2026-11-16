@@ -3,7 +3,7 @@ import CONFIG from "./config.js";
 const $ = id => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids.filter(k => k != null)); return e; };
 // KVKK, Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi (2026)
-const GUIDE_URL = "https://www.kvkk.gov.tr/SharedFolderServer/CMSFiles/MTZhYjI0ZTE1NWIwMWM.pdf";
+const GUIDE_URL = "https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi";
 const worker = new Worker(new URL("./worker.js", import.meta.url), { type: "module" });
 // A module worker drops messages that arrive while its imports are still loading, so queue until it says "alive".
 let workerAlive = false; const outbox = [];

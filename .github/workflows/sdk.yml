@@ -83,7 +83,8 @@ jobs:
           KATIP_MASK_TEST_MODELS: "1"
           KATIP_MASK_BROWSER_MODEL: mini
         run: |
-          npm ci && npm run build
+          npm ci
+          npm run build
           npm install --no-save playwright@1.49.1
           npx playwright install --with-deps chromium
           node --test test/api.test.mjs test/browser.test.mjs
