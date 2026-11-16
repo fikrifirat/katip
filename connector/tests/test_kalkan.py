@@ -687,6 +687,6 @@ def test_named_model_through_the_sdk_is_verified_and_used(monkeypatch, tmp_path)
     ner._cache.clear(); ner._note.clear()
     st = core.status()
     assert "katip-mask-mini (" in st["engine"] and st["detection"].startswith("katip-mask") and ner.trust() == 0.5
-    out = core.mask_file(str(FIX / "dilekce_01.txt"), "m1")
-    assert not [v for v in _gold_left(out["text"]) if v.isdigit()]
+    text = core.mask_file(str(FIX / "dilekce_01.txt"), "m1")["masked_text"]
+    assert "[AD SOYAD-1]" in text and _gold_left(text) == [], _gold_left(text)  # rules + Mini: every value masked
     ner._cache.clear(); ner._note.clear()
