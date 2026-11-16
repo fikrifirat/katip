@@ -94,7 +94,7 @@
     "profile": {
       "type": "string",
       "title": "Maskeleme düzeyi / Masking level",
-      "description": "ai = Yapay zekâ ile paylaşım (önerilen: tüm kişisel veriler); court = Mahkemeye sunum (sokak, dosya no ve tarihler görünür); anon = Tam anonim (tarih, il, kurum da gizlenir).",
+      "description": "ai = Yapay zekâ ile paylaşım (önerilen: tüm kişisel veriler); court = Mahkemeye sunum (taraf adresleri, UETS ve sicil no gizlenir; dava konusu taşınmazın adresi, dosya no ve tarihler görünür); anon = Tam anonim (tarih, il, kurum da gizlenir).",
       "required": false,
       "default": "ai"
     },

@@ -1,6 +1,6 @@
 {
  "source": "docs/katip_py.zip",
- "sha256": "dfb86f1e753f1ea2c5446ef8ac1bb2420f6831c3b36d47fa1fb9af7506817428",
+ "sha256": "aaf3690416a4ce439f467e34f17cb990005756a2953787424e96628426a198f0",
  "files": {
   "__init__.py": "236f1d704ea51e27f90965555b05d68137e297e293f45cf0a7322ed376641489",
   "_analyzer_core.py": "8fbd70f5874115cfcffd3fc2024e5fa8b6e3464a9b8c57aa5616feca24044bba",
@@ -12,9 +12,9 @@
   "data/first_names.txt": "487590a9211aaaafa449e5f04383832d4982e3a06ba1aa6a381d3744677a6661",
   "data/last_names.txt": "ec20f897ec31a40ec8ba156b5e46d82250ce1abf23036294c0f33b3a424e4fc8",
   "data/provinces.txt": "a4ff7b3aa79de3a983c1c9031365c52adf615ae964f5393c5e43227e58ae8ce2",
-  "data/stopwords_caps.txt": "d2fbd07ac0566b404bd715821b448039453ce7578ba2beb3a0898fcb5384e790",
-  "local_detect.py": "2dceb4730d81ac49b37cb1101561c93d1feb316a3ae075deb37c1f8aa6fc239e",
-  "recognizers.py": "2f460f45467d2eaf8f371d0ebde6b8e74d3117e92da88129e1af4bf79d786c0a",
+  "data/stopwords_caps.txt": "2cd900534f04dbc9d3c769ba11ccea665e81208ef7254587ef3a70601d1ecf47",
+  "local_detect.py": "31717f824a5b3939207abccd7a1e7d909d3dfee1525ac754e067499653f0cc55",
+  "recognizers.py": "5dd716f823c0d6ed193621b0240d306fd4685ddb03eebe20552faa73eadb1be4",
   "textutil.py": "28233b9dd26841c06062ed1eaf881eadfb4cad0d9eb5c7b4de9ad59c007a6936"
  }
 }

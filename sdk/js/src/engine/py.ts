@@ -205,6 +205,7 @@ export const TR_LOWER = TABLES.consts.TR_LOWER!;
 export const TR_LETTER = TABLES.consts.TR_LETTER!;
 export const TR_LETTER_CLASS = TABLES.consts.TR_LETTER_CLASS!;
 export const WORD_CLASS = TABLES.consts.WORD_CLASS!;
+export const DIGIT_SLASH_CLASS = TABLES.consts.DIGIT_SLASH_CLASS!;  // Python's [\d/]
 export const NOT_WORD_CLASS = WORD_CLASS.startsWith("[^") ? "[" + WORD_CLASS.slice(2) : "[^" + WORD_CLASS.slice(1);
 export const SPACE_CLASS = TABLES.chars.space!;
 

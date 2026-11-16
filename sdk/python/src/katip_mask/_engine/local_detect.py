@@ -229,7 +229,7 @@ def _result(typ, s, e, score, why, name="katip_postprocess"):
 CASE_TYPES = ("CASE_NO", "BAR_NO", "DATE", "PLACE", "INSTITUTION")
 _U = "A-ZÇĞİÖŞÜ"
 _W = "A-Za-zÇĞİÖŞÜçğıöşüâîû"
-_CASE_KW = r"(?:Esas|E\.|Karar|K\.|Dosya|Talimat|Soruşturma|Hazırlık|D\.\s?İş|Değişik\s+İş|Tereke|İcra|Mahkeme)"
+_CASE_KW = r"(?:Esas|E\.|Karar|K\.|Dosya|Talimat|Soruşturma|Sorgu|Hazırlık|D\.\s?İş|Değişik\s+İş|Tereke|İcra|Mahkeme)"
 _CASE_RES = [
     re.compile(rf"(?<![\d/])(?:19|20)\d{{2}}\s?/\s?\d{{1,7}}(?=\s*(?:{_CASE_KW}|[\s.,;:)]*(?:sayılı|sayı|no|numaralı)\b))", re.I),
     re.compile(rf"(?:{_CASE_KW})\s*(?:No|Numarası|Sayısı)?\s*[:.]?\s*((?:19|20)\d{{2}}\s?/\s?\d{{1,7}})(?![\d/])", re.I),
@@ -303,6 +303,13 @@ def _case_results(text, entities):
             for m in rx.finditer(text):
                 g = 1 if m.groups() else 0
                 add("CASE_NO", m.start(g), m.end(g), 0.85, "case, file or document number")
+        # the same number written again elsewhere ("2025/3 Sorgu" in the header, "2025/3 ... No'lu" in the text) is
+        # masked too, so one copy never gives the other away
+        seen = {text[r.start:r.end] for r in out if r.entity_type == "CASE_NO"}
+        for v in seen:
+            for m in re.finditer(rf"(?<![\d/]){re.escape(v)}(?![\d/])", text):
+                if not any(r.start <= m.start() < r.end for r in out):
+                    add("CASE_NO", m.start(), m.end(), 0.8, "same case number found earlier in the document")
     if "BAR_NO" in entities:
         for m in [*_BAR_RE.finditer(text), *_STAFF_RE.finditer(text)]:
             add("BAR_NO", m.start(1), m.end(1), 0.85, "bar or registry number")

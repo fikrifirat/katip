@@ -73,7 +73,8 @@ INLINE: dict[str, tuple[str, int]] = {
 }
 # inline patterns built from run-time values: the JS port builds these itself (see engine/pyre.ts)
 DYNAMIC = {
-    "local_detect.py": [r'rf"(?<![{TR_LETTER}]){re.escape(w)}(?![{TR_LETTER}])"'],
+    "local_detect.py": [r'rf"(?<![{TR_LETTER}]){re.escape(w)}(?![{TR_LETTER}])"',
+                        r'rf"(?<![\d/]){re.escape(v)}(?![\d/])"'],
 }
 
 
@@ -170,6 +171,7 @@ def render() -> str:
         "TR_UPPER": TR_UPPER, "TR_LOWER": TR_LOWER, "TR_LETTER": TR_LETTER,
         "TR_LETTER_CLASS": pyre2js.js_class("".join(re.findall(rf"[{TR_LETTER}]", pyre2js.ALL))),
         "WORD_CLASS": pyre2js.js_class(w),
+        "DIGIT_SLASH_CLASS": pyre2js.js_class("".join(re.findall(r"[\d/]", pyre2js.ALL))),
         "LONE_NAME_SCORE": repr(local_detect.LONE_NAME_SCORE),
     }
     src = json.dumps({"rx": rx, "chars": char_tables(), "ignorecase": pyre2js.py_ignorecase_classes(),

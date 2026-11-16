@@ -45,9 +45,15 @@ pass `model`.
 
 | profile | use | masks | leaves readable |
 |---|---|---|---|
-| `court` (default) | court filings | names, ID/passport/tax numbers, IBAN, cards, phones, e-mails, plates, birth dates, IPs, building and door numbers, health and other special-category data | street, district, province, case numbers, dates, courts, precedent citations |
-| `ai` | sending text to an LLM | `court`, plus full addresses, case and UYAP numbers, bar numbers, criminal-record terms | dates, places, institutions, precedent citations |
+| `court` (default) | court filings | names, ID/passport/tax numbers, UETS addresses, bar numbers, IBAN, cards, phones, e-mails, plates, birth dates, IPs, parties' own addresses, building and door numbers of other addresses, health and other special-category data | the property in dispute, streets of other addresses, case numbers, dates, courts, precedent citations |
+| `ai` | sending text to an LLM | `court`, plus every address, case and UYAP numbers, criminal-record terms | dates, places, institutions, precedent citations |
 | `anon` | publishing, research | `ai`, plus dates, places, courts, companies and institutions | precedent citations |
+
+The KVKK practice guide for lawyers ([Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin
+Uygulama Rehberi](https://www.kvkk.gov.tr/SharedFolderServer/CMSFiles/MTZhYjI0ZTE1NWIwMWM.pdf), 2026) recommends
+masking or anonymising personal data where possible and sharing only what is needed, including with AI tools.
+The court profile also follows feedback from practising lawyers: a party's own address is masked whole, the
+address of the property in dispute stays readable, and a masked lawyer's UETS address and bar number are masked.
 
 ## Options
 
