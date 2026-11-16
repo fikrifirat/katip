@@ -6,7 +6,7 @@ engine (the same rules as the web demo and Katip Kalkan).
 | | install | docs |
 |---|---|---|
 | Python ≥ 3.10 | `pip install katip-mask` | [python/README.md](python/README.md) |
-| Node ≥ 22 and browsers | `npm install katip-mask` | [js/README.md](js/README.md) |
+| Node ≥ 22 and browsers | `npm install katip-mask` (npm release coming) | [js/README.md](js/README.md) |
 
 Both packages return the same text, spans and placeholders for the same input. The only difference is
 offsets: Python counts code points, JavaScript counts UTF-16 units.
