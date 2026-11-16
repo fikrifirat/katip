@@ -23,7 +23,7 @@ SYSTEMS = {   # key: (model name, credit line, model link, developer link)
     "berturk-v2": ("Katip Mask Base · tr v2", "by f1k · 110M, fine-tuned from BERTurk (dbmdz, MIT)", "https://huggingface.co/f1k/katip-mask-base", "https://huggingface.co/f1k"),
     "mini-v2":    ("Katip Mask Mini · tr v2", "by f1k · ~31 MB, distilled from Katip Mask Base, on DistilBERTurk (dbmdz, MIT)", "https://huggingface.co/f1k/katip-mask-mini", "https://huggingface.co/f1k"),
     "tiny-f":     ("Katip Mask Nano · tr v1.1", "by f1k · 2.5M, runs in the browser", "https://huggingface.co/f1k/katip-mask-nano", "https://huggingface.co/f1k"),
-    "gliner2-katip": ("Katip rules + GLiNER2 · tr fine-tuned", "by f1k · 307M, GLiNER2 PII Multi (fastino, Apache-2.0) fine-tuned on Katip Mask Base's data", "https://huggingface.co/f1k/katip-gliner2", "https://huggingface.co/f1k"),
+    "gliner2-katip": ("Katip rules + GLiNER2 · tr fine-tuned", "by f1k · 307M, GLiNER2 PII Multi (fastino, Apache-2.0) fine-tuned on Katip Mask Base's data (recipe; weights not released)", "https://github.com/fikrifirat/katip/blob/legal-study/lab/colab/gliner2_katip_recipe.ipynb", "https://huggingface.co/f1k"),
     "akdeniz":    ("XLM-RoBERTa Base Turkish NER", "by akdeniz27 · fine-tuned from XLM-R (Meta AI)", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27"),
     "gliner":     ("GLiNER Multi PII v1", "by urchade · GLiNER, NAACL 2024", "https://huggingface.co/urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade"),
     "savasy":     ("BERTurk NER", "by savasy · BERTurk (dbmdz) fine-tuned for Turkish NER", "https://huggingface.co/savasy/bert-base-turkish-ner-cased", "https://huggingface.co/savasy"),
