@@ -9,7 +9,7 @@ same lenient match as train_berturk.py, so the two runs print comparable numbers
   python train_gliner2.py --base fastino/gliner2-privacy-filter-PII-multi --out out_gliner2
   python train_gliner2.py --smoke   # ~3 min on a T4: 30 steps, 20 test docs per set, ends with "SMOKE OK"
 """
-import argparse, gzip, json, random, sys, time
+import argparse, gzip, json, random, re, sys, time
 from pathlib import Path
 
 HERE = Path(__file__).parent
@@ -89,12 +89,40 @@ def pack(sents, k=8):
         out_.append({"text": text, "spans": spans})
     return out_
 
+# GLiNER2 spans are at most MAX_WORDS words (span head max_width = 8), and every Turkish address in the data is longer
+# (median ~19 words with the model's word splitter), so a whole address can never be predicted or learned. Split each
+# long mention into consecutive pieces of <= MAX_WORDS words, cutting at natural boundaries (after "Mah."/"Cad."/"Sk.",
+# before "No"/"Daire"/"Kat", after commas) where possible. The pieces together cover the whole address.
+MAX_WORDS = 8
+WORD = re.compile(r"\w+(?:[-_]\w+)*|\S")
+SUFFIX = {"mh", "mah", "mahallesi", "cd", "cad", "caddesi", "sk", "sok", "sokak", "sokağı", "bulvarı", "blv", "bulv", "apt", "apartmanı", "sitesi", "blok"}
+START = {"no", "kat", "daire", "d", "blok"}
+
+def pieces(m):
+    toks = [(x.group(), x.start(), x.end()) for x in WORD.finditer(m)]
+    if len(toks) <= MAX_WORDS: return [m]
+    def good(i):
+        prev = toks[i - 1][0].lower()
+        return (toks[i][0].lower() in START or prev in SUFFIX or prev == ","
+                or (prev == "." and i > 1 and toks[i - 2][0].lower() in SUFFIX)
+                or (i + 1 < len(toks) and toks[i + 1][0] == "/"))   # before "District/CITY"
+    out_, i = [], 0
+    while i < len(toks):
+        j = min(i + MAX_WORDS, len(toks))
+        if j < len(toks):
+            cut = max((k for k in range(i + 2, j + 1) if good(k)), default=j)
+            j = cut
+        piece = m[toks[i][1]:toks[j - 1][2]].strip(" ,/")
+        if piece and any(c.isalnum() for c in piece): out_.append(piece)
+        i = j
+    return out_
+
 def record(d):
     ents = {v: [] for v in TYPES.values()}
     for s, e, t in d.get("spans", []):
         if t in TYPES:
-            m = d["text"][s:e].strip()
-            if m and m not in ents[TYPES[t]]: ents[TYPES[t]].append(m)
+            for m in pieces(d["text"][s:e].strip()):
+                if m and m not in ents[TYPES[t]]: ents[TYPES[t]].append(m)
     return {"input": d["text"], "output": {"entities": ents, "entity_descriptions": DESC}}
 
 random.seed(a.seed)
@@ -151,10 +179,15 @@ def score(docs):
     for t in TYPES:
         tp = fn = fp = 0
         for d in docs:
-            gold = [d["text"][s:e] for s, e, tt in d.get("spans", []) if tt == t]
-            pred = [d["text"][s:e] for s, e, tt in predict(d["text"]) if tt == t]
-            tp += sum(any(matches(p, g) for p in pred) for g in gold); fn += sum(not any(matches(p, g) for p in pred) for g in gold)
-            fp += sum(not any(matches(p, g) for g in gold) for p in pred)
+            gs = [(s, e) for s, e, tt in d.get("spans", []) if tt == t]
+            ps = [(s, e) for s, e, tt in predict(d["text"]) if tt == t]
+            gold, pred = [d["text"][s:e] for s, e in gs], [d["text"][s:e] for s, e in ps]
+            # found = the old lenient match, or (for pieces) at least half the gold's characters covered by predictions
+            cov = lambda g: len(set().union(*[set(range(max(g[0], p[0]), min(g[1], p[1]))) for p in ps] or [set()])) / max(1, g[1] - g[0])
+            inside = lambda p: max([len(range(max(g[0], p[0]), min(g[1], p[1]))) for g in gs] or [0]) >= 0.5 * (p[1] - p[0])
+            hit = [any(matches(p, g) for p in pred) or cov(gi) >= 0.5 for g, gi in zip(gold, gs)]
+            tp += sum(hit); fn += len(hit) - sum(hit)
+            fp += sum(not (any(matches(p, g) for g in gold) or inside(pi)) for p, pi in zip(pred, ps))
         if tp + fn: r[t] = {"recall": round(tp / (tp + fn), 4), "precision": round(tp / max(1, tp + fp), 4), "gold": tp + fn}
     return r
 
