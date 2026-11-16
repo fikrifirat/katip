@@ -84,6 +84,13 @@ const I18N = {
     x3Cap: "Taslak yazar; isterseniz gerçek adlarla belgenin yanına Word dosyası olarak kaydeder.",
     cTabsAria: "Örnek sohbetler",
     cPermT: "Belgeyi bu bilgisayarda maskeleyip aç",
+    sAsk: "İstek",
+    sPerm: "Onay",
+    sAns: "Maskeli cevap",
+    sSave: "Sonuç",
+    xPrev: "Önceki adım",
+    xNext: "Sonraki adım",
+    xStep: "Adım",
     cCap: "Claude, Katip'in bulduğu değerlerin yerine köşeli parantezli yer tutucuları görür; gerçek değerler ve dosya adlarındaki isimler bilgisayarınızda kalır.", bench: "KVKK-Bench sıralaması",
     onSpace: "Bu sayfa için çok büyük (110 MB) · Hugging Face'te deneyin →",
     ocrAuto: "Otomatik (el yazısı için PaddleOCR)", ocrAutoMeta: "El yazılı ve fotoğraflı sayfalar PaddleOCR, basılı taramalar Tesseract · +13 MB",
@@ -165,6 +172,13 @@ const I18N = {
     x3Cap: "Drafts a reply; can save it with the real names as a Word file next to the document.",
     cTabsAria: "Sample chats",
     cPermT: "Mask and open the document on this computer",
+    sAsk: "Ask",
+    sPerm: "Approval",
+    sAns: "Masked answer",
+    sSave: "Result",
+    xPrev: "Previous step",
+    xNext: "Next step",
+    xStep: "Step",
     cCap: "Claude sees bracketed placeholders instead of the values Katip finds; the real values and names in file names stay on your computer.", bench: "KVKK-Bench leaderboard",
     onSpace: "Too big for this page (110 MB) · try it on Hugging Face →",
     ocrAuto: "Automatic (PaddleOCR for handwriting)", ocrAutoMeta: "Handwritten and photographed pages: PaddleOCR; printed scans: Tesseract · +13 MB",
@@ -289,7 +303,7 @@ addEventListener("scroll", () => popFor && place(popFor), true); addEventListene
 
 function applyLang() {
   document.documentElement.lang = lang;
-  document.querySelectorAll("[data-i18n]").forEach(e => (e.textContent = t(e.dataset.i18n)));
+  document.querySelectorAll("[data-i18n]").forEach(e => { const k = e.dataset.i18n; if (k in I18N[lang] || k in I18N.tr) e.textContent = t(k); });
   document.querySelectorAll("[data-i18n-mask]").forEach(e => e.replaceChildren(...t(e.dataset.i18nMask).split(/(\[[^\]]+\])/).filter(Boolean)
     .map(s => s[0] === "[" ? Object.assign(document.createElement("span"), { className: "ph", textContent: s }) : document.createTextNode(s))));
   document.querySelectorAll("[data-i18n-ph]").forEach(e => (e.placeholder = t(e.dataset.i18nPh)));
@@ -879,18 +893,45 @@ $("rSend").onclick = async () => {
   if (q) { const [ty, fm] = q.split(":"), sm = samples.find(x => x.type === ty || x.id === ty); if (sm) openSample(sm, sm.formats.includes(fm) ? fm : sm.formats[0]); }
 })();
 
-// Sample chats: one tab per Katip command (click, or arrow keys inside the tab row)
+// Sample chats: one tab per Katip command, each a few steps (ask → approval → masked answer → result)
 {
   const tabs = [...document.querySelectorAll(".xtabs [role=tab]")];
-  const pick = (b, focus) => tabs.forEach(x => {
-    const on = x === b; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1;
-    document.getElementById(x.getAttribute("aria-controls")).hidden = !on; if (on && focus) x.focus();
-  });
-  tabs.forEach((b, i) => {
-    b.onclick = () => pick(b);
-    b.onkeydown = e => {
-      const k = { ArrowRight: 1, ArrowLeft: -1, Home: -i, End: tabs.length - 1 - i }[e.key];
-      if (k !== undefined) { e.preventDefault(); pick(tabs[(i + k + tabs.length) % tabs.length], true); }
-    };
-  });
+  const nav = document.querySelector(".xnav"), dots = nav?.querySelector(".xdots"), label = nav?.querySelector(".xlabel");
+  let panel = document.getElementById("xp1"), at = 0;
+  const steps = () => [...panel.querySelectorAll(".xstep")];
+  const show = n => {
+    const s = steps(); at = Math.max(0, Math.min(n, s.length - 1));
+    s.forEach((x, i) => (x.hidden = i !== at));
+    dots.replaceChildren(...s.map((x, i) => Object.assign(document.createElement("button"), {
+      type: "button", className: i === at ? "on" : "", onclick: () => show(i),
+      ariaLabel: `${t("xStep")} ${i + 1}: ${t(x.dataset.label)}`, ariaCurrent: i === at ? "step" : null })));
+    label.textContent = `${at + 1}/${s.length} · ${t(s[at].dataset.label)}`;
+    nav.querySelector(".xprev").disabled = at === 0; nav.querySelector(".xnext").disabled = at === s.length - 1;
+  };
+  const pick = (b, focus) => {
+    tabs.forEach(x => {
+      const on = x === b; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1;
+      document.getElementById(x.getAttribute("aria-controls")).hidden = !on;
+      document.querySelector(`.xcap[data-cap="${x.id.slice(2)}"]`).hidden = !on;
+      if (on) { panel = document.getElementById(x.getAttribute("aria-controls")); if (focus) x.focus(); }
+    });
+    show(0);
+  };
+  if (nav) {
+    tabs.forEach((b, i) => {
+      b.onclick = () => pick(b);
+      b.onkeydown = e => {
+        const k = { ArrowRight: 1, ArrowLeft: -1, Home: -i, End: tabs.length - 1 - i }[e.key];
+        if (k !== undefined) { e.preventDefault(); pick(tabs[(i + k + tabs.length) % tabs.length], true); }
+      };
+    });
+    nav.querySelector(".xprev").onclick = () => show(at - 1);
+    nav.querySelector(".xnext").onclick = () => show(at + 1);
+    let x0 = null;  // swipe between steps on touch screens
+    const stage = document.querySelector(".xstage");
+    stage.addEventListener("touchstart", e => (x0 = e.touches[0].clientX), { passive: true });
+    stage.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1)); });
+    document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => show(at)));
+    show(0);
+  }
 }
