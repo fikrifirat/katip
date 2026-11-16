@@ -6,7 +6,8 @@ handle IDs, phones, IBANs). GLiNER2 learns from mention strings, so spans become
 with no mention is a negative. Model-alone scores on Base v2's own test sets (blind, heldout, wiki dev) use the
 same lenient match as train_berturk.py, so the two runs print comparable numbers.
 
-  python train_gliner2.py --base fastino/gliner2-privacy-filter-PII-multi --out out_gliner2 [--limit 300 --epochs 1]
+  python train_gliner2.py --base fastino/gliner2-privacy-filter-PII-multi --out out_gliner2
+  python train_gliner2.py --smoke   # ~3 min on a T4: 30 steps, 20 test docs per set, ends with "SMOKE OK"
 """
 import argparse, gzip, json, random, sys, time
 from pathlib import Path
@@ -24,9 +25,16 @@ ap.add_argument("--encoder-lr", type=float, default=1e-5)
 ap.add_argument("--task-lr", type=float, default=5e-4)
 ap.add_argument("--limit", type=int, default=0, help="smoke test: first N docs")
 ap.add_argument("--seed", type=int, default=0)
+ap.add_argument("--max-steps", type=int, default=-1, help="stop after N optimiser steps")
+ap.add_argument("--test-limit", type=int, default=0, help="score only the first N docs of each test set")
+ap.add_argument("--smoke", action="store_true", help="quick check: --limit 100 --max-steps 30 --test-limit 20")
 ap.add_argument("--no-real-text", action="store_true")
 ap.add_argument("--prepare-only", action="store_true", help="write the training JSONL and stop (no torch needed)")
 a = ap.parse_args()
+if a.smoke:
+    a.limit, a.max_steps, a.test_limit, a.epochs = a.limit or 100, 30 if a.max_steps < 0 else a.max_steps, a.test_limit or 20, 1
+T0 = time.time()
+def step(msg): print(f"[{round(time.time() - T0):>4}s] {msg}", flush=True)
 
 TYPES = {"PERSON": "person", "ADDRESS": "address", "HEALTH": "health condition"}
 DESC = {"person": "a person's name (first name, surname or full name)",
@@ -100,6 +108,7 @@ if not a.no_real_text:
     train = train + real
     tests["wiki dev"] = wikiner("dev")[: (200 if a.limit else None)]
 random.shuffle(train)
+if a.test_limit: tests = {n: docs[:a.test_limit] for n, docs in tests.items()}
 out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
 for name, docs in (("train", train), ("dev", dev)):
     with open(out / f"{name}.jsonl", "w", encoding="utf-8") as f:
@@ -108,6 +117,7 @@ print(f"{len(train)} train docs, {len(dev)} dev docs -> {out}/train.jsonl", flus
 if a.prepare_only:
     sys.exit(0)
 
+step(f"loading {a.base} (first run downloads ~1.2 GB)")
 import torch
 from gliner2 import GLiNER2
 from gliner2.training.trainer import GLiNER2Trainer, TrainingConfig
@@ -115,7 +125,8 @@ from gliner2.training.trainer import GLiNER2Trainer, TrainingConfig
 model = GLiNER2.from_pretrained(a.base)
 cfg = TrainingConfig(output_dir=str(out / "ckpt"), num_epochs=a.epochs, batch_size=a.bs, eval_batch_size=8,
                      encoder_lr=a.encoder_lr, task_lr=a.task_lr, eval_strategy="epoch", save_best=True,
-                     logging_steps=50, seed=a.seed, num_workers=2, fp16=torch.cuda.is_available())
+                     logging_steps=10 if a.max_steps > 0 else 50, max_steps=a.max_steps, seed=a.seed, num_workers=2, fp16=torch.cuda.is_available())
+step(f"training: {len(train)} docs, batch {a.bs}, " + (f"{a.max_steps} steps" if a.max_steps > 0 else f"{a.epochs} epochs") + f", GPU: {torch.cuda.is_available()}")
 t0 = time.time()
 GLiNER2Trainer(model=model, config=cfg).train(train_data=str(out / "train.jsonl"), eval_data=str(out / "dev.jsonl"))
 secs = round(time.time() - t0)
@@ -124,6 +135,8 @@ secs = round(time.time() - t0)
 best = next((p for p in (out / "ckpt" / "best", out / "ckpt" / "final") if p.exists()), None)
 model = GLiNER2.from_pretrained(str(best)) if best else model
 model.eval()
+if torch.cuda.is_available(): model.to("cuda")
+step("scoring the model alone on " + ", ".join(f"{n} ({len(d)})" for n, d in tests.items()))
 labels = list(TYPES.values()); inv = {v: k for k, v in TYPES.items()}
 
 def predict(text):
@@ -151,4 +164,6 @@ results = {"base": a.base, "epochs": a.epochs, "train_docs": len(train), "train_
 print(json.dumps(results["sets"], indent=1), flush=True)
 final = out / "model"
 model.save_pretrained(str(final))
-print("saved", final, flush=True)
+step(f"saved {final}")
+if a.smoke:
+    print("\nSMOKE OK: training, scoring and saving all work. Run the full training next.", flush=True)
