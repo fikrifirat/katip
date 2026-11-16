@@ -11,11 +11,19 @@ const DOC = "Davacı Ahmet YILMAZ (T.C. Kimlik No: 10000000146) Kızılay Mah. A
   "Tel: 0532 123 45 67, e-posta ahmet.yilmaz@gmail.com. Ankara 3. Asliye Hukuk Mahkemesi 2023/145 E. sayılı dosya.\n" +
   "Ahmet YILMAZ 12.03.2024 tarihinde ödedi. Depresyon tedavisi görüyor.";
 
-test("court profile keeps street, case number and date readable", () => {
+test("court profile masks the party's address, keeps case number and date readable", () => {
   const r = new Masker().maskSync(DOC);
-  for (const gone of ["Ahmet", "10000000146", "0532"]) assert.ok(!r.text.includes(gone), gone);
-  for (const kept of ["Kızılay Mah. Atatürk Cad.", "Çankaya/ANKARA", "2023/145", "12.03.2024"]) assert.ok(r.text.includes(kept), kept);
+  for (const gone of ["Ahmet", "10000000146", "0532", "Kızılay", "Çankaya"]) assert.ok(!r.text.includes(gone), gone);
+  for (const kept of ["2023/145", "12.03.2024"]) assert.ok(r.text.includes(kept), kept);
   assert.equal(r.text.split("[AD SOYAD-1]").length - 1, 2);
+});
+
+test("court profile keeps the property in dispute readable and masks UETS", () => {
+  const text = "Kiralananın Adresi: Kızılay Mah. Atatürk Cad. No:12 D:3 Çankaya/ANKARA\nDavalı vekili Av. Zeynep KARA, UETS: 16013-10288-73541";
+  const r = new Masker().maskSync(text);
+  assert.ok(r.text.includes("Kızılay Mah. Atatürk Cad. No:12 D:3 Çankaya/ANKARA"));
+  assert.ok(!r.text.includes("16013-10288-73541") && !r.text.includes("Zeynep"));
+  assert.ok(!new Masker({ profile: "ai" }).maskSync(text).text.includes("Kızılay"));
 });
 
 test("each profile masks everything the previous one does", () => {

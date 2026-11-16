@@ -1,7 +1,7 @@
 // TypeScript port of local_detect.py and the overlap rules of analyzer.py (vendored at
 // sdk/python/src/katip_mask/_engine/). Same recognizers, same overlap priority, same merges.
 import {
-  NOT_WORD_CLASS, TR_LETTER_CLASS, casefold, dyn, finditer, fold, isupper, isUpperChar, isAlnumChar, literal, match, pyIn, rfind, round3,
+  DIGIT_SLASH_CLASS, NOT_WORD_CLASS, TR_LETTER_CLASS, casefold, dyn, finditer, fold, isupper, isUpperChar, isAlnumChar, literal, match, pyIn, rfind, round3,
   search, sortBy, fullmatch, wordlist, strip, startsWithAny,
 } from "./py.js";
 import { TABLES } from "./generated.js";
@@ -217,6 +217,14 @@ function caseResults(text: string, entities: readonly string[]): RecognizerResul
         const g = m.groups ? 1 : 0;
         add("CASE_NO", m.start(g), m.end(g), 0.85, "case, file or document number");
       }
+  if (entities.includes("CASE_NO")) {
+    // the same number written again elsewhere is masked too, so one copy never gives the other away
+    const seen = new Set(out.filter(r => r.entity_type === "CASE_NO").map(r => text.slice(r.start, r.end)));
+    for (const v of seen)
+      for (const m of finditer(dyn(`(?<!${DIGIT_SLASH_CLASS})${literal(v)}(?!${DIGIT_SLASH_CLASS})`), text))
+        if (!out.some(r => r.start <= m.start() && m.start() < r.end))
+          add("CASE_NO", m.start(), m.end(), 0.8, "same case number found earlier in the document");
+  }
   if (entities.includes("BAR_NO"))
     for (const m of [...finditer("local_detect._BAR_RE", text), ...finditer("local_detect._STAFF_RE", text)])
       add("BAR_NO", m.start(1), m.end(1), 0.85, "bar or registry number");

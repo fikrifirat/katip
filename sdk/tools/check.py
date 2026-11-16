@@ -32,13 +32,42 @@ def versions() -> dict[str, str]:
     }
 
 
+def derived_profiles() -> dict:
+    """profiles.json with entity lists and labels taken from the engine and Kalkan's PROFILES, so the
+    packages cannot drift from the connector."""
+    import ast
+    sys.path.insert(0, str(SDK / "python" / "src"))
+    from katip_mask._engine import recognizers
+    tree = ast.parse((SDK.parent / "connector" / "katip_kalkan" / "engine.py").read_text(encoding="utf-8"))
+    ns: dict = {}
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and any(getattr(t, "id", "") in ("CASE", "ANON", "PROFILES") for t in node.targets):
+            exec(compile(ast.Module([node], []), "engine.py", "exec"), ns)
+    spec = json.loads((SDK / "spec" / "profiles.json").read_text(encoding="utf-8"))
+    extra_labels = {k: v for k, v in spec["labels_tr"].items() if k in ns["CASE"] + ns["ANON"]}
+    spec["labels_tr"] = {**recognizers.ENTITY_LABELS_TR, **extra_labels}
+    for name, prof in spec["profiles"].items():
+        k = ns["PROFILES"][name]
+        prof["entities"] = [e for e in recognizers.ALL_ENTITIES if e not in k["drop"]] + k["extra"]
+        prof["address_detail"] = k["addr"]
+    return spec
+
+
 def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
     a = ap.parse_args()
     flag = ["--check"] if a.check else []
     bad = []
-    for tool in ("sync_engine.py", "gen_js_tables.py"):
+    if subprocess.call([sys.executable, str(SDK / "tools" / "sync_engine.py"), *flag]) != 0:
+        bad.append("sync_engine.py")
+    prof = json.dumps(derived_profiles(), ensure_ascii=False, indent=1) + "\n"
+    if (SDK / "spec" / "profiles.json").read_text(encoding="utf-8") != prof:
+        if a.check:
+            bad.append("spec/profiles.json differs from the engine and Kalkan's PROFILES")
+        else:
+            (SDK / "spec" / "profiles.json").write_text(prof, encoding="utf-8")
+    for tool in ("gen_js_tables.py",):
         if subprocess.call([sys.executable, str(SDK / "tools" / tool), *flag]) != 0:
             bad.append(tool)
     for name in SPEC_FILES:
