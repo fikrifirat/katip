@@ -7,6 +7,11 @@ on:
     branches: [main]
     paths: ["sdk/**", "docs/katip_py.zip", ".github/workflows/sdk*.yml"]
   workflow_call:
+    inputs:
+      release:
+        description: "Called by the release: skip the macOS/Windows job, whose runners can queue for a long time"
+        type: boolean
+        default: false
   workflow_dispatch:
 
 permissions:
@@ -31,13 +36,26 @@ jobs:
         # 3.14 is current; 3.10 stays as the floor because Ubuntu 22.04 LTS (supported to 2027) ships it
         python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         os: [ubuntu-latest]
-        include:
-          - { python: "3.14", os: windows-latest }
-          - { python: "3.14", os: macos-latest }
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: { python-version: "${{ matrix.python }}" }
+      - run: pip install -e "sdk/python[test]"
+      - run: pytest -q sdk/python/tests
+
+  python-os:
+    name: Python 3.14 on ${{ matrix.os }}
+    if: ${{ !inputs.release }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.14" }
       - run: pip install -e "sdk/python[test]"
       - run: pytest -q sdk/python/tests
 
