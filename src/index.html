@@ -86,18 +86,23 @@
         <p class="chat-cap" data-i18n="cCap">Claude, Katip'in bulduğu değerlerin yerine köşeli parantezli yer tutucuları görür; gerçek değerler ve dosya adlarındaki isimler bilgisayarınızda kalır.</p>
       </div>
       <p class="ctip"><b data-i18n="cTipH">Belgeyi sohbete eklemeyin.</b> <span data-i18n="cTip">Sohbete eklenen dosya Katip çalışmadan önce gönderilir. Belgeyi Katip klasörüne (Belgeler › katip-documents) koyun ve Claude'dan isteyin.</span></p>
+      <ul class="ccmds">
+        <li><code>/katip …</code> <span data-i18n="cCmd1">belgeyle her iş: önce maskeler, sonra isteğinizi yapar</span></li>
+        <li><code>/katip-incele</code> <span data-i18n="cCmd2">son belgeyi inceler: özet, talepler, eksik ve hatalar, öneriler</span></li>
+        <li><code>/katip-taslak cevap dilekçesi</code> <span data-i18n="cCmd3">taslak yazar, isterseniz gerçek adlarla Word dosyası olarak kaydeder</span></li>
+      </ul>
       <details class="claude-setup" id="claudeSetup">
         <summary data-i18n="cSetup">Kurulum · 2 dakika</summary>
       <div class="claude-grid">
         <div><h3>Claude Desktop</h3>
-          <ol><li><a href="https://github.com/fikrifirat/katip/releases/download/kalkan-v0.3.4-beta.1/katip-kalkan.mcpb" data-i18n="cDl">katip-kalkan.mcpb dosyasını indirin</a></li>
+          <ol><li><a href="https://github.com/fikrifirat/katip/releases/download/kalkan-v0.3.7-beta.1/katip-kalkan.mcpb" data-i18n="cDl">katip-kalkan.mcpb dosyasını indirin</a></li>
           <li data-i18n="cDbl">Dosyaya çift tıklayın ve Yükle'ye basın; ayar değiştirmeniz gerekmez</li>
           <li data-i18n="cPut">Belgeyi Belgeler › katip-documents klasörüne koyun (Claude'a "Katip klasörümü aç" diyebilirsiniz)</li>
-          <li data-i18n="cUse">Sohbette + menüsünden "Katip ile güvenli çalış"ı seçin ya da isteğinizi yazın</li></ol></div>
+          <li data-i18n="cUse">Sohbette + menüsünden Katip komutlarından birini seçin ya da isteğinizi yazın</li></ol></div>
         <div><h3>Claude Code</h3>
           <pre><code>claude plugin marketplace add fikrifirat/katip
 claude plugin install katip-kalkan@katip</code></pre>
-          <p class="hint" data-i18n="cCode">Sonra: /katip son eklediğim dilekçeyi özetle</p></div>
+          <p class="hint" data-i18n="cCode">Sonra: /katip son eklediğim dilekçeyi özetle, /katip-incele ya da /katip-taslak cevap dilekçesi</p></div>
       </div>
       <p class="hint"><span data-i18n="cReq">Python 3.10 veya üstü gerekir. İlk açılışta yardımcı paketler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir zaman gönderilmez. Claude'un "doğrulanmamış geliştirici" uyarısı imzasız eklentilerin hepsinde çıkar; kaynak kodu açıktır.</span> <a href="https://github.com/fikrifirat/katip/tree/main/connector#readme" target="_blank" rel="noopener" data-i18n="cMore">Ayrıntılar</a></p>
       </details>
