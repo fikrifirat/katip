@@ -37,6 +37,38 @@ def _roots() -> list[Path]:
     return out
 
 
+def _downloads() -> Path | None:
+    if os.environ.get("KATIP_DOWNLOADS", "1") == "0":
+        return None
+    for name in ("Downloads", "İndirilenler"):
+        d = Path.home() / name
+        if d.is_dir():
+            return d.resolve()
+    return None
+
+
+def search_roots() -> list[Path]:
+    """Where Katip looks for client documents. Claude Desktop: the folders picked in the settings (the case-files
+    folder and Downloads). Claude Code / Cowork: the Katip folder, Downloads, KATIP_EXTRA_DIRS and the folders
+    listed one per line in ~/.katip/folders.txt. Nothing is copied: lawyers keep files where they already are."""
+    roots = _roots()
+    if not roots:
+        roots = [folder()]
+        extra = [r for r in os.environ.get("KATIP_EXTRA_DIRS", "").split(os.pathsep) if r.strip()]
+        cfg = Path(os.environ.get("KATIP_HOME") or "~/.katip").expanduser() / "folders.txt"
+        if cfg.is_file():
+            extra += [l.strip() for l in cfg.read_text(encoding="utf-8").splitlines()
+                      if l.strip() and not l.lstrip().startswith("#")]
+        roots += [Path(os.path.expandvars(e)).expanduser().resolve() for e in extra]
+        if (d := _downloads()):
+            roots.append(d)
+    out: list[Path] = []
+    for r in roots:
+        if r.is_dir() and not any(_inside(r, [o]) for o in out):
+            out.append(r)
+    return out or [folder()]
+
+
 def folder(create: bool = True) -> Path:
     """The user's Katip folder: the one picked in the settings, else ~/Documents/katip-documents.
     Created (private to this user) the first time it's needed, so the default works out of the box."""
@@ -56,8 +88,7 @@ def folder_warning(f: Path | None = None) -> str | None:
     or synced to a cloud service, so client files and restored documents with real names would be copied there."""
     f = f or folder(create=False)
     home = Path.home().resolve()
-    broad = {home, home / "Desktop", home / "Documents", home / "Downloads", home / "Masaüstü", home / "Belgeler",
-             Path(f.anchor)}
+    broad = {home, home / "Desktop", home / "Documents", home / "Masaüstü", home / "Belgeler", Path(f.anchor)}
     if f in broad:
         return msg("folder_broad")
     low = str(f).replace("\\", "/").lower()
@@ -98,55 +129,99 @@ def _inside(p: Path, roots: list[Path]) -> bool:
                if os.path.splitdrive(norm(p))[0] == os.path.splitdrive(norm(r))[0])
 
 
-def _out_path(output_path: str) -> Path:
+def _out_path(output_path: str, base: Path | None = None) -> Path:
     """Where Katip may write: a bare name goes into the Katip folder; any path must stay in the allowed folders,
     so a document can't talk the model into writing real names somewhere synced or shared."""
     p = Path(os.path.expandvars(output_path)).expanduser()
     if not p.is_absolute():
-        p = folder() / p
+        p = (base or folder()) / p
     p = p.resolve()
-    if not _inside(p, _roots() or [folder()]):  # no folder setting (Claude Code): the Katip folder only
+    if not _inside(p, search_roots()):  # only where Katip may read client documents
         raise PermissionError(msg("outside_write"))
     return p
 
 
-def _files(limit: int = 500) -> list[Path]:
-    root = folder()
+_SKIP_DIRS = {"node_modules", "__pycache__", "Library", "AppData", "$RECYCLE.BIN"}
+
+
+def _files(limit: int = 5000, depth: int = 5) -> list[tuple[Path, Path]]:
+    """(root, file) for every document Katip can read in the search roots, newest first."""
     out = []
-    for p in sorted(root.rglob("*")):
-        if len(out) >= limit:
-            break
-        rel = p.relative_to(root)
-        if p.is_file() and not any(part.startswith(".") for part in rel.parts) and len(rel.parts) <= 4 \
-                and p.suffix.lower() in engine.KINDS and ".maskeli" not in p.name:
-            out.append(p)
-    return out
+    for root in search_roots():
+        base = len(root.parts)
+        for dirpath, dirnames, filenames in os.walk(root):
+            d = Path(dirpath)
+            dirnames[:] = [n for n in dirnames if not n.startswith(".") and n not in _SKIP_DIRS
+                           and len(d.parts) - base < depth]
+            for n in filenames:
+                if n.startswith(".") or ".maskeli" in n or Path(n).suffix.lower() not in engine.KINDS:
+                    continue
+                out.append((root, d / n))
+                if len(out) >= limit:
+                    break
+            if len(out) >= limit:
+                break
+    def mtime(t):
+        try:
+            return t[1].stat().st_mtime
+        except OSError:
+            return 0
+    return sorted(out, key=mtime, reverse=True)
+
+
+def _fold(s: str) -> str:
+    import unicodedata
+    s = unicodedata.normalize("NFC", s).replace("İ", "i").replace("I", "ı").lower()
+    s = s.translate(str.maketrans("çğıöşüâîû", "cgiosuaiu"))
+    return "".join(c if c.isalnum() else " " for c in s)
+
+
+def _matches(root: Path, p: Path, words: list[str]) -> bool:
+    hay = _fold(str(p.relative_to(root)))
+    return all(w in hay for w in words)
 
 
 def _by_id(file_id: str) -> Path:
     files = _files()
-    if file_id == "latest" and files:  # the file the user just dropped into the folder
-        return max(files, key=lambda p: p.stat().st_mtime)
-    for p in files:
+    if file_id == "latest" and files:  # the file the user just downloaded or saved
+        return files[0][1]
+    for _, p in files:
         if names.file_id(p) == file_id:
             return p
     raise FileNotFoundError(msg("no_id"))
 
 
-def list_files() -> dict:
-    """Files in the Katip folder with ids and *safe* names: the real file names never reach the model."""
-    root = folder()
+def _where(root: Path, p: Path) -> str:
+    """Which folder, in words that can't name a client: the root's role and the safe subfolder names."""
+    import unicodedata
+    is_dl = unicodedata.normalize("NFC", root.name).lower() in ("downloads", "i̇ndirilenler", "indirilenler")
+    label = msg("in_downloads") if is_dl or root == _downloads() else msg("in_cases")
+    sub = [names.safe_title(s) for s in p.relative_to(root).parts[:-1]]
+    return " › ".join([label, *sub])
+
+
+def list_files(query: str | None = None, limit: int = 20) -> dict:
+    """Documents Katip can read, newest first, with ids and *safe* names: the real file names never reach the
+    model. `query` is matched here, on this computer, against the real file and folder names (Turkish letters
+    folded), so "Yılmaz kira" finds "Ahmet Yılmaz/Kira sözleşmesi.docx" while Claude only sees "…/Kira sözleşmesi"."""
+    words = _fold(query or "").split()
+    hits = [(r, p) for r, p in _files() if not words or _matches(r, p, words)]
     items = []
-    for p in _files():
-        st = p.stat()
+    for r, p in hits[:max(1, min(int(limit or 20), 50))]:
+        try:
+            st = p.stat()
+        except OSError:
+            continue
         items.append({"file_id": names.file_id(p), "name": names.safe_title(p.stem) + p.suffix.lower(),
-                      "kind": engine.KINDS[p.suffix.lower()], "size_kb": round(st.st_size / 1024),
-                      "modified": time.strftime("%Y-%m-%d %H:%M", time.localtime(st.st_mtime)), "_mtime": st.st_mtime,
-                      **({"subfolder": len(p.relative_to(root).parts) - 1} if p.parent != root else {})})
-    items.sort(key=lambda f: f.pop("_mtime"), reverse=True)  # newest first: "the file I just added"
-    out = {"folder": "your Katip folder", "files": items, "note": msg("list_note")}
-    if (w := folder_warning(root)):
-        out["folder_warning"] = w
+                      "where": _where(r, p), "kind": engine.KINDS[p.suffix.lower()],
+                      "size_kb": round(st.st_size / 1024),
+                      "modified": time.strftime("%Y-%m-%d %H:%M", time.localtime(st.st_mtime))})
+    out = {"files": items, "matches": len(hits), "note": msg("list_note")}
+    if words and not hits:
+        out["note"] = msg("no_match")
+    warn = [w for r in search_roots() if (w := folder_warning(r))]
+    if warn:
+        out["folder_warning"] = warn[0]
     return out
 
 
@@ -333,6 +408,8 @@ def mask_file(path: str | None = None, matter: str = "default", page: int = 1, p
     doc_id = hashlib.sha256(f"{matter}|{p}|{p.stat().st_mtime}".encode()).hexdigest()[:12]
     v.docs[doc_id] = {"at": time.time(), "kind": kind}
     v.save()
+    if _inside(p.parent, search_roots()):
+        _LAST_DIR[matter] = p.parent
     pages = max(1, -(-len(masked) // PAGE_CHARS))
     page = min(max(1, page), pages)
     chunk = masked[(page - 1) * PAGE_CHARS: page * PAGE_CHARS]
@@ -351,6 +428,9 @@ def mask_file(path: str | None = None, matter: str = "default", page: int = 1, p
         "vault": "encrypted on this device" if vault.persistent() else "memory only (install `cryptography` to keep it)",
         "note": msg("placeholders"),
     }
+
+
+_LAST_DIR: dict[str, Path] = {}  # matter -> folder of the document masked last, where the final text goes
 
 
 def write_redacted(path: str | None = None, matter: str = "default", output_path: str | None = None,
@@ -378,7 +458,7 @@ def write_redacted(path: str | None = None, matter: str = "default", output_path
 def restore_to_file(text: str, output_path: str, matter: str = "default") -> dict:
     """Swap placeholders back to real values and write the result to a local file.
     Returns only the path and a count: the real values never go back to the model."""
-    out = _out_path(output_path)
+    out = _out_path(output_path, _LAST_DIR.get(matter))
     if out.suffix.lower() not in (".docx", ".txt", ".md"):
         raise ValueError(msg("restore_ext"))
     if out.exists():
@@ -390,7 +470,9 @@ def restore_to_file(text: str, output_path: str, matter: str = "default") -> dic
     fd = os.open(out, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     with os.fdopen(fd, "wb") as fh:
         fh.write(data)
-    return {"output_path": str(out), "placeholders_restored": n, "saved": "in the Katip folder, on this computer"}
+    return {"output_path": str(out), "placeholders_restored": n,
+            "saved": "next to the source document, on this computer" if _LAST_DIR.get(matter) == out.parent
+            else "in the Katip folder, on this computer"}
 
 
 def _docx(text: str) -> bytes:

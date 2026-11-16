@@ -8,6 +8,7 @@ import io
 import json
 import logging
 import os
+import shutil
 import subprocess
 import sys
 import threading
@@ -38,6 +39,7 @@ def home(tmp_path, monkeypatch):
     monkeypatch.setenv("KATIP_HOME", str(tmp_path / "katip"))
     monkeypatch.setenv("KATIP_NO_KEYCHAIN", "1")
     monkeypatch.setenv("KATIP_FOLDER", str(tmp_path))  # outputs may only go into the Katip folder
+    monkeypatch.setenv("KATIP_DOWNLOADS", "0")  # never scan the test machine's real Downloads
     monkeypatch.delenv("KATIP_VAULT_MEMORY_ONLY", raising=False)
     from katip_kalkan import vault
     vault._memory.clear()
@@ -570,3 +572,45 @@ def test_folder_warning_for_broad_or_synced_folders(tmp_path, monkeypatch):
     assert core.folder_warning((tmp_path / "Library" / "CloudStorage" / "OneDrive" / "Katip").resolve())
     (tmp_path / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / "Documents").mkdir(parents=True)
     assert core.folder_warning((tmp_path / "Documents" / "katip-documents").resolve())
+
+
+def test_find_documents_where_lawyers_keep_them(tmp_path, monkeypatch):
+    """No copying: the case folder (with client subfolders) and Downloads are searched in place, by name,
+    on this computer; Claude gets shortened names only, and the final text goes next to the source."""
+    from katip_kalkan import core
+    cases, dl = tmp_path / "Davalar", tmp_path / "home" / "Downloads"
+    (cases / "2026-123 Ahmet Yılmaz").mkdir(parents=True)
+    dl.mkdir(parents=True)
+    monkeypatch.setenv("HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path / "home"))
+    monkeypatch.setenv("KATIP_DOWNLOADS", "1")
+    monkeypatch.setenv("KATIP_FOLDER", str(tmp_path / "katip-documents"))
+    monkeypatch.setenv("KATIP_EXTRA_DIRS", str(cases))
+    lease = cases / "2026-123 Ahmet Yılmaz" / "Kira Sözleşmesi.docx"
+    shutil.copy(FIX / "dilekce_01.docx", lease)
+    report = dl / "Bilirkişi Raporu - Yılmaz.udf"
+    shutil.copy(FIX / "dilekce_01.udf", report)
+    os.utime(lease, (1, 1))  # the download is the newest
+    res = core.list_files("yilmaz KIRA")
+    assert res["matches"] == 1 and res["files"][0]["file_id"] == core.names.file_id(lease)
+    raw = json.dumps(res, ensure_ascii=False)
+    assert "Yılmaz" not in raw and "Ahmet" not in raw and "Kira Sözleşmesi" in raw
+    assert res["files"][0]["where"].startswith("Dava klasörü")
+    assert core.list_files("bilirkişi")["files"][0]["where"] == "İndirilenler"
+    assert core.list_files("tapu")["matches"] == 0 and "note" in core.list_files("tapu")
+    assert core._by_id("latest") == report
+    core.mask_file(file_id=core.names.file_id(lease), matter="2026/123")
+    out = core.restore_to_file("Sayın [AD SOYAD-1],", "cevap.docx", "2026/123")
+    assert Path(out["output_path"]).parent == lease.parent.resolve()
+    with pytest.raises(PermissionError):
+        core.restore_to_file("x", str(tmp_path / "elsewhere" / "x.docx"), "2026/123")
+
+
+def test_guard_covers_case_folders_and_downloads(tmp_path):
+    home = tmp_path / "katip"
+    home.mkdir()
+    (home / "folders.txt").write_text(str(tmp_path / "Davalar") + "\n", encoding="utf-8")
+    env = {"KATIP_FOLDER": str(tmp_path / "kd"), "KATIP_HOME": str(home), "KATIP_DOWNLOADS": "0"}
+    assert _guard({"tool_name": "Read", "tool_input": {"file_path": str(tmp_path / "Davalar" / "x" / "a.udf")},
+                   "cwd": "/"}, env)[0] == 2
+    assert _guard({"tool_name": "Bash", "tool_input": {"command": "ls ~/Downloads"}, "cwd": "/"}, env)[0] == 0

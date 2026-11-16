@@ -39,7 +39,9 @@
         "-m",
         "katip_kalkan.launch",
         "--allow",
-        "${user_config.allowed_dir}"
+        "${user_config.allowed_dir}",
+        "--allow",
+        "${user_config.downloads_dir}"
       ],
       "env": {
         "PYTHONPATH": "${__dirname}/server",
@@ -86,10 +88,17 @@
   "user_config": {
     "allowed_dir": {
       "type": "directory",
-      "title": "Müvekkil belgeleri klasörü / Client documents folder",
-      "description": "Katip yalnızca bu klasördeki belgeleri açar ve gerçek adlı son metinleri buraya kaydeder. Önerilen: varsayılanı bırakın (Belgeler/katip-documents, yalnızca size açık bir klasör olarak oluşturulur). Belgeler klasörünüz iCloud, OneDrive ya da Google Drive ile eşitleniyorsa eşitlenmeyen bir klasör seçin. Masaüstünü, Belgeler'in tamamını ya da ana klasörünüzü seçmeyin. · Katip opens only documents in this folder and saves final texts with real names here. Recommended: keep the default. If Documents syncs to iCloud, OneDrive or Google Drive, pick a folder that doesn't sync. Don't pick Desktop, all of Documents or your home folder.",
+      "title": "Dava dosyalarınızın klasörü / Case files folder",
+      "description": "Müvekkil belgelerinizi zaten tuttuğunuz klasörü seçin (ör. Belgeler › Davalar); alt klasörler dahil aranır, hiçbir şey kopyalanmaz. Gerçek adlı son metinler kaynak belgenin yanına kaydedilir. Masaüstünü, Belgeler'in tamamını ya da ana klasörünüzü seçmeyin; iCloud, OneDrive ya da Google Drive ile eşitlenen bir klasörse Katip sizi uyarır. Boş bırakırsanız Belgeler/katip-documents kullanılır. · Pick the folder where you already keep client documents (e.g. Documents › Davalar); subfolders are searched and nothing is copied. Final texts with real names are saved next to the source document. Don't pick Desktop, all of Documents or your home folder.",
       "required": false,
       "default": "${HOME}/Documents/katip-documents"
+    },
+    "downloads_dir": {
+      "type": "directory",
+      "title": "İndirilenler (UYAP ve e-posta ekleri) / Downloads",
+      "description": "UYAP'tan indirdiğiniz evrak ve e-posta ekleri genelde buraya düşer; Katip burada da arar. İstemiyorsanız boş bırakın. · UYAP downloads and e-mail attachments usually land here; Katip searches it too. Clear it if you don't want that.",
+      "required": false,
+      "default": "${HOME}/Downloads"
     },
     "profile": {
       "type": "string",
