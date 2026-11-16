@@ -8,15 +8,15 @@
  "runs_locally": true,
  "runs_in_browser": true,
  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules",
- "ms_per_doc": 41.1,
+ "ms_per_doc": 41.4,
  "tracks": {
   "forms-id": {
    "types": {
     "PERSON": {
      "gold": 1310,
      "recall": 0.9923664122137404,
-     "precision": 0.8952451708766717,
-     "f2": 0.9712921626984127,
+     "precision": 0.894580549368968,
+     "f2": 0.9711356056191338,
      "exact_recall": 0.9007633587786259
     },
     "TCKN": {
@@ -98,17 +98,17 @@
     }
    },
    "recall": 0.9840023269342641,
-   "precision": 0.9412273120138289,
-   "f2": 0.9751390930012448,
+   "precision": 0.9409562211981567,
+   "f2": 0.9750808842783125,
    "special_category_recall": NaN,
-   "false_per_1k_words": 6.631773999544878,
+   "false_per_1k_words": 6.664282695621079,
    "leak_rate": 0.0072926051279553926,
    "clean_doc_rate": 0.8888888888888888
   }
  },
  "missing_predictions": 0,
  "KVKK-F2": NaN,
- "F2 generated": 0.9751390930012448,
- "F2 all tracks": 0.9751390930012448,
+ "F2 generated": 0.9750808842783125,
+ "F2 all tracks": 0.9750808842783125,
  "leak_rate": 0.0072926051279553926
 }

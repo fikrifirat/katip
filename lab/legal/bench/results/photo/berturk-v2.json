@@ -6,7 +6,7 @@
  "ocr": "Katip Otomatik (PaddleOCR PP-OCRv5 on handwriting, Tesseract tur otherwise), run once",
  "ink_masks": true,
  "docs": 60,
- "leak_rate": 0.052083333333333336,
+ "leak_rate": 0.05,
  "per_type": {
   "PERSON": {
    "n": 120,
@@ -18,15 +18,15 @@
   },
   "ADDRESS": {
    "n": 120,
-   "leaked": 25
+   "leaked": 24
   },
   "PERSON (signature)": {
    "n": 120,
    "leaked": 0
   }
  },
- "streets_over_masked": 71,
+ "streets_over_masked": 139,
  "streets": 360,
  "false_masks_per_page": 1.0333333333333334,
- "detect_ms_per_page": 172.0
+ "detect_ms_per_page": 178.0
 }

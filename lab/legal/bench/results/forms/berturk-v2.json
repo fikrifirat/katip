@@ -8,7 +8,7 @@
  "runs_locally": true,
  "runs_in_browser": true,
  "size_note": "int8 ONNX the browser downloads + 0.3 MB rules",
- "ms_per_doc": 136.4,
+ "ms_per_doc": 138.0,
  "tracks": {
   "forms-id": {
    "types": {

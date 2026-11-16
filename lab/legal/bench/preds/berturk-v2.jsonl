@@ -1227,7 +1227,7 @@
 {"id": "wiki-wiki-test-189", "spans": []}
 {"id": "wiki-wiki-test-190", "spans": [[0, 22, "PERSON"]]}
 {"id": "wiki-wiki-test-191", "spans": [[0, 4, "PERSON"]]}
-{"id": "wiki-wiki-test-192", "spans": [[5, 10, "PERSON"], [18, 23, "PERSON"], [27, 31, "PERSON"], [65, 73, "PERSON"], [129, 135, "PERSON"]]}
+{"id": "wiki-wiki-test-192", "spans": [[5, 10, "PERSON"], [12, 16, "PERSON"], [18, 23, "PERSON"], [27, 31, "PERSON"], [65, 73, "PERSON"], [129, 135, "PERSON"]]}
 {"id": "wiki-wiki-test-193", "spans": []}
 {"id": "wiki-wiki-test-194", "spans": []}
 {"id": "wiki-wiki-test-195", "spans": [[13, 18, "PERSON"]]}
@@ -1345,7 +1345,7 @@
 {"id": "wiki-wiki-test-307", "spans": []}
 {"id": "wiki-wiki-test-308", "spans": []}
 {"id": "wiki-wiki-test-309", "spans": [[208, 217, "PERSON"]]}
-{"id": "wiki-wiki-test-310", "spans": []}
+{"id": "wiki-wiki-test-310", "spans": [[26, 30, "PERSON"]]}
 {"id": "wiki-wiki-test-311", "spans": [[35, 41, "PERSON"], [65, 74, "PERSON"], [121, 128, "PERSON"], [182, 190, "PERSON"]]}
 {"id": "wiki-wiki-test-312", "spans": []}
 {"id": "wiki-wiki-test-313", "spans": []}
@@ -1839,7 +1839,7 @@
 {"id": "wiki-wiki-test-801", "spans": []}
 {"id": "wiki-wiki-test-802", "spans": []}
 {"id": "wiki-wiki-test-803", "spans": []}
-{"id": "wiki-wiki-test-804", "spans": [[43, 54, "PERSON"]]}
+{"id": "wiki-wiki-test-804", "spans": [[4, 11, "PERSON"], [43, 54, "PERSON"]]}
 {"id": "wiki-wiki-test-805", "spans": [[28, 42, "PERSON"]]}
 {"id": "wiki-wiki-test-806", "spans": []}
 {"id": "wiki-wiki-test-807", "spans": []}

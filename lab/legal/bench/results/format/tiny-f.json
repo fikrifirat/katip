@@ -11,7 +11,7 @@
    "leak_rate": 0.0138,
    "docs": 306,
    "recall": 0.9776,
-   "precision": 0.9218,
+   "precision": 0.92,
    "clean_doc_rate": 0.8007,
    "gold_values_lost_by_reader": 0
   },
@@ -20,7 +20,7 @@
    "leak_rate": 0.0138,
    "docs": 306,
    "recall": 0.9776,
-   "precision": 0.9218,
+   "precision": 0.92,
    "clean_doc_rate": 0.8007,
    "gold_values_lost_by_reader": 0
   },
@@ -29,7 +29,7 @@
    "leak_rate": 0.0214,
    "docs": 306,
    "recall": 0.9735,
-   "precision": 0.9131,
+   "precision": 0.9113,
    "clean_doc_rate": 0.5882,
    "gold_values_lost_by_reader": 0
   },
@@ -38,7 +38,7 @@
    "leak_rate": 0.0248,
    "docs": 306,
    "recall": 0.9636,
-   "precision": 0.8899,
+   "precision": 0.8877,
    "clean_doc_rate": 0.5556,
    "gold_values_lost_by_reader": 0
   }

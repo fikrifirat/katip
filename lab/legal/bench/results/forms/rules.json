@@ -7,7 +7,7 @@
  "params": 0,
  "runs_locally": true,
  "runs_in_browser": true,
- "ms_per_doc": 2.9,
+ "ms_per_doc": 2.8,
  "tracks": {
   "forms-id": {
    "types": {

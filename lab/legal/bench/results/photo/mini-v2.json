@@ -25,8 +25,8 @@
    "leaked": 0
   }
  },
- "streets_over_masked": 70,
+ "streets_over_masked": 145,
  "streets": 360,
  "false_masks_per_page": 0.8166666666666667,
- "detect_ms_per_page": 83.0
+ "detect_ms_per_page": 59.0
 }
