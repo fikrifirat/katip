@@ -188,11 +188,15 @@ section.claude .hint{margin:10px 0 0;font-size:12.5px;text-align:left}details.cl
 .xtabs button[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:var(--bg)}.xtabs button[aria-selected=true] code{color:var(--bg)}
 .xtabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .xcap{margin:0 2px 6px;font-size:12.5px;color:var(--muted)}
-.xstage{height:244px;overflow:auto}
-.xpanel{display:contents}.xpanel[hidden],.xstep[hidden],.xcap[hidden]{display:none}
-.xstep{display:flex;flex-direction:column;gap:8px;margin:auto 0;animation:xin .18s ease-out}
-@keyframes xin{from{opacity:0;transform:translateY(4px)}}
-@media (prefers-reduced-motion:reduce){.xstep{animation:none}}
+.xpanel[hidden],.xcap[hidden],.xpanel [hidden]{display:none}
+.xpanel .new{animation:xin .2s ease-out}
+@keyframes xin{from{opacity:0;transform:translateY(6px)}}
+@media (prefers-reduced-motion:reduce){.xpanel .new{animation:none}}
+.perm .ok{display:none}
+.chat .perm.done{padding:5px 10px;box-shadow:none;max-width:none;align-self:flex-start;margin:0;font-size:12.5px;background:transparent}
+.perm.done .perm-h{margin:0;gap:6px}.perm.done .perm-h .muted{flex-basis:auto;font-size:12.5px}
+.perm.done dl,.perm.done .perm-b{display:none}
+.perm.done .ok{display:inline;color:var(--accent);font-weight:600}.perm.done .ok::before{content:"✓ "}
 .xnav{display:flex;align-items:center;gap:8px;margin:8px 0 0}
 .xnav>button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:18px;line-height:1;cursor:pointer}
 .xnav>button:disabled{opacity:.35;cursor:default}
@@ -200,4 +204,3 @@ section.claude .hint{margin:10px 0 0;font-size:12.5px;text-align:left}details.cl
 .xdots button.on{background:var(--ink);width:20px;border-radius:4px}
 .xlabel{flex:1;font-size:12.5px;color:var(--muted);text-align:right}
 .xnav button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-@media (max-width:520px){.xstage{height:350px}}

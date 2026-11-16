@@ -61,21 +61,9 @@ const I18N = {
     cTitle: "Claude ile kullanın", cSub: "Claude belgeyi görmeden önce Katip kişisel verileri bilgisayarınızda maskeler",
     cDl: "katip-kalkan.mcpb dosyasını indirin", cDbl: "Dosyaya çift tıklayın ve Yükle'ye basın; ayar değiştirmeniz gerekmez",
     cReq: "Python 3.10 veya üstü gerekir. İlk açılışta yardımcı paketler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir zaman gönderilmez. Claude'un \"doğrulanmamış geliştirici\" uyarısı imzasız eklentilerin hepsinde çıkar; kaynak kodu açıktır.", cMore: "Ayrıntılar", cSetup: "Kurulum · 2 dakika", devSum: "Kendi kodunuzda kullanın", devTxt: "Bu sayfayla aynı kurallar; metin bilgisayarınızdan çıkmaz.", cChatAria: "Örnek sohbet",
-    cPermAria: "Claude izin kutusu", cDocKey: "belge", cInfoKey: "bilgi", cInfo: "Belge bu bilgisayarda açılır ve maskelenir; Claude, Katip'in bulduğu kişisel verilerin yerine [AD SOYAD-1] gibi yer tutucuları görür. Katip bazı değerleri kaçırabilir.", cAllow: "Bir kez izin ver", cAlways: "Her zaman izin ver",
+    cPermAria: "Claude izin kutusu", cDocKey: "belge", cInfoKey: "bilgi", cAllow: "Bir kez izin ver", cAlways: "Her zaman izin ver",
     cTipH: "Belgeyi sohbete eklemeyin.", cTip: "Sohbete eklenen dosya Katip çalışmadan önce gönderilir. Belgenin adını yazın; Katip onu dava klasörünüzde ya da İndirilenler'de bulur.",
     cPut: "Ayarlarda dava dosyalarınızın klasörünü seçin; İndirilenler de aranır, hiçbir şey kopyalanmaz", cUse: "Sohbette + menüsünden Katip komutlarından birini seçin ya da isteğinizi yazın", cCode: "Sonra belgeyi tarif edin: /katip Yılmaz kira sözleşmesi …, /katip-incele son indirdiğim bilirkişi raporu, /katip-taslak 2026/140 ihtarname, cevap",
-    x1Ask: "/katip Yılmaz kira sözleşmesinde kira artışı ve fesih şartları ne?",
-    x1Tool: "Dava klasörü › 2026-118 … · 21 kişisel veri maskelendi",
-    x1Ans: "Kiracı [AD SOYAD-1], kiraya veren [AD SOYAD-2]. Kira her yıl TÜFE'nin on iki aylık ortalaması oranında artıyor (TBK m.344 ile uyumlu). Kiracı üç ay önceden yazılı bildirimle feshedebilir (md. 9); depozito iki aylık kira, [IBAN-1] hesabına ödenmiş.",
-    x1Note: "Sohbete yazdığınız ad Claude'a gider; belge türü, tarih ya da dosya numarası da belgeyi bulur.",
-    x2Ask: "/katip-incele bugün UYAP'tan indirdiğim bilirkişi raporu",
-    x2Tool: "İndirilenler · 34 kişisel veri maskelendi",
-    x2Ans: "Özet: bilirkişi, davacı [AD SOYAD-1] için 84.210 TL fazla mesai alacağı hesaplamış. Eksik: hesap yalnızca tanık [AD SOYAD-2]'nin beyanına dayanıyor, puantaj kayıtları incelenmemiş. Öneri: tebliğden itibaren iki hafta içinde rapora itiraz edin (HMK m.281).",
-    x3Ask: "/katip-taslak 2026/140 ihtarname, cevap yaz",
-    x3Tool: "Dava klasörü › 2026-140 … · 9 kişisel veri maskelendi",
-    x3Ans: "[AD SOYAD-1]'in 12.10.2026 tarihli ihtarnamesine cevap taslağı hazır: ödenmediği ileri sürülen kira bedelinin [IBAN-1] hesabına ödendiği dekontlarla belirtiliyor. Gerçek adlarla kaydedeyim mi?",
-    x3Ask2: "Evet, Word dosyası olarak kaydet",
-    x3Tool2: "cevap-ihtarname.docx ihtarnamenin yanına kaydedildi · gerçek adlar yalnızca bilgisayarınızda",
     xTab1: "her iş",
     xTab2: "inceleme",
     xTab3: "taslak",
@@ -83,14 +71,34 @@ const I18N = {
     x2Cap: "Özet, talepler, eksik ve hatalar, öneriler.",
     x3Cap: "Taslak yazar; isterseniz gerçek adlarla belgenin yanına Word dosyası olarak kaydeder.",
     cTabsAria: "Örnek sohbetler",
-    cPermT: "Belgeyi bu bilgisayarda maskeleyip aç",
-    sAsk: "İstek",
-    sPerm: "Onay",
-    sAns: "Maskeli cevap",
-    sSave: "Sonuç",
     xPrev: "Önceki adım",
     xNext: "Sonraki adım",
     xStep: "Adım",
+    x1Ask: "/katip Yılmaz kira sözleşmesinde kira artışı ve fesih şartları ne?",
+    x1Find: "1 belge bulundu: … Kira Sözleşmesi.pdf · Dava klasörü › 2026-118 …",
+    x1Tool: "21 kişisel veri maskelendi · belge bilgisayarınızda kaldı",
+    x1Ans: "Kiracı [AD SOYAD-1], kiraya veren [AD SOYAD-2]. Kira her yıl TÜFE'nin on iki aylık ortalaması oranında artıyor (TBK m.344 ile uyumlu). Kiracı üç ay önceden yazılı bildirimle feshedebilir (md. 9); depozito iki aylık kira, [IBAN-1] hesabına ödenmiş.",
+    x1Note: "Sohbete yazdığınız ad Claude'a gider; belge türü, tarih ya da dosya numarası da belgeyi bulur.",
+    x2Ask: "/katip-incele bugün UYAP'tan indirdiğim bilirkişi raporu",
+    x2Find: "1 belge bulundu: 2026-123 Bilirkişi Raporu.pdf · İndirilenler · bugün",
+    x2Tool: "34 kişisel veri maskelendi · belge bilgisayarınızda kaldı",
+    x2Ans: "Özet: bilirkişi, davacı [AD SOYAD-1] için 84.210 TL fazla mesai alacağı hesaplamış. Eksik: hesap yalnızca tanık [AD SOYAD-2]'nin beyanına dayanıyor, puantaj kayıtları incelenmemiş. Öneri: tebliğden itibaren iki hafta içinde rapora itiraz edin (HMK m.281).",
+    x3Ask: "/katip-taslak 2026/140 ihtarname, cevap yaz",
+    x3Find: "1 belge bulundu: … İhtarname.docx · Dava klasörü › 2026-140 …",
+    x3Tool: "9 kişisel veri maskelendi · belge bilgisayarınızda kaldı",
+    x3Ans: "[AD SOYAD-1]'in 12.10.2026 tarihli ihtarnamesine cevap taslağı hazır: ödenmediği ileri sürülen kira bedelinin [IBAN-1] hesabına ödendiği dekontlarla belirtiliyor. Gerçek adlarla kaydedeyim mi?",
+    x3Ask2: "Evet, Word dosyası olarak kaydet",
+    x3Tool2: "cevap-ihtarname.docx ihtarnamenin yanına kaydedildi · gerçek adlar yalnızca bilgisayarınızda",
+    cPermL: "Belgeyi bul (adlar gizli)",
+    cInfoL: "Yalnızca dava klasöründe ve İndirilenler'de bu bilgisayarda aranır; dosya adlarındaki kişi adları gizlenir.",
+    cPermT: "Belgeyi bu bilgisayarda maskeleyip aç",
+    cInfo: "Belge bu bilgisayarda açılır ve maskelenir; Claude, Katip'in bulduğu kişisel verilerin yerine [AD SOYAD-1] gibi yer tutucuları görür. Katip bazı değerleri kaçırabilir.",
+    cPermR: "Gerçek adlarla dosyaya kaydet (bu bilgisayarda)",
+    cDone: "İzin verildi",
+    cAraKey: "ara",
+    sFind: "Bul",
+    sMask: "Maskele",
+    sChat: "Sohbet",
     cCap: "Claude, Katip'in bulduğu değerlerin yerine köşeli parantezli yer tutucuları görür; gerçek değerler ve dosya adlarındaki isimler bilgisayarınızda kalır.", bench: "KVKK-Bench sıralaması",
     onSpace: "Bu sayfa için çok büyük (110 MB) · Hugging Face'te deneyin →",
     ocrAuto: "Otomatik (el yazısı için PaddleOCR)", ocrAutoMeta: "El yazılı ve fotoğraflı sayfalar PaddleOCR, basılı taramalar Tesseract · +13 MB",
@@ -149,21 +157,9 @@ const I18N = {
     cTitle: "Use it with Claude", cSub: "Katip masks personal data on your computer before Claude sees the document",
     cDl: "Download katip-kalkan.mcpb", cDbl: "Double-click it and press Install; no settings to change",
     cReq: "Needs Python 3.10 or later. On first start, helper packages download once (about a minute); your documents are never sent. Claude shows an \"unverified developer\" warning for every unsigned extension; the source is open.", cMore: "Details", cSetup: "Setup · 2 minutes", devSum: "Use it in your code", devTxt: "Same rules as this page; text never leaves your machine.", cChatAria: "Sample chat",
-    cPermAria: "Claude permission prompt", cDocKey: "document", cInfoKey: "privacy", cInfo: "The document is opened and masked on this computer; Claude sees placeholders such as [AD SOYAD-1] instead of the personal data Katip finds. Katip can miss some values.", cAllow: "Allow once", cAlways: "Always allow",
+    cPermAria: "Claude permission prompt", cDocKey: "document", cInfoKey: "privacy", cAllow: "Allow once", cAlways: "Always allow",
     cTipH: "Don't attach the document to the chat.", cTip: "An attached file is uploaded before Katip can run. Type the document's name; Katip finds it in your case folder or Downloads.",
     cPut: "In the settings, pick your case-files folder; Downloads is searched too, nothing is copied", cUse: "In a chat, pick a Katip command from the + menu, or just ask", cCode: "Then describe the document: /katip Yılmaz lease …, /katip-incele the expert report I just downloaded, /katip-taslak 2026/140 notice, reply",
-    x1Ask: "/katip what do the rent increase and termination clauses in the Yılmaz lease say?",
-    x1Tool: "Case folder › 2026-118 … · 21 personal values masked",
-    x1Ans: "The tenant is [AD SOYAD-1], the landlord [AD SOYAD-2]. Rent rises each year by the 12-month average CPI (in line with TBK art. 344). The tenant can terminate with three months' written notice (cl. 9); the deposit is two months' rent, paid to [IBAN-1].",
-    x1Note: "A name you type in the chat reaches Claude; the document type, a date or the file number finds it too.",
-    x2Ask: "/katip-incele the expert report I downloaded from UYAP today",
-    x2Tool: "Downloads · 34 personal values masked",
-    x2Ans: "Summary: the expert puts the plaintiff [AD SOYAD-1]'s overtime claim at 84,210 TL. Gap: the calculation rests only on the witness [AD SOYAD-2]'s statement; the time sheets were not examined. Suggestion: object to the report within two weeks of service (HMK art. 281).",
-    x3Ask: "/katip-taslak 2026/140 notice, write a reply",
-    x3Tool: "Case folder › 2026-140 … · 9 personal values masked",
-    x3Ans: "The reply to [AD SOYAD-1]'s notice of 12.10.2026 is drafted: it states, with the receipts, that the rent claimed as unpaid was paid to [IBAN-1]. Shall I save it with the real names?",
-    x3Ask2: "Yes, save it as a Word file",
-    x3Tool2: "cevap-ihtarname.docx saved next to the notice · real names only on your computer",
     xTab1: "anything",
     xTab2: "review",
     xTab3: "draft",
@@ -171,14 +167,34 @@ const I18N = {
     x2Cap: "Summary, claims, gaps and errors, suggestions.",
     x3Cap: "Drafts a reply; can save it with the real names as a Word file next to the document.",
     cTabsAria: "Sample chats",
-    cPermT: "Mask and open the document on this computer",
-    sAsk: "Ask",
-    sPerm: "Approval",
-    sAns: "Masked answer",
-    sSave: "Result",
     xPrev: "Previous step",
     xNext: "Next step",
     xStep: "Step",
+    x1Ask: "/katip what do the rent increase and termination clauses in the Yılmaz lease say?",
+    x1Find: "1 document found: … Kira Sözleşmesi.pdf · Case folder › 2026-118 …",
+    x1Tool: "21 personal values masked · the document stayed on your computer",
+    x1Ans: "The tenant is [AD SOYAD-1], the landlord [AD SOYAD-2]. Rent rises each year by the 12-month average CPI (in line with TBK art. 344). The tenant can terminate with three months' written notice (cl. 9); the deposit is two months' rent, paid to [IBAN-1].",
+    x1Note: "A name you type in the chat reaches Claude; the document type, a date or the file number finds it too.",
+    x2Ask: "/katip-incele the expert report I downloaded from UYAP today",
+    x2Find: "1 document found: 2026-123 Bilirkişi Raporu.pdf · Downloads · today",
+    x2Tool: "34 personal values masked · the document stayed on your computer",
+    x2Ans: "Summary: the expert puts the plaintiff [AD SOYAD-1]'s overtime claim at 84,210 TL. Gap: the calculation rests only on the witness [AD SOYAD-2]'s statement; the time sheets were not examined. Suggestion: object to the report within two weeks of service (HMK art. 281).",
+    x3Ask: "/katip-taslak 2026/140 notice, write a reply",
+    x3Find: "1 document found: … İhtarname.docx · Case folder › 2026-140 …",
+    x3Tool: "9 personal values masked · the document stayed on your computer",
+    x3Ans: "The reply to [AD SOYAD-1]'s notice of 12.10.2026 is drafted: it states, with the receipts, that the rent claimed as unpaid was paid to [IBAN-1]. Shall I save it with the real names?",
+    x3Ask2: "Yes, save it as a Word file",
+    x3Tool2: "cevap-ihtarname.docx saved next to the notice · real names only on your computer",
+    cPermL: "Find a document (names hidden)",
+    cInfoL: "Only the case folder and Downloads are searched, on this computer; names in file names are hidden.",
+    cPermT: "Mask and open a document (on this computer)",
+    cInfo: "The document is opened and masked on this computer; Claude sees placeholders like [AD SOYAD-1] instead of the personal data Katip finds. Katip can miss a value.",
+    cPermR: "Save with the real names (on this computer)",
+    cDone: "Allowed",
+    cAraKey: "ara",
+    sFind: "Find",
+    sMask: "Mask",
+    sChat: "Chat",
     cCap: "Claude sees bracketed placeholders instead of the values Katip finds; the real values and names in file names stay on your computer.", bench: "KVKK-Bench leaderboard",
     onSpace: "Too big for this page (110 MB) · try it on Hugging Face →",
     ocrAuto: "Automatic (PaddleOCR for handwriting)", ocrAutoMeta: "Handwritten and photographed pages: PaddleOCR; printed scans: Tesseract · +13 MB",
@@ -893,20 +909,23 @@ $("rSend").onclick = async () => {
   if (q) { const [ty, fm] = q.split(":"), sm = samples.find(x => x.type === ty || x.id === ty); if (sm) openSample(sm, sm.formats.includes(fm) ? fm : sm.formats[0]); }
 })();
 
-// Sample chats: one tab per Katip command, each a few steps (ask → approval → masked answer → result)
+// Sample chats: one tab per Katip command; the steps build up like a real chat (find → mask → chat)
 {
   const tabs = [...document.querySelectorAll(".xtabs [role=tab]")];
   const nav = document.querySelector(".xnav"), dots = nav?.querySelector(".xdots"), label = nav?.querySelector(".xlabel");
   let panel = document.getElementById("xp1"), at = 0;
-  const steps = () => [...panel.querySelectorAll(".xstep")];
   const show = n => {
-    const s = steps(); at = Math.max(0, Math.min(n, s.length - 1));
-    s.forEach((x, i) => (x.hidden = i !== at));
-    dots.replaceChildren(...s.map((x, i) => Object.assign(document.createElement("button"), {
+    const names = panel.dataset.steps.split(" "); at = Math.max(0, Math.min(n, names.length - 1));
+    panel.querySelectorAll("[data-s]").forEach(e => {
+      const s = +e.dataset.s - 1; e.hidden = s > at;
+      if (e.classList.contains("perm")) e.classList.toggle("done", s < at || e.hasAttribute("data-done"));
+      e.classList.toggle("new", s === at && at > 0);
+    });
+    dots.replaceChildren(...names.map((x, i) => Object.assign(document.createElement("button"), {
       type: "button", className: i === at ? "on" : "", onclick: () => show(i),
-      ariaLabel: `${t("xStep")} ${i + 1}: ${t(x.dataset.label)}`, ariaCurrent: i === at ? "step" : null })));
-    label.textContent = `${at + 1}/${s.length} · ${t(s[at].dataset.label)}`;
-    nav.querySelector(".xprev").disabled = at === 0; nav.querySelector(".xnext").disabled = at === s.length - 1;
+      ariaLabel: `${t("xStep")} ${i + 1}: ${t(x)}`, ariaCurrent: i === at ? "step" : null })));
+    label.textContent = `${at + 1}/${names.length} · ${t(names[at])}`;
+    nav.querySelector(".xprev").disabled = at === 0; nav.querySelector(".xnext").disabled = at === names.length - 1;
   };
   const pick = (b, focus) => {
     tabs.forEach(x => {
@@ -927,10 +946,11 @@ $("rSend").onclick = async () => {
     });
     nav.querySelector(".xprev").onclick = () => show(at - 1);
     nav.querySelector(".xnext").onclick = () => show(at + 1);
-    let x0 = null;  // swipe between steps on touch screens
-    const stage = document.querySelector(".xstage");
-    stage.addEventListener("touchstart", e => (x0 = e.touches[0].clientX), { passive: true });
-    stage.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1)); });
+    document.querySelectorAll(".xpanel").forEach(p => {  // swipe between steps on touch screens
+      let x0 = null;
+      p.addEventListener("touchstart", e => (x0 = e.touches[0].clientX), { passive: true });
+      p.addEventListener("touchend", e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 40) show(at + (dx < 0 ? 1 : -1)); });
+    });
     document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => show(at)));
     show(0);
   }
