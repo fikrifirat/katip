@@ -1,0 +1,121 @@
+{
+ "system": "gliner2-katip",
+ "name": "Katip rules + GLiNER2 PII multi fine-tuned on Base v2's data (Colab)",
+ "track": "forms-id",
+ "set": "forms-id v0.1 (102 templates, 306 docs, seed 20261114)",
+ "params": 307098645,
+ "size_mb": 1228.7,
+ "runs_locally": true,
+ "runs_in_browser": false,
+ "size_note": "weights as loaded + 0.3 MB rules",
+ "ms_per_doc": 138.8,
+ "tracks": {
+  "forms-id": {
+   "types": {
+    "PERSON": {
+     "gold": 1310,
+     "recall": 0.9938931297709923,
+     "precision": 0.9808306709265175,
+     "f2": 0.991252877930132,
+     "exact_recall": 0.9282442748091603
+    },
+    "TCKN": {
+     "gold": 216,
+     "recall": 1.0,
+     "precision": 0.84375,
+     "f2": 0.9642857142857143,
+     "exact_recall": 1.0
+    },
+    "ADDRESS": {
+     "gold": 801,
+     "recall": 0.9975031210986267,
+     "precision": 0.9737171464330413,
+     "f2": 0.992653411103336,
+     "exact_recall": 0.8177278401997503
+    },
+    "IBAN": {
+     "gold": 90,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "YKN": {
+     "gold": 84,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "PASSPORT": {
+     "gold": 72,
+     "recall": 1.0,
+     "precision": 0.972972972972973,
+     "f2": 0.994475138121547,
+     "exact_recall": 0.9444444444444444
+    },
+    "VKN": {
+     "gold": 137,
+     "recall": 0.7153284671532847,
+     "precision": 1.0,
+     "f2": 0.7585139318885449,
+     "exact_recall": 0.7153284671532847
+    },
+    "PHONE": {
+     "gold": 367,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "EMAIL": {
+     "gold": 207,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "BIRTH_DATE": {
+     "gold": 96,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "FOREIGN_ID": {
+     "gold": 31,
+     "recall": 0.8709677419354839,
+     "precision": 1.0,
+     "f2": 0.8940397350993377,
+     "exact_recall": 0.8709677419354839
+    },
+    "PLATE": {
+     "gold": 27,
+     "recall": 1.0,
+     "precision": 1.0,
+     "f2": 1.0,
+     "exact_recall": 1.0
+    },
+    "HEALTH": {
+     "gold": 0,
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "exact_recall": NaN
+    }
+   },
+   "recall": 0.9845840605002909,
+   "precision": 0.9739490822972173,
+   "f2": 0.9824385248685529,
+   "special_category_recall": NaN,
+   "false_per_1k_words": 2.8607652547056337,
+   "leak_rate": 0.0033723733229443133,
+   "clean_doc_rate": 0.9673202614379085
+  }
+ },
+ "missing_predictions": 0,
+ "KVKK-F2": NaN,
+ "F2 generated": 0.9824385248685529,
+ "F2 all tracks": 0.9824385248685529,
+ "leak_rate": 0.0033723733229443133
+}
