@@ -81,7 +81,8 @@ def test_restore_roundtrip(home):
     restored = out.read_text(encoding="utf-8")
     assert ("Müvekkilimiz Emal YILDIRIM adına" if MODEL else "Müvekkilimiz Emal") in restored
     assert "75428707268" in restored
-    assert oct(out.stat().st_mode & 0o777) == "0o600"
+    if os.name != "nt":  # Windows has no POSIX mode bits; files in the user profile are private by ACL
+        assert oct(out.stat().st_mode & 0o777) == "0o600"
     with pytest.raises(FileExistsError):
         core.restore_to_file(answer, str(out), "m1")
 
