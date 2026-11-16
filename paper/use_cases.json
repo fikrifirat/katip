@@ -1,0 +1,107 @@
+{
+ "benchmark": "KVKK-Bench v0.1.2",
+ "note": "leak = % of personal-data characters left readable; synthetic tracks are not ranked",
+ "use_cases": [
+  {
+   "use_case": "Send a court document to an AI assistant from a computer",
+   "setup": "Katip Kalkan connector with Katip Mask Base",
+   "system": "berturk-v2",
+   "reader": "UDF/Word/PDF text; PaddleOCR for scans",
+   "runs": "laptop, offline",
+   "leak_pct": {
+    "court text, Turkish names": 0.2,
+    "court text, foreign names": 2.8,
+    "forms, all value types": 0.3
+   },
+   "false_alarms_per_1k_words": 3.1,
+   "speed": "1.7 pages/s",
+   "caveat": "Kalkan ships Nano by default; choose Base for lower leak."
+  },
+  {
+   "use_case": "Mask in a browser, nothing installed",
+   "setup": "Katip Mask Mini (web page default)",
+   "system": "mini-v2",
+   "reader": "browser text layer; OCR in the page",
+   "runs": "browser tab",
+   "leak_pct": {
+    "court text, Turkish names": 0.8,
+    "court text, foreign names": 3.1,
+    "forms, all value types": 0.7
+   },
+   "false_alarms_per_1k_words": 3.7,
+   "speed": "1.0 s/page in browser",
+   "caveat": "Everyday text leaks 30.9%; review before sending."
+  },
+  {
+   "use_case": "Many court pages fast, or a weak device",
+   "setup": "Katip Mask Nano (fast mode)",
+   "system": "tiny-f",
+   "reader": "as above",
+   "runs": "browser tab or laptop",
+   "leak_pct": {
+    "court text, Turkish names": 6.1,
+    "court text, foreign names": 5.0,
+    "forms, all value types": 1.4
+   },
+   "false_alarms_per_1k_words": 5.1,
+   "speed": "43.5 pages/s; 0.03 s/page in browser",
+   "caveat": "Not for everyday text: leaks 46.9%."
+  },
+  {
+   "use_case": "Scanned PDFs",
+   "setup": "Katip Mask Base + PaddleOCR PP-OCRv5",
+   "system": "berturk-v2",
+   "reader": "PaddleOCR (200 dpi)",
+   "runs": "laptop, offline",
+   "leak_pct": {
+    "scanned forms": 1.3,
+    "same forms, digital PDF": 0.5
+   },
+   "false_alarms_per_1k_words": null,
+   "speed": "1.7 pages/s plus OCR",
+   "caveat": "Synthetic forms only; not ranked."
+  },
+  {
+   "use_case": "UYAP UDF and Word files",
+   "setup": "Katip Mask Base",
+   "system": "berturk-v2",
+   "reader": "UDF content.xml / Word paragraphs",
+   "runs": "laptop or browser",
+   "leak_pct": {
+    "UDF": 0.3,
+    "Word": 0.3
+   },
+   "false_alarms_per_1k_words": null,
+   "speed": "1.7 pages/s",
+   "caveat": "Synthetic forms only; not ranked."
+  },
+  {
+   "use_case": "Phone photos of hand-filled forms",
+   "setup": "Katip Mask Base + Katip OCR with ink masks",
+   "system": "berturk-v2",
+   "reader": "PaddleOCR on handwriting, Tesseract otherwise",
+   "runs": "laptop or browser",
+   "leak_pct": {
+    "values on photos": 5.0
+   },
+   "over_masked_street_names_pct": 38.6,
+   "false_alarms_per_1k_words": null,
+   "speed": "n/a",
+   "caveat": "Leaks are addresses; low-leak rivals over-mask (ModernBERT-TR PII: 95.0%)."
+  },
+  {
+   "use_case": "Everyday text (letters, e-mails), lowest leak",
+   "setup": "XLM-R Large (CoNLL), server only; otherwise Base plus review",
+   "system": "xlmr-conll",
+   "reader": "plain text",
+   "runs": "workstation (2.2 GB), not browser",
+   "leak_pct": {
+    "everyday text, XLM-R Large": 9.8,
+    "everyday text, Katip Base": 21.5
+   },
+   "false_alarms_per_1k_words": 3.2,
+   "speed": "2.3 pages/s",
+   "caveat": "Names only: misses IDs and IBANs (forms F2 41.6). No setup is safe here without review."
+  }
+ ]
+}

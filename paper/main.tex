@@ -5,6 +5,7 @@
 \usepackage{microtype}
 \usepackage[margin=0.75in,columnsep=0.25in]{geometry}
 \usepackage{booktabs}
+\usepackage{array}
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage[numbers,sort&compress]{natbib}
@@ -17,25 +18,27 @@
 
 \title{\textbf{KVKK-Bench: Measuring Personal-Data Masking in Turkish Legal Text,\\with Small On-Device Models}}
 \author{Fikri F{\i}rat\\{\small Katip \,\textperiodcentered\, \url{https://github.com/fikrifirat/katip}}}
-\date{14 November 2026}
+\date{15 November 2026}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-General-purpose AI assistants are now part of legal work. The Turkish data-protection authority's 2026 guide
-for lawyers states that uploading client documents to such assistants can amount to a transfer of personal data
-abroad under art.~9 of Law No.~6698 (KVKK), and recommends masking personal data first. Masking needs a detector
-that works on Turkish legal prose and can run on the lawyer's own machine, but published Turkish PII models are
-evaluated on their own, mostly synthetic, data. We release \textbf{KVKK-Bench}, a public benchmark with a fixed
-scorer that ranks systems on real text only (Yarg{\i}tay sentences with held-out Turkish and foreign names, and
-Wikipedia sentences), reports a character-level \emph{leak rate}, and closes a loophole by which over-masking
-scored perfect precision. We evaluate 14 systems and release two small models, \textbf{Katip Mask Base}
-(110M parameters, 111\,MB int8) and \textbf{Katip Mask Nano} (2.5M, 2.9\,MB, 50 pages/s on a laptop CPU), both of
-which run in a browser. Base scores 97.0 Overall [95\% CI 96.5--97.5], 1.1 points above the best general model
-(XLM-R Large, 95.9) but with twice its leak rate (6.9\% vs 3.4\%). We do not claim a state of the art: the
-margins are small, part of the test is in-domain for our models, and no real client documents are labelled yet.
-The contribution is a shared, reproducible yardstick, a practical model family for local masking, and a local connector for AI assistants whose guarantee we state precisely: it fails closed on every value it detects, and its residual risk is the detector's measured miss rate.
+Türkiye's data-protection authority now says that uploading client documents to a foreign AI assistant can be
+a transfer of personal data abroad (art.~9, Law No.~6698, KVKK), and recommends masking personal data first.
+Masking needs a detector that works on Turkish legal text and runs on the lawyer's own machine. Turkish PII
+models exist, but each is tested on its own, mostly synthetic, data, so their scores cannot be compared.
+We release \textbf{KVKK-Bench}, a public benchmark for that question. Unlike general PII benchmarks, it
+(i) scores on real court text, with Turkish and foreign names that no system has seen in training;
+(ii) asks what a lawyer needs to know, \emph{how much personal data is still readable} after masking
+(a character-level leak rate), next to a recall-weighted F2; and (iii) penalises masking everything, which a naive span
+scorer (including our own first version) rewards with perfect precision. We evaluate 17 systems and release three small models that run in a
+browser: \textbf{Katip Mask Base} (111\,MB), \textbf{Mini} (31\,MB) and \textbf{Nano} (2.9\,MB, 43 pages/s on a
+laptop CPU). Base scores 96.1 Overall [95\% CI 95.4--96.7], a statistical tie with the best general model
+(XLM-R Large, 95.9) at one twentieth of its size, but it leaks more than twice as much (8.2\% vs 3.4\%).
+Unranked synthetic tracks add forms, phone photos of forms, and the same forms as UDF, Word, PDF and scanned
+files. We do not claim a state of the art: margins are small, part of the test is in-domain for our models, and
+no real client documents are labelled yet.
 \end{abstract}
 
 \section{Motivation}
@@ -73,7 +76,16 @@ reduces but does not remove KVKK obligations.
 validation split. Our own first model illustrates the risk: BERTurk fine-tuned on synthetic legal documents found
 every name in synthetic tests and 41\% of names in real Wikipedia sentences \citep{katip-repo}.
 
-\textbf{Related work.} Anonymisation benchmarks with real text are English: TAB on ECHR judgments
+\textbf{What KVKK-Bench adds.} Generic PII benchmarks ask whether a model tags entities; KVKK-Bench asks whether a
+lawyer can send the masked text. Concretely: (i) the ranked text is real Turkish court and encyclopaedic text, with
+court casing, case suffixes and foreign clients' names; (ii) the inserted names are held out from every training set we
+know of, so memorisation does not help; (iii) the headline error is the share of personal-data characters left
+readable, not only F1; (iv) masking a whole document no longer scores perfect precision, and name-free legal text
+counts false alarms, because an over-masked document is harder to use in court; and (v) unranked tracks cover the
+file types lawyers actually exchange (UYAP's UDF, scans, phone photos). Each piece exists somewhere for English;
+the combination, for Turkish legal work and on-device models, does not.
+
+\textbf{Related work.} \citet{lison2021anonymisation} survey text anonymisation and argue that it should be judged by the privacy risk left and the utility kept, not by entity F1 alone; our leak rate and false-alarm counts follow that view. Anonymisation benchmarks with real text are English: TAB on ECHR judgments
 \citep{pilan2022tab} and i2b2 clinical notes \citep{stubbs2015i2b2}. Recent multilingual PII benchmarks either
 generate records under controlled conditions (REDACT, 25 languages \citep{vats2026redact}) or pool existing
 corpora under one label set (PIIBench \citep{jha2026piibench}), and an audit of widely downloaded masking models
@@ -83,8 +95,9 @@ court judgments \citep{hahm2025thunder}. Name detectors are known to fail uneven
 \citep{mansfield2022behind}, which motivates our foreign-name track. An independent multilingual evaluation also finds
 Presidio and an OpenAI Privacy Filter fine-tune well behind a trained encoder \citep{graehl2026privacytagging},
 consistent with our results. For Turkish, legal NER data exists \citep{cetindag2022tlner} but its person names
-are mostly anonymised as ``\ldots''; Turkish legal encoders (Mecellem \citep{ugur2026mecellem}, HukukBERT
-\citep{ozturk2026hukukbert}) are candidate base models we have not yet tried; and an audit found that 70\% of
+are mostly anonymised as ``\ldots''; two Turkish legal encoders have appeared, Mecellem \citep{ugur2026mecellem} and HukukBERT
+\citep{ozturk2026hukukbert}; neither is a PII detector, so testing them means training one on top of them
+(Section~\ref{sec:limits}); and an audit found that 70\% of
 commonly used Turkish benchmarks fail basic quality criteria \citep{cengiz2025turkishbench}, which is why we
 document construction, licences and known defects in detail (Appendix~\ref{app:datasheet}).
 
@@ -124,7 +137,7 @@ false alarms per 1,000 words.
 \textbf{Uncertainty.} 95\% CIs come from a percentile bootstrap \citep{efron1993} with 10,000 resamples that
 resamples the 109 court sentences as clusters (keeping their three fills and both court tracks together) and the
 1,000 prose sentences independently. Comparisons with Katip Mask Base are paired (same resample for both systems);
-we report two-sided bootstrap $p$-values and correct across the 13 comparisons with Holm's method \citep{holm1979}.
+we report two-sided bootstrap $p$-values and correct across the 16 comparisons with Holm's method \citep{holm1979}.
 
 \textbf{Release.} Public split, scorer, runner, saved predictions of every system and the leaderboard Space are
 open \citep{firat2026kvkkbench,katip-repo}; a canary string marks every file. Licences follow the sources:
@@ -134,23 +147,58 @@ CC BY-SA 4.0, generated documents CC BY 4.0. Every inserted value is synthetic.
 \section{Systems}
 \label{sec:systems}
 
-\textbf{Katip Mask Base · tr v2}: BERTurk \citep{schweter2020berturk} fine-tuned for 3 epochs on 8,000 synthetic
+\textbf{Katip Mask Base · tr v2}: BERTurk \citep{schweter2020berturk}, a Turkish BERT \citep{devlin2019bert}, fine-tuned for 3 epochs on 8,000 synthetic
 legal documents plus 17,967 Turkish Wiki NER \emph{train} sentences (person names), tagging names, addresses and
 health terms; int8 ONNX. \textbf{Katip Mask Nano · tr v1.1}: a 2-layer BERT (hidden 128, 16k WordPiece) trained from
 scratch for 5 epochs (458\,s on 4 CPU cores) on 8,000 synthetic documents, 4,182 real-text documents (Wiki NER
 train, TurkishLegalNER \emph{train}-split sentences with filled names) and a transliterated foreign-name mix whose
-test families were held out. Both run inside Katip's rule engine (checksummed IDs, phones, IBANs, addresses,
+test families were held out. \textbf{Katip Mask Mini · tr v2}: DistilBERTurk (dbmdz, MIT; DistilBERT recipe \citep{sanh2019distilbert}) cut to 3 layers
+and a 12k vocabulary, then distilled from Base \citep{hinton2015distilling} (loss $0.5\,\mathrm{CE}+0.5\,T^2\mathrm{KL}$, $T=2$) on the same
+training text for 4 epochs on one Colab T4; the 3-layer, 12k-vocabulary variant was chosen over two smaller ones on
+dev data before any test scoring. All three run inside Katip's rule engine (checksummed IDs, phones, IBANs, addresses,
 casing and suffix handling; 0.3\,MB) with the browser's own code, detection threshold 0.5 and \emph{trust} 0.5
-(model spans scored at or above it keep their edges; chosen on dev data). \textbf{Baselines} (run unmodified, label maps written from each model's \texttt{id2label} before scoring):
+(model spans scored at or above it keep their edges; chosen on dev data). The rule engine is the one shipped
+on 16 November 2026 (main \texttt{b1f5fed}), which accepts a lone first name inside a sentence when the model scores it at
+least 0.5 (chosen on dev data; 0.85 before 15 November); the benchmark masks whole addresses (\texttt{address\_detail=full}) to match the gold. \textbf{Baselines} (run unmodified, label maps written from each model's \texttt{id2label} before scoring):
 Presidio with spaCy \texttt{xx\_ent\_wiki\_sm} \citep{presidio}; Turkish NER (BERTurk NER, XLM-R Base Turkish NER);
 XLM-R Large fine-tuned on English CoNLL-03 \citep{conneau2020xlmr}; GLiNER multi-PII \citep{zaratiana2024gliner}
 and GLiNER2-PII \citep{zaratiana2025gliner2,zaratiana2026gliner2pii} prompted with \emph{person}; Turkish PII models (ModernBERT-TR PII,
 OpenMed PII Turkish 33M); multilingual PII models (OpenAI Privacy Filter \citep{openai-pf}, OpenMed Privacy Filter
-v2, Piiranha); and Qwen2.5-1.5B-Instruct \citep{qwen2025} prompted to list personal data as JSON. All systems
+v2, Piiranha); and Qwen2.5-1.5B-Instruct \citep{qwen2025} prompted to list personal data as JSON. \textbf{Model-size check}: GLiNER2-PII (307M,
+about 3$\times$ Base's parameters) placed inside Katip's rules exactly like the Katip tagger (person, address and health condition), once as
+released and once fine-tuned on Base's training data (same documents, same three types, 3 epochs on one free Colab T4; recipe in the
+repository, weights not released). GLiNER2 marks spans of at most 8 words, so training addresses are split into pieces at natural breaks. All systems
 receive identical text and are timed on one Apple-silicon laptop (12 CPUs) in Python; a page is 500 words.
 
 \section{Results}
 \label{sec:results}
+
+\textbf{Which setup for which use case.} Table~\ref{tab:usecase} turns the results below into a recommendation per
+task; every number is read from the saved results by \texttt{paper/use\_cases.py}, which also writes the same table as
+\texttt{paper/use\_cases.json} and \texttt{.csv} for tools. Court leak is Turkish / foreign names in court text; forms,
+file types and photos are synthetic and not ranked.
+
+\begin{table*}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{2.1cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{4.0cm}>{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.9cm}@{}}
+\toprule
+Use case & Recommended setup & Runs on & Leak \% (lower is better) & Speed & Watch out \\
+\midrule
+Send a court file to an AI assistant (computer) & Kalkan + Base & laptop, offline & court 0.2 / 2.8; forms 0.3 & 1.7 p/s & Kalkan ships Nano; pick Base\\
+Mask in a browser, nothing installed & Mini (default) & browser tab & court 0.8 / 3.1; forms 0.7 & 1.0 s/p (browser) & everyday text leaks 30.9\%\\
+Many court pages fast, weak device & Nano (fast mode) & browser or laptop & court 6.1 / 5.0; forms 1.4 & 43 p/s; 0.03 s/p & not for everyday text (46.9\%)\\
+Scanned PDFs & Base + PaddleOCR & laptop, offline & scan 1.3 (digital PDF 0.5) & 1.7 p/s + OCR & synthetic forms\\
+UYAP UDF and Word files & Base & laptop or browser & UDF 0.3, Word 0.3 & 1.7 p/s & synthetic forms\\
+Phone photos of filled forms & Base + Katip OCR & laptop or browser & 5.0; over-masks 38.6\% of streets & -- & misses are addresses; party addresses masked whole\\
+Everyday text (letters, e-mails) & Base + human review & laptop or browser & 21.5 (XLM-R Large 9.8, server only) & 1.7 p/s & no setup is safe without review\\
+\bottomrule
+\end{tabular}
+\caption{Recommended setup per use case, with the evidence behind it. p/s = pages per second on one laptop CPU;
+s/p = seconds per page in one Chrome tab. Base = Katip Mask Base, Mini and Nano likewise; Kalkan = the local connector
+(Section~\ref{sec:kalkan}). Machine-readable copy: \texttt{paper/use\_cases.json}.}
+\label{tab:usecase}
+\end{table*}
 
 \begin{table*}[t]
 \centering\footnotesize
@@ -159,13 +207,16 @@ receive identical text and are timed on one Apple-silicon laptop (12 CPUs) in Py
 \toprule
 System & Params & Size MB & Pages/s & \textbf{Overall} [95\% CI] & TR names & Foreign & Prose & Leak \% [95\% CI] & Browser \\
 \midrule
-\textbf{Katip Mask Base} (ours) & 110M & 111 & 1.7 & \textbf{97.0} [96.5, 97.5] & \textbf{98.6} & 96.3 & 88.9 & 6.9 [5.9, 8.1] & yes \\
+\textbf{Katip Mask Base} (ours) & 110M & 111 & 1.7 & \textbf{96.1} [95.4, 96.7] & \textbf{99.9} & 97.7 & 84.8 & 8.2 [7.0, 9.4] & yes \\
 XLM-R Large (CoNLL-en) & 559M & 2,235 & 2.3 & 95.9 [94.9, 96.7] & 97.6 & 97.5 & \textbf{89.9} & \textbf{3.4} [2.9, 3.9] & -- \\
 XLM-R Base Turkish NER & 277M & 1,110 & 5.7 & 95.7 [94.8, 96.6] & 98.5 & \textbf{98.2} & 86.3 & 6.6 [5.6, 7.8] & -- \\
 GLiNER2 PII (person) & 307M & 1,228 & 1.2 & 95.0 [94.1, 95.8] & 98.1 & \textbf{98.2} & 83.9 & 5.8 [4.8, 7.0] & -- \\
+\quad + Katip rules, fine-tuned & 307M & 1,229 & 1.0 & 95.5 [94.4, 96.4] & 98.7 & 97.3 & 86.0 & 7.8 [6.6, 9.2] & -- \\
+\quad + Katip rules, untuned & 307M & 1,229 & 1.1 & 94.2 [93.2, 95.0] & 98.2 & 97.1 & 81.1 & 8.5 [7.2, 10.0] & -- \\
+\textbf{Katip Mask Mini} (ours) & 31M & 31 & 5.1 & 93.0 [92.1, 93.8] & 99.1 & 97.2 & 73.4 & 11.6 [10.2, 13.0] & yes \\
 BERTurk NER & 110M & 440 & 6.0 & 91.6 [88.8, 93.4] & 97.4 & 91.7 & 77.1 & 8.1 [6.9, 9.4] & -- \\
 GLiNER multi PII & 289M & 1,156 & 1.1 & 91.3 [85.7, 95.5] & 93.1 & 92.9 & 85.2 & 10.5 [5.6, 16.7] & -- \\
-\textbf{Katip Mask Nano} (ours) & 2.5M & \textbf{2.9} & \textbf{50.0} & 86.3 [84.8, 87.7] & 93.3 & 93.1 & 57.8 & 18.5 [16.7, 20.4] & yes \\
+\textbf{Katip Mask Nano} (ours) & 2.5M & \textbf{2.9} & \textbf{43.5} & 85.9 [84.3, 87.4] & 94.4 & 95.5 & 55.2 & 19.3 [17.5, 21.3] & yes \\
 ModernBERT-TR PII & 149M & 598 & 4.8 & 85.3 [83.9, 86.6] & 98.5 & 96.5 & 39.1 & 21.6 [19.7, 23.6] & -- \\
 Qwen2.5-1.5B, prompted & 1.5B & 3,087 & 0.01 & 57.5 [46.2, 68.1] & 56.7 & 55.1 & 47.6 & 41.1 [31.3, 52.1] & -- \\
 OpenMed Privacy Filter v2 & 1.4B & 2,799 & 0.17 & 57.2 [55.4, 59.1] & 57.0 & 54.7 & 48.3 & 36.4 [34.2, 38.2] & -- \\
@@ -175,52 +226,123 @@ Presidio + spaCy xx (baseline) & -- & 11 & 31.3 & 45.0 [42.1, 47.7] & 38.9 & 43.
 OpenMed PII Turkish 33M & 33M & 133 & 7.5 & 19.1 [16.4, 22.7] & 11.0 & 17.3 & 33.4 & 73.0 [69.8, 75.6] & -- \\
 \bottomrule
 \end{tabular}
-\caption{KVKK-Bench v0.1.2, public split, real-text tracks. Overall and the three name columns are F2 (\%); the
+\caption{KVKK-Bench v0.1.2, public split, real-text tracks; Katip rows re-run with the rules shipped on 16 November 2026. Overall and the three name columns are F2 (\%); the
 name columns are per-track F2 (court-turkish, court-foreign, prose). Leak = share of gold characters left
 readable (lower is better). CIs: sentence-clustered bootstrap, 10,000 resamples. Size = what is downloaded to run
-(int8 ONNX plus rules for Katip; weights as loaded otherwise). Pages/s: Python on one Apple-silicon laptop; not an
+(int8 ONNX plus rules for Katip; weights as loaded otherwise). Pages/s: Python on one Apple-silicon laptop, one timing run on 15 November; not an
 in-browser speed. Browser = run inside a web page via transformers.js/ONNX Runtime Web; a dash means not
 tested, not that it cannot run there. Numbers match the live leaderboard and the saved predictions.}
 \label{tab:main}
 \end{table*}
 
-\textbf{Main result (Table~\ref{tab:main}).} Katip Mask Base has the highest Overall, 97.0. Its lead over XLM-R
-Large is 1.1 points [0.3, 2.1], over XLM-R Base Turkish NER 1.3 [0.5, 2.2] and over GLiNER2 2.1 [1.2, 3.0]; all
-13 paired differences remain significant after Holm correction (largest adjusted $p=0.008$). These margins are
-small, and the ranking depends on the metric: XLM-R Large leaks \emph{half as much} (3.4\% vs 6.9\%, difference
-3.5 points [2.5, 4.6]); the leak difference with XLM-R Base, GLiNER2, BERTurk NER and GLiNER is not significant
-(all $p>0.1$). Of the systems we have run in a browser (only the two Katip models so far), Base is the stronger, at one
-twentieth of XLM-R Large's download size.
+\textbf{Main result (Table~\ref{tab:main}).} Katip Mask Base has the highest Overall, 96.1, but the top is a tie:
+its lead over XLM-R Large (0.2 [$-$0.7, 1.2], $p=0.70$), XLM-R Base Turkish NER (0.3 [$-$0.6, 1.3], $p=0.48$),
+GLiNER2 (1.1 [0.2, 2.1], $p=0.02$) and GLiNER2 fine-tuned on our data (0.5 [$-$0.2, 1.5], $p=0.21$) is not significant after Holm correction over the 16 comparisons; the
+other 12 differences remain significant (raw $p\le0.008$). The ranking also depends on the metric: XLM-R Large leaks less than half
+as much (3.4\% vs 8.2\%, difference 4.8 points [3.7, 5.9]). Of the systems we have run in a browser (only the
+Katip models so far), Base is the strongest, at one twentieth of XLM-R Large's download size. Figure~\ref{fig:tracks} shows where the systems differ: every system shown scores at least 91.7 on court text, but 39--90 on everyday text.
 
-\textbf{Small models.} Nano reaches 93.3/93.1 F2 on Turkish and foreign names in court text at 2.9\,MB and
-50 pages/s, 29 times faster than Base, but collapses on general prose (57.8 F2, 44.5\% leak): a sub-5\,MB model
-covers legal register, not open-domain Turkish. Off-the-shelf multilingual PII models of 1.4B parameters score
+\textbf{Is it the data or the model size?} Putting GLiNER2-PII, with about three times Base's parameters, inside the same rules
+gives 94.2 as released and 95.5 after fine-tuning on Base's training data: the fine-tuning adds 1.4 points [0.2, 2.4],
+almost all on everyday text (prose F2 81.1 to 86.0), and the larger model then ties Base (difference 0.5 [$-$0.2, 1.5]) at 11 times the
+download, 1.7 times the time per page, and no browser option. On phone photos fine-tuning hurt: addresses left readable rose from
+22 to 45 of 120 (Base 24), plausibly because training split each address into pieces of at most 8 words. We read this as evidence that
+the training data, not model size, drives Base's score, and keep Base as the default.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_overall_size.pdf}
+\caption{Overall (95\% CI) against download size. Blue: Katip Mask models, all three run in a browser.}
+\label{fig:size}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_leak_speed.pdf}
+\caption{Leak rate (95\% CI) against speed. Up and right is better. Blue: Katip Mask models. Nano is by far the fastest
+(43 pages/s, 19\% leak); the only other system above 10 pages/s, Presidio, leaks 32\%. Base and Mini leak 8--12\%, close to the much larger general models (3--7\%).}
+\label{fig:speed}
+\end{figure}
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_tracks.pdf}
+\caption{F2 per real-text track with 95\% CIs (sentence-clustered bootstrap) for the eight strongest systems. Every system shown scores at least 91.7 on
+court text; they separate on everyday text (39--90), where the small models fall off.}
+\label{fig:tracks}
+\end{figure*}
+
+\textbf{Small models.} Figure~\ref{fig:speed} shows the speed trade-off. Nano reaches 94.4/95.5 F2 on Turkish and foreign names in court text at 2.9\,MB and
+43 pages/s, 26 times faster than Base, but collapses on general prose (55.2 F2, 46.9\% leak): a sub-5\,MB model
+covers legal register, not open-domain Turkish. Mini, distilled from Base into 31\,MB, keeps court text
+(99.1/97.2) and recovers about 60\% of the prose gap (73.4 F2, 30.9\% leak), 7.1 Overall points above Nano and 3.1 below Base
+(paired difference with Base 3.1 [2.3, 3.8]). Off-the-shelf multilingual PII models of 1.4B parameters score
 51--57, below the 11\,MB Presidio on prose and far below Turkish NER models on court text; a prompted 1.5B LLM is
 both slow (80\,s per page on CPU) and unreliable (57.5, CI width 22 points).
 
 \textbf{Error analysis (Base).} On court-turkish it misses 1 of 1,011 names; its 5 false spans are rapporteur
 names whose span also swallowed the title (\emph{Tetkik Hakimi \ldots}), so the name is masked but the span fails
-the 50\% rule. On court-foreign it misses 30 of 1,011; recall by origin is 95--100\% except Azerbaijani names
+the 50\% rule. On court-foreign it misses 29 of 1,011; recall by origin is 95--100\% except Azerbaijani names
 (82\%, 41/50), which are often built from Turkish word stems (XLM-R Large: 98\%); per-group gaps of this kind
-are the demographic failure mode reported for English PII masking \citep{mansfield2022behind}. On prose it misses 67 of 654:
-single-token names 11\% (32/300) and names of three or more tokens 27\% (22/81), versus 5\% for two-token names;
+are the demographic failure mode reported for English PII masking \citep{mansfield2022behind}. On prose it misses 105 of 654:
+single-token names 23\% (69/300) and names of three or more tokens 27\% (22/81), versus 5\% for two-token names;
+the single-token misses doubled with the stricter lone-name rule (11\% before), a deliberate trade for fewer
+false names;
 false spans are mostly titles of works and organisations (\emph{Bohemian Rhapsody}, \emph{Florya Metin Oktay}).
-The higher leak rate of Base versus XLM-R Large comes from prose (17.6\% vs 9.8\%), i.e.\ long and single-token names
+The higher leak rate of Base versus XLM-R Large comes from prose (21.5\% vs 9.8\%), i.e.\ long and single-token names
 in open-domain text. XLM-R Large's false spans are mostly lone punctuation tagged PER (harmless for privacy).
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{fig_overall_size.pdf}
-\caption{Overall (95\% CI) against download size. Blue: Katip Mask models, both run in a browser.}
-\label{fig:size}
-\end{figure}
 
 \textbf{Generated tracks (not ranked).} With Katip's rules, Base and Nano find every TCKN, phone, e-mail and
 address in the generated documents, and Base finds 95.7 F2 of health terms. Name-only systems score 0 on these
-types by construction. One harness defect: the v0.1.2 run of the Katip rows used a rule file without the
-YKN, passport and foreign-ID recognisers shipped in the app, so both rows score 0 on those 557 values
-(``Other IDs'' 16.5). The shipped rules alone find 100\% of YKN and passport numbers and 96\% of foreign IDs on
-that track. Because these are generated documents, Overall is unaffected; the rows will be re-scored in v0.1.3.
+types by construction. An earlier run of the Katip rows used a rule file without the YKN, passport and
+foreign-ID recognisers shipped in the app; the rows in this version are re-run with the shipped rules, which find
+100\% of YKN and passport numbers and 96\% of foreign IDs on that track.
+
+\textbf{Forms, photos and file types (synthetic, not ranked).} Three further tracks test what a firm receives,
+with fake values only (Table~\ref{tab:extra}). \emph{Forms}: 306 petitions and bar-association forms re-typed from
+public layouts (HMK petitions, \.{I}\.{I}K forms, bar applications) and filled with checksum-valid fake names,
+T.C. kimlik and tax numbers, IBANs and addresses (3,438 values). \emph{File types}: the same 306 forms saved as UDF
+(UYAP's zip format), Word, digital PDF and a 200\,dpi scanned PDF with skew, blur and noise; one shared reader
+(UDF XML text, Word paragraphs, the PDF text layer, PaddleOCR PP-OCRv5 for scans) gives every system the same
+text, so the score isolates masking from file handling. \emph{Form photos}: 60 phone photos of hand-filled forms
+(handwriting fonts, tilt, shadow, blur), read once by Katip's OCR; a value counts as leaked if under 70\% of its
+box is covered, and we also count \emph{over-masking}, the share of 360 street and district names, which should stay
+readable, that were masked. Katip's rules were not tuned on any of these documents, but its generator shares
+their style, so they stay out of the ranking. Two findings hold regardless: name-only NER models and the multilingual PII models miss whole
+value types (T.C. kimlik, IBAN, tax numbers), so their leak is 25--77\% on every file type (the Turkish
+ModernBERT-TR PII is the exception, at 2.4\%), while file type itself
+moves Katip's leak by at most two points (scans); and on photos, low leak alone is misleading: ModernBERT-TR PII
+leaks least (2.3\%) by masking 95\% of the street names.
+
+\begin{table}[t]
+\centering\footnotesize
+\setlength{\tabcolsep}{2.0pt}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+& \multicolumn{2}{c}{Form photos} & Forms & \multicolumn{3}{c}{File-type leak} \\
+\cmidrule(lr){2-3}\cmidrule(lr){5-7}
+System & Leak & Over & F2 & UDF & PDF & Scan \\
+\midrule
+Katip Mask Base & 5.0 & 38.6 & \textbf{98.3} & \textbf{0.3} & \textbf{0.5} & \textbf{1.3} \\
+Katip Mask Mini & 5.8 & 40.3 & 97.5 & 0.7 & 1.8 & 2.3 \\
+Katip Mask Nano & 5.4 & 45.0 & 96.6 & 1.4 & 2.1 & 2.5 \\
+Katip rules only & 6.5 & 38.9 & 97.5 & 1.1 & 2.4 & 2.9 \\
+ModernBERT-TR PII & \textbf{2.3} & 95.0 & -- & 2.4 & 2.4 & 2.4 \\
+XLM-R Base TR NER & 29.6 & 97.2 & -- & 32.8 & 32.9 & 32.9 \\
+XLM-R Large (CoNLL-en) & 37.1 & 96.1 & 41.6 & 39.0 & 39.0 & 39.1 \\
+BERTurk NER & 37.5 & 88.1 & 38.3 & 50.4 & 50.4 & 50.4 \\
+OpenMed PF v2 & 44.4 & 60.6 & -- & 24.6 & 25.9 & 26.1 \\
+OpenAI PF & 49.0 & 43.6 & -- & 45.0 & 39.9 & 39.0 \\
+GLiNER multi PII & 50.8 & \textbf{0.3} & -- & 77.3 & 77.3 & 77.3 \\
+GLiNER2 PII & 51.5 & 2.2 & 43.2 & 77.2 & 77.2 & 77.3 \\
+Presidio + spaCy & 51.5 & 65.0 & 36.1 & 37.3 & 38.1 & 38.5 \\
+\bottomrule
+\end{tabular}
+\caption{Synthetic tracks (not ranked). Form photos: leak and over-masked street names (\%); since 16 November Katip masks a party's own address whole (a lawyer's rule), while this answer key still expects those streets readable, so part of Katip's over-masking is by design. Forms: F2 over all
+value types. File types: leak (\%) on the 306 forms through one shared reader; the UDF column also holds for Word, which gives identical text.
+-- = not run.}
+\label{tab:extra}
+\end{table}
 
 \section{Katip Kalkan: masking before the assistant sees the text}
 \label{sec:kalkan}
@@ -254,17 +376,17 @@ reaches the assistant in readable form.}
 
 \textbf{What is not guaranteed.} (i) Values the detector \emph{missed} are not covered; the check cannot block
 what was never found. The residual risk is the detector's miss rate, which KVKK-Bench measures: with the shipped
-Nano model, 5.6\% of name characters stay readable on Turkish court text and 5.4\% on foreign names in court text,
-but 44.5\% on general prose (Appendix~\ref{app:tracks}); Base, installable as an option, leaks 0.2\%, 2.9\% and
-17.6\%. These figures are at the benchmark threshold (0.5). Kalkan's default is 0.7, which keeps fewer
-candidate spans, so its residual risk on KVKK-Bench is not yet measured; its own release check, on Katip's 80
-synthetic blind documents at 0.7 with rules plus Nano, masked 743 of 757 values (98\%), a generated-text figure
-that is optimistic for the reasons in Section~\ref{sec:bench}. (ii) Detected values shorter than four
+Nano model, 6.1\% of name characters stay readable on Turkish court text and 5.0\% on foreign names in court text,
+but 46.9\% on general prose (Appendix~\ref{app:tracks}); Base, installable as an option, leaks 0.2\%, 2.8\% and
+21.5\%. These figures are at the benchmark threshold (0.5). Kalkan used 0.7 until 15 November 2026, which
+raised Nano's leak from 7.2\% to 9.3\% and Base's from 3.1\% to 3.6\% (KVKK-F2 tracks); it now ships at 0.5, so
+the figures above describe what it runs. A dev-tuned change to the lone-name rule shipped the same day; all tables use it. (ii) Detected values shorter than four
 letters or digits are masked but not re-checked. (iii) A file \emph{attached} to the chat is uploaded with the
 message before any tool runs, so it bypasses Kalkan entirely. (iv) The user's own typed prompts are not masked.
 Kalkan therefore reduces exposure; it does not prove the absence of leakage, and the user remains the reviewer.
 
 \section{Limitations and future work}
+\label{sec:limits}
 \begin{itemize}
 \item \textbf{No real client documents.} Court sentences with filled slots and Wikipedia are proxies. Contracts,
 petitions and e-mails from practice are the target of a consented pilot whose documents never leave the firm;
@@ -278,20 +400,27 @@ and AYM judgments with court-published names is under construction.
 \item \textbf{Slot filling} puts names where courts wrote ``\ldots'', which a model could learn to exploit; the AYM
 real-name track is meant to check this.
 \item \textbf{One annotator}; inter-annotator agreement on 100 hidden documents is planned.
-\item \textbf{Speed} is measured in Python on one laptop. ``Runs in the browser'' means demonstrated, not timed.
-\item \textbf{OCR} is tested only on Katip's own scans and synthetic phone photos. Adding OCRTurk
-\citep{ocrturk2026} as an OCR track awaits a licence from its authors.
-\item \textbf{Licences.} Both models are CC BY-SA 4.0 because they are trained on Wiki NER; code is AGPL-3.0. A v3
-retrained without Wikipedia data (synthetic, court decisions, TurkishLegalNER) would allow Apache-2.0, if it stays
-within about one Overall point. Fine-tuning XLM-R on our data is queued.
+\item \textbf{Speed} is measured in Python on one laptop. In one Chrome tab (single-threaded WebAssembly) a
+500-word page took 0.03\,s with Nano, 1.0\,s with Mini and 3.8\,s with Base, so in-browser speed is several times
+lower for the larger models.
+\item \textbf{OCR} is tested only on synthetic scans and phone photos. OCRTurk \citep{ocrturk2026} turned out to
+be born-digital pages whose only personal data are author names, so it was not added.
+\item \textbf{Legal encoders not tested.} HukukBERT's weights are not public. Mecellem's encoder
+(Mursit, ModernBERT, 155M, Apache-2.0) is, but it is a base model with no NER head, so it needs the same
+fine-tuning as our Base; we have not run it. A Turkish legal base model could narrow Base's prose gap, and its
+Apache-2.0 licence matters for the release below, so it is our next base-model comparison.
+\item \textbf{Licences.} All three models are CC BY-SA 4.0 because they are trained on Wiki NER; code is AGPL-3.0.
+A Base retrained without Wikipedia data (synthetic and court-decision text only) scored about 25 points below Base on
+the real-text tracks, so an Apache-2.0 release waits for new real labelled text. XLM-R Base fine-tuned on our data scored 2 points
+below Base, at 2.5 times the size.
 \item \textbf{Masking is not anonymisation.} Masked documents remain personal data under KVKK; the tool reduces
 exposure but does not by itself make an AI workflow compliant.
 \end{itemize}
 
-\textbf{Reproducibility.} \texttt{lab/foreign/build.py} (branch \texttt{main}) and
+\textbf{Reproducibility.} \texttt{paper/use\_cases.py}, \texttt{make\_fig.py} and \texttt{make\_fig2.py} rebuild Table~\ref{tab:usecase} (with its JSON/CSV) and Figures 1--3 from the saved results. \texttt{lab/foreign/build.py} (branch \texttt{main}) and
 \texttt{lab/legal/bench\_build.py} (branch \texttt{legal-study}, commit \texttt{14fa7ab}) rebuild the public split from
 public sources, and \texttt{lab/legal/bench\_run.py --rescore} re-scores the saved predictions; the bootstrap script and figure are
-in \texttt{paper/}. All numbers in this paper were reproduced from those files on 14 November 2026.
+in \texttt{paper/}. All numbers in this paper were reproduced from those files on 16 November 2026 (\texttt{legal-study} commit \texttt{70aebd9}).
 
 \textbf{Ethics statement.} No private or client documents were used. Every personal value inserted into the
 benchmark is synthetic; the only real names are those that courts or Wikipedia published. The benchmark
@@ -316,13 +445,14 @@ measures leakage so that tools can be compared, not to certify compliance. Repor
 \cmidrule(lr){2-6}\cmidrule(lr){7-11}\cmidrule(lr){12-16}
 System & R & P & Leak & Clean & FA/1k & R & P & Leak & Clean & FA/1k & R & P & Leak & Clean & FA/1k \\
 \midrule
-Katip Mask Base & 99.9 & 93.5 & 0.2 & 99 & 3.3 & 97.0 & 93.3 & 2.9 & 90 & 3.3 & 89.8 & 85.7 & 17.6 & 52 & 6.7 \\
+Katip Mask Base & 99.9 & 94.0 & 0.2 & 99 & 3.1 & 97.1 & 93.7 & 2.8 & 90 & 3.1 & 84.1 & 84.7 & 21.5 & 48 & 6.7 \\
+Katip Mask Mini & 99.2 & 92.8 & 0.8 & 97 & 3.7 & 96.8 & 92.5 & 3.1 & 90 & 3.7 & 72.2 & 75.6 & 30.9 & 35 & 10.1 \\
 XLM-R Large (CoNLL-en) & 99.1 & 92.2 & 0.1 & 97 & 4.1 & 99.1 & 91.7 & 0.2 & 95 & 4.3 & 89.3 & 92.6 & 9.8 & 59 & 3.2 \\
 XLM-R Base Turkish NER & 98.3 & 99.4 & 1.1 & 94 & 0.3 & 97.9 & 99.4 & 1.2 & 90 & 0.3 & 85.6 & 89.2 & 17.7 & 49 & 4.7 \\
 GLiNER2 PII & 98.7 & 95.7 & 1.8 & 94 & 2.1 & 98.7 & 96.4 & 1.8 & 93 & 1.8 & 91.1 & 63.6 & 13.8 & 57 & 23.0 \\
 BERTurk NER & 96.9 & 99.5 & 2.2 & 87 & 0.2 & 89.9 & 99.6 & 4.7 & 69 & 0.2 & 74.5 & 89.6 & 17.3 & 47 & 4.0 \\
 GLiNER multi PII & 93.3 & 92.4 & 7.3 & 96 & 3.6 & 92.8 & 93.4 & 7.7 & 94 & 3.1 & 88.2 & 75.1 & 16.6 & 56 & 12.5 \\
-Katip Mask Nano & 95.0 & 87.1 & 5.6 & 80 & 6.9 & 94.8 & 87.0 & 5.4 & 79 & 6.8 & 57.5 & 58.9 & 44.5 & 28 & 19.2 \\
+Katip Mask Nano & 94.1 & 90.1 & 6.1 & 82 & 5.1 & 95.5 & 89.8 & 5.0 & 80 & 5.2 & 53.7 & 59.7 & 46.9 & 25 & 16.8 \\
 ModernBERT-TR PII & 98.9 & 97.1 & 1.9 & 76 & 1.5 & 96.2 & 97.7 & 3.2 & 65 & 1.3 & 34.3 & 91.3 & 59.6 & 11 & 2.2 \\
 Qwen2.5-1.5B, prompted & 55.9 & 60.1 & 40.4 & 51 & 19.3 & 54.0 & 59.9 & 41.5 & 50 & 18.6 & 56.3 & 29.4 & 41.5 & 33 & 65.1 \\
 OpenMed Privacy Filter v2 & 56.1 & 60.9 & 35.2 & 32 & 25.6 & 53.4 & 60.3 & 35.2 & 31 & 27.3 & 52.9 & 35.9 & 38.8 & 28 & 54.3 \\
