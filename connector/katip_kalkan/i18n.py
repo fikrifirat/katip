@@ -27,7 +27,7 @@ T = {
                         "(ör. Belgeler/Davalar).",
         "folder_cloud": "Bu klasör iCloud, OneDrive, Google Drive ya da Dropbox ile eşitleniyor gibi görünüyor: "
                         "müvekkil belgeleri ve gerçek adlı son metinler o hizmete de kopyalanır. Eşitlenmeyen bir klasör "
-                        "seçmenizi öneririz (ör. kullanıcı klasörünüzde Katip).",
+                        "seçmenizi öneririz (ör. kullanıcı klasörünüzde Davalar).",
         "list_note": "Adlar bilerek kısaltıldı: kişi adı olabilecek sözcükler … olarak görünür. mask_file'a "
                      "file_id verin. Birden çok belge uyuyorsa kısaltılmış adları ve where'i gösterip kullanıcıya "
                      "hangisi olduğunu sorun. Liste en yeni belgeyle başlar.",
@@ -59,7 +59,7 @@ T = {
                         "(e.g. Documents/Davalar).",
         "folder_cloud": "This folder seems to sync to iCloud, OneDrive, Google Drive or Dropbox, so client documents "
                         "and final texts with real names are copied there too. We recommend a folder that doesn't sync "
-                        "(e.g. a Katip folder in your user folder).",
+                        "(e.g. a Davalar folder in your user folder).",
         "list_note": "Names are shortened on purpose: words that could be a person's name show as …. Pass "
                      "file_id to mask_file. If several documents match, show the shortened names and where, and "
                      "ask the user which one. Newest first.",

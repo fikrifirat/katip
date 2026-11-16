@@ -13,8 +13,10 @@ no masked text, no usage statistics, no crash reports.
 
 ## What it processes
 
-The files you ask Claude to open with `mask_file` or `write_masked_copy`, inside your Katip folder
-(`Documents/katip-documents` by default, or the folder you pick). They are read and masked on your
+The files you ask Claude to open with `mask_file` or `write_masked_copy`, inside the folders you allow:
+your case folder (the one you pick in the settings; `Documents/katip-documents` if you pick none), its
+subfolders, and Downloads. To find a document, `list_files` reads file and folder names in those folders
+on your computer and returns shortened names to Claude. They are read and masked on your
 computer. Only the masked text, with placeholders such as `[AD SOYAD-1]`, is returned to Claude.
 
 ## What it stores, where, and for how long
@@ -24,7 +26,7 @@ computer. Only the masked text, with placeholders such as `[AD SOYAD-1]`, is ret
   your user account. File names are keyed hashes, so they don't reveal the matter. Maps are deleted
   after 30 days (`KATIP_VAULT_DAYS`) or at once with the `forget_matter` tool. Without the
   `cryptography` package the map is kept in memory only and lost when Claude closes.
-* **Restored documents** (`restore_to_file`): written only into your Katip folder, readable only by you.
+* **Restored documents** (`restore_to_file`): written next to the document you masked (or into your case folder), only inside the allowed folders, readable only by you.
 * **Masked copies** (`write_masked_copy`): written next to the original.
 
 ## What it sends, and to whom

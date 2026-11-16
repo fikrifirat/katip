@@ -472,7 +472,7 @@ def restore_to_file(text: str, output_path: str, matter: str = "default") -> dic
         fh.write(data)
     return {"output_path": str(out), "placeholders_restored": n,
             "saved": "next to the source document, on this computer" if _LAST_DIR.get(matter) == out.parent
-            else "in the Katip folder, on this computer"}
+            else "in your case folder, on this computer"}
 
 
 def _docx(text: str) -> bytes:

@@ -2,10 +2,16 @@ Katip Kalkan masks Turkish personal data (KVKK) on your computer before Claude r
 Originals and the name map never leave the device.
 
 **Claude Desktop:** download `katip-kalkan.mcpb` below and double-click it (or Settings → Extensions →
-Install). You can save the settings as they are: Katip creates `Documents/katip-documents` for your
-client files. Ask Claude to "open my Katip folder" to see it in Finder or Explorer. The install
+Install). In the settings, pick the folder where you keep your case files; Downloads (UYAP downloads,
+e-mail attachments) is searched too. Nothing has to be copied anywhere. The install
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
+
+**New in 0.3.8 (documents stay where you keep them):**
+- Katip looks in your case folder (with its subfolders) and in Downloads, where UYAP downloads and e-mail attachments land. You no longer copy files into a Katip folder.
+- Describe the document the way you'd tell a colleague (`/katip-incele son indirdiğim bilirkişi raporu`, `/katip-taslak 2026/123 ihtarname, cevap`): Katip searches file and folder names on your computer, ignoring Turkish letters and case, and Claude sees only shortened names. If several match, Claude asks which one.
+- The final document with real names is saved next to the document you worked on.
+- More folders: add them in the settings (Claude Desktop) or one per line in `~/.katip/folders.txt` (Claude Code). The guard in Claude Code covers all of them. `KATIP_DOWNLOADS=0` turns the Downloads search off.
 
 **New in 0.3.7 (court copies and everyday use):**
 - Court profile (Mahkemeye sunum): UETS addresses, bar registry numbers and the parties' own addresses are masked; the address of the property in dispute stays readable (lawyer feedback).

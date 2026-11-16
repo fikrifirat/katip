@@ -169,7 +169,7 @@ section.claude{grid-column:1/-1;max-width:760px;margin:30px auto 0;width:100%;bo
 .chat .toolrow b{color:var(--ink)}.chat .toolrow code{font:12px var(--code);background:var(--off);padding:0 5px;border-radius:4px}
 .chat-cap{margin:4px 2px 0;font-size:12.5px;color:var(--muted)}
 .chat .perm{align-self:stretch;max-width:420px;margin:2px auto;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:10px 12px;font-size:13px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.perm-h{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-bottom:6px}.perm-h .muted{color:var(--muted)}
+.perm-h{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin-bottom:6px}.perm-h .muted{flex-basis:100%;font-size:12.5px}.perm-h .muted{color:var(--muted)}
 .perm dl{display:grid;grid-template-columns:auto 1fr;gap:3px 10px;margin:0 0 8px}.perm dt{font:600 12px var(--code);color:var(--muted)}.perm dd{margin:0;overflow-wrap:anywhere}
 .perm-b{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}.perm-b span{border:1px solid var(--line);border-radius:8px;padding:3px 10px;font-size:12.5px}.perm-b .on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 section.claude .ctip{margin:10px 0 0;font-size:13px;padding:8px 12px;border-left:3px solid var(--accent);background:var(--bg);border-radius:6px}
@@ -180,5 +180,12 @@ section.claude a{color:var(--accent)}
 .claude-grid pre{margin:0;padding:10px 12px;border-radius:8px;background:var(--ink);color:var(--bg);font-size:12.5px;overflow-x:auto;white-space:pre}
 section.claude .hint{margin:10px 0 0;font-size:12.5px;text-align:left}details.claude a{color:var(--accent)}
 
-.ccmds{list-style:none;padding:0;margin:.6rem 0;display:grid;gap:.35rem;font-size:.92rem}
-.ccmds code{font-weight:600;margin-right:.35rem}
+.xdemo{min-width:0}
+.xtabs{display:flex;gap:4px;margin:0 0 8px;min-width:0;overflow-x:auto;scrollbar-width:none}
+@media (max-width:520px){.xtabs button{padding:6px 10px}.xtabs button span{display:none}}
+.xtabs button{flex:1 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--muted);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.xtabs button code{font:600 12.5px var(--code);color:var(--ink)}
+.xtabs button[aria-selected=true]{background:var(--ink);border-color:var(--ink);color:var(--bg)}.xtabs button[aria-selected=true] code{color:var(--bg)}
+.xtabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chat .xcap{margin:0 2px 2px;font-size:12.5px;color:var(--muted)}
+.chat[hidden]{display:none}
