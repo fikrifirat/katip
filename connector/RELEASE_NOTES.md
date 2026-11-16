@@ -7,6 +7,14 @@ client files. Ask Claude to "open my Katip folder" to see it in Finder or Explor
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.3.7 (court copies and everyday use):**
+- Court profile (Mahkemeye sunum): UETS addresses, bar registry numbers and the parties' own addresses are masked; the address of the property in dispute stays readable (lawyer feedback).
+- Claude Code and Cowork: a guard stops Claude's own Read, Grep, Glob, Edit, Write and Bash tools from opening the Katip folder or the name map, so client files are opened only through Katip.
+- New commands `/katip-incele` (review and summarise) and `/katip-taslak` (draft a reply, save it with real names); in Claude Desktop they are in the + menu.
+- Clearer Turkish tool names, and the approval prompt now says that Katip can miss a value and that restored files go only into the Katip folder.
+- Claude asks for a matter label only when you work on several documents of one case.
+- The listing links the FAQ, the data-processing statement and the KVKK Board's guide for lawyers.
+
 **New in 0.3.6 (names):**
 - Finds a lone first or last name inside a sentence when the name model is sure of it, joins names the model returns word by word, and masks a word of a full name found elsewhere in the document when it appears alone (KVKK-Bench, Base: 92.0 → 93.1, leaks 3.3% → 3.1%, no new false alarms on court text).
 - Default detection threshold 0.5 (was 0.7), tuned on the dev split, the same rules and threshold as the katip-mask 0.1.0 SDK. Blind set: 748 of 757 values masked.

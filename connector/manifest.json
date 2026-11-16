@@ -2,7 +2,7 @@
   "manifest_version": "0.3",
   "name": "katip-kalkan",
   "display_name": "Katip Kalkan (KVKK)",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "Müvekkil belgelerindeki KVKK verilerini Claude görmeden bu bilgisayarda maskeler · Masks KVKK personal data on your computer before Claude reads a document.",
   "long_description": "Katip müvekkil belgelerinizi (.docx, UYAP .udf, .pdf, taramalar ve fotoğraflar) bu bilgisayarda açar ve Claude'a göndermeden önce ad soyad, T.C. kimlik / YKN / pasaport no, adres, telefon, IBAN ve sağlık gibi KVKK verilerini [AD SOYAD-1] gibi yer tutucularla değiştirir. Belgenin aslı ve gerçek adlar bilgisayarınızdan çıkmaz; isterseniz son metni gerçek adlarla yine bilgisayarınıza kaydeder. Claude Desktop \"bilgisayarınıza erişim\" uyarısını her eklenti için gösterir; Katip yalnızca seçtiğiniz klasördeki dosyaları açar. İlk açılışta açık kaynak yardımcı bileşenler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir sunucuya gönderilmez. Katip bir güvenlik katmanıdır, garanti değildir: bazı değerleri kaçırabilir, maskeli metin KVKK'ya göre hâlâ kişisel veridir ve Claude'un yanıtlarını kontrol etmeniz gerekir.\n\nKatip opens client documents (.docx, UYAP .udf, .pdf, scans and photos) on your computer and replaces names, T.C. kimlik / YKN / passport numbers, addresses, phones, IBANs and health data with placeholders such as [AD SOYAD-1] before Claude sees them. The original and the real names stay on your computer; Katip can save the final text with the real names there. Claude Desktop shows its \"access to your computer\" warning for every extension; Katip only opens files in the folder you pick. On first start it downloads its open-source helpers once (about a minute); your documents are never sent to any server. Katip is a safety layer, not a guarantee: it can miss values, masked text is still personal data under KVKK, and you should review Claude's answers.",
   "author": {
@@ -56,38 +56,38 @@
   "tools": [
     {
       "name": "list_files",
-      "description": "List client files with ids; names that could identify a person are hidden"
+      "description": "Katip klasöründeki belgeleri listeler; kişi adları gizlenir · List files in the Katip folder; names hidden"
     },
     {
       "name": "mask_file",
-      "description": "Open a document, scan or photo on this computer and return only masked text"
+      "description": "Belgeyi, taramayı ya da fotoğrafı bu bilgisayarda açıp yalnızca maskeli metni verir · Open and mask a document on this computer"
     },
     {
       "name": "write_masked_copy",
-      "description": "Save a masked copy next to the original"
+      "description": "Maskeli kopyayı Katip klasörüne kaydeder · Save a masked copy in the Katip folder"
     },
     {
       "name": "restore_to_file",
-      "description": "Write the final text with real values into the Katip folder (.docx, .txt, .md)"
+      "description": "Son metni gerçek adlarla Katip klasörüne kaydeder (.docx, .txt, .md) · Save the final text with real names"
     },
     {
       "name": "forget_matter",
-      "description": "Delete the local placeholder map of a matter"
+      "description": "Bir dosyanın yerel ad eşleşmelerini siler · Delete a matter's local name map"
     },
     {
       "name": "open_folder",
-      "description": "Open the Katip folder in Finder or Explorer"
+      "description": "Katip klasörünü açar · Open the Katip folder"
     },
     {
       "name": "katip_status",
-      "description": "Show engine, threshold and vault location"
+      "description": "Motoru, eşiği ve eşleşme haritasının yerini gösterir · Show engine, threshold and map location"
     }
   ],
   "user_config": {
     "allowed_dir": {
       "type": "directory",
-      "title": "Müvekkil dosyaları klasörü / Client files folder",
-      "description": "Katip yalnızca bu klasördeki dosyaları açar. Değiştirmeden kaydedebilirsiniz: Belgeler/katip-documents oluşturulur. · Katip only opens files in this folder; leave it to use Documents/katip-documents.",
+      "title": "Müvekkil belgeleri klasörü / Client documents folder",
+      "description": "Katip yalnızca bu klasördeki belgeleri açar ve gerçek adlı son metinleri buraya kaydeder. Önerilen: varsayılanı bırakın (Belgeler/katip-documents, yalnızca size açık bir klasör olarak oluşturulur). Belgeler klasörünüz iCloud, OneDrive ya da Google Drive ile eşitleniyorsa eşitlenmeyen bir klasör seçin. Masaüstünü, Belgeler'in tamamını ya da ana klasörünüzü seçmeyin. · Katip opens only documents in this folder and saves final texts with real names here. Recommended: keep the default. If Documents syncs to iCloud, OneDrive or Google Drive, pick a folder that doesn't sync. Don't pick Desktop, all of Documents or your home folder.",
       "required": false,
       "default": "${HOME}/Documents/katip-documents"
     },

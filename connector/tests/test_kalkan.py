@@ -81,7 +81,8 @@ def test_restore_roundtrip(home):
     restored = out.read_text(encoding="utf-8")
     assert ("Müvekkilimiz Emal YILDIRIM adına" if MODEL else "Müvekkilimiz Emal") in restored
     assert "75428707268" in restored
-    assert oct(out.stat().st_mode & 0o777) == "0o600"
+    if os.name != "nt":  # Windows has no POSIX mode bits; files in the user profile are private by ACL
+        assert oct(out.stat().st_mode & 0o777) == "0o600"
     with pytest.raises(FileExistsError):
         core.restore_to_file(answer, str(out), "m1")
 
@@ -440,7 +441,7 @@ def test_language_setting(monkeypatch):
     monkeypatch.setenv("KATIP_LANG", "en")
     assert importlib.reload(local_server).TOOLS[1].title.startswith("Mask")
     monkeypatch.setenv("KATIP_LANG", "")
-    assert importlib.reload(local_server).TOOLS[1].title.startswith("Kişisel")
+    assert importlib.reload(local_server).TOOLS[1].title.startswith("Belgeyi")
     assert "Claude" in i18n.msg("leak", n=2, kinds="Pasaport No")
 
 
@@ -450,7 +451,7 @@ def test_katip_prompt():
     init = srv.handle({"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {"protocolVersion": "2025-06-18"}})
     assert "prompts" in init["result"]["capabilities"]
     lst = srv.handle({"jsonrpc": "2.0", "id": 2, "method": "prompts/list"})["result"]["prompts"]
-    assert [p["name"] for p in lst] == ["katip"] and "render" not in lst[0]
+    assert [p["name"] for p in lst] == ["katip", "katip_incele", "katip_taslak"] and all("render" not in p for p in lst)
     got = srv.handle({"jsonrpc": "2.0", "id": 3, "method": "prompts/get",
                       "params": {"name": "katip", "arguments": {"istek": "son eklediğim dilekçeyi özetle"}}})
     text = got["result"]["messages"][0]["content"]["text"]
@@ -521,3 +522,51 @@ def test_precedent_citations_stay_readable(home, tmp_path, profile):
     court_visible = "İSTANBUL 5. SULH CEZA" in out
     assert own_case_visible == (profile == "court")  # the client's own file number: hidden for AI and anon
     assert court_visible == (profile != "anon")  # the client's court: hidden only when fully anonymised
+
+
+def _guard(call, env=None):
+    import subprocess, json as _j
+    root = Path(__file__).resolve().parents[1]
+    e = {**os.environ, **(env or {})}
+    r = subprocess.run([sys.executable, str(root / "hooks" / "guard.py")], input=_j.dumps(call), text=True,
+                       capture_output=True, env=e)
+    return r.returncode, r.stderr
+
+
+def test_guard_blocks_claudes_own_tools_in_the_katip_folder(tmp_path):
+    folder = tmp_path / "katip-documents"
+    folder.mkdir()
+    env = {"KATIP_FOLDER": str(folder), "KATIP_HOME": str(tmp_path / ".katip")}
+    blocked = [
+        {"tool_name": "Read", "tool_input": {"file_path": str(folder / "dilekce.udf")}, "cwd": "/"},
+        {"tool_name": "Grep", "tool_input": {"pattern": "T.C.", "path": str(folder)}, "cwd": "/"},
+        {"tool_name": "Glob", "tool_input": {"pattern": "*.docx"}, "cwd": str(folder)},
+        {"tool_name": "Bash", "tool_input": {"command": f"cat {folder}/cevap.docx"}, "cwd": "/"},
+        {"tool_name": "Bash", "tool_input": {"command": "ls katip-documents"}, "cwd": str(tmp_path)},
+        {"tool_name": "Read", "tool_input": {"file_path": str(tmp_path / ".katip" / "vault" / "x")}, "cwd": "/"},
+        {"tool_name": "Write", "tool_input": {"file_path": str(folder / "a.txt"), "content": "x"}, "cwd": "/"},
+    ]
+    for call in blocked:
+        code, err = _guard(call, env)
+        assert code == 2 and "Katip" in err, call
+    allowed = [
+        {"tool_name": "Read", "tool_input": {"file_path": str(tmp_path / "notes.md")}, "cwd": "/"},
+        {"tool_name": "Bash", "tool_input": {"command": "git status"}, "cwd": str(tmp_path)},
+        {"tool_name": "Glob", "tool_input": {"pattern": "*.py"}, "cwd": str(tmp_path)},
+    ]
+    for call in allowed:
+        assert _guard(call, env)[0] == 0, call
+    assert _guard("not json", env)[0] == 0
+
+
+def test_folder_warning_for_broad_or_synced_folders(tmp_path, monkeypatch):
+    from katip_kalkan import core
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))
+    (tmp_path / "Documents" / "katip-documents").mkdir(parents=True)
+    assert core.folder_warning((tmp_path / "Documents" / "katip-documents").resolve()) is None
+    assert core.folder_warning((tmp_path / "Documents").resolve())
+    assert core.folder_warning(tmp_path.resolve())
+    assert core.folder_warning((tmp_path / "Library" / "CloudStorage" / "OneDrive" / "Katip").resolve())
+    (tmp_path / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / "Documents").mkdir(parents=True)
+    assert core.folder_warning((tmp_path / "Documents" / "katip-documents").resolve())

@@ -1,0 +1,48 @@
+name: Katip Kalkan
+
+on:
+  pull_request:
+    paths: ["connector/**", "docs/katip_py.zip", ".claude-plugin/**", ".github/workflows/kalkan.yml"]
+  push:
+    branches: [main]
+    paths: ["connector/**", "docs/katip_py.zip", ".claude-plugin/**", ".github/workflows/kalkan.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    defaults:
+      run:
+        shell: bash
+    env:
+      PYTHONUTF8: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }  # = launch.py PYTHON
+      - name: Install the pinned helpers (same versions as launch.py)
+        run: pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0
+      - name: Unit tests
+        run: cd connector && python -m pytest -q
+      - name: Engine matches the web app
+        run: cmp connector/katip_kalkan/engine.zip docs/katip_py.zip
+      - name: Build the bundle
+        run: python connector/build_bundle.py
+      - name: Smoke test the bundle (Turkish folder and file names, mask, restore, guard)
+        run: python connector/tests/smoke_mcpb.py connector/dist/katip-kalkan.mcpb
+      - name: Rules-only start without the helpers (a computer without uv)
+        run: |
+          python -m venv bare
+          if [ -f bare/Scripts/python.exe ]; then PY=bare/Scripts/python.exe; else PY=bare/bin/python; fi
+          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci"}}}' \
+                        '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"katip_status","arguments":{}}}' \
+            | KATIP_AUTO_DEPS=0 KATIP_HOME="$RUNNER_TEMP/katip" KATIP_FOLDER="$RUNNER_TEMP/Belgeler Ş" "$PY" connector/server.py | tee out.txt
+          grep -q '"engine"' out.txt

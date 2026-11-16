@@ -23,11 +23,16 @@ Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Boa
 * If a value Katip found would still be readable, it refuses to hand over the text.
 * No account, no telemetry. The author receives nothing.
 
-**Try it**
+**Commands.** Put the client document in your Katip folder, then type one of these in Claude Code or Cowork.
+In Claude Desktop, pick the same item from the **+** menu and type the rest.
 
-* `/katip son eklediğim dilekçeyi incele, dikkatlice özetle ve düzeltmeler öner`
-* `/katip compare the petition and the expert report for matter 2026/123`
-* `/katip draft a reply to the petition I just added and save it with the real names as cevap-dilekcesi.docx`
+| Command | What it does | Example |
+|---|---|---|
+| `/katip <request>` | Anything with a client document: Katip masks it first, then Claude does what you ask. | `/katip compare the petition and the expert report for matter 2026/123` |
+| `/katip-incele [focus]` | Reviews the newest document: summary, claims and grounds, gaps and errors, suggestions. | `/katip-incele zamanaşımı ve deliller` |
+| `/katip-taslak [kind]` | Drafts a reply to the newest document, marks gaps as `[…]` instead of inventing facts, and offers to save it with the real names as a Word file. | `/katip-taslak cevap dilekçesi` |
+
+You can also just ask in plain words, for example "Katip klasörüme son eklediğim dilekçeyi özetle".
 
 **Before you rely on it.** Katip can miss values: it masked 98.8% of values on a synthetic blind test set,
 and misses more on real text. Files you attach to the chat and text you type are not masked. Masked text is
@@ -51,6 +56,15 @@ Avukatlar ve hukuk ekipleri için geliştirildi. Kişisel Verileri Koruma Kurulu
 [avukatlar için uygulama rehberine](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi)
 (22 Eylül 2026) yer alan öneriye göre tasarlandı: Rehber, müvekkil verilerinin üretken yapay zekâ
 araçlarıyla paylaşılmadan önce maskelenmesini ya da anonimleştirilmesini önerir.
+
+**Komutlar.** Müvekkil belgesini Katip klasörünüze koyun, sonra Claude Code ya da Cowork'te yazın. Claude
+Desktop'ta aynı öğeyi **+** menüsünden seçip isteğinizi yazın.
+
+| Komut | Ne yapar | Örnek |
+|---|---|---|
+| `/katip <istek>` | Müvekkil belgesiyle her iş: Katip önce maskeler, sonra Claude isteğinizi yapar. | `/katip son eklediğim sözleşmedeki fesih şartlarını çıkar` |
+| `/katip-incele [odak]` | Son belgeyi inceler: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler. | `/katip-incele zamanaşımı ve deliller` |
+| `/katip-taslak [tür]` | Son belgeye taslak yazar, bilinmeyenleri uydurmak yerine `[…]` ile işaretler, isterseniz gerçek adlarla Word dosyası olarak kaydeder. | `/katip-taslak cevap dilekçesi` |
 
 Dilekçe, sözleşme, bilirkişi raporu, UYAP `.udf`, `.docx`, `.pdf`, tarama ve telefon fotoğrafı okur.
 Üç maskeleme düzeyi vardır: **Mahkemeye sunum** dosya numaralarını, mahkeme adlarını ve dava konusu
@@ -78,7 +92,17 @@ claude plugin install katip-kalkan@katip
 Claude Desktop (chat): download `katip-kalkan.mcpb` from the
 [latest Kalkan release](https://github.com/fikrifirat/katip/releases?q=kalkan) and double-click it.
 
-**Requirements.** macOS (tested) or Linux; Windows is not tested yet. `python3` 3.9 or later on the
+**Choosing the folder.** Katip opens documents only from one folder and saves final documents with real names
+into it. Keep the default (`Documents/katip-documents`, created on first use, readable only by you) unless your
+Documents folder syncs to iCloud, OneDrive or Google Drive; then pick a folder that doesn't sync, such as
+`~/Katip`. Don't pick Desktop, all of Documents or your home folder: Katip warns you if you do. In Claude Code
+set `KATIP_FOLDER` to change it. More: [FAQ](https://github.com/fikrifirat/katip/blob/main/FAQ.md#which-folder-should-katip-use).
+
+**Where it works.** Claude Desktop, Claude Code and Cowork on your computer. Not claude.ai in the browser,
+mobile apps or ChatGPT: those reach only connectors on the provider's servers, so the document would leave
+your computer before masking.
+
+**Requirements.** macOS (tested by hand) or Linux; Windows is checked by automated tests on every change but not yet tried by a person. `python3` 3.9 or later on the
 PATH, and [uv](https://docs.astral.sh/uv/) (recommended: `brew install uv`). With uv, Katip has the
 name model, PDF and scan reading and the encrypted map. Without uv it runs on rules only, can't read
 PDFs or scans, keeps the map in memory, and `katip_status` says so.
@@ -151,6 +175,11 @@ the [Katip Mask Nano model card](https://huggingface.co/f1k/katip-mask-nano) and
 * **Reads:** only the files Claude asks for, inside your Katip folder (`Documents/katip-documents` by
   default). **Writes:** masked copies next to the original, and restored documents only into the
   Katip folder; the encrypted placeholder map in `~/.katip/vault`.
+* **Guards (Claude Code and Cowork):** a small hook (`hooks/guard.py`, standard library only) runs before
+  Claude's own Read, Grep, Glob, Edit, Write and Bash tools. If a call touches the Katip folder or
+  `~/.katip`, it blocks the call and tells Claude to use Katip instead. It reads no file contents and
+  makes no network calls. Claude Desktop chat doesn't run plugin hooks; there Katip's folder setting and
+  Desktop's own permission prompts are the guard.
 * **Sends:** nothing. Katip has no telemetry, analytics or crash reporting, and makes no network calls
   while processing documents. Claude receives only the masked text, under Anthropic's terms.
 * **Fetches, once:** on first start, if uv is installed, uv downloads exact pinned versions of
@@ -168,6 +197,15 @@ Maps are deleted after 30 days (`KATIP_VAULT_DAYS`) or at once with `forget_matt
 m.36): [PRIVACY.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.md) · [PRIVACY.tr.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.tr.md). Questions and answers, including what each profile masks: [FAQ.md](https://github.com/fikrifirat/katip/blob/main/FAQ.md) · [FAQ.tr.md](https://github.com/fikrifirat/katip/blob/main/FAQ.tr.md).
 
 ## How to use it
+
+**Commands (Claude Code and Cowork).** `/katip <istek>` for anything; `/katip-incele [odak]` to review and
+summarise the newest document; `/katip-taslak [taslak türü]` to draft a reply and, if you want, save it with
+the real names as a Word file. In Claude Desktop the same three appear in the **+** menu as *Katip ile güvenli
+çalış*, *Dilekçeyi incele ve özetle* and *Cevap taslağı hazırla*.
+
+**What the approval prompt shows.** Before Katip opens a document, Claude asks for your approval. The prompt
+names the document by its shortened name (`belge`) and a fixed line (`bilgi`) that says the document is masked
+on this computer and that Katip can miss a value. Approve only documents you meant to share.
 
 Claude Desktop warns that the extension gets "access to everything on your computer" and that the
 developer information "has not been verified by Anthropic". It shows this for every extension installed
