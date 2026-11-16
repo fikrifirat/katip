@@ -19,6 +19,16 @@ araçlarıyla KVKK'ya uygun paylaşması gereken hukuk büroları, şirket hukuk
 
 ![Katip Mask](screenshot.png)
 
+## Yapay zekâyı kullanmadan önce neden maskelemeli
+
+Avukatlar müvekkillerinin verileri için veri sorumlusudur (KVKK m.3). Bir dava dosyasını yurt dışındaki bir
+yapay zekâ sağlayıcısına göndermek, KVKK m.9 (7499 sayılı Kanun'la değişik) kapsamında hukuki dayanak isteyen
+bir yurt dışına aktarımdır; sır saklama yükümlülüğü de ayrıca geçerlidir (Avukatlık Kanunu m.36). Kurul'un
+2026 tarihli avukatlar rehberi, verileri yapay zekâ araçlarıyla paylaşmadan önce maskelemeyi önerir. Katip
+maskelemeyi bilgisayarınızda yapar; böylece büronuzdan daha az müvekkil verisi çıkar. Bazı değerleri
+kaçırabilir ve hukuki dayanağın yerini tutmaz; sonucu yine siz kontrol edersiniz.
+Katip'in verileri nasıl işlediği: [PRIVACY.tr.md](PRIVACY.tr.md).
+
 ## Claude ile kullanın: Katip Kalkan
 
 [Katip Kalkan](connector/), müvekkil belgelerindeki kişisel verileri **Claude okumadan önce kendi

@@ -8,7 +8,7 @@ Katip can put the real names back into the final document there.
 
 *Türkçe:* Katip Kalkan, avukatların müvekkil belgelerindeki kişisel verileri (ad soyad, T.C. kimlik no,
 adres, telefon, IBAN, sağlık verisi) Claude görmeden önce kendi bilgisayarlarında maskeleyen bir Claude
-eklentisidir. KVKK uyumlu çalışmaya yardım eden yerel veri maskeleme ve anonimleştirme aracıdır;
+eklentisidir. Belgeyi yapay zekâ ile paylaşmadan önce verileri yerelde maskeleyerek büronuzdan çıkan müvekkil verisini azaltır;
 belgeler ve gerçek adlar bilgisayardan çıkmaz.
 
 Keywords: KVKK, GDPR, PII redaction, personal data masking, pseudonymisation, anonymisation, Turkish NER,
@@ -108,7 +108,8 @@ Katip collects no data. Documents are read and masked on your computer, and noth
 author or to any third party. The placeholder map (placeholder → real value) is stored on your computer,
 encrypted with AES-256-GCM. The key is in the macOS Keychain, or in `~/.katip/key` readable only by you.
 Maps are deleted after 30 days (`KATIP_VAULT_DAYS`) or at once with `forget_matter`. Contact:
-[GitHub issues](https://github.com/fikrifirat/katip/issues). Full policy: [PRIVACY.md](PRIVACY.md).
+[GitHub issues](https://github.com/fikrifirat/katip/issues). Full policy: [PRIVACY.md](PRIVACY.md). The KVKK context for lawyers (m.4, m.6, m.9 after Law No. 7499, Avukatlık Kanunu
+m.36): [../PRIVACY.md](../PRIVACY.md).
 
 ## How to use it
 
