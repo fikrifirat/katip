@@ -2,6 +2,7 @@ name: SDKs release (katip-mask)
 
 # Push a tag sdk-vX.Y.Z (matching both package versions) to test, build and publish both packages.
 # PyPI: trusted publishing (no token). npm: trusted publishing once configured, else the NPM_TOKEN secret.
+# Without NPM_TOKEN the npm job is skipped with a warning; re-run that job after adding the secret.
 on:
   push:
     tags: ["sdk-v*"]
@@ -62,7 +63,13 @@ jobs:
       - name: Publish with provenance
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npx -y npm@11.6.2 publish dist/npm/katip-mask-*.tgz --provenance --access public
+          NPM_TRUSTED: ${{ vars.NPM_TRUSTED_PUBLISHING }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ] && [ "$NPM_TRUSTED" != "true" ]; then
+            echo "::warning::NPM_TOKEN is not set, so npm was skipped. Add the secret and re-run this job."
+            exit 0
+          fi
+          npx -y npm@11.6.2 publish dist/npm/katip-mask-*.tgz --provenance --access public
 
   github-release:
     needs: [pypi, npm]
