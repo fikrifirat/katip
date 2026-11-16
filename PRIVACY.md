@@ -12,7 +12,7 @@ site later; this file stays as a copy.
 Katip finds personal data in Turkish documents and masks it **on your own computer**. The author runs no
 server that receives your documents, and Katip has no accounts, analytics, telemetry or crash reporting.
 Masking reduces what you send to an AI provider. It does not make that sending lawful by itself, and it can
-miss values, so you still review the output.
+miss values, so you still review the output. Short answers: [FAQ.md](FAQ.md).
 
 ## What each part does with your data
 
@@ -38,8 +38,8 @@ and the files your browser requests, under their own privacy policies. They neve
 
 This is general information, not legal advice.
 
-* **Lawyers are data controllers.** The Board's guide for lawyers, *Avukatların Mesleki Faaliyetlerinde
-  Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi* (KVKK Yayınları No. 115, announced 22 September
+* **Lawyers are data controllers.** The Board's guide for lawyers, [*Avukatların Mesleki Faaliyetlerinde
+  Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi*](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi) (KVKK Yayınları No. 115, announced 22 September
   2026), says so and covers generative AI tools directly (pp. 120–121). It notes that uploading client
   documents to such a tool can be a transfer of personal data abroad, and it recommends masking or
   anonymising data before sharing it (p. 146).

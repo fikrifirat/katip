@@ -24,10 +24,11 @@ araçlarıyla KVKK'ya uygun paylaşması gereken hukuk büroları, şirket hukuk
 Avukatlar müvekkillerinin verileri için veri sorumlusudur (KVKK m.3). Bir dava dosyasını yurt dışındaki bir
 yapay zekâ sağlayıcısına göndermek, KVKK m.9 (7499 sayılı Kanun'la değişik) kapsamında hukuki dayanak isteyen
 bir yurt dışına aktarımdır; sır saklama yükümlülüğü de ayrıca geçerlidir (Avukatlık Kanunu m.36). Kurul'un
-2026 tarihli avukatlar rehberi, verileri yapay zekâ araçlarıyla paylaşmadan önce maskelemeyi önerir. Katip
+[avukatlar için uygulama rehberi](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi) (22 Eylül 2026), verileri yapay zekâ araçlarıyla paylaşmadan önce
+maskelemeyi ya da anonimleştirmeyi önerir (s. 146); Katip bu öneriye göre çalışır. Katip
 maskelemeyi bilgisayarınızda yapar; böylece büronuzdan daha az müvekkil verisi çıkar. Bazı değerleri
 kaçırabilir ve hukuki dayanağın yerini tutmaz; sonucu yine siz kontrol edersiniz.
-Katip'in verileri nasıl işlediği: [PRIVACY.tr.md](PRIVACY.tr.md).
+Katip'in verileri nasıl işlediği: [PRIVACY.tr.md](PRIVACY.tr.md). Sık sorulan sorular: [FAQ.tr.md](FAQ.tr.md).
 
 ## Claude ile kullanın: Katip Kalkan
 

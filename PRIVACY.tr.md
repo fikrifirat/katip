@@ -12,7 +12,7 @@ sitesine taşınacak; bu dosya kopya olarak kalır.
 Katip, Türkçe belgelerdeki kişisel verileri bulur ve **kendi bilgisayarınızda** maskeler. Geliştiricinin
 belgelerinizi alan bir sunucusu yoktur; Katip'te hesap, analitik, telemetri ya da hata raporlama yoktur.
 Maskeleme, bir yapay zekâ sağlayıcısına gönderdiğiniz veriyi azaltır. Bu gönderimi tek başına hukuka uygun
-hâle getirmez ve bazı değerleri kaçırabilir; çıktıyı yine sizin kontrol etmeniz gerekir.
+hâle getirmez ve bazı değerleri kaçırabilir; çıktıyı yine sizin kontrol etmeniz gerekir. Kısa cevaplar: [FAQ.tr.md](FAQ.tr.md).
 
 ## Her bileşen verinizle ne yapar
 
@@ -39,8 +39,8 @@ Belgelerinizi hiçbir zaman almazlar.
 
 Bu metin genel bilgidir, hukuki görüş değildir.
 
-* **Avukatlar veri sorumlusudur.** Kurul'un *Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin
-  Korunmasına İlişkin Uygulama Rehberi* (KVKK Yayınları No. 115, 22 Eylül 2026'da duyuruldu) bunu açıkça
+* **Avukatlar veri sorumlusudur.** Kurul'un [*Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin
+  Korunmasına İlişkin Uygulama Rehberi*](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi) (KVKK Yayınları No. 115, 22 Eylül 2026'da duyuruldu) bunu açıkça
   söyler ve üretken yapay zekâ araçlarını ayrıca ele alır (s. 120–121). Müvekkil belgelerini bu araçlara
   yüklemenin yurt dışına aktarım sayılabileceğini belirtir ve paylaşmadan önce verilerin maskelenmesini ya da
   anonimleştirilmesini önerir (s. 146).
