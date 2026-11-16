@@ -111,6 +111,7 @@ SYSTEMS = {
     "presidio": ("Presidio + spaCy xx (vanilla)", lambda: _baseline("presidio")),
     "savasy": ("savasy/bert-base-turkish-ner-cased", lambda: _baseline("savasy")),
     "gliner2-katip": ("Katip rules + GLiNER2 PII multi fine-tuned on Base v2's data (Colab)", lambda: _gliner2_katip(HERE / "bench" / "models" / "katip-gliner2" / "model")),
+    "gliner2-pii+rules": ("Katip rules + GLiNER2 PII multi off the shelf (same harness as gliner2-katip, no fine-tuning)", lambda: _gliner2_katip("fastino/gliner2-privacy-filter-PII-multi")),
     "akdeniz+rules": ("Katip rules + akdeniz27/xlm-roberta-base-turkish-ner (PERSON)", lambda: _akdeniz_rules(0.5)),
     "akdeniz": ("akdeniz27/xlm-roberta-base-turkish-ner", lambda: _baseline("akdeniz")),
     "gliner": ("urchade/gliner_multi_pii-v1 (person)", lambda: _baseline("gliner")),
@@ -175,7 +176,7 @@ def rescore(key):
 # Katip rows also get the masks Katip draws from pen ink alone (engine.unreadSpans: handwriting in an ID / name row,
 # unreadable handwriting next to a personal-data label); "+ ink masks" in the name says so.
 PH = HERE / "bench" / "photos"
-KATIP_KEYS = {"rules", "tiny", "tiny-f", "mini", "mini-v2", "nano-v2", "xlmr", "berturk-v2", "berturk-clean", "berturk-v1", "akdeniz+rules", "gliner2-katip"}
+KATIP_KEYS = {"rules", "tiny", "tiny-f", "mini", "mini-v2", "nano-v2", "xlmr", "berturk-v2", "berturk-clean", "berturk-v1", "akdeniz+rules", "gliner2-katip", "gliner2-pii+rules"}
 
 def _attach_boxes(page, s, e, typ):
     """Port of engine.attachBoxes: span offsets -> one box per OCR line, grown over touching pen ink."""
