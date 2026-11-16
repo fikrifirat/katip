@@ -152,6 +152,17 @@ claude plugin install katip-kalkan@katip</code></pre>
       <p class="hint"><span data-i18n="cReq">Python 3.10 veya üstü gerekir. İlk açılışta yardımcı paketler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir zaman gönderilmez. Claude'un "doğrulanmamış geliştirici" uyarısı imzasız eklentilerin hepsinde çıkar; kaynak kodu açıktır.</span> <a href="https://github.com/fikrifirat/katip/tree/main/connector#readme" target="_blank" rel="noopener" data-i18n="cMore">Ayrıntılar</a></p>
       </details>
     </section>
+    <section class="dev" id="devUse">
+      <details class="claude-setup">
+        <summary data-i18n="devSum">Kendi kodunuzda kullanın</summary>
+        <pre><code>pip install katip-mask
+
+from katip_mask import Masker
+sonuc = Masker("ai").mask(metin)
+sonuc.text, sonuc.mapping</code></pre>
+        <p class="hint"><span data-i18n="devTxt">Bu sayfayla aynı kurallar; metin bilgisayarınızdan çıkmaz.</span> <a href="https://pypi.org/project/katip-mask/" target="_blank" rel="noopener">PyPI</a> · <a href="https://github.com/fikrifirat/katip/tree/main/sdk#readme" target="_blank" rel="noopener" data-i18n="cMore">Ayrıntılar</a></p>
+      </details>
+    </section>
     <p class="hint center" id="engineState"></p>
   </section>
 
