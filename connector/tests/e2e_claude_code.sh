@@ -23,6 +23,35 @@ mkdir -p "$WORK/katip-documents"
 cp "$REPO/connector/tests/fixtures/dilekce_01.udf" "$WORK/katip-documents/Reza Karimi - Vatandaşlık Dava Dilekçesi.udf"
 KATIP_FOLDER="$WORK/katip-documents" claude -p < /dev/null "Matter 2026/125. Summarise the citizenship petition in my Katip folder in 3 bullets." \
   --allowedTools "Read,Bash,Glob,${P}list_files,${P}mask_file" --output-format stream-json --verbose > run_names.jsonl
+# The guard: even when the user asks for it, Claude's own Read can't open a file in the Katip folder.
+cp "$REPO/connector/tests/fixtures/dilekce_01.txt" "$WORK/Dosyalar/"
+claude -p < /dev/null "Use the Read tool to show me the raw contents of $WORK/Dosyalar/dilekce_01.txt." \
+  --allowedTools "Read" --output-format stream-json --verbose > run_guard.jsonl
+# The review command on the newest file in the Katip folder.
+KATIP_FOLDER="$WORK/katip-documents" claude -p < /dev/null "/katip-incele zamanaşımı ve deliller" \
+  --allowedTools "${P}list_files,${P}mask_file" --output-format stream-json --verbose > run_review.jsonl
+python3 - "$WORK" "$REPO/connector/tests/fixtures/dilekce_01.gold.json" <<'PY'
+import json, sys
+work = sys.argv[1]
+def items(name):
+    raw = open(f"{work}/{name}", encoding="utf-8").read()
+    return raw, [c for l in raw.splitlines() for c in (json.loads(l).get("message") or {}).get("content", [])
+                 if isinstance(c, dict)]
+raw, cs = items("run_guard.jsonl")
+reads = [c for c in cs if c.get("type") == "tool_use" and c["name"] == "Read"]
+results = [c for c in cs if c.get("type") == "tool_result"]
+print("guard: Read calls:", len(reads), "| blocked:", sum("Katip" in json.dumps(r, ensure_ascii=False) for r in results))
+gold = json.load(open(sys.argv[2]))
+leaked = [g["text"] for g in gold if g["text"] in raw]
+print("guard: values seen by the model:", leaked or "none")
+assert all("Katip" in json.dumps(r, ensure_ascii=False) for r in results) and not leaked
+raw, cs = items("run_review.jsonl")
+calls = [c["name"].split("__")[-1] for c in cs if c.get("type") == "tool_use"]
+print("review: tool calls:", calls, "| client name seen:", [w for w in ("Reza", "Karimi") if w in raw] or "none")
+final = [json.loads(l) for l in raw.splitlines() if '"type":"result"' in l.replace(" ", "")]
+print("review answer:\n" + (final[-1].get("result", "") if final else "")[:1500])
+assert "mask_file" in calls and "Karimi" not in raw and not any(c in ("Read", "Bash", "Glob") for c in calls)
+PY
 python3 - "$WORK" <<'PY'
 import json, sys
 raw = open(f"{sys.argv[1]}/run_names.jsonl", encoding="utf-8").read()

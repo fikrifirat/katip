@@ -25,14 +25,17 @@ MATTER = {"type": "string", "description": "Matter (dosya) label; files of the s
                                            "Use a neutral label such as a file number, not a client name.",
           "default": "default"}
 
-INSTRUCTIONS = """Katip Kalkan masks Turkish personal data (KVKK) on the user's own computer, so that client
-names, ID numbers and health data never reach Claude or Anthropic's servers.
+INSTRUCTIONS = """Katip Kalkan masks Turkish personal data (KVKK) on the user's own computer, so that the client
+names, ID numbers and health data it finds are replaced by placeholders before the text reaches Claude.
+Most users are Turkish lawyers: answer in the user's language (usually Turkish) and use Turkish legal terms.
 File names are personal data too ("Ayşe Kaya - epikriz.pdf"). To find a document, call list_files: it
 returns ids and shortened names. Then call mask_file with file_id, and put the shortened name from the
 list in the display field (belge / document) so the user sees which document they are approving. Do not list, search or open the folder
 with any other tool (no file listing, Read, Bash or computer use), and do not repeat a file's full name.
 When the user gives a path, mask_file also accepts it. Work only with the masked text that mask_file returns. Use the default profile "ai" unless the user asks for a court copy
-("court") or full anonymisation ("anon"). Do not open the original file with any other tool, and do not ask the
+("court": mahkemeye sunulacak, dilekçe eki) or full anonymisation ("anon": tam anonim, anonimleştir, yayın, makale).
+Pass matter only when the user works on several documents of one case (a neutral label such as 2026/123, never a
+client name); for a single document leave the default. Do not open the original file with any other tool, and do not ask the
 user to paste or upload the original. Keep placeholders such as [AD SOYAD-1] exactly as written.
 When the user wants a final document with the real names, call restore_to_file with your text and a file
 name such as cevap-dilekcesi.docx (.docx, .txt or .md; it is saved in the Katip folder). Never open that file. Katip
@@ -40,6 +43,9 @@ writes it on their computer and you will only get the file path back, never the 
 If the user asks where their files go or wants to see the folder, call open_folder. When a file is not
 in list_files, ask the user to put it in their Katip folder (open_folder shows it).
 If the user says "the file I just added" or similar, call mask_file with file_id "latest".
+If the user types a client's real name or ID number in the chat, it is not masked: don't repeat it, and remind
+them once to refer to people by placeholder or role (müvekkil, davalı) instead.
+Remind the user once per conversation to review your work: Katip can miss a value, and your legal analysis can be wrong.
 If the user attaches a client document to the chat instead, it has already been uploaded with the message:
 say so plainly, don't analyse it further unless they confirm, and suggest dropping it into the Katip folder
 and asking again, so the next document stays on their computer.
@@ -107,11 +113,15 @@ TOOLS = [
 ]
 
 
+def _prompt(name: str, key: str) -> dict:
+    title, desc, arg, body = text(key)
+    return {"name": name, "title": title, "description": desc,
+            "arguments": [{"name": "istek", "description": arg, "required": False}],
+            "render": lambda a: body.format(req=(a.get("istek") or "").strip() or "…")}
+
+
 def _prompts() -> list[dict]:
-    title, desc, arg, body = text("prompt")
-    return [{"name": "katip", "title": title, "description": desc,
-             "arguments": [{"name": "istek", "description": arg, "required": False}],
-             "render": lambda a: body.format(req=(a.get("istek") or "").strip() or "…")}]
+    return [_prompt("katip", "prompt"), _prompt("katip_incele", "prompt_review"), _prompt("katip_taslak", "prompt_draft")]
 
 
 def build() -> Server:

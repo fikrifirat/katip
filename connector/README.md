@@ -151,6 +151,11 @@ the [Katip Mask Nano model card](https://huggingface.co/f1k/katip-mask-nano) and
 * **Reads:** only the files Claude asks for, inside your Katip folder (`Documents/katip-documents` by
   default). **Writes:** masked copies next to the original, and restored documents only into the
   Katip folder; the encrypted placeholder map in `~/.katip/vault`.
+* **Guards (Claude Code and Cowork):** a small hook (`hooks/guard.py`, standard library only) runs before
+  Claude's own Read, Grep, Glob, Edit, Write and Bash tools. If a call touches the Katip folder or
+  `~/.katip`, it blocks the call and tells Claude to use Katip instead. It reads no file contents and
+  makes no network calls. Claude Desktop chat doesn't run plugin hooks; there Katip's folder setting and
+  Desktop's own permission prompts are the guard.
 * **Sends:** nothing. Katip has no telemetry, analytics or crash reporting, and makes no network calls
   while processing documents. Claude receives only the masked text, under Anthropic's terms.
 * **Fetches, once:** on first start, if uv is installed, uv downloads exact pinned versions of
@@ -168,6 +173,15 @@ Maps are deleted after 30 days (`KATIP_VAULT_DAYS`) or at once with `forget_matt
 m.36): [PRIVACY.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.md) · [PRIVACY.tr.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.tr.md). Questions and answers, including what each profile masks: [FAQ.md](https://github.com/fikrifirat/katip/blob/main/FAQ.md) · [FAQ.tr.md](https://github.com/fikrifirat/katip/blob/main/FAQ.tr.md).
 
 ## How to use it
+
+**Commands (Claude Code and Cowork).** `/katip <istek>` for anything; `/katip-incele [odak]` to review and
+summarise the newest document; `/katip-taslak [taslak türü]` to draft a reply and, if you want, save it with
+the real names as a Word file. In Claude Desktop the same three appear in the **+** menu as *Katip ile güvenli
+çalış*, *Dilekçeyi incele ve özetle* and *Cevap taslağı hazırla*.
+
+**What the approval prompt shows.** Before Katip opens a document, Claude asks for your approval. The prompt
+names the document by its shortened name (`belge`) and a fixed line (`bilgi`) that says the document is masked
+on this computer and that Katip can miss a value. Approve only documents you meant to share.
 
 Claude Desktop warns that the extension gets "access to everything on your computer" and that the
 developer information "has not been verified by Anthropic". It shows this for every extension installed

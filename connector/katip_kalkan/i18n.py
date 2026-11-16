@@ -57,27 +57,27 @@ T = {
 TOOLS = {
     "tr": {
         "why": "Katip KVKK kapsamındaki kişisel verileri bu bilgisayarda çıkarır; Claude, Katip'in bulduğu değerlerin yerine yer tutucuları görür. ",
-        "list_files": ("Dosyaları listele (adlar gizli)",
+        "list_files": ("Katip klasöründeki belgeleri listele",
                        "Katip klasöründeki belgeleri kimlik, tarih ve kısaltılmış adlarla listeler: kişi adı olabilecek "
                        "her sözcük … olarak görünür. En yeni dosya başta. Başka bir dosya listeleme aracı yerine bunu kullanın."),
-        "mask_file": ("Kişisel verileri maskele (bu bilgisayarda)",
+        "mask_file": ("Belgeyi bu bilgisayarda maskeleyip aç",
                       ".docx, .udf (UYAP), .txt, .pdf (taranmış dahil) ya da fotoğrafı bu bilgisayarda açar, taramaları "
                       "yerel OCR ile okur, kişisel verileri (ad soyad, T.C. kimlik / YKN / pasaport no, adres, telefon, "
                       "IBAN, sağlık ve diğer KVKK m.6 verileri) yerelde çıkarır ve yalnızca maskeli metni döndürür. "
                       "Uzun belgeler sayfa sayfa gelir."),
-        "write_masked_copy": ("Maskeli kopya kaydet",
+        "write_masked_copy": ("Maskeli kopyasını kaydet",
                               ".docx, .udf ya da .txt dosyasının maskeli kopyasını aynı biçimde aslının yanına kaydeder "
                               "(ad.maskeli.uzantı). Hiçbir dosyanın üzerine yazmaz."),
-        "restore_to_file": ("Gerçek adları geri koy (bu bilgisayarda)",
+        "restore_to_file": ("Gerçek adlarla dosyaya kaydet (bu bilgisayarda)",
                             "Metindeki [AD SOYAD-1] gibi yer tutucuları bu bilgisayarda saklanan gerçek değerlerle "
                             "değiştirir ve sonucu yeni bir yerel dosyaya kaydeder. Claude'a yalnızca dosya yolu ve "
                             "sayı döner, gerçek değerler asla dönmez."),
-        "forget_matter": ("Dosyanın ad eşleşmelerini sil",
+        "forget_matter": ("Bu dosyanın ad eşleşmelerini kalıcı sil",
                           "Bir dosyanın (matter) yerel yer tutucu eşleşmelerini kalıcı olarak siler. Sonrasında bu "
                           "yer tutucular geri konamaz."),
         "open_folder": ("Katip klasörümü aç",
                         "Müvekkil dosyalarının konduğu Katip klasörünü Finder'da ya da Gezgin'de açar, yoksa oluşturur."),
-        "katip_status": ("Katip durumu",
+        "katip_status": ("Katip durumunu göster",
                          "Yerel motoru, OCR'ı, eşiği, Katip klasörünü (bağlantısıyla) ve eşleşme haritasının nerede "
                          "saklandığını gösterir."),
         "prompt": ("Katip ile güvenli çalış",
@@ -86,19 +86,34 @@ TOOLS = {
                    "Katip ile çalış: önce list_files ile Katip klasöründeki dosyayı bul (istek 'son eklediğim' "
                    "diyorsa file_id \"latest\"), mask_file ile bu bilgisayarda maskele ve yalnızca maskeli metinle "
                    "çalış. Dosyayı başka bir araçla açma. Yer tutucuları aynen koru. Türkçe yanıt ver.\n\nİstek: {req}"),
+        "prompt_review": ("Dilekçeyi incele ve özetle",
+                          "Katip klasörüne son eklediğiniz belgeyi maskeleyip özetler, eksik ve hataları işaretler.",
+                          "Neye odaklanayım? (ör. zamanaşımı, deliller)",
+                          "Katip ile çalış: list_files ile Katip klasöründeki son belgeyi bul (file_id \"latest\"), "
+                          "mask_file ile bu bilgisayarda maskele ve yalnızca maskeli metinle çalış. Belgeyi dikkatlice "
+                          "özetle; tarafları rolleriyle (davacı, davalı, vekil) ve yer tutucularıyla yaz, talepleri, "
+                          "dayanılan delilleri ve hukuki gerekçeyi ayır, eksik ya da hatalı gördüğün noktaları ve "
+                          "önerilerini madde madde yaz. Türkçe yanıt ver.\n\nÖzellikle: {req}"),
+        "prompt_draft": ("Cevap taslağı hazırla",
+                         "Son belgeye cevap taslağı yazar; isterseniz gerçek adlarla Word dosyası olarak kaydeder.",
+                         "Taslak türü ve notlar (ör. cevap dilekçesi, itiraz)",
+                         "Katip ile çalış: Katip klasöründeki son belgeyi (file_id \"latest\") mask_file ile bu "
+                         "bilgisayarda maskele ve yalnızca maskeli metinle çalış. Buna bir taslak yaz; yer tutucuları "
+                         "aynen koru. Sonra kullanıcıya sor: taslağı gerçek adlarla Katip klasörüne .docx olarak "
+                         "kaydetmemi ister misiniz (restore_to_file)? Türkçe yanıt ver.\n\nTaslak: {req}"),
         "info_key": "bilgi",
         "doc_key": "belge",
         "doc_desc": "list_files'taki kısaltılmış ad (ör. \"… - Vatandaşlık Dava Dilekçesi.udf\"); onay kutusunda kullanıcıya gösterilir",
-        "privacy_mask": "Dosya bu bilgisayarda maskelenir; Claude bulunan değerlerin yerine [AD SOYAD-1] gibi yer tutucuları görür (KVKK).",
-        "privacy_list": "Dosya adlarındaki kişi adları gizlenir; Claude yalnızca kısaltılmış adları görür (KVKK).",
-        "privacy_restore": "Gerçek adlar yalnızca bu bilgisayardaki dosyaya yazılır; Claude onları görmez (KVKK).",
+        "privacy_mask": "Belge bu bilgisayarda açılır ve maskelenir; Claude, Katip'in bulduğu kişisel verilerin yerine [AD SOYAD-1] gibi yer tutucuları görür. Katip bazı değerleri kaçırabilir.",
+        "privacy_list": "Yalnızca Katip klasöründeki dosyalar listelenir; dosya adlarındaki kişi adları gizlenir.",
+        "privacy_restore": "Gerçek adlar yalnızca Katip klasöründeki yeni bir dosyaya yazılır; Claude'a yalnızca dosya adı döner. Göndermeden önce son metni okuyun.",
     },
     "en": {
         "why": "Katip removes KVKK personal data on this computer, so Claude sees placeholders instead of the values it finds. ",
         "list_files": ("List files (names hidden)",
                        "List the documents in the user's Katip folder with ids, dates and shortened names: any word that "
                        "could be a person's name shows as …. Newest first. Use this instead of any other file listing."),
-        "mask_file": ("Mask personal data (on this computer)",
+        "mask_file": ("Mask and open a document (on this computer)",
                       "Open a .docx, .udf (UYAP), .txt, .pdf (also scanned) or photo on this computer, read scans with "
                       "local OCR, remove personal data (names, T.C. kimlik / YKN / passport numbers, addresses, phones, "
                       "IBAN, health and other KVKK Article 6 data) locally, and return only the masked text. Long "
@@ -106,7 +121,7 @@ TOOLS = {
         "write_masked_copy": ("Save a masked copy",
                               "Save a masked copy of a .docx, .udf or .txt file in the same format next to the original "
                               "(name.maskeli.ext). Never overwrites a file."),
-        "restore_to_file": ("Put the real names back (on this computer)",
+        "restore_to_file": ("Save with the real names (on this computer)",
                             "Replace placeholders like [AD SOYAD-1] in the text with the real values kept on this "
                             "computer and save the result as a new local file. Returns only the path and a count, "
                             "never the real values."),
@@ -124,12 +139,26 @@ TOOLS = {
                    "request says 'just added'), mask it on this computer with mask_file and work only with the masked "
                    "text. Don't open the file with any other tool. Keep placeholders exactly as written. Answer in "
                    "English.\n\nRequest: {req}"),
+        "prompt_review": ("Review and summarise a petition",
+                          "Masks the newest document in your Katip folder, summarises it and flags gaps and errors.",
+                          "What to focus on (e.g. limitation, evidence)",
+                          "Work with Katip: find the newest document in the Katip folder (file_id \"latest\"), mask it "
+                          "on this computer with mask_file and work only with the masked text. Summarise it carefully: "
+                          "name the parties by role and placeholder, separate the claims, evidence and legal grounds, "
+                          "and list gaps or errors with suggestions. Answer in English.\n\nFocus: {req}"),
+        "prompt_draft": ("Draft a reply",
+                         "Drafts a reply to the newest document and can save it with the real names as a Word file.",
+                         "Kind of draft and notes (e.g. reply petition, objection)",
+                         "Work with Katip: mask the newest document in the Katip folder (file_id \"latest\") with "
+                         "mask_file on this computer and work only with the masked text. Write the draft; keep "
+                         "placeholders exactly as written. Then ask whether to save it with the real names as a .docx in "
+                         "the Katip folder (restore_to_file). Answer in English.\n\nDraft: {req}"),
         "info_key": "privacy",
         "doc_key": "document",
         "doc_desc": "The shortened name from list_files; shown to the user in the permission prompt",
-        "privacy_mask": "The file is masked on this computer; Claude sees placeholders like [AD SOYAD-1] instead of the values Katip finds (KVKK).",
-        "privacy_list": "Names in file names are hidden; Claude only sees shortened names (KVKK).",
-        "privacy_restore": "Real names are written only to a file on this computer; Claude never sees them (KVKK).",
+        "privacy_mask": "The document is opened and masked on this computer; Claude sees placeholders like [AD SOYAD-1] instead of the personal data Katip finds. Katip can miss a value.",
+        "privacy_list": "Only files in the Katip folder are listed; names in file names are hidden.",
+        "privacy_restore": "Real names are written only to a new file in the Katip folder; Claude gets only the file name back. Read the final text before you send it.",
     },
 }
 
