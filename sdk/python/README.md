@@ -25,6 +25,9 @@ result.restore(answer)   # put the original values back, e.g. into an LLM's repl
 
 ## Limits
 
+How Katip handles data, and what masking does and does not do under KVKK: [PRIVACY.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.md).
+
+
 Each detected value is masked everywhere it appears in the text, or `mask()` raises `LeakError`.
 Values the detector misses stay in the text, so check the output before relying on it. Detection rates
 by document type and model are on the [KVKK-Bench leaderboard](https://huggingface.co/spaces/f1k/kvkk-bench).

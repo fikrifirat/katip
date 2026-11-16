@@ -1,6 +1,6 @@
 [project]
 name = "katip-kalkan"
-version = "0.3.5"
+version = "0.3.6"
 description = "Use ChatGPT and Claude on client documents without sending them personal data (KVKK)"
 requires-python = ">=3.10"
 license = {text = "AGPL-3.0-or-later"}
