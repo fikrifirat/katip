@@ -15,14 +15,14 @@ def style(ax):
     ax.grid(True,which='major',color='#e4e3df',lw=.5); ax.set_axisbelow(True)
     for sp in ('top','right'): ax.spines[sp].set_visible(False)
 
-# Figure 2: leak rate vs pages per second
+# Figure 2: leak rate vs pages per second (Katip speeds: the 15 Nov timing run, as Table 2)
 fig,ax=plt.subplots(figsize=(3.3,2.5))
 pos={'berturk-v2':(0.6,15,'right',True),'mini-v2':(14,13,'left',True),'tiny-f':(43,25.5,'center',False),'xlmr-conll':(0.6,0.5,'right',True),
      'akdeniz':(14,3.5,'left',True),'gliner2-pii':(0.6,5,'right',True),'savasy':(14,8,'left',True),'gliner':(0.6,10,'right',True),'cosmos-pii':(0.6,21.6,'right',True),
      'qwen-1.5b':(0.017,41,'left',False),'openmed-pf-v2':(0.21,36.4,'left',False),'openai-pf':(0.14,52.5,'left',False),'piiranha':(4,45.4,'left',False),
      'presidio':(31,37,'center',False),'openmed-tr-33m':(7.46,78.5,'center',False)}
 for s,p in B['point'].items():
-    sp=1000/R[s]['ms_per_page']; y=100*p[1]; lo,hi=ci(s,1); k=s in KATIP
+    sp=1000/({'berturk-v2':597.0,'mini-v2':198.0,'tiny-f':23.0}.get(s) or R[s]['ms_per_page']); y=100*p[1]; lo,hi=ci(s,1); k=s in KATIP
     ax.errorbar(sp,y,yerr=[[y-lo],[hi-y]],fmt='o',ms=4.2 if k else 3.2,color=BLUE if k else GREY,mec='#fcfcfb',mew=.8,elinewidth=.9,capsize=0,zorder=3 if k else 2)
     tx,ty,ha,arrow=pos[s]
     ax.annotate(NAME[s],(sp,y),xytext=(tx,ty),fontsize=5.6,ha=ha,va='center',color='#0b0b0b' if k else '#52514e',fontweight='bold' if k else 'normal',annotation_clip=False,

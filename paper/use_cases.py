@@ -9,7 +9,10 @@ def trk(s,t,k):
 def fmt(s,f): return pct(J(f'format/{s}.json')['formats'][f]['leak_rate'])
 def photo(s):
     p=J(f'photo/{s}.json'); return pct(p['leak_rate']), pct(p['streets_over_masked']/p['streets'])
-def pps(s): return round(1000/J(f'{s}.json')['ms_per_page'],1)
+# Speeds come from one timing run (15 Nov 2026, legal-study bfb7911) so they match Table 2; later accuracy re-runs on a
+# busy laptop record slightly different ms/page.
+TIMING_MS = {'berturk-v2': 597.0, 'mini-v2': 198.0, 'tiny-f': 23.0}
+def pps(s): return round(1000/(TIMING_MS.get(s) or J(f'{s}.json')['ms_per_page']),1)
 BROWSER_S_PER_PAGE={'berturk-v2':3.8,'mini-v2':1.0,'tiny-f':0.03}  # one Chrome tab, 500-word page (Section 6)
 rows=[
  dict(use_case='Send a court document to an AI assistant from a computer', setup='Katip Kalkan connector with Katip Mask Base',

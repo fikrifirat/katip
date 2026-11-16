@@ -28,9 +28,9 @@
     "court text, foreign names": 3.1,
     "forms, all value types": 0.7
    },
-   "false_alarms_per_1k_words": 3.6,
+   "false_alarms_per_1k_words": 3.7,
    "speed": "1.0 s/page in browser",
-   "caveat": "Everyday text leaks 31.9%; review before sending."
+   "caveat": "Everyday text leaks 30.9%; review before sending."
   },
   {
    "use_case": "Many court pages fast, or a weak device",
@@ -45,7 +45,7 @@
    },
    "false_alarms_per_1k_words": 5.1,
    "speed": "43.5 pages/s; 0.03 s/page in browser",
-   "caveat": "Not for everyday text: leaks 49.0%."
+   "caveat": "Not for everyday text: leaks 46.9%."
   },
   {
    "use_case": "Scanned PDFs",
@@ -82,9 +82,9 @@
    "reader": "PaddleOCR on handwriting, Tesseract otherwise",
    "runs": "laptop or browser",
    "leak_pct": {
-    "values on photos": 5.2
+    "values on photos": 5.0
    },
-   "over_masked_street_names_pct": 19.7,
+   "over_masked_street_names_pct": 38.6,
    "false_alarms_per_1k_words": null,
    "speed": "n/a",
    "caveat": "Leaks are addresses; low-leak rivals over-mask (ModernBERT-TR PII: 95.0%)."
