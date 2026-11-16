@@ -13,6 +13,11 @@ on:
         description: "Existing tag to release, e.g. sdk-v0.1.0"
         required: true
 
+env:
+  # onnxruntime-node's install script downloads CUDA files from Microsoft's CDN, which can time out on
+  # runners. The CPU build is bundled in the npm package and is all the tests use.
+  ONNXRUNTIME_NODE_INSTALL: skip
+
 permissions:
   contents: read
 
