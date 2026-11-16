@@ -44,7 +44,7 @@ pass `model=`.
 | `anon` | publishing, research | `ai`, plus dates, places, courts, companies and institutions | precedent citations |
 
 The KVKK practice guide for lawyers ([Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin
-Uygulama Rehberi](https://www.kvkk.gov.tr/SharedFolderServer/CMSFiles/MTZhYjI0ZTE1NWIwMWM.pdf), 2026) recommends
+Uygulama Rehberi](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi), 2026) recommends
 masking or anonymising personal data where possible and sharing only what is needed, including with AI tools.
 The court profile also follows feedback from practising lawyers: a party's own address is masked whole, the
 address of the property in dispute stays readable, and a masked lawyer's UETS address and bar number are masked.
