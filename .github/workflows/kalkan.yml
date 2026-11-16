@@ -29,8 +29,10 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }  # = launch.py PYTHON
       - name: Install the pinned helpers (same versions as launch.py)
-        run: pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0
-      - name: Unit tests
+        run: pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0 katip-mask==0.1.1
+      - name: Unit tests (on Linux also a model download through the SDK, checked by SHA-256)
+        env:
+          KATIP_TEST_DOWNLOAD: ${{ matrix.os == 'ubuntu-latest' && '1' || '' }}
         run: cd connector && python -m pytest -q
       - name: Engine matches the web app
         run: cmp connector/katip_kalkan/engine.zip docs/katip_py.zip
@@ -46,3 +48,14 @@ jobs:
                         '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"katip_status","arguments":{}}}' \
             | KATIP_AUTO_DEPS=0 KATIP_HOME="$RUNNER_TEMP/katip" KATIP_FOLDER="$RUNNER_TEMP/Belgeler Ş" "$PY" connector/server.py | tee out.txt
           grep -q '"engine"' out.txt
+          grep -q 'bundled rules' out.txt
+      - uses: astral-sh/setup-uv@v6
+      - name: First start the way lawyers get it (uv fetches the pinned helpers and katip-mask)
+        run: |
+          python -m venv bare2
+          if [ -f bare2/Scripts/python.exe ]; then PY=bare2/Scripts/python.exe; else PY=bare2/bin/python; fi
+          printf '%s\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"ci"}}}' \
+                        '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"katip_status","arguments":{}}}' \
+            | KATIP_HOME="$RUNNER_TEMP/katip2" KATIP_FOLDER="$RUNNER_TEMP/Belgeler Ş" "$PY" connector/server.py | tee out2.txt
+          grep -q 'katip-mask 0.1.1' out2.txt
+          grep -q 'katip-mask-nano-tr-v1.1' out2.txt

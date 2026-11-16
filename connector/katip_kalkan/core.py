@@ -508,7 +508,8 @@ def forget_matter(matter: str) -> dict:
 
 def status() -> dict:
     from . import ner, ocr
-    return {"engine": ner.describe(),
+    from .engine import source
+    return {"engine": ner.describe(), "detection": source(),
             "ocr": ", ".join(ocr.available()) or "none (scans and photos can't be read)",
             "default_profile": _profile(None), "threshold": _threshold(),
             "vault": "encrypted on this device" if vault.persistent() else "memory only",

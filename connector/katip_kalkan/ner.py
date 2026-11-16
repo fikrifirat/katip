@@ -6,6 +6,9 @@ says so in katip_status.
 
 Model folder lookup: $KATIP_MODEL, then ~/.katip/models/<name>/ (installed with
 `katip-kalkan install-model`), then the bundled katip_kalkan/models/<name>/.
+KATIP_MODEL=nano is the bundled model; base or mini picks a model through the katip-mask SDK: downloaded once from Hugging
+Face at the commit pinned in the SDK, every file checked by SHA-256, then offline. If that fails
+(offline, no SDK), the bundled model is used and katip_status says so.
 KATIP_MODEL=none turns the model off. A model folder may carry katip.json with
 {"trust": 0.5}, the same per-model setting as src/models/registry.json.
 
@@ -166,8 +169,38 @@ class Model:
         return out
 
 
+_note: dict[str, str] = {}
+_sdk_trust: dict[str, float | None] = {}
+_sdk_name: dict[str, str] = {}
+
+
+def _sdk_model(name: str) -> Path | None:
+    """A Katip Mask model by name, through the pinned katip-mask SDK (verified download, then cached)."""
+    from .engine import SDK_PIN, sdk
+    if sdk() is None:
+        _note["model"] = f"KATIP_MODEL={name} needs katip-mask {SDK_PIN}; using the bundled model"
+        return None
+    from katip_mask import models
+    try:
+        folder = models.model_path(name)
+    except Exception as e:  # offline, mirror down, checksum mismatch: never run an unverified model
+        _note["model"] = f"KATIP_MODEL={name} could not be downloaded ({e.__class__.__name__}); using the bundled model"
+        return None
+    _note.pop("model", None)
+    _sdk_trust[str(folder)] = models.MODELS[name].get("trust")
+    _sdk_name[str(folder)] = f"katip-mask-{name} ({models.MODELS[name]['revision'][:7]})"
+    return folder
+
+
 def _folder() -> Path | None:
-    env = os.environ.get("KATIP_MODEL")
+    env = (os.environ.get("KATIP_MODEL") or "").strip()
+    if not env or "${" in env or env.lower() == "nano":  # unset, an unfilled setting, or the bundled Nano
+        env = None
+    if env and env.lower() in ("base", "mini"):
+        folder = _sdk_model(env.lower())
+        if folder is not None:
+            return folder
+        env = None
     if env:
         return None if env.lower() in ("none", "off", "rules") else Path(env).expanduser()
     from .vault import katip_home
@@ -194,7 +227,9 @@ def describe() -> str:
     m = get()
     if not m:
         return "rules only (install onnxruntime and a Katip Mask model for better name recall)"
-    return f"rules + {m.folder.name} (on this device)"
+    from .engine import source
+    note = f"; {_note['model']}" if _note.get("model") else ""
+    return f"{source()} + {_sdk_name.get(str(m.folder), m.folder.name)} (on this device){note}"
 
 
 def trust() -> float | None:
@@ -204,6 +239,8 @@ def trust() -> float | None:
     m = get()
     if not m:
         return None
+    if str(m.folder) in _sdk_trust:
+        return _sdk_trust[str(m.folder)]
     side = m.folder / "katip.json"
     if side.exists():
         return json.loads(side.read_text()).get("trust")

@@ -153,7 +153,7 @@ output. If one is still there, the call fails and nothing is returned.
 4. Bundle `cryptography` wheels per platform, sign releases, and submit the plugin.
 5. Deploy the relay in a Turkish region behind TLS, then submit it to OpenAI and Anthropic.
 
-## Using the katip-mask SDK inside Kalkan (planned for 0.4.0)
+## Using the katip-mask SDK inside Kalkan (since 0.4.0)
 
 Kalkan's detection engine is the same code as the `katip-mask` package. Once `katip-mask` is on PyPI, Kalkan
 can depend on it instead of carrying its own `engine.zip`:
@@ -164,6 +164,12 @@ can depend on it instead of carrying its own `engine.zip`:
 * Kalkan keeps what the SDK doesn't do: reading .docx/.udf/.pdf and OCR, safe file names, the per-matter
   encrypted map, propagation across a matter, the repair pass and the leak check on the visible text.
 * Without uv (rules-only mode) Kalkan falls back to the bundled engine, so it still works offline.
+* Done in 0.4.0: `engine.py` takes detection from `katip_mask` only when exactly `SDK_PIN` is installed
+  (a test checks it equals the launch pin), else from the bundle; a test checks both give the same spans.
+  The bundle still provides the .docx/.udf readers, redaction and the leak check. `KATIP_MODEL=base|mini|nano`
+  gets a model through `katip_mask.models.model_path` (pinned commit, SHA-256), falling back to the bundled
+  Nano. `katip_status` reports `detection` and the model. CI starts the server the way users get it, through
+  uv, on Linux, macOS and Windows.
 * What still needs a Kalkan release: every new SDK version (a one-line pin bump; merging it publishes the
   release), any change to Kalkan's own code, and new bundled model files. Models the SDK downloads are pinned
   by commit and SHA-256 inside the SDK, so a new model also arrives through an SDK version, never at runtime.

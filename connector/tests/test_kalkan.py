@@ -4,6 +4,7 @@ Run:  cd connector && python -m pytest -q
 """
 from __future__ import annotations
 
+import importlib.util
 import io
 import json
 import logging
@@ -614,3 +615,78 @@ def test_guard_covers_case_folders_and_downloads(tmp_path):
     assert _guard({"tool_name": "Read", "tool_input": {"file_path": str(tmp_path / "Davalar" / "x" / "a.udf")},
                    "cwd": "/"}, env)[0] == 2
     assert _guard({"tool_name": "Bash", "tool_input": {"command": "ls ~/Downloads"}, "cwd": "/"}, env)[0] == 0
+
+
+# ------------------------------------------------------------------ katip-mask SDK (0.4.0)
+def _fresh_engine(monkeypatch, **env):
+    from katip_kalkan import engine
+    for k, v in env.items():
+        monkeypatch.setenv(k, v)
+    monkeypatch.setattr(engine, "_loaded", None)
+    return engine
+
+
+def test_sdk_pin_is_exact_and_the_same_everywhere():
+    from katip_kalkan import engine, launch
+    assert launch.DEPS["katip_mask"] == f"katip-mask=={engine.SDK_PIN}"
+    assert all("==" in spec for spec in launch.DEPS.values())  # no ranges: nothing new runs without a release
+
+
+@pytest.mark.skipif(importlib.util.find_spec("katip_mask") is None, reason="katip-mask not installed")
+def test_detection_comes_from_the_pinned_sdk_and_matches_the_bundle(monkeypatch):
+    texts = [(FIX / "dilekce_01.txt").read_text(encoding="utf-8"),
+             "Müvekkil Ayşe Kaya (TC 10000000146) Bağdat Cad. No:12 D:3 Kadıköy adresinde oturur; "
+             "IBAN TR33 0006 1005 1978 6457 8413 26, tel 0532 123 45 67. Yargıtay 9. HD 2021/1234 E."]
+    engine = _fresh_engine(monkeypatch)
+    assert engine.source() == f"katip-mask {engine.SDK_PIN}"
+    assert engine.load()[0].__name__ == "katip_mask._engine.local_detect"
+    from_sdk = [engine.detect(t) for t in texts]
+    engine = _fresh_engine(monkeypatch, KATIP_SDK="0")
+    assert engine.source() == "bundled rules"
+    assert [engine.detect(t) for t in texts] == from_sdk  # same rules: the fallback masks exactly the same
+    monkeypatch.setattr(engine, "_loaded", None)
+
+
+def test_wrong_sdk_version_falls_back_to_the_bundle(monkeypatch):
+    import types
+    fake = types.ModuleType("katip_mask")
+    fake.__version__ = "9.9.9"
+    monkeypatch.setitem(sys.modules, "katip_mask", fake)
+    engine = _fresh_engine(monkeypatch)
+    assert engine.sdk() is None and engine.source() == "bundled rules"
+    monkeypatch.setattr(engine, "_loaded", None)
+
+
+@pytest.mark.parametrize("value", ["nano", "", "${user_config.model}"])
+def test_default_model_setting_uses_the_bundled_nano_without_network(monkeypatch, value):
+    from katip_kalkan import core, ner
+    monkeypatch.setenv("KATIP_MODEL", value)
+    ner._cache.clear(); ner._note.clear()
+    if MODEL:
+        assert "katip-mask-nano-tr-v1.1 (on this device)" in core.status()["engine"]
+    ner._cache.clear()
+
+
+def test_named_model_without_sdk_uses_the_bundled_one(monkeypatch):
+    from katip_kalkan import core, ner
+    _fresh_engine(monkeypatch, KATIP_SDK="0", KATIP_MODEL="base")
+    ner._cache.clear(); ner._note.clear()
+    st = core.status()
+    if MODEL:
+        assert "katip-mask-nano-tr-v1.1" in st["engine"] and "KATIP_MODEL=base needs katip-mask" in st["engine"]
+    ner._cache.clear(); ner._note.clear()
+    from katip_kalkan import engine
+    monkeypatch.setattr(engine, "_loaded", None)
+
+
+@pytest.mark.skipif(not os.environ.get("KATIP_TEST_DOWNLOAD"), reason="set KATIP_TEST_DOWNLOAD=1 to download a model")
+def test_named_model_through_the_sdk_is_verified_and_used(monkeypatch, tmp_path):
+    from katip_kalkan import core, ner
+    monkeypatch.setenv("KATIP_MASK_CACHE", os.environ.get("KATIP_MASK_CACHE", str(tmp_path / "cache")))
+    _fresh_engine(monkeypatch, KATIP_MODEL="mini")
+    ner._cache.clear(); ner._note.clear()
+    st = core.status()
+    assert "katip-mask-mini (" in st["engine"] and st["detection"].startswith("katip-mask") and ner.trust() == 0.5
+    out = core.mask_file(str(FIX / "dilekce_01.txt"), "m1")
+    assert not [v for v in _gold_left(out["text"]) if v.isdigit()]
+    ner._cache.clear(); ner._note.clear()
