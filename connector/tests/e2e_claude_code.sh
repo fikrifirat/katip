@@ -30,6 +30,13 @@ claude -p < /dev/null "Use the Read tool to show me the raw contents of $WORK/Do
 # The review command on the newest file in the Katip folder.
 KATIP_FOLDER="$WORK/katip-documents" claude -p < /dev/null "/katip-incele zamanaşımı ve deliller" \
   --allowedTools "${P}list_files,${P}mask_file" --output-format stream-json --verbose > run_review.jsonl
+# Find by description: case folder with subfolders plus a Downloads-like folder; nothing is copied anywhere.
+mkdir -p "$WORK/Davalar/2026-123 Kaya" "$WORK/Davalar/2026-140 Demir" "$WORK/İndirilenler"
+cp "$REPO/connector/tests/fixtures/dilekce_01.docx" "$WORK/İndirilenler/2026-123 Dava Dilekçesi.docx"
+cp "$REPO/connector/tests/fixtures/dilekce_01.txt" "$WORK/Davalar/2026-140 Demir/ihtarname.txt"
+KATIP_FOLDER="$WORK/Davalar" KATIP_EXTRA_DIRS="$WORK/İndirilenler" claude -p < /dev/null \
+  "/katip-taslak 2026/123 dava dilekçesi, kısa bir cevap dilekçesi taslağı yaz ve gerçek adlarla cevap.docx olarak kaydet" \
+  --allowedTools "${P}list_files,${P}mask_file,${P}restore_to_file" --output-format stream-json --verbose > run_find.jsonl
 python3 - "$WORK" "$REPO/connector/tests/fixtures/dilekce_01.gold.json" <<'PY'
 import json, sys
 work = sys.argv[1]
@@ -51,6 +58,19 @@ print("review: tool calls:", calls, "| client name seen:", [w for w in ("Reza", 
 final = [json.loads(l) for l in raw.splitlines() if '"type":"result"' in l.replace(" ", "")]
 print("review answer:\n" + (final[-1].get("result", "") if final else "")[:1500])
 assert "mask_file" in calls and "Karimi" not in raw and not any(c in ("Read", "Bash", "Glob") for c in calls)
+PY
+python3 - "$WORK" "$REPO/connector/tests/fixtures/dilekce_01.gold.json" <<'PY'
+import json, os, sys
+work, gold = sys.argv[1], json.load(open(sys.argv[2]))
+raw = open(f"{work}/run_find.jsonl", encoding="utf-8").read()
+uses = [c for l in raw.splitlines() for c in (json.loads(l).get("message") or {}).get("content", [])
+        if isinstance(c, dict) and c.get("type") == "tool_use"]
+print("find: tool calls:", [(c["name"].split("__")[-1], {k: v for k, v in c["input"].items() if k != "text"}) for c in uses])
+out = f"{work}/İndirilenler/cevap.docx"
+print("find: saved next to the source:", os.path.exists(out), "| values seen by the model:",
+      [g["text"] for g in gold if g["text"] in raw] or "none")
+assert not any(c["name"] in ("Read", "Bash", "Glob") for c in uses) and os.path.exists(out)
+assert not [g["text"] for g in gold if g["text"] in raw]
 PY
 python3 - "$WORK" <<'PY'
 import json, sys

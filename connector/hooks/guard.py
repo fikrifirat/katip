@@ -14,14 +14,15 @@ import sys
 from pathlib import Path
 
 MSG = {
-    "tr": "Katip: Bu klasör müvekkil belgeleri içindir. Claude bu dosyaları doğrudan açamaz, listeleyemez ya da "
-          "değiştiremez. Belgeyi Katip ile açın (list_files, sonra mask_file); gerçek adlı son metin için "
+    "tr": "Katip: Bu klasörde müvekkil belgeleri var. Claude bu dosyaları doğrudan açamaz, listeleyemez ya da "
+          "değiştiremez. Belgeyi Katip ile bulun ve açın (list_files, sonra mask_file); gerçek adlı son metin için "
           "restore_to_file kullanın.",
     "en": "Katip: this folder holds client documents. Claude may not open, list or change these files directly. "
-          "Open the document with Katip (list_files, then mask_file); use restore_to_file for the final text "
-          "with real names.",
+          "Find and open the document with Katip (list_files, then mask_file); use restore_to_file for the final "
+          "text with real names.",
 }
 PATH_KEYS = ("file_path", "notebook_path", "path")
+_COMMON = {"downloads", "indirilenler", "i̇ndirilenler", "documents", "belgeler", "desktop", "masaüstü", ""}
 
 
 def _norm(p: str, cwd: str) -> str:
@@ -36,9 +37,18 @@ def _norm(p: str, cwd: str) -> str:
 
 
 def protected() -> list[str]:
-    roots = [os.environ.get("KATIP_FOLDER") or "~/Documents/katip-documents",
-             os.environ.get("KATIP_HOME") or "~/.katip"]
-    roots += [r for r in os.environ.get("KATIP_ALLOWED_DIRS", "").split(os.pathsep) if r and "${" not in r]
+    home = os.environ.get("KATIP_HOME") or "~/.katip"
+    roots = [os.environ.get("KATIP_FOLDER") or "~/Documents/katip-documents", home]
+    for var in ("KATIP_ALLOWED_DIRS", "KATIP_EXTRA_DIRS"):
+        roots += [r for r in os.environ.get(var, "").split(os.pathsep) if r.strip() and "${" not in r]
+    cfg = Path(os.path.expanduser(home)) / "folders.txt"  # the case folders Katip searches (one per line)
+    try:
+        roots += [l.strip() for l in cfg.read_text(encoding="utf-8").splitlines()
+                  if l.strip() and not l.lstrip().startswith("#")]
+    except OSError:
+        pass
+    if os.environ.get("KATIP_DOWNLOADS", "1") != "0":  # UYAP downloads and e-mail attachments land here
+        roots += [d for d in ("~/Downloads", "~/İndirilenler") if os.path.isdir(os.path.expanduser(d))]
     return sorted({_norm(r, os.getcwd()) for r in roots})
 
 
@@ -59,7 +69,9 @@ def blocked(call: dict) -> bool:
             if r.startswith(home + os.sep):
                 rel = r[len(home) + 1:]
                 forms |= {"~/" + rel, "$home/" + rel, "${home}/" + rel}
-            forms.add(os.path.basename(r))  # e.g. "katip-documents", ".katip"
+            base = os.path.basename(r)
+            if base not in _COMMON:
+                forms.add(base)  # e.g. "katip-documents", ".katip"
         if any(f and f in cmd for f in forms):
             return True
         return any(_inside(_norm(cwd, cwd), r) for r in roots)  # a shell started inside the folder

@@ -39,7 +39,7 @@ claude plugin marketplace add fikrifirat/katip
 claude plugin install katip-kalkan@katip
 ```
 
-Then type `/katip summarise the petition I just added`, `/katip-incele` for a review or `/katip-taslak cevap dilekçesi` for a draft reply ([what each command does](FAQ.md#how-do-i-use-it)). See [connector/README.md](connector/README.md)
+Then name the document the way you'd tell a colleague: `/katip-incele son indirdiğim bilirkişi raporu` for a review, `/katip-taslak 2026/123 ihtarname, cevap` for a draft reply, or `/katip` for anything else. Files stay in your case folder and Downloads ([what each command does](FAQ.md#how-do-i-use-it)). See [connector/README.md](connector/README.md)
 for Claude Desktop, limits and the privacy policy.
 
 ## Key numbers

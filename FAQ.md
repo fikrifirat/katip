@@ -87,29 +87,33 @@ checked by automated tests, but not yet tried by a person.
 
 ## How do I use it?
 
-Put the client document in your Katip folder. Then, in Claude Code or Cowork, type a command; in Claude Desktop,
-pick the same item from the **+** menu.
+Leave your documents where they are. Katip searches your case folder (with client subfolders) and Downloads,
+where UYAP downloads and e-mail attachments land. Say which document you mean the way you'd tell a colleague:
+words from its name, its type, a file number, or "the one I just downloaded". Katip matches your words against
+the real file names on your computer and shows Claude only shortened names; if several match, Claude asks which
+one. Type a command in Claude Code or Cowork; in Claude Desktop, pick the same item from the **+** menu.
 
-* `/katip <request>`: anything with a client document. Katip masks it first, then Claude does what you ask.
-  Example: `/katip summarise the lease I just added`.
-* `/katip-incele [focus]`: a review of the newest document: summary, claims and grounds, gaps and errors,
-  suggestions. Example: `/katip-incele zamanaşımı ve deliller`.
-* `/katip-taslak [kind]`: a draft reply to the newest document, with gaps marked `[…]` instead of invented
-  facts; Claude then offers to save it with the real names as a Word file in your Katip folder. Example:
-  `/katip-taslak cevap dilekçesi`.
+* `/katip <document> <request>`: anything with a client document. Katip masks it first, then Claude does what
+  you ask. Example: `/katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır`.
+* `/katip-incele <document>, [focus]`: a review: summary, claims and grounds, gaps and errors, suggestions.
+  Example: `/katip-incele son indirdiğim UYAP evrakı, zamanaşımı`.
+* `/katip-taslak <document>, [kind]`: a draft reply, with gaps marked `[…]` instead of invented facts. Claude
+  then offers to save it with the real names as a Word file next to the document. Example:
+  `/katip-taslak Yılmaz kira ihtarnamesi, cevap`.
 
-Before Katip opens a document, Claude asks for your approval and shows the document's shortened name. Approve
-only the documents you meant to share.
+Typing a client's name to find a file sends that name to Claude as you typed it; a document type, date or file
+number finds it without that. Before Katip opens a document, Claude asks for your approval and shows the
+document's shortened name. Approve only the documents you meant to share.
 
-## Which folder should Katip use?
+## Which folders does Katip use?
 
-A folder only for client documents. Katip opens documents only from this folder and saves final documents
-with real names into it. The default, `Documents/katip-documents`, is created on first use and only you can
-open it. Change it if your Documents folder syncs to iCloud, OneDrive or Google Drive: choose a folder that
-doesn't sync, for example a `Katip` folder in your user folder. Don't choose your Desktop, all of Documents or
-your home folder, because Katip could then open any file there; Katip warns you if you do. If you change the
-folder later, move your client documents into the new one. In Claude Code and Cowork, Claude's own file tools
-are blocked from this folder, so documents are opened only through Katip.
+Two: your **case folder**, the one where you already keep client files (for example `Documents/Davalar`, with
+subfolders), and **Downloads**. Nothing is copied. Final documents with real names are saved next to the source
+document. In Claude Desktop you pick both in the extension's settings (leave Downloads empty if you don't want it
+searched). In Claude Code, list your case folders one per line in `~/.katip/folders.txt`. Don't choose your
+Desktop, all of Documents or your home folder, because Katip could then open any file there; Katip warns you if
+you do, and also if a folder syncs to iCloud, OneDrive or Google Drive. In Claude Code and Cowork, Claude's own
+file tools are blocked from these folders, so documents are opened only through Katip.
 
 ## Where does my data go?
 

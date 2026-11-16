@@ -90,29 +90,34 @@ testlerle kontrol ediliyor, ama henüz bir kullanıcı tarafından denenmedi.
 
 ## Nasıl kullanırım?
 
-Müvekkil belgesini Katip klasörünüze koyun. Sonra Claude Code ya da Cowork'te bir komut yazın; Claude
-Desktop'ta aynı öğeyi **+** menüsünden seçin.
+Belgelerinizi taşımayın. Katip dava klasörünüzde (müvekkil alt klasörleri dahil) ve UYAP evrakı ile e-posta
+eklerinin düştüğü İndirilenler'de arar. Belgeyi bir meslektaşınıza söyler gibi tarif edin: adından bir sözcük,
+türü, dosya numarası ya da "son indirdiğim". Katip sözcüklerinizi bilgisayarınızdaki gerçek dosya adlarıyla
+eşleştirir, Claude'a yalnızca kısaltılmış adları gösterir; birden çok belge uyarsa Claude hangisi olduğunu sorar.
+Komutu Claude Code ya da Cowork'te yazın; Claude Desktop'ta aynı öğeyi **+** menüsünden seçin.
 
-* `/katip <istek>`: müvekkil belgesiyle her iş. Katip önce maskeler, sonra Claude isteğinizi yapar. Örnek:
-  `/katip son eklediğim kira sözleşmesini özetle`.
-* `/katip-incele [odak]`: son belgenin incelemesi: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler.
-  Örnek: `/katip-incele zamanaşımı ve deliller`.
-* `/katip-taslak [tür]`: son belgeye taslak; bilinmeyenler uydurulmaz, `[…]` ile işaretlenir. Claude sonra
-  taslağı gerçek adlarla Word dosyası olarak Katip klasörünüze kaydetmeyi önerir. Örnek:
-  `/katip-taslak cevap dilekçesi`.
+* `/katip <belge> <istek>`: müvekkil belgesiyle her iş. Katip önce maskeler, sonra Claude isteğinizi yapar.
+  Örnek: `/katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır`.
+* `/katip-incele <belge>, [odak]`: inceleme: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler.
+  Örnek: `/katip-incele son indirdiğim UYAP evrakı, zamanaşımı`.
+* `/katip-taslak <belge>, [tür]`: taslak; bilinmeyenler uydurulmaz, `[…]` ile işaretlenir. Claude sonra
+  taslağı gerçek adlarla belgenin yanına Word dosyası olarak kaydetmeyi önerir. Örnek:
+  `/katip-taslak Yılmaz kira ihtarnamesi, cevap`.
 
-Katip bir belgeyi açmadan önce Claude onayınızı ister ve belgenin kısaltılmış adını gösterir. Yalnızca
-paylaşmak istediğiniz belgeleri onaylayın.
+Dosyayı bulmak için müvekkilin adını yazarsanız o ad Claude'a yazdığınız gibi gider; belge türü, tarih ya da
+dosya numarası bunu önler. Katip bir belgeyi açmadan önce Claude onayınızı ister ve belgenin kısaltılmış adını
+gösterir. Yalnızca paylaşmak istediğiniz belgeleri onaylayın.
 
-## Katip hangi klasörü kullanmalı?
+## Katip hangi klasörleri kullanır?
 
-Yalnızca müvekkil belgeleri için ayrılmış bir klasörü. Katip belgeleri yalnızca bu klasörden açar ve gerçek
-adlı son belgeleri buraya kaydeder. Varsayılan `Belgeler/katip-documents` ilk kullanımda oluşturulur ve yalnızca
-siz açabilirsiniz. Belgeler klasörünüz iCloud, OneDrive ya da Google Drive ile eşitleniyorsa bunu değiştirin ve
-eşitlenmeyen bir klasör seçin (ör. kullanıcı klasörünüzde `Katip`). Masaüstünü, Belgeler'in tamamını ya da ana
-klasörünüzü seçmeyin; Katip o zaman oradaki her dosyayı açabilir ve bunu size bildirir. Klasörü sonradan
-değiştirirseniz müvekkil belgelerinizi yeni klasöre taşıyın. Claude Code ve Cowork'te Claude'un kendi dosya
-araçlarının bu klasöre erişimi engellenir; belgeler yalnızca Katip üzerinden açılır.
+İki klasör: müvekkil dosyalarını zaten tuttuğunuz **dava klasörünüz** (ör. `Belgeler/Davalar`, alt klasörler
+dahil) ve **İndirilenler**. Hiçbir şey kopyalanmaz. Gerçek adlı son belgeler kaynak belgenin yanına kaydedilir.
+Claude Desktop'ta ikisini de eklentinin ayarlarından seçersiniz (İndirilenler'de aranmasını istemiyorsanız boş
+bırakın). Claude Code'da dava klasörlerinizi `~/.katip/folders.txt` dosyasına her satıra bir tane yazın.
+Masaüstünü, Belgeler'in tamamını ya da ana klasörünüzü seçmeyin; Katip o zaman oradaki her dosyayı açabilir ve
+bunu size bildirir; klasör iCloud, OneDrive ya da Google Drive ile eşitleniyorsa da uyarır. Claude Code ve
+Cowork'te Claude'un kendi dosya araçlarının bu klasörlere erişimi engellenir; belgeler yalnızca Katip üzerinden
+açılır.
 
 ## Verilerim nereye gider?
 

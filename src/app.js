@@ -61,13 +61,29 @@ const I18N = {
     cTitle: "Claude ile kullanın", cSub: "Claude belgeyi görmeden önce Katip kişisel verileri bilgisayarınızda maskeler",
     cDl: "katip-kalkan.mcpb dosyasını indirin", cDbl: "Dosyaya çift tıklayın ve Yükle'ye basın; ayar değiştirmeniz gerekmez",
     cReq: "Python 3.10 veya üstü gerekir. İlk açılışta yardımcı paketler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir zaman gönderilmez. Claude'un \"doğrulanmamış geliştirici\" uyarısı imzasız eklentilerin hepsinde çıkar; kaynak kodu açıktır.", cMore: "Ayrıntılar", cSetup: "Kurulum · 2 dakika", cChatAria: "Örnek sohbet",
-    cAsk: "/katip son eklediğim dilekçeyi özetle ve cevap dilekçesi taslağı yaz", cAsk2: "Gerçek isimlerle Katip klasörüne kaydet",
-    cPermAria: "Claude izin kutusu", cDocKey: "belge", cInfoKey: "bilgi", cInfo: "Dosya bu bilgisayarda maskelenir; Claude bulunan değerlerin yerine [AD SOYAD-1] gibi yer tutucuları görür (KVKK).", cAllow: "Bir kez izin ver", cAlways: "Her zaman izin ver",
-    cTipH: "Belgeyi sohbete eklemeyin.", cTip: "Sohbete eklenen dosya Katip çalışmadan önce gönderilir. Belgeyi Katip klasörüne (Belgeler › katip-documents) koyun ve Claude'dan isteyin.",
-    cPut: "Belgeyi Belgeler › katip-documents klasörüne koyun (Claude'a \"Katip klasörümü aç\" diyebilirsiniz)", cUse: "Sohbette + menüsünden Katip komutlarından birini seçin ya da isteğinizi yazın", cCode: "Sonra: /katip son eklediğim dilekçeyi özetle, /katip-incele ya da /katip-taslak cevap dilekçesi", cCmd1: "belgeyle her iş: önce maskeler, sonra isteğinizi yapar", cCmd2: "son belgeyi inceler: özet, talepler, eksik ve hatalar, öneriler", cCmd3: "taslak yazar, isterseniz gerçek adlarla Word dosyası olarak kaydeder",
-    cTool1: "16 kişisel veri maskelendi · belge bilgisayarınızda kaldı", cAns1: "Davacı", cAns2: "(T.C.", cAns3: "), davalı",
-    cAns4: "aleyhine boşanma ve 542.391 TL maddi tazminat istiyor; vekili", cAns5: ". Cevap dilekçesi taslağı hazır. İsterseniz Katip gerçek isimleri yalnızca bilgisayarınızda geri koyar.",
-    cTool2: "Gerçek isimler bilgisayarınızda geri kondu: katip-documents/cevap-dilekcesi.docx",
+    cPermAria: "Claude izin kutusu", cDocKey: "belge", cInfoKey: "bilgi", cInfo: "Belge bu bilgisayarda açılır ve maskelenir; Claude, Katip'in bulduğu kişisel verilerin yerine [AD SOYAD-1] gibi yer tutucuları görür. Katip bazı değerleri kaçırabilir.", cAllow: "Bir kez izin ver", cAlways: "Her zaman izin ver",
+    cTipH: "Belgeyi sohbete eklemeyin.", cTip: "Sohbete eklenen dosya Katip çalışmadan önce gönderilir. Belgenin adını yazın; Katip onu dava klasörünüzde ya da İndirilenler'de bulur.",
+    cPut: "Ayarlarda dava dosyalarınızın klasörünü seçin; İndirilenler de aranır, hiçbir şey kopyalanmaz", cUse: "Sohbette + menüsünden Katip komutlarından birini seçin ya da isteğinizi yazın", cCode: "Sonra belgeyi tarif edin: /katip Yılmaz kira sözleşmesi …, /katip-incele son indirdiğim bilirkişi raporu, /katip-taslak 2026/140 ihtarname, cevap",
+    x1Ask: "/katip Yılmaz kira sözleşmesinde kira artışı ve fesih şartları ne?",
+    x1Tool: "Dava klasörü › 2026-118 … · 21 kişisel veri maskelendi",
+    x1Ans: "Kiracı [AD SOYAD-1], kiraya veren [AD SOYAD-2]. Kira her yıl TÜFE'nin on iki aylık ortalaması oranında artıyor (TBK m.344 ile uyumlu). Kiracı üç ay önceden yazılı bildirimle feshedebilir (md. 9); depozito iki aylık kira, [IBAN-1] hesabına ödenmiş.",
+    x1Note: "Sohbete yazdığınız ad Claude'a gider; belge türü, tarih ya da dosya numarası da belgeyi bulur.",
+    x2Ask: "/katip-incele bugün UYAP'tan indirdiğim bilirkişi raporu",
+    x2Tool: "İndirilenler · 34 kişisel veri maskelendi",
+    x2Ans: "Özet: bilirkişi, davacı [AD SOYAD-1] için 84.210 TL fazla mesai alacağı hesaplamış. Eksik: hesap yalnızca tanık [AD SOYAD-2]'nin beyanına dayanıyor, puantaj kayıtları incelenmemiş. Öneri: tebliğden itibaren iki hafta içinde rapora itiraz edin (HMK m.281).",
+    x3Ask: "/katip-taslak 2026/140 ihtarname, cevap yaz",
+    x3Tool: "Dava klasörü › 2026-140 … · 9 kişisel veri maskelendi",
+    x3Ans: "[AD SOYAD-1]'in 12.10.2026 tarihli ihtarnamesine cevap taslağı hazır: ödenmediği ileri sürülen kira bedelinin [IBAN-1] hesabına ödendiği dekontlarla belirtiliyor. Gerçek adlarla kaydedeyim mi?",
+    x3Ask2: "Evet, Word dosyası olarak kaydet",
+    x3Tool2: "cevap-ihtarname.docx ihtarnamenin yanına kaydedildi · gerçek adlar yalnızca bilgisayarınızda",
+    xTab1: "her iş",
+    xTab2: "inceleme",
+    xTab3: "taslak",
+    x1Cap: "Belgeyi tarif edin; Katip bulup maskeler, Claude isteğinizi yapar.",
+    x2Cap: "Özet, talepler, eksik ve hatalar, öneriler.",
+    x3Cap: "Taslak yazar; isterseniz gerçek adlarla belgenin yanına Word dosyası olarak kaydeder.",
+    cTabsAria: "Örnek sohbetler",
+    cPermT: "Belgeyi bu bilgisayarda maskeleyip aç",
     cCap: "Claude, Katip'in bulduğu değerlerin yerine köşeli parantezli yer tutucuları görür; gerçek değerler ve dosya adlarındaki isimler bilgisayarınızda kalır.", bench: "KVKK-Bench sıralaması",
     onSpace: "Bu sayfa için çok büyük (110 MB) · Hugging Face'te deneyin →",
     ocrAuto: "Otomatik (el yazısı için PaddleOCR)", ocrAutoMeta: "El yazılı ve fotoğraflı sayfalar PaddleOCR, basılı taramalar Tesseract · +13 MB",
@@ -126,13 +142,29 @@ const I18N = {
     cTitle: "Use it with Claude", cSub: "Katip masks personal data on your computer before Claude sees the document",
     cDl: "Download katip-kalkan.mcpb", cDbl: "Double-click it and press Install; no settings to change",
     cReq: "Needs Python 3.10 or later. On first start, helper packages download once (about a minute); your documents are never sent. Claude shows an \"unverified developer\" warning for every unsigned extension; the source is open.", cMore: "Details", cSetup: "Setup · 2 minutes", cChatAria: "Sample chat",
-    cAsk: "/katip summarise the petition I just added and draft a reply", cAsk2: "Save it with the real names in my Katip folder",
-    cPermAria: "Claude permission prompt", cDocKey: "document", cInfoKey: "privacy", cInfo: "The file is masked on this computer; Claude sees placeholders like [AD SOYAD-1] instead of the values Katip finds (KVKK).", cAllow: "Allow once", cAlways: "Always allow",
-    cTipH: "Don't attach the document to the chat.", cTip: "An attached file is uploaded before Katip can run. Put it in your Katip folder (Documents › katip-documents) and ask Claude.",
-    cPut: "Put the document in Documents › katip-documents (or tell Claude \"open my Katip folder\")", cUse: "In a chat, pick a Katip command from the + menu, or just ask", cCode: "Then: /katip summarise the petition I just added, /katip-incele or /katip-taslak cevap dilekçesi", cCmd1: "anything with a document: masks it first, then does what you ask", cCmd2: "reviews the newest document: summary, claims, gaps and errors, suggestions", cCmd3: "drafts a reply and can save it with the real names as a Word file",
-    cTool1: "16 personal values masked · the document stayed on your computer", cAns1: "The plaintiff", cAns2: "(T.C.", cAns3: ") is suing",
-    cAns4: "for divorce and 542,391 TL in damages; their lawyer is", cAns5: ". The reply draft is ready. If you like, Katip can put the real names back, on your computer only.",
-    cTool2: "Real names put back on your computer: katip-documents/cevap-dilekcesi.docx",
+    cPermAria: "Claude permission prompt", cDocKey: "document", cInfoKey: "privacy", cInfo: "The document is opened and masked on this computer; Claude sees placeholders such as [AD SOYAD-1] instead of the personal data Katip finds. Katip can miss some values.", cAllow: "Allow once", cAlways: "Always allow",
+    cTipH: "Don't attach the document to the chat.", cTip: "An attached file is uploaded before Katip can run. Type the document's name; Katip finds it in your case folder or Downloads.",
+    cPut: "In the settings, pick your case-files folder; Downloads is searched too, nothing is copied", cUse: "In a chat, pick a Katip command from the + menu, or just ask", cCode: "Then describe the document: /katip Yılmaz lease …, /katip-incele the expert report I just downloaded, /katip-taslak 2026/140 notice, reply",
+    x1Ask: "/katip what do the rent increase and termination clauses in the Yılmaz lease say?",
+    x1Tool: "Case folder › 2026-118 … · 21 personal values masked",
+    x1Ans: "The tenant is [AD SOYAD-1], the landlord [AD SOYAD-2]. Rent rises each year by the 12-month average CPI (in line with TBK art. 344). The tenant can terminate with three months' written notice (cl. 9); the deposit is two months' rent, paid to [IBAN-1].",
+    x1Note: "A name you type in the chat reaches Claude; the document type, a date or the file number finds it too.",
+    x2Ask: "/katip-incele the expert report I downloaded from UYAP today",
+    x2Tool: "Downloads · 34 personal values masked",
+    x2Ans: "Summary: the expert puts the plaintiff [AD SOYAD-1]'s overtime claim at 84,210 TL. Gap: the calculation rests only on the witness [AD SOYAD-2]'s statement; the time sheets were not examined. Suggestion: object to the report within two weeks of service (HMK art. 281).",
+    x3Ask: "/katip-taslak 2026/140 notice, write a reply",
+    x3Tool: "Case folder › 2026-140 … · 9 personal values masked",
+    x3Ans: "The reply to [AD SOYAD-1]'s notice of 12.10.2026 is drafted: it states, with the receipts, that the rent claimed as unpaid was paid to [IBAN-1]. Shall I save it with the real names?",
+    x3Ask2: "Yes, save it as a Word file",
+    x3Tool2: "cevap-ihtarname.docx saved next to the notice · real names only on your computer",
+    xTab1: "anything",
+    xTab2: "review",
+    xTab3: "draft",
+    x1Cap: "Describe the document; Katip finds and masks it, Claude does what you ask.",
+    x2Cap: "Summary, claims, gaps and errors, suggestions.",
+    x3Cap: "Drafts a reply; can save it with the real names as a Word file next to the document.",
+    cTabsAria: "Sample chats",
+    cPermT: "Mask and open the document on this computer",
     cCap: "Claude sees bracketed placeholders instead of the values Katip finds; the real values and names in file names stay on your computer.", bench: "KVKK-Bench leaderboard",
     onSpace: "Too big for this page (110 MB) · try it on Hugging Face →",
     ocrAuto: "Automatic (PaddleOCR for handwriting)", ocrAutoMeta: "Handwritten and photographed pages: PaddleOCR; printed scans: Tesseract · +13 MB",
@@ -258,6 +290,8 @@ addEventListener("scroll", () => popFor && place(popFor), true); addEventListene
 function applyLang() {
   document.documentElement.lang = lang;
   document.querySelectorAll("[data-i18n]").forEach(e => (e.textContent = t(e.dataset.i18n)));
+  document.querySelectorAll("[data-i18n-mask]").forEach(e => e.replaceChildren(...t(e.dataset.i18nMask).split(/(\[[^\]]+\])/).filter(Boolean)
+    .map(s => s[0] === "[" ? Object.assign(document.createElement("span"), { className: "ph", textContent: s }) : document.createTextNode(s))));
   document.querySelectorAll("[data-i18n-ph]").forEach(e => (e.placeholder = t(e.dataset.i18nPh)));
   document.querySelectorAll("[data-i18n-alt]").forEach(e => (e.alt = t(e.dataset.i18nAlt)));
   document.querySelectorAll("[data-i18n-aria]").forEach(e => e.setAttribute("aria-label", t(e.dataset.i18nAria)));
@@ -844,3 +878,19 @@ $("rSend").onclick = async () => {
   const q = new URLSearchParams(location.search).get("sample");  // ?sample=dilekce:udf opens a sample directly (handy for sharing)
   if (q) { const [ty, fm] = q.split(":"), sm = samples.find(x => x.type === ty || x.id === ty); if (sm) openSample(sm, sm.formats.includes(fm) ? fm : sm.formats[0]); }
 })();
+
+// Sample chats: one tab per Katip command (click, or arrow keys inside the tab row)
+{
+  const tabs = [...document.querySelectorAll(".xtabs [role=tab]")];
+  const pick = (b, focus) => tabs.forEach(x => {
+    const on = x === b; x.setAttribute("aria-selected", on); x.tabIndex = on ? 0 : -1;
+    document.getElementById(x.getAttribute("aria-controls")).hidden = !on; if (on && focus) x.focus();
+  });
+  tabs.forEach((b, i) => {
+    b.onclick = () => pick(b);
+    b.onkeydown = e => {
+      const k = { ArrowRight: 1, ArrowLeft: -1, Home: -i, End: tabs.length - 1 - i }[e.key];
+      if (k !== undefined) { e.preventDefault(); pick(tabs[(i + k + tabs.length) % tabs.length], true); }
+    };
+  });
+}
