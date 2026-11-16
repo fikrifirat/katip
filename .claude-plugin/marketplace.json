@@ -8,7 +8,7 @@
     {
       "name": "katip-kalkan",
       "source": "./connector",
-      "description": "Mask Turkish personal data (KVKK) on your computer before Claude reads a document."
+      "description": "For Turkish lawyers: mask client personal data (KVKK) on your computer before Claude reads a document, and get the real names back in your final draft."
     }
   ],
   "description": "Katip: on-device KVKK masking for Turkish law firms using AI. Personal data is masked on your computer before Claude reads a document."

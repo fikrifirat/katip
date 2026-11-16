@@ -1,15 +1,69 @@
-# Katip Kalkan: mask client data before Claude reads Turkish legal documents
+# Katip Kalkan: KVKK masking for client documents in Claude
 
-**Katip Kalkan masks personal data in client documents on your computer, before Claude reads them.**
-Names, T.C. kimlik / YKN / passport numbers, addresses, phones, IBANs and health data in a dilekçe,
-contract, bilirkişi raporu, UYAP `.udf`, scan or phone photo become placeholders such as `[AD SOYAD-1]`.
-Claude works on the masked text. The real values and the placeholder map stay on your computer, and
-Katip can put the real names back into the final document there.
+**Work on client files with Claude, with the client's personal data masked on your computer first.** Katip Kalkan
+opens the document on your computer, replaces the names, ID numbers and health details it finds with
+placeholders such as `[AD SOYAD-1]`, and gives Claude only the masked text. When your draft is ready, Katip
+puts the real names back into a Word file, again on your computer.
 
-*Türkçe:* Katip Kalkan, avukatların müvekkil belgelerindeki kişisel verileri (ad soyad, T.C. kimlik no,
-adres, telefon, IBAN, sağlık verisi) Claude görmeden önce kendi bilgisayarlarında maskeleyen bir Claude
-eklentisidir. Belgeyi yapay zekâ ile paylaşmadan önce verileri yerelde maskeleyerek büronuzdan çıkan müvekkil verisini azaltır;
-belgeler ve gerçek adlar bilgisayardan çıkmaz. Kurul'un [avukatlar için uygulama rehberindeki](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi) maskeleme önerisine göre tasarlandı.
+Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Board's
+[guide for lawyers](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi)
+(22 September 2026) to mask or anonymise client data before sharing it with generative AI tools.
+
+**What you get**
+
+* Reads dilekçe, contracts, bilirkişi raporu, UYAP `.udf`, `.docx`, `.pdf`, scans and phone photos. OCR runs
+  on your computer.
+* Masks names (Turkish and foreign), T.C. kimlik, YKN and passport numbers, addresses, phone numbers, e-mail,
+  IBAN, UETS addresses and KVKK m.6 health data.
+* Three profiles: **court filing** keeps case numbers, court names and the disputed property readable;
+  **sharing with AI** (the default) masks those too; **fully anonymous** also hides dates, places and
+  institutions. Precedent citations (Yargıtay, Danıştay, AYM) stay readable in all three.
+* The same person gets the same placeholder in every document of a matter.
+* The final document with real names is written only into your Katip folder. Claude gets the file name back, not the names.
+* If a value Katip found would still be readable, it refuses to hand over the text.
+* No account, no telemetry. The author receives nothing.
+
+**Try it**
+
+* `/katip son eklediğim dilekçeyi incele, dikkatlice özetle ve düzeltmeler öner`
+* `/katip compare the petition and the expert report for matter 2026/123`
+* `/katip draft a reply to the petition I just added and save it with the real names as cevap-dilekcesi.docx`
+
+**Before you rely on it.** Katip can miss values: it masked 98.8% of values on a synthetic blind test set,
+and misses more on real text. Files you attach to the chat and text you type are not masked. Masked text is
+usually still personal data, and sending it abroad still needs a legal basis (KVKK m.9). Review every draft.
+Details: [Limits and your responsibility](#limits-and-your-responsibility).
+
+**Read more:** [FAQ](https://github.com/fikrifirat/katip/blob/main/FAQ.md) ·
+[How Katip processes data](https://github.com/fikrifirat/katip/blob/main/PRIVACY.md) ·
+[Privacy policy](#privacy-policy) ·
+[Demo](https://fikrifirat.github.io/katip) ·
+[KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench)
+
+### Türkçe
+
+**Müvekkil dosyaları üzerinde Claude ile çalışın; müvekkilin kişisel verileri önce bilgisayarınızda maskelensin.**
+Katip Kalkan belgeyi kendi bilgisayarınızda açar, bulduğu ad soyad, kimlik numarası ve sağlık bilgilerini
+`[AD SOYAD-1]` gibi yer tutucularla değiştirir ve Claude'a yalnızca maskeli metni verir. Taslak hazır
+olduğunda gerçek adları Word dosyasına yine bilgisayarınızda geri koyar.
+
+Avukatlar ve hukuk ekipleri için geliştirildi. Kişisel Verileri Koruma Kurulu'nun
+[avukatlar için uygulama rehberine](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi)
+(22 Eylül 2026) yer alan öneriye göre tasarlandı: Rehber, müvekkil verilerinin üretken yapay zekâ
+araçlarıyla paylaşılmadan önce maskelenmesini ya da anonimleştirilmesini önerir.
+
+Dilekçe, sözleşme, bilirkişi raporu, UYAP `.udf`, `.docx`, `.pdf`, tarama ve telefon fotoğrafı okur.
+Üç maskeleme düzeyi vardır: **Mahkemeye sunum** dosya numaralarını, mahkeme adlarını ve dava konusu
+taşınmazı okunur bırakır; **Yapay zekâ ile paylaşım** (varsayılan) bunları da maskeler; **Tam anonim**
+tarih, yer ve kurum adlarını da gizler. Emsal karar künyeleri her düzeyde okunur kalır.
+
+Katip bazı değerleri kaçırabilir; sohbete eklediğiniz dosyalar ve yazdıklarınız maskelenmez. Maskeli
+metin de çoğu zaman kişisel veridir ve yurt dışına aktarımı hukuki dayanak ister (KVKK m.9). Her taslağı
+kontrol edin.
+
+**Daha fazlası:** [Sık sorulan sorular](https://github.com/fikrifirat/katip/blob/main/FAQ.tr.md) ·
+[Katip verileri nasıl işler](https://github.com/fikrifirat/katip/blob/main/PRIVACY.tr.md) ·
+[Demo](https://fikrifirat.github.io/katip)
 
 Keywords: KVKK, GDPR, PII redaction, personal data masking, pseudonymisation, anonymisation, Turkish NER,
 legal AI, avukat, kişisel veri maskeleme, anonimleştirme, UYAP.
@@ -110,8 +164,8 @@ Katip collects no data. Documents are read and masked on your computer, and noth
 author or to any third party. The placeholder map (placeholder → real value) is stored on your computer,
 encrypted with AES-256-GCM. The key is in the macOS Keychain, or in `~/.katip/key` readable only by you.
 Maps are deleted after 30 days (`KATIP_VAULT_DAYS`) or at once with `forget_matter`. Contact:
-[GitHub issues](https://github.com/fikrifirat/katip/issues). Full policy: [PRIVACY.md](PRIVACY.md). The KVKK context for lawyers (m.4, m.6, m.9 after Law No. 7499, Avukatlık Kanunu
-m.36): [../PRIVACY.md](../PRIVACY.md). Questions and answers, including what each profile masks: [../FAQ.md](../FAQ.md) · [../FAQ.tr.md](../FAQ.tr.md).
+[GitHub issues](https://github.com/fikrifirat/katip/issues). Full policy: [connector/PRIVACY.md](https://github.com/fikrifirat/katip/blob/main/connector/PRIVACY.md). The KVKK context for lawyers (m.4, m.6, m.9 after Law No. 7499, Avukatlık Kanunu
+m.36): [PRIVACY.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.md) · [PRIVACY.tr.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.tr.md). Questions and answers, including what each profile masks: [FAQ.md](https://github.com/fikrifirat/katip/blob/main/FAQ.md) · [FAQ.tr.md](https://github.com/fikrifirat/katip/blob/main/FAQ.tr.md).
 
 ## How to use it
 
