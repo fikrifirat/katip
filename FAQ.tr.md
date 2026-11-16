@@ -88,6 +88,22 @@ Tarayıcıda [Katip web uygulamasını](https://fikrifirat.github.io/katip) kull
 maskeler, maskeli metni siz kopyalar ya da indirirsiniz. macOS'ta denendi; Windows destekleniyor ve otomatik
 testlerle kontrol ediliyor, ama henüz bir kullanıcı tarafından denenmedi.
 
+## Nasıl kullanırım?
+
+Müvekkil belgesini Katip klasörünüze koyun. Sonra Claude Code ya da Cowork'te bir komut yazın; Claude
+Desktop'ta aynı öğeyi **+** menüsünden seçin.
+
+* `/katip <istek>`: müvekkil belgesiyle her iş. Katip önce maskeler, sonra Claude isteğinizi yapar. Örnek:
+  `/katip son eklediğim kira sözleşmesini özetle`.
+* `/katip-incele [odak]`: son belgenin incelemesi: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler.
+  Örnek: `/katip-incele zamanaşımı ve deliller`.
+* `/katip-taslak [tür]`: son belgeye taslak; bilinmeyenler uydurulmaz, `[…]` ile işaretlenir. Claude sonra
+  taslağı gerçek adlarla Word dosyası olarak Katip klasörünüze kaydetmeyi önerir. Örnek:
+  `/katip-taslak cevap dilekçesi`.
+
+Katip bir belgeyi açmadan önce Claude onayınızı ister ve belgenin kısaltılmış adını gösterir. Yalnızca
+paylaşmak istediğiniz belgeleri onaylayın.
+
 ## Katip hangi klasörü kullanmalı?
 
 Yalnızca müvekkil belgeleri için ayrılmış bir klasörü. Katip belgeleri yalnızca bu klasörden açar ve gerçek

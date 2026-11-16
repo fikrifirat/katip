@@ -23,11 +23,16 @@ Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Boa
 * If a value Katip found would still be readable, it refuses to hand over the text.
 * No account, no telemetry. The author receives nothing.
 
-**Try it**
+**Commands.** Put the client document in your Katip folder, then type one of these in Claude Code or Cowork.
+In Claude Desktop, pick the same item from the **+** menu and type the rest.
 
-* `/katip son eklediğim dilekçeyi incele, dikkatlice özetle ve düzeltmeler öner`
-* `/katip compare the petition and the expert report for matter 2026/123`
-* `/katip draft a reply to the petition I just added and save it with the real names as cevap-dilekcesi.docx`
+| Command | What it does | Example |
+|---|---|---|
+| `/katip <request>` | Anything with a client document: Katip masks it first, then Claude does what you ask. | `/katip compare the petition and the expert report for matter 2026/123` |
+| `/katip-incele [focus]` | Reviews the newest document: summary, claims and grounds, gaps and errors, suggestions. | `/katip-incele zamanaşımı ve deliller` |
+| `/katip-taslak [kind]` | Drafts a reply to the newest document, marks gaps as `[…]` instead of inventing facts, and offers to save it with the real names as a Word file. | `/katip-taslak cevap dilekçesi` |
+
+You can also just ask in plain words, for example "Katip klasörüme son eklediğim dilekçeyi özetle".
 
 **Before you rely on it.** Katip can miss values: it masked 98.8% of values on a synthetic blind test set,
 and misses more on real text. Files you attach to the chat and text you type are not masked. Masked text is
@@ -51,6 +56,15 @@ Avukatlar ve hukuk ekipleri için geliştirildi. Kişisel Verileri Koruma Kurulu
 [avukatlar için uygulama rehberine](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi)
 (22 Eylül 2026) yer alan öneriye göre tasarlandı: Rehber, müvekkil verilerinin üretken yapay zekâ
 araçlarıyla paylaşılmadan önce maskelenmesini ya da anonimleştirilmesini önerir.
+
+**Komutlar.** Müvekkil belgesini Katip klasörünüze koyun, sonra Claude Code ya da Cowork'te yazın. Claude
+Desktop'ta aynı öğeyi **+** menüsünden seçip isteğinizi yazın.
+
+| Komut | Ne yapar | Örnek |
+|---|---|---|
+| `/katip <istek>` | Müvekkil belgesiyle her iş: Katip önce maskeler, sonra Claude isteğinizi yapar. | `/katip son eklediğim sözleşmedeki fesih şartlarını çıkar` |
+| `/katip-incele [odak]` | Son belgeyi inceler: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler. | `/katip-incele zamanaşımı ve deliller` |
+| `/katip-taslak [tür]` | Son belgeye taslak yazar, bilinmeyenleri uydurmak yerine `[…]` ile işaretler, isterseniz gerçek adlarla Word dosyası olarak kaydeder. | `/katip-taslak cevap dilekçesi` |
 
 Dilekçe, sözleşme, bilirkişi raporu, UYAP `.udf`, `.docx`, `.pdf`, tarama ve telefon fotoğrafı okur.
 Üç maskeleme düzeyi vardır: **Mahkemeye sunum** dosya numaralarını, mahkeme adlarını ve dava konusu

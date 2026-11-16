@@ -39,7 +39,7 @@ claude plugin marketplace add fikrifirat/katip
 claude plugin install katip-kalkan@katip
 ```
 
-Then type `/katip summarise the petition I just added`. See [connector/README.md](connector/README.md)
+Then type `/katip summarise the petition I just added`, `/katip-incele` for a review or `/katip-taslak cevap dilekçesi` for a draft reply ([what each command does](FAQ.md#how-do-i-use-it)). See [connector/README.md](connector/README.md)
 for Claude Desktop, limits and the privacy policy.
 
 ## Key numbers

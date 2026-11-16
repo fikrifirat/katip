@@ -42,7 +42,7 @@ claude plugin marketplace add fikrifirat/katip
 claude plugin install katip-kalkan@katip
 ```
 
-Sonra `/katip son eklediğim dilekçeyi özetle` yazın. Claude Desktop kurulumu, sınırlar ve gizlilik
+Sonra `/katip son eklediğim dilekçeyi özetle`, inceleme için `/katip-incele` ya da cevap taslağı için `/katip-taslak cevap dilekçesi` yazın ([komutlar ne yapar](FAQ.tr.md#nasıl-kullanırım)). Claude Desktop kurulumu, sınırlar ve gizlilik
 politikası için [connector/README.md](connector/README.md).
 
 ## Temel sonuçlar

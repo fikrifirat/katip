@@ -85,6 +85,22 @@ In a browser, use the [Katip web app](https://fikrifirat.github.io/katip): it ma
 browser tab, and you copy or download the masked text yourself. macOS is tested; Windows is supported and
 checked by automated tests, but not yet tried by a person.
 
+## How do I use it?
+
+Put the client document in your Katip folder. Then, in Claude Code or Cowork, type a command; in Claude Desktop,
+pick the same item from the **+** menu.
+
+* `/katip <request>`: anything with a client document. Katip masks it first, then Claude does what you ask.
+  Example: `/katip summarise the lease I just added`.
+* `/katip-incele [focus]`: a review of the newest document: summary, claims and grounds, gaps and errors,
+  suggestions. Example: `/katip-incele zamanaşımı ve deliller`.
+* `/katip-taslak [kind]`: a draft reply to the newest document, with gaps marked `[…]` instead of invented
+  facts; Claude then offers to save it with the real names as a Word file in your Katip folder. Example:
+  `/katip-taslak cevap dilekçesi`.
+
+Before Katip opens a document, Claude asks for your approval and shows the document's shortened name. Approve
+only the documents you meant to share.
+
 ## Which folder should Katip use?
 
 A folder only for client documents. Katip opens documents only from this folder and saves final documents
