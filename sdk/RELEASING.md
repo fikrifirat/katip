@@ -13,12 +13,12 @@ publishes to PyPI and npm with provenance, and makes a GitHub pre-release with t
 
 **npm** (a token for the first publish only, since npm trusted publishing needs the package to exist):
 1. Sign in at npmjs.com (2FA on).
-2. Either publish 0.1.0 by hand once: `cd sdk/js && npm ci && npm publish --access public`,
-   or create a granular access token (packages: read and write, all packages, bypass 2FA) and save it as
-   the repository secret `NPM_TOKEN`.
+2. Create a granular access token (packages: read and write, all packages, bypass 2FA) and save it as the
+   repository secret `NPM_TOKEN`. Without it, a release publishes to PyPI only and skips npm with a
+   warning; re-run the npm job after adding the secret.
 3. After the first publish: npmjs.com → `katip-mask` → Settings → *Trusted publisher* → GitHub Actions,
-   owner `fikrifirat`, repository `katip`, workflow `sdk-release.yml`, environment `npm`. Then delete the
-   token and the `NPM_TOKEN` secret.
+   owner `fikrifirat`, repository `katip`, workflow `sdk-release.yml`, environment `npm`. Set the
+   repository variable `NPM_TRUSTED_PUBLISHING` to `true`, then delete the token and the secret.
 
 **GitHub**: Settings → Environments → create `pypi` and `npm` (optionally with yourself as required
 reviewer, so every publish waits for a click).
