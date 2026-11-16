@@ -8,7 +8,7 @@ Katip can put the real names back into the final document there.
 
 *Türkçe:* Katip Kalkan, avukatların müvekkil belgelerindeki kişisel verileri (ad soyad, T.C. kimlik no,
 adres, telefon, IBAN, sağlık verisi) Claude görmeden önce kendi bilgisayarlarında maskeleyen bir Claude
-eklentisidir. KVKK uyumlu çalışmaya yardım eden yerel veri maskeleme ve anonimleştirme aracıdır;
+eklentisidir. Belgeyi yapay zekâ ile paylaşmadan önce verileri yerelde maskeleyerek büronuzdan çıkan müvekkil verisini azaltır;
 belgeler ve gerçek adlar bilgisayardan çıkmaz.
 
 Keywords: KVKK, GDPR, PII redaction, personal data masking, pseudonymisation, anonymisation, Turkish NER,
@@ -35,7 +35,8 @@ Katip is a safety layer, not a guarantee, and not legal advice.
 
 * **It can miss things.** Katip refuses to send text in which a value it *found* would still be
   readable, but a value it never found goes to Claude as is. On 80 blind synthetic legal documents
-  (threshold 0.7) it masked 743 of 757 personal values (98%). On real text the
+  (0.3.6, threshold 0.5, `ai` profile) it masked 748 of 757 personal values (98.8%); a value counts
+  only when no word of it is left readable. On real text the
   [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) paper measures about 5% of name characters
   missed in court decisions and more in free prose. Unusual spellings, OCR errors on
   handwriting and context-only identifiers ("the defendant's brother, the mayor of …") can slip through.
@@ -79,7 +80,7 @@ The training mix was:
 
 | Test | Result (rules + Nano v1.1) | What it shows |
 |---|---|---|
-| 80 blind synthetic legal documents, 757 values, names never seen in training | 743 / 757 masked (98%) at threshold 0.7 | All value types, document layouts. 12 of 16 styles share templates with training, so this is optimistic |
+| 80 blind synthetic legal documents, 757 values, names never seen in training | 748 / 757 masked (98.8%), 0.3.6 at threshold 0.5 | All value types, document layouts. 12 of 16 styles share templates with training, so this is optimistic |
 | TurkishLegalNER *test* (real Yargıtay prose), name slots filled with held-out families, 1,011 names | Turkish names 98.7%, foreign names 94.6% [92.5–96.2] | Names in real court language |
 | [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench), 14 systems | See the board | Comparison with other Turkish and multilingual models on real text |
 
@@ -107,7 +108,8 @@ Katip collects no data. Documents are read and masked on your computer, and noth
 author or to any third party. The placeholder map (placeholder → real value) is stored on your computer,
 encrypted with AES-256-GCM. The key is in the macOS Keychain, or in `~/.katip/key` readable only by you.
 Maps are deleted after 30 days (`KATIP_VAULT_DAYS`) or at once with `forget_matter`. Contact:
-[GitHub issues](https://github.com/fikrifirat/katip/issues). Full policy: [PRIVACY.md](PRIVACY.md).
+[GitHub issues](https://github.com/fikrifirat/katip/issues). Full policy: [PRIVACY.md](PRIVACY.md). The KVKK context for lawyers (m.4, m.6, m.9 after Law No. 7499, Avukatlık Kanunu
+m.36): [../PRIVACY.md](../PRIVACY.md).
 
 ## How to use it
 
@@ -202,12 +204,13 @@ are optional, pinned in `katip_kalkan/launch.py`. The detection engine is `katip
 (`docs/katip_py.zip`; `build_bundle.py` refreshes it). `ner.py` is the Python twin of `src/ner.js`:
 same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
 Face `tokenizers` exactly.
-Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.7), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
+Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.5; was 0.7 before 0.3.6), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
 `KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`.
 
-Blind set (80 synthetic legal documents, 757 values, threshold 0.7, whole-address scoring):
-rules only 717, rules + Nano v1 739, rules + Nano v1.1 743. Masked `.udf` copies drop
+Blind set (80 synthetic legal documents, 757 values, `.txt`, `ai` profile; a value counts only when no word
+of it is left readable): 0.3.6 at threshold 0.5, rules + Nano v1.1: 748. Earlier, at threshold 0.7 with
+whole-address scoring: rules only 717, rules + Nano v1 739, rules + Nano v1.1 743 (0.3.5). Masked `.udf` copies drop
 `sign.sgn` (the e-imza certificate carries the signer's name).
 
 ## Licences

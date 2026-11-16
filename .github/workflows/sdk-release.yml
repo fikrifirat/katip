@@ -1,0 +1,88 @@
+name: SDKs release (katip-mask)
+
+# Push a tag sdk-vX.Y.Z (matching both package versions) to test, build and publish both packages.
+# PyPI: trusted publishing (no token). npm: trusted publishing once configured, else the NPM_TOKEN secret.
+# Without NPM_TOKEN the npm job is skipped with a warning; re-run that job after adding the secret.
+on:
+  push:
+    tags: ["sdk-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    uses: ./.github/workflows/sdk.yml
+
+  build:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.14" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "24" }
+      - name: Tag matches the package versions
+        run: |
+          python sdk/tools/check.py --check
+          want="${GITHUB_REF_NAME#sdk-v}"
+          have=$(node -p "require('./sdk/js/package.json').version")
+          [ "$want" = "$have" ] || { echo "tag $want but packages are $have"; exit 1; }
+      - name: Build the Python package
+        run: pip install build && python -m build sdk/python --outdir dist/python
+      - name: Build the npm package
+        working-directory: sdk/js
+        run: npm ci && npm run build && npm pack --pack-destination ../../dist/npm
+      - uses: actions/upload-artifact@v4
+        with: { name: dist, path: dist }
+
+  pypi:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: pypi, url: https://pypi.org/project/katip-mask/ }
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: dist, path: dist }
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with: { packages-dir: dist/python }
+
+  npm:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: npm, url: https://www.npmjs.com/package/katip-mask }
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { name: dist, path: dist }
+      - uses: actions/setup-node@v4
+        with: { node-version: "24", registry-url: "https://registry.npmjs.org" }
+      - name: Publish with provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TRUSTED: ${{ vars.NPM_TRUSTED_PUBLISHING }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ] && [ "$NPM_TRUSTED" != "true" ]; then
+            echo "::warning::NPM_TOKEN is not set, so npm was skipped. Add the secret and re-run this job."
+            exit 0
+          fi
+          npx -y npm@11.6.2 publish dist/npm/katip-mask-*.tgz --provenance --access public
+
+  github-release:
+    needs: [pypi, npm]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: dist, path: dist }
+      - env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          v="${GITHUB_REF_NAME#sdk-v}"
+          gh release create "$GITHUB_REF_NAME" dist/python/* dist/npm/* --title "Katip Mask SDKs $v" --prerelease \
+            --notes "pip install katip-mask==$v · npm install katip-mask@$v. Changes: sdk/CHANGELOG.md."

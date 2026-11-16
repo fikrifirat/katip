@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- Masks text in the page; nothing leaves the browser except the one-time model download.
+     Serve this folder over http (e.g. `npx serve .`); opening the file directly will not load modules. -->
+<html lang="tr">
+<meta charset="utf-8">
+<title>Katip Mask in the browser</title>
+<textarea id="in" rows="8" cols="80">Davacı Ahmet YILMAZ (T.C. Kimlik No: 10000000146), Tel: 0532 123 45 67</textarea>
+<p><button id="go" disabled>Loading model…</button></p>
+<pre id="out"></pre>
+<!-- No build step: an import map points at pinned files on a CDN. In an app, npm install both packages and
+     let your bundler resolve them (it picks the browser build of katip-mask automatically). -->
+<script type="importmap">
+{
+  "imports": {
+    "katip-mask": "https://cdn.jsdelivr.net/npm/katip-mask@0.1.0/dist/index.js",
+    "#runtime": "https://cdn.jsdelivr.net/npm/katip-mask@0.1.0/dist/runtime/browser.js",
+    "onnxruntime-web": "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/ort.min.mjs"
+  }
+}
+</script>
+<script type="module">
+  import * as ort from "onnxruntime-web";
+  import { Masker } from "katip-mask";
+
+  ort.env.wasm.wasmPaths = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.29.0/dist/";
+  const go = document.getElementById("go");
+  const masker = await Masker.create({ profile: "ai", model: "mini", ort, onProgress: m => (go.textContent = m) });
+  go.textContent = "Mask";
+  go.disabled = false;
+  go.onclick = async () => {
+    const r = await masker.mask(document.getElementById("in").value);
+    document.getElementById("out").textContent = r.text + "\n\n" + JSON.stringify(r.mapping, null, 1);
+  };
+</script>
+</html>

@@ -11,3 +11,11 @@ ml/berturk/data/wikiner/
 lab/results/
 src/models/paddleocr/
 connector/dist/
+# SDKs
+sdk/parity/cases*.jsonl
+sdk/js/node_modules/
+sdk/js/dist/
+sdk/python/dist/
+sdk/python/build/
+*.egg-info/
+.pytest_cache/

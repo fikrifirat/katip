@@ -3,6 +3,9 @@
 Last updated: 14 November 2026. Applies to Katip Kalkan 0.3.5 and later (Claude plugin and Claude
 Desktop extension). Contact: open an issue at https://github.com/fikrifirat/katip/issues.
 
+How all of Katip handles data, and the KVKK context for lawyers: [../PRIVACY.md](../PRIVACY.md)
+([Türkçe](../PRIVACY.tr.md)).
+
 ## Summary
 
 Katip Kalkan runs on your computer and collects no data. The author receives nothing: no documents,

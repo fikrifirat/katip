@@ -1,0 +1,82 @@
+{
+  "name": "katip-mask",
+  "version": "0.1.0",
+  "description": "Detect and mask Turkish personal data (KVKK) in Node or the browser, locally. Same output as the Python package.",
+  "keywords": [
+    "kvkk",
+    "pii",
+    "redaction",
+    "anonymization",
+    "turkish",
+    "privacy",
+    "onnx"
+  ],
+  "homepage": "https://github.com/fikrifirat/katip/tree/main/sdk/js#readme",
+  "bugs": "https://github.com/fikrifirat/katip/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fikrifirat/katip.git",
+    "directory": "sdk/js"
+  },
+  "license": "AGPL-3.0-only",
+  "author": "Fikri Fırat",
+  "type": "module",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "imports": {
+    "#runtime": {
+      "types": "./dist/runtime/node.d.ts",
+      "browser": "./dist/runtime/browser.js",
+      "node": "./dist/runtime/node.js",
+      "default": "./dist/runtime/browser.js"
+    }
+  },
+  "bin": {
+    "katip-mask": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "!dist/**/*.map",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json && chmod +x dist/cli.js",
+    "test": "node --test test/*.test.mjs",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "peerDependencies": {
+    "onnxruntime-node": ">=1.17.0",
+    "onnxruntime-web": ">=1.17.0"
+  },
+  "peerDependenciesMeta": {
+    "onnxruntime-node": {
+      "optional": true
+    },
+    "onnxruntime-web": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "esbuild": "^0.24.2",
+    "onnxruntime-node": "^1.29.0",
+    "onnxruntime-web": "^1.29.0",
+    "typescript": "^5.6.3"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}

@@ -152,3 +152,18 @@ output. If one is still there, the call fails and nothing is returned.
    distribution); use the Katip app for those.
 4. Bundle `cryptography` wheels per platform, sign releases, and submit the plugin.
 5. Deploy the relay in a Turkish region behind TLS, then submit it to OpenAI and Anthropic.
+
+## Using the katip-mask SDK inside Kalkan (planned for 0.4.0)
+
+Kalkan's detection engine is the same code as the `katip-mask` package. Once `katip-mask` is on PyPI, Kalkan
+can depend on it instead of carrying its own `engine.zip`:
+
+* `launch.py` adds `katip-mask[model]==X.Y.Z` to the pinned `uv run --with` list. It must be an exact
+  version: the directory blocks unpinned launchers, and a version range would let new code run on lawyers'
+  computers without review.
+* Kalkan keeps what the SDK doesn't do: reading .docx/.udf/.pdf and OCR, safe file names, the per-matter
+  encrypted map, propagation across a matter, the repair pass and the leak check on the visible text.
+* Without uv (rules-only mode) Kalkan falls back to the bundled engine, so it still works offline.
+* What still needs a Kalkan release: every new SDK version (a one-line pin bump; merging it publishes the
+  release), any change to Kalkan's own code, and new bundled model files. Models the SDK downloads are pinned
+  by commit and SHA-256 inside the SDK, so a new model also arrives through an SDK version, never at runtime.
