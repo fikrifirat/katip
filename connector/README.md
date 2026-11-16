@@ -200,8 +200,8 @@ shasum -a 256 -c katip-kalkan.mcpb.sha256
 ```
 
 **Profiles** (same as the Katip app): `ai` = Yapay zekâ ile paylaşım, the default here (all personal data,
-the whole address, case/UYAP and bar numbers); `court` = Mahkemeye sunum (streets, case numbers and dates
-stay readable); `anon` = Tam anonim (also dates, provinces, courts, companies and institutions).
+the whole address, case/UYAP and bar numbers); `court` = Mahkemeye sunum (parties' own addresses masked in full, with
+UETS and bar numbers; the address of the property in dispute, case numbers and dates stay readable); `anon` = Tam anonim (also dates, provinces, courts, companies and institutions).
 
 **Scans and photos** are read on your computer: PaddleOCR PP-OCRv5 (bundled, 13 MB, via RapidOCR) for
 handwriting and phone photos, and Tesseract for clean printed scans when it is installed

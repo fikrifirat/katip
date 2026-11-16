@@ -14,7 +14,7 @@ export class RecognizerResult {
 export const ENTITY_LABELS_TR: Record<string, string> = {
   TCKN: "T.C. Kimlik No", VKN: "Vergi Kimlik No", IBAN: "IBAN", CREDIT_CARD: "Kredi Kartı", PHONE: "Telefon", EMAIL: "E-posta",
   PLATE: "Araç Plakası", PERSON: "Ad Soyad", ADDRESS: "Adres", BIRTH_DATE: "Doğum Tarihi", IP_ADDRESS: "IP Adresi",
-  YKN: "Yabancı Kimlik No", PASSPORT: "Pasaport No", FOREIGN_ID: "Yabancı Ülke Kimlik No",
+  YKN: "Yabancı Kimlik No", PASSPORT: "Pasaport No", FOREIGN_ID: "Yabancı Ülke Kimlik No", UETS: "UETS (e-Tebligat) Adresi",
   HEALTH: "Sağlık Verisi", RELIGION: "Din/İnanç", POLITICAL: "Siyasi Görüş", UNION: "Sendika Üyeliği", ETHNICITY: "Irk/Etnik Köken",
   SEXUAL_LIFE: "Cinsel Hayat", BIOMETRIC_GENETIC: "Biyometrik/Genetik", CRIMINAL_RECORD: "Ceza Mahkumiyeti",
 };
@@ -190,6 +190,23 @@ class ForeignIDRecognizer implements Recognizer {
       if (iranMelliValid(d) && hasContext(text, m.start(), ["iran", "melli", "kod", "ulusal", "national"], 50))
         out.push(result("FOREIGN_ID", this.name, m.start(1), m.end(1), 0.9, "Iranian national code, check digit ok"));
     }
+    return out;
+  }
+}
+
+class UETSRecognizer implements Recognizer {
+  name = "uets";
+  supported_entities = ["UETS"];
+  static CTX = ["uets", "tebligat", "kep"];
+  analyze(text: string): RecognizerResult[] {
+    const out: RecognizerResult[] = [];
+    for (const m of finditer("UETSRecognizer.SHAPED", text)) {
+      const cue = hasContext(text, m.start(1), UETSRecognizer.CTX, 40);
+      out.push(result("UETS", this.name, m.start(1), m.end(1), cue ? 0.95 : 0.8,
+        "UETS e-Tebligat address" + (cue ? " after a UETS cue" : " (5-5-5 digits)")));
+    }
+    for (const m of finditer("UETSRecognizer.CUED", text))
+      out.push(result("UETS", this.name, m.start(1), m.end(1), 0.95, "15 digits after a UETS / e-Tebligat cue"));
     return out;
   }
 }
@@ -743,13 +760,45 @@ export function addressParts(text: string, start: number, end: number): Array<[n
 
 export type Make = (entity: string, start: number, end: number, score: number, why: string, name?: string) => RecognizerResult;
 
+/** 'property' (evidence: keep readable in a court copy), 'party' (someone's own address: mask whole) or null. */
+export function addressRole(text: string, start: number, end: number): "property" | "party" | null {
+  const line = rfind(text, "\n", start) + 1;
+  const before = text.slice(Math.max(line, start - 90), start);
+  const after = text.slice(end, end + 80);
+  if (search("recognizers.PROPERTY_BEFORE", before) || match("recognizers.PROPERTY_AFTER", after)) return "property";
+  if (search("recognizers.RESIDENCE_BEFORE", before) || match("recognizers.RESIDENCE_AFTER", after)) return "party";
+  const head = text.slice(line, start);
+  if (match("recognizers.PARTY_LINE", head) || match("recognizers.PARTY_LABEL_ONLY", head)) return "party";
+  if (!strip(head)) {
+    const prevEnd = line - 1;
+    const prev = rfind(text, "\n", Math.max(prevEnd, 0)) + 1;
+    if (prevEnd > 0 && match("recognizers.PARTY_LINE", text.slice(prev, prevEnd))) return "party";
+  }
+  return null;
+}
+
+/** The address opens its line and the line before it is just a person's name. */
+function underAName(text: string, start: number, results: RecognizerResult[]): boolean {
+  const line = rfind(text, "\n", start) + 1;
+  if (strip(text.slice(line, start), " \t|") || line === 0) return false;
+  const prev = rfind(text, "\n", line - 1) + 1;
+  let a = prev, b = line - 1;
+  while (a < b && " \t|".includes(text[a]!)) a++;
+  while (b > a && " \t|,".includes(text[b - 1]!)) b--;
+  return b > a && results.some(r => r.entity_type === "PERSON" && r.start <= a && r.end >= b);
+}
+
 export function splitAddresses(text: string, results: RecognizerResult[], make: Make): RecognizerResult[] {
   const out: RecognizerResult[] = [];
   for (const r of results) {
     if (r.entity_type !== "ADDRESS") { out.push(r); continue; }
+    let role = addressRole(text, r.start, r.end);
+    if (role === null && underAName(text, r.start, results)) role = "party";
+    const name = r.recognition_metadata?.recognizer_name ?? "tr_address";
+    if (role === "party") { out.push(make("ADDRESS", r.start, r.end, r.score, "a party's own address (masked whole)", name)); continue; }
+    if (role === "property") continue;
     for (const [s, e] of addressParts(text, r.start, r.end))
-      out.push(make("ADDRESS", s, e, r.score, "building, door or flat of an address (street left visible)",
-        r.recognition_metadata?.recognizer_name ?? "tr_address"));
+      out.push(make("ADDRESS", s, e, r.score, "building, door or flat of an address (street left visible)", name));
   }
   return out;
 }
@@ -851,7 +900,7 @@ export function ocrTckn(text: string, ranges: Array<[number, number]>): ScoreRes
 }
 
 export function defaultRecognizers(): Recognizer[] {
-  return [new TCKNRecognizer(), new PassportRecognizer(), new ForeignIDRecognizer(), new VKNRecognizer(), new IBANRecognizer(),
+  return [new TCKNRecognizer(), new PassportRecognizer(), new ForeignIDRecognizer(), new UETSRecognizer(), new VKNRecognizer(), new IBANRecognizer(),
     new CreditCardRecognizer(), new EmailRecognizer(), new PhoneRecognizer(), new PlateRecognizer(), new IPRecognizer(),
     new BirthDateRecognizer(), new PersonRecognizer(), new AddressRecognizer(), new SpecialCategoryRecognizer()];
 }

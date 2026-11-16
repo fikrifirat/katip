@@ -327,12 +327,24 @@ def test_profiles_ladder(tmp_path):
     anon = core.mask_file(str(f), "p3", profile="anon")["masked_text"]
     for t in (court, ai, anon):
         assert "Ayşe Kaya" not in t and "Mehmet Demir" not in t
-    assert "Bağdat Caddesi" in court and "2023/145" in court      # court: street and case number readable
+    # court: the party's own home is masked whole, so are the lawyer's bar number (and UETS); case number readable
+    assert "Bağdat Caddesi" not in court and "34507" not in court and "2023/145" in court
     assert "Bağdat Caddesi" not in ai and "2023/145" not in ai    # ai: whole address and case number masked
     assert "12.03.2024" in ai and "12.03.2024" not in anon        # anon: dates too
     assert "Asliye Hukuk" not in anon
     with pytest.raises(ValueError):
         core.mask_file(str(f), "p4", profile="nope")
+
+
+def test_court_profile_keeps_disputed_property_readable(tmp_path):
+    from katip_kalkan import core
+    f = tmp_path / "tahliye.txt"
+    f.write_text("Davalı kiracı Ayşe Kaya, Moda Mah. Bahariye Cad. No:40 D:6 Kadıköy/İstanbul adresindeki taşınmazı kiralamıştır.\n"
+                 "Davacı vekili Av. Mehmet Demir (UETS: 18452-30917-66204)\n", encoding="utf-8")
+    court = core.mask_file(str(f), "p5", profile="court")["masked_text"]
+    ai = core.mask_file(str(f), "p6")["masked_text"]
+    assert "Bahariye Cad. No:40 D:6" in court and "18452-30917-66204" not in court
+    assert "Bahariye Cad." not in ai and "18452-30917-66204" not in ai
 
 
 # ------------------------------------------------------------------ local OCR (scans and phone photos)

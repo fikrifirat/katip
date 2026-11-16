@@ -9,7 +9,7 @@ export const PROFILE_SPEC = {
    "title": "Court filing",
    "title_tr": "Mahkemeye sunum",
    "address_detail": "street",
-   "description": "All personal data is masked; street, mahalle, district and province, case numbers and dates stay readable. For evidence and petition attachments.",
+   "description": "All personal data is masked, including parties' own addresses in full and a lawyer's UETS address and bar number. The address of the property in dispute, streets of other addresses, case numbers and dates stay readable. For evidence and petition attachments.",
    "entities": [
     "TCKN",
     "VKN",
@@ -25,20 +25,22 @@ export const PROFILE_SPEC = {
     "YKN",
     "PASSPORT",
     "FOREIGN_ID",
+    "UETS",
     "HEALTH",
     "RELIGION",
     "POLITICAL",
     "UNION",
     "ETHNICITY",
     "SEXUAL_LIFE",
-    "BIOMETRIC_GENETIC"
+    "BIOMETRIC_GENETIC",
+    "BAR_NO"
    ]
   },
   "ai": {
    "title": "Sharing with AI",
    "title_tr": "Yapay zekâ ile paylaşım",
    "address_detail": "full",
-   "description": "Court filing plus the whole address, case and UYAP numbers, bar and registry numbers and criminal-record terms.",
+   "description": "Court filing plus every address (the property in dispute too), case and UYAP numbers and criminal-record terms.",
    "entities": [
     "TCKN",
     "VKN",
@@ -54,6 +56,7 @@ export const PROFILE_SPEC = {
     "YKN",
     "PASSPORT",
     "FOREIGN_ID",
+    "UETS",
     "HEALTH",
     "RELIGION",
     "POLITICAL",
@@ -86,6 +89,7 @@ export const PROFILE_SPEC = {
     "YKN",
     "PASSPORT",
     "FOREIGN_ID",
+    "UETS",
     "HEALTH",
     "RELIGION",
     "POLITICAL",
@@ -117,6 +121,7 @@ export const PROFILE_SPEC = {
   "YKN": "Yabancı Kimlik No",
   "PASSPORT": "Pasaport No",
   "FOREIGN_ID": "Yabancı Ülke Kimlik No",
+  "UETS": "UETS (e-Tebligat) Adresi",
   "HEALTH": "Sağlık Verisi",
   "RELIGION": "Din/İnanç",
   "POLITICAL": "Siyasi Görüş",

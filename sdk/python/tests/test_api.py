@@ -17,12 +17,21 @@ DOC = ("Davacı Ahmet YILMAZ (T.C. Kimlik No: 10000000146) Kızılay Mah. Atatü
        "Ahmet YILMAZ 12.03.2024 tarihinde ödedi. Depresyon tedavisi görüyor.")
 
 
-def test_court_profile_keeps_street_case_number_and_date():
+def test_court_profile_masks_party_address_keeps_case_number_and_date():
     r = Masker("court").mask(DOC)
     assert "Ahmet" not in r.text and "10000000146" not in r.text and "0532" not in r.text
-    assert "Kızılay Mah. Atatürk Cad." in r.text and "Çankaya/ANKARA" in r.text
+    assert "Kızılay" not in r.text and "Çankaya" not in r.text  # where the party lives: masked whole
     assert "2023/145" in r.text and "12.03.2024" in r.text
     assert r.text.count("[AD SOYAD-1]") == 2  # same person, same placeholder
+
+
+def test_court_profile_keeps_disputed_property_and_masks_uets():
+    text = ("Kiralananın Adresi: Kızılay Mah. Atatürk Cad. No:12 D:3 Çankaya/ANKARA\n"
+            "Davalı vekili Av. Zeynep KARA, UETS: 16013-10288-73541")
+    r = Masker("court").mask(text)
+    assert "Kızılay Mah. Atatürk Cad. No:12 D:3 Çankaya/ANKARA" in r.text  # evidence: the leased flat
+    assert "16013-10288-73541" not in r.text and "Zeynep" not in r.text
+    assert "Kızılay" not in Masker("ai").mask(text).text
 
 
 def test_ladder_each_profile_masks_more():
@@ -38,7 +47,8 @@ def test_profiles_match_kalkan_and_demo():
     """Same ladder as connector/katip_kalkan/engine.py PROFILES and src/app.js PROFILES."""
     case, anon = ["CASE_NO", "BAR_NO"], ["DATE", "PLACE", "INSTITUTION"]
     p = km.PROFILES
-    assert p["court"]["entities"] == [e for e in ALL_ENTITIES if e != "CRIMINAL_RECORD"] and p["court"]["address_detail"] == "street"
+    assert p["court"]["entities"] == [e for e in ALL_ENTITIES if e != "CRIMINAL_RECORD"] + ["BAR_NO"]
+    assert p["court"]["address_detail"] == "street"
     assert p["ai"]["entities"] == ALL_ENTITIES + case and p["ai"]["address_detail"] == "full"
     assert p["anon"]["entities"] == ALL_ENTITIES + case + anon and p["anon"]["address_detail"] == "full"
 
