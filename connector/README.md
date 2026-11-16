@@ -9,7 +9,7 @@ Katip can put the real names back into the final document there.
 *Türkçe:* Katip Kalkan, avukatların müvekkil belgelerindeki kişisel verileri (ad soyad, T.C. kimlik no,
 adres, telefon, IBAN, sağlık verisi) Claude görmeden önce kendi bilgisayarlarında maskeleyen bir Claude
 eklentisidir. Belgeyi yapay zekâ ile paylaşmadan önce verileri yerelde maskeleyerek büronuzdan çıkan müvekkil verisini azaltır;
-belgeler ve gerçek adlar bilgisayardan çıkmaz.
+belgeler ve gerçek adlar bilgisayardan çıkmaz. Kurul'un [avukatlar için uygulama rehberindeki](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi) maskeleme önerisine göre tasarlandı.
 
 Keywords: KVKK, GDPR, PII redaction, personal data masking, pseudonymisation, anonymisation, Turkish NER,
 legal AI, avukat, kişisel veri maskeleme, anonimleştirme, UYAP.
@@ -43,7 +43,9 @@ Katip is a safety layer, not a guarantee, and not legal advice.
   Check the masked text when it matters, and use the `anon` profile for the most sensitive files.
 * **Masked text is still personal data under KVKK.** Pseudonymised text sent to Claude is less risky,
   but it is still personal data, and sending it abroad is still a transfer. Your firm remains the
-  data controller and decides whether this use is lawful (KVKK m.4, m.9).
+  data controller and decides whether this use is lawful (KVKK m.4, m.9). Katip follows the KVKK Board's
+  [guide for lawyers](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi) (22 Sep 2026), which recommends masking or anonymising data before sharing
+  it with generative AI tools (p. 146).
 * **Claude's answers about the law can be wrong.** Review every draft before you use it.
 * **Attached files are not protected.** A file you attach to the chat is uploaded with your message,
   before any tool runs. Put client files in your Katip folder instead (see below).
@@ -109,7 +111,7 @@ author or to any third party. The placeholder map (placeholder → real value) i
 encrypted with AES-256-GCM. The key is in the macOS Keychain, or in `~/.katip/key` readable only by you.
 Maps are deleted after 30 days (`KATIP_VAULT_DAYS`) or at once with `forget_matter`. Contact:
 [GitHub issues](https://github.com/fikrifirat/katip/issues). Full policy: [PRIVACY.md](PRIVACY.md). The KVKK context for lawyers (m.4, m.6, m.9 after Law No. 7499, Avukatlık Kanunu
-m.36): [../PRIVACY.md](../PRIVACY.md).
+m.36): [../PRIVACY.md](../PRIVACY.md). Questions and answers, including what each profile masks: [../FAQ.md](../FAQ.md) · [../FAQ.tr.md](../FAQ.tr.md).
 
 ## How to use it
 

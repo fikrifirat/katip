@@ -23,10 +23,10 @@ court documents with clients, experts or AI tools under KVKK.
 
 Lawyers are data controllers for their clients' data (KVKK m.3). Sending a case file to a foreign AI provider
 is a transfer abroad that needs a legal basis under KVKK m.9 (as amended by Law No. 7499), on top of the duty
-of professional secrecy (Avukatlık Kanunu m.36). The KVKK Board's 2026 guide for lawyers recommends masking
-data before sharing it with AI tools. Katip masks on your computer, so less client data leaves your office. It
+of professional secrecy (Avukatlık Kanunu m.36). The KVKK Board's [guide for lawyers](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi) (22 September 2026)
+recommends masking or anonymising data before sharing it with AI tools (p. 146), and Katip follows that advice. Katip masks on your computer, so less client data leaves your office. It
 can miss values and it does not replace a legal basis, so you still check the result.
-How Katip handles data: [PRIVACY.md](PRIVACY.md).
+How Katip handles data: [PRIVACY.md](PRIVACY.md). Questions and answers: [FAQ.md](FAQ.md).
 
 ## Use it with Claude: Katip Kalkan
 
