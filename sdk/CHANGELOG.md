@@ -3,6 +3,12 @@
 Both packages share a version number and are released together. A change to what is masked by default
 (new rule, new default threshold) bumps at least the minor version.
 
+## 0.1.1 (2026-11-16)
+
+Package page fixes only, no change to what is masked.
+
+- README: npm package is not published yet; say so instead of linking it. Removed a stray blank line.
+
 ## 0.1.0 (2026-11-16)
 
 First release.

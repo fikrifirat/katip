@@ -2,11 +2,11 @@
 
 Detect and mask Turkish personal data (KVKK) in text, locally. It uses the same rules as the
 [Katip demo](https://fikrifirat.github.io/katip) and the Katip Kalkan connector, with optional small name
-models (ONNX). A JavaScript version with identical output is on npm as
-[`katip-mask`](https://www.npmjs.com/package/katip-mask).
+models (ONNX). A JavaScript version with identical output is in
+[`sdk/js`](https://github.com/fikrifirat/katip/tree/main/sdk/js); its npm release is coming.
 
 ```bash
-pip install katip-mask            # rules only, no dependencies
+pip install katip-mask            # rules only, standard library, no dependencies
 pip install "katip-mask[model]"   # adds onnxruntime and numpy for the name models
 ```
 
@@ -26,7 +26,6 @@ result.restore(answer)   # put the original values back, e.g. into an LLM's repl
 ## Limits
 
 How Katip handles data, and what masking does and does not do under KVKK: [PRIVACY.md](https://github.com/fikrifirat/katip/blob/main/PRIVACY.md).
-
 
 Each detected value is masked everywhere it appears in the text, or `mask()` raises `LeakError`.
 Values the detector misses stay in the text, so check the output before relying on it. Detection rates

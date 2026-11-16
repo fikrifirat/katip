@@ -1,6 +1,6 @@
 {
   "name": "katip-mask",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Detect and mask Turkish personal data (KVKK) in Node or the browser, locally. Same output as the Python package.",
   "keywords": [
     "kvkk",

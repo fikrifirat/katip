@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "katip-mask"
-version = "0.1.0"
+version = "0.1.1"
 description = "Detect and mask Turkish personal data (KVKK) locally, with optional ONNX name models."
 readme = "README.md"
 requires-python = ">=3.10"

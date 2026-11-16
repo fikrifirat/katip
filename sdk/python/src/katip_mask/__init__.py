@@ -17,7 +17,7 @@ from .api import (DEFAULT_THRESHOLD, ENTITY_TYPES, LABELS_TR, PROFILES, Masker, 
 from .models import MODELS, ModelError, cache_dir, download_model, model_path
 from .safety import LeakError
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = ["Masker", "MaskResult", "Span", "LeakError", "ModelError", "mask", "detect", "restore", "PROFILES",
            "ENTITY_TYPES", "LABELS_TR", "DEFAULT_THRESHOLD", "MODELS", "download_model", "model_path", "cache_dir",

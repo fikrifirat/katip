@@ -17,7 +17,7 @@ export { ModelError, MODELS, downloadModel, loadModel, loadModelFromFiles, model
 export { NameModel, type ModelFiles, type OrtLike } from "./model/ner.js";
 export { ENGINE_SHA256 };
 export { cacheDir } from "#runtime";
-export const VERSION = "0.1.0";
+export const VERSION = "0.1.1";
 
 export type Profile = keyof typeof PROFILE_SPEC.profiles;
 export type EntityType = keyof typeof PROFILE_SPEC.labels_tr;
