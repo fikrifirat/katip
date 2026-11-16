@@ -22,6 +22,12 @@ T = {
         "restore_ext": "Gerçek adlı metin .docx, .txt ya da .md olarak kaydedilebilir.",
         "no_burn": "PDF ve fotoğraflarda kalıcı karartma Katip uygulamasında yapılır; metin için mask_file kullanın.",
         "folder_note": "Müvekkil dosyalarını buraya koyun; Katip yalnızca bu klasördeki dosyaları açar.",
+        "folder_broad": "Katip klasörü çok geniş seçilmiş (ana klasör, Masaüstü, Belgeler ya da İndirilenler'in tamamı): "
+                        "Katip oradaki her dosyayı açabilir. Ayarlardan yalnızca müvekkil belgeleri için ayrı bir klasör "
+                        "seçin (ör. Belgeler/katip-documents).",
+        "folder_cloud": "Katip klasörü iCloud, OneDrive, Google Drive ya da Dropbox ile eşitleniyor gibi görünüyor: "
+                        "müvekkil belgeleri ve gerçek adlı son metinler o hizmete de kopyalanır. Eşitlenmeyen bir klasör "
+                        "seçmenizi öneririz (ör. kullanıcı klasörünüzde Katip).",
         "list_note": "Adlar bilerek kısaltıldı: kişi adı olabilecek sözcükler … olarak görünür. mask_file'a "
                      "file_id verin. Hangi dosyanın kastedildiği belirsizse kullanıcıya sorun. "
                      "Liste en yeni dosyayla başlar.",
@@ -44,6 +50,12 @@ T = {
         "restore_ext": "The text with real names can be saved as .docx, .txt or .md.",
         "no_burn": "Burn-in redaction of PDFs and photos runs in the Katip app; use mask_file for the text.",
         "folder_note": "Put client files here; Katip only opens files in this folder.",
+        "folder_broad": "The Katip folder is very broad (your home folder, or all of Desktop, Documents or Downloads): "
+                        "Katip could open any file there. In the settings, pick a folder just for client documents "
+                        "(e.g. Documents/katip-documents).",
+        "folder_cloud": "The Katip folder seems to sync to iCloud, OneDrive, Google Drive or Dropbox, so client documents "
+                        "and final texts with real names are copied there too. We recommend a folder that doesn't sync "
+                        "(e.g. a Katip folder in your user folder).",
         "list_note": "Names are shortened on purpose: words that could be a person's name show as …. Pass "
                      "file_id to mask_file. Ask the user which file they mean if it is unclear. Newest first.",
         "ocr": "{n} page(s) read with OCR on this computer ({readers}); check unusual spellings.",

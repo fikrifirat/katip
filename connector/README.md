@@ -78,7 +78,17 @@ claude plugin install katip-kalkan@katip
 Claude Desktop (chat): download `katip-kalkan.mcpb` from the
 [latest Kalkan release](https://github.com/fikrifirat/katip/releases?q=kalkan) and double-click it.
 
-**Requirements.** macOS (tested) or Linux; Windows is not tested yet. `python3` 3.9 or later on the
+**Choosing the folder.** Katip opens documents only from one folder and saves final documents with real names
+into it. Keep the default (`Documents/katip-documents`, created on first use, readable only by you) unless your
+Documents folder syncs to iCloud, OneDrive or Google Drive; then pick a folder that doesn't sync, such as
+`~/Katip`. Don't pick Desktop, all of Documents or your home folder: Katip warns you if you do. In Claude Code
+set `KATIP_FOLDER` to change it. More: [FAQ](https://github.com/fikrifirat/katip/blob/main/FAQ.md#which-folder-should-katip-use).
+
+**Where it works.** Claude Desktop, Claude Code and Cowork on your computer. Not claude.ai in the browser,
+mobile apps or ChatGPT: those reach only connectors on the provider's servers, so the document would leave
+your computer before masking.
+
+**Requirements.** macOS (tested by hand) or Linux; Windows is checked by automated tests on every change but not yet tried by a person. `python3` 3.9 or later on the
 PATH, and [uv](https://docs.astral.sh/uv/) (recommended: `brew install uv`). With uv, Katip has the
 name model, PDF and scan reading and the encrypted map. Without uv it runs on rules only, can't read
 PDFs or scans, keeps the map in memory, and `katip_status` says so.

@@ -78,6 +78,26 @@ konusu taşınmazın adresi ise delildir. Yapay zekâ profilinde kendi dosya num
   adlandırmadır.
 * **Hukuki değerlendirmenizi denetlemez;** yapay zekâ da denetlemez.
 
+## Katip Kalkan nerede çalışır?
+
+Yalnızca kendi bilgisayarınızda: **Claude Desktop** (sohbet; `.mcpb` dosyasıyla kurulur), **Claude Code** ve
+bilgisayarınızda çalışan **Cowork**. Tarayıcıdaki claude.ai'de, Claude ya da ChatGPT mobil uygulamalarında ve
+web'deki ChatGPT'de **çalışmaz**. Bunlar yalnızca sağlayıcının sunucularında çalışan bağlayıcıları
+kullanabilir; belge maskelenmeden önce bilgisayarınızdan çıkmak zorunda kalır, bu da işin amacını bozar.
+Tarayıcıda [Katip web uygulamasını](https://fikrifirat.github.io/katip) kullanın: belgeyi tarayıcı sekmenizde
+maskeler, maskeli metni siz kopyalar ya da indirirsiniz. macOS'ta denendi; Windows destekleniyor ve otomatik
+testlerle kontrol ediliyor, ama henüz bir kullanıcı tarafından denenmedi.
+
+## Katip hangi klasörü kullanmalı?
+
+Yalnızca müvekkil belgeleri için ayrılmış bir klasörü. Katip belgeleri yalnızca bu klasörden açar ve gerçek
+adlı son belgeleri buraya kaydeder. Varsayılan `Belgeler/katip-documents` ilk kullanımda oluşturulur ve yalnızca
+siz açabilirsiniz. Belgeler klasörünüz iCloud, OneDrive ya da Google Drive ile eşitleniyorsa bunu değiştirin ve
+eşitlenmeyen bir klasör seçin (ör. kullanıcı klasörünüzde `Katip`). Masaüstünü, Belgeler'in tamamını ya da ana
+klasörünüzü seçmeyin; Katip o zaman oradaki her dosyayı açabilir ve bunu size bildirir. Klasörü sonradan
+değiştirirseniz müvekkil belgelerinizi yeni klasöre taşıyın. Claude Code ve Cowork'te Claude'un kendi dosya
+araçlarının bu klasöre erişimi engellenir; belgeler yalnızca Katip üzerinden açılır.
+
 ## Verilerim nereye gider?
 
 Sizin göndermeyi seçtiğiniz dışında hiçbir yere. Web uygulaması tarayıcı sekmenizde çalışır; Kalkan eklentisi

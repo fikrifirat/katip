@@ -75,6 +75,26 @@ client and the AI rarely needs them.
   person.
 * **It does not check your legal reasoning,** and neither does the AI.
 
+## Where does Katip Kalkan work?
+
+On your own computer only: in **Claude Desktop** (chat, installed from the `.mcpb` file), **Claude Code** and
+**Cowork** running on your computer. It does **not** work in claude.ai in the browser, in the Claude or
+ChatGPT mobile apps, or in ChatGPT on the web. Those can only use connectors that run on the provider's
+servers, so the document would have to leave your computer before it is masked, which defeats the purpose.
+In a browser, use the [Katip web app](https://fikrifirat.github.io/katip): it masks the document inside your
+browser tab, and you copy or download the masked text yourself. macOS is tested; Windows is supported and
+checked by automated tests, but not yet tried by a person.
+
+## Which folder should Katip use?
+
+A folder only for client documents. Katip opens documents only from this folder and saves final documents
+with real names into it. The default, `Documents/katip-documents`, is created on first use and only you can
+open it. Change it if your Documents folder syncs to iCloud, OneDrive or Google Drive: choose a folder that
+doesn't sync, for example a `Katip` folder in your user folder. Don't choose your Desktop, all of Documents or
+your home folder, because Katip could then open any file there; Katip warns you if you do. If you change the
+folder later, move your client documents into the new one. In Claude Code and Cowork, Claude's own file tools
+are blocked from this folder, so documents are opened only through Katip.
+
 ## Where does my data go?
 
 Nowhere, apart from what you choose to send. The web app runs in your browser tab, and the Kalkan plugin runs on

@@ -556,3 +556,16 @@ def test_guard_blocks_claudes_own_tools_in_the_katip_folder(tmp_path):
     for call in allowed:
         assert _guard(call, env)[0] == 0, call
     assert _guard("not json", env)[0] == 0
+
+
+def test_folder_warning_for_broad_or_synced_folders(tmp_path, monkeypatch):
+    from katip_kalkan import core
+    monkeypatch.setenv("HOME", str(tmp_path))
+    monkeypatch.setenv("USERPROFILE", str(tmp_path))
+    (tmp_path / "Documents" / "katip-documents").mkdir(parents=True)
+    assert core.folder_warning((tmp_path / "Documents" / "katip-documents").resolve()) is None
+    assert core.folder_warning((tmp_path / "Documents").resolve())
+    assert core.folder_warning(tmp_path.resolve())
+    assert core.folder_warning((tmp_path / "Library" / "CloudStorage" / "OneDrive" / "Katip").resolve())
+    (tmp_path / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / "Documents").mkdir(parents=True)
+    assert core.folder_warning((tmp_path / "Documents" / "katip-documents").resolve())

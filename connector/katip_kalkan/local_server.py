@@ -41,6 +41,7 @@ user to paste or upload the original. Keep placeholders such as [AD SOYAD-1] exa
 When the user wants a final document with the real names, call restore_to_file with your text and a file
 name such as cevap-dilekcesi.docx (.docx, .txt or .md; it is saved in the Katip folder). Never open that file. Katip
 writes it on their computer and you will only get the file path back, never the real values.
+If a result has folder_warning, pass it on to the user once, in their language.
 If the user asks where their files go or wants to see the folder, call open_folder. When a file is not
 in list_files, ask the user to put it in their Katip folder (open_folder shows it).
 If the user says "the file I just added" or similar, call mask_file with file_id "latest".
@@ -105,8 +106,8 @@ TOOLS = [
          {"readOnlyHint": False, "destructiveHint": True, "idempotentHint": True, "openWorldHint": False}),
     Tool("open_folder", *tool("open_folder"),
          {"type": "object", "properties": {}, "additionalProperties": False},
-         lambda: core.open_folder(),
-         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
+         lambda: core.open_folder(),  # creates the folder on first use
+         {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
     Tool("katip_status", *tool("katip_status"),
          {"type": "object", "properties": {}, "additionalProperties": False},
          lambda: core.status(),

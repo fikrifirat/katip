@@ -86,8 +86,8 @@
   "user_config": {
     "allowed_dir": {
       "type": "directory",
-      "title": "Müvekkil dosyaları klasörü / Client files folder",
-      "description": "Katip yalnızca bu klasördeki dosyaları açar. Değiştirmeden kaydedebilirsiniz: Belgeler/katip-documents oluşturulur. · Katip only opens files in this folder; leave it to use Documents/katip-documents.",
+      "title": "Müvekkil belgeleri klasörü / Client documents folder",
+      "description": "Katip yalnızca bu klasördeki belgeleri açar ve gerçek adlı son metinleri buraya kaydeder. Önerilen: varsayılanı bırakın (Belgeler/katip-documents, yalnızca size açık bir klasör olarak oluşturulur). Belgeler klasörünüz iCloud, OneDrive ya da Google Drive ile eşitleniyorsa eşitlenmeyen bir klasör seçin. Masaüstünü, Belgeler'in tamamını ya da ana klasörünüzü seçmeyin. · Katip opens only documents in this folder and saves final texts with real names here. Recommended: keep the default. If Documents syncs to iCloud, OneDrive or Google Drive, pick a folder that doesn't sync. Don't pick Desktop, all of Documents or your home folder.",
       "required": false,
       "default": "${HOME}/Documents/katip-documents"
     },

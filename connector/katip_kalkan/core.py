@@ -47,6 +47,29 @@ def folder(create: bool = True) -> Path:
     return f
 
 
+_CLOUD = ("library/mobile documents", "library/cloudstorage", "onedrive", "google drive", "googledrive",
+          "dropbox", "icloud", "yandex.disk", "box sync")
+
+
+def folder_warning(f: Path | None = None) -> str | None:
+    """A plain warning when the Katip folder is too broad (home, Desktop, all of Documents or Downloads, a drive)
+    or synced to a cloud service, so client files and restored documents with real names would be copied there."""
+    f = f or folder(create=False)
+    home = Path.home().resolve()
+    broad = {home, home / "Desktop", home / "Documents", home / "Downloads", home / "Masaüstü", home / "Belgeler",
+             Path(f.anchor)}
+    if f in broad:
+        return msg("folder_broad")
+    low = str(f).replace("\\", "/").lower()
+    if any(c in low for c in _CLOUD):
+        return msg("folder_cloud")
+    # macOS "Desktop & Documents" in iCloud: everything in Documents is uploaded to iCloud
+    icloud_docs = home / "Library" / "Mobile Documents" / "com~apple~CloudDocs" / "Documents"
+    if icloud_docs.exists() and (home / "Documents") in f.parents:
+        return msg("folder_cloud")
+    return None
+
+
 def open_folder() -> dict:
     """Show the Katip folder in Finder / Explorer / the file manager."""
     import subprocess
@@ -59,7 +82,8 @@ def open_folder() -> dict:
     except OSError:
         opened = False
     return {"folder": str(f), "link": f.as_uri(), "opened": opened,
-            "note": msg("folder_note")}
+            "note": msg("folder_note"),
+            **({"folder_warning": w} if (w := folder_warning(f)) else {})}
 
 
 def _nfc(p: Path) -> str:
@@ -120,8 +144,10 @@ def list_files() -> dict:
                       "modified": time.strftime("%Y-%m-%d %H:%M", time.localtime(st.st_mtime)), "_mtime": st.st_mtime,
                       **({"subfolder": len(p.relative_to(root).parts) - 1} if p.parent != root else {})})
     items.sort(key=lambda f: f.pop("_mtime"), reverse=True)  # newest first: "the file I just added"
-    return {"folder": "your Katip folder", "files": items,
-            "note": msg("list_note")}
+    out = {"folder": "your Katip folder", "files": items, "note": msg("list_note")}
+    if (w := folder_warning(root)):
+        out["folder_warning"] = w
+    return out
 
 
 def _target(path: str | None, file_id: str | None) -> Path:
@@ -406,4 +432,5 @@ def status() -> dict:
             "vault": "encrypted on this device" if vault.persistent() else "memory only",
             "expired_vaults_purged": vault.purge_expired(),
             "folder": str(folder()), "folder_link": folder().as_uri(),
-            "allowed_dirs": os.pathsep.join(map(str, _roots())) or "any"}
+            "allowed_dirs": os.pathsep.join(map(str, _roots())) or "any",
+            **({"folder_warning": w} if (w := folder_warning()) else {})}
