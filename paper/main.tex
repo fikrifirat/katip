@@ -32,7 +32,7 @@ We release \textbf{KVKK-Bench}, a public benchmark for that question. Unlike gen
 (i) scores on real court text, with Turkish and foreign names that no system has seen in training;
 (ii) asks what a lawyer needs to know, \emph{how much personal data is still readable} after masking
 (a character-level leak rate), next to a recall-weighted F2; and (iii) penalises masking everything, which a naive span
-scorer (including our own first version) rewards with perfect precision. We evaluate 15 systems and release three small models that run in a
+scorer (including our own first version) rewards with perfect precision. We evaluate 17 systems and release three small models that run in a
 browser: \textbf{Katip Mask Base} (111\,MB), \textbf{Mini} (31\,MB) and \textbf{Nano} (2.9\,MB, 43 pages/s on a
 laptop CPU). Base scores 96.1 Overall [95\% CI 95.4--96.7], a statistical tie with the best general model
 (XLM-R Large, 95.9) at one twentieth of its size, but it leaks more than twice as much (8.2\% vs 3.4\%).
@@ -137,7 +137,7 @@ false alarms per 1,000 words.
 \textbf{Uncertainty.} 95\% CIs come from a percentile bootstrap \citep{efron1993} with 10,000 resamples that
 resamples the 109 court sentences as clusters (keeping their three fills and both court tracks together) and the
 1,000 prose sentences independently. Comparisons with Katip Mask Base are paired (same resample for both systems);
-we report two-sided bootstrap $p$-values and correct across the 14 comparisons with Holm's method \citep{holm1979}.
+we report two-sided bootstrap $p$-values and correct across the 16 comparisons with Holm's method \citep{holm1979}.
 
 \textbf{Release.} Public split, scorer, runner, saved predictions of every system and the leaderboard Space are
 open \citep{firat2026kvkkbench,katip-repo}; a canary string marks every file. Licences follow the sources:
@@ -164,7 +164,10 @@ Presidio with spaCy \texttt{xx\_ent\_wiki\_sm} \citep{presidio}; Turkish NER (BE
 XLM-R Large fine-tuned on English CoNLL-03 \citep{conneau2020xlmr}; GLiNER multi-PII \citep{zaratiana2024gliner}
 and GLiNER2-PII \citep{zaratiana2025gliner2,zaratiana2026gliner2pii} prompted with \emph{person}; Turkish PII models (ModernBERT-TR PII,
 OpenMed PII Turkish 33M); multilingual PII models (OpenAI Privacy Filter \citep{openai-pf}, OpenMed Privacy Filter
-v2, Piiranha); and Qwen2.5-1.5B-Instruct \citep{qwen2025} prompted to list personal data as JSON. All systems
+v2, Piiranha); and Qwen2.5-1.5B-Instruct \citep{qwen2025} prompted to list personal data as JSON. \textbf{Model-size check}: GLiNER2-PII (307M,
+about 3$\times$ Base's parameters) placed inside Katip's rules exactly like the Katip tagger (person, address and health condition), once as
+released and once fine-tuned on Base's training data (same documents, same three types, 3 epochs on one free Colab T4; recipe in the
+repository, weights not released). GLiNER2 marks spans of at most 8 words, so training addresses are split into pieces at natural breaks. All systems
 receive identical text and are timed on one Apple-silicon laptop (12 CPUs) in Python; a page is 500 words.
 
 \section{Results}
@@ -208,6 +211,8 @@ System & Params & Size MB & Pages/s & \textbf{Overall} [95\% CI] & TR names & Fo
 XLM-R Large (CoNLL-en) & 559M & 2,235 & 2.3 & 95.9 [94.9, 96.7] & 97.6 & 97.5 & \textbf{89.9} & \textbf{3.4} [2.9, 3.9] & -- \\
 XLM-R Base Turkish NER & 277M & 1,110 & 5.7 & 95.7 [94.8, 96.6] & 98.5 & \textbf{98.2} & 86.3 & 6.6 [5.6, 7.8] & -- \\
 GLiNER2 PII (person) & 307M & 1,228 & 1.2 & 95.0 [94.1, 95.8] & 98.1 & \textbf{98.2} & 83.9 & 5.8 [4.8, 7.0] & -- \\
+\quad + Katip rules, fine-tuned & 307M & 1,229 & 1.0 & 95.5 [94.4, 96.4] & 98.7 & 97.3 & 86.0 & 7.8 [6.6, 9.2] & -- \\
+\quad + Katip rules, untuned & 307M & 1,229 & 1.1 & 94.2 [93.2, 95.0] & 98.2 & 97.1 & 81.1 & 8.5 [7.2, 10.0] & -- \\
 \textbf{Katip Mask Mini} (ours) & 31M & 31 & 5.1 & 93.0 [92.1, 93.8] & 99.1 & 97.2 & 73.4 & 11.6 [10.2, 13.0] & yes \\
 BERTurk NER & 110M & 440 & 6.0 & 91.6 [88.8, 93.4] & 97.4 & 91.7 & 77.1 & 8.1 [6.9, 9.4] & -- \\
 GLiNER multi PII & 289M & 1,156 & 1.1 & 91.3 [85.7, 95.5] & 93.1 & 92.9 & 85.2 & 10.5 [5.6, 16.7] & -- \\
@@ -231,11 +236,18 @@ tested, not that it cannot run there. Numbers match the live leaderboard and the
 \end{table*}
 
 \textbf{Main result (Table~\ref{tab:main}).} Katip Mask Base has the highest Overall, 96.1, but the top is a tie:
-its lead over XLM-R Large (0.2 [$-$0.7, 1.2], $p=0.70$), XLM-R Base Turkish NER (0.3 [$-$0.6, 1.3], $p=0.48$)
-and GLiNER2 (1.1 [0.2, 2.1], $p=0.02$) is not significant after Holm correction over the 14 comparisons; the
-other 11 differences remain significant (raw $p\le0.009$). The ranking also depends on the metric: XLM-R Large leaks less than half
+its lead over XLM-R Large (0.2 [$-$0.7, 1.2], $p=0.70$), XLM-R Base Turkish NER (0.3 [$-$0.6, 1.3], $p=0.48$),
+GLiNER2 (1.1 [0.2, 2.1], $p=0.02$) and GLiNER2 fine-tuned on our data (0.5 [$-$0.2, 1.5], $p=0.21$) is not significant after Holm correction over the 16 comparisons; the
+other 12 differences remain significant (raw $p\le0.008$). The ranking also depends on the metric: XLM-R Large leaks less than half
 as much (3.4\% vs 8.2\%, difference 4.8 points [3.7, 5.9]). Of the systems we have run in a browser (only the
 Katip models so far), Base is the strongest, at one twentieth of XLM-R Large's download size. Figure~\ref{fig:tracks} shows where the systems differ: every system shown scores at least 91.7 on court text, but 39--90 on everyday text.
+
+\textbf{Is it the data or the model size?} Putting GLiNER2-PII, with about three times Base's parameters, inside the same rules
+gives 94.2 as released and 95.5 after fine-tuning on Base's training data: the fine-tuning adds 1.4 points [0.2, 2.4],
+almost all on everyday text (prose F2 81.1 to 86.0), and the larger model then ties Base (difference 0.5 [$-$0.2, 1.5]) at 11 times the
+download, 1.7 times the time per page, and no browser option. On phone photos fine-tuning hurt: addresses left readable rose from
+22 to 45 of 120 (Base 24), plausibly because training split each address into pieces of at most 8 words. We read this as evidence that
+the training data, not model size, drives Base's score, and keep Base as the default.
 
 \begin{figure}[t]
 \centering

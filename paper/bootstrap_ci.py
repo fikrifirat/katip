@@ -11,7 +11,7 @@ import bench_score as S, bench_build as B
 D=ROOT+'/lab/data/bench/v0.1.2/public/'
 TR=['court-turkish','court-foreign','prose']; W={'court-turkish':25,'court-foreign':10,'prose':10}
 gold={t:B.load(D+t+'.jsonl') for t in TR}
-SYS=['berturk-v2','mini-v2','xlmr-conll','akdeniz','gliner2-pii','savasy','gliner','tiny-f','cosmos-pii','qwen-1.5b','openmed-pf-v2','openai-pf','piiranha','presidio','openmed-tr-33m']
+SYS=['berturk-v2','mini-v2','xlmr-conll','akdeniz','gliner2-pii','savasy','gliner','tiny-f','cosmos-pii','qwen-1.5b','openmed-pf-v2','openai-pf','piiranha','presidio','openmed-tr-33m','gliner2-katip','gliner2-pii+rules']
 def key(t,g): return g['id'].split('-',2)[2].split('#')[0] if t!='prose' else g['id']
 # cluster index: court sentences shared across the two court tracks
 clusters={}
@@ -66,3 +66,6 @@ for k in SYS[1:]:
     p=2*min(sum(v<=0 for v in d),sum(v>=0 for v in d))/N
     pl=2*min(sum(v<=0 for v in dl),sum(v>=0 for v in dl))/N
     print(f"{k:15} d={100*(point['berturk-v2'][0]-point[k][0]):+.1f} [{100*ci(d)[0]:+.1f}, {100*ci(d)[1]:+.1f}] p={min(1,p):.3f} ; dLeak {100*(point['berturk-v2'][1]-point[k][1]):+.1f} [{100*ci(dl)[0]:+.1f}, {100*ci(dl)[1]:+.1f}] p={min(1,pl):.3f}")
+a,c=samp['gliner2-katip'],samp['gliner2-pii+rules']
+d=[x[0]-y[0] for x,y in zip(a,c)]; dl=[x[1]-y[1] for x,y in zip(a,c)]
+print(f"FT gain d={100*(point['gliner2-katip'][0]-point['gliner2-pii+rules'][0]):+.2f} [{100*ci(d)[0]:+.2f}, {100*ci(d)[1]:+.2f}] p={min(1,2*min(sum(v<=0 for v in d),sum(v>=0 for v in d))/N):.3f} dLeak [{100*ci(dl)[0]:+.2f}, {100*ci(dl)[1]:+.2f}]")
