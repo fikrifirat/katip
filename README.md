@@ -6,6 +6,7 @@
 [![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--mask-yellow)](https://huggingface.co/spaces/f1k/katip-mask)
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--nano-yellow)](https://huggingface.co/f1k/katip-mask-nano)
 [![Base model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--base-yellow)](https://huggingface.co/f1k/katip-mask-base)
+[![KVKK-Bench](https://img.shields.io/badge/KVKK--Bench-Base%2096.1%20%C2%B7%20Mini%2093.0%20%C2%B7%20Nano%2085.9-4c1)](https://huggingface.co/spaces/f1k/kvkk-bench)
 [![Licence: AGPL-3.0 + commercial](https://img.shields.io/badge/licence-AGPL--3.0%20%2B%20commercial-blue)](COMMERCIAL.md)
 
 Katip finds and masks personal data in Turkish legal documents (T.C. kimlik no, VKN, IBAN, phone,

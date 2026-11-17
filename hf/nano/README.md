@@ -29,6 +29,8 @@ tags:
 
 # Katip Mask Nano · tr v1.1
 
+[![KVKK-Bench](https://img.shields.io/badge/KVKK--Bench-85.9%20Overall-4c1)](https://huggingface.co/spaces/f1k/kvkk-bench)
+
 *Türkçe:* Tarayıcıda ya da dizüstü bilgisayarda çalışan 2,5 MB'lık Türkçe ad soyad tanıma modeli; avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme aracı Katip'in varsayılan modeli.
 
 A 2.5 MB Turkish person-name tagger (int8 ONNX) that runs in the browser or on a laptop CPU, next to

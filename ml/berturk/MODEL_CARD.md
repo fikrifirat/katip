@@ -10,6 +10,8 @@ tags: [ner, pii, kvkk, turkish, legal, onnx, privacy, redaction, berturk, gdpr, 
 
 # Katip Mask Base · tr v2 (katip-mask-base)
 
+[![KVKK-Bench](https://img.shields.io/badge/KVKK--Bench-96.1%20Overall-4c1)](https://huggingface.co/spaces/f1k/kvkk-bench)
+
 *Türkçe:* Türkçe hukuk belgelerinde ad soyad, adres ve KVKK md. 6 sağlık verilerini bulan, cihazda çalışan kişisel veri maskeleme / anonimleştirme modeli.
 
 BERTurk (`dbmdz/bert-base-turkish-cased`) fine-tuned to tag **person names, addresses and KVKK
