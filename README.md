@@ -209,7 +209,7 @@ name-only and the multi-type model code).
 
 - Questions, missed redactions, feature requests: [open an issue](https://github.com/fikrifirat/katip/issues/new/choose).
   Please never paste real personal data; use the demo's *Hata bildir* button or fake values.
-- Pilots in your firm, integration or a commercial licence: **fikrifirat@gmail.com**.
+- Support for Katip Kalkan, pilots in your firm, integration or a commercial licence: **fikrifirat@gmail.com**.
 
 ## Develop
 

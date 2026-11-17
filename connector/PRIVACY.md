@@ -1,7 +1,8 @@
 # Katip Kalkan privacy policy
 
 Last updated: 14 November 2026. Applies to Katip Kalkan 0.3.5 and later (Claude plugin and Claude
-Desktop extension). Contact: open an issue at https://github.com/fikrifirat/katip/issues.
+Desktop extension). Contact: fikrifirat@gmail.com, or open an issue at https://github.com/fikrifirat/katip/issues
+(never post real personal data there).
 
 How all of Katip handles data, and the KVKK context for lawyers: [../PRIVACY.md](../PRIVACY.md)
 ([Türkçe](../PRIVACY.tr.md)).

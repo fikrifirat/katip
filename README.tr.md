@@ -210,7 +210,7 @@ türlü model kodu için).
 
 - Sorular, kaçan maskelemeler, öneriler: [issue açın](https://github.com/fikrifirat/katip/issues/new/choose).
   Lütfen gerçek kişisel veri paylaşmayın; demodaki *Hata bildir* düğmesini veya sahte değerleri kullanın.
-- Büronuzda pilot, entegrasyon veya ticari lisans: **fikrifirat@gmail.com**.
+- Katip Kalkan desteği, büronuzda pilot, entegrasyon veya ticari lisans: **fikrifirat@gmail.com**.
 
 ## Geliştirme
 
