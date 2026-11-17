@@ -179,7 +179,7 @@ The training mix was:
 |---|---|---|
 | 80 blind synthetic legal documents, 757 values, names never seen in training | 748 / 757 masked (98.8%), 0.3.6 at threshold 0.5 | All value types, document layouts. 12 of 16 styles share templates with training, so this is optimistic |
 | TurkishLegalNER *test* (real Yargıtay prose), name slots filled with held-out families, 1,011 names | Turkish names 98.7%, foreign names 94.6% [92.5–96.2] | Names in real court language |
-| [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench), 14 systems | See the board | Comparison with other Turkish and multilingual models on real text |
+| [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) leaderboard | See the board | Comparison with other Turkish and multilingual models on real text |
 
 Not tested yet: real case files, because they can't leave a law firm. We plan to measure on documents that
 pilot lawyers label on their own computers. Full details, confidence intervals and the training recipe:
