@@ -8,7 +8,33 @@
     {
       "name": "katip-kalkan",
       "source": "./connector",
-      "description": "For Turkish lawyers: mask client personal data (KVKK) on your computer before Claude reads a document, and get the real names back in your final draft."
+      "description": "KVKK masking for Turkish lawyers: Katip finds and masks names, T.C. kimlik, YKN and passport numbers, addresses, IBANs and health data in client documents (UYAP .udf, Word, PDF, scans) on your computer, so Claude works with placeholders such as [AD SOYAD-1] (PII redaction, pseudonymisation), then puts the real names back into your final draft. Avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme: dilekçe, sözleşme, bilirkişi raporu.",
+      "category": "productivity",
+      "keywords": [
+        "kvkk",
+        "kisisel-veri",
+        "kişisel veri",
+        "maskeleme",
+        "anonimlestirme",
+        "anonimleştirme",
+        "avukat",
+        "hukuk",
+        "dilekce",
+        "uyap",
+        "lawyer",
+        "legal",
+        "law-firm",
+        "turkish",
+        "turkey",
+        "pii",
+        "pii-redaction",
+        "redaction",
+        "anonymization",
+        "pseudonymization",
+        "data-protection",
+        "privacy",
+        "gdpr"
+      ]
     }
   ],
   "description": "Katip: on-device KVKK masking for Turkish law firms using AI. Personal data is masked on your computer before Claude reads a document."
