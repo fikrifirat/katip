@@ -28,6 +28,17 @@ Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Boa
 * If a value Katip found would still be readable, it refuses to hand over the text.
 * No account, no telemetry. The author receives nothing.
 
+**Try it in three steps**
+
+1. **Install:** in Claude Code run `claude plugin marketplace add fikrifirat/katip` and then
+   `claude plugin install katip-kalkan@katip`. In Claude Desktop, double-click the `.mcpb` file
+   ([details](#install)).
+2. **Try it on a sample:** download [this synthetic petition](https://github.com/fikrifirat/katip/raw/main/docs/samples/dilekce_01.docx) (made-up people) into Downloads
+   and type `/katip-incele dilekce_01`. Claude reviews it and sees `[AD SOYAD-1]` and `[T.C. KİMLİK NO-1]` where the
+   names and ID numbers were. Run `katip_status` to see which rules and model did the masking.
+3. **Check the numbers:** the [KVKK-Bench leaderboard](https://huggingface.co/spaces/f1k/kvkk-bench) compares Katip with other Turkish and
+   multilingual models on the same test sets, including how many values each one lets through.
+
 **Commands.** Say which document you mean, the way you'd say it to a colleague: words from its name, its type,
 a file number, or "the one I just downloaded". Katip searches the real file names on your computer and shows
 Claude only shortened names; if several match, Claude asks which one. Type a command in Claude Code or Cowork;
@@ -64,6 +75,17 @@ Avukatlar ve hukuk ekipleri için geliştirildi. Kişisel Verileri Koruma Kurulu
 [avukatlar için uygulama rehberine](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi)
 (22 Eylül 2026) yer alan öneriye göre tasarlandı: Rehber, müvekkil verilerinin üretken yapay zekâ
 araçlarıyla paylaşılmadan önce maskelenmesini ya da anonimleştirilmesini önerir.
+
+**Üç adımda deneyin**
+
+1. **Kurun:** Claude Code'da `claude plugin marketplace add fikrifirat/katip`, ardından
+   `claude plugin install katip-kalkan@katip` çalıştırın. Claude Desktop'ta `.mcpb` dosyasına çift tıklayın
+   ([ayrıntılar](#install)).
+2. **Örnekle deneyin:** [bu kurgusal dilekçeyi](https://github.com/fikrifirat/katip/raw/main/docs/samples/dilekce_01.docx) (kişiler uydurmadır) İndirilenler'e indirin ve
+   `/katip-incele dilekce_01` yazın. Claude dilekçeyi inceler; adların ve kimlik numaralarının yerinde
+   `[AD SOYAD-1]` ve `[T.C. KİMLİK NO-1]` görür. Maskelemeyi hangi kural ve modelin yaptığını `katip_status` gösterir.
+3. **Sonuçlara bakın:** [KVKK-Bench sıralaması](https://huggingface.co/spaces/f1k/kvkk-bench) Katip'i aynı test setlerinde diğer Türkçe ve çok dilli
+   modellerle karşılaştırır; her birinin kaç değeri kaçırdığı da görülür.
 
 **Komutlar.** Belgeyi bir meslektaşınıza söyler gibi tarif edin: adından bir sözcük, türü, dosya numarası ya da
 "son indirdiğim". Belgeleri kopyalamanız gerekmez: Katip dava klasörünüzde (alt klasörler dahil) ve UYAP

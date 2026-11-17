@@ -1,0 +1,38 @@
+name: Katip Kalkan to the MCP Registry
+
+# Lists the latest released .mcpb in the official MCP Registry (registry.modelcontextprotocol.io).
+# Run by hand after a Kalkan release: gh workflow run mcp-registry.yml --repo fikrifirat/katip
+# Ownership of io.github.fikrifirat/* is proven by GitHub OIDC; no secret needed.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Point server.json at the latest Kalkan release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          tag=$(gh api "repos/$GITHUB_REPOSITORY/releases?per_page=30" --jq '[.[]|select(.tag_name|startswith("kalkan-v"))][0].tag_name')
+          ver="${tag#kalkan-v}"
+          gh release download "$tag" -R "$GITHUB_REPOSITORY" -p katip-kalkan.mcpb -D /tmp/rel
+          sha=$(sha256sum /tmp/rel/katip-kalkan.mcpb | cut -d' ' -f1)
+          jq --arg v "$ver" --arg u "https://github.com/$GITHUB_REPOSITORY/releases/download/$tag/katip-kalkan.mcpb" --arg s "$sha" \
+            '.version=$v | .packages[0].identifier=$u | .packages[0].fileSha256=$s' connector/server.json > /tmp/server.json
+          cp /tmp/server.json connector/server.json
+          cat connector/server.json
+      - name: Publish
+        working-directory: connector
+        run: |
+          set -euo pipefail
+          curl -sSL "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz" | tar xz mcp-publisher
+          ./mcp-publisher validate
+          ./mcp-publisher login github-oidc
+          ./mcp-publisher publish
