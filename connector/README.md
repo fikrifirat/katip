@@ -1,4 +1,6 @@
-# Katip Kalkan: KVKK masking for client documents in Claude
+# Katip: KVKK masking for lawyers (Katip Kalkan for Claude)
+
+*Avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme · PII redaction for Turkish legal documents*
 
 **Work on client files with Claude, with the client's personal data masked on your computer first.** Katip Kalkan
 opens the document on your computer, replaces the names, ID numbers and health details it finds with
