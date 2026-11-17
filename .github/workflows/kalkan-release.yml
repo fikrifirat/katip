@@ -34,7 +34,7 @@ jobs:
           python-version: "3.12"
       - name: Test
         run: |
-          pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0  # = launch.py
+          pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0 katip-mask==0.1.1  # = launch.py
           cd connector && python -m pytest -q
       - name: Build bundle
         run: |

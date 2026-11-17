@@ -7,6 +7,12 @@ e-mail attachments) is searched too. Nothing has to be copied anywhere. The inst
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.4.0 (one engine with the katip-mask SDK):**
+- Detection now comes from [katip-mask](https://pypi.org/project/katip-mask/) 0.1.1, the same rules as the Katip app and the SDK, pinned to that exact version: new detection code reaches your computer only through a reviewed Kalkan release. Without uv or offline, Katip uses the same rules bundled in the plugin (a test checks both mask exactly the same).
+- New setting **Ad modeli / Name model**: `nano` (bundled, default, no network), `mini` (31 MB) or `base` (110 MB, best name recall on KVKK-Bench). Mini and Base download once from Hugging Face at the commit pinned in katip-mask, every file checked by SHA-256, then work offline; if the download fails Katip keeps using Nano and says so. The first document after switching takes a minute or two. In Claude Code, set `KATIP_MODEL=base` in the shell you start Claude from.
+- `katip_status` shows where detection comes from and which model runs.
+- CI starts Katip the way you get it, through uv, on Linux, macOS and Windows.
+
 **New in 0.3.8 (documents stay where you keep them):**
 - Katip looks in your case folder (with its subfolders) and in Downloads, where UYAP downloads and e-mail attachments land. You no longer copy files into a Katip folder.
 - Describe the document the way you'd tell a colleague (`/katip-incele son indirdiğim bilirkişi raporu`, `/katip-taslak 2026/123 ihtarname, cevap`): Katip searches file and folder names on your computer, ignoring Turkish letters and case, and Claude sees only shortened names. If several match, Claude asks which one.

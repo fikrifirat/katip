@@ -200,9 +200,12 @@ the [Katip Mask Nano model card](https://huggingface.co/f1k/katip-mask-nano) and
 * **Sends:** nothing. Katip has no telemetry, analytics or crash reporting, and makes no network calls
   while processing documents. Claude receives only the masked text, under Anthropic's terms.
 * **Fetches, once:** on first start, if uv is installed, uv downloads exact pinned versions of
-  onnxruntime 1.32.0, numpy 2.5.4, cryptography 50.0.2, pymupdf 2.1 and rapidocr 3.10.0 from PyPI,
-  and Python 3.12 if it's missing. Set `KATIP_AUTO_DEPS=0` to turn this off. The name model and the OCR
-  models ship inside the plugin; nothing is downloaded from Hugging Face.
+  katip-mask 0.1.1 (the detection rules, the same as the app and the SDK), onnxruntime 1.32.0,
+  numpy 2.5.4, cryptography 50.0.2, pymupdf 2.1 and rapidocr 3.10.0 from PyPI, and Python 3.12 if it's
+  missing. Set `KATIP_AUTO_DEPS=0` to turn this off; Katip then uses the rules bundled in the plugin,
+  which are the same. The Nano name model and the OCR models ship inside the plugin. Only if you set
+  `KATIP_MODEL=base` or `mini` is a model downloaded from Hugging Face, once, at the commit pinned in
+  katip-mask and checked by SHA-256.
 
 ## Privacy policy
 
@@ -267,8 +270,12 @@ scans no value was readable after masking; on 6 synthetic handwritten lease phot
 masked (one block/door number survived).
 
 **Models.** The plugin ships **Katip Mask Nano · tr v1.1** (2.5 MB, Turkish and foreign client
-names, trust 0.5) next to the rules. For the 110 MB **Katip Mask Base · tr v2**, download it from
-Hugging Face and run `katip-kalkan install-model <folder> --trust 0.5`. See
+names, trust 0.5) next to the rules. For better name recall pick **base** (110 MB, the most accurate on
+KVKK-Bench) or **mini** (31 MB) as the name model in the extension's settings (Claude Desktop), or set
+`KATIP_MODEL=base` in the shell you start Claude Code from: Katip downloads it once
+through the katip-mask SDK, at a pinned commit, checks every file's SHA-256 and then works offline. If the
+download fails it keeps using Nano and `katip_status` says so. A model folder of your own still works with
+`katip-kalkan install-model <folder> --trust 0.5`. See
 [katip_kalkan/models/README.md](katip_kalkan/models/README.md).
 
 Example prompts:

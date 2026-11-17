@@ -4,8 +4,13 @@ The engine is the same pure-Python bundle the browser demo runs in Pyodide
 (docs/katip_py.zip: recognizers, word lists, overlap rules, txt/docx/udf
 readers). Nothing here needs the network.
 
+Detection comes from the katip-mask SDK (pinned to SDK_PIN, installed by launch.py with uv), so the
+connector, the SDK and the browser app run the same tested rules. The bundle below still provides the
+document readers (.txt/.docx/.udf), redaction and the leak check, and is the detection fallback when
+katip-mask is missing (no uv, offline first start) or KATIP_ENGINE points elsewhere.
+
 Lookup order for the bundle:
-  1. $KATIP_ENGINE (a .zip or an unpacked folder)
+  1. $KATIP_ENGINE (a .zip or an unpacked folder; also forces its own detection)
   2. katip_kalkan/engine.zip (copied in by build_bundle.py)
   3. <repo>/docs/katip_py.zip (when running from a checkout)
 """
@@ -19,7 +24,9 @@ import zipfile
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+SDK_PIN = "0.1.1"  # exact katip-mask version (launch.py); a new SDK version needs a Kalkan release
 _loaded = None
+_source = "bundled rules"
 
 KINDS = {".txt": "txt", ".md": "txt", ".udf": "udf", ".docx": "docx", ".pdf": "pdf",
          ".png": "image", ".jpg": "image", ".jpeg": "image", ".tif": "image", ".tiff": "image", ".webp": "image"}
@@ -67,9 +74,26 @@ def _unpack(zpath: Path) -> Path:
     return dst
 
 
+def sdk():
+    """The katip_mask package when exactly SDK_PIN is installed and KATIP_SDK isn't 0, else None."""
+    if os.environ.get("KATIP_SDK", "1") == "0" or os.environ.get("KATIP_ENGINE"):
+        return None
+    try:
+        import katip_mask
+    except ImportError:
+        return None
+    return katip_mask if getattr(katip_mask, "__version__", None) == SDK_PIN else None
+
+
+def source() -> str:
+    """Where detection comes from, for katip_status."""
+    load()
+    return _source
+
+
 def load():
-    """Returns (local_detect, local_formats) modules."""
-    global _loaded
+    """Returns (detector, local_formats) modules: the detector is katip-mask's when the pinned SDK is installed."""
+    global _loaded, _source
     if _loaded is None:
         b = _bundle()
         root = b if b.is_dir() else _unpack(b)
@@ -77,7 +101,11 @@ def load():
             sys.path.insert(0, str(root))
         import local_detect  # noqa: E402
         import local_formats  # noqa: E402
-        _loaded = (local_detect, local_formats)
+        det, _source = local_detect, "bundled rules"
+        if (km := sdk()) is not None:
+            from katip_mask._engine import local_detect as det  # noqa: E402
+            _source = f"katip-mask {km.__version__}"
+        _loaded = (det, local_formats)
     return _loaded
 
 

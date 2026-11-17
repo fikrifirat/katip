@@ -36,9 +36,10 @@ computer. Only the masked text, with placeholders such as `[AD SOYAD-1]`, is ret
   them under its own terms and privacy policy. Masked text is pseudonymised, which under KVKK is still
   personal data; the law firm using Katip decides whether sending it to Claude is lawful.
 * **Network:** on first start only, if `uv` is installed, uv downloads pinned open-source packages
-  (onnxruntime, numpy, cryptography, pymupdf, rapidocr) from PyPI and, if missing, Python 3.12 from
-  uv's Python builds. These requests contain no document data. Set `KATIP_AUTO_DEPS=0` to turn them off.
-  Katip makes no other network requests.
+  (katip-mask, onnxruntime, numpy, cryptography, pymupdf, rapidocr) from PyPI and, if missing, Python 3.12
+  from uv's Python builds. If you set `KATIP_MODEL=base` or `mini`, that model is downloaded once from
+  Hugging Face at a pinned commit. These requests contain no document data. Set `KATIP_AUTO_DEPS=0` to turn
+  the package downloads off. Katip makes no other network requests.
 
 ## What Katip can't protect
 

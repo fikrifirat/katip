@@ -1,7 +1,7 @@
 {
   "name": "katip-kalkan",
   "displayName": "Katip Kalkan (KVKK)",
-  "version": "0.3.8",
+  "version": "0.4.0",
   "description": "For Turkish lawyers: Katip masks names, T.C. kimlik numbers, addresses and health data in client documents on your computer, so Claude works with placeholders such as [AD SOYAD-1] instead of the values Katip finds, then puts the real names back into your final document. Avukatlar için yerel KVKK kişisel veri maskeleme.",
   "author": {
     "name": "fikrifirat",
