@@ -4,7 +4,7 @@
 
 Last updated: 16 November 2026. This statement covers the Katip web app (fikrifirat.github.io/katip and the
 Hugging Face Space), the `katip-mask` packages for Python and JavaScript, and the Katip Kalkan connector for
-Claude. Contact: [GitHub issues](https://github.com/fikrifirat/katip/issues). It will move to the author's own
+Claude. Contact: fikrifirat@gmail.com, or [GitHub issues](https://github.com/fikrifirat/katip/issues) (never post real personal data there). It will move to the author's own
 site later; this file stays as a copy.
 
 ## In short

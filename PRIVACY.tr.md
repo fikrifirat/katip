@@ -4,7 +4,7 @@
 
 Son güncelleme: 16 Kasım 2026. Bu metin Katip web uygulamasını (fikrifirat.github.io/katip ve Hugging Face
 Space), Python ve JavaScript için `katip-mask` paketlerini ve Claude için Katip Kalkan bağlayıcısını kapsar.
-İletişim: [GitHub issues](https://github.com/fikrifirat/katip/issues). Metin ileride geliştiricinin kendi
+İletişim: fikrifirat@gmail.com ya da [GitHub issues](https://github.com/fikrifirat/katip/issues) (oraya gerçek kişisel veri yazmayın). Metin ileride geliştiricinin kendi
 sitesine taşınacak; bu dosya kopya olarak kalır.
 
 ## Kısaca
