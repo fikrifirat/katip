@@ -5,7 +5,7 @@
 **Work on client files with Claude, with the client's personal data masked on your computer first.** Katip Kalkan
 opens the document on your computer, replaces the names, ID numbers and health details it finds with
 placeholders such as `[AD SOYAD-1]`, and gives Claude only the masked text. When your draft is ready, Katip
-puts the real names back into a Word file, again on your computer.
+puts the real names back into the draft and saves it as a Word (.docx), text or Markdown file, again on your computer.
 
 Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Board's
 [guide for lawyers](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi)
@@ -48,7 +48,7 @@ in Claude Desktop, pick the same item from the **+** menu.
 |---|---|---|
 | `/katip <document> <request>` | Anything with a client document: Katip masks it first, then Claude does what you ask. | `/katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır` |
 | `/katip-incele <document>, [focus]` | Reviews a document: summary, claims and grounds, gaps and errors, suggestions. | `/katip-incele son indirdiğim UYAP evrakı, zamanaşımı` |
-| `/katip-taslak <document>, [kind]` | Drafts a reply, marks gaps as `[…]` instead of inventing facts, and offers to save it with the real names as a Word file next to the document. | `/katip-taslak Yılmaz kira ihtarnamesi, cevap` |
+| `/katip-taslak <document>, [kind]` | Drafts a reply, marks gaps as `[…]` instead of inventing facts, and offers to save it with the real names as a Word (.docx), text or Markdown file next to the document. | `/katip-taslak Yılmaz kira ihtarnamesi, cevap` |
 
 You can also just ask in plain words, for example "bugün indirdiğim bilirkişi raporunu özetle". Typing a
 client's name to find a file sends that name to Claude as you typed it; a type, date or file number avoids that.
@@ -69,7 +69,7 @@ Details: [Limits and your responsibility](#limits-and-your-responsibility).
 **Müvekkil dosyaları üzerinde Claude ile çalışın; müvekkilin kişisel verileri önce bilgisayarınızda maskelensin.**
 Katip Kalkan belgeyi kendi bilgisayarınızda açar, bulduğu ad soyad, kimlik numarası ve sağlık bilgilerini
 `[AD SOYAD-1]` gibi yer tutucularla değiştirir ve Claude'a yalnızca maskeli metni verir. Taslak hazır
-olduğunda gerçek adları Word dosyasına yine bilgisayarınızda geri koyar.
+olduğunda gerçek adları taslağa yine bilgisayarınızda geri koyar ve Word (.docx), metin ya da Markdown dosyası olarak kaydeder.
 
 Avukatlar ve hukuk ekipleri için geliştirildi. Kişisel Verileri Koruma Kurulu'nun
 [avukatlar için uygulama rehberine](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi)
@@ -97,7 +97,7 @@ Cowork'te yazın; Claude Desktop'ta aynı öğeyi **+** menüsünden seçin.
 |---|---|---|
 | `/katip <belge> <istek>` | Müvekkil belgesiyle her iş: Katip önce maskeler, sonra Claude isteğinizi yapar. | `/katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır` |
 | `/katip-incele <belge>, [odak]` | Belgeyi inceler: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler. | `/katip-incele son indirdiğim UYAP evrakı, zamanaşımı` |
-| `/katip-taslak <belge>, [tür]` | Taslak yazar, bilinmeyenleri uydurmak yerine `[…]` ile işaretler, isterseniz gerçek adlarla belgenin yanına Word dosyası olarak kaydeder. | `/katip-taslak Yılmaz kira ihtarnamesi, cevap` |
+| `/katip-taslak <belge>, [tür]` | Taslak yazar, bilinmeyenleri uydurmak yerine `[…]` ile işaretler, isterseniz gerçek adlarla belgenin yanına Word (.docx), metin ya da Markdown dosyası olarak kaydeder. | `/katip-taslak Yılmaz kira ihtarnamesi, cevap` |
 
 Dosyayı bulmak için müvekkilin adını yazarsanız o ad Claude'a yazdığınız gibi gider; belge türü, tarih ya da
 dosya numarası bunu önler.
@@ -251,7 +251,7 @@ folder, name it: `/katip Yılmaz kira sözleşmesindeki fesih şartlarını çı
 
 **Commands (Claude Code and Cowork).** `/katip <belge> <istek>` for anything; `/katip-incele <belge>, [odak]`
 to review and summarise; `/katip-taslak <belge>, [taslak türü]` to draft a reply and, if you want, save it
-with the real names as a Word file. In Claude Desktop the same three appear in the **+** menu as *Katip ile
+with the real names as a Word (.docx), text or Markdown file. In Claude Desktop the same three appear in the **+** menu as *Katip ile
 güvenli çalış*, *Dilekçeyi incele ve özetle* and *Cevap taslağı hazırla*, each with a "Hangi belge?" field.
 
 **What the approval prompt shows.** Before Katip opens a document, Claude asks for your approval. The prompt

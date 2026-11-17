@@ -98,7 +98,7 @@ one. Type a command in Claude Code or Cowork; in Claude Desktop, pick the same i
 * `/katip-incele <document>, [focus]`: a review: summary, claims and grounds, gaps and errors, suggestions.
   Example: `/katip-incele son indirdiğim UYAP evrakı, zamanaşımı`.
 * `/katip-taslak <document>, [kind]`: a draft reply, with gaps marked `[…]` instead of invented facts. Claude
-  then offers to save it with the real names as a Word file next to the document. Example:
+  then offers to save it with the real names as a Word (.docx), text or Markdown file next to the document. Example:
   `/katip-taslak Yılmaz kira ihtarnamesi, cevap`.
 
 Typing a client's name to find a file sends that name to Claude as you typed it; a document type, date or file
