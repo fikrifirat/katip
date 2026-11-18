@@ -46,7 +46,7 @@ for Claude Desktop, limits and the privacy policy.
 ### The MCP server
 
 Katip Kalkan is a local **Model Context Protocol (MCP) server** in Python, in [`connector/`](connector/). It talks
-MCP over stdio (JSON-RPC 2.0, protocol `2025-06-18`), with no MCP SDK: the protocol layer is
+MCP over stdio (JSON-RPC 2.0, protocol versions `2024-11-05` to `2025-11-25`), with no MCP SDK: the protocol layer is
 [`connector/katip_kalkan/mcp_proto.py`](connector/katip_kalkan/mcp_proto.py) and the tools are in
 [`connector/katip_kalkan/core.py`](connector/katip_kalkan/core.py). Start it with any MCP client:
 
