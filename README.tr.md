@@ -3,7 +3,7 @@
 [English](README.md) · **Türkçe**
 
 [![Canlı demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--mask-yellow)](https://huggingface.co/spaces/f1k/katip-mask)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--kvkk--anonymization-yellow)](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization)
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--nano-yellow)](https://huggingface.co/f1k/katip-mask-nano)
 [![Base modeli](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--base-yellow)](https://huggingface.co/f1k/katip-mask-base)
 [![Lisans: AGPL-3.0 + ticari](https://img.shields.io/badge/lisans-AGPL--3.0%20%2B%20ticari-blue)](COMMERCIAL.md)
@@ -68,7 +68,7 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 | **Katip Mask Nano · tr v1.1** (hızlı mod) | Katip Kural + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2,5 MB, Türk ve yabancı müvekkil isimleri | **757'de 756 (%99,9)** | 365'te 364 |
 | **Katip Kural** | Katip'in Türkçe kuralları v0.2, 0,3 MB | 757'de 756 (%99,9) | 365'te 364 |
 | Vanilla: kvkk-pii | açık kaynak [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex katmanı, varsayılan ayarlar (karşılaştırma) | 757'de 183 (%24,2) | 365'te 0 |
-| **Katip Mask Base** | Katip Kural + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-mask) | **757'de 757 (%100)** | **365'te 365** |
+| **Katip Mask Base** | Katip Kural + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110,8 MB, isim + adres + sağlık terimleri; yalnızca [Space'te](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization) | **757'de 757 (%100)** | **365'te 365** |
 
 **Katip Mask Nano v1.1** (14 Kasım 2026) Türk belgelerinde geçtiği haliyle yabancı müvekkil isimleriyle eğitildi.
 Kurallar kör setteki değerlerin neredeyse hepsini yakaladığı için farkı zor metinde görülüyor: gerçek Yargıtay
@@ -167,7 +167,7 @@ vekâletname, ihtarname, mektup, e-posta, duruşma tutanağı, mesajlaşma kayd�
 
 ## Deneyin
 
-- **Demo:** https://fikrifirat.github.io/katip/ (veya [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-mask)).
+- **Demo:** https://fikrifirat.github.io/katip/ (veya [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization)).
   16 örnek belgeden birini seçip cevap anahtarına göre bulma oranını, isabeti, kaçanları ve yanlış
   alarmları canlı görün ya da kendi dosyanızı açın.
 - Belge seçer seçmez görünür; bulunan değerler sayfanın üzerinde işaretlenir.

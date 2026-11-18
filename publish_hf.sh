@@ -36,7 +36,7 @@ if [ -f "$BT/onnx/model_quantized.onnx" ]; then
   cp "$BT/onnx/model_quantized.onnx" "$M/onnx/"
   python3 -c "import json,sys; p=sys.argv[1]; r=json.load(open(p)); [m.pop('elsewhere', None) for m in r]; json.dump(r, open(p, 'w'), ensure_ascii=False, indent=1)" "$tmp/models/registry.json"
 fi
-hf upload "$U/katip-mask" "$tmp" . --repo-type space --delete "*" --commit-message "Katip Mask demo"
+hf upload "$U/katip-kvkk-anonymization" "$tmp" . --repo-type space --delete "*" --commit-message "Katip Mask demo"
 echo "Model: https://huggingface.co/$U/katip-mask-nano"
 [ -f "$BT/onnx/model_quantized.onnx" ] && echo "Model: https://huggingface.co/$U/katip-mask-base"
-echo "Space: https://huggingface.co/spaces/$U/katip-mask"
+echo "Space: https://huggingface.co/spaces/$U/katip-kvkk-anonymization"

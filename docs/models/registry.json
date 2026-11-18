@@ -98,7 +98,7 @@
   },
   "ner": "katip-mask-base",
   "dtype": "q8",
-  "hosted": "https://huggingface.co/spaces/f1k/katip-mask",
+  "hosted": "https://huggingface.co/spaces/f1k/katip-kvkk-anonymization",
   "trust": 0.5,
   "elsewhere": true
  },

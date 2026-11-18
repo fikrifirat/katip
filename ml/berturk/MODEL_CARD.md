@@ -16,7 +16,7 @@ tags: [ner, pii, kvkk, turkish, legal, onnx, privacy, redaction, berturk, gdpr, 
 
 BERTurk (`dbmdz/bert-base-turkish-cased`) fine-tuned to tag **person names, addresses and KVKK
 art. 6 health terms** in Turkish legal documents, as the on-device model for
-[Katip Mask](https://huggingface.co/spaces/f1k/katip-mask). Exported to ONNX (fp32 and int8) for transformers.js.
+[Katip Mask](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization). Exported to ONNX (fp32 and int8) for transformers.js.
 
 **v2 (13 Nov 2026)** adds 17,967 real Turkish sentences (Turkish Wiki NER, person names only) to the
 synthetic training documents. v1 found every name in Katip's synthetic test sets but only 41% of names in
