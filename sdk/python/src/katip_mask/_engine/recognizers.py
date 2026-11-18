@@ -136,14 +136,15 @@ class TCKNRecognizer(_Base):
         r = super()._r(start, end, score, why)
         if entity: r.entity_type = entity
         return r
-    RE = re.compile(r"(?<!\d)([1-9](?:[ ]?\d){10})(?!\d)")
+    # 11 digits, optionally spaced; or grouped 3-3-3-2 with dots or dashes ("532.830.965.12", "614-371-928-12")
+    RE = re.compile(r"(?<!\d)([1-9](?:[ ]?\d){10}(?!\d)|(?<![.-])[1-9]\d\d\.\d{3}\.\d{3}\.\d\d(?!\d|[.,]\d)|(?<![.-])[1-9]\d\d-\d{3}-\d{3}-\d\d(?!\d|-\d))")
     CTX = ("kimlik", "tckn", "t.c", "tc no", "tc:", "vatandaslik")
     LABELLED = re.compile(r"(?:Kimlik\s*No|KİMLİK\s*NO|TCKN|T\.?C\.?\s*No|TC\s*No)\s*[:.]?\s*([0-9OoIl]{10,13})(?![\d])")
 
     def analyze(self, text, entities, nlp_artifacts=None):
         out = []
         for m in self.RE.finditer(text):
-            digits = m.group(1).replace(" ", "")
+            digits = re.sub(r"\D", "", m.group(1))
             if tckn_valid(digits) and digits.startswith("99"):
                 score = 0.95 if _has_context(text, m.start(), self.YKN_CTX + self.CTX) else 0.85
                 out.append(self._r(m.start(1), m.end(1), score, "11 digits from 99, TCKN checksum ok: foreigner ID (YKN)", "YKN"))
@@ -317,7 +318,8 @@ class CreditCardRecognizer(_Base):
         out = []
         for m in self.RE.finditer(text):
             d = re.sub(r"\D", "", m.group(1))
-            if luhn_valid(d) and d[0] in "3456" and not tckn_valid(d):
+            # 3-6: Amex, Visa, Mastercard, Discover/UnionPay; 9792: TROY, Turkey's domestic card scheme (BKM)
+            if luhn_valid(d) and (d[0] in "3456" or d.startswith("9792")) and not tckn_valid(d):
                 out.append(self._r(m.start(1), m.end(1), 0.8, "Luhn ok"))
         return out
 
@@ -402,12 +404,14 @@ class BirthDateRecognizer(_Base):
     RE = re.compile(r"(?<!\d)(\d{1,2}[./-]\d{1,2}[./-](?:19|20)\d{2}|(?:19|20)\d{2}(?=\s*doğumlu))(?!\d)")
     CTX = ("dogum tarihi", "d.tarihi", "dogum t", "d. tarihi", "dogumlu", "d.t.", "dogum yeri ve tarihi")
     AFTER = re.compile(r"^\s*(?:dogumlu|tarihinde dog|tarihli dog|dogum)")
+    BEFORE = re.compile(r"\bdogum\s*[:(]?\s*$")   # "doğum 09.06.1983", "(doğum: 09.06.1983)": the date right after the word
 
     def analyze(self, text, entities, nlp_artifacts=None):
         out = []
         for m in self.RE.finditer(text):
             after = fold(text[m.end():m.end() + 25])
-            if _has_context(text, m.start(), self.CTX, 35) or self.AFTER.match(after):
+            before = fold(text[max(0, m.start() - 12):m.start()])
+            if _has_context(text, m.start(), self.CTX, 35) or self.AFTER.match(after) or self.BEFORE.search(before):
                 out.append(self._r(m.start(1), m.end(1), 0.85, "date + birth context"))
         return out
 
