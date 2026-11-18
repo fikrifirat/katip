@@ -43,6 +43,22 @@ claude plugin install katip-kalkan@katip
 Then name the document the way you'd tell a colleague: `/katip-incele son indirdiğim bilirkişi raporu` for a review, `/katip-taslak 2026/123 ihtarname, cevap` for a draft reply, or `/katip` for anything else. Files stay in your case folder and Downloads ([what each command does](FAQ.md#how-do-i-use-it)). See [connector/README.md](connector/README.md)
 for Claude Desktop, limits and the privacy policy.
 
+### The MCP server
+
+Katip Kalkan is a local **Model Context Protocol (MCP) server** in Python, in [`connector/`](connector/). It talks
+MCP over stdio (JSON-RPC 2.0, protocol `2025-06-18`), with no MCP SDK: the protocol layer is
+[`connector/katip_kalkan/mcp_proto.py`](connector/katip_kalkan/mcp_proto.py) and the tools are in
+[`connector/katip_kalkan/core.py`](connector/katip_kalkan/core.py). Start it with any MCP client:
+
+```json
+{"mcpServers": {"katip-kalkan": {"command": "python3", "args": ["connector/server.py"]}}}
+```
+
+Tools: `list_files`, `mask_file`, `write_masked_copy`, `restore_to_file`, `forget_matter`, `open_folder` and
+`katip_status` ([what each returns](connector/README.md#tools)), plus the prompts behind `/katip`,
+`/katip-incele` and `/katip-taslak`. It is listed in the official MCP Registry as
+`io.github.fikrifirat/katip-kalkan`.
+
 ## Key numbers
 
 Measured on Katip's synthetic Turkish legal documents. The **blind set** uses 80 documents with
