@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://fikrifirat.github.io/katip/</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://fikrifirat.github.io/katip/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fikrifirat.github.io/katip/?lang=en"/>
+  </url>
+  <url>
+    <loc>https://fikrifirat.github.io/katip/?lang=en</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://fikrifirat.github.io/katip/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fikrifirat.github.io/katip/?lang=en"/>
+  </url>
+  <url>
+    <loc>https://fikrifirat.github.io/katip/sss.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://fikrifirat.github.io/katip/sss.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fikrifirat.github.io/katip/faq.html"/>
+  </url>
+  <url>
+    <loc>https://fikrifirat.github.io/katip/faq.html</loc>
+    <xhtml:link rel="alternate" hreflang="tr" href="https://fikrifirat.github.io/katip/sss.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fikrifirat.github.io/katip/faq.html"/>
+  </url>
+</urlset>

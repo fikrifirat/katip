@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Katip: sık sorulan sorular</title>
+<meta name="description" content="Avukatlar ve büro çalışanları için kısa cevaplar. Katip&#x27;in verileri nasıl işlediğinin ayrıntısı: PRIVACY.tr.md. Bu metin genel bilgidir, hukuki görüş değildir.">
+<link rel="canonical" href="https://fikrifirat.github.io/katip/sss.html">
+<link rel="alternate" hreflang="tr" href="https://fikrifirat.github.io/katip/sss.html">
+<link rel="alternate" hreflang="en" href="https://fikrifirat.github.io/katip/faq.html">
+<meta property="og:title" content="Katip: sık sorulan sorular">
+<meta property="og:description" content="Avukatlar ve büro çalışanları için kısa cevaplar. Katip&#x27;in verileri nasıl işlediğinin ayrıntısı: PRIVACY.tr.md. Bu metin genel bilgidir, hukuki görüş değildir.">
+<meta property="og:url" content="https://fikrifirat.github.io/katip/sss.html">
+<meta property="og:image" content="https://fikrifirat.github.io/katip/og.png">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<style>.doc{max-width:760px;margin:0 auto;padding:24px 16px 48px}.doc h1{font:700 30px/1.15 var(--display);letter-spacing:-.02em}
+.doc h2{font:600 20px/1.3 var(--display);margin:32px 0 8px;text-transform:none;letter-spacing:-.01em;color:var(--ink)}.doc a{color:var(--accent)}.doc code{font:13px var(--code)}
+.doc .cta{display:inline-block;margin:6px 0 4px;padding:8px 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:600}</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "inLanguage": "tr",
+ "url": "https://fikrifirat.github.io/katip/sss.html",
+ "name": "Katip: sık sorulan sorular",
+ "about": {
+  "@id": "https://fikrifirat.github.io/katip/#app"
+ },
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Katip nedir?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Türkçe belgelerdeki kişisel verileri (ad soyad, T.C. kimlik numarası, telefon, adres, sağlık bilgisi ve dahası) bulup [AD SOYAD-1] gibi yer tutucularla değiştiren bir araç. Bu işi kendi bilgisayarınızda yapar. Tarayıcıda çalışan bir web uygulaması, Python ve JavaScript için katip-mask paketleri ve Claude'un müvekkil belgesi üzerinde Katip'in bulduğu değerleri görmeden çalışmasını sağlayan Katip Kalkan eklentisi olarak kullanılabilir."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Avukat bir belgeyi yapay zekâya vermeden önce neden maskelesin?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Çünkü müvekkilin verileri için veri sorumlusu avukattır ve bu verileri yurt dışındaki bir yapay zekâ sağlayıcısına göndermek, hukuki dayanak isteyen bir yurt dışına aktarımdır. Kişisel Verileri Koruma Kurulu'nun Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi (22 Eylül 2026'da duyuruldu) üretken yapay zekâ araçlarını ayrıca ele alır (s. 120–121). Müvekkil belgelerini bu araçlara yüklemenin yurt dışına aktarım sayılabileceğini belirtir ve paylaşmadan önce verilerin maskelenmesini ya da anonimleştirilmesini önerir (s. 146). Katip bu öneriye göre tasarlandı. KVKK m.4 de yalnızca işin gerektirdiği verinin işlenmesini ister; dilekçe taslağı hazırlayan bir yapay zekânın müvekkilin adına çoğu zaman ihtiyacı yoktur."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Katip, yapay zekâ kullanımını KVKK'ya uygun hâle getirir mi?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Hayır. Maskeleme, büronuzdan çıkan müvekkil verisini azaltır. Her aktarım için yine hukuki bir dayanak gerekir (KVKK m.9), sır saklama yükümlülüğünüz sürer (Avukatlık Kanunu m.36) ve sonucu yine siz kontrol edersiniz. Maskeli metin de çoğu zaman kişisel veridir, çünkü bağlam bir kişiye işaret edebilir."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Nasıl çalışır?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Kurallar yapılı değerleri bulur: T.C. kimlik, vergi ve pasaport numaraları, IBAN, telefon, e-posta, plaka, UETS adresi, dosya numaraları. Küçük bir dil modeli (Katip Mask) metin içindeki ad, yer ve kurum adlarını bulur. Bir kez bulunan değer, ek almış hâlleri de dahil (Ayşe'nin) geçtiği her yerde maskelenir. Son bir kontrol, bulunan değerlerden okunabilir kalan var mı diye bakar. Varsa Katip metni vermeyi reddeder. Model sentetik belgeler, Türkçe Vikipedi'den derlenmiş açık bir varlık tanıma veri seti ve TurkishLegalNER'in eğitim bölümüyle eğitildi. Hiçbir müvekkil belgesi kullanılmadı. Ayrıntılar ve test sonuçları: connector/README.md."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Neyi maskeler, neyi okunur bırakır?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Bir profil seçersiniz. Her profil, bir öncekinin maskelediği her şeyi ve fazlasını maskeler. Mahkemeye sunum (court) Yapay zekâ ile paylaşım (ai, Kalkan'da varsayılan) Tam anonim (anon) Ad soyad, T.C. kimlik, pasaport ve yabancı kimlik no, telefon, e-posta, IBAN, UETS maskelenir maskelenir maskelenir Sağlık ve diğer özel nitelikli veriler (KVKK m.6) maskelenir maskelenir maskelenir Adli sicil bilgileri okunur maskelenir maskelenir Tarafın kendi adresi maskelenir maskelenir maskelenir Dava konusu taşınmazın adresi okunur maskelenir maskelenir Diğer adresler cadde/sokak okunur, bina ve kapı no maskelenir maskelenir maskelenir Baro sicil numarası maskelenir maskelenir maskelenir Kendi dosyanızın esas ve soruşturma numaraları okunur maskelenir maskelenir Mahkeme ve kurum adları, tarihler, yer adları okunur okunur maskelenir Emsal karar künyeleri (Yargıtay, Danıştay, AYM …) okunur okunur okunur Neden: bu kurallar, çalışan bir avukatın gerçek dilekçeler üzerindeki değerlendirmesinden çıktı. Mahkemenin dosya numarasına, mahkeme adına ve emsal künyesine ihtiyacı vardır. Tarafın ikametgâhı kişisel veridir; dava konusu taşınmazın adresi ise delildir. Yapay zekâ profilinde kendi dosya numaralarınızı maskeli tutuyoruz, çünkü müvekkili tanınır kılabilirler ve yapay zekânın bunlara nadiren ihtiyacı olur."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Katip ne yapmaz?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Bazı değerleri kaçırabilir. Sentetik test belgelerinde değerlerin yaklaşık %99'unu maskeler; gerçek metinde daha fazlasını kaçırır (KVKK-Bench). Paylaşmadan önce çıktıyı mutlaka okuyun. Sohbete eklediğiniz dosyayı ya da yazdığınızı maskelemez. Yalnızca Katip'ten geçen metin maskelenir. Claude'a ya da ChatGPT'ye eklediğiniz bir dosya sağlayıcıya olduğu gibi gider. Anonimleştirmez. Bağlam ya da eşleşme tablosu bir kişiye işaret edebildiği sürece yer tutucular takma adlandırmadır. Hukuki değerlendirmenizi denetlemez; yapay zekâ da denetlemez."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Katip Kalkan nerede çalışır?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yalnızca kendi bilgisayarınızda: Claude Desktop (sohbet; .mcpb dosyasıyla kurulur), Claude Code ve bilgisayarınızda çalışan Cowork. Tarayıcıdaki claude.ai'de, Claude ya da ChatGPT mobil uygulamalarında ve web'deki ChatGPT'de çalışmaz. Bunlar yalnızca sağlayıcının sunucularında çalışan bağlayıcıları kullanabilir; belge maskelenmeden önce bilgisayarınızdan çıkmak zorunda kalır, bu da işin amacını bozar. Tarayıcıda Katip web uygulamasını kullanın: belgeyi tarayıcı sekmenizde maskeler, maskeli metni siz kopyalar ya da indirirsiniz. macOS'ta denendi; Windows destekleniyor ve otomatik testlerle kontrol ediliyor, ama henüz bir kullanıcı tarafından denenmedi."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Nasıl kullanırım?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Belgelerinizi taşımayın. Katip dava klasörünüzde (müvekkil alt klasörleri dahil) ve UYAP evrakı ile e-posta eklerinin düştüğü İndirilenler'de arar. Belgeyi bir meslektaşınıza söyler gibi tarif edin: adından bir sözcük, türü, dosya numarası ya da \"son indirdiğim\". Katip sözcüklerinizi bilgisayarınızdaki gerçek dosya adlarıyla eşleştirir, Claude'a yalnızca kısaltılmış adları gösterir; birden çok belge uyarsa Claude hangisi olduğunu sorar. Komutu Claude Code ya da Cowork'te yazın; Claude Desktop'ta aynı öğeyi + menüsünden seçin. /katip <belge> <istek>: müvekkil belgesiyle her iş. Katip önce maskeler, sonra Claude isteğinizi yapar. Örnek: /katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır. /katip-incele <belge>, [odak]: inceleme: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler. Örnek: /katip-incele son indirdiğim UYAP evrakı, zamanaşımı. /katip-taslak <belge>, [tür]: taslak; bilinmeyenler uydurulmaz, […] ile işaretlenir. Claude sonra taslağı gerçek adlarla belgenin yanına Word (.docx), metin ya da Markdown dosyası olarak kaydetmeyi önerir. Örnek: /katip-taslak Yılmaz kira ihtarnamesi, cevap. Dosyayı bulmak için müvekkilin adını yazarsanız o ad Claude'a yazdığınız gibi gider; belge türü, tarih ya da dosya numarası bunu önler. Katip bir belgeyi açmadan önce Claude onayınızı ister ve belgenin kısaltılmış adını gösterir. Yalnızca paylaşmak istediğiniz belgeleri onaylayın."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Katip hangi klasörleri kullanır?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "İki klasör: müvekkil dosyalarını zaten tuttuğunuz dava klasörünüz (ör. Belgeler/Davalar, alt klasörler dahil) ve İndirilenler. Hiçbir şey kopyalanmaz. Gerçek adlı son belgeler kaynak belgenin yanına kaydedilir. Claude Desktop'ta ikisini de eklentinin ayarlarından seçersiniz (İndirilenler'de aranmasını istemiyorsanız boş bırakın). Claude Code'da dava klasörlerinizi ~/.katip/folders.txt dosyasına her satıra bir tane yazın. Masaüstünü, Belgeler'in tamamını ya da ana klasörünüzü seçmeyin; Katip o zaman oradaki her dosyayı açabilir ve bunu size bildirir; klasör iCloud, OneDrive ya da Google Drive ile eşitleniyorsa da uyarır. Claude Code ve Cowork'te Claude'un kendi dosya araçlarının bu klasörlere erişimi engellenir; belgeler yalnızca Katip üzerinden açılır."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Verilerim nereye gider?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Sizin göndermeyi seçtiğiniz dışında hiçbir yere. Web uygulaması tarayıcı sekmenizde çalışır; Kalkan eklentisi bilgisayarınızda çalışır ve Claude'a yalnızca maskeli metni verir. Geliştiricinin belge alan bir sunucusu yoktur; hesap, analitik ya da telemetri yoktur. Kalkan, gerçek adları son belgenize geri koyabilmek için yer tutucu eşleşmelerini bilgisayarınızda 30 gün şifreli tutar. Ayrıntı: PRIVACY.tr.md."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Bir değer kaçarsa sorumlu kim?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Veri sorumlusu olarak neyin gönderileceğine siz karar verir, göndermeden önce siz kontrol edersiniz. Katip ücretsiz, açık kaynaklı ve \"olduğu gibi\" sunulan bir yazılımdır. Riski azaltır, üstlenmez."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Bir sorunu ya da kaçan bir değeri nasıl bildiririm?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Bir GitHub issue açın. Örüntüyü uydurma değerlerle anlatın. Gerçek bir müvekkil belgesini ya da gerçek kişisel veriyi asla yapıştırmayın."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+<header class="top"><a href="./" class="logo" style="text-decoration:none;color:inherit"><img src="mark.svg" width="30" height="30" alt=""><span class="word">Katip <span class="word2">Mask</span></span></a>
+<span class="spacer"></span><a href="faq.html" hreflang="en">English</a> <a href="https://github.com/fikrifirat/katip">GitHub</a></header>
+<main class="doc">
+<h1 id="katip-sk-sorulan-sorular">Katip: sık sorulan sorular</h1>
+<p>Avukatlar ve büro çalışanları için kısa cevaplar. Katip'in verileri nasıl işlediğinin ayrıntısı:
+<a href="https://github.com/fikrifirat/katip/blob/main/PRIVACY.tr.md">PRIVACY.tr.md</a>. Bu metin genel bilgidir, hukuki görüş değildir.</p>
+<h2 id="katip-nedir">Katip nedir?</h2>
+<p>Türkçe belgelerdeki kişisel verileri (ad soyad, T.C. kimlik numarası, telefon, adres, sağlık bilgisi ve
+dahası) bulup <code>[AD SOYAD-1]</code> gibi yer tutucularla değiştiren bir araç. Bu işi <strong>kendi bilgisayarınızda</strong>
+yapar. Tarayıcıda çalışan bir web uygulaması, Python ve JavaScript için <code>katip-mask</code> paketleri ve Claude'un
+müvekkil belgesi üzerinde Katip'in bulduğu değerleri görmeden çalışmasını sağlayan Katip Kalkan eklentisi
+olarak kullanılabilir.</p>
+<h2 id="avukat-bir-belgeyi-yapay-zekaya-vermeden-once-neden-maskelesin">Avukat bir belgeyi yapay zekâya vermeden önce neden maskelesin?</h2>
+<p>Çünkü müvekkilin verileri için veri sorumlusu avukattır ve bu verileri yurt dışındaki bir yapay zekâ
+sağlayıcısına göndermek, hukuki dayanak isteyen bir yurt dışına aktarımdır. Kişisel Verileri Koruma Kurulu'nun
+<a href="https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi"><em>Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi</em></a>
+(22 Eylül 2026'da duyuruldu) üretken yapay zekâ araçlarını ayrıca ele alır (s. 120–121). Müvekkil
+belgelerini bu araçlara yüklemenin yurt dışına aktarım sayılabileceğini belirtir ve paylaşmadan önce
+verilerin maskelenmesini ya da anonimleştirilmesini önerir (s. 146). Katip bu öneriye göre tasarlandı.
+KVKK m.4 de yalnızca işin gerektirdiği verinin işlenmesini ister; dilekçe taslağı hazırlayan bir yapay zekânın
+müvekkilin adına çoğu zaman ihtiyacı yoktur.</p>
+<h2 id="katip-yapay-zeka-kullanmn-kvkkya-uygun-hale-getirir-mi">Katip, yapay zekâ kullanımını KVKK'ya uygun hâle getirir mi?</h2>
+<p>Hayır. Maskeleme, büronuzdan çıkan müvekkil verisini azaltır. Her aktarım için yine hukuki bir dayanak
+gerekir (KVKK m.9), sır saklama yükümlülüğünüz sürer (Avukatlık Kanunu m.36) ve sonucu yine siz kontrol
+edersiniz. Maskeli metin de çoğu zaman kişisel veridir, çünkü bağlam bir kişiye işaret edebilir.</p>
+<h2 id="nasl-calsr">Nasıl çalışır?</h2>
+<ol>
+<li>Kurallar yapılı değerleri bulur: T.C. kimlik, vergi ve pasaport numaraları, IBAN, telefon, e-posta,
+   plaka, UETS adresi, dosya numaraları.</li>
+<li>Küçük bir dil modeli (Katip Mask) metin içindeki ad, yer ve kurum adlarını bulur.</li>
+<li>Bir kez bulunan değer, ek almış hâlleri de dahil (<code>Ayşe'nin</code>) geçtiği her yerde maskelenir.</li>
+<li>Son bir kontrol, bulunan değerlerden okunabilir kalan var mı diye bakar. Varsa Katip metni vermeyi
+   reddeder.</li>
+</ol>
+<p>Model sentetik belgeler, Türkçe Vikipedi'den derlenmiş açık bir varlık tanıma veri seti ve TurkishLegalNER'in
+eğitim bölümüyle eğitildi. Hiçbir müvekkil belgesi kullanılmadı. Ayrıntılar ve test sonuçları:
+<a href="https://github.com/fikrifirat/katip/blob/main/connector/README.md#how-it-works-and-what-it-was-trained-on">connector/README.md</a>.</p>
+<h2 id="neyi-maskeler-neyi-okunur-brakr">Neyi maskeler, neyi okunur bırakır?</h2>
+<p>Bir profil seçersiniz. Her profil, bir öncekinin maskelediği her şeyi ve fazlasını maskeler.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Mahkemeye sunum (<code>court</code>)</th>
+<th>Yapay zekâ ile paylaşım (<code>ai</code>, Kalkan'da varsayılan)</th>
+<th>Tam anonim (<code>anon</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ad soyad, T.C. kimlik, pasaport ve yabancı kimlik no, telefon, e-posta, IBAN, UETS</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Sağlık ve diğer özel nitelikli veriler (KVKK m.6)</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Adli sicil bilgileri</td>
+<td>okunur</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Tarafın kendi adresi</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Dava konusu taşınmazın adresi</td>
+<td>okunur</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Diğer adresler</td>
+<td>cadde/sokak okunur, bina ve kapı no maskelenir</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Baro sicil numarası</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Kendi dosyanızın esas ve soruşturma numaraları</td>
+<td>okunur</td>
+<td>maskelenir</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Mahkeme ve kurum adları, tarihler, yer adları</td>
+<td>okunur</td>
+<td>okunur</td>
+<td>maskelenir</td>
+</tr>
+<tr>
+<td>Emsal karar künyeleri (Yargıtay, Danıştay, AYM …)</td>
+<td>okunur</td>
+<td>okunur</td>
+<td>okunur</td>
+</tr>
+</tbody>
+</table>
+<p>Neden: bu kurallar, çalışan bir avukatın gerçek dilekçeler üzerindeki değerlendirmesinden çıktı. Mahkemenin
+dosya numarasına, mahkeme adına ve emsal künyesine ihtiyacı vardır. Tarafın ikametgâhı kişisel veridir; dava
+konusu taşınmazın adresi ise delildir. Yapay zekâ profilinde kendi dosya numaralarınızı maskeli tutuyoruz,
+çünkü müvekkili tanınır kılabilirler ve yapay zekânın bunlara nadiren ihtiyacı olur.</p>
+<h2 id="katip-ne-yapmaz">Katip ne yapmaz?</h2>
+<ul>
+<li><strong>Bazı değerleri kaçırabilir.</strong> Sentetik test belgelerinde değerlerin yaklaşık %99'unu maskeler; gerçek
+  metinde daha fazlasını kaçırır (<a href="https://huggingface.co/spaces/f1k/kvkk-bench">KVKK-Bench</a>). Paylaşmadan
+  önce çıktıyı mutlaka okuyun.</li>
+<li><strong>Sohbete eklediğiniz dosyayı ya da yazdığınızı maskelemez.</strong> Yalnızca Katip'ten geçen metin maskelenir.
+  Claude'a ya da ChatGPT'ye eklediğiniz bir dosya sağlayıcıya olduğu gibi gider.</li>
+<li><strong>Anonimleştirmez.</strong> Bağlam ya da eşleşme tablosu bir kişiye işaret edebildiği sürece yer tutucular takma
+  adlandırmadır.</li>
+<li><strong>Hukuki değerlendirmenizi denetlemez;</strong> yapay zekâ da denetlemez.</li>
+</ul>
+<h2 id="katip-kalkan-nerede-calsr">Katip Kalkan nerede çalışır?</h2>
+<p>Yalnızca kendi bilgisayarınızda: <strong>Claude Desktop</strong> (sohbet; <code>.mcpb</code> dosyasıyla kurulur), <strong>Claude Code</strong> ve
+bilgisayarınızda çalışan <strong>Cowork</strong>. Tarayıcıdaki claude.ai'de, Claude ya da ChatGPT mobil uygulamalarında ve
+web'deki ChatGPT'de <strong>çalışmaz</strong>. Bunlar yalnızca sağlayıcının sunucularında çalışan bağlayıcıları
+kullanabilir; belge maskelenmeden önce bilgisayarınızdan çıkmak zorunda kalır, bu da işin amacını bozar.
+Tarayıcıda <a href="./">Katip web uygulamasını</a> kullanın: belgeyi tarayıcı sekmenizde
+maskeler, maskeli metni siz kopyalar ya da indirirsiniz. macOS'ta denendi; Windows destekleniyor ve otomatik
+testlerle kontrol ediliyor, ama henüz bir kullanıcı tarafından denenmedi.</p>
+<h2 id="nasl-kullanrm">Nasıl kullanırım?</h2>
+<p>Belgelerinizi taşımayın. Katip dava klasörünüzde (müvekkil alt klasörleri dahil) ve UYAP evrakı ile e-posta
+eklerinin düştüğü İndirilenler'de arar. Belgeyi bir meslektaşınıza söyler gibi tarif edin: adından bir sözcük,
+türü, dosya numarası ya da "son indirdiğim". Katip sözcüklerinizi bilgisayarınızdaki gerçek dosya adlarıyla
+eşleştirir, Claude'a yalnızca kısaltılmış adları gösterir; birden çok belge uyarsa Claude hangisi olduğunu sorar.
+Komutu Claude Code ya da Cowork'te yazın; Claude Desktop'ta aynı öğeyi <strong>+</strong> menüsünden seçin.</p>
+<ul>
+<li><code>/katip &lt;belge&gt; &lt;istek&gt;</code>: müvekkil belgesiyle her iş. Katip önce maskeler, sonra Claude isteğinizi yapar.
+  Örnek: <code>/katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır</code>.</li>
+<li><code>/katip-incele &lt;belge&gt;, [odak]</code>: inceleme: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler.
+  Örnek: <code>/katip-incele son indirdiğim UYAP evrakı, zamanaşımı</code>.</li>
+<li><code>/katip-taslak &lt;belge&gt;, [tür]</code>: taslak; bilinmeyenler uydurulmaz, <code>[…]</code> ile işaretlenir. Claude sonra
+  taslağı gerçek adlarla belgenin yanına Word (.docx), metin ya da Markdown dosyası olarak kaydetmeyi önerir. Örnek:
+  <code>/katip-taslak Yılmaz kira ihtarnamesi, cevap</code>.</li>
+</ul>
+<p>Dosyayı bulmak için müvekkilin adını yazarsanız o ad Claude'a yazdığınız gibi gider; belge türü, tarih ya da
+dosya numarası bunu önler. Katip bir belgeyi açmadan önce Claude onayınızı ister ve belgenin kısaltılmış adını
+gösterir. Yalnızca paylaşmak istediğiniz belgeleri onaylayın.</p>
+<h2 id="katip-hangi-klasorleri-kullanr">Katip hangi klasörleri kullanır?</h2>
+<p>İki klasör: müvekkil dosyalarını zaten tuttuğunuz <strong>dava klasörünüz</strong> (ör. <code>Belgeler/Davalar</code>, alt klasörler
+dahil) ve <strong>İndirilenler</strong>. Hiçbir şey kopyalanmaz. Gerçek adlı son belgeler kaynak belgenin yanına kaydedilir.
+Claude Desktop'ta ikisini de eklentinin ayarlarından seçersiniz (İndirilenler'de aranmasını istemiyorsanız boş
+bırakın). Claude Code'da dava klasörlerinizi <code>~/.katip/folders.txt</code> dosyasına her satıra bir tane yazın.
+Masaüstünü, Belgeler'in tamamını ya da ana klasörünüzü seçmeyin; Katip o zaman oradaki her dosyayı açabilir ve
+bunu size bildirir; klasör iCloud, OneDrive ya da Google Drive ile eşitleniyorsa da uyarır. Claude Code ve
+Cowork'te Claude'un kendi dosya araçlarının bu klasörlere erişimi engellenir; belgeler yalnızca Katip üzerinden
+açılır.</p>
+<h2 id="verilerim-nereye-gider">Verilerim nereye gider?</h2>
+<p>Sizin göndermeyi seçtiğiniz dışında hiçbir yere. Web uygulaması tarayıcı sekmenizde çalışır; Kalkan eklentisi
+bilgisayarınızda çalışır ve Claude'a yalnızca maskeli metni verir. Geliştiricinin belge alan bir sunucusu
+yoktur; hesap, analitik ya da telemetri yoktur. Kalkan, gerçek adları son belgenize geri koyabilmek için yer
+tutucu eşleşmelerini bilgisayarınızda 30 gün şifreli tutar. Ayrıntı: <a href="https://github.com/fikrifirat/katip/blob/main/PRIVACY.tr.md">PRIVACY.tr.md</a>.</p>
+<h2 id="bir-deger-kacarsa-sorumlu-kim">Bir değer kaçarsa sorumlu kim?</h2>
+<p>Veri sorumlusu olarak neyin gönderileceğine siz karar verir, göndermeden önce siz kontrol edersiniz. Katip
+ücretsiz, açık kaynaklı ve "olduğu gibi" sunulan bir yazılımdır. Riski azaltır, üstlenmez.</p>
+<h2 id="bir-sorunu-ya-da-kacan-bir-degeri-nasl-bildiririm">Bir sorunu ya da kaçan bir değeri nasıl bildiririm?</h2>
+<p>Bir <a href="https://github.com/fikrifirat/katip/issues">GitHub issue</a> açın. Örüntüyü uydurma değerlerle anlatın.
+Gerçek bir müvekkil belgesini ya da gerçek kişisel veriyi asla yapıştırmayın.</p>
+<p><a class="cta" href="./">Uygulamayı açın</a></p>
+</main>
+<footer class="foot">Bu sayfa FAQ.tr.md dosyasından üretilir. · <a href="https://github.com/fikrifirat/katip">Kaynak kod</a> · <a href="https://huggingface.co/spaces/f1k/kvkk-bench">KVKK-Bench</a></footer>
+</body>
+</html>

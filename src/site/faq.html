@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Katip: questions and answers</title>
+<meta name="description" content="Short answers for lawyers and their teams. How Katip handles data in detail: PRIVACY.md. This is general information, not legal advice.">
+<link rel="canonical" href="https://fikrifirat.github.io/katip/faq.html">
+<link rel="alternate" hreflang="en" href="https://fikrifirat.github.io/katip/faq.html">
+<link rel="alternate" hreflang="tr" href="https://fikrifirat.github.io/katip/sss.html">
+<meta property="og:title" content="Katip: questions and answers">
+<meta property="og:description" content="Short answers for lawyers and their teams. How Katip handles data in detail: PRIVACY.md. This is general information, not legal advice.">
+<meta property="og:url" content="https://fikrifirat.github.io/katip/faq.html">
+<meta property="og:image" content="https://fikrifirat.github.io/katip/og.png">
+<meta property="og:type" content="article">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="mark.svg" type="image/svg+xml">
+<link rel="stylesheet" href="style.css">
+<style>.doc{max-width:760px;margin:0 auto;padding:24px 16px 48px}.doc h1{font:700 30px/1.15 var(--display);letter-spacing:-.02em}
+.doc h2{font:600 20px/1.3 var(--display);margin:32px 0 8px;text-transform:none;letter-spacing:-.01em;color:var(--ink)}.doc a{color:var(--accent)}.doc code{font:13px var(--code)}
+.doc .cta{display:inline-block;margin:6px 0 4px;padding:8px 14px;border-radius:8px;background:var(--accent);color:var(--accent-ink);text-decoration:none;font-weight:600}</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "inLanguage": "en",
+ "url": "https://fikrifirat.github.io/katip/faq.html",
+ "name": "Katip: questions and answers",
+ "about": {
+  "@id": "https://fikrifirat.github.io/katip/#app"
+ },
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "What is Katip?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "A tool that finds personal data in Turkish documents (names, T.C. kimlik numbers, phone numbers, addresses, health details and more) and replaces it with placeholders such as [AD SOYAD-1], on your own computer. It comes as a web app that runs in your browser, as katip-mask packages for Python and JavaScript, and as Katip Kalkan, a plugin that lets Claude work on a client document without seeing the values Katip finds."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Why would a lawyer mask a document before using AI?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Because the lawyer is the data controller for the client's data, and sending it to an AI provider abroad is a transfer that needs a legal basis. The KVKK Board's guide for lawyers (Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi, announced 22 September 2026) covers generative AI tools directly (pp. 120–121), says that uploading client documents to them can be a transfer abroad, and recommends masking or anonymising data before sharing it (p. 146). Katip is built to follow that recommendation. KVKK m.4 adds that you should process only what the task needs, and an AI that drafts a petition rarely needs the client's name."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does Katip make using AI KVKK-compliant?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. Masking reduces how much client data leaves your office. You still need a legal basis for any transfer (KVKK m.9), your duty of professional secrecy still applies (Avukatlık Kanunu m.36), and you still check the result. Masked text is usually still personal data, because the context can point to a person."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How does it work?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Rules find structured values: T.C. kimlik, tax and passport numbers, IBANs, phone numbers, e-mails, plates, UETS addresses, case numbers. A small language model (Katip Mask) finds names, places and organisations in running text. A value found once is masked everywhere it repeats, including with Turkish suffixes (Ayşe'nin). A final check looks for any value it found that is still readable. If there is one, Katip refuses to give out the text. The model was trained on synthetic documents, public Turkish Wikipedia NER data and the TurkishLegalNER training split. No client documents were used. Details and test results: connector/README.md."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What does it mask, and what does it keep readable?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "You pick a profile. Each one masks everything the one before it does, plus more. Court filing (court) Sharing with AI (ai, default in Kalkan) Fully anonymous (anon) Names, T.C. kimlik, passport and foreign IDs, phone, e-mail, IBAN, UETS masked masked masked Health and other special-category data (KVKK m.6) masked masked masked Criminal record details readable masked masked A party's own address masked masked masked Address of the property in dispute readable masked masked Other addresses street readable, building and door number masked masked masked Bar registry number masked masked masked Your own case and investigation numbers readable masked masked Court and institution names, dates, place names readable readable masked Precedent citations (Yargıtay, Danıştay, AYM …) readable readable readable Why: these rules come from a practising lawyer's review of real filings. A court needs case numbers, court names and precedent citations; a party's home address is personal data, while the address of a property in dispute is evidence. For the AI profile we keep your own case numbers masked, because they can identify the client and the AI rarely needs them."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What does Katip not do?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It can miss values. On synthetic test documents it masks about 99% of values; on real text it misses more (KVKK-Bench). Always read the output before sharing it. It does not mask what you attach or type in a chat. Only text that passes through Katip is masked. A file you attach to Claude or ChatGPT goes to the provider as it is. It does not anonymise. Placeholders are pseudonymisation while the context or the map can point to a person. It does not check your legal reasoning, and neither does the AI."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Where does Katip Kalkan work?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "On your own computer only: in Claude Desktop (chat, installed from the .mcpb file), Claude Code and Cowork running on your computer. It does not work in claude.ai in the browser, in the Claude or ChatGPT mobile apps, or in ChatGPT on the web. Those can only use connectors that run on the provider's servers, so the document would have to leave your computer before it is masked, which defeats the purpose. In a browser, use the Katip web app: it masks the document inside your browser tab, and you copy or download the masked text yourself. macOS is tested; Windows is supported and checked by automated tests, but not yet tried by a person."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I use it?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Leave your documents where they are. Katip searches your case folder (with client subfolders) and Downloads, where UYAP downloads and e-mail attachments land. Say which document you mean the way you'd tell a colleague: words from its name, its type, a file number, or \"the one I just downloaded\". Katip matches your words against the real file names on your computer and shows Claude only shortened names; if several match, Claude asks which one. Type a command in Claude Code or Cowork; in Claude Desktop, pick the same item from the + menu. /katip <document> <request>: anything with a client document. Katip masks it first, then Claude does what you ask. Example: /katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır. /katip-incele <document>, [focus]: a review: summary, claims and grounds, gaps and errors, suggestions. Example: /katip-incele son indirdiğim UYAP evrakı, zamanaşımı. /katip-taslak <document>, [kind]: a draft reply, with gaps marked […] instead of invented facts. Claude then offers to save it with the real names as a Word (.docx), text or Markdown file next to the document. Example: /katip-taslak Yılmaz kira ihtarnamesi, cevap. Typing a client's name to find a file sends that name to Claude as you typed it; a document type, date or file number finds it without that. Before Katip opens a document, Claude asks for your approval and shows the document's shortened name. Approve only the documents you meant to share."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Which folders does Katip use?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Two: your case folder, the one where you already keep client files (for example Documents/Davalar, with subfolders), and Downloads. Nothing is copied. Final documents with real names are saved next to the source document. In Claude Desktop you pick both in the extension's settings (leave Downloads empty if you don't want it searched). In Claude Code, list your case folders one per line in ~/.katip/folders.txt. Don't choose your Desktop, all of Documents or your home folder, because Katip could then open any file there; Katip warns you if you do, and also if a folder syncs to iCloud, OneDrive or Google Drive. In Claude Code and Cowork, Claude's own file tools are blocked from these folders, so documents are opened only through Katip."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Where does my data go?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Nowhere, apart from what you choose to send. The web app runs in your browser tab, and the Kalkan plugin runs on your computer and gives Claude only the masked text. The author runs no server that receives documents, and there are no accounts, analytics or telemetry. Kalkan keeps the placeholder map encrypted on your computer for 30 days so it can put the real names back into your final document. See PRIVACY.md."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Who is responsible if something is missed?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "You, as the data controller, decide what to send and check it before you do. Katip is free, open-source software provided as is. It reduces risk; it does not take it over."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I report a problem or a value it missed?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Open a GitHub issue. Please describe the pattern with made-up values. Never paste a real client document or real personal data."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+<header class="top"><a href="./" class="logo" style="text-decoration:none;color:inherit"><img src="mark.svg" width="30" height="30" alt=""><span class="word">Katip <span class="word2">Mask</span></span></a>
+<span class="spacer"></span><a href="sss.html" hreflang="tr">Türkçe</a> <a href="https://github.com/fikrifirat/katip">GitHub</a></header>
+<main class="doc">
+<h1 id="katip-questions-and-answers">Katip: questions and answers</h1>
+<p>Short answers for lawyers and their teams. How Katip handles data in detail: <a href="https://github.com/fikrifirat/katip/blob/main/PRIVACY.md">PRIVACY.md</a>.
+This is general information, not legal advice.</p>
+<h2 id="what-is-katip">What is Katip?</h2>
+<p>A tool that finds personal data in Turkish documents (names, T.C. kimlik numbers, phone numbers, addresses,
+health details and more) and replaces it with placeholders such as <code>[AD SOYAD-1]</code>, <strong>on your own computer</strong>.
+It comes as a web app that runs in your browser, as <code>katip-mask</code> packages for Python and JavaScript, and as
+Katip Kalkan, a plugin that lets Claude work on a client document without seeing the values Katip finds.</p>
+<h2 id="why-would-a-lawyer-mask-a-document-before-using-ai">Why would a lawyer mask a document before using AI?</h2>
+<p>Because the lawyer is the data controller for the client's data, and sending it to an AI provider abroad is a
+transfer that needs a legal basis. The KVKK Board's <a href="https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi">guide for lawyers</a> (<em>Avukatların Mesleki
+Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi</em>, announced 22 September 2026) covers
+generative AI tools directly (pp. 120–121), says that uploading client documents to them can be a transfer
+abroad, and recommends masking or anonymising data before sharing it (p. 146). Katip is built to follow that
+recommendation. KVKK m.4 adds that you should process only what the task needs, and an AI that drafts a
+petition rarely needs the client's name.</p>
+<h2 id="does-katip-make-using-ai-kvkk-compliant">Does Katip make using AI KVKK-compliant?</h2>
+<p>No. Masking reduces how much client data leaves your office. You still need a legal basis for any transfer
+(KVKK m.9), your duty of professional secrecy still applies (Avukatlık Kanunu m.36), and you still check the
+result. Masked text is usually still personal data, because the context can point to a person.</p>
+<h2 id="how-does-it-work">How does it work?</h2>
+<ol>
+<li>Rules find structured values: T.C. kimlik, tax and passport numbers, IBANs, phone numbers, e-mails,
+   plates, UETS addresses, case numbers.</li>
+<li>A small language model (Katip Mask) finds names, places and organisations in running text.</li>
+<li>A value found once is masked everywhere it repeats, including with Turkish suffixes (<code>Ayşe'nin</code>).</li>
+<li>A final check looks for any value it found that is still readable. If there is one, Katip refuses to
+   give out the text.</li>
+</ol>
+<p>The model was trained on synthetic documents, public Turkish Wikipedia NER data and the TurkishLegalNER
+training split. No client documents were used. Details and test results:
+<a href="https://github.com/fikrifirat/katip/blob/main/connector/README.md#how-it-works-and-what-it-was-trained-on">connector/README.md</a>.</p>
+<h2 id="what-does-it-mask-and-what-does-it-keep-readable">What does it mask, and what does it keep readable?</h2>
+<p>You pick a profile. Each one masks everything the one before it does, plus more.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Court filing (<code>court</code>)</th>
+<th>Sharing with AI (<code>ai</code>, default in Kalkan)</th>
+<th>Fully anonymous (<code>anon</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Names, T.C. kimlik, passport and foreign IDs, phone, e-mail, IBAN, UETS</td>
+<td>masked</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Health and other special-category data (KVKK m.6)</td>
+<td>masked</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Criminal record details</td>
+<td>readable</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>A party's own address</td>
+<td>masked</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Address of the property in dispute</td>
+<td>readable</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Other addresses</td>
+<td>street readable, building and door number masked</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Bar registry number</td>
+<td>masked</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Your own case and investigation numbers</td>
+<td>readable</td>
+<td>masked</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Court and institution names, dates, place names</td>
+<td>readable</td>
+<td>readable</td>
+<td>masked</td>
+</tr>
+<tr>
+<td>Precedent citations (Yargıtay, Danıştay, AYM …)</td>
+<td>readable</td>
+<td>readable</td>
+<td>readable</td>
+</tr>
+</tbody>
+</table>
+<p>Why: these rules come from a practising lawyer's review of real filings. A court needs case numbers, court
+names and precedent citations; a party's home address is personal data, while the address of a property in
+dispute is evidence. For the AI profile we keep your own case numbers masked, because they can identify the
+client and the AI rarely needs them.</p>
+<h2 id="what-does-katip-not-do">What does Katip not do?</h2>
+<ul>
+<li><strong>It can miss values.</strong> On synthetic test documents it masks about 99% of values; on real text it misses
+  more (<a href="https://huggingface.co/spaces/f1k/kvkk-bench">KVKK-Bench</a>). Always read the output before sharing it.</li>
+<li><strong>It does not mask what you attach or type in a chat.</strong> Only text that passes through Katip is masked. A
+  file you attach to Claude or ChatGPT goes to the provider as it is.</li>
+<li><strong>It does not anonymise.</strong> Placeholders are pseudonymisation while the context or the map can point to a
+  person.</li>
+<li><strong>It does not check your legal reasoning,</strong> and neither does the AI.</li>
+</ul>
+<h2 id="where-does-katip-kalkan-work">Where does Katip Kalkan work?</h2>
+<p>On your own computer only: in <strong>Claude Desktop</strong> (chat, installed from the <code>.mcpb</code> file), <strong>Claude Code</strong> and
+<strong>Cowork</strong> running on your computer. It does <strong>not</strong> work in claude.ai in the browser, in the Claude or
+ChatGPT mobile apps, or in ChatGPT on the web. Those can only use connectors that run on the provider's
+servers, so the document would have to leave your computer before it is masked, which defeats the purpose.
+In a browser, use the <a href="./">Katip web app</a>: it masks the document inside your
+browser tab, and you copy or download the masked text yourself. macOS is tested; Windows is supported and
+checked by automated tests, but not yet tried by a person.</p>
+<h2 id="how-do-i-use-it">How do I use it?</h2>
+<p>Leave your documents where they are. Katip searches your case folder (with client subfolders) and Downloads,
+where UYAP downloads and e-mail attachments land. Say which document you mean the way you'd tell a colleague:
+words from its name, its type, a file number, or "the one I just downloaded". Katip matches your words against
+the real file names on your computer and shows Claude only shortened names; if several match, Claude asks which
+one. Type a command in Claude Code or Cowork; in Claude Desktop, pick the same item from the <strong>+</strong> menu.</p>
+<ul>
+<li><code>/katip &lt;document&gt; &lt;request&gt;</code>: anything with a client document. Katip masks it first, then Claude does what
+  you ask. Example: <code>/katip 2026/123 bilirkişi raporu ile dava dilekçesini karşılaştır</code>.</li>
+<li><code>/katip-incele &lt;document&gt;, [focus]</code>: a review: summary, claims and grounds, gaps and errors, suggestions.
+  Example: <code>/katip-incele son indirdiğim UYAP evrakı, zamanaşımı</code>.</li>
+<li><code>/katip-taslak &lt;document&gt;, [kind]</code>: a draft reply, with gaps marked <code>[…]</code> instead of invented facts. Claude
+  then offers to save it with the real names as a Word (.docx), text or Markdown file next to the document. Example:
+  <code>/katip-taslak Yılmaz kira ihtarnamesi, cevap</code>.</li>
+</ul>
+<p>Typing a client's name to find a file sends that name to Claude as you typed it; a document type, date or file
+number finds it without that. Before Katip opens a document, Claude asks for your approval and shows the
+document's shortened name. Approve only the documents you meant to share.</p>
+<h2 id="which-folders-does-katip-use">Which folders does Katip use?</h2>
+<p>Two: your <strong>case folder</strong>, the one where you already keep client files (for example <code>Documents/Davalar</code>, with
+subfolders), and <strong>Downloads</strong>. Nothing is copied. Final documents with real names are saved next to the source
+document. In Claude Desktop you pick both in the extension's settings (leave Downloads empty if you don't want it
+searched). In Claude Code, list your case folders one per line in <code>~/.katip/folders.txt</code>. Don't choose your
+Desktop, all of Documents or your home folder, because Katip could then open any file there; Katip warns you if
+you do, and also if a folder syncs to iCloud, OneDrive or Google Drive. In Claude Code and Cowork, Claude's own
+file tools are blocked from these folders, so documents are opened only through Katip.</p>
+<h2 id="where-does-my-data-go">Where does my data go?</h2>
+<p>Nowhere, apart from what you choose to send. The web app runs in your browser tab, and the Kalkan plugin runs on
+your computer and gives Claude only the masked text. The author runs no server that receives documents, and there
+are no accounts, analytics or telemetry. Kalkan keeps the placeholder map encrypted on your computer for 30 days
+so it can put the real names back into your final document. See <a href="https://github.com/fikrifirat/katip/blob/main/PRIVACY.md">PRIVACY.md</a>.</p>
+<h2 id="who-is-responsible-if-something-is-missed">Who is responsible if something is missed?</h2>
+<p>You, as the data controller, decide what to send and check it before you do. Katip is free, open-source
+software provided as is. It reduces risk; it does not take it over.</p>
+<h2 id="how-do-i-report-a-problem-or-a-value-it-missed">How do I report a problem or a value it missed?</h2>
+<p>Open a <a href="https://github.com/fikrifirat/katip/issues">GitHub issue</a>. Please describe the pattern with made-up
+values. Never paste a real client document or real personal data.</p>
+<p><a class="cta" href="./?lang=en">Open the app</a></p>
+</main>
+<footer class="foot">This page is generated from FAQ.md. · <a href="https://github.com/fikrifirat/katip">Source code</a> · <a href="https://huggingface.co/spaces/f1k/kvkk-bench">KVKK-Bench</a></footer>
+</body>
+</html>

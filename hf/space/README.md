@@ -54,5 +54,9 @@ the 110 MB [Katip Mask Base](https://huggingface.co/f1k/katip-mask-base) is one 
 - 80 synthetic samples (16 document types, 5 each) with answer keys; model, OCR, threshold, data types and mask style under "Gelişmiş ayarlar".
 - "Görüş bildir" opens a ready e-mail for feedback.
 
+How the tools compare on Turkish documents: [KVKK-Bench leaderboard](https://huggingface.co/spaces/f1k/kvkk-bench).
+Questions and answers: [Türkçe SSS](https://fikrifirat.github.io/katip/sss.html) · [English FAQ](https://fikrifirat.github.io/katip/faq.html).
+Mask files before Claude reads them: [Katip Kalkan](https://github.com/fikrifirat/katip/tree/main/connector).
+
 Source: https://github.com/fikrifirat/katip · Licence: AGPL-3.0, with a commercial licence
 available for use in products or real operations (contact fikrifirat@gmail.com or open an issue).

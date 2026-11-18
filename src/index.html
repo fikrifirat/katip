@@ -6,13 +6,106 @@
 <!--CSP--><!-- build.py replaces this line with the Content-Security-Policy (own origin only, plus the optional report endpoint) -->
 <meta name="referrer" content="no-referrer">
 <meta name="description" content="Türkçe KVKK kişisel veri maskeleme, tamamen tarayıcıda: PDF, taranmış belge, Word, UYAP UDF. Belge hiçbir sunucuya yüklenmez. Turkish PII redaction that runs fully in your browser.">
-<meta name="keywords" content="KVKK, kişisel veri maskeleme, anonimleştirme, karartma, PII redaction, Turkish, hukuk, UYAP, PDF">
+<meta name="keywords" content="KVKK, kişisel veri maskeleme, anonimleştirme, karartma, avukat, hukuk bürosu, UYAP UDF, yapay zekâ, PII redaction, Turkish, PDF">
 <meta property="og:title" content="Katip Mask: cihazınızda KVKK maskeleme / on-device Turkish PII redaction">
 <meta property="og:description" content="Türkçe hukuk belgelerinde kişisel verileri tarayıcıda bulup maskeler; belge hiçbir sunucuya yüklenmez. Turkish legal document redaction that never uploads the file.">
 <meta property="og:type" content="website">
-<link rel="alternate" hreflang="tr" href="./?lang=tr">
-<link rel="alternate" hreflang="en" href="./?lang=en">
-<title>Katip Mask: cihazınızda KVKK maskeleme</title>
+<link rel="canonical" href="https://fikrifirat.github.io/katip/">
+<link rel="alternate" hreflang="tr" href="https://fikrifirat.github.io/katip/">
+<link rel="alternate" hreflang="en" href="https://fikrifirat.github.io/katip/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://fikrifirat.github.io/katip/">
+<meta property="og:url" content="https://fikrifirat.github.io/katip/">
+<meta property="og:site_name" content="Katip">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:image" content="https://fikrifirat.github.io/katip/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Katip Mask: aynı dilekçe, maskelenmeden önce ve sonra">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="author" content="Fikri Fırat">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "SoftwareApplication",
+   "@id": "https://fikrifirat.github.io/katip/#app",
+   "name": "Katip Mask",
+   "alternateName": [
+    "Katip",
+    "Katip KVKK maskeleme",
+    "Katip KVKK anonimleştirme"
+   ],
+   "description": "Türkçe hukuk belgelerinde kişisel verileri (ad soyad, T.C. kimlik no, IBAN, telefon, adres, sağlık bilgisi) tarayıcıda bulup maskeleyen açık kaynak araç; belge sunucuya yüklenmez. Open-source Turkish PII redaction for legal documents that runs in the browser.",
+   "url": "https://fikrifirat.github.io/katip/",
+   "applicationCategory": "BusinessApplication",
+   "applicationSubCategory": "KVKK personal data masking",
+   "operatingSystem": "Web browser",
+   "inLanguage": [
+    "tr",
+    "en"
+   ],
+   "isAccessibleForFree": true,
+   "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "TRY"
+   },
+   "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+   "audience": {
+    "@type": "Audience",
+    "audienceType": "Avukatlar, hukuk büroları, şirket hukuk ve uyum ekipleri / lawyers, law firms, in-house legal"
+   },
+   "keywords": "KVKK, kişisel veri maskeleme, anonimleştirme, karartma, avukat, UYAP UDF, PII redaction, Turkish NER",
+   "image": "https://fikrifirat.github.io/katip/og.png",
+   "screenshot": "https://fikrifirat.github.io/katip/og.png",
+   "author": {
+    "@id": "https://fikrifirat.github.io/katip/#author"
+   },
+   "sameAs": [
+    "https://github.com/fikrifirat/katip",
+    "https://huggingface.co/spaces/f1k/katip-kvkk-anonymization"
+   ],
+   "subjectOf": [
+    {
+     "@type": "WebPage",
+     "name": "KVKK-Bench",
+     "url": "https://huggingface.co/spaces/f1k/kvkk-bench"
+    },
+    {
+     "@type": "FAQPage",
+     "url": "https://fikrifirat.github.io/katip/sss.html"
+    }
+   ]
+  },
+  {
+   "@type": "Person",
+   "@id": "https://fikrifirat.github.io/katip/#author",
+   "name": "Fikri Fırat",
+   "url": "https://github.com/fikrifirat",
+   "sameAs": [
+    "https://huggingface.co/f1k",
+    "https://fikrifirat.com"
+   ]
+  },
+  {
+   "@type": "SoftwareSourceCode",
+   "name": "Katip source code",
+   "codeRepository": "https://github.com/fikrifirat/katip",
+   "programmingLanguage": [
+    "Python",
+    "JavaScript"
+   ],
+   "license": "https://www.gnu.org/licenses/agpl-3.0.html",
+   "author": {
+    "@id": "https://fikrifirat.github.io/katip/#author"
+   }
+  }
+ ]
+}
+</script>
+<title>Katip Mask: KVKK kişisel veri maskeleme ve anonimleştirme, cihazınızda</title>
 <link rel="icon" href="mark.svg" type="image/svg+xml">
 <link rel="preload" href="fonts/space-grotesk-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="style.css?v=20261117a">
@@ -232,6 +325,7 @@ result.text, result.mapping</code></pre>
   <span id="version"></span> · <span data-i18n="foot">Açık kaynak · tamamen tarayıcıda çalışır</span>
   · <a href="https://github.com/fikrifirat/katip" id="srcLink" data-i18n="source">Kaynak kod</a>
   · <a href="https://huggingface.co/spaces/f1k/kvkk-bench" target="_blank" rel="noopener" data-i18n="bench">KVKK-Bench sıralaması</a>
+  · <a href="sss.html" id="faqLink" data-i18n="faqLink">Sık sorulan sorular</a>
 </footer>
 <script src="vendor/jszip/dist/jszip.min.js"></script>
 <script type="module" src="app.js?v=20261117a"></script>

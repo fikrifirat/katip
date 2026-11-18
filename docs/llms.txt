@@ -1,0 +1,29 @@
+# Katip
+
+> Katip finds and masks personal data in Turkish legal documents (names, T.C. kimlik numbers, IBAN, phone, e-mail, address, plates, KVKK art. 6 health data) on the user's own computer. The browser app never uploads the document. It is open source (AGPL-3.0, commercial licence on request) and built for Turkish lawyers, law firms and in-house legal teams who want to share files with clients, experts or AI tools under KVKK (Law No. 6698).
+
+Türkçe: Katip, Türkçe hukuk belgelerindeki kişisel verileri (ad soyad, T.C. kimlik no, IBAN, telefon, adres, sağlık bilgisi) avukatın kendi bilgisayarında bulup maskeleyen açık kaynak bir KVKK maskeleme ve anonimleştirme aracıdır.
+
+What it does not do: it can miss values, masked text is usually still personal data (pseudonymised, not anonymous), and it does not replace a legal basis for transfers abroad (KVKK m.9). Users check the result.
+
+## Use it
+
+- [Katip Mask web app](https://fikrifirat.github.io/katip/): drop a PDF, scan, photo, Word file or UYAP .udf; masking runs in the browser tab
+- [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization): same app, with the larger Katip Mask Base model
+- [Katip Kalkan for Claude](https://github.com/fikrifirat/katip/tree/main/connector): Claude plugin and Claude Desktop extension that masks client files on the computer before Claude reads them, then restores real names in the final document
+- [katip-mask on PyPI](https://pypi.org/project/katip-mask/): Python package for the same detection
+
+## Learn more
+
+- [FAQ in Turkish (SSS)](https://fikrifirat.github.io/katip/sss.html)
+- [FAQ in English](https://fikrifirat.github.io/katip/faq.html)
+- [README](https://github.com/fikrifirat/katip/blob/main/README.md): accuracy numbers, models, how it works
+- [Privacy](https://github.com/fikrifirat/katip/blob/main/PRIVACY.md)
+- [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench): public leaderboard comparing Turkish personal-data masking tools
+- [KVKK Board guide for lawyers (22 Sep 2026)](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi): recommends masking or anonymising data before sharing it with AI tools
+
+## Models
+
+- [Katip Mask Base](https://huggingface.co/f1k/katip-mask-base): BERTurk fine-tune, 111 MB int8 ONNX
+- [Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini): 31 MB, distilled from Base, browser default
+- [Katip Mask Nano](https://huggingface.co/f1k/katip-mask-nano): 2.5 MB, fast mode
