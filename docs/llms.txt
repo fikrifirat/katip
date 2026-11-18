@@ -22,8 +22,31 @@ What it does not do: it can miss values, masked text is usually still personal d
 - [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench): public leaderboard comparing Turkish personal-data masking tools
 - [KVKK Board guide for lawyers (22 Sep 2026)](https://www.kvkk.gov.tr/Icerik/8990/avukatlarin-mesleki-faaliyetlerinde-kisisel-verilerin-korunmasina-iliskin-uygulama-rehberi-yayimlandi): recommends masking or anonymising data before sharing it with AI tools
 
+## KVKK-Bench results (v0.1.2, 18 Nov 2026)
+
+KVKK-Bench v0.1.2, scores out of 100, higher is better. *Overall* is the weighted F2 score for finding names in real text: Yargıtay decisions with Turkish and foreign names, and everyday Wikipedia sentences. *Forms* ◇ covers T.C. kimlik, tax numbers, IBANs and addresses on 306 synthetic petitions and bar forms; it is not in Overall, and blank means not run. Rows named Katip include Katip's rules. Live table and method: https://huggingface.co/spaces/f1k/kvkk-bench
+
+| # | System | Overall | Turkish names (court) | Foreign names (court) | Everyday text | Forms ◇ | Size MB |
+|---|---|---|---|---|---|---|---|
+| 1 | [Katip Mask Base · tr v2](https://huggingface.co/f1k/katip-mask-base) | 96.1 | 99.9 | 97.7 | 84.8 | 98.3 | 111.1 |
+| 2 | [XLM-RoBERTa Large NER](https://huggingface.co/FacebookAI/xlm-roberta-large-finetuned-conll03-english) | 95.9 | 97.6 | 97.5 | 89.9 | 41.6 | 2235.4 |
+| 3 | [XLM-RoBERTa Base Turkish NER](https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner) | 95.7 | 98.5 | 98.2 | 86.3 | – | 1109.8 |
+| 4 | [Katip rules + GLiNER2 · tr fine-tuned](https://github.com/fikrifirat/katip/blob/legal-study/lab/colab/gliner2_katip_recipe.ipynb) | 95.5 | 98.7 | 97.3 | 86.0 | 98.2 | 1228.7 |
+| 5 | [GLiNER2 PII Multi](https://huggingface.co/fastino/gliner2-privacy-filter-PII-multi) | 95.0 | 98.1 | 98.2 | 83.9 | 43.2 | 1228.4 |
+| 6 | [Katip Mask Mini · tr v2](https://huggingface.co/f1k/katip-mask-mini) | 93.0 | 99.1 | 97.2 | 73.4 | 97.5 | 31.4 |
+| 7 | [BERTurk NER](https://huggingface.co/savasy/bert-base-turkish-ner-cased) | 91.6 | 97.4 | 91.7 | 77.1 | 38.3 | 440.1 |
+| 8 | [GLiNER Multi PII v1](https://huggingface.co/urchade/gliner_multi_pii-v1) | 91.3 | 93.1 | 92.9 | 85.2 | – | 1155.8 |
+| 9 | [Katip Mask Nano · tr v1.1](https://huggingface.co/f1k/katip-mask-nano) | 85.9 | 94.4 | 95.5 | 55.2 | 96.6 | 2.9 |
+| 10 | [ModernBERT-TR PII NER](https://huggingface.co/ytu-ce-cosmos/modernbert-tr-pii-ner) | 85.3 | 99.0 | 96.9 | 39.4 | – | 597.5 |
+| 11 | [Qwen2.5 1.5B Instruct (zero-shot)](https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct) | 57.5 | 59.1 | 57.6 | 53.7 | – | 3087 |
+| 12 | [Privacy Filter Multilingual v2](https://huggingface.co/OpenMed/privacy-filter-multilingual-v2) | 57.2 | 59.8 | 57.4 | 50.7 | – | 2799.2 |
+| 13 | [Privacy Filter](https://huggingface.co/openai/privacy-filter) | 51.3 | 58.0 | 58.0 | 27.9 | – | 2799 |
+| 14 | [Piiranha v1](https://huggingface.co/iiiorg/piiranha-v1-detect-personal-information) | 49.8 | 41.4 | 61.5 | 59.4 | – | 1112.9 |
+| 15 | [Presidio](https://github.com/microsoft/presidio) | 45.0 | 39.3 | 44.0 | 60.4 | 36.1 | 11 |
+| 16 | [OpenMed PII Turkish Small](https://huggingface.co/OpenMed/OpenMed-PII-Turkish-ClinicalE5-Small-33M-v1) | 19.1 | 11.8 | 18.8 | 37.5 | – | 133 |
+
 ## Models
 
 - [Katip Mask Base](https://huggingface.co/f1k/katip-mask-base): BERTurk fine-tune, 111 MB int8 ONNX
 - [Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini): 31 MB, distilled from Base, browser default
-- [Katip Mask Nano](https://huggingface.co/f1k/katip-mask-nano): 2.5 MB, fast mode
+- [Katip Mask Nano](https://huggingface.co/f1k/katip-mask-nano): 2.5 MB, fast mode and the Katip Kalkan default; finds fewer names in everyday text than Mini or Base

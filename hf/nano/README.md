@@ -34,9 +34,13 @@ tags:
 *Türkçe:* Tarayıcıda ya da dizüstü bilgisayarda çalışan 2,5 MB'lık Türkçe ad soyad tanıma modeli; avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme aracı Katip'in varsayılan modeli.
 
 A 2.5 MB Turkish person-name tagger (int8 ONNX) that runs in the browser or on a laptop CPU, next to
-Katip's rule-based PII detection. It is the default model of [Katip Mask](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization),
-a KVKK redaction tool where the document never leaves the user's computer, and of the
+Katip's rule-based PII detection. It is the fast mode of [Katip Mask](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization),
+a KVKK redaction tool where the document never leaves the user's computer, and the default model of the
 [Katip Kalkan](https://github.com/fikrifirat/katip/tree/main/connector) connector for Claude.
+
+**Nano is Katip's smallest model, not its most accurate.** On [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) it scores 85.9 Overall (#9 of 16).
+[Katip Mask Base](https://huggingface.co/f1k/katip-mask-base) scores 96.1 (#1) and [Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini) 93.0 (#6). Most of the gap is names in everyday prose:
+55.2 for Nano against 84.8 for Base. On real court text the three are close (Turkish names 94.4 / 99.1 / 99.9).
 
 **New in v1.1 (13 Nov 2026):** trained with foreign client names as they appear in Turkish documents
 (Syrian, Iranian, Afghan, Georgian, Armenian, Greek, Arab, Russian/Ukrainian, Azerbaijani and Western names,

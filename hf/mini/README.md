@@ -42,6 +42,8 @@ Katip's rule-based PII detection. It sits between [Katip Mask Nano](https://hugg
 [Katip Mask](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization), a redaction tool where the document never leaves the
 user's computer, and for the [Katip Kalkan](https://github.com/fikrifirat/katip/tree/main/connector) connector for Claude.
 
+On [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) Mini scores 93.0 Overall (#6 of 16), against 96.1 for Base (#1) and 85.9 for Nano.
+
 Mini is a smaller copy of Base. It starts from DistilBERTurk, keeps 3 of its 6 layers and the 12,000 word pieces
 our text uses, and is then taught by Base. Base catches more names in everyday prose. Mini is the option when 111 MB
 is too much to download in a browser tab.
