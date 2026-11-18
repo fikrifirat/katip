@@ -101,7 +101,7 @@ Komutu Claude Code ya da Cowork'te yazın; Claude Desktop'ta aynı öğeyi **+**
 * `/katip-incele <belge>, [odak]`: inceleme: özet, talepler ve dayanaklar, eksik ve hatalar, öneriler.
   Örnek: `/katip-incele son indirdiğim UYAP evrakı, zamanaşımı`.
 * `/katip-taslak <belge>, [tür]`: taslak; bilinmeyenler uydurulmaz, `[…]` ile işaretlenir. Claude sonra
-  taslağı gerçek adlarla belgenin yanına Word dosyası olarak kaydetmeyi önerir. Örnek:
+  taslağı gerçek adlarla belgenin yanına Word (.docx), metin ya da Markdown dosyası olarak kaydetmeyi önerir. Örnek:
   `/katip-taslak Yılmaz kira ihtarnamesi, cevap`.
 
 Dosyayı bulmak için müvekkilin adını yazarsanız o ad Claude'a yazdığınız gibi gider; belge türü, tarih ya da

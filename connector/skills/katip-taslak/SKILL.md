@@ -1,6 +1,6 @@
 ---
 name: katip-taslak
-description: Cevap dilekçesi, itiraz ya da yazı taslağı (draft a reply or letter) from a client document with Katip's KVKK masking, optionally saved with the real names as a Word file. Use when the user types /katip-taslak or asks for a draft based on a client document on their computer.
+description: Cevap dilekçesi, itiraz ya da yazı taslağı (draft a reply or letter) from a client document with Katip's KVKK masking, optionally saved with the real names as a Word (.docx), text or Markdown file. Use when the user types /katip-taslak or asks for a draft based on a client document on their computer.
 argument-hint: "[belge, taslak türü / document, kind — e.g. son UYAP evrakı, cevap dilekçesi]"
 ---
 
