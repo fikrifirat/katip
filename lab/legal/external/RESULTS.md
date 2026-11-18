@@ -23,6 +23,9 @@ Why NewMind leads (per-type recall, Base vs NewMind):
 - **Formats Katip did not know**, fixed in PR #55: birth date after a bare "doğum" (piimask 0% → 100%), TROY
   cards, TCKN written 123.456.789.01. After PR #55 Base scores piimask TR 87.6 and Çağrı 69.0. These bugs were
   found on these sets, so post-fix numbers are not an independent test and are not in the table below.
+- **Follow-up PR #57** (labelled numbers without a valid checksum, blood group, maiden name; stacked on #55):
+  Base reaches Çağrı 77.5 (NewMind 74.4), piimask TR 89.6 (91.0), nm6k 92.1 (94.3), with false masks unchanged.
+  Same caveat: not independent. Rows `base-v3` / `rules-v3` in results.json.
 - **Precision on nm6k**: Base 78.7 vs NewMind 99.9. Mostly form labels masked as names ("Kayıt Sahibi", ~180)
   and health keywords ("ilaç", "reçete") flagged on their own.
 
