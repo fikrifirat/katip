@@ -21,6 +21,11 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 MODELS = HERE / "ocr_models"
+# The Latin recogniser (8 MB) is not kept in the plugin folder: the Claude directory takes no file over
+# 5 MiB. The .mcpb bundles it (build_bundle.py); the plugin downloads it once, at this pinned revision,
+# checks the SHA-256 and keeps it in ~/.katip/models. KATIP_OCR_DOWNLOAD=0 turns the download off.
+REC = ("PaddlePaddle/latin_PP-OCRv5_mobile_rec_onnx", "89d3a50e2c27e2e7cceeab0e944c25c807d5db4f",
+       "7888113072263cb471b93f66dd5e2ad70548dc526fa1ace760d0d973dd121498")
 DPI = int(os.environ.get("KATIP_OCR_DPI", 200))
 _paddle = None
 
@@ -36,6 +41,40 @@ def available() -> list[str]:
     if _tesseract_ok():
         out.append("tesseract")
     return out
+
+
+def _sha256(p: Path) -> str:
+    import hashlib
+    h = hashlib.sha256()
+    with open(p, "rb") as f:
+        for b in iter(lambda: f.read(1 << 20), b""):
+            h.update(b)
+    return h.hexdigest()
+
+
+def rec_model() -> Path:
+    """The recogniser: bundled (.mcpb), else the verified download in ~/.katip/models."""
+    bundled = MODELS / "rec" / "inference.onnx"
+    if bundled.exists():
+        return bundled
+    repo, rev, sha = REC
+    home = Path(os.environ.get("KATIP_HOME") or Path.home() / ".katip")
+    p = home / "models" / f"paddleocr-latin-rec-{rev[:12]}" / "inference.onnx"
+    if p.exists() and _sha256(p) == sha:
+        return p
+    if os.environ.get("KATIP_OCR_DOWNLOAD", "1") == "0":
+        raise RuntimeError("the PaddleOCR recogniser is not downloaded and KATIP_OCR_DOWNLOAD=0")
+    import urllib.request
+    p.parent.mkdir(parents=True, exist_ok=True)
+    tmp = p.with_suffix(".part")
+    with urllib.request.urlopen(f"https://huggingface.co/{repo}/resolve/{rev}/inference.onnx", timeout=120) as r, \
+            open(tmp, "wb") as f:
+        shutil.copyfileobj(r, f)
+    if _sha256(tmp) != sha:
+        tmp.unlink()
+        raise RuntimeError(f"{repo}: the download does not match the pinned SHA-256; not used")
+    tmp.replace(p)
+    return p
 
 
 def _tesseract_ok() -> bool:
@@ -95,7 +134,7 @@ def _paddle_engine():
         keys = MODELS / "rec" / "keys.txt"  # dict.json from the browser build, one character per line
         _paddle = RapidOCR(params={"Global.use_cls": False, "Global.log_level": "error",
                                    "Det.model_path": str(MODELS / "det" / "inference.onnx"),
-                                   "Rec.model_path": str(MODELS / "rec" / "inference.onnx"),
+                                   "Rec.model_path": str(rec_model()),
                                    "Rec.rec_keys_path": str(keys)})
     return _paddle
 
@@ -134,7 +173,14 @@ def _ocr_tesseract(rgb) -> str:
 
 def ocr_page(rgb) -> tuple[str, str]:
     reader = route(rgb)
-    return (_ocr_paddle(rgb) if reader == "paddle" else _ocr_tesseract(rgb)), reader
+    if reader == "paddle":
+        try:
+            return _ocr_paddle(rgb), reader
+        except (OSError, RuntimeError):  # recogniser download failed (offline): Tesseract if it is there
+            if not _tesseract_ok():
+                raise
+            reader = "tesseract"
+    return _ocr_tesseract(rgb), reader
 
 
 def pixmap_rgb(pix):

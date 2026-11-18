@@ -21,6 +21,14 @@ if src.exists() and (not eng.exists() or src.read_bytes() != eng.read_bytes()):
     shutil.copyfile(src, eng)
     print("engine.zip refreshed from docs/katip_py.zip")
 
+# The OCR recogniser is over the Claude directory's 5 MiB file limit, so it is not in git; the .mcpb
+# carries it so Claude Desktop reads scans offline from the first start.
+import os, sys
+sys.path.insert(0, str(HERE))
+os.environ["KATIP_HOME"] = str(HERE / "dist" / ".fetch")
+from katip_kalkan import ocr  # noqa: E402
+rec = ocr.rec_model()
+
 dist = HERE / "dist"
 dist.mkdir(exist_ok=True)
 out = dist / "katip-kalkan.mcpb"
@@ -33,4 +41,6 @@ with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as z:
     for f in sorted((HERE / "katip_kalkan").rglob("*")):
         if f.is_file() and "__pycache__" not in f.parts:
             z.write(f, "server/" + str(f.relative_to(HERE)))
+    if rec != ocr.MODELS / "rec" / "inference.onnx":
+        z.write(rec, "server/katip_kalkan/ocr_models/rec/inference.onnx")
 print(out, out.stat().st_size // 1024, "KB")

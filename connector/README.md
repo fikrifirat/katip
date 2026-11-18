@@ -227,9 +227,11 @@ the [Katip Mask Nano model card](https://huggingface.co/f1k/katip-mask-nano) and
   katip-mask 0.1.1 (the detection rules, the same as the app and the SDK), onnxruntime 1.32.0,
   numpy 2.5.4, cryptography 50.0.2, pymupdf 2.1 and rapidocr 3.10.0 from PyPI, and Python 3.12 if it's
   missing. Set `KATIP_AUTO_DEPS=0` to turn this off; Katip then uses the rules bundled in the plugin,
-  which are the same. The Nano name model and the OCR models ship inside the plugin. Only if you set
-  `KATIP_MODEL=base` or `mini` is a model downloaded from Hugging Face, once, at the commit pinned in
-  katip-mask and checked by SHA-256.
+  which are the same. The Nano name model and the OCR text detector ship inside the plugin. The OCR
+  text recogniser (PaddleOCR, 8 MB) ships inside the `.mcpb`; the Claude Code plugin downloads it from
+  Hugging Face the first time you open a scan or photo, at a pinned commit, checked by SHA-256
+  (`KATIP_OCR_DOWNLOAD=0` turns this off). If you set `KATIP_MODEL=base` or `mini`, that model is also
+  downloaded from Hugging Face, once, at the commit pinned in katip-mask and checked by SHA-256.
 
 ## Privacy policy
 

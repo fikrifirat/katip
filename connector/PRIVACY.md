@@ -39,7 +39,9 @@ computer. Only the masked text, with placeholders such as `[AD SOYAD-1]`, is ret
 * **Network:** on first start only, if `uv` is installed, uv downloads pinned open-source packages
   (katip-mask, onnxruntime, numpy, cryptography, pymupdf, rapidocr) from PyPI and, if missing, Python 3.12
   from uv's Python builds. If you set `KATIP_MODEL=base` or `mini`, that model is downloaded once from
-  Hugging Face at a pinned commit. These requests contain no document data. Set `KATIP_AUTO_DEPS=0` to turn
+  Hugging Face at a pinned commit. The Claude Code plugin also downloads the PaddleOCR text recogniser
+  once from Hugging Face, at a pinned commit, the first time you open a scan or photo
+  (`KATIP_OCR_DOWNLOAD=0` turns this off; the `.mcpb` already contains it). These requests contain no document data. Set `KATIP_AUTO_DEPS=0` to turn
   the package downloads off. Katip makes no other network requests.
 
 ## What Katip can't protect
