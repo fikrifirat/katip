@@ -1,2 +1,8 @@
 # The SDK checks compare generated files byte for byte; keep LF on every platform.
 sdk/** text=auto eol=lf
+
+# Keep GitHub's source archive small: the Claude plugin directory downloads it and rejects archives over
+# 50 MiB. The web app (docs/, src/) and the Hugging Face files (hf/) are served from Pages and HF, not from it.
+docs/ export-ignore
+src/ export-ignore
+hf/ export-ignore
