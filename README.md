@@ -3,7 +3,7 @@
 **English** · [Türkçe](README.tr.md)
 
 [![Live demo](https://img.shields.io/badge/demo-GitHub%20Pages-2f7d4f)](https://fikrifirat.github.io/katip/)
-[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--mask-yellow)](https://huggingface.co/spaces/f1k/katip-mask)
+[![Hugging Face Space](https://img.shields.io/badge/%F0%9F%A4%97%20Space-katip--kvkk--anonymization-yellow)](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization)
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--nano-yellow)](https://huggingface.co/f1k/katip-mask-nano)
 [![Base model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--base-yellow)](https://huggingface.co/f1k/katip-mask-base)
 [![KVKK-Bench](https://img.shields.io/badge/KVKK--Bench-Base%2096.1%20%C2%B7%20Mini%2093.0%20%C2%B7%20Nano%2085.9-4c1)](https://huggingface.co/spaces/f1k/kvkk-bench)
@@ -66,7 +66,7 @@ names never seen during development or training, in 16 document styles (4 of the
 | **Katip Mask Nano · tr v1.1** (fast mode) | Katip Rules + [`katip-mask-nano`](https://huggingface.co/f1k/katip-mask-nano), 2.5 MB, Turkish and foreign client names | **756 / 757 (99.9%)** | 364 / 365 |
 | **Katip Rules** | Katip's Turkish rules v0.2, 0.3 MB | 756 / 757 (99.9%) | 364 / 365 |
 | Vanilla: kvkk-pii | open-source [kvkk-pii](https://pypi.org/project/kvkk-pii/) 0.2 regex layer, default settings (baseline) | 183 / 757 (24.2%) | 0 / 365 |
-| **Katip Mask Base** | Katip Rules + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-mask) only | **757 / 757 (100%)** | **365 / 365** |
+| **Katip Mask Base** | Katip Rules + [`katip-mask-base`](https://huggingface.co/f1k/katip-mask-base), 110.8 MB, names + addresses + health terms; on the [Space](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization) only | **757 / 757 (100%)** | **365 / 365** |
 
 **Katip Mask Nano v1.1** (14 Nov 2026) is trained with foreign client names as they appear in Turkish documents.
 The rules now catch almost every value on the blind set, so its gain shows on harder text: in real Yargıtay prose
@@ -167,7 +167,7 @@ discharge summaries (epikriz) and expert reports.
 
 ## Try it
 
-- **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-mask)).
+- **Demo:** https://fikrifirat.github.io/katip/ (or the [Hugging Face Space](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization)).
   Pick one of 16 sample documents to see live recall, precision, misses and false alarms against its
   answer key, or open your own file.
 - The document shows up as soon as you pick it; detected values are highlighted on the page itself.

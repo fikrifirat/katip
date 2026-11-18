@@ -39,7 +39,7 @@ damıtıldı. Avukatlar için kişisel veri maskeleme aracı Katip'in orta boy m
 A 31 MB Turkish person-name tagger (int8 ONNX, 31M parameters) that runs in the browser or on a laptop CPU, next to
 Katip's rule-based PII detection. It sits between [Katip Mask Nano](https://huggingface.co/f1k/katip-mask-nano)
 (3 MB) and [Katip Mask Base](https://huggingface.co/f1k/katip-mask-base) (111 MB). It is built for
-[Katip Mask](https://huggingface.co/spaces/f1k/katip-mask), a redaction tool where the document never leaves the
+[Katip Mask](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization), a redaction tool where the document never leaves the
 user's computer, and for the [Katip Kalkan](https://github.com/fikrifirat/katip/tree/main/connector) connector for Claude.
 
 Mini is a smaller copy of Base. It starts from DistilBERTurk, keeps 3 of its 6 layers and the 12,000 word pieces

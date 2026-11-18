@@ -34,7 +34,7 @@ tags:
 *Türkçe:* Tarayıcıda ya da dizüstü bilgisayarda çalışan 2,5 MB'lık Türkçe ad soyad tanıma modeli; avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme aracı Katip'in varsayılan modeli.
 
 A 2.5 MB Turkish person-name tagger (int8 ONNX) that runs in the browser or on a laptop CPU, next to
-Katip's rule-based PII detection. It is the default model of [Katip Mask](https://huggingface.co/spaces/f1k/katip-mask),
+Katip's rule-based PII detection. It is the default model of [Katip Mask](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization),
 a KVKK redaction tool where the document never leaves the user's computer, and of the
 [Katip Kalkan](https://github.com/fikrifirat/katip/tree/main/connector) connector for Claude.
 

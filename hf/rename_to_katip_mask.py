@@ -5,6 +5,7 @@
   f1k/katip-tr-name-tagger-tiny  ->  f1k/katip-mask-nano   (v1 stays at the tag v1.0)
   f1k/katip-tr-pii-berturk       ->  f1k/katip-mask-base   (tagged v2.0)
   spaces/f1k/katip-yerel         ->  spaces/f1k/katip-mask
+  spaces/f1k/katip-mask          ->  spaces/f1k/katip-kvkk-anonymization  (18 Nov 2026: KVKK and anonymization in the name, for search)
 
 Hugging Face keeps redirects from the old names, so existing links and from_pretrained() calls keep working.
 """
@@ -19,7 +20,7 @@ print("signed in as", api.whoami()["name"])
 MOVES = [
     (f"{u}/katip-tr-name-tagger-tiny", f"{u}/katip-mask-nano", "model", "v1.0", "Katip Mask Nano tr v1: Turkish names"),
     (f"{u}/katip-tr-pii-berturk", f"{u}/katip-mask-base", "model", "v2.0", "Katip Mask Base tr v2: BERTurk + real Turkish text"),
-    (f"{u}/katip-yerel", f"{u}/katip-mask", "space", None, None),
+    (f"{u}/katip-mask", f"{u}/katip-kvkk-anonymization", "space", None, None),
 ]
 
 

@@ -1,5 +1,5 @@
 ---
-title: Katip Mask
+title: Katip KVKK Masking & Anonymisation
 emoji: 🛡️
 colorFrom: green
 colorTo: gray
@@ -7,9 +7,10 @@ sdk: static
 app_file: index.html
 pinned: false
 license: agpl-3.0
-short_description: Turkish KVKK PII redaction that runs fully in your browser
+short_description: KVKK anonymisation of Turkish legal documents, in-browser
 models:
 - f1k/katip-mask-nano
+- f1k/katip-mask-mini
 - f1k/katip-mask-base
 tags:
 - pii
@@ -31,9 +32,12 @@ tags:
 - kisisel-veri
 - anonimlestirme
 - maskeleme
+- anonymisation
+- ner
+- turkish-nlp
 ---
 
-# Katip Mask
+# Katip: KVKK masking and anonymisation (Katip Mask)
 
 Türkçe hukuk belgelerinde kişisel verileri (T.C. kimlik no, VKN, IBAN, telefon, e-posta, plaka,
 adres, ad soyad, KVKK md. 6 özel nitelikli veriler) **tamamen tarayıcıda** bulur ve maskeler.
