@@ -19,3 +19,5 @@ sdk/python/dist/
 sdk/python/build/
 *.egg-info/
 .pytest_cache/
+# over the Claude directory's 5 MiB file limit; downloaded or bundled (ocr.rec_model)
+connector/katip_kalkan/ocr_models/rec/inference.onnx

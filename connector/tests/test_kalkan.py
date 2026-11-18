@@ -690,3 +690,40 @@ def test_named_model_through_the_sdk_is_verified_and_used(monkeypatch, tmp_path)
     text = core.mask_file(str(FIX / "dilekce_01.txt"), "m1")["masked_text"]
     assert "[AD SOYAD-1]" in text and _gold_left(text) == [], _gold_left(text)  # rules + Mini: every value masked
     ner._cache.clear(); ner._note.clear()
+
+
+def test_no_file_in_the_plugin_folder_is_over_the_directory_limit():
+    # The Claude directory rejects a plugin with any file over 5 MiB (tracked files only).
+    files = subprocess.run(["git", "ls-files", "-z", "."], cwd=ROOT, capture_output=True, text=True).stdout.split("\0")
+    big = [f for f in files if f and (ROOT / f).is_file() and (ROOT / f).stat().st_size > 5 * 1024 * 1024]
+    assert big == []
+
+
+def test_ocr_recogniser_is_downloaded_once_and_checked(monkeypatch, tmp_path):
+    from katip_kalkan import ocr
+    bundled = ocr.MODELS / "rec" / "inference.onnx"
+    src = bundled if bundled.exists() else None
+    monkeypatch.setattr(ocr, "MODELS", tmp_path / "empty")
+    monkeypatch.setenv("KATIP_HOME", str(tmp_path / "home"))
+    if src is None and not os.environ.get("KATIP_TEST_DOWNLOAD"):
+        pytest.skip("no local recogniser and KATIP_TEST_DOWNLOAD unset")
+    calls = []
+    if src is not None:  # serve the local copy instead of Hugging Face
+        real = src.read_bytes()
+
+        def fake(url, timeout=0):
+            calls.append(url)
+            return io.BytesIO(real)
+        monkeypatch.setattr("urllib.request.urlopen", fake)
+    p = ocr.rec_model()
+    assert p.is_relative_to(tmp_path / "home") and ocr._sha256(p) == ocr.REC[2]
+    assert ocr.rec_model() == p and len(calls) <= 1  # second call uses the verified copy
+    if src is not None:
+        p.unlink()
+        monkeypatch.setattr("urllib.request.urlopen", lambda url, timeout=0: io.BytesIO(b"not the model"))
+        with pytest.raises(RuntimeError, match="SHA-256"):
+            ocr.rec_model()
+        assert not p.exists()
+        monkeypatch.setenv("KATIP_OCR_DOWNLOAD", "0")
+        with pytest.raises(RuntimeError, match="KATIP_OCR_DOWNLOAD"):
+            ocr.rec_model()
