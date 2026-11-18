@@ -139,7 +139,7 @@ class TCKNRecognizer(_Base):
     # 11 digits, optionally spaced; or grouped 3-3-3-2 with dots or dashes ("532.830.965.12", "614-371-928-12")
     RE = re.compile(r"(?<!\d)([1-9](?:[ ]?\d){10}(?!\d)|(?<![.-])[1-9]\d\d\.\d{3}\.\d{3}\.\d\d(?!\d|[.,]\d)|(?<![.-])[1-9]\d\d-\d{3}-\d{3}-\d\d(?!\d|-\d))")
     CTX = ("kimlik", "tckn", "t.c", "tc no", "tc:", "vatandaslik")
-    LABELLED = re.compile(r"(?:Kimlik\s*No|KİMLİK\s*NO|TCKN|T\.?C\.?\s*No|TC\s*No)\s*[:.]?\s*([0-9OoIl]{10,13})(?![\d])")
+    LABELLED = re.compile(r"(?:[Kk]imlik\s*(?:No|no|Numaras[ıi]|numaras[ıi])|KİMLİK\s*(?:NO|NUMARASI)|TCKN|YKN|T\.?C\.?\s*No|TC\s*No)\s*[:.]?\s*([0-9OoIl]{10,13})(?![\d])")
 
     def analyze(self, text, entities, nlp_artifacts=None):
         out = []
@@ -153,6 +153,8 @@ class TCKNRecognizer(_Base):
                 out.append(self._r(m.start(1), m.end(1), score, "11 digits, TCKN checksum ok"))
         # OCR can drop, add or swap a digit; right after a TCKN label, mask any 10-13 digit number anyway
         for m in self.LABELLED.finditer(text):
+            if "vergi" in fold(text[max(0, m.start() - 8):m.start()]):   # "Vergi Kimlik No": a tax ID (VKNRecognizer)
+                continue
             if _has_context(text, m.start(1), self.NOT_TC, 40) and not _has_context(text, m.start(1), ("yabanci kimlik",), 30):
                 continue
             if not any(r.start <= m.start(1) < r.end for r in out):
@@ -272,12 +274,17 @@ class VKNRecognizer(_Base):
     ENTITY, NAME = "VKN", "vkn_checksum_context"
     RE = re.compile(r"(?<!\d)(\d{10})(?!\d)")
     CTX = ("vergi", "vkn", "v.k.n", "vd.", "v.d", "vergi no", "vergi kimlik")
+    # right after a tax-number label any 10 digits are masked: a typo'd tax ID is still one
+    LABELLED = re.compile(r"(?:[Vv]ergi\s+(?:[Kk]imlik\s+)?(?:[Nn]o|[Nn]umaras[ıi])|VERGİ\s+(?:KİMLİK\s+)?(?:NO|NUMARASI)|VKN)\s*[:.]?\s*(\d{10})(?!\d)")
 
     def analyze(self, text, entities, nlp_artifacts=None):
         out = []
         for m in self.RE.finditer(text):
             if vkn_valid(m.group(1)) and _has_context(text, m.start(), self.CTX, 50):
                 out.append(self._r(m.start(1), m.end(1), 0.8, "10 digits, VKN checksum + tax context"))
+        for m in self.LABELLED.finditer(text):
+            if not any(r.start <= m.start(1) < r.end for r in out):
+                out.append(self._r(m.start(1), m.end(1), 0.7, "10 digits after a tax ID label (checksum failed)"))
         return out
 
 
@@ -313,6 +320,7 @@ class IBANRecognizer(_Base):
 class CreditCardRecognizer(_Base):
     ENTITY, NAME = "CREDIT_CARD", "card_luhn"
     RE = re.compile(r"(?<!\d)(\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{1,7})(?!\d)")
+    LABELLED = re.compile(r"(?:[Kk]art\s+(?:[Nn]o|[Nn]umaras[ıi])|KART\s+(?:NO|NUMARASI)|[Kk]redi\s+[Kk]art[ıi]|KRED[İI]\s+KARTI)\s*[:.]?\s*(\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4})(?!\d)")
 
     def analyze(self, text, entities, nlp_artifacts=None):
         out = []
@@ -321,6 +329,9 @@ class CreditCardRecognizer(_Base):
             # 3-6: Amex, Visa, Mastercard, Discover/UnionPay; 9792: TROY, Turkey's domestic card scheme (BKM)
             if luhn_valid(d) and (d[0] in "3456" or d.startswith("9792")) and not tckn_valid(d):
                 out.append(self._r(m.start(1), m.end(1), 0.8, "Luhn ok"))
+        for m in self.LABELLED.finditer(text):
+            if not any(r.start <= m.start(1) < r.end for r in out):
+                out.append(self._r(m.start(1), m.end(1), 0.7, "16 digits after a card label (Luhn failed)"))
         return out
 
 
@@ -526,6 +537,8 @@ class PersonRecognizer(_Base):
     on top, see ``CustomTermsRecognizer``.
     """
     ENTITY, NAME = "PERSON", "tr_person_gazetteer"
+    # "Anne Kızlık Soyadı: Özdemir", "annemin kızlık soyadı Turan": a surname even when no gazetteer knows it
+    MAIDEN = re.compile(r"(?:[Kk]ızlık|KIZLIK)\s+(?:[Ss]oyad[ıi]|SOYADI)\s*[:：]?[ \t]*([A-ZÇĞİÖŞÜ][a-zçğıöşü]+(?:-[A-ZÇĞİÖŞÜ][a-zçğıöşü]+)?|[A-ZÇĞİÖŞÜ]{2,}(?:-[A-ZÇĞİÖŞÜ]{2,})?)(?![\w])")
 
     def __init__(self):
         super().__init__()
@@ -605,6 +618,9 @@ class PersonRecognizer(_Base):
             i = j + 1
         out.extend(self._fill_lists(text, runs, out, seen_names))
         out.extend(self._second_pass(text, toks, seen_names, out))
+        for m in self.MAIDEN.finditer(text):
+            if not any(r.start <= m.start(1) < r.end for r in out):
+                out.append(self._r(m.start(1), m.end(1), 0.85, "surname after a maiden-name label"))
         return out
 
     @staticmethod
@@ -885,6 +901,8 @@ ALL_ENTITIES.extend(SPECIAL_ENTITIES)
 class SpecialCategoryRecognizer(EntityRecognizer):
     """Flags KVKK Art. 6 terms. The span is the matched term widened to the
     preceding word when that word is a qualifier ("tip 2 diyabet", "kronik böbrek")."""
+    # the blood group itself ("0 Rh-", "AB Rh pozitif"), health data under KVKK art. 6
+    BLOOD = re.compile(r"(?<![\w])(?:0|A|B|AB)\s?(?:Rh|RH)\s?(?:\+|-|[Pp]ozitif|[Nn]egatif|POZİTİF|NEGATİF)(?![\w+-])")
 
     def __init__(self):
         self._res = {k: re.compile(r"(?<![\w])(?:" + "|".join(v) + r")(?![\w])", re.I)
@@ -903,6 +921,11 @@ class SpecialCategoryRecognizer(EntityRecognizer):
                 r = RecognizerResult(ent, m.start(), m.end(), 0.7)
                 r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: self.name,
                                           "explanation": f"Art. 6 term '{m.group()}'"}
+                out.append(r)
+        if not entities or "HEALTH" in entities:
+            for m in self.BLOOD.finditer(text):
+                r = RecognizerResult("HEALTH", m.start(), m.end(), 0.75)
+                r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: self.name, "explanation": "blood group"}
                 out.append(r)
         return out
 
