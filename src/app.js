@@ -99,7 +99,7 @@ const I18N = {
     sFind: "Bul",
     sMask: "Maskele",
     sChat: "Sohbet",
-    cCap: "Claude, Katip'in bulduğu değerlerin yerine köşeli parantezli yer tutucuları görür; gerçek değerler ve dosya adlarındaki isimler bilgisayarınızda kalır.", bench: "KVKK-Bench sıralaması",
+    cCap: "Claude, Katip'in bulduğu değerlerin yerine köşeli parantezli yer tutucuları görür; gerçek değerler ve dosya adlarındaki isimler bilgisayarınızda kalır.", bench: "KVKK-Bench sıralaması", faqLink: "Sık sorulan sorular",
     onSpace: "Bu sayfa için çok büyük (110 MB) · Hugging Face'te deneyin →",
     ocrAuto: "Otomatik (el yazısı için PaddleOCR)", ocrAutoMeta: "El yazılı ve fotoğraflı sayfalar PaddleOCR, basılı taramalar Tesseract · +13 MB",
     ocrAutoTip: "Mavi tükenmez kalem izi olan ya da fotoğraftan kesilmiş sayfalar PaddleOCR ile, diğerleri Küçük Tesseract ile okunur.||36 sentetik el yazılı kira sözleşmesi fotoğrafında PaddleOCR hiç TC kimlik numarası ve isim kaçırmadı (Tesseract: 72 TC numarasından 12'si). PaddleOCR basılı taramalarda Tesseract'tan iyi değil, o yüzden onlara karışmaz. Model ilk el yazılı sayfada bu siteden bir kez yüklenir.",
@@ -195,7 +195,7 @@ const I18N = {
     sFind: "Find",
     sMask: "Mask",
     sChat: "Chat",
-    cCap: "Claude sees bracketed placeholders instead of the values Katip finds; the real values and names in file names stay on your computer.", bench: "KVKK-Bench leaderboard",
+    cCap: "Claude sees bracketed placeholders instead of the values Katip finds; the real values and names in file names stay on your computer.", bench: "KVKK-Bench leaderboard", faqLink: "Questions and answers",
     onSpace: "Too big for this page (110 MB) · try it on Hugging Face →",
     ocrAuto: "Automatic (PaddleOCR for handwriting)", ocrAutoMeta: "Handwritten and photographed pages: PaddleOCR; printed scans: Tesseract · +13 MB",
     ocrAutoTip: "Pages with blue ballpoint ink, or a sheet cut out of a photo, are read with PaddleOCR; the rest with Compact Tesseract.||On 36 synthetic photos of hand-filled lease contracts PaddleOCR missed no TC number and no name (Tesseract: 12 of 72 TC numbers). PaddleOCR is not better than Tesseract on printed scans, so it leaves those alone. The model loads once from this site, on the first handwritten page.",
@@ -327,7 +327,8 @@ function applyLang() {
   document.querySelectorAll("[data-i18n-aria]").forEach(e => e.setAttribute("aria-label", t(e.dataset.i18nAria)));
   document.querySelectorAll("[data-i18n-tip]").forEach(e => { const s = t(e.dataset.i18nTip, { wm: wmText() }); e.dataset.tip = s; e.setAttribute("aria-label", s.split("||")[0]); e.setAttribute("role", "button"); });
   document.querySelectorAll("[data-lang]").forEach(b => b.setAttribute("aria-pressed", b.dataset.lang === lang));
-  document.title = lang === "tr" ? "Katip Mask: belgedeki kişisel verileri maskeleyin" : "Katip Mask: mask personal data in documents";
+  const fq = document.getElementById("faqLink"); if (fq) fq.href = lang === "en" ? "faq.html" : "sss.html";
+  document.title = lang === "tr" ? "Katip Mask: KVKK kişisel veri maskeleme ve anonimleştirme, cihazınızda" : "Katip Mask: KVKK masking and anonymisation of Turkish documents, on your device";
   if (samples.length) { drawPicker(); buildModelUI(); buildEntityUI(); buildProfileUI(); }
   updateButtons(); if (res?.spans) render(); else if (preview) renderPreview();
 }
