@@ -46,6 +46,11 @@ def _context_before(text: str, start: int, window: int = 60) -> str:
     return fold(text[max(0, start - window):start])
 
 
+def _fold_keep(s: str) -> str:
+    """fold() one character at a time, so offsets into the result are offsets into the original."""
+    return "".join((fold(c) or c)[0] for c in s)
+
+
 def _has_context(text: str, start: int, words: Iterable[str], window: int = 60) -> bool:
     ctx = _context_before(text, start, window)
     return any(w in ctx for w in words)
@@ -291,6 +296,7 @@ class VKNRecognizer(_Base):
 class IBANRecognizer(_Base):
     ENTITY, NAME = "IBAN", "iban_mod97"
     RE = re.compile(r"\b([A-Z]{2}\d{2}(?:[ \n]?[A-Z0-9]){10,30})\b")  # wrapped IBANs span a line break
+    DASHED = re.compile(r"\b(TR\d{2}(?:-[0-9]{4}){5}-[0-9]{2})(?![\d-])")  # "TR83-6711-7308-8707-7284-3701-92"
     # scans: "TR6O 0001 ...", "TRO9 ...": Turkish IBANs with letters OCR'd into the digit groups
     OCR_RE = re.compile(r"\bTR[0-9OoIl]{2}(?:[ \n]?[0-9OoIlB]){20,24}\b")
 
@@ -305,6 +311,9 @@ class IBANRecognizer(_Base):
                 if iban_valid(c):
                     out.append(self._r(m.start(1), m.start(1) + len(c), 0.95, "IBAN mod-97 ok"))
                     break
+        for m in self.DASHED.finditer(text):
+            if iban_valid(m.group(1).replace("-", "")) and not any(r.start <= m.start() < r.end for r in out):
+                out.append(self._r(m.start(1), m.end(1), 0.95, "IBAN mod-97 ok (dashed groups)"))
         for m in self.OCR_RE.finditer(text):
             if any(r.start <= m.start() < r.end for r in out):
                 continue
@@ -320,7 +329,7 @@ class IBANRecognizer(_Base):
 class CreditCardRecognizer(_Base):
     ENTITY, NAME = "CREDIT_CARD", "card_luhn"
     RE = re.compile(r"(?<!\d)(\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{1,7})(?!\d)")
-    LABELLED = re.compile(r"(?:[Kk]art\s+(?:[Nn]o|[Nn]umaras[ıi])|KART\s+(?:NO|NUMARASI)|[Kk]redi\s+[Kk]art[ıi]|KRED[İI]\s+KARTI)\s*[:.]?\s*(\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4})(?!\d)")
+    LABELLED = re.compile(r"(?:[Kk]art(?:\s+(?:[Nn]o|[Nn]umaras[ıi]))?|KART(?:\s+(?:NO|NUMARASI))?|[Kk]redi\s+[Kk]art[ıi]|KRED[İI]\s+KARTI)\s*[:.]?\s*(\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4})(?!\d)")
 
     def analyze(self, text, entities, nlp_artifacts=None):
         out = []
@@ -342,6 +351,8 @@ class EmailRecognizer(_Base):
     PROVIDERS = r"(?:gmail|hotmail|outlook|yandex|yahoo|icloud|windowslive|live|msn|mynet|ttmail|superonline)"
     OCR_RE = re.compile(r"\b([\w.+-]*[\w])\s?(?:[©®&]{1,2}|[Gg6]ö?|ö)\s?(" + PROVIDERS + r"\.(?:com\.tr|com|net))\b")
     OCR_SYM = re.compile(r"\b([\w.+-]*[\w])\s?[©®]{1,2}\s?([\w-]+(?:\.[\w-]+)+)\b")
+    # written out to dodge scrapers: "ali.kaya [at] proton [dot] me", "ali(at)gmail(nokta)com"
+    SPELLED = re.compile(r"\b[\w.+-]*\w\s*[\[(]\s*(?:at|AT|et)\s*[\])]\s*[\w-]+(?:\s*[\[(]\s*(?:dot|DOT|nokta|NOKTA)\s*[\])]\s*[\w-]+)+")
     # institutional role mailboxes are not personal data; scored below the default threshold
     ROLE = re.compile(r"^(?:kvkk|info|bilgi|iletisim|destek|support|muhasebe|hukuk|basvuru|kep|noreply|no-reply|"
                       r"insankaynaklari|ik|satis|sales|contact|admin|webmaster|sekreterya|consulate\.[a-z]+)@", re.I)
@@ -356,6 +367,8 @@ class EmailRecognizer(_Base):
                 if "@" in m.group() or any(r.start <= m.start() < r.end for r in out):
                     continue
                 out.append(self._r(m.start(), m.end(), 0.8, "e-mail with OCR-garbled @"))
+        for m in self.SPELLED.finditer(text):
+            out.append(self._r(m.start(), m.end(), 0.85, "e-mail with @ and dots written out"))
         return out
 
 
@@ -384,6 +397,9 @@ class PlateRecognizer(_Base):
     RE = re.compile(r"(?<![\w\d])(0[1-9]|[1-7]\d|8[01])[ ]?([A-PR-VYZ]{1,3})[ ]?(\d{2,5})(?![\w\d])")
     BAD_LETTERS = {"TL", "TRY", "USD", "EUR", "KDV", "AS", "NO", "MD", "HD", "CD", "E", "K", "T", "M", "S"}
     CTX = ("plaka", "arac", "araç", "plakali", "plakalı", "vasita", "otomobil")
+    # next to a plate label any letters and digit count: "Araç plakası 07 PRB 5627", "34czy444 plakalı"
+    LABELLED = re.compile(r"(?:[Pp]laka(?:s[ıi])?|PLAKA(?:SI)?)[ \t]*[:.]?[ \t]*((?:0[1-9]|[1-7]\d|8[01])[ ]?[A-Za-z]{1,3}[ ]?\d{2,5})(?![\w\d])")
+    BEFORE_LABEL = re.compile(r"(?<![\w\d])((?:0[1-9]|[1-7]\d|8[01])[ ]?[A-Za-z]{1,3}[ ]?\d{2,5})[ \t]+(?:plakal[ıi]|PLAKALI)")
 
     def analyze(self, text, entities, nlp_artifacts=None):
         out = []
@@ -399,6 +415,10 @@ class PlateRecognizer(_Base):
             if letters in self.BAD_LETTERS and not ctx:
                 continue
             out.append(self._r(m.start(), m.end(), 0.9 if ctx else 0.65, "TR plate shape"))
+        for rx in (self.LABELLED, self.BEFORE_LABEL):
+            for m in rx.finditer(text):
+                if not any(r.start <= m.start(1) < r.end for r in out):
+                    out.append(self._r(m.start(1), m.end(1), 0.8, "plate next to a plate label"))
         return out
 
 
@@ -412,9 +432,12 @@ class IPRecognizer(_Base):
 
 class BirthDateRecognizer(_Base):
     ENTITY, NAME = "BIRTH_DATE", "birth_date_context"
-    RE = re.compile(r"(?<!\d)(\d{1,2}[./-]\d{1,2}[./-](?:19|20)\d{2}|(?:19|20)\d{2}(?=\s*doğumlu))(?!\d)")
+    RE = re.compile(r"(?<!\d)(\d{1,2}[./-]\d{1,2}[./-](?:19|20)\d{2}|(?:19|20)\d{2}-\d{2}-\d{2}|"
+                    r"\d{1,2}\s+(?:Ocak|Şubat|Mart|Nisan|Mayıs|Haziran|Temmuz|Ağustos|Eylül|Ekim|Kasım|Aralık|"
+                    r"OCAK|ŞUBAT|MART|NİSAN|MAYIS|HAZİRAN|TEMMUZ|AĞUSTOS|EYLÜL|EKİM|KASIM|ARALIK)\s+(?:19|20)\d{2}|"
+                    r"(?:19|20)\d{2}(?=\s*doğumlu))(?!\d)")
     CTX = ("dogum tarihi", "d.tarihi", "dogum t", "d. tarihi", "dogumlu", "d.t.", "dogum yeri ve tarihi")
-    AFTER = re.compile(r"^\s*(?:dogumlu|tarihinde dog|tarihli dog|dogum)")
+    AFTER = re.compile(r"^\s*(?:dogumlu|tarihinde dog|tarihli dog|dogum)|^['’]?(?:te|de|ta|da)\s+dog")
     BEFORE = re.compile(r"\bdogum\s*[:(]?\s*$")   # "doğum 09.06.1983", "(doğum: 09.06.1983)": the date right after the word
 
     def analyze(self, text, entities, nlp_artifacts=None):
@@ -424,6 +447,43 @@ class BirthDateRecognizer(_Base):
             before = fold(text[max(0, m.start() - 12):m.start()])
             if _has_context(text, m.start(), self.CTX, 35) or self.AFTER.match(after) or self.BEFORE.search(before):
                 out.append(self._r(m.start(1), m.end(1), 0.85, "date + birth context"))
+        return out
+
+
+class SpelledNumberRecognizer(_Base):
+    """An ID, card, tax, phone or IBAN number read out digit by digit ("tc dokuz dokuz yedi yedi bir ..."), as in
+    call transcripts and dictated statements. Seven digits or more; the type comes from the label just before it,
+    and without a label only a phone-length number (10-11 digits) is taken. Amounts ("altı yüz bin") never match:
+    yüz, bin and milyon are not in the word list."""
+    ENTITY, NAME = "PHONE", "spelled_number"
+    DIGIT = ("sifir", "bir", "iki", "uc", "dort", "bes", "alti", "yedi", "sekiz", "dokuz")
+    TENS = ("on", "yirmi", "otuz", "kirk", "elli", "altmis", "yetmis", "seksen", "doksan")
+    RUN = re.compile(r"(?<![a-z0-9])(?:(?:sifir|bir|iki|uc|dort|bes|alti|yedi|sekiz|dokuz|on|yirmi|otuz|kirk|elli|altmis|yetmis|seksen|doksan)"
+                     r"(?:[ \t]+|[ \t]*[-,][ \t]*)){2,}(?:sifir|bir|iki|uc|dort|bes|alti|yedi|sekiz|dokuz|on|yirmi|otuz|kirk|elli|altmis|yetmis|seksen|doksan)(?![a-z0-9])")
+    WORD = re.compile(r"[a-z]+")
+    LABELS = (("TCKN", ("tc", "t.c", "kimlik", "tckn")), ("CREDIT_CARD", ("kart",)), ("VKN", ("vergi", "vkn")),
+              ("IBAN", ("iban", "tr")), ("PHONE", ("tel", "telefon", "gsm", "cep", "numaram", "numarasi", "numarami", "ara")))
+
+    def __init__(self):
+        super().__init__()
+        self.supported_entities = ["PHONE", "TCKN", "CREDIT_CARD", "VKN", "IBAN"]
+
+    def analyze(self, text, entities, nlp_artifacts=None):
+        f, out = _fold_keep(text), []
+        for m in self.RUN.finditer(f):
+            n, prev_tens = 0, False
+            for w in self.WORD.findall(m.group()):
+                n += 0 if (prev_tens and w in self.DIGIT) else (2 if w in self.TENS else 1)
+                prev_tens = w in self.TENS
+            if n < 7:
+                continue
+            before = self.WORD.findall(f[max(0, m.start() - 25):m.start()])[-3:]
+            ent = next((e for e, ws in self.LABELS if any(w in ws for w in before)), None)
+            if ent is None and n not in (10, 11):
+                continue
+            r = self._r(m.start(), m.end(), 0.7, f"{n} digits read out as words")
+            r.entity_type = ent or "PHONE"
+            out.append(r)
         return out
 
 
@@ -538,6 +598,8 @@ class PersonRecognizer(_Base):
     """
     ENTITY, NAME = "PERSON", "tr_person_gazetteer"
     # "Anne Kızlık Soyadı: Özdemir", "annemin kızlık soyadı Turan": a surname even when no gazetteer knows it
+    FORM_COLON = re.compile(r"(?:[ \t]+[a-zçğıöşü]+){0,2}[ \t]?[:：]")
+    WORDS = re.compile(rf"[{TR_LETTER}]+")
     MAIDEN = re.compile(r"(?:[Kk]ızlık|KIZLIK)\s+(?:[Ss]oyad[ıi]|SOYADI)\s*[:：]?[ \t]*([A-ZÇĞİÖŞÜ][a-zçğıöşü]+(?:-[A-ZÇĞİÖŞÜ][a-zçğıöşü]+)?|[A-ZÇĞİÖŞÜ]{2,}(?:-[A-ZÇĞİÖŞÜ]{2,})?)(?![\w])")
 
     def __init__(self):
@@ -576,6 +638,14 @@ class PersonRecognizer(_Base):
                 if len(p) > 2:
                     parts.add(fold(p))
         return parts
+
+    def _form_label(self, text, r):
+        """A capitalised run alone at the start of a line and followed by a colon is a field label ("Kayıt Saati:",
+        "Poliçe Durumu:"), unless one of its words is a known first name (a chat speaker, "Ayşe Kaya:")."""
+        line = text.rfind("\n", 0, r.start) + 1
+        if text[line:r.start].strip(" \t|-•*") or not self.FORM_COLON.match(text[r.end:r.end + 30]):
+            return False
+        return not any(fold(w) in self.first for w in self.WORDS.findall(text[r.start:r.end]))
 
     def analyze(self, text, entities, nlp_artifacts=None):
         toks = self._tokens(text)
@@ -618,6 +688,7 @@ class PersonRecognizer(_Base):
             i = j + 1
         out.extend(self._fill_lists(text, runs, out, seen_names))
         out.extend(self._second_pass(text, toks, seen_names, out))
+        out = [r for r in out if not self._form_label(text, r)]
         for m in self.MAIDEN.finditer(text):
             if not any(r.start <= m.start(1) < r.end for r in out):
                 out.append(self._r(m.start(1), m.end(1), 0.85, "surname after a maiden-name label"))
@@ -639,6 +710,10 @@ class PersonRecognizer(_Base):
         if self._org_follows(text, end):
             return None  # company name: legal persons are out of KVKK scope
         ctx = _context_before(text, start, 30)
+        gap = text[max(0, start - 30):start]
+        cut = gap.rfind("\n\n")
+        if cut >= 0 and ":" in gap[:cut]:
+            ctx = fold(gap[cut + 2:])   # a form row's cue does not reach past a blank line ("Yetkili no: 8\n\nOnay durumu")
         cue = bool(CUE_RE.search(ctx[-30:]))
         after = text[end:end + 25]
         cue_after = bool(PERSON_AFTER.match(after))
@@ -768,6 +843,7 @@ class AddressRecognizer(_Base):
     over address-shaped tokens, ending at a province/district or line end.
     """
     ENTITY, NAME = "ADDRESS", "tr_address"
+    DOOR = re.compile(r"(?<![\w])(?:[Dd]aire|DAİRE|[Kk]ap[ıi]|KAPI)[ \t]+(?:[Nn]o|NO|[Nn]umaras[ıi]|NUMARASI)[ \t]*[:.]?[ \t]*(\d{1,4}(?:[/-]?[A-Za-z])?)(?![\w/])")
 
     def __init__(self):
         super().__init__()
@@ -800,6 +876,10 @@ class AddressRecognizer(_Base):
             s, e = self._grow(text, m.start(), m.end())
             if e - s >= 12:
                 spans.append((s, e, 0.75, "street anchor"))
+        # a flat or door number on its own: "daire no 28", "Kapı No: 14" (building and door numbers are always masked)
+        for m in self.DOOR.finditer(text):
+            if not any(a <= m.start(1) < b for a, b, _, _ in spans):
+                spans.append((m.start(1), m.end(1), 0.75, "flat or door number"))
         return [self._r(s, e, sc, why) for s, e, sc, why in _merge(spans)]
 
     def _has_place(self, seg):
@@ -869,24 +949,24 @@ def _merge(spans):
 # accept/reject it, and those decisions are what tells us which terms to keep.
 SPECIAL_LEXICON = {
     "HEALTH": [
-        r"tan[ıi]s[ıi]", r"teşhis(?:i|inde)?", r"hastal[ıi]ğ[ıi]", r"hastal[ıi]k", r"rahats[ıi]zl[ıi]ğ[ıi]",
-        r"ameliyat(?:ı|[ıi]n[ıi])?", r"tedavi(?:si|sini)?", r"sağl[ıi]k raporu", r"heyet raporu", r"engellilik oran[ıi]",
-        r"engelli", r"malulen", r"mal[uü]liyet", r"psikiyatri(?:k)?", r"depresyon", r"anksiyete", r"bipolar", r"şizofreni",
+        r"rahats[ıi]zl[ıi]ğ[ıi]",
+        r"sağl[ıi]k raporu", r"heyet raporu", r"engellilik oran[ıi]",
+        r"engelli", r"psikiyatri(?:k)?", r"depresyon", r"anksiyete", r"bipolar", r"şizofreni",
         r"kanser", r"tümör", r"diyabet", r"hiv", r"aids", r"hepatit", r"epilepsi", r"gebelik", r"hamile(?:lik)?",
-        r"kürtaj", r"alkol bağ[ıi]ml[ıi]l[ıi]ğ[ıi]", r"madde bağ[ıi]ml[ıi]l[ıi]ğ[ıi]", r"ilaç(?:lar[ıi])?", r"reçete",
+        r"kürtaj", r"alkol bağ[ıi]ml[ıi]l[ıi]ğ[ıi]", r"madde bağ[ıi]ml[ıi]l[ıi]ğ[ıi]",
         r"kan grubu", r"epikriz", r"yoğun bakım", r"felç", r"kalp krizi", r"covid(?:-19)?",
     ],
     "RELIGION": [
-        r"dini inanc[ıi]", r"dini inanç", r"mezhe(?:b|p)(?:i)?", r"alevi", r"sünni", r"hristiyan", r"müslüman", r"yahudi",
+        r"din bilgisi", r"dini inanc[ıi]", r"dini inanç", r"mezhe(?:b|p)(?:i)?", r"alevi", r"sünni", r"hristiyan", r"müslüman", r"yahudi",
         r"ateist", r"deist", r"süryani", r"ezidi", r"başörtü(?:sü|lü)?", r"türban", r"cemevi", r"kilise(?:ye)?",
         r"namaz k[ıi]l", r"oruç tut", r"din değiştir",
     ],
     "POLITICAL": [r"parti üyesi", r"partisi üyesi", r"siyasi görüş", r"siyasi düşünce", r"partili", r"il başkan[ıi]"],
     "UNION": [r"sendika üyesi", r"sendikaya üye", r"sendika üyeliği", r"sendikal faaliyet", r"[A-ZÇĞİÖŞÜ][a-zçğıöşü-]*-?[Ss]en üyesi"],
     "ETHNICITY": [r"etnik köken", r"ırk[ıi]", r"kürt kökenli", r"roman vatandaş", r"çingene"],
-    "SEXUAL_LIFE": [r"cinsel yönelim", r"eşcinsel", r"cinsel hayat", r"cinsel ilişki", r"lgbt"],
-    "BIOMETRIC_GENETIC": [r"parmak izi", r"biyometrik", r"genetik test", r"dna testi", r"dna analizi", r"retina", r"yüz tanıma"],
-    "CRIMINAL_RECORD": [r"adli sicil kayd[ıi]", r"sab[ıi]ka kayd[ıi]", r"mahkumiyet(?:i|ine)?", r"mahkûmiyet(?:i|ine)?",
+    "SEXUAL_LIFE": [r"cinsel yaşam(?: bilgisi)?", r"cinsel yönelim", r"eşcinsel", r"cinsel hayat", r"cinsel ilişki", r"lgbt"],
+    "BIOMETRIC_GENETIC": [r"parmak izi (?:şablonu|kayd[ıi]|verisi)", r"parmak izi", r"genetik test", r"dna testi", r"dna analizi", r"retina", r"yüz tanıma"],
+    "CRIMINAL_RECORD": [r"mahk[uû]miyet kayd[ıi]", r"adli sicil kayd[ıi]", r"sab[ıi]ka kayd[ıi]", r"mahkumiyet(?:i|ine)?", r"mahkûmiyet(?:i|ine)?",
                         r"hapis cezas[ıi]", r"güvenlik tedbir(?:i|leri)"],
 }
 SPECIAL_ENTITIES = list(SPECIAL_LEXICON)
@@ -898,10 +978,40 @@ ENTITY_LABELS_TR.update({
 ALL_ENTITIES.extend(SPECIAL_ENTITIES)
 
 
+# A special-category field and its value: "Tıbbi tanı: Orta dereceli atopik dermatit", "din hanesi Musevi",
+# "köken bilgisi Kürt". The value is the personal data; the label alone says nothing about the person.
+# Patterns are matched on fold()ed text (one character for one character, see _fold_keep).
+SPECIAL_FIELDS = {
+    "HEALTH": r"(?:tibbi )?tani|teshis(?:i)?|saglik (?:durumu(?:/tani)?|notu|bilgisi|sorunu)|kronik hastalik(?:lari)?|"
+              r"engel(?:lilik)? (?:durumu|orani)|maluliyet (?:durumu|orani)|kullanilan ilac(?:lar)?|ilac (?:bilgisi|kullanimi)|"
+              r"(?:uygulanan )?cerrahi islem|alerji(?:si|leri)?|(?:verilen |kullanilan )?ilac(?:lar)?|(?:uygulanan )?tibbi islem|"
+              r"tedavi(?: islemi)?|(?:on|kesin|ayirici) tani",
+    "RELIGION": r"din(?:i)? (?:hanesi|bilgisi)|dini inanci|mezhebi|din",
+    "ETHNICITY": r"etnik koken(?:i)?(?: (?:alani|bilgisi))?|koken bilgisi|irki",
+    "UNION": r"sendika (?:bilgisi|uyeligi)",
+    "BIOMETRIC_GENETIC": r"biyometrik (?:veri(?:si)?(?: referansi)?|kaydi|bilgisi)|genetik (?:test sonucu|bilgisi|verisi)",
+    "CRIMINAL_RECORD": r"adli sicil(?: (?:kaydi|bilgisi))?|adli kaydi|sabika kaydi|ceza kaydi",
+    "SEXUAL_LIFE": r"cinsel yonelim(?:i)?",
+    "POLITICAL": r"siyasi gorusu|parti uyeligi",
+}
+FIELD_RES = tuple(re.compile(r"(?<![a-z0-9])(?:" + v + r")(?![a-z0-9])") for v in SPECIAL_FIELDS.values())
+# a value without a colon ends at the first of these (folded) words: "etnik köken alanı Ermeni yazılmış"
+FIELD_STOP = frozenset("ve ile olarak ise icin yazilmis yazmis gorunuyor goruyorum var yok bulunuyor bulundugu mevcut eslesmiyor "
+                       "kayitli mi mu bu olan oldugu degil icerir tutuldugu nedeniyle sebebiyle hakkinda diye kesintisi neden ibaresi "
+                       "alani hanesi".split())
+# without a colon the label must end in a field noun ("adli sicil kaydı X"; "adli sicil kaydının okunması" is prose)
+FIELD_NOUN = ("kaydi", "bilgisi", "hanesi", "alani", "notu", "durumu", "referansi", "verisi", "orani", "uyeligi", "sonucu")
+# ... and the value must not be a predicate ("kaydı bulunmamaktadır", "bilgisi yoktur")
+FIELD_VERB = ("dir", "dur", "tir", "tur", "yor", "mis", "mus", "mistir", "mustur")
+
+
 class SpecialCategoryRecognizer(EntityRecognizer):
     """Flags KVKK Art. 6 terms. The span is the matched term widened to the
     preceding word when that word is a qualifier ("tip 2 diyabet", "kronik böbrek")."""
     # the blood group itself ("0 Rh-", "AB Rh pozitif"), health data under KVKK art. 6
+    HEALTH_TAIL = re.compile(r"[ \t]+(?:tedavi(?:si|sini)?|tan[ıi]s[ıi]|teşhisi|hastal[ıi]ğ[ıi]|ameliyat[ıi]|ilac[ıi])(?![\w])", re.I)
+    FIELD_SEP = re.compile(r"[ \t]*(?:[:=][ \t]*|(?:alani|hanesi)[ \t]+)?")
+    FIELD_WORD = re.compile(r"[^\s,;.]+(?:\.\d+)?")
     BLOOD = re.compile(r"(?<![\w])(?:0|A|B|AB)\s?(?:Rh|RH)\s?(?:\+|-|[Pp]ozitif|[Nn]egatif|POZİTİF|NEGATİF)(?![\w+-])")
 
     def __init__(self):
@@ -918,15 +1028,54 @@ class SpecialCategoryRecognizer(EntityRecognizer):
             if entities and ent not in entities:
                 continue
             for m in rx.finditer(text):
-                r = RecognizerResult(ent, m.start(), m.end(), 0.7)
+                end = m.end()
+                if ent == "HEALTH":
+                    t = self.HEALTH_TAIL.match(text, end)
+                    end = t.end() if t else end
+                r = RecognizerResult(ent, m.start(), end, 0.7)
                 r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: self.name,
                                           "explanation": f"Art. 6 term '{m.group()}'"}
                 out.append(r)
+        out.extend(self._fields(text, entities))
         if not entities or "HEALTH" in entities:
             for m in self.BLOOD.finditer(text):
                 r = RecognizerResult("HEALTH", m.start(), m.end(), 0.75)
                 r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: self.name, "explanation": "blood group"}
                 out.append(r)
+        # a term hit that is only the label of a value found above says nothing on its own: keep the value
+        vals = [r for r in out if r.recognition_metadata.get("explanation", "").startswith(("value after", "blood group"))]
+        return [r for r in out if r in vals or not any(v.entity_type == r.entity_type and 0 <= v.start - r.end <= 25 for v in vals)]
+
+    def _fields(self, text, entities):
+        f, out = _fold_keep(text), []
+        for ent, rx in zip(SPECIAL_FIELDS, FIELD_RES):
+            if entities and ent not in entities:
+                continue
+            out.extend(self._field_values(text, f, ent, rx))
+        return out
+
+    def _field_values(self, text, f, ent, rx):
+        out = []
+        for m in rx.finditer(f):
+            sep = self.FIELD_SEP.match(f, m.end())
+            colon = ":" in sep.group() or "=" in sep.group()
+            if not colon and not m.group().endswith(FIELD_NOUN) and not sep.group().strip():
+                continue                      # "Din: İslam", "Tanı: ...": a bare label needs its colon
+            pos, end, n = sep.end(), None, 0
+            for w in self.FIELD_WORD.finditer(f, pos):
+                gap = f[pos if end is None else end:w.start()]
+                if "\n" in gap or gap.strip():
+                    break
+                if not colon and (w.group() in FIELD_STOP or n == 4 or (n == 0 and w.group().endswith(FIELD_VERB))):
+                    break
+                if n == 10:
+                    break
+                end, n = w.end(), n + 1
+            if end is None:
+                continue
+            r = RecognizerResult(ent, pos, end, 0.75)
+            r.recognition_metadata = {RecognizerResult.RECOGNIZER_NAME_KEY: self.name, "explanation": f"value after '{text[m.start():m.end()]}'"}
+            out.append(r)
         return out
 
 
@@ -1218,4 +1367,4 @@ def ocr_tckn(text, ranges):
 def default_recognizers():
     return [TCKNRecognizer(), PassportRecognizer(), ForeignIDRecognizer(), UETSRecognizer(), VKNRecognizer(), IBANRecognizer(), CreditCardRecognizer(),
             EmailRecognizer(), PhoneRecognizer(), PlateRecognizer(), IPRecognizer(),
-            BirthDateRecognizer(), PersonRecognizer(), AddressRecognizer(), SpecialCategoryRecognizer()]
+            BirthDateRecognizer(), PersonRecognizer(), AddressRecognizer(), SpecialCategoryRecognizer(), SpelledNumberRecognizer()]

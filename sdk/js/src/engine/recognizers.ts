@@ -2,7 +2,7 @@
 // Line for line the same logic; every regex is the Python one compiled by sdk/tools/pyre2js.py.
 // Keep this file in step with the Python source: the parity tests fail on any difference.
 import {
-  finditer, fold, fullmatch, isAllCaps, isAlnumChar, isCapitalised, isDigitChar, isUpperChar, islower, match, pyIn, search, sortBy,
+  endsWithAny, finditer, fold, fullmatch, isAllCaps, isAlnumChar, isCapitalised, isDigitChar, isUpperChar, islower, match, pyIn, search, sortBy,
   split, splitWs, startsWithAny, strip, rstrip, sub, wordlist, findall, lstrip, rfind, type PyMatch,
 } from "./py.js";
 
@@ -22,6 +22,8 @@ export const SPECIAL_ENTITIES = ["HEALTH", "RELIGION", "POLITICAL", "UNION", "ET
 export const ALL_ENTITIES = Object.keys(ENTITY_LABELS_TR);
 
 const contextBefore = (text: string, start: number, window = 60) => fold(text.slice(Math.max(0, start - window), start));
+/** fold() one character at a time, so offsets into the result are offsets into the original (_fold_keep) */
+const foldKeep = (s: string) => Array.from(s, c => fold(c)[0] ?? c).join("");
 export const hasContext = (text: string, start: number, words: readonly string[], window = 60) => {
   const ctx = contextBefore(text, start, window);
   return words.some(w => ctx.includes(w));
@@ -240,6 +242,9 @@ class IBANRecognizer implements Recognizer {
         if (ibanValid(c)) { out.push(result("IBAN", this.name, m.start(1), m.start(1) + c.length, 0.95, "IBAN mod-97 ok")); break; }
       }
     }
+    for (const m of finditer("IBANRecognizer.DASHED", text))
+      if (ibanValid(m.group(1)!.replaceAll("-", "")) && !out.some(r => r.start <= m.start() && m.start() < r.end))
+        out.push(result("IBAN", this.name, m.start(1), m.end(1), 0.95, "IBAN mod-97 ok (dashed groups)"));
     for (const m of finditer("IBANRecognizer.OCR_RE", text)) {
       if (out.some(r => r.start <= m.start() && m.start() < r.end)) continue;
       const fixed = "TR" + m.group()!.slice(2).replace(/[OoIlB]/g, c => ({ O: "0", o: "0", I: "1", l: "1", B: "8" })[c]!);
@@ -281,6 +286,8 @@ class EmailRecognizer implements Recognizer {
         out.push(result("EMAIL", this.name, m.start(), m.end(), 0.8, "e-mail with OCR-garbled @"));
       }
     }
+    for (const m of finditer("EmailRecognizer.SPELLED", text))
+      out.push(result("EMAIL", this.name, m.start(), m.end(), 0.85, "e-mail with @ and dots written out"));
     return out;
   }
 }
@@ -316,6 +323,10 @@ class PlateRecognizer implements Recognizer {
       if (PlateRecognizer.BAD.has(letters) && !ctx) continue;
       out.push(result("PLATE", this.name, m.start(), m.end(), ctx ? 0.9 : 0.65, "TR plate shape"));
     }
+    for (const rx of ["PlateRecognizer.LABELLED", "PlateRecognizer.BEFORE_LABEL"])
+      for (const m of finditer(rx, text))
+        if (!out.some(r => r.start <= m.start(1) && m.start(1) < r.end))
+          out.push(result("PLATE", this.name, m.start(1), m.end(1), 0.8, "plate next to a plate label"));
     return out;
   }
 }
@@ -339,6 +350,31 @@ class BirthDateRecognizer implements Recognizer {
       const before = fold(text.slice(Math.max(0, m.start() - 12), m.start()));
       if (hasContext(text, m.start(), BirthDateRecognizer.CTX, 35) || match("BirthDateRecognizer.AFTER", after) || search("BirthDateRecognizer.BEFORE", before))
         out.push(result("BIRTH_DATE", this.name, m.start(1), m.end(1), 0.85, "date + birth context"));
+    }
+    return out;
+  }
+}
+
+class SpelledNumberRecognizer implements Recognizer {
+  name = "spelled_number";
+  supported_entities = ["PHONE", "TCKN", "CREDIT_CARD", "VKN", "IBAN"];
+  static DIGIT = ["sifir", "bir", "iki", "uc", "dort", "bes", "alti", "yedi", "sekiz", "dokuz"];
+  static TENS = ["on", "yirmi", "otuz", "kirk", "elli", "altmis", "yetmis", "seksen", "doksan"];
+  static LABELS: Array<[string, string[]]> = [["TCKN", ["tc", "t.c", "kimlik", "tckn"]], ["CREDIT_CARD", ["kart"]], ["VKN", ["vergi", "vkn"]],
+    ["IBAN", ["iban", "tr"]], ["PHONE", ["tel", "telefon", "gsm", "cep", "numaram", "numarasi", "numarami", "ara"]]];
+  analyze(text: string): RecognizerResult[] {
+    const f = foldKeep(text), out: RecognizerResult[] = [];
+    for (const m of finditer("SpelledNumberRecognizer.RUN", f)) {
+      let n = 0, prevTens = false;
+      for (const w of findall("SpelledNumberRecognizer.WORD", m.group()!) as string[]) {
+        n += prevTens && SpelledNumberRecognizer.DIGIT.includes(w) ? 0 : SpelledNumberRecognizer.TENS.includes(w) ? 2 : 1;
+        prevTens = SpelledNumberRecognizer.TENS.includes(w);
+      }
+      if (n < 7) continue;
+      const before = (findall("SpelledNumberRecognizer.WORD", f.slice(Math.max(0, m.start() - 25), m.start())) as string[]).slice(-3);
+      const ent = SpelledNumberRecognizer.LABELS.find(([, ws]) => before.some(w => ws.includes(w)))?.[0] ?? null;
+      if (ent === null && n !== 10 && n !== 11) continue;
+      out.push(result(ent ?? "PHONE", this.name, m.start(), m.end(), 0.7, `${n} digits read out as words`));
     }
     return out;
   }
@@ -485,10 +521,19 @@ export class PersonRecognizer implements Recognizer {
     }
     out.push(...this.fillLists(text, runs, out, seenNames));
     out.push(...this.secondPass(text, toks, seenNames, out));
+    const kept = out.filter(r => !this.formLabel(text, r));
     for (const m of finditer("PersonRecognizer.MAIDEN", text))
-      if (!out.some(r => r.start <= m.start(1) && m.start(1) < r.end))
-        out.push(result("PERSON", this.name, m.start(1), m.end(1), 0.85, "surname after a maiden-name label"));
-    return out;
+      if (!kept.some(r => r.start <= m.start(1) && m.start(1) < r.end))
+        kept.push(result("PERSON", this.name, m.start(1), m.end(1), 0.85, "surname after a maiden-name label"));
+    return kept;
+  }
+
+  /** a capitalised run alone at the start of a line and followed by a colon is a field label ("Kayıt Saati:"),
+   * unless one of its words is a known first name (a chat speaker, "Ayşe Kaya:") */
+  private formLabel(text: string, r: RecognizerResult): boolean {
+    const line = rfind(text, "\n", r.start) + 1;
+    if (strip(text.slice(line, r.start), " \t|-•*") || !match("PersonRecognizer.FORM_COLON", text.slice(r.end, r.end + 30))) return false;
+    return !(findall("PersonRecognizer.WORDS", text.slice(r.start, r.end)) as string[]).some(w => this.first.has(fold(w)));
   }
 
   static orgFollows(text: string, end: number): boolean {
@@ -502,7 +547,10 @@ export class PersonRecognizer implements Recognizer {
     if (words.some(w => startsWithAny(w, LEGAL_TITLE)) ||
       (["turk", "turkiye"].includes(words[0]!) && startsWithAny(lstrip(fold(text.slice(end, end + 30))), LEGAL_TITLE))) return null;
     if (PersonRecognizer.orgFollows(text, end)) return null;
-    const ctx = contextBefore(text, start, 30);
+    let ctx = contextBefore(text, start, 30);
+    const gap = text.slice(Math.max(0, start - 30), start);
+    const cut = rfind(gap, "\n\n", gap.length);
+    if (cut >= 0 && gap.slice(0, cut).includes(":")) ctx = fold(gap.slice(cut + 2));   // a form row's cue does not reach past a blank line
     const cue = !!search("recognizers.CUE_RE", ctx.slice(-30));
     const after = text.slice(end, end + 25);
     const cueAfter = !!match("recognizers.PERSON_AFTER", after);
@@ -636,6 +684,9 @@ class AddressRecognizer implements Recognizer {
       const [s, e] = this.grow(text, m.start(), m.end());
       if (e - s >= 12) spans.push([s, e, 0.75, "street anchor"]);
     }
+    // a flat or door number on its own: "daire no 28", "Kapı No: 14"
+    for (const m of finditer("AddressRecognizer.DOOR", text))
+      if (!spans.some(([a, b]) => a <= m.start(1) && m.start(1) < b)) spans.push([m.start(1), m.end(1), 0.75, "flat or door number"]);
     return mergeSpans(spans).map(([s, e, sc, why]) => result("ADDRESS", this.name, s, e, sc, why));
   }
 
@@ -704,15 +755,62 @@ class SpecialCategoryRecognizer implements Recognizer {
     const out: RecognizerResult[] = [];
     for (const ent of SPECIAL_ENTITIES) {
       if (entities.length && !entities.includes(ent)) continue;
-      for (const m of finditer("special." + ent, text))
-        out.push(result(ent, this.name, m.start(), m.end(), 0.7, `Art. 6 term '${m.group()}'`));
+      for (const m of finditer("special." + ent, text)) {
+        let end = m.end();
+        if (ent === "HEALTH") {
+          const t = match("SpecialCategoryRecognizer.HEALTH_TAIL", text, end);
+          if (t) end = t.end();
+        }
+        out.push(result(ent, this.name, m.start(), end, 0.7, `Art. 6 term '${m.group()}'`));
+      }
     }
+    out.push(...this.fields(text, entities));
     if (!entities.length || entities.includes("HEALTH"))
       for (const m of finditer("SpecialCategoryRecognizer.BLOOD", text))
         out.push(result("HEALTH", this.name, m.start(), m.end(), 0.75, "blood group"));
+    // a term hit that is only the label of a value found above says nothing on its own: keep the value
+    const vals = out.filter(r => startsWithAny(r.recognition_metadata.explanation ?? "", ["value after", "blood group"]));
+    return out.filter(r => vals.includes(r) || !vals.some(v => v.entity_type === r.entity_type && v.start - r.end >= 0 && v.start - r.end <= 25));
+  }
+
+  private fields(text: string, entities: string[]): RecognizerResult[] {
+    const f = foldKeep(text), out: RecognizerResult[] = [];
+    SPECIAL_FIELD_ENTITIES.forEach((ent, i) => {
+      if (entities.length && !entities.includes(ent)) return;
+      out.push(...this.fieldValues(text, f, ent, "recognizers.FIELD_RES." + i));
+    });
+    return out;
+  }
+
+  private fieldValues(text: string, f: string, ent: string, rx: string): RecognizerResult[] {
+    const out: RecognizerResult[] = [];
+    for (const m of finditer(rx, f)) {
+      const sep = match("SpecialCategoryRecognizer.FIELD_SEP", f, m.end())!;
+      const colon = sep.group()!.includes(":") || sep.group()!.includes("=");
+      if (!colon && !endsWithAny(m.group()!, FIELD_NOUN) && !strip(sep.group()!)) continue;   // a bare label needs its colon
+      const pos = sep.end();
+      let end: number | null = null, n = 0;
+      for (const w of finditer("SpecialCategoryRecognizer.FIELD_WORD", f, pos)) {
+        const gap = f.slice(end === null ? pos : end, w.start());
+        if (gap.includes("\n") || strip(gap)) break;
+        const word = w.group()!;
+        if (!colon && (FIELD_STOP.has(word) || n === 4 || (n === 0 && endsWithAny(word, FIELD_VERB)))) break;
+        if (n === 10) break;
+        end = w.end(); n += 1;
+      }
+      if (end === null) continue;
+      out.push(result(ent, this.name, pos, end, 0.75, `value after '${text.slice(m.start(), m.end())}'`));
+    }
     return out;
   }
 }
+
+// special-category fields, in the order of SPECIAL_FIELDS in recognizers.py (patterns: recognizers.FIELD_RES.<i>)
+const SPECIAL_FIELD_ENTITIES = ["HEALTH", "RELIGION", "ETHNICITY", "UNION", "BIOMETRIC_GENETIC", "CRIMINAL_RECORD", "SEXUAL_LIFE", "POLITICAL"];
+const FIELD_STOP = new Set(("ve ile olarak ise icin yazilmis yazmis gorunuyor goruyorum var yok bulunuyor bulundugu mevcut eslesmiyor " +
+  "kayitli mi mu bu olan oldugu degil icerir tutuldugu nedeniyle sebebiyle hakkinda diye kesintisi neden ibaresi alani hanesi").split(" "));
+const FIELD_NOUN = ["kaydi", "bilgisi", "hanesi", "alani", "notu", "durumu", "referansi", "verisi", "orani", "uyeligi", "sonucu"];
+const FIELD_VERB = ["dir", "dur", "tir", "tur", "yor", "mis", "mus", "mistir", "mustur"];
 
 // ---------------------------------------------------------------- post-processing shared by server and browser
 export function dropPlaceNames(text: string, results: RecognizerResult[]): RecognizerResult[] {
@@ -918,5 +1016,6 @@ export function ocrTckn(text: string, ranges: Array<[number, number]>): ScoreRes
 export function defaultRecognizers(): Recognizer[] {
   return [new TCKNRecognizer(), new PassportRecognizer(), new ForeignIDRecognizer(), new UETSRecognizer(), new VKNRecognizer(), new IBANRecognizer(),
     new CreditCardRecognizer(), new EmailRecognizer(), new PhoneRecognizer(), new PlateRecognizer(), new IPRecognizer(),
-    new BirthDateRecognizer(), new PersonRecognizer(), new AddressRecognizer(), new SpecialCategoryRecognizer()];
+    new BirthDateRecognizer(), new PersonRecognizer(), new AddressRecognizer(), new SpecialCategoryRecognizer(),
+    new SpelledNumberRecognizer()];
 }
