@@ -109,7 +109,7 @@ class TCKNRecognizer implements Recognizer {
     const out: RecognizerResult[] = [];
     const r = (s: number, e: number, sc: number, why: string, entity?: string) => result(entity ?? "TCKN", this.name, s, e, sc, why);
     for (const m of finditer("TCKNRecognizer.RE", text)) {
-      const digits = m.group(1)!.replaceAll(" ", "");
+      const digits = sub("inline.non_digit", "", m.group(1)!);
       if (tcknValid(digits) && digits.startsWith("99")) {
         const score = hasContext(text, m.start(), [...TCKNRecognizer.YKN_CTX, ...TCKNRecognizer.CTX]) ? 0.95 : 0.85;
         out.push(r(m.start(1), m.end(1), score, "11 digits from 99, TCKN checksum ok: foreigner ID (YKN)", "YKN"));
@@ -252,7 +252,7 @@ class CreditCardRecognizer implements Recognizer {
   supported_entities = ["CREDIT_CARD"];
   analyze(text: string): RecognizerResult[] {
     return finditer("CreditCardRecognizer.RE", text)
-      .filter(m => { const d = sub("inline.non_digit", "", m.group(1)!); return luhnValid(d) && pyIn(d[0]!, "3456") && !tcknValid(d); })
+      .filter(m => { const d = sub("inline.non_digit", "", m.group(1)!); return luhnValid(d) && (pyIn(d[0]!, "3456") || d.startsWith("9792")) && !tcknValid(d); })
       .map(m => result("CREDIT_CARD", this.name, m.start(1), m.end(1), 0.8, "Luhn ok"));
   }
 }
@@ -327,7 +327,8 @@ class BirthDateRecognizer implements Recognizer {
     const out: RecognizerResult[] = [];
     for (const m of finditer("BirthDateRecognizer.RE", text)) {
       const after = fold(text.slice(m.end(), m.end() + 25));
-      if (hasContext(text, m.start(), BirthDateRecognizer.CTX, 35) || match("BirthDateRecognizer.AFTER", after))
+      const before = fold(text.slice(Math.max(0, m.start() - 12), m.start()));
+      if (hasContext(text, m.start(), BirthDateRecognizer.CTX, 35) || match("BirthDateRecognizer.AFTER", after) || search("BirthDateRecognizer.BEFORE", before))
         out.push(result("BIRTH_DATE", this.name, m.start(1), m.end(1), 0.85, "date + birth context"));
     }
     return out;
