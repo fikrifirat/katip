@@ -10,7 +10,7 @@
    "runs": "laptop, offline",
    "leak_pct": {
     "court text, Turkish names": 0.2,
-    "court text, foreign names": 2.8,
+    "court text, foreign names": 3.0,
     "forms, all value types": 0.3
    },
    "false_alarms_per_1k_words": 3.1,
@@ -26,11 +26,11 @@
    "leak_pct": {
     "court text, Turkish names": 0.8,
     "court text, foreign names": 3.1,
-    "forms, all value types": 0.7
+    "forms, all value types": 0.8
    },
    "false_alarms_per_1k_words": 3.7,
    "speed": "1.0 s/page in browser",
-   "caveat": "Everyday text leaks 30.9%; review before sending."
+   "caveat": "Everyday text leaks 30.8%; review before sending."
   },
   {
    "use_case": "Many court pages fast, or a weak device",
@@ -97,7 +97,7 @@
    "runs": "workstation (2.2 GB), not browser",
    "leak_pct": {
     "everyday text, XLM-R Large": 9.8,
-    "everyday text, Katip Base": 21.5
+    "everyday text, Katip Base": 21.3
    },
    "false_alarms_per_1k_words": 3.2,
    "speed": "2.3 pages/s",

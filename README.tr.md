@@ -60,6 +60,10 @@ sırasında hiç görülmemiş isimler içeren 16 belge türünde (4'ü yeni) 80
 | Belge açıldıktan sonra yapılan ağ isteği | **0** (Chromium'da doğrulandı) |
 | İlk yükleme | motor dosyaları (Python, PDF, OCR) yaklaşık 30 MB, isim etiketleyici için yaklaşık 30 MB daha; sonra tarayıcı önbelleğinde kalır |
 
+### Başka ekiplerin test setlerinde
+
+Dört açık Türkçe kişisel veri test setinin (hepsi sentetik) ayrılmış yarılarında Katip Mask Base F2 skoru NewMind'ın nm-kvkk-pii-6K setinde 95,9, piimask TR'de 95,9, Çağrı Güngör'ün setinde 95,2 ve Werea'nın setinde 95,8; NewMind kvkk-v2 sırasıyla 93,9, 93,8, 72,6 ve 54,3. Fark nm6k, piimask ve Çağrı setlerinde anlamlı (%95 eşleştirilmiş bootstrap). piimask'te geliştirme yarısında görülmemiş şablonlu belgelerde ikisi berabere (96,5); Werea'nın yarıları aynı şablonları paylaştığı için o sonuç bağımsız değil. NewMind nm6k (99,7'ye 91,2) ve piimask'te (93,2'ye 89,8) daha isabetli. Katip Çağrı (%6,8'e %41,1) ve Werea setlerinde (%26,3'e %65,2) daha az kişisel veriyi okunur bırakıyor; nm6k ve piimask'te fark yok. Yöntem ve tüm satırlar: [RESULTS.md](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/external/RESULTS.md).
+
 ### Demodaki modeller
 
 | Model | Nedir | Bulunan değer (kör set) | Bulunan isim |
