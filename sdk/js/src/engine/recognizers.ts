@@ -119,6 +119,7 @@ class TCKNRecognizer implements Recognizer {
       }
     }
     for (const m of finditer("TCKNRecognizer.LABELLED", text)) {
+      if (fold(text.slice(Math.max(0, m.start() - 8), m.start())).includes("vergi")) continue;   // "Vergi Kimlik No": a tax ID
       if (hasContext(text, m.start(1), TCKNRecognizer.NOT_TC, 40) && !hasContext(text, m.start(1), ["yabanci kimlik"], 30)) continue;
       if (!out.some(x => x.start <= m.start(1) && m.start(1) < x.end)) {
         const ykn = hasContext(text, m.start(1), ["yabanci kimlik", "ykn", "y.k.n", "gecici koruma"], 30) || m.group(1)!.startsWith("99");
@@ -216,9 +217,13 @@ class VKNRecognizer implements Recognizer {
   supported_entities = ["VKN"];
   static CTX = ["vergi", "vkn", "v.k.n", "vd.", "v.d", "vergi no", "vergi kimlik"];
   analyze(text: string): RecognizerResult[] {
-    return finditer("VKNRecognizer.RE", text)
+    const out = finditer("VKNRecognizer.RE", text)
       .filter(m => vknValid(m.group(1)!) && hasContext(text, m.start(), VKNRecognizer.CTX, 50))
       .map(m => result("VKN", this.name, m.start(1), m.end(1), 0.8, "10 digits, VKN checksum + tax context"));
+    for (const m of finditer("VKNRecognizer.LABELLED", text))
+      if (!out.some(r => r.start <= m.start(1) && m.start(1) < r.end))
+        out.push(result("VKN", this.name, m.start(1), m.end(1), 0.7, "10 digits after a tax ID label (checksum failed)"));
+    return out;
   }
 }
 
@@ -251,9 +256,13 @@ class CreditCardRecognizer implements Recognizer {
   name = "card_luhn";
   supported_entities = ["CREDIT_CARD"];
   analyze(text: string): RecognizerResult[] {
-    return finditer("CreditCardRecognizer.RE", text)
+    const out = finditer("CreditCardRecognizer.RE", text)
       .filter(m => { const d = sub("inline.non_digit", "", m.group(1)!); return luhnValid(d) && (pyIn(d[0]!, "3456") || d.startsWith("9792")) && !tcknValid(d); })
       .map(m => result("CREDIT_CARD", this.name, m.start(1), m.end(1), 0.8, "Luhn ok"));
+    for (const m of finditer("CreditCardRecognizer.LABELLED", text))
+      if (!out.some(r => r.start <= m.start(1) && m.start(1) < r.end))
+        out.push(result("CREDIT_CARD", this.name, m.start(1), m.end(1), 0.7, "16 digits after a card label (Luhn failed)"));
+    return out;
   }
 }
 
@@ -476,6 +485,9 @@ export class PersonRecognizer implements Recognizer {
     }
     out.push(...this.fillLists(text, runs, out, seenNames));
     out.push(...this.secondPass(text, toks, seenNames, out));
+    for (const m of finditer("PersonRecognizer.MAIDEN", text))
+      if (!out.some(r => r.start <= m.start(1) && m.start(1) < r.end))
+        out.push(result("PERSON", this.name, m.start(1), m.end(1), 0.85, "surname after a maiden-name label"));
     return out;
   }
 
@@ -695,6 +707,9 @@ class SpecialCategoryRecognizer implements Recognizer {
       for (const m of finditer("special." + ent, text))
         out.push(result(ent, this.name, m.start(), m.end(), 0.7, `Art. 6 term '${m.group()}'`));
     }
+    if (!entities.length || entities.includes("HEALTH"))
+      for (const m of finditer("SpecialCategoryRecognizer.BLOOD", text))
+        out.push(result("HEALTH", this.name, m.start(), m.end(), 0.75, "blood group"));
     return out;
   }
 }

@@ -1,6 +1,6 @@
 {
  "source": "docs/katip_py.zip",
- "sha256": "a520bf65d504ab9f67d613a41bbaf7da72712f3097bf198001905ae8609ff336",
+ "sha256": "537b79d54b0558e635b1aca3381ba93fbea8d9b7e3001cc9d095619f8a958627",
  "files": {
   "__init__.py": "236f1d704ea51e27f90965555b05d68137e297e293f45cf0a7322ed376641489",
   "_analyzer_core.py": "8fbd70f5874115cfcffd3fc2024e5fa8b6e3464a9b8c57aa5616feca24044bba",
@@ -14,7 +14,7 @@
   "data/provinces.txt": "a4ff7b3aa79de3a983c1c9031365c52adf615ae964f5393c5e43227e58ae8ce2",
   "data/stopwords_caps.txt": "2cd900534f04dbc9d3c769ba11ccea665e81208ef7254587ef3a70601d1ecf47",
   "local_detect.py": "31717f824a5b3939207abccd7a1e7d909d3dfee1525ac754e067499653f0cc55",
-  "recognizers.py": "66fc1873aa7bcc3e682350d09e44246f31092fa2ec7a2e4fac655403b1ffa8b0",
+  "recognizers.py": "e82affd4b871a529c1525fb5ec9fc8eea5942f4c85ab72ebe63ea10a46d1f191",
   "textutil.py": "28233b9dd26841c06062ed1eaf881eadfb4cad0d9eb5c7b4de9ad59c007a6936"
  }
 }
