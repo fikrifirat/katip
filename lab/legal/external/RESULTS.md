@@ -4,7 +4,7 @@
 
 **Short version.** With the rules in PR #58, Katip Base beats NewMind's kvkk-v2 on all four sets' held-out halves.
 The win is significant on three. On piimask's held-out documents with a template not seen in the dev half, the two
-tie. NewMind still has higher precision on nm6k and piimask, and Katip leaves less personal data readable on every set.
+tie. NewMind still has higher precision on nm6k and piimask, and Katip leaks less on Çağrı and Werea and about the same on nm6k and piimask (see below).
 
 How this was kept honest:
 
@@ -40,6 +40,8 @@ Other aspects on the same test halves (Base PR #58 vs NewMind):
 | Recall | 97.2 vs 92.5 | 97.6 vs 93.9 | 94.6 vs 68.2 | 94.8 vs 48.7 |
 | Precision | 91.2 vs **99.7** | 89.8 vs **93.2** | 97.3 vs 97.6 | 100 vs 100 |
 | Leak (personal-data characters left readable) | 8.9% vs 9.0% | 2.0% vs 4.5% | 6.8% vs 41.1% | 26.3% vs 65.2% |
+| Leak difference, 95% CI | −2.2 to +1.9 (tie) | −5.6 to +0.2 (not significant) | −42.9 to −25.6 | −46.0 to −31.7 |
+| Documents left fully clean | 65% vs **78%** | 80% vs 67% | 84% vs 52% | 39% vs 44% |
 | False masks per 1k words on PII-free text (Çağrı negatives) | | | 3.4 vs 37.8 | |
 | Model size | 111 MB vs 1.1 GB | | | |
 
@@ -48,6 +50,18 @@ words read as names and health words the set does not label) and on piimask (mos
 text, which piimask leaves unlabelled but KVKK treats as personal data). Mini matches NewMind on nm6k (CI −1.9 to
 +1.0) and beats it elsewhere; Nano and rules alone are behind on nm6k. Full rows: `heldout_v4.txt`
 (`python heldout.py <systems> dev|test|unseen`).
+
+**Leak, stated precisely.** "Leak" is the share of gold personal-data characters (types both sides label) that a
+system leaves unmasked, whatever type it gives them. On the held-out halves Katip leaks significantly less on Çağrı
+and Werea, about the same on piimask (CI touches zero) and nm6k (tie). NewMind leaves more nm6k documents fully clean.
+
+**piimask with repeat mentions added (a separate, documented adjustment).** piimask labels a person's full name once
+and leaves later mentions unlabelled ("Barış Taş görüşmeye katıldı. *Taş*, telefonunu..."). Under KVKK those are
+personal data too. Rule, applied mechanically to every system: an unlabelled capitalised word equal to a word of a
+labelled PERSON value in the same document becomes PERSON gold. On the piimask TR test half this adds 96 values in
+43 of 99 documents. Adjusted scores: Katip Base F2 98.2 (precision 99.3) vs NewMind 95.0 (precision 96.4);
+difference +1.3 to +5.3 (F2) and +1.1 to +5.0 (precision). The unadjusted numbers above stay the headline.
+Script: `leak_adjusted.py`, output `leak_adjusted.txt`.
 
 What PR #58 changed (all found on dev halves, all checked on new hand-written sentences, including ones that must
 stay unmasked):
