@@ -24,6 +24,11 @@ SYSTEMS = {   # key: (model name, credit line, model link, developer link)
     "mini-v2":    ("Katip Mask Mini · tr v2", "by f1k · ~31 MB, distilled from Katip Mask Base, on DistilBERTurk (dbmdz, MIT)", "https://huggingface.co/f1k/katip-mask-mini", "https://huggingface.co/f1k"),
     "tiny-f":     ("Katip Mask Nano · tr v1.1", "by f1k · 2.5M, runs in the browser", "https://huggingface.co/f1k/katip-mask-nano", "https://huggingface.co/f1k"),
     "gliner2-katip": ("Katip rules + GLiNER2 · tr fine-tuned", "by f1k · 307M, GLiNER2 PII Multi (fastino, Apache-2.0) fine-tuned on Katip Mask Base's data (recipe; weights not released)", "https://github.com/fikrifirat/katip/blob/legal-study/lab/colab/gliner2_katip_recipe.ipynb", "https://huggingface.co/f1k"),
+    "newmind-kvkk-v2": ("GLiNER2.5 KVKK TR v2", "by NewMind AI · mDeBERTa GLiNER2, run with NewMind's patched gliner2 library", "https://huggingface.co/newmindai/gliner2.5-kvkk-tr-v2", "https://huggingface.co/newmindai"),
+    "newmind-mursit-kvkk": ("GLiNER2.5 Mürşit KVKK TR v1", "by NewMind AI · Mürşit ModernBERT encoder, run with NewMind's patched gliner2 library", "https://huggingface.co/newmindai/gliner2.5-mursit-kvkk-tr-v1", "https://huggingface.co/newmindai"),
+    "horizon-pii-base": ("PII Redactor Base", "by Horizon Labs · mmBERT token classifier", "https://huggingface.co/Horizon-Labs/pii-redactor-base", "https://huggingface.co/Horizon-Labs"),
+    "werea-pii-150m": ("Werea KVKK PII 150M", "by Werea · ModernBERT-TR (girenit/girenit-KVKK-PII-150M has the same weights)", "https://huggingface.co/Werea-co/Werea-KVKK-PII-150M", "https://huggingface.co/Werea-co"),
+    "hushmark-tr-289m": ("Hushmark TR 289M", "by lokomotifai · GLiNER fine-tune, model only (its ID validators are not released)", "https://huggingface.co/lokomotifai/hushmark-tr-289m", "https://huggingface.co/lokomotifai"),
     "akdeniz":    ("XLM-RoBERTa Base Turkish NER", "by akdeniz27 · fine-tuned from XLM-R (Meta AI)", "https://huggingface.co/akdeniz27/xlm-roberta-base-turkish-ner", "https://huggingface.co/akdeniz27"),
     "gliner":     ("GLiNER Multi PII v1", "by urchade · GLiNER, NAACL 2024", "https://huggingface.co/urchade/gliner_multi_pii-v1", "https://huggingface.co/urchade"),
     "savasy":     ("BERTurk NER", "by savasy · BERTurk (dbmdz) fine-tuned for Turkish NER", "https://huggingface.co/savasy/bert-base-turkish-ner-cased", "https://huggingface.co/savasy"),
@@ -44,7 +49,8 @@ TYPES = {"model": "🔶 Fine-tuned model", "llm": "💬 Prompted LLM", "rules": 
 BASELINES = {"presidio", "savasy"}   # reference points, marked with a tag
 LICENCE = {"berturk-v2": "CC BY-SA 4.0", "mini-v2": "CC BY-SA 4.0", "gliner2-katip": "CC BY-SA 4.0", "tiny": "CC BY-NC 4.0", "tiny-f": "CC BY-SA 4.0", "akdeniz": "MIT", "gliner": "Apache-2.0",
            "cosmos-pii": "Apache-2.0", "qwen-1.5b": "Apache-2.0", "presidio": "MIT", "xlmr-conll": "MIT", "gliner2-pii": "Apache-2.0",
-           "openai-pf": "Apache-2.0", "openmed-pf-v2": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0"}
+           "openai-pf": "Apache-2.0", "openmed-pf-v2": "Apache-2.0", "piiranha": "CC BY-NC-ND 4.0", "openmed-tr-33m": "Apache-2.0",
+           "newmind-kvkk-v2": "Apache-2.0", "newmind-mursit-kvkk": "Apache-2.0", "hushmark-tr-289m": "Apache-2.0", "horizon-pii-base": "Apache-2.0", "werea-pii-150m": "Apache-2.0"}
 SIZES = ["< 10 MB", "10–500 MB", "> 500 MB"]
 FORMATS = {"udf": "UDF", "docx": "Word", "pdf": "PDF", "scan": "Scanned PDF"}
 
@@ -337,6 +343,43 @@ BY_TEST_HELP = """**Found** = share of personal data the tool masked. **Precisio
 **Leaked** = share of personal data still readable. **Docs fully clean** = documents with nothing left readable.
 **False alarms** = masks on words that weren't personal data, per 1,000 words. The type columns show how much of each kind was found (the number in brackets is how many there are)."""
 
+OTHER_SETS = """Test sets built by other teams, scored with the same scorer. All four are synthetic. Each set is split in two by
+document id; Katip's rule changes of 19 Nov 2026 were written from errors on the dev half only, and the numbers below
+are the **held-out test half**. "Unseen" keeps only test documents whose template does not occur in the dev half.
+95% paired bootstrap over documents (2,000 resamples). F2 weights recall over precision.
+
+| Set (test docs) | Katip Base | Katip Mini | NewMind kvkk-v2 | Base minus NewMind, 95% CI |
+|---|---|---|---|---|
+| [nm-kvkk-pii-6K](https://huggingface.co/datasets/newmindai/nm-kvkk-pii-6K) (290, all unseen) | **95.9** | 93.4 | 93.9 | +0.6 to +3.5 |
+| [piimask TR](https://huggingface.co/datasets/promptrails/piimask-eval-tr-en) (99) | **95.9** | 95.7 | 93.8 | +0.1 to +4.6 |
+| piimask TR, unseen templates (60) | 96.5 | 96.5 | 96.5 | −1.1 to +1.0 (tie) |
+| [Çağrı Güngör "mask all"](https://huggingface.co/datasets/cagrigungor/turkish-pii-masking-benchmark) (168) | **95.2** | 93.0 | 72.6 | +17.8 to +27.3 |
+| Çağrı, unseen templates (92) | **95.4** | 92.6 | 72.0 | +17.7 to +29.1 |
+| [Werea KVKK-Bench](https://huggingface.co/datasets/Werea-co/Werea-KVKK-Bench) (116) | 95.8 | 93.6 | 54.3 | not independent: no unseen templates |
+
+Other systems on the same test halves (F2; ★ = the set its own team built):
+
+| System | nm6k | piimask TR | Çağrı | Werea |
+|---|---|---|---|---|
+| NewMind kvkk-v2 | 93.9 ★ | 93.8 | 72.6 | 54.3 |
+| Horizon PII Redactor Base | 86.8 | 76.3 | 59.1 | 44.5 |
+| Werea KVKK PII 150M | 13.6 | 34.9 | 21.4 | 100.0 ★ |
+| Hushmark TR 289M (model only) | 54.8 | 36.5 | 37.1 | 41.8 |
+
+pii-guard-turkish-270m (by the Çağrı set's author) and halilneed/turkish-pii-detection are Gemma text-to-text
+models too slow on CPU to finish these sets, so they are not listed.
+
+| Base vs NewMind | nm6k | piimask TR | Çağrı | Werea |
+|---|---|---|---|---|
+| Precision | 91.2 vs **99.7** | 89.8 vs **93.2** | 97.3 vs 97.6 | 100 vs 100 |
+| Leaked (personal-data characters left readable) | 8.9% vs 9.0% (tie) | 2.0% vs 4.5% (not significant) | **6.8%** vs 41.1% | **26.3%** vs 65.2% |
+| Documents left fully clean | 65% vs **78%** | 80% vs 67% | 84% vs 52% | 39% vs 44% |
+
+NewMind keeps higher precision on its own set and on piimask. On text with no personal data (Çağrı's negatives)
+Katip Base makes 3.4 false masks per 1,000 words, NewMind 37.8. Katip's earlier fixes (15–18 Nov) were found on the
+full sets, test halves included. Full method, a separate repeat-surname adjustment for piimask, and every row:
+[RESULTS.md](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/external/RESULTS.md)."""
+
 CITATION = r"""@misc{firat2026kvkkbench,
   title  = {KVKK-Bench: a benchmark for personal-data masking in Turkish documents},
   author = {F{\i}rat, Fikri},
@@ -404,6 +447,8 @@ def build():
                 df = gr.Dataframe(by_test(rows, tracks[0]) if tracks else pd.DataFrame(), interactive=False, wrap=True)
                 dd.change(lambda t: by_test(rows, t), dd, df)
                 gr.Markdown(BY_TEST_HELP)
+            with gr.Tab("🌐 Other teams' test sets"):
+                gr.Markdown(OTHER_SETS)
             with gr.Tab("📈 Score vs size/speed"):
                 x = gr.Radio(["Size", "Speed"], value="Size", label="X axis")
                 plot = gr.Plot(chart(rows, "Size"))

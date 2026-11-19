@@ -21,8 +21,8 @@
     "TCKN": {
      "gold": 216,
      "recall": 1.0,
-     "precision": 0.84375,
-     "f2": 0.9642857142857143,
+     "precision": 0.9953917050691244,
+     "f2": 0.9990749306197964,
      "exact_recall": 1.0
     },
     "ADDRESS": {
@@ -55,10 +55,10 @@
     },
     "VKN": {
      "gold": 137,
-     "recall": 0.7153284671532847,
+     "recall": 1.0,
      "precision": 1.0,
-     "f2": 0.7585139318885449,
-     "exact_recall": 0.7153284671532847
+     "f2": 1.0,
+     "exact_recall": 1.0
     },
     "PHONE": {
      "gold": 367,
@@ -96,18 +96,18 @@
      "exact_recall": 1.0
     }
    },
-   "recall": 0.9744037230948226,
-   "precision": 0.9772863120143455,
-   "f2": 0.97497887968523,
+   "recall": 0.9857475276323444,
+   "precision": 0.9889420203227735,
+   "f2": 0.9863847740807707,
    "special_category_recall": NaN,
-   "false_per_1k_words": 2.4706609017912293,
+   "false_per_1k_words": 1.2028217548194142,
    "leak_rate": 0.011188487667096837,
    "clean_doc_rate": 0.8594771241830066
   }
  },
  "missing_predictions": 0,
  "KVKK-F2": NaN,
- "F2 generated": 0.97497887968523,
- "F2 all tracks": 0.97497887968523,
+ "F2 generated": 0.9863847740807707,
+ "F2 all tracks": 0.9863847740807707,
  "leak_rate": 0.011188487667096837
 }
