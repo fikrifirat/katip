@@ -125,8 +125,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.9412515964240102,
-     "precision": 0.7874911158493249,
-     "f2": 0.9058764669535401,
+     "precision": 0.7888928444286223,
+     "f2": 0.9062469307476797,
      "recall_any_type": 0.9412515964240102,
      "precision_any_label": 0.7929362880886427,
      "leak_core": 0.10999187652315191,
@@ -208,14 +208,14 @@
      },
      "ms_per_doc": 183.0,
      "f2_minus_newmind_ci95": [
-      -0.05283278130631155,
-      -0.015747326485734986
+      -0.05247131826731375,
+      -0.015373130463978696
      ]
     },
     "nm6k-easy": {
      "recall": 0.9317773788150808,
-     "precision": 0.7726597325408618,
-     "f2": 0.8949183836291084,
+     "precision": 0.7738095238095238,
+     "f2": 0.8952265200407609,
      "recall_any_type": 0.9317773788150808,
      "precision_any_label": 0.7800143781452192,
      "leak_core": 0.12718148870922777,
@@ -298,8 +298,8 @@
     },
     "nm6k-hard": {
      "recall": 0.9497975708502024,
-     "precision": 0.8010899182561307,
-     "f2": 0.9157973732387745,
+     "precision": 0.8027303754266212,
+     "f2": 0.916225473688825,
      "recall_any_type": 0.9497975708502024,
      "precision_any_label": 0.8049432197728791,
      "leak_core": 0.09376151618847064,
@@ -622,8 +622,8 @@
     },
     "piimask": {
      "recall": 0.7493617021276596,
-     "precision": 0.8804347826086957,
-     "f2": 0.7723583839066419,
+     "precision": 0.8908903757076686,
+     "f2": 0.7739520235161458,
      "recall_any_type": 0.7553191489361702,
      "precision_any_label": 0.8804347826086957,
      "leak_core": 0.266103921377834,
@@ -683,8 +683,8 @@
     },
     "piimask-en": {
      "recall": 0.6136363636363636,
-     "precision": 0.898989898989899,
-     "f2": 0.6552325898456672,
+     "precision": 0.9166666666666666,
+     "f2": 0.6570796460176991,
      "recall_any_type": 0.6136363636363636,
      "precision_any_label": 0.898989898989899,
      "leak_core": 0.4428353658536585,
@@ -731,8 +731,8 @@
     },
     "piimask-tr": {
      "recall": 0.8296422487223168,
-     "precision": 0.8724168912848158,
-     "f2": 0.8378582953068794,
+     "precision": 0.8834244080145719,
+     "f2": 0.8398683490939399,
      "recall_any_type": 0.8415672913117547,
      "precision_any_label": 0.8724168912848158,
      "leak_core": 0.1586680708088862,
@@ -785,8 +785,8 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.08750957281069757,
-      -0.05765288486707666
+      -0.08727434616119754,
+      -0.05737301377471091
      ]
     },
     "piimask-tr-en": {
@@ -833,8 +833,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.9438058748403576,
-     "precision": 0.7879432624113475,
-     "f2": 0.9078881079041641,
+     "precision": 0.7893428063943162,
+     "f2": 0.9082592139974506,
      "recall_any_type": 0.9438058748403576,
      "precision_any_label": 0.7933655839668279,
      "leak_core": 0.10714865962632006,
@@ -916,14 +916,14 @@
      },
      "ms_per_doc": 195.3,
      "f2_minus_newmind_ci95": [
-      -0.05044196479185244,
-      -0.013956500341262647
+      -0.05004586816007109,
+      -0.013741310371831341
      ]
     },
     "nm6k-easy": {
      "recall": 0.9344703770197487,
-     "precision": 0.7731653076352853,
-     "f2": 0.897040557562174,
+     "precision": 0.7743132887899035,
+     "f2": 0.8973492665502448,
      "recall_any_type": 0.9344703770197487,
      "precision_any_label": 0.7804878048780488,
      "leak_core": 0.12417061611374408,
@@ -1006,8 +1006,8 @@
     },
     "nm6k-hard": {
      "recall": 0.9522267206477733,
-     "precision": 0.8014955812372536,
-     "f2": 0.9177094039360584,
+     "precision": 0.803133514986376,
+     "f2": 0.9181381998954257,
      "recall_any_type": 0.9522267206477733,
      "precision_any_label": 0.8053333333333333,
      "leak_core": 0.09107659910502763,
@@ -1330,8 +1330,8 @@
     },
     "piimask": {
      "recall": 0.7723404255319148,
-     "precision": 0.8835418671799807,
-     "f2": 0.792283583856753,
+     "precision": 0.8938407611417125,
+     "f2": 0.7939241470420229,
      "recall_any_type": 0.7787234042553192,
      "precision_any_label": 0.8835418671799807,
      "leak_core": 0.2510216989393792,
@@ -1391,8 +1391,8 @@
     },
     "piimask-en": {
      "recall": 0.6136363636363636,
-     "precision": 0.898989898989899,
-     "f2": 0.6552325898456672,
+     "precision": 0.9166666666666666,
+     "f2": 0.6570796460176991,
      "recall_any_type": 0.6136363636363636,
      "precision_any_label": 0.898989898989899,
      "leak_core": 0.4428353658536585,
@@ -1439,8 +1439,8 @@
     },
     "piimask-tr": {
      "recall": 0.8756388415672913,
-     "precision": 0.8783204798628963,
-     "f2": 0.8761738584378445,
+     "precision": 0.8888888888888888,
+     "f2": 0.8782571550619395,
      "recall_any_type": 0.8884156729131175,
      "precision_any_label": 0.8783204798628963,
      "leak_core": 0.1275763502331879,
@@ -1493,8 +1493,8 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.04862140990475692,
-      -0.01941242371424437
+      -0.04837112048787316,
+      -0.018952343203521984
      ]
     },
     "piimask-tr-en": {
@@ -1541,8 +1541,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.9608343976160069,
-     "precision": 0.7906895344767239,
-     "f2": 0.9211891039373578,
+     "precision": 0.7920757363253857,
+     "f2": 0.9215649054200686,
      "recall_any_type": 0.9608343976160069,
      "precision_any_label": 0.7959740702831798,
      "leak_core": 0.10021662604928243,
@@ -1624,14 +1624,14 @@
      },
      "ms_per_doc": 193.1,
      "f2_minus_newmind_ci95": [
-      -0.03699071650379275,
-      -0.0006756428748016699
+      -0.03659461621665684,
+      -0.00048100360236190393
      ]
     },
     "nm6k-easy": {
      "recall": 0.9551166965888689,
-     "precision": 0.7766423357664234,
-     "f2": 0.9131479574322006,
+     "precision": 0.7777777777777778,
+     "f2": 0.9134615384615383,
      "recall_any_type": 0.9551166965888689,
      "precision_any_label": 0.7837455830388692,
      "leak_core": 0.11597435182603848,
@@ -1714,8 +1714,8 @@
     },
     "nm6k-hard": {
      "recall": 0.965991902834008,
-     "precision": 0.8036314727639543,
-     "f2": 0.9284752916100223,
+     "precision": 0.805256064690027,
+     "f2": 0.9289083301536466,
      "recall_any_type": 0.965991902834008,
      "precision_any_label": 0.8073878627968337,
      "leak_core": 0.0853382469070808,
@@ -2038,8 +2038,8 @@
     },
     "piimask": {
      "recall": 0.7842553191489362,
-     "precision": 0.8850902184235517,
-     "f2": 0.8025414057253208,
+     "precision": 0.8953086419753087,
+     "f2": 0.8042059229503796,
      "recall_any_type": 0.7906382978723404,
      "precision_any_label": 0.8850902184235517,
      "leak_core": 0.24421037267685122,
@@ -2099,8 +2099,8 @@
     },
     "piimask-en": {
      "recall": 0.6136363636363636,
-     "precision": 0.898989898989899,
-     "f2": 0.6552325898456672,
+     "precision": 0.9166666666666666,
+     "f2": 0.6570796460176991,
      "recall_any_type": 0.6136363636363636,
      "precision_any_label": 0.898989898989899,
      "leak_core": 0.4428353658536585,
@@ -2147,8 +2147,8 @@
     },
     "piimask-tr": {
      "recall": 0.899488926746167,
-     "precision": 0.8811715481171548,
-     "f2": 0.895764779577522,
+     "precision": 0.8915254237288136,
+     "f2": 0.8978848650689786,
      "recall_any_type": 0.9122657580919932,
      "precision_any_label": 0.8811715481171548,
      "leak_core": 0.11353492803771124,
@@ -2201,8 +2201,716 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.02608725600940412,
-      -0.002640300419010583
+      -0.02563737044193566,
+      -0.0021722863590462084
+     ]
+    },
+    "piimask-tr-en": {
+     "recall": 0.8058823529411765,
+     "precision": 0.8738170347003155,
+     "f2": 0.8186108918024583,
+     "recall_any_type": 0.8058823529411765,
+     "precision_any_label": 0.8738170347003155,
+     "leak_core": 0.20549368968077208,
+     "leak_all_labels": 0.23018270752409725,
+     "false_masks_per_1k_words": 13.66120218579235,
+     "clean_doc_rate": 0.2875,
+     "gold_core": 340,
+     "gold_all": null,
+     "docs": 80,
+     "types": {
+      "ADDRESS": {
+       "gold": 40,
+       "recall": 0.8
+      },
+      "EMAIL": {
+       "gold": 80,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 60,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 80,
+       "recall": 0.725
+      },
+      "PHONE": {
+       "gold": 80,
+       "recall": 0.55
+      }
+     }
+    }
+   },
+   "name": "Katip Mask Base (f1k/katip-mask-base)",
+   "size_mb": 111.1
+  },
+  "base-v4": {
+   "tracks": {
+    "nm6k": {
+     "recall": 0.9791400595998297,
+     "precision": 0.9146049481245012,
+     "f2": 0.9655145938567513,
+     "recall_any_type": 0.9791400595998297,
+     "precision_any_label": 0.914572864321608,
+     "leak_core": 0.07032223124830761,
+     "leak_all_labels": 0.3502921084922074,
+     "false_masks_per_1k_words": 1.4116895560523794,
+     "clean_doc_rate": 0.686046511627907,
+     "gold_core": 2349,
+     "gold_all": null,
+     "docs": 602,
+     "types": {
+      "ADDRESS": {
+       "gold": 54,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 4,
+       "recall": 0.75
+      },
+      "BIRTH_DATE": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 35,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 110,
+       "recall": 0.6727272727272727
+      },
+      "IBAN": {
+       "gold": 14,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 23,
+       "recall": 0.9130434782608695
+      },
+      "PERSON": {
+       "gold": 1536,
+       "recall": 0.9954427083333334
+      },
+      "PHONE": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 44,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 242,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 12,
+       "recall": 0.9166666666666666
+      },
+      "YKN": {
+       "gold": 6,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 227.8,
+     "f2_minus_newmind_ci95": [
+      0.007428779957019624,
+      0.04259148621129098
+     ]
+    },
+    "nm6k-easy": {
+     "recall": 0.9793536804308797,
+     "precision": 0.8908045977011494,
+     "f2": 0.9602629827577983,
+     "recall_any_type": 0.9793536804308797,
+     "precision_any_label": 0.8932806324110671,
+     "leak_core": 0.07711179258433232,
+     "leak_all_labels": 0.40412928257179476,
+     "false_masks_per_1k_words": 1.2872958205795693,
+     "clean_doc_rate": 0.7146814404432132,
+     "gold_core": 1114,
+     "gold_all": null,
+     "docs": 361,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 3,
+       "recall": 0.6666666666666666
+      },
+      "BIRTH_DATE": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 15,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 39,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 60,
+       "recall": 0.7833333333333333
+      },
+      "IBAN": {
+       "gold": 9,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 14,
+       "recall": 0.9285714285714286
+      },
+      "PERSON": {
+       "gold": 675,
+       "recall": 0.9925925925925926
+      },
+      "PHONE": {
+       "gold": 41,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 133,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 10,
+       "recall": 0.9
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "nm6k-hard": {
+     "recall": 0.9789473684210527,
+     "precision": 0.937111801242236,
+     "f2": 0.970284072442622,
+     "recall_any_type": 0.9789473684210527,
+     "precision_any_label": 0.9349470499243571,
+     "leak_core": 0.0639115556725454,
+     "leak_all_labels": 0.2899051911718993,
+     "false_masks_per_1k_words": 1.664118887749376,
+     "clean_doc_rate": 0.6431535269709544,
+     "gold_core": 1235,
+     "gold_all": null,
+     "docs": 241,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 1,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 20,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 52,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 50,
+       "recall": 0.54
+      },
+      "IBAN": {
+       "gold": 5,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 3,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 9,
+       "recall": 0.8888888888888888
+      },
+      "PERSON": {
+       "gold": 861,
+       "recall": 0.9976771196283392
+      },
+      "PHONE": {
+       "gold": 50,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 16,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 109,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 2,
+       "recall": 1.0
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "werea": {
+     "recall": 0.9375,
+     "precision": 1.0,
+     "f2": 0.9493670886075949,
+     "recall_any_type": 0.9375,
+     "precision_any_label": 1.0,
+     "leak_core": 0.24895992993212174,
+     "leak_all_labels": 0.37670361620934034,
+     "false_masks_per_1k_words": 0.0,
+     "clean_doc_rate": 0.4084507042253521,
+     "gold_core": 240,
+     "gold_all": null,
+     "docs": 240,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 53,
+       "recall": 0.7169811320754716
+      },
+      "RELIGION": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "SEXUAL_LIFE": {
+       "gold": 26,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.3178282260600792,
+      0.45669167717739617
+     ]
+    },
+    "cagri": {
+     "recall": 0.9530516431924883,
+     "precision": 0.9758064516129032,
+     "f2": 0.9575173080521424,
+     "recall_any_type": 0.9546165884194053,
+     "precision_any_label": 0.978125,
+     "leak_core": 0.06546731022378235,
+     "leak_all_labels": 0.4408748800323281,
+     "false_masks_per_1k_words": 1.805985552115583,
+     "clean_doc_rate": 0.8368055555555556,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 550,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.7222222222222222
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.9090909090909091
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.9942196531791907
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 0.9166666666666666
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.8
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 21.3
+    },
+    "cagri-negatif": {
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "recall_any_type": NaN,
+     "precision_any_label": 0.0,
+     "leak_core": NaN,
+     "leak_all_labels": NaN,
+     "false_masks_per_1k_words": 3.392705682782019,
+     "clean_doc_rate": NaN,
+     "gold_core": 0,
+     "gold_all": null,
+     "docs": 200,
+     "types": {}
+    },
+    "cagri-tam": {
+     "recall": 0.9530516431924883,
+     "precision": 0.9821428571428571,
+     "f2": 0.9587311946142749,
+     "recall_any_type": 0.9546165884194053,
+     "precision_any_label": 0.9842767295597484,
+     "leak_core": 0.06546731022378235,
+     "leak_all_labels": 0.4408748800323281,
+     "false_masks_per_1k_words": 1.5213753232922562,
+     "clean_doc_rate": 0.8368055555555556,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 350,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.7222222222222222
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.9090909090909091
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.9942196531791907
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 0.9166666666666666
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.8
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.1789345767758045,
+      0.2510657273445613
+     ]
+    },
+    "piimask": {
+     "recall": 0.8272340425531914,
+     "precision": 0.9004694835680751,
+     "f2": 0.8409123713572263,
+     "recall_any_type": 0.8272340425531914,
+     "precision_any_label": 0.8905472636815921,
+     "leak_core": 0.1869465797411696,
+     "leak_all_labels": 0.23960869070640428,
+     "false_masks_per_1k_words": 6.998062519880859,
+     "clean_doc_rate": 0.39457831325301207,
+     "gold_core": 2350,
+     "gold_all": null,
+     "docs": 400,
+     "types": {
+      "ADDRESS": {
+       "gold": 222,
+       "recall": 0.8513513513513513
+      },
+      "BIRTH_DATE": {
+       "gold": 98,
+       "recall": 0.3469387755102041
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 388,
+       "recall": 0.9639175257731959
+      },
+      "IBAN": {
+       "gold": 148,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 640,
+       "recall": 0.890625
+      },
+      "PHONE": {
+       "gold": 462,
+       "recall": 0.6125541125541125
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 234,
+       "recall": 0.8034188034188035
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 119.8
+    },
+    "piimask-en": {
+     "recall": 0.6327751196172249,
+     "precision": 0.9191176470588235,
+     "f2": 0.6748220204758096,
+     "recall_any_type": 0.6327751196172249,
+     "precision_any_label": 0.9016393442622951,
+     "leak_core": 0.4076358093126386,
+     "leak_all_labels": 0.45426109160548994,
+     "false_masks_per_1k_words": 4.359831419851766,
+     "clean_doc_rate": 0.00909090909090909,
+     "gold_core": 836,
+     "gold_all": null,
+     "docs": 140,
+     "types": {
+      "ADDRESS": {
+       "gold": 50,
+       "recall": 0.5
+      },
+      "BIRTH_DATE": {
+       "gold": 64,
+       "recall": 0.0
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 150,
+       "recall": 0.9066666666666666
+      },
+      "IBAN": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 244,
+       "recall": 0.860655737704918
+      },
+      "PHONE": {
+       "gold": 150,
+       "recall": 0.17333333333333334
+      },
+      "TCKN": {
+       "gold": 96,
+       "recall": 0.5208333333333334
+      }
+     }
+    },
+    "piimask-tr": {
+     "recall": 0.9718909710391823,
+     "precision": 0.8991331757289204,
+     "f2": 0.9564124056999164,
+     "recall_any_type": 0.9718909710391823,
+     "precision_any_label": 0.8894080996884736,
+     "leak_core": 0.02096183742039015,
+     "leak_all_labels": 0.08510239467641408,
+     "false_masks_per_1k_words": 7.936951539880387,
+     "clean_doc_rate": 0.7535211267605634,
+     "gold_core": 1174,
+     "gold_all": null,
+     "docs": 180,
+     "types": {
+      "ADDRESS": {
+       "gold": 132,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 158,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 62,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 316,
+       "recall": 0.9556962025316456
+      },
+      "PHONE": {
+       "gold": 232,
+       "recall": 0.9181034482758621
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 138,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.02523135174494103,
+      0.06524543115592883
      ]
     },
     "piimask-tr-en": {
@@ -2249,8 +2957,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.5495955725840783,
-     "precision": 0.027799692319829594,
-     "f2": 0.11560773791656065,
+     "precision": 0.03483687592684132,
+     "f2": 0.13895337242603653,
      "recall_any_type": 0.6343124733929332,
      "precision_any_label": 0.09967345940943301,
      "leak_core": 0.10939615488762523,
@@ -2332,14 +3040,14 @@
      },
      "ms_per_doc": 1124.7,
      "f2_minus_newmind_ci95": [
-      -0.8451223962373248,
-      -0.8058628114280469
+      -0.8223570456944117,
+      -0.7822236716332785
      ]
     },
     "nm6k-easy": {
      "recall": 0.5457809694793537,
-     "precision": 0.019678154162686458,
-     "f2": 0.08598937038752676,
+     "precision": 0.024846910372982,
+     "f2": 0.1050963314188294,
      "recall_any_type": 0.6328545780969479,
      "precision_any_label": 0.07965773790202163,
      "leak_core": 0.12517424031223864,
@@ -2422,8 +3130,8 @@
     },
     "nm6k-hard": {
      "recall": 0.5530364372469636,
-     "precision": 0.04436583830450553,
-     "f2": 0.16793930314326805,
+     "precision": 0.05475397706252312,
+     "f2": 0.19610680918445067,
      "recall_any_type": 0.6356275303643725,
      "precision_any_label": 0.140762854172775,
      "leak_core": 0.09449855225059225,
@@ -2550,8 +3258,8 @@
     },
     "cagri": {
      "recall": 0.2269170579029734,
-     "precision": 0.16799420709630702,
-     "f2": 0.21204255474719408,
+     "precision": 0.18969746524938674,
+     "f2": 0.21834883108082676,
      "recall_any_type": 0.352112676056338,
      "precision_any_label": 0.7419847328244275,
      "leak_core": 0.393505923650724,
@@ -2654,8 +3362,8 @@
     },
     "cagri-tam": {
      "recall": 0.2269170579029734,
-     "precision": 0.20095279341706365,
-     "f2": 0.22120096870769054,
+     "precision": 0.2297029702970297,
+     "f2": 0.2274688210840066,
      "recall_any_type": 0.352112676056338,
      "precision_any_label": 0.8161209068010076,
      "leak_core": 0.393505923650724,
@@ -2740,14 +3448,14 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.5605640201653077,
-      -0.4839503223991971
+      -0.5551012638479615,
+      -0.4762748717211698
      ]
     },
     "piimask": {
      "recall": 0.2663829787234043,
-     "precision": 0.08220062734485516,
-     "f2": 0.1839497803857082,
+     "precision": 0.1366354853550069,
+     "f2": 0.22386672302875704,
      "recall_any_type": 0.36936170212765956,
      "precision_any_label": 0.29048527451851464,
      "leak_core": 0.08158995815899582,
@@ -2807,8 +3515,8 @@
     },
     "piimask-en": {
      "recall": 0.09808612440191387,
-     "precision": 0.043129170509412465,
-     "f2": 0.07816573005281072,
+     "precision": 0.07921482662415305,
+     "f2": 0.09362526684421812,
      "recall_any_type": 0.19138755980861244,
      "precision_any_label": 0.22202518983312872,
      "leak_core": 0.09652161862527717,
@@ -2855,8 +3563,8 @@
     },
     "piimask-tr": {
      "recall": 0.4190800681431005,
-     "precision": 0.12991679273827533,
-     "f2": 0.2899904046914058,
+     "precision": 0.19352112676056338,
+     "f2": 0.33985607969188897,
      "recall_any_type": 0.5485519591141397,
      "precision_any_label": 0.36325141149119894,
      "leak_core": 0.07321598716212828,
@@ -2909,14 +3617,14 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.6429414031417787,
-      -0.5934745216198962
+      -0.5948282172833789,
+      -0.5461533232649395
      ]
     },
     "piimask-tr-en": {
      "recall": 0.15294117647058825,
-     "precision": 0.14363066400683955,
-     "f2": 0.15098374482087965,
+     "precision": 0.207663782447466,
+     "f2": 0.16145009388352527,
      "recall_any_type": 0.18823529411764706,
      "precision_any_label": 0.4392434988179669,
      "leak_core": 0.07438752783964366,
@@ -3454,8 +4162,8 @@
     },
     "piimask": {
      "recall": 0.805531914893617,
-     "precision": 0.7841322314049587,
-     "f2": 0.8011590427548676,
+     "precision": 0.7935764469722315,
+     "f2": 0.8031120898436082,
      "recall_any_type": 0.9170212765957447,
      "precision_any_label": 0.8452380952380952,
      "leak_core": 0.08662547436022186,
@@ -3515,8 +4223,8 @@
     },
     "piimask-en": {
      "recall": 0.8863636363636364,
-     "precision": 0.8769574944071589,
-     "f2": 0.8844663002603413,
+     "precision": 0.8929384965831435,
+     "f2": 0.8876708510910083,
      "recall_any_type": 0.9629186602870813,
      "precision_any_label": 0.85234375,
      "leak_core": 0.0749029933481153,
@@ -3563,8 +4271,8 @@
     },
     "piimask-tr": {
      "recall": 0.75809199318569,
-     "precision": 0.7457327839905827,
-     "f2": 0.7555874864747006,
+     "precision": 0.7546158427635498,
+     "f2": 0.7573942033883825,
      "recall_any_type": 0.8824531516183987,
      "precision_any_label": 0.8290598290598291,
      "leak_core": 0.1058622937666115,
@@ -3617,8 +4325,8 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.1808303039816985,
-      -0.12344261973190469
+      -0.1807450021243561,
+      -0.12329211435474083
      ]
     },
     "piimask-tr-en": {
@@ -3665,8 +4373,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.5202213707960834,
-     "precision": 0.6253148614609572,
-     "f2": 0.5383157698981187,
+     "precision": 0.6398195876288659,
+     "f2": 0.5404251551559076,
      "recall_any_type": 0.5278842060451255,
      "precision_any_label": 0.5678092399403875,
      "leak_core": 0.5853506634172759,
@@ -3748,14 +4456,14 @@
      },
      "ms_per_doc": 2600.3,
      "f2_minus_newmind_ci95": [
-      -0.43565897153295596,
-      -0.3687607486877128
+      -0.43363224067561434,
+      -0.3662382492011936
      ]
     },
     "nm6k-easy": {
      "recall": 0.5278276481149012,
-     "precision": 0.5468036529680366,
-     "f2": 0.5315167472349626,
+     "precision": 0.5615474794841735,
+     "f2": 0.5342437067240063,
      "recall_any_type": 0.5394973070017953,
      "precision_any_label": 0.48636763412489004,
      "leak_core": 0.5652076944521884,
@@ -3838,8 +4546,8 @@
     },
     "nm6k-hard": {
      "recall": 0.5133603238866397,
-     "precision": 0.7219101123595506,
-     "f2": 0.544839642502695,
+     "precision": 0.7353361945636624,
+     "f2": 0.5463453693526461,
      "recall_any_type": 0.5174089068825911,
      "precision_any_label": 0.6735159817351598,
      "leak_core": 0.604369570939721,
@@ -3966,8 +4674,8 @@
     },
     "cagri": {
      "recall": 0.3051643192488263,
-     "precision": 0.8546255506607929,
-     "f2": 0.35019412029348546,
+     "precision": 0.8622222222222222,
+     "f2": 0.3504471605720542,
      "recall_any_type": 0.35524256651017216,
      "precision_any_label": 0.9272151898734177,
      "leak_core": 0.7446248354541466,
@@ -4070,8 +4778,8 @@
     },
     "cagri-tam": {
      "recall": 0.3051643192488263,
-     "precision": 0.8584070796460177,
-     "f2": 0.350320594739357,
+     "precision": 0.8660714285714286,
+     "f2": 0.3505738178906632,
      "recall_any_type": 0.35524256651017216,
      "precision_any_label": 0.9512987012987013,
      "leak_core": 0.7446248354541466,
@@ -4157,13 +4865,13 @@
      },
      "f2_minus_newmind_ci95": [
       -0.4527248894432268,
-      -0.33687038544223374
+      -0.336595864706742
      ]
     },
     "piimask": {
      "recall": 0.3519148936170213,
-     "precision": 0.8389398572884812,
-     "f2": 0.3981409974651029,
+     "precision": 0.8590814196242171,
+     "f2": 0.3990289695708466,
      "recall_any_type": 0.3604255319148936,
      "precision_any_label": 0.7787037037037037,
      "leak_core": 0.6261068405176607,
@@ -4223,8 +4931,8 @@
     },
     "piimask-en": {
      "recall": 0.42105263157894735,
-     "precision": 0.7972665148063781,
-     "f2": 0.4649309245483528,
+     "precision": 0.8120649651972158,
+     "f2": 0.46592119275825344,
      "recall_any_type": 0.42105263157894735,
      "precision_any_label": 0.7494646680942184,
      "leak_core": 0.5883453436807096,
@@ -4271,8 +4979,8 @@
     },
     "piimask-tr": {
      "recall": 0.3074957410562181,
-     "precision": 0.8387850467289719,
-     "f2": 0.3521000102153261,
+     "precision": 0.8692493946731235,
+     "f2": 0.3531390653840935,
      "recall_any_type": 0.32453151618398635,
      "precision_any_label": 0.7555110220440882,
      "leak_core": 0.6525249485983652,
@@ -4325,8 +5033,8 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.5826293064794319,
-      -0.530241642538696
+      -0.5837349243373915,
+      -0.5303874904338314
      ]
     },
     "piimask-tr-en": {
@@ -4373,8 +5081,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.9323116219667944,
-     "precision": 0.7427201096265844,
-     "f2": 0.8870260281137436,
+     "precision": 0.7439945092656143,
+     "f2": 0.8873890987907233,
      "recall_any_type": 0.9327373350361856,
      "precision_any_label": 0.751414309484193,
      "leak_core": 0.1355537503384782,
@@ -4456,14 +5164,14 @@
      },
      "ms_per_doc": 89.9,
      "f2_minus_newmind_ci95": [
-      -0.07134593583973324,
-      -0.03554447455248003
+      -0.07103488572049944,
+      -0.03527653394546654
      ]
     },
     "nm6k-easy": {
      "recall": 0.9165170556552962,
-     "precision": 0.7136752136752137,
-     "f2": 0.8672205121527955,
+     "precision": 0.7146932952924394,
+     "f2": 0.8675208442369641,
      "recall_any_type": 0.9165170556552962,
      "precision_any_label": 0.7241379310344828,
      "leak_core": 0.15873989406189015,
@@ -4546,8 +5254,8 @@
     },
     "nm6k-hard": {
      "recall": 0.9465587044534413,
-     "precision": 0.7696369636963697,
-     "f2": 0.9049531441394488,
+     "precision": 0.7711640211640212,
+     "f2": 0.9053747505170329,
      "recall_any_type": 0.9473684210526315,
      "precision_any_label": 0.7768488745980707,
      "leak_core": 0.11366148986575414,
@@ -4870,8 +5578,8 @@
     },
     "piimask": {
      "recall": 0.6676595744680851,
-     "precision": 0.8589393110989612,
-     "f2": 0.6987823565788959,
+     "precision": 0.8695652173913043,
+     "f2": 0.7001744858023892,
      "recall_any_type": 0.6736170212765957,
      "precision_any_label": 0.8589393110989612,
      "leak_core": 0.3433638221270799,
@@ -4931,8 +5639,8 @@
     },
     "piimask-en": {
      "recall": 0.41746411483253587,
-     "precision": 0.8651960784313726,
-     "f2": 0.4656590748277927,
+     "precision": 0.8859649122807017,
+     "f2": 0.46683707255052576,
      "recall_any_type": 0.41746411483253587,
      "precision_any_label": 0.8651960784313726,
      "leak_core": 0.6252078713968958,
@@ -4979,8 +5687,8 @@
     },
     "piimask-tr": {
      "recall": 0.8304940374787053,
-     "precision": 0.8565140845070423,
-     "f2": 0.835570799646562,
+     "precision": 0.8670829616413916,
+     "f2": 0.8375626846336547,
      "recall_any_type": 0.8424190800681431,
      "precision_any_label": 0.8565140845070423,
      "leak_core": 0.15816659144476206,
@@ -5033,8 +5741,716 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.08963184381208408,
-      -0.05974181690776413
+      -0.08922194901851535,
+      -0.0594733556597573
+     ]
+    },
+    "piimask-tr-en": {
+     "recall": 0.7205882352941176,
+     "precision": 0.8596491228070176,
+     "f2": 0.7446808510638298,
+     "recall_any_type": 0.7205882352941176,
+     "precision_any_label": 0.8596491228070176,
+     "leak_core": 0.28775055679287304,
+     "leak_all_labels": 0.30988347000431593,
+     "false_masks_per_1k_words": 13.66120218579235,
+     "clean_doc_rate": 0.1625,
+     "gold_core": 340,
+     "gold_all": null,
+     "docs": 80,
+     "types": {
+      "ADDRESS": {
+       "gold": 40,
+       "recall": 0.5
+      },
+      "EMAIL": {
+       "gold": 80,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 60,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 80,
+       "recall": 0.5125
+      },
+      "PHONE": {
+       "gold": 80,
+       "recall": 0.55
+      }
+     }
+    }
+   },
+   "name": "Katip Mask Mini (f1k/katip-mask-mini)",
+   "size_mb": 31.4
+  },
+  "mini-v4": {
+   "tracks": {
+    "nm6k": {
+     "recall": 0.9680715197956578,
+     "precision": 0.8588415803605677,
+     "f2": 0.9440579201290872,
+     "recall_any_type": 0.968497232865049,
+     "precision_any_label": 0.8625925925925926,
+     "leak_core": 0.09807744381261847,
+     "leak_all_labels": 0.36736076772338516,
+     "false_masks_per_1k_words": 2.369849888214628,
+     "clean_doc_rate": 0.6245847176079734,
+     "gold_core": 2349,
+     "gold_all": null,
+     "docs": 602,
+     "types": {
+      "ADDRESS": {
+       "gold": 54,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 4,
+       "recall": 0.75
+      },
+      "BIRTH_DATE": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 35,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 110,
+       "recall": 0.6272727272727273
+      },
+      "IBAN": {
+       "gold": 14,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 23,
+       "recall": 0.9130434782608695
+      },
+      "PERSON": {
+       "gold": 1536,
+       "recall": 0.9817708333333334
+      },
+      "PHONE": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 44,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 242,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 12,
+       "recall": 0.9166666666666666
+      },
+      "YKN": {
+       "gold": 6,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 135.0,
+     "f2_minus_newmind_ci95": [
+      -0.01516203091754734,
+      0.02108606607611338
+     ]
+    },
+    "nm6k-easy": {
+     "recall": 0.9622980251346499,
+     "precision": 0.8202511773940345,
+     "f2": 0.9300845797117622,
+     "recall_any_type": 0.9622980251346499,
+     "precision_any_label": 0.8267776096822995,
+     "leak_core": 0.11090047393364928,
+     "leak_all_labels": 0.4253299615477881,
+     "false_masks_per_1k_words": 2.183635132686825,
+     "clean_doc_rate": 0.6731301939058172,
+     "gold_core": 1114,
+     "gold_all": null,
+     "docs": 361,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 3,
+       "recall": 0.6666666666666666
+      },
+      "BIRTH_DATE": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 15,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 39,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 60,
+       "recall": 0.7333333333333333
+      },
+      "IBAN": {
+       "gold": 9,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 14,
+       "recall": 0.9285714285714286
+      },
+      "PERSON": {
+       "gold": 675,
+       "recall": 0.9688888888888889
+      },
+      "PHONE": {
+       "gold": 41,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 133,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 10,
+       "recall": 0.9
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "nm6k-hard": {
+     "recall": 0.9732793522267207,
+     "precision": 0.8957239309827457,
+     "f2": 0.9567121464261784,
+     "recall_any_type": 0.974089068825911,
+     "precision_any_label": 0.8969521044992743,
+     "leak_core": 0.08596999210318505,
+     "leak_all_labels": 0.3023391358408455,
+     "false_masks_per_1k_words": 2.7477311867489695,
+     "clean_doc_rate": 0.5518672199170125,
+     "gold_core": 1235,
+     "gold_all": null,
+     "docs": 241,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 1,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 20,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 52,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 50,
+       "recall": 0.5
+      },
+      "IBAN": {
+       "gold": 5,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 3,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 9,
+       "recall": 0.8888888888888888
+      },
+      "PERSON": {
+       "gold": 861,
+       "recall": 0.991869918699187
+      },
+      "PHONE": {
+       "gold": 50,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 16,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 109,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 2,
+       "recall": 1.0
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "werea": {
+     "recall": 0.9083333333333333,
+     "precision": 1.0,
+     "f2": 0.9252971137521223,
+     "recall_any_type": 0.9083333333333333,
+     "precision_any_label": 1.0,
+     "leak_core": 0.25925114955112766,
+     "leak_all_labels": 0.38524441213883337,
+     "false_masks_per_1k_words": 0.0,
+     "clean_doc_rate": 0.38028169014084506,
+     "gold_core": 240,
+     "gold_all": null,
+     "docs": 240,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 53,
+       "recall": 0.5849056603773585
+      },
+      "RELIGION": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "SEXUAL_LIFE": {
+       "gold": 26,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.288684976744915,
+      0.43999480042037525
+     ]
+    },
+    "cagri": {
+     "recall": 0.9295774647887324,
+     "precision": 0.9751243781094527,
+     "f2": 0.9383432467720877,
+     "recall_any_type": 0.9295774647887324,
+     "precision_any_label": 0.9761146496815286,
+     "leak_core": 0.07871873628784555,
+     "leak_all_labels": 0.44708794261756835,
+     "false_masks_per_1k_words": 1.934984520123839,
+     "clean_doc_rate": 0.7951388888888888,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 550,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 0.9583333333333334
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.7222222222222222
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.8545454545454545
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.9248554913294798
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.8
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 7.1
+    },
+    "cagri-negatif": {
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "recall_any_type": NaN,
+     "precision_any_label": 0.0,
+     "leak_core": NaN,
+     "leak_all_labels": NaN,
+     "false_masks_per_1k_words": 3.392705682782019,
+     "clean_doc_rate": NaN,
+     "gold_core": 0,
+     "gold_all": null,
+     "docs": 200,
+     "types": {}
+    },
+    "cagri-tam": {
+     "recall": 0.9295774647887324,
+     "precision": 0.9816360601001669,
+     "f2": 0.9395427210133348,
+     "recall_any_type": 0.9295774647887324,
+     "precision_any_label": 0.9823717948717948,
+     "leak_core": 0.07871873628784555,
+     "leak_all_labels": 0.44708794261756835,
+     "false_masks_per_1k_words": 1.6735128556214818,
+     "clean_doc_rate": 0.7951388888888888,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 350,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 0.9583333333333334
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.7222222222222222
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.8545454545454545
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.9248554913294798
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.8
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.15879279285931708,
+      0.2325702759583705
+     ]
+    },
+    "piimask": {
+     "recall": 0.745531914893617,
+     "precision": 0.8821705426356589,
+     "f2": 0.7693651754071842,
+     "recall_any_type": 0.745531914893617,
+     "precision_any_label": 0.8720238095238095,
+     "leak_core": 0.2642064804904155,
+     "leak_all_labels": 0.31186440677966104,
+     "false_masks_per_1k_words": 7.460744339377115,
+     "clean_doc_rate": 0.3644578313253012,
+     "gold_core": 2350,
+     "gold_all": null,
+     "docs": 400,
+     "types": {
+      "ADDRESS": {
+       "gold": 222,
+       "recall": 0.6846846846846847
+      },
+      "BIRTH_DATE": {
+       "gold": 98,
+       "recall": 0.3469387755102041
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 388,
+       "recall": 0.9639175257731959
+      },
+      "IBAN": {
+       "gold": 148,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 640,
+       "recall": 0.6484375
+      },
+      "PHONE": {
+       "gold": 462,
+       "recall": 0.6125541125541125
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 234,
+       "recall": 0.8034188034188035
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 46.6
+    },
+    "piimask-en": {
+     "recall": 0.4366028708133971,
+     "precision": 0.8910614525139665,
+     "f2": 0.4861968288116145,
+     "recall_any_type": 0.4366028708133971,
+     "precision_any_label": 0.8702830188679245,
+     "leak_core": 0.5900083148558758,
+     "leak_all_labels": 0.6222789658474306,
+     "false_masks_per_1k_words": 3.9965121348641186,
+     "clean_doc_rate": 0.00909090909090909,
+     "gold_core": 836,
+     "gold_all": null,
+     "docs": 140,
+     "types": {
+      "ADDRESS": {
+       "gold": 50,
+       "recall": 0.0
+      },
+      "BIRTH_DATE": {
+       "gold": 64,
+       "recall": 0.0
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 150,
+       "recall": 0.9066666666666666
+      },
+      "IBAN": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 244,
+       "recall": 0.29098360655737704
+      },
+      "PHONE": {
+       "gold": 150,
+       "recall": 0.17333333333333334
+      },
+      "TCKN": {
+       "gold": 96,
+       "recall": 0.5208333333333334
+      }
+     }
+    },
+    "piimask-tr": {
+     "recall": 0.9727427597955707,
+     "precision": 0.8846749226006192,
+     "f2": 0.9537538550388485,
+     "recall_any_type": 0.9727427597955707,
+     "precision_any_label": 0.8752869166029075,
+     "leak_core": 0.020460358056265986,
+     "leak_all_labels": 0.08463376915506818,
+     "false_masks_per_1k_words": 9.110726063383824,
+     "clean_doc_rate": 0.7535211267605634,
+     "gold_core": 1174,
+     "gold_all": null,
+     "docs": 180,
+     "types": {
+      "ADDRESS": {
+       "gold": 132,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 158,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 62,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 316,
+       "recall": 0.9588607594936709
+      },
+      "PHONE": {
+       "gold": 232,
+       "recall": 0.9181034482758621
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 138,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.02241395607149184,
+      0.062713726632504
      ]
     },
     "piimask-tr-en": {
@@ -5081,8 +6497,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.8693060876968923,
-     "precision": 0.7219101123595506,
-     "f2": 0.835200673260923,
+     "precision": 0.7231797397115722,
+     "f2": 0.8355400913770974,
      "recall_any_type": 0.8693060876968923,
      "precision_any_label": 0.729415784079262,
      "leak_core": 0.18822095857026808,
@@ -5164,14 +6580,14 @@
      },
      "ms_per_doc": 15.9,
      "f2_minus_newmind_ci95": [
-      -0.12307324573547122,
-      -0.09393065029198178
+      -0.1227567670207751,
+      -0.09363543332453193
      ]
     },
     "nm6k-easy": {
      "recall": 0.829443447037702,
-     "precision": 0.6928783382789317,
-     "f2": 0.7979870756229918,
+     "precision": 0.6939078751857355,
+     "f2": 0.798259881219652,
      "recall_any_type": 0.829443447037702,
      "precision_any_label": 0.702372393961179,
      "leak_core": 0.21968218567047673,
@@ -5254,8 +6670,8 @@
     },
     "nm6k-hard": {
      "recall": 0.9052631578947369,
-     "precision": 0.748,
-     "f2": 0.8687337942955922,
+     "precision": 0.749498997995992,
+     "f2": 0.8691375639071739,
      "recall_any_type": 0.9052631578947369,
      "precision_any_label": 0.75390625,
      "leak_core": 0.15851539878915505,
@@ -5578,8 +6994,8 @@
     },
     "piimask": {
      "recall": 0.6685106382978724,
-     "precision": 0.796082370668006,
-     "f2": 0.6906457535785071,
+     "precision": 0.8031413612565445,
+     "f2": 0.6917006166975026,
      "recall_any_type": 0.6748936170212766,
      "precision_any_label": 0.8033115905669844,
      "leak_core": 0.34501800136226524,
@@ -5639,8 +7055,8 @@
     },
     "piimask-en": {
      "recall": 0.41626794258373206,
-     "precision": 0.7489539748953975,
-     "f2": 0.4568550256106362,
+     "precision": 0.7475728155339806,
+     "f2": 0.4567520761458007,
      "recall_any_type": 0.41746411483253587,
      "precision_any_label": 0.7677824267782427,
      "leak_core": 0.6327605321507761,
@@ -5687,8 +7103,8 @@
     },
     "piimask-tr": {
      "recall": 0.8296422487223168,
-     "precision": 0.8326216908625107,
-     "f2": 0.8302364300733989,
+     "precision": 0.842560553633218,
+     "f2": 0.8321941216678058,
      "recall_any_type": 0.8415672913117547,
      "precision_any_label": 0.8343296327924851,
      "leak_core": 0.1583170352539993,
@@ -5741,8 +7157,716 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.09463576893584198,
-      -0.0656443375398725
+      -0.09437914773759346,
+      -0.06521187217069914
+     ]
+    },
+    "piimask-tr-en": {
+     "recall": 0.7323529411764705,
+     "precision": 0.7368421052631579,
+     "f2": 0.7332463926633291,
+     "recall_any_type": 0.7323529411764705,
+     "precision_any_label": 0.747093023255814,
+     "leak_core": 0.28121752041573866,
+     "leak_all_labels": 0.30024456912674435,
+     "false_masks_per_1k_words": 29.71311475409836,
+     "clean_doc_rate": 0.2,
+     "gold_core": 340,
+     "gold_all": null,
+     "docs": 80,
+     "types": {
+      "ADDRESS": {
+       "gold": 40,
+       "recall": 0.5
+      },
+      "EMAIL": {
+       "gold": 80,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 60,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 80,
+       "recall": 0.5625
+      },
+      "PHONE": {
+       "gold": 80,
+       "recall": 0.55
+      }
+     }
+    }
+   },
+   "name": "Katip Mask Nano v1.1 (f1k/katip-mask-nano)",
+   "size_mb": 2.9
+  },
+  "nano-v4": {
+   "tracks": {
+    "nm6k": {
+     "recall": 0.9080459770114943,
+     "precision": 0.8391663389697208,
+     "f2": 0.8933800656895546,
+     "recall_any_type": 0.9080459770114943,
+     "precision_any_label": 0.8417649296310384,
+     "leak_core": 0.14819929596533984,
+     "leak_all_labels": 0.4029448931377397,
+     "false_masks_per_1k_words": 2.6572979878633025,
+     "clean_doc_rate": 0.48172757475083056,
+     "gold_core": 2349,
+     "gold_all": null,
+     "docs": 602,
+     "types": {
+      "ADDRESS": {
+       "gold": 54,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 4,
+       "recall": 0.75
+      },
+      "BIRTH_DATE": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 35,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 110,
+       "recall": 0.6636363636363637
+      },
+      "IBAN": {
+       "gold": 14,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 23,
+       "recall": 0.9130434782608695
+      },
+      "PERSON": {
+       "gold": 1536,
+       "recall": 0.8873697916666666
+      },
+      "PHONE": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 44,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 242,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 12,
+       "recall": 0.9166666666666666
+      },
+      "YKN": {
+       "gold": 6,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 27.6,
+     "f2_minus_newmind_ci95": [
+      -0.06549735962891777,
+      -0.034557366289719046
+     ]
+    },
+    "nm6k-easy": {
+     "recall": 0.8788150807899462,
+     "precision": 0.8027823240589198,
+     "f2": 0.8624777600125294,
+     "recall_any_type": 0.8788150807899462,
+     "precision_any_label": 0.8082083662194159,
+     "leak_core": 0.1688876498466685,
+     "leak_all_labels": 0.46250043302040394,
+     "false_masks_per_1k_words": 2.3171324770432244,
+     "clean_doc_rate": 0.5263157894736842,
+     "gold_core": 1114,
+     "gold_all": null,
+     "docs": 361,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 3,
+       "recall": 0.6666666666666666
+      },
+      "BIRTH_DATE": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 15,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 39,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 60,
+       "recall": 0.7666666666666667
+      },
+      "IBAN": {
+       "gold": 9,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 14,
+       "recall": 0.9285714285714286
+      },
+      "PERSON": {
+       "gold": 675,
+       "recall": 0.8281481481481482
+      },
+      "PHONE": {
+       "gold": 41,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 133,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 10,
+       "recall": 0.9
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "nm6k-hard": {
+     "recall": 0.934412955465587,
+     "precision": 0.8728236184708554,
+     "f2": 0.9214094130206499,
+     "recall_any_type": 0.934412955465587,
+     "precision_any_label": 0.8729809104258444,
+     "leak_core": 0.1286654382732298,
+     "leak_all_labels": 0.33614392290954304,
+     "false_masks_per_1k_words": 3.3475879951237446,
+     "clean_doc_rate": 0.4149377593360996,
+     "gold_core": 1235,
+     "gold_all": null,
+     "docs": 241,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 1,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 20,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 52,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 50,
+       "recall": 0.54
+      },
+      "IBAN": {
+       "gold": 5,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 3,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 9,
+       "recall": 0.8888888888888888
+      },
+      "PERSON": {
+       "gold": 861,
+       "recall": 0.9337979094076655
+      },
+      "PHONE": {
+       "gold": 50,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 16,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 109,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 2,
+       "recall": 1.0
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "werea": {
+     "recall": 0.8666666666666667,
+     "precision": 1.0,
+     "f2": 0.8904109589041096,
+     "recall_any_type": 0.8666666666666667,
+     "precision_any_label": 1.0,
+     "leak_core": 0.28968688416903876,
+     "leak_all_labels": 0.4105033618026531,
+     "false_masks_per_1k_words": 0.0,
+     "clean_doc_rate": 0.3051643192488263,
+     "gold_core": 240,
+     "gold_all": null,
+     "docs": 240,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 53,
+       "recall": 0.39622641509433965
+      },
+      "RELIGION": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "SEXUAL_LIFE": {
+       "gold": 26,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.24466242496764556,
+      0.41415705435299827
+     ]
+    },
+    "cagri": {
+     "recall": 0.917057902973396,
+     "precision": 0.9144215530903328,
+     "f2": 0.9165294175686797,
+     "recall_any_type": 0.9248826291079812,
+     "precision_any_label": 0.930576070901034,
+     "leak_core": 0.0806494076349276,
+     "leak_all_labels": 0.4384502702429661,
+     "false_masks_per_1k_words": 6.062951496388029,
+     "clean_doc_rate": 0.7881944444444444,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 550,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 0.9583333333333334
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.6666666666666666
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 0.7777777777777778
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.8363636363636363
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.9190751445086706
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.7
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 2.0
+    },
+    "cagri-negatif": {
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "recall_any_type": NaN,
+     "precision_any_label": 0.0,
+     "leak_core": NaN,
+     "leak_all_labels": NaN,
+     "false_masks_per_1k_words": 16.963528413910094,
+     "clean_doc_rate": NaN,
+     "gold_core": 0,
+     "gold_all": null,
+     "docs": 200,
+     "types": {}
+    },
+    "cagri-tam": {
+     "recall": 0.917057902973396,
+     "precision": 0.9443535188216039,
+     "f2": 0.9223900596772907,
+     "recall_any_type": 0.9248826291079812,
+     "precision_any_label": 0.958904109589041,
+     "leak_core": 0.0806494076349276,
+     "leak_all_labels": 0.4384502702429661,
+     "false_masks_per_1k_words": 4.1077133728890916,
+     "clean_doc_rate": 0.7881944444444444,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 350,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 0.9583333333333334
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.6666666666666666
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 0.7777777777777778
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.8363636363636363
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.9190751445086706
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.7
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.1431827941184911,
+      0.21519573314353033
+     ]
+    },
+    "piimask": {
+     "recall": 0.7463829787234042,
+     "precision": 0.8214797136038187,
+     "f2": 0.7602834571577818,
+     "recall_any_type": 0.7468085106382979,
+     "precision_any_label": 0.820018365472911,
+     "leak_core": 0.2659822905517174,
+     "leak_all_labels": 0.31300193379592767,
+     "false_masks_per_1k_words": 11.335704577658252,
+     "clean_doc_rate": 0.3674698795180723,
+     "gold_core": 2350,
+     "gold_all": null,
+     "docs": 400,
+     "types": {
+      "ADDRESS": {
+       "gold": 222,
+       "recall": 0.6846846846846847
+      },
+      "BIRTH_DATE": {
+       "gold": 98,
+       "recall": 0.3469387755102041
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 388,
+       "recall": 0.9639175257731959
+      },
+      "IBAN": {
+       "gold": 148,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 640,
+       "recall": 0.6515625
+      },
+      "PHONE": {
+       "gold": 462,
+       "recall": 0.6125541125541125
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 234,
+       "recall": 0.8034188034188035
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 9.2
+    },
+    "piimask-en": {
+     "recall": 0.4354066985645933,
+     "precision": 0.7570093457943925,
+     "f2": 0.47583695918815283,
+     "recall_any_type": 0.4366028708133971,
+     "precision_any_label": 0.7753036437246964,
+     "leak_core": 0.5975609756097561,
+     "leak_all_labels": 0.6292371528886052,
+     "false_masks_per_1k_words": 8.065688126725767,
+     "clean_doc_rate": 0.0,
+     "gold_core": 836,
+     "gold_all": null,
+     "docs": 140,
+     "types": {
+      "ADDRESS": {
+       "gold": 50,
+       "recall": 0.0
+      },
+      "BIRTH_DATE": {
+       "gold": 64,
+       "recall": 0.0
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 150,
+       "recall": 0.9066666666666666
+      },
+      "IBAN": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 244,
+       "recall": 0.28688524590163933
+      },
+      "PHONE": {
+       "gold": 150,
+       "recall": 0.17333333333333334
+      },
+      "TCKN": {
+       "gold": 96,
+       "recall": 0.5208333333333334
+      }
+     }
+    },
+    "piimask-tr": {
+     "recall": 0.9718909710391823,
+     "precision": 0.8641509433962264,
+     "f2": 0.9482460157837167,
+     "recall_any_type": 0.9718909710391823,
+     "precision_any_label": 0.8552238805970149,
+     "leak_core": 0.020861541547565317,
+     "leak_all_labels": 0.0850086695721449,
+     "false_masks_per_1k_words": 10.843440836174613,
+     "clean_doc_rate": 0.7464788732394366,
+     "gold_core": 1174,
+     "gold_all": null,
+     "docs": 180,
+     "types": {
+      "ADDRESS": {
+       "gold": 132,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 158,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 62,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 316,
+       "recall": 0.9556962025316456
+      },
+      "PHONE": {
+       "gold": 232,
+       "recall": 0.9181034482758621
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 138,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.0173593361173299,
+      0.055999208681240475
      ]
     },
     "piimask-tr-en": {
@@ -6274,8 +8398,8 @@
     },
     "piimask": {
      "recall": 0.9131914893617021,
-     "precision": 0.9232758620689655,
-     "f2": 0.9151907020600856,
+     "precision": 0.9341474051460968,
+     "f2": 0.9173071162038249,
      "recall_any_type": 0.9348936170212766,
      "precision_any_label": 0.9319868095630668,
      "leak_core": 0.08574973241218255,
@@ -6335,8 +8459,8 @@
     },
     "piimask-en": {
      "recall": 0.8791866028708134,
-     "precision": 0.930379746835443,
-     "f2": 0.8889695210449929,
+     "precision": 0.9496124031007752,
+     "f2": 0.892423506556581,
      "recall_any_type": 0.8791866028708134,
      "precision_any_label": 0.9301775147928995,
      "leak_core": 0.15770509977827052,
@@ -6383,8 +8507,8 @@
     },
     "piimask-tr": {
      "recall": 0.9122657580919932,
-     "precision": 0.9027072758037225,
-     "f2": 0.910337901976148,
+     "precision": 0.9111870196413322,
+     "f2": 0.9120498061142839,
      "recall_any_type": 0.9557069846678024,
      "precision_any_label": 0.9193415637860082,
      "leak_core": 0.06263477257910836,
@@ -6735,8 +8859,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.8518518518518519,
-     "precision": 0.7759287925696594,
-     "f2": 0.835501427681069,
+     "precision": 0.7774331136099263,
+     "f2": 0.8358497337388575,
      "recall_any_type": 0.8518518518518519,
      "precision_any_label": 0.7817565020731247,
      "leak_core": 0.19878147847278635,
@@ -6818,14 +8942,14 @@
      },
      "ms_per_doc": 7.1,
      "f2_minus_newmind_ci95": [
-      -0.12381326878606418,
-      -0.09252888243482965
+      -0.12347711592278916,
+      -0.09233944412569807
      ]
     },
     "nm6k-easy": {
      "recall": 0.8132854578096947,
-     "precision": 0.7568692756036636,
-     "f2": 0.8013392726826905,
+     "precision": 0.7581317764804003,
+     "f2": 0.8016219442539886,
      "recall_any_type": 0.8132854578096947,
      "precision_any_label": 0.7648953301127214,
      "leak_core": 0.2293281293560078,
@@ -6908,8 +9032,8 @@
     },
     "nm6k-hard": {
      "recall": 0.8866396761133604,
-     "precision": 0.7924801156905278,
-     "f2": 0.8660592830467806,
+     "precision": 0.7942028985507247,
+     "f2": 0.8664700938870872,
      "recall_any_type": 0.8866396761133604,
      "precision_any_label": 0.7965981573352232,
      "leak_core": 0.16993945775204,
@@ -7232,8 +9356,8 @@
     },
     "piimask": {
      "recall": 0.6361702127659574,
-     "precision": 0.8836385115180153,
-     "f2": 0.6739171244531347,
+     "precision": 0.8964019851116626,
+     "f2": 0.6753839506682324,
      "recall_any_type": 0.642127659574468,
      "precision_any_label": 0.8836385115180153,
      "leak_core": 0.3634572346015374,
@@ -7293,8 +9417,8 @@
     },
     "piimask-en": {
      "recall": 0.35287081339712917,
-     "precision": 0.921875,
-     "f2": 0.4025655021834061,
+     "precision": 0.9645669291338582,
+     "f2": 0.40412766576083914,
      "recall_any_type": 0.35287081339712917,
      "precision_any_label": 0.921875,
      "leak_core": 0.6661585365853658,
@@ -7341,8 +9465,8 @@
     },
     "piimask-tr": {
      "recall": 0.813458262350937,
-     "precision": 0.8786764705882353,
-     "f2": 0.8257157203799425,
+     "precision": 0.8900279589934762,
+     "f2": 0.827699774657653,
      "recall_any_type": 0.8253833049403748,
      "precision_any_label": 0.8786764705882353,
      "leak_core": 0.16904869364625646,
@@ -7395,8 +9519,8 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.09895783865190526,
-      -0.06951022310855193
+      -0.09856317406316066,
+      -0.06916221947121934
      ]
     },
     "piimask-tr-en": {
@@ -7443,8 +9567,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.8544061302681992,
-     "precision": 0.7764478764478765,
-     "f2": 0.8375867651530375,
+     "precision": 0.7779497098646034,
+     "f2": 0.8379357675941043,
      "recall_any_type": 0.8544061302681992,
      "precision_any_label": 0.7822489657766077,
      "leak_core": 0.1959382615759545,
@@ -7526,14 +9650,14 @@
      },
      "ms_per_doc": 7.7,
      "f2_minus_newmind_ci95": [
-      -0.12145897211186252,
-      -0.09061454560297869
+      -0.12119666030229638,
+      -0.0903455901109893
      ]
     },
     "nm6k-easy": {
      "recall": 0.8159784560143627,
-     "precision": 0.7574750830564784,
-     "f2": 0.8035658204201843,
+     "precision": 0.7587354409317804,
+     "f2": 0.8038491299314069,
      "recall_any_type": 0.8159784560143627,
      "precision_any_label": 0.7654618473895582,
      "leak_core": 0.2263172567605241,
@@ -7616,8 +9740,8 @@
     },
     "nm6k-hard": {
      "recall": 0.8890688259109312,
-     "precision": 0.7929292929292929,
-     "f2": 0.868020028520097,
+     "precision": 0.794649313087491,
+     "f2": 0.8684315750171928,
      "recall_any_type": 0.8890688259109312,
      "precision_any_label": 0.7970297029702971,
      "leak_core": 0.167254540668597,
@@ -7940,8 +10064,8 @@
     },
     "piimask": {
      "recall": 0.6591489361702128,
-     "precision": 0.8872352604464797,
-     "f2": 0.6948760377267953,
+     "precision": 0.8997599039615847,
+     "f2": 0.6963944600621645,
      "recall_any_type": 0.6655319148936171,
      "precision_any_label": 0.8872352604464797,
      "leak_core": 0.3483750121630826,
@@ -8001,8 +10125,8 @@
     },
     "piimask-en": {
      "recall": 0.35287081339712917,
-     "precision": 0.921875,
-     "f2": 0.4025655021834061,
+     "precision": 0.9645669291338582,
+     "f2": 0.40412766576083914,
      "recall_any_type": 0.35287081339712917,
      "precision_any_label": 0.921875,
      "leak_core": 0.6661585365853658,
@@ -8049,8 +10173,8 @@
     },
     "piimask-tr": {
      "recall": 0.8594548551959114,
-     "precision": 0.8844133099824869,
-     "f2": 0.8643332126709729,
+     "precision": 0.8952972493345164,
+     "f2": 0.8663918942126052,
      "recall_any_type": 0.8722316865417377,
      "precision_any_label": 0.8844133099824869,
      "leak_core": 0.13795697307055815,
@@ -8103,8 +10227,8 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.06016236295543081,
-      -0.03066785408579831
+      -0.05972608667233827,
+      -0.030185888727748335
      ]
     },
     "piimask-tr-en": {
@@ -8151,8 +10275,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.8727117922520221,
-     "precision": 0.7798479087452471,
-     "f2": 0.8524108637595825,
+     "precision": 0.7813333333333333,
+     "f2": 0.8527652793560525,
      "recall_any_type": 0.8727117922520221,
      "precision_any_label": 0.7854761022600963,
      "leak_core": 0.18846466287571081,
@@ -8234,14 +10358,14 @@
      },
      "ms_per_doc": 7.9,
      "f2_minus_newmind_ci95": [
-      -0.10688783631199751,
-      -0.07548427610209038
+      -0.10659451357529232,
+      -0.07509474128338857
      ]
     },
     "nm6k-easy": {
      "recall": 0.8384201077199281,
-     "precision": 0.7620211898940505,
-     "f2": 0.821938875584531,
+     "precision": 0.763265306122449,
+     "f2": 0.822227996934381,
      "recall_any_type": 0.8384201077199281,
      "precision_any_label": 0.7697160883280757,
      "leak_core": 0.21739615277390578,
@@ -8324,8 +10448,8 @@
     },
     "nm6k-hard": {
      "recall": 0.9036437246963562,
-     "precision": 0.7954383464005702,
-     "f2": 0.8797099164433233,
+     "precision": 0.7971428571428572,
+     "f2": 0.8801261829652998,
      "recall_any_type": 0.9036437246963562,
      "precision_any_label": 0.7994409503843466,
      "leak_core": 0.16114767043958936,
@@ -8648,8 +10772,8 @@
     },
     "piimask": {
      "recall": 0.671063829787234,
-     "precision": 0.8890140845070422,
-     "f2": 0.7056638711461163,
+     "precision": 0.9014167650531287,
+     "f2": 0.7072086158208185,
      "recall_any_type": 0.6774468085106383,
      "precision_any_label": 0.8890140845070422,
      "leak_core": 0.34156368590055464,
@@ -8709,8 +10833,8 @@
     },
     "piimask-en": {
      "recall": 0.35287081339712917,
-     "precision": 0.921875,
-     "f2": 0.4025655021834061,
+     "precision": 0.9645669291338582,
+     "f2": 0.40412766576083914,
      "recall_any_type": 0.35287081339712917,
      "precision_any_label": 0.921875,
      "leak_core": 0.6661585365853658,
@@ -8757,8 +10881,8 @@
     },
     "piimask-tr": {
      "recall": 0.883304940374787,
-     "precision": 0.8871794871794871,
-     "f2": 0.8840771399820427,
+     "precision": 0.8978354978354979,
+     "f2": 0.8861733037087678,
      "recall_any_type": 0.8960817717206133,
      "precision_any_label": 0.8871794871794871,
      "leak_core": 0.12391555087508149,
@@ -8811,8 +10935,716 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.03786686229072645,
-      -0.0130611624178147
+      -0.03745931878616328,
+      -0.012697371615520987
+     ]
+    },
+    "piimask-tr-en": {
+     "recall": 0.7205882352941176,
+     "precision": 0.8596491228070176,
+     "f2": 0.7446808510638298,
+     "recall_any_type": 0.7205882352941176,
+     "precision_any_label": 0.8596491228070176,
+     "leak_core": 0.2904231625835189,
+     "leak_all_labels": 0.312473025463962,
+     "false_masks_per_1k_words": 13.66120218579235,
+     "clean_doc_rate": 0.1625,
+     "gold_core": 340,
+     "gold_all": null,
+     "docs": 80,
+     "types": {
+      "ADDRESS": {
+       "gold": 40,
+       "recall": 0.5
+      },
+      "EMAIL": {
+       "gold": 80,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 60,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 80,
+       "recall": 0.5125
+      },
+      "PHONE": {
+       "gold": 80,
+       "recall": 0.55
+      }
+     }
+    }
+   },
+   "name": "Katip rules only",
+   "size_mb": 0.3
+  },
+  "rules-v4": {
+   "tracks": {
+    "nm6k": {
+     "recall": 0.891017454235845,
+     "precision": 0.9148375768217735,
+     "f2": 0.895681724487926,
+     "recall_any_type": 0.891017454235845,
+     "precision_any_label": 0.9146134239592183,
+     "leak_core": 0.15857026807473598,
+     "leak_all_labels": 0.41118619856051863,
+     "false_masks_per_1k_words": 1.283934845097413,
+     "clean_doc_rate": 0.4700996677740864,
+     "gold_core": 2349,
+     "gold_all": null,
+     "docs": 602,
+     "types": {
+      "ADDRESS": {
+       "gold": 54,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 4,
+       "recall": 0.75
+      },
+      "BIRTH_DATE": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 35,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 110,
+       "recall": 0.6636363636363637
+      },
+      "IBAN": {
+       "gold": 14,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 23,
+       "recall": 0.9130434782608695
+      },
+      "PERSON": {
+       "gold": 1536,
+       "recall": 0.861328125
+      },
+      "PHONE": {
+       "gold": 91,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 44,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 242,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 12,
+       "recall": 0.9166666666666666
+      },
+      "YKN": {
+       "gold": 6,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 13.8,
+     "f2_minus_newmind_ci95": [
+      -0.06389989619201547,
+      -0.03275923673575749
+     ]
+    },
+    "nm6k-easy": {
+     "recall": 0.8626570915619389,
+     "precision": 0.8893023255813953,
+     "f2": 0.8678576333961897,
+     "recall_any_type": 0.8626570915619389,
+     "precision_any_label": 0.8917710196779964,
+     "leak_core": 0.1785335935321996,
+     "leak_all_labels": 0.4689091349984411,
+     "false_masks_per_1k_words": 1.1537984762231694,
+     "clean_doc_rate": 0.5207756232686981,
+     "gold_core": 1114,
+     "gold_all": null,
+     "docs": 361,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 3,
+       "recall": 0.6666666666666666
+      },
+      "BIRTH_DATE": {
+       "gold": 29,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 15,
+       "recall": 1.0
+      },
+      "DRESS": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "EMAIL": {
+       "gold": 39,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 60,
+       "recall": 0.7666666666666667
+      },
+      "IBAN": {
+       "gold": 9,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 14,
+       "recall": 0.9285714285714286
+      },
+      "PERSON": {
+       "gold": 675,
+       "recall": 0.8014814814814815
+      },
+      "PHONE": {
+       "gold": 41,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "POLITICAL": {
+       "gold": 1,
+       "recall": 0.0
+      },
+      "TCKN": {
+       "gold": 133,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 10,
+       "recall": 0.9
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "nm6k-hard": {
+     "recall": 0.9165991902834008,
+     "precision": 0.9376558603491272,
+     "f2": 0.920734524775761,
+     "recall_any_type": 0.9165991902834008,
+     "precision_any_label": 0.9352750809061489,
+     "leak_core": 0.13972097920505397,
+     "leak_all_labels": 0.34644078333851414,
+     "false_masks_per_1k_words": 1.5480175699994194,
+     "clean_doc_rate": 0.3941908713692946,
+     "gold_core": 1235,
+     "gold_all": null,
+     "docs": 241,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 1,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 20,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 52,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 50,
+       "recall": 0.54
+      },
+      "IBAN": {
+       "gold": 5,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 3,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 9,
+       "recall": 0.8888888888888888
+      },
+      "PERSON": {
+       "gold": 861,
+       "recall": 0.908246225319396
+      },
+      "PHONE": {
+       "gold": 50,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 16,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 109,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 2,
+       "recall": 1.0
+      },
+      "YKN": {
+       "gold": 3,
+       "recall": 1.0
+      }
+     }
+    },
+    "werea": {
+     "recall": 0.8291666666666667,
+     "precision": 1.0,
+     "f2": 0.8584987057808456,
+     "recall_any_type": 0.8291666666666667,
+     "precision_any_label": 1.0,
+     "leak_core": 0.3034814977008977,
+     "leak_all_labels": 0.4219516627294203,
+     "false_masks_per_1k_words": 0.0,
+     "clean_doc_rate": 0.3051643192488263,
+     "gold_core": 240,
+     "gold_all": null,
+     "docs": 240,
+     "types": {
+      "ADDRESS": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "IP_ADDRESS": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 53,
+       "recall": 0.22641509433962265
+      },
+      "RELIGION": {
+       "gold": 27,
+       "recall": 1.0
+      },
+      "SEXUAL_LIFE": {
+       "gold": 26,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.2123771046102207,
+      0.38264885370278734
+     ]
+    },
+    "cagri": {
+     "recall": 0.8857589984350548,
+     "precision": 0.9759036144578314,
+     "f2": 0.9024305746927335,
+     "recall_any_type": 0.8857589984350548,
+     "precision_any_label": 0.9765100671140939,
+     "leak_core": 0.09346204475647214,
+     "leak_all_labels": 0.4605748345708946,
+     "false_masks_per_1k_words": 1.805985552115583,
+     "clean_doc_rate": 0.7152777777777778,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 550,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 0.9583333333333334
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.7222222222222222
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.8545454545454545
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.7630057803468208
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.8
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 0.8
+    },
+    "cagri-negatif": {
+     "recall": NaN,
+     "precision": 0.0,
+     "f2": NaN,
+     "recall_any_type": NaN,
+     "precision_any_label": 0.0,
+     "leak_core": NaN,
+     "leak_all_labels": NaN,
+     "false_masks_per_1k_words": 3.392705682782019,
+     "clean_doc_rate": NaN,
+     "gold_core": 0,
+     "gold_all": null,
+     "docs": 200,
+     "types": {}
+    },
+    "cagri-tam": {
+     "recall": 0.8857589984350548,
+     "precision": 0.9826689774696707,
+     "f2": 0.9035810779611156,
+     "recall_any_type": 0.8857589984350548,
+     "precision_any_label": 0.9831081081081081,
+     "leak_core": 0.09346204475647214,
+     "leak_all_labels": 0.4605748345708946,
+     "false_masks_per_1k_words": 1.5213753232922562,
+     "clean_doc_rate": 0.7152777777777778,
+     "gold_core": 639,
+     "gold_all": null,
+     "docs": 350,
+     "types": {
+      "ADDRESS": {
+       "gold": 24,
+       "recall": 0.9583333333333334
+      },
+      "BIOMETRIC_GENETIC": {
+       "gold": 18,
+       "recall": 0.7222222222222222
+      },
+      "BIRTH_DATE": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "CREDIT_CARD": {
+       "gold": 37,
+       "recall": 0.972972972972973
+      },
+      "CRIMINAL_RECORD": {
+       "gold": 18,
+       "recall": 0.5555555555555556
+      },
+      "EMAIL": {
+       "gold": 36,
+       "recall": 1.0
+      },
+      "ETHNICITY": {
+       "gold": 18,
+       "recall": 1.0
+      },
+      "HEALTH": {
+       "gold": 55,
+       "recall": 0.8545454545454545
+      },
+      "IBAN": {
+       "gold": 27,
+       "recall": 0.7777777777777778
+      },
+      "IP_ADDRESS": {
+       "gold": 28,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 32,
+       "recall": 0.96875
+      },
+      "PERSON": {
+       "gold": 173,
+       "recall": 0.7630057803468208
+      },
+      "PHONE": {
+       "gold": 32,
+       "recall": 1.0
+      },
+      "PLATE": {
+       "gold": 24,
+       "recall": 1.0
+      },
+      "RELIGION": {
+       "gold": 12,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 53,
+       "recall": 1.0
+      },
+      "UNION": {
+       "gold": 10,
+       "recall": 0.8
+      },
+      "VKN": {
+       "gold": 14,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.12155913182999747,
+      0.1968261953395624
+     ]
+    },
+    "piimask": {
+     "recall": 0.7140425531914893,
+     "precision": 0.9071706503613118,
+     "f2": 0.7457971945021226,
+     "recall_any_type": 0.7140425531914893,
+     "precision_any_label": 0.8952127659574468,
+     "leak_core": 0.284299892964873,
+     "leak_all_labels": 0.33065635308838587,
+     "false_masks_per_1k_words": 5.696769902547642,
+     "clean_doc_rate": 0.2921686746987952,
+     "gold_core": 2350,
+     "gold_all": null,
+     "docs": 400,
+     "types": {
+      "ADDRESS": {
+       "gold": 222,
+       "recall": 0.6846846846846847
+      },
+      "BIRTH_DATE": {
+       "gold": 98,
+       "recall": 0.3469387755102041
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 388,
+       "recall": 0.9639175257731959
+      },
+      "IBAN": {
+       "gold": 148,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 640,
+       "recall": 0.5328125
+      },
+      "PHONE": {
+       "gold": 462,
+       "recall": 0.6125541125541125
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 234,
+       "recall": 0.8034188034188035
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "ms_per_doc": 4.1
+    },
+    "piimask-en": {
+     "recall": 0.37200956937799046,
+     "precision": 0.9666666666666667,
+     "f2": 0.4241999510846048,
+     "recall_any_type": 0.37200956937799046,
+     "precision_any_label": 0.9255952380952381,
+     "leak_core": 0.6309589800443459,
+     "leak_all_labels": 0.6600063836578359,
+     "false_masks_per_1k_words": 1.8165964249382358,
+     "clean_doc_rate": 0.0,
+     "gold_core": 836,
+     "gold_all": null,
+     "docs": 140,
+     "types": {
+      "ADDRESS": {
+       "gold": 50,
+       "recall": 0.0
+      },
+      "BIRTH_DATE": {
+       "gold": 64,
+       "recall": 0.0
+      },
+      "CREDIT_CARD": {
+       "gold": 56,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 150,
+       "recall": 0.9066666666666666
+      },
+      "IBAN": {
+       "gold": 26,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 244,
+       "recall": 0.06967213114754098
+      },
+      "PHONE": {
+       "gold": 150,
+       "recall": 0.17333333333333334
+      },
+      "TCKN": {
+       "gold": 96,
+       "recall": 0.5208333333333334
+      }
+     }
+    },
+    "piimask-tr": {
+     "recall": 0.9557069846678024,
+     "precision": 0.905144694533762,
+     "f2": 0.9451476060916914,
+     "recall_any_type": 0.9557069846678024,
+     "precision_any_label": 0.8951548848292296,
+     "leak_core": 0.03134246025776039,
+     "leak_all_labels": 0.09480294296827405,
+     "false_masks_per_1k_words": 7.378011290593036,
+     "clean_doc_rate": 0.5915492957746479,
+     "gold_core": 1174,
+     "gold_all": null,
+     "docs": 180,
+     "types": {
+      "ADDRESS": {
+       "gold": 132,
+       "recall": 1.0
+      },
+      "BIRTH_DATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "EMAIL": {
+       "gold": 158,
+       "recall": 1.0
+      },
+      "IBAN": {
+       "gold": 62,
+       "recall": 1.0
+      },
+      "PASSPORT": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "PERSON": {
+       "gold": 316,
+       "recall": 0.8955696202531646
+      },
+      "PHONE": {
+       "gold": 232,
+       "recall": 0.9181034482758621
+      },
+      "PLATE": {
+       "gold": 34,
+       "recall": 1.0
+      },
+      "TCKN": {
+       "gold": 138,
+       "recall": 1.0
+      },
+      "VKN": {
+       "gold": 34,
+       "recall": 1.0
+      }
+     },
+     "f2_minus_newmind_ci95": [
+      0.013805037690387881,
+      0.05494925895808161
      ]
     },
     "piimask-tr-en": {
@@ -8859,8 +11691,8 @@
    "tracks": {
     "nm6k": {
      "recall": 0.5495955725840783,
-     "precision": 0.027799692319829594,
-     "f2": 0.11560773791656065,
+     "precision": 0.03483687592684132,
+     "f2": 0.13895337242603653,
      "recall_any_type": 0.6343124733929332,
      "precision_any_label": 0.09967345940943301,
      "leak_core": 0.10939615488762523,
@@ -8942,14 +11774,14 @@
      },
      "ms_per_doc": 1072.4,
      "f2_minus_newmind_ci95": [
-      -0.8451223962373248,
-      -0.8058628114280469
+      -0.8223570456944117,
+      -0.7822236716332785
      ]
     },
     "nm6k-easy": {
      "recall": 0.5457809694793537,
-     "precision": 0.019678154162686458,
-     "f2": 0.08598937038752676,
+     "precision": 0.024846910372982,
+     "f2": 0.1050963314188294,
      "recall_any_type": 0.6328545780969479,
      "precision_any_label": 0.07965773790202163,
      "leak_core": 0.12517424031223864,
@@ -9032,8 +11864,8 @@
     },
     "nm6k-hard": {
      "recall": 0.5530364372469636,
-     "precision": 0.04436583830450553,
-     "f2": 0.16793930314326805,
+     "precision": 0.05475397706252312,
+     "f2": 0.19610680918445067,
      "recall_any_type": 0.6356275303643725,
      "precision_any_label": 0.140762854172775,
      "leak_core": 0.09449855225059225,
@@ -9160,8 +11992,8 @@
     },
     "cagri": {
      "recall": 0.2269170579029734,
-     "precision": 0.16799420709630702,
-     "f2": 0.21204255474719408,
+     "precision": 0.18969746524938674,
+     "f2": 0.21834883108082676,
      "recall_any_type": 0.352112676056338,
      "precision_any_label": 0.7419847328244275,
      "leak_core": 0.393505923650724,
@@ -9264,8 +12096,8 @@
     },
     "cagri-tam": {
      "recall": 0.2269170579029734,
-     "precision": 0.20095279341706365,
-     "f2": 0.22120096870769054,
+     "precision": 0.2297029702970297,
+     "f2": 0.2274688210840066,
      "recall_any_type": 0.352112676056338,
      "precision_any_label": 0.8161209068010076,
      "leak_core": 0.393505923650724,
@@ -9350,14 +12182,14 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.5605640201653077,
-      -0.4839503223991971
+      -0.5551012638479615,
+      -0.4762748717211698
      ]
     },
     "piimask": {
      "recall": 0.2663829787234043,
-     "precision": 0.08220062734485516,
-     "f2": 0.1839497803857082,
+     "precision": 0.1366354853550069,
+     "f2": 0.22386672302875704,
      "recall_any_type": 0.36936170212765956,
      "precision_any_label": 0.29048527451851464,
      "leak_core": 0.08158995815899582,
@@ -9417,8 +12249,8 @@
     },
     "piimask-en": {
      "recall": 0.09808612440191387,
-     "precision": 0.043129170509412465,
-     "f2": 0.07816573005281072,
+     "precision": 0.07921482662415305,
+     "f2": 0.09362526684421812,
      "recall_any_type": 0.19138755980861244,
      "precision_any_label": 0.22202518983312872,
      "leak_core": 0.09652161862527717,
@@ -9465,8 +12297,8 @@
     },
     "piimask-tr": {
      "recall": 0.4190800681431005,
-     "precision": 0.12991679273827533,
-     "f2": 0.2899904046914058,
+     "precision": 0.19352112676056338,
+     "f2": 0.33985607969188897,
      "recall_any_type": 0.5485519591141397,
      "precision_any_label": 0.36325141149119894,
      "leak_core": 0.07321598716212828,
@@ -9519,14 +12351,14 @@
       }
      },
      "f2_minus_newmind_ci95": [
-      -0.6429414031417787,
-      -0.5934745216198962
+      -0.5948282172833789,
+      -0.5461533232649395
      ]
     },
     "piimask-tr-en": {
      "recall": 0.15294117647058825,
-     "precision": 0.14363066400683955,
-     "f2": 0.15098374482087965,
+     "precision": 0.207663782447466,
+     "f2": 0.16145009388352527,
      "recall_any_type": 0.18823529411764706,
      "precision_any_label": 0.4392434988179669,
      "leak_core": 0.07438752783964366,

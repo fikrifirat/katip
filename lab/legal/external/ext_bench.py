@@ -276,7 +276,7 @@ def _doc_counts(d, ps, mp):
         c["la"] += e - s; c["la_left"] += int((~masked[s:e]).sum())
     for a, b, pt in ps:
         c["pu"] += 1; c["pu_ok"] += BS.true_span(text, a, b, allg)               # any-type precision vs every label
-        if pt not in BS.TYPES: continue
+        if pt not in BS.TYPES or pt not in set(mp.values()): continue   # a type this set never labels: neutral
         if out_scope and BS.true_span(text, a, b, out_scope) and not BS.true_span(text, a, b, [(s, e) for s, e, _ in core]):
             continue                                                             # mostly inside a value outside the core: neutral
         c["p"] += 1; c["p_ok"] += BS.true_span(text, a, b, [(s, e) for s, e, gt in core if pt in ACCEPT[gt]])
