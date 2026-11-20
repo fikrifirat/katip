@@ -2,7 +2,7 @@
 
 **English** · [Türkçe](PRIVACY.tr.md)
 
-Last updated: 16 November 2026. This statement covers the Katip web app (fikrifirat.github.io/katip and the
+Last updated: 20 November 2026. This statement covers the Katip web app (fikrifirat.github.io/katip and the
 Hugging Face Space), the `katip-mask` packages for Python and JavaScript, and the Katip Kalkan connector for
 Claude. Contact: fikrifirat@gmail.com, or [GitHub issues](https://github.com/fikrifirat/katip/issues) (never post real personal data there). It will move to the author's own
 site later; this file stays as a copy.
@@ -19,6 +19,7 @@ miss values, so you still review the output. Short answers: [FAQ.md](FAQ.md).
 | | Where documents are processed | What leaves your computer | What is stored |
 |---|---|---|---|
 | **Web app** | In your browser tab | Nothing. The page's Content-Security-Policy blocks sending data to other addresses. You download the masked copy yourself. | Nothing. Closing the tab discards the document. |
+| **Send page** (`gonder.html`) | In your browser tab | Nothing by default. You open Claude or ChatGPT with the masked text yourself, or copy or share it. Only if you choose "Ask here with your own API key", the masked text (never the original or the placeholder map) goes from your browser straight to api.anthropic.com or api.openai.com under your own account; the page's CSP allows only those two addresses. | In your browser's storage: language, profile, a send record (time, profile, destination, counts of each data type, never values) and your grades. Your API key only if you tick "Remember on this device". The placeholder map lives only in the open tab. |
 | **katip-mask (Python, npm)** | In your own program | Nothing, unless you pass `model=`: then the model files are downloaded once from Hugging Face at a fixed commit and checked by SHA-256. No text is sent. | Downloaded models in `~/.cache/katip-mask`. |
 | **Katip Kalkan (Claude)** | On your computer, by a local program that Claude starts | Only the masked text, to Claude, which you chose to use. On first start, open-source helper packages are downloaded once from PyPI. | The placeholder map (`[AD SOYAD-1]` → real name), encrypted with AES-256-GCM in `~/.katip/vault`, deleted after 30 days or on request. Details: [connector/PRIVACY.md](connector/PRIVACY.md). |
 
