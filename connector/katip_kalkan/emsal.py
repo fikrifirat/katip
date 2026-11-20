@@ -291,9 +291,12 @@ def find(queries: list[str], matter: str = "default", reference: str = "", domai
     """queries: 1-5 short lowercase keyword queries (written by Claude from the masked text, or by Katip).
     reference: masked text to rank against (never sent anywhere). domain: 'ceza' or 'hukuk' adds a pass
     over that General Assembly."""
-    if os.environ.get("KATIP_EMSAL_ONLINE", "1").strip().lower() in ("0", "false", "no", "off"):
-        raise PermissionError("Yargıtay kararı arama Katip ayarlarında kapalı (precedent_search); açılırsa yalnızca "
-                              "anahtar kelimeler gönderilir. · Precedent search is turned off in Katip's settings.")
+    # Off unless the lawyer turns it on: Katip makes no network requests by default.
+    if os.environ.get("KATIP_EMSAL_ONLINE", "0").strip().lower() not in ("1", "true", "yes", "on"):
+        raise PermissionError("Yargıtay kararı arama kapalı. Açmak için Katip ayarlarında 'Yargıtay kararı arama'yı "
+                              "açın (KATIP_EMSAL_ONLINE=1); açıkken yalnızca küçük harfli anahtar kelimeler gönderilir. "
+                              "· Precedent search is off. Turn on 'Precedent search' in Katip's settings "
+                              "(KATIP_EMSAL_ONLINE=1); only lowercase keywords are sent.")
     secrets = secret_words(matter)
     stat = statutes(reference) if reference else []
     qs = list(dict.fromkeys([q for q in queries if q.strip()] + contrast_queries(stat, reference)))[:6]

@@ -223,7 +223,7 @@ the [Katip Mask Nano model card](https://huggingface.co/f1k/katip-mask-nano) and
   Desktop's own permission prompts are the guard.
 * **Sends:** nothing while processing documents, and no telemetry, analytics or crash reporting. Claude
   receives only the masked text, under Anthropic's terms. The one exception is precedent search
-  (`emsal_ara`), when Claude calls it: short lowercase keyword queries go to the Ministry of Justice's
+  (`emsal_ara`), off by default; once you turn it on and Claude calls it, short lowercase keyword queries go to the Ministry of Justice's
   public decision search, never the document or personal data (details and the off switch in
   [PRIVACY.md](PRIVACY.md)).
 * **Fetches, once:** on first start, if uv is installed, uv downloads exact pinned versions of

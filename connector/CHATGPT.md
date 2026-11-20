@@ -58,8 +58,8 @@ Settings: `PORT` (8787), `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1),
 per drop), `KATIP_RELAY_MAX_TOTAL_MB` (256), `KATIP_RELAY_DROPS_PER_HOUR` (60 uploads per address),
 `KATIP_RELAY_ORIGINS` (web origins allowed to upload, e.g. `https://fikrifirat.github.io`),
 `KATIP_RELAY_UPLOAD_TOKEN` (optional bearer token for uploads; the CLI reads it too),
-`KATIP_RELAY_PUBLIC_URL` (sets the view's `domain` for ChatGPT), `KATIP_EMSAL_ONLINE` (`0` turns precedent
-search off), `KATIP_HOME` (where decision texts, runs and verdicts are kept).
+`KATIP_RELAY_PUBLIC_URL` (sets the view's `domain` for ChatGPT), `KATIP_EMSAL_ONLINE` (precedent search is off
+unless this is `1`; the relay's Dockerfile sets it), `KATIP_HOME` (where decision texts, runs and verdicts are kept).
 
 ## Add it to ChatGPT (testing)
 

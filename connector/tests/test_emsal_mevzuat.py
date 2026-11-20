@@ -34,6 +34,7 @@ DECISIONS = {
 @pytest.fixture(autouse=True)
 def fake_court(tmp_path, monkeypatch):
     monkeypatch.setenv("KATIP_HOME", str(tmp_path / "katip"))
+    monkeypatch.setenv("KATIP_EMSAL_ONLINE", "1")
     sent = []
 
     def post(endpoint, data):
@@ -166,3 +167,10 @@ def test_judged_again_latest_verdict_wins():
     assert g["grades_on_this_computer"] == 1
     s = emsal.feedback()
     assert s["grades"] == 1 and s["on_point"] == 1
+
+
+def test_precedent_search_is_off_by_default(fake_court, monkeypatch):
+    monkeypatch.delenv("KATIP_EMSAL_ONLINE", raising=False)
+    with pytest.raises(PermissionError):
+        emsal.find(["kenevir kullanmak esrar"])
+    assert fake_court == []                                   # nothing was sent
