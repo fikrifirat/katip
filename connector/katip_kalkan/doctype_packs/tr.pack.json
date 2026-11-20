@@ -1,0 +1,1657 @@
+{
+ "lang": "tr",
+ "version": "0.1",
+ "threshold": 0.5,
+ "note": {
+  "tr": "Madde ve süreler yol göstericidir; güncel metni ve somut olayı kontrol edin.",
+  "en": "Articles and time limits are pointers; check the current text and the facts."
+ },
+ "types": [
+  {
+   "id": "dilekce",
+   "name": {
+    "local": "Dava / talep dilekçesi",
+    "en": "Petition (claim or request)"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 119",
+     "law": "6100",
+     "art": "119",
+     "why": {
+      "tr": "Dava dilekçesinin içeriği",
+      "en": "Required contents of a statement of claim"
+     }
+    },
+    {
+     "ref": "HMK md. 114",
+     "law": "6100",
+     "art": "114",
+     "why": {
+      "tr": "Dava şartları",
+      "en": "Procedural prerequisites"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "dava dilekçesi HMK 119 eksiklik kesin süre",
+     "en": "statement of claim missing elements, final time limit"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "cite_check",
+     "where": "device",
+     "why": {
+      "tr": "Belgedeki kanun atıflarını denetle",
+      "en": "Check the statute citations in the document"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "position",
+     "where": "network",
+     "why": {
+      "tr": "Maskeli özetle hukuki görüş taslağı (Claude/ChatGPT)",
+      "en": "Draft a legal position from the masked summary (Claude/ChatGPT)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "cevap_dilekcesi",
+   "name": {
+    "local": "Cevap dilekçesi",
+    "en": "Statement of defence"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 127",
+     "law": "6100",
+     "art": "127",
+     "why": {
+      "tr": "Cevap süresi: tebliğden itibaren iki hafta",
+      "en": "Defence due two weeks after service"
+     }
+    },
+    {
+     "ref": "HMK md. 129",
+     "law": "6100",
+     "art": "129",
+     "why": {
+      "tr": "Cevap dilekçesinin içeriği",
+      "en": "Required contents of a defence"
+     }
+    },
+    {
+     "ref": "HMK md. 136",
+     "law": "6100",
+     "art": "136",
+     "why": {
+      "tr": "Cevaba cevap ve ikinci cevap",
+      "en": "Reply and rejoinder"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "cevap süresi uzatma HMK 127",
+     "en": "extension of time for the defence"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "cite_check",
+     "where": "device",
+     "why": {
+      "tr": "Belgedeki kanun atıflarını denetle",
+      "en": "Check the statute citations in the document"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "Tebliğ tarihinden cevap süresini hesapla (kontrol edin)",
+      "en": "Work out the defence deadline from the service date (verify)"
+     }
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "position",
+     "where": "network",
+     "why": {
+      "tr": "Maskeli özetle hukuki görüş taslağı (Claude/ChatGPT)",
+      "en": "Draft a legal position from the masked summary (Claude/ChatGPT)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "kanun_yolu",
+   "name": {
+    "local": "İstinaf / temyiz dilekçesi",
+    "en": "Appeal petition"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 345",
+     "law": "6100",
+     "art": "345",
+     "why": {
+      "tr": "İstinaf süresi: iki hafta",
+      "en": "Appeal (istinaf) within two weeks"
+     }
+    },
+    {
+     "ref": "HMK md. 361",
+     "law": "6100",
+     "art": "361",
+     "why": {
+      "tr": "Temyiz süresi: iki hafta",
+      "en": "Cassation (temyiz) within two weeks"
+     }
+    },
+    {
+     "ref": "HMK md. 355",
+     "law": "6100",
+     "art": "355",
+     "why": {
+      "tr": "İstinaf incelemesinin kapsamı",
+      "en": "Scope of appellate review"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "istinaf sebepleri ile sınırlı inceleme kamu düzeni",
+     "en": "appellate review limited to grounds, public order"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "cite_check",
+     "where": "device",
+     "why": {
+      "tr": "Belgedeki kanun atıflarını denetle",
+      "en": "Check the statute citations in the document"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "Kanun yolu süresini gerekçeli kararın tebliğinden hesapla (kontrol edin)",
+      "en": "Work out the appeal deadline from service of the reasoned judgment (verify)"
+     }
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "position",
+     "where": "network",
+     "why": {
+      "tr": "Maskeli özetle hukuki görüş taslağı (Claude/ChatGPT)",
+      "en": "Draft a legal position from the masked summary (Claude/ChatGPT)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "suc_duyurusu",
+   "name": {
+    "local": "Suç duyurusu / şikâyet",
+    "en": "Criminal complaint"
+   },
+   "mevzuat": [
+    {
+     "ref": "CMK md. 158",
+     "law": "5271",
+     "art": "158",
+     "why": {
+      "tr": "İhbar ve şikâyet",
+      "en": "Reporting an offence"
+     }
+    },
+    {
+     "ref": "TCK md. 73",
+     "law": "5237",
+     "art": "73",
+     "why": {
+      "tr": "Şikâyete bağlı suçlar",
+      "en": "Offences prosecuted on complaint"
+     }
+    },
+    {
+     "ref": "CMK md. 253",
+     "law": "5271",
+     "art": "253",
+     "why": {
+      "tr": "Uzlaştırma",
+      "en": "Mediation in criminal cases"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "şikâyet süresi altı ay öğrenme tarihi",
+     "en": "six-month complaint period from knowledge"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "cite_check",
+     "where": "device",
+     "why": {
+      "tr": "Belgedeki kanun atıflarını denetle",
+      "en": "Check the statute citations in the document"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "position",
+     "where": "network",
+     "why": {
+      "tr": "Maskeli özetle hukuki görüş taslağı (Claude/ChatGPT)",
+      "en": "Draft a legal position from the masked summary (Claude/ChatGPT)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "karar",
+   "name": {
+    "local": "Mahkeme kararı",
+    "en": "Court decision"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 297",
+     "law": "6100",
+     "art": "297",
+     "why": {
+      "tr": "Hükmün kapsamı",
+      "en": "Contents of a judgment"
+     }
+    },
+    {
+     "ref": "HMK md. 341",
+     "law": "6100",
+     "art": "341",
+     "why": {
+      "tr": "İstinaf yoluna başvurulabilen kararlar",
+      "en": "Decisions open to appeal"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "kararın konusu ile aynı uyuşmazlık Yargıtay",
+     "en": "Yargıtay decisions on the same dispute"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "cite_check",
+     "where": "device",
+     "why": {
+      "tr": "Belgedeki kanun atıflarını denetle",
+      "en": "Check the statute citations in the document"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "Kanun yolu süresini tebliğden hesapla (kontrol edin)",
+      "en": "Work out the appeal deadline from service (verify)"
+     }
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "position",
+     "where": "network",
+     "why": {
+      "tr": "Maskeli özetle hukuki görüş taslağı (Claude/ChatGPT)",
+      "en": "Draft a legal position from the masked summary (Claude/ChatGPT)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "durusma_zapti",
+   "name": {
+    "local": "Duruşma zaptı",
+    "en": "Hearing minutes"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 154",
+     "law": "6100",
+     "art": "154",
+     "why": {
+      "tr": "Tutanağın içeriği",
+      "en": "Contents of the hearing record"
+     }
+    },
+    {
+     "ref": "HMK md. 94",
+     "law": "6100",
+     "art": "94",
+     "why": {
+      "tr": "Kesin süre",
+      "en": "Final time limits set by the court"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "kesin süre ihtarı içeriği açık olmalı",
+     "en": "a final time-limit warning must be explicit"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "Ara karardaki kesin süreleri listele (kontrol edin)",
+      "en": "List final time limits set in the interim decision (verify)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tutanak",
+   "name": {
+    "local": "Tutanak",
+    "en": "Official record / minutes"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 204",
+     "law": "6100",
+     "art": "204",
+     "why": {
+      "tr": "Senetlerin ispat gücü",
+      "en": "Evidential value of official documents"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "tespit tutanağı ispat gücü aksi ispat",
+     "en": "evidential value of a report, proof to the contrary"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    }
+   ]
+  },
+  {
+   "id": "bilirkisi_raporu",
+   "name": {
+    "local": "Bilirkişi raporu",
+    "en": "Expert report"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 281",
+     "law": "6100",
+     "art": "281",
+     "why": {
+      "tr": "Rapora itiraz: tebliğden itibaren iki hafta",
+      "en": "Objections within two weeks of service"
+     }
+    },
+    {
+     "ref": "HMK md. 266",
+     "law": "6100",
+     "art": "266",
+     "why": {
+      "tr": "Bilirkişiye başvurma",
+      "en": "When an expert is appointed"
+     }
+    },
+    {
+     "ref": "6754 s. Bilirkişilik K.",
+     "law": "6754",
+     "art": "",
+     "why": {
+      "tr": "Bilirkişilik Kanunu",
+      "en": "Expert Witness Act"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "bilirkişi raporu denetime elverişli değil ek rapor",
+     "en": "expert report not reviewable, supplementary report"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "Rapora itiraz süresini tebliğden hesapla (kontrol edin)",
+      "en": "Work out the objection deadline from service (verify)"
+     }
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "draft",
+     "where": "network",
+     "why": {
+      "tr": "Rapora itiraz dilekçesi taslağı",
+      "en": "Draft an objection to the report"
+     }
+    }
+   ]
+  },
+  {
+   "id": "icra_takip_talebi",
+   "name": {
+    "local": "İcra takip talebi",
+    "en": "Enforcement request"
+   },
+   "mevzuat": [
+    {
+     "ref": "İİK md. 58",
+     "law": "2004",
+     "art": "58",
+     "why": {
+      "tr": "Takip talebinin içeriği",
+      "en": "Contents of an enforcement request"
+     }
+    },
+    {
+     "ref": "İİK md. 167",
+     "law": "2004",
+     "art": "167",
+     "why": {
+      "tr": "Kambiyo senetlerine dayalı takip",
+      "en": "Enforcement based on bills and cheques"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "takip talebi alacak kalemleri faiz başlangıcı",
+     "en": "enforcement request, interest start date"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    }
+   ]
+  },
+  {
+   "id": "odeme_emri",
+   "name": {
+    "local": "Ödeme emri",
+    "en": "Payment order"
+   },
+   "mevzuat": [
+    {
+     "ref": "İİK md. 60",
+     "law": "2004",
+     "art": "60",
+     "why": {
+      "tr": "Ödeme emrinin içeriği",
+      "en": "Contents of a payment order"
+     }
+    },
+    {
+     "ref": "İİK md. 62",
+     "law": "2004",
+     "art": "62",
+     "why": {
+      "tr": "İtiraz: tebliğden itibaren 7 gün",
+      "en": "Objection within seven days of service"
+     }
+    },
+    {
+     "ref": "İİK md. 168",
+     "law": "2004",
+     "art": "168",
+     "why": {
+      "tr": "Kambiyo takibinde süreler (5 gün şikâyet/itiraz)",
+      "en": "Time limits for bills and cheques (five days)"
+     }
+    },
+    {
+     "ref": "İİK md. 67",
+     "law": "2004",
+     "art": "67",
+     "why": {
+      "tr": "İtirazın iptali davası",
+      "en": "Action to set aside the objection"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "ödeme emrine itiraz süresi tebliğ usulsüzlüğü",
+     "en": "objection to payment order, defective service"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "İtiraz süresini tebliğ tarihinden hesapla (kontrol edin)",
+      "en": "Work out the objection deadline from the service date (verify)"
+     }
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "draft",
+     "where": "network",
+     "why": {
+      "tr": "Ödeme emrine itiraz dilekçesi taslağı",
+      "en": "Draft an objection to the payment order"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ihtarname",
+   "name": {
+    "local": "İhtarname",
+    "en": "Formal notice"
+   },
+   "mevzuat": [
+    {
+     "ref": "TBK md. 117",
+     "law": "6098",
+     "art": "117",
+     "why": {
+      "tr": "Temerrüt: ihtarla borçlunun temerrüdü",
+      "en": "Default after a notice"
+     }
+    },
+    {
+     "ref": "TTK md. 18/3",
+     "law": "6102",
+     "art": "18",
+     "why": {
+      "tr": "Tacirler arası ihbar ve ihtarların şekli",
+      "en": "Form of notices between merchants"
+     }
+    },
+    {
+     "ref": "TBK md. 315",
+     "law": "6098",
+     "art": "315",
+     "why": {
+      "tr": "Kiracının temerrüdü",
+      "en": "Tenant's default"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "ihtarname temerrüt faiz başlangıcı",
+     "en": "notice of default, start of interest"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "cite_check",
+     "where": "device",
+     "why": {
+      "tr": "Belgedeki kanun atıflarını denetle",
+      "en": "Check the statute citations in the document"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "draft",
+     "where": "network",
+     "why": {
+      "tr": "İhtarnameye cevap taslağı",
+      "en": "Draft a reply to the notice"
+     }
+    }
+   ]
+  },
+  {
+   "id": "tebligat",
+   "name": {
+    "local": "Tebligat / davetiye",
+    "en": "Service of process"
+   },
+   "mevzuat": [
+    {
+     "ref": "Tebligat K. md. 21",
+     "law": "7201",
+     "art": "21",
+     "why": {
+      "tr": "Muhatap bulunamazsa tebliğ",
+      "en": "Service when the addressee is absent"
+     }
+    },
+    {
+     "ref": "Tebligat K. md. 7/a",
+     "law": "7201",
+     "art": "7/a",
+     "why": {
+      "tr": "Elektronik tebligat: beşinci günün sonu",
+      "en": "E-service: deemed served at the end of day five"
+     }
+    },
+    {
+     "ref": "Tebligat K. md. 32",
+     "law": "7201",
+     "art": "32",
+     "why": {
+      "tr": "Usulsüz tebliğ",
+      "en": "Defective service"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "usulsüz tebligat öğrenme tarihi",
+     "en": "defective service, date of knowledge"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "Tebliğ tarihini ve bağlı süreleri çıkar (kontrol edin)",
+      "en": "Extract the service date and the deadlines it starts (verify)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "vekaletname",
+   "name": {
+    "local": "Vekâletname",
+    "en": "Power of attorney"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 74",
+     "law": "6100",
+     "art": "74",
+     "why": {
+      "tr": "Özel yetki gerektiren işler",
+      "en": "Acts needing special authority"
+     }
+    },
+    {
+     "ref": "HMK md. 76",
+     "law": "6100",
+     "art": "76",
+     "why": {
+      "tr": "Vekâletnamenin verilmesi",
+      "en": "Filing the power of attorney"
+     }
+    },
+    {
+     "ref": "TBK md. 502",
+     "law": "6098",
+     "art": "502",
+     "why": {
+      "tr": "Vekâlet sözleşmesi",
+      "en": "Contract of agency"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "vekaletnamede özel yetki feragat sulh",
+     "en": "special authority for waiver or settlement"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    }
+   ]
+  },
+  {
+   "id": "kira_sozlesmesi",
+   "name": {
+    "local": "Kira sözleşmesi",
+    "en": "Lease agreement"
+   },
+   "mevzuat": [
+    {
+     "ref": "TBK md. 299",
+     "law": "6098",
+     "art": "299",
+     "why": {
+      "tr": "Kira sözleşmesi",
+      "en": "Lease"
+     }
+    },
+    {
+     "ref": "TBK md. 344",
+     "law": "6098",
+     "art": "344",
+     "why": {
+      "tr": "Kira bedelinin belirlenmesi",
+      "en": "Rent adjustment"
+     }
+    },
+    {
+     "ref": "TBK md. 347",
+     "law": "6098",
+     "art": "347",
+     "why": {
+      "tr": "Konut ve çatılı işyeri kirasında bildirim",
+      "en": "Notice for residential and business leases"
+     }
+    },
+    {
+     "ref": "TBK md. 350",
+     "law": "6098",
+     "art": "350",
+     "why": {
+      "tr": "Kiraya verenin ihtiyacı nedeniyle tahliye",
+      "en": "Eviction for the landlord's need"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "kira tespit davası emsal kira bedeli hakkaniyet",
+     "en": "rent determination, comparable rents, equity"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    }
+   ]
+  },
+  {
+   "id": "is_sozlesmesi",
+   "name": {
+    "local": "İş sözleşmesi",
+    "en": "Employment contract"
+   },
+   "mevzuat": [
+    {
+     "ref": "İş K. md. 8",
+     "law": "4857",
+     "art": "8",
+     "why": {
+      "tr": "İş sözleşmesi",
+      "en": "Employment contract"
+     }
+    },
+    {
+     "ref": "İş K. md. 17",
+     "law": "4857",
+     "art": "17",
+     "why": {
+      "tr": "Süreli fesih ve ihbar süreleri",
+      "en": "Notice periods"
+     }
+    },
+    {
+     "ref": "İş K. md. 18",
+     "law": "4857",
+     "art": "18",
+     "why": {
+      "tr": "Feshin geçerli sebebe dayandırılması",
+      "en": "Valid reason for dismissal"
+     }
+    },
+    {
+     "ref": "7036 s. İş Mahkemeleri K. md. 3",
+     "law": "7036",
+     "art": "3",
+     "why": {
+      "tr": "Arabuluculuk dava şartı",
+      "en": "Mandatory mediation before suit"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "belirli süreli iş sözleşmesi zincirleme esaslı neden",
+     "en": "chained fixed-term contracts, objective reason"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    }
+   ]
+  },
+  {
+   "id": "sozlesme",
+   "name": {
+    "local": "Sözleşme (diğer)",
+    "en": "Contract (other)"
+   },
+   "mevzuat": [
+    {
+     "ref": "TBK md. 1",
+     "law": "6098",
+     "art": "1",
+     "why": {
+      "tr": "Sözleşmenin kurulması",
+      "en": "Formation of contract"
+     }
+    },
+    {
+     "ref": "TBK md. 179",
+     "law": "6098",
+     "art": "179",
+     "why": {
+      "tr": "Ceza koşulu",
+      "en": "Penalty clause"
+     }
+    },
+    {
+     "ref": "TBK md. 20",
+     "law": "6098",
+     "art": "20",
+     "why": {
+      "tr": "Genel işlem koşulları",
+      "en": "Standard terms"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "cezai şart fahiş indirim tacir",
+     "en": "excessive penalty clause reduction, merchants"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    },
+    {
+     "tool": "position",
+     "where": "network",
+     "why": {
+      "tr": "Maskeli özetle hukuki görüş taslağı (Claude/ChatGPT)",
+      "en": "Draft a legal position from the masked summary (Claude/ChatGPT)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "sirket_karari",
+   "name": {
+    "local": "Yönetim kurulu / genel kurul kararı",
+    "en": "Corporate resolution"
+   },
+   "mevzuat": [
+    {
+     "ref": "TTK md. 390",
+     "law": "6102",
+     "art": "390",
+     "why": {
+      "tr": "Yönetim kurulu toplantı ve karar nisabı",
+      "en": "Board quorum"
+     }
+    },
+    {
+     "ref": "TTK md. 445",
+     "law": "6102",
+     "art": "445",
+     "why": {
+      "tr": "Genel kurul kararlarının iptali",
+      "en": "Annulment of shareholder resolutions"
+     }
+    },
+    {
+     "ref": "TTK md. 391",
+     "law": "6102",
+     "art": "391",
+     "why": {
+      "tr": "Yönetim kurulunun batıl kararları",
+      "en": "Void board resolutions"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "genel kurul kararının iptali üç ay hak düşürücü",
+     "en": "annulment of general meeting resolution, three-month limit"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "emsal",
+     "where": "network",
+     "why": {
+      "tr": "Yargıtay kararlarında emsal ara (sorgu gösterilir, belge gönderilmez)",
+      "en": "Search Yargıtay precedents (query shown, document not sent)"
+     },
+     "kalkan_tool": "emsal_ara"
+    }
+   ]
+  },
+  {
+   "id": "fatura",
+   "name": {
+    "local": "Fatura / makbuz",
+    "en": "Invoice / receipt"
+   },
+   "mevzuat": [
+    {
+     "ref": "TTK md. 21/2",
+     "law": "6102",
+     "art": "21",
+     "why": {
+      "tr": "Faturaya sekiz gün içinde itiraz",
+      "en": "Object to an invoice within eight days"
+     }
+    },
+    {
+     "ref": "VUK md. 230",
+     "law": "213",
+     "art": "230",
+     "why": {
+      "tr": "Faturanın şekli",
+      "en": "Form of an invoice"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "faturaya itiraz edilmemesi sözleşme ilişkisi ispat",
+     "en": "unobjected invoice, proof of contract"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    }
+   ]
+  },
+  {
+   "id": "aydinlatma_metni",
+   "name": {
+    "local": "KVKK aydınlatma metni",
+    "en": "Privacy notice (KVKK)"
+   },
+   "mevzuat": [
+    {
+     "ref": "KVKK md. 10",
+     "law": "6698",
+     "art": "10",
+     "why": {
+      "tr": "Aydınlatma yükümlülüğü",
+      "en": "Duty to inform"
+     }
+    },
+    {
+     "ref": "KVKK md. 5",
+     "law": "6698",
+     "art": "5",
+     "why": {
+      "tr": "İşleme şartları",
+      "en": "Lawful grounds for processing"
+     }
+    },
+    {
+     "ref": "Aydınlatma Tebliği (2018)",
+     "law": "",
+     "art": "",
+     "why": {
+      "tr": "Aydınlatma yükümlülüğünün usul ve esasları",
+      "en": "Communiqué on the duty to inform"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "aydınlatma yükümlülüğü açık rıza ayrı alınmalı Kurul kararı",
+     "en": "duty to inform, explicit consent must be separate"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "kvkk_check",
+     "where": "device",
+     "why": {
+      "tr": "Aydınlatma metnindeki zorunlu unsurları denetle",
+      "en": "Check the notice for the required elements"
+     }
+    }
+   ]
+  },
+  {
+   "id": "kvkk_basvuru",
+   "name": {
+    "local": "KVKK başvurusu / şikâyeti",
+    "en": "Data subject request / complaint"
+   },
+   "mevzuat": [
+    {
+     "ref": "KVKK md. 11",
+     "law": "6698",
+     "art": "11",
+     "why": {
+      "tr": "İlgili kişinin hakları",
+      "en": "Data subject rights"
+     }
+    },
+    {
+     "ref": "KVKK md. 13",
+     "law": "6698",
+     "art": "13",
+     "why": {
+      "tr": "Başvuruya en geç otuz günde cevap",
+      "en": "Reply within thirty days"
+     }
+    },
+    {
+     "ref": "KVKK md. 14",
+     "law": "6698",
+     "art": "14",
+     "why": {
+      "tr": "Kurula şikâyet",
+      "en": "Complaint to the Board"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "ilgili kişi başvurusu cevap süresi otuz gün",
+     "en": "data subject request, thirty-day reply"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "tr": "Otuz günlük cevap süresini başvuru tarihinden hesapla (kontrol edin)",
+      "en": "Work out the thirty-day reply deadline (verify)"
+     }
+    },
+    {
+     "tool": "draft",
+     "where": "network",
+     "why": {
+      "tr": "Başvuruya cevap taslağı",
+      "en": "Draft a reply to the request"
+     }
+    }
+   ]
+  },
+  {
+   "id": "saglik_raporu",
+   "name": {
+    "local": "Sağlık raporu / epikriz",
+    "en": "Medical report"
+   },
+   "mevzuat": [
+    {
+     "ref": "KVKK md. 6",
+     "law": "6698",
+     "art": "6",
+     "why": {
+      "tr": "Özel nitelikli kişisel veri (sağlık)",
+      "en": "Special category data (health)"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "sağlık verisi açık rıza işveren paylaşım",
+     "en": "health data shared with employer without consent"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Sağlık verisi dahil maskele (özel nitelikli)",
+      "en": "Mask, including health data (special category)"
+     },
+     "kalkan_tool": "mask_file"
+    },
+    {
+     "tool": "mevzuat",
+     "where": "device",
+     "why": {
+      "tr": "İlgili maddeleri çevrimdışı göster",
+      "en": "Show related statute articles offline"
+     },
+     "kalkan_tool": "mevzuat_bak"
+    }
+   ]
+  },
+  {
+   "id": "yazisma",
+   "name": {
+    "local": "E-posta / mektup",
+    "en": "Correspondence"
+   },
+   "mevzuat": [],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    }
+   ]
+  },
+  {
+   "id": "mesajlasma",
+   "name": {
+    "local": "Mesajlaşma dökümü",
+    "en": "Chat transcript"
+   },
+   "mevzuat": [
+    {
+     "ref": "HMK md. 199",
+     "law": "6100",
+     "art": "199",
+     "why": {
+      "tr": "Belge (elektronik veriler dahil)",
+      "en": "Documents, electronic data included"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "whatsapp yazışması delil değeri",
+     "en": "evidential value of WhatsApp messages"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    }
+   ]
+  },
+  {
+   "id": "diger",
+   "name": {
+    "local": "Diğer / tanınmadı",
+    "en": "Other / not recognised"
+   },
+   "mevzuat": [],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "where": "device",
+     "why": {
+      "tr": "Kişisel verileri cihazda maskele",
+      "en": "Mask personal data on this device"
+     },
+     "kalkan_tool": "mask_file"
+    }
+   ]
+  }
+ ]
+}

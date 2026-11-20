@@ -1,0 +1,207 @@
+{
+ "samples": {
+  "n": 80,
+  "acc": 0.9375,
+  "macro_f1": 0.9333333333333333,
+  "acc_ci": [
+   87.5,
+   98.8
+  ],
+  "macro_f1_ci": [
+   92.9,
+   93.3
+  ],
+  "abstain_rate": 0.0625,
+  "acc_no_abstain": 0.9375,
+  "coverage": 0.9375,
+  "acc_when_answered": 1.0,
+  "keyword_baseline": {
+   "n": 80,
+   "acc": 0.8,
+   "macro_f1": 0.7925925925925926
+  },
+  "ms_per_doc": 1.8,
+  "top_confusions": [
+   "tutanak -> diger: 5"
+  ],
+  "by_group": {
+   "aydinlatma": "5/5",
+   "bilirkisi": "5/5",
+   "dilekce": "5/5",
+   "epikriz": "5/5",
+   "eposta": "5/5",
+   "fatura": "5/5",
+   "icra": "5/5",
+   "ihtarname": "5/5",
+   "is_sozlesmesi": "5/5",
+   "karar": "5/5",
+   "kira_sozlesmesi": "5/5",
+   "mektup": "5/5",
+   "mesaj": "5/5",
+   "tutanak": "0/5",
+   "vekaletname": "5/5",
+   "zabit": "5/5"
+  },
+  "per_type": {
+   "aydinlatma_metni": "5/5",
+   "bilirkisi_raporu": "5/5",
+   "dilekce": "5/5",
+   "durusma_zapti": "5/5",
+   "fatura": "5/5",
+   "icra_takip_talebi": "5/5",
+   "ihtarname": "5/5",
+   "is_sozlesmesi": "5/5",
+   "karar": "5/5",
+   "kira_sozlesmesi": "5/5",
+   "mesajlasma": "5/5",
+   "saglik_raporu": "5/5",
+   "tutanak": "0/5",
+   "vekaletname": "5/5",
+   "yazisma": "10/10"
+  }
+ },
+ "forms": {
+  "n": 306,
+  "acc": 0.826797385620915,
+  "macro_f1": 0.8525481502669717,
+  "acc_ci": [
+   78.4,
+   86.6
+  ],
+  "macro_f1_ci": [
+   80.0,
+   89.1
+  ],
+  "abstain_rate": 0.0196078431372549,
+  "acc_no_abstain": 0.8333333333333334,
+  "coverage": 0.9803921568627451,
+  "acc_when_answered": 0.8433333333333334,
+  "keyword_baseline": {
+   "n": 306,
+   "acc": 0.5849673202614379,
+   "macro_f1": 0.5488396624472573
+  },
+  "ms_per_doc": 2.4,
+  "top_confusions": [
+   "dilekce -> kvkk_basvuru: 27",
+   "dilekce -> odeme_emri: 9",
+   "dilekce -> suc_duyurusu: 9",
+   "dilekce -> diger: 6",
+   "kanun_yolu -> dilekce: 2"
+  ],
+  "by_group": {
+   "adli-yardim": "9/9",
+   "baro-adli-yardim": "3/9",
+   "baro-ruhsat": "6/9",
+   "baro-staj": "1/9",
+   "baro-staj-nakil": "0/9",
+   "bosanma": "9/9",
+   "cevap": "9/9",
+   "dava-alacak": "9/9",
+   "feragat": "9/9",
+   "icra-takip": "9/9",
+   "idare-iptal": "9/9",
+   "ihtarname": "9/9",
+   "is-arabulucu": "9/9",
+   "is-iscilik": "9/9",
+   "istinaf": "7/9",
+   "itiraz-bilirkisi": "9/9",
+   "kira-tahliye": "9/9",
+   "kvkk-basvuru": "9/9",
+   "mirasciik": "9/9",
+   "nafaka": "9/9",
+   "odeme-emri-itiraz": "0/9",
+   "sikayet-icra": "9/9",
+   "suc-duyurusu": "9/9",
+   "tanik-listesi": "9/9",
+   "tapu-iptal": "9/9",
+   "tedbir": "9/9",
+   "trafik-tazminat": "9/9",
+   "tuketici": "2/9",
+   "tutuklama-itiraz": "9/9",
+   "uzlasma": "0/9",
+   "vekaletname": "9/9",
+   "vergi-itiraz": "9/9",
+   "vesayet": "9/9",
+   "yabanci-ikamet": "9/9"
+  },
+  "per_type": {
+   "cevap_dilekcesi": "9/9",
+   "dilekce": "192/243",
+   "icra_takip_talebi": "9/9",
+   "ihtarname": "9/9",
+   "kanun_yolu": "7/9",
+   "kvkk_basvuru": "9/9",
+   "suc_duyurusu": "9/9",
+   "vekaletname": "9/9"
+  }
+ },
+ "legalner_karar": {
+  "n": 73,
+  "acc": 0.9726027397260274,
+  "macro_f1": 0.9861111111111112,
+  "acc_ci": [
+   93.2,
+   100.0
+  ],
+  "macro_f1_ci": [
+   96.5,
+   100.0
+  ],
+  "abstain_rate": 0.0136986301369863,
+  "acc_no_abstain": 0.9726027397260274,
+  "coverage": 0.9863013698630136,
+  "acc_when_answered": 0.9861111111111112,
+  "keyword_baseline": {
+   "n": 73,
+   "acc": 0.0958904109589041,
+   "macro_f1": 0.175
+  },
+  "ms_per_doc": 6.9,
+  "top_confusions": [
+   "karar -> kanun_yolu: 1",
+   "karar -> diger: 1"
+  ],
+  "by_group": {
+   "yargitay": "71/73"
+  },
+  "per_type": {
+   "karar": "71/73"
+  }
+ },
+ "wiki_diger": {
+  "n": 100,
+  "acc": 0.88,
+  "macro_f1": 0.9361702127659575,
+  "acc_ci": [
+   81.0,
+   94.0
+  ],
+  "macro_f1_ci": [
+   89.5,
+   96.9
+  ],
+  "abstain_rate": 0.0,
+  "acc_no_abstain": 0.69,
+  "coverage": 1.0,
+  "acc_when_answered": 0.0,
+  "keyword_baseline": {
+   "n": 100,
+   "acc": 0.98,
+   "macro_f1": 0.98989898989899
+  },
+  "ms_per_doc": 4.3,
+  "top_confusions": [
+   "diger -> sirket_karari: 5",
+   "diger -> tutanak: 4",
+   "diger -> suc_duyurusu: 2",
+   "diger -> is_sozlesmesi: 1"
+  ],
+  "by_group": {
+   "wiki": "88/100"
+  },
+  "per_type": {
+   "diger": "88/100"
+  }
+ }
+}

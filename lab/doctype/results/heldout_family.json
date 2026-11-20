@@ -1,0 +1,119 @@
+{
+ "test_family": {
+  "n": 2880,
+  "acc": 0.8951388888888889,
+  "macro_f1": 0.872943337006392,
+  "acc_ci": [
+   88.4,
+   90.7
+  ],
+  "macro_f1_ci": [
+   86.4,
+   88.2
+  ],
+  "abstain_rate": 0.008680555555555556,
+  "acc_no_abstain": 0.8899305555555556,
+  "coverage": 0.9913194444444444,
+  "acc_when_answered": 0.8995649021029731,
+  "keyword_baseline": {
+   "n": 2880,
+   "acc": 0.5934027777777777,
+   "macro_f1": 0.547634244719986
+  },
+  "ms_per_doc": 2.2,
+  "top_confusions": [
+   "karar -> kanun_yolu: 107",
+   "sozlesme -> sirket_karari: 100",
+   "icra_takip_talebi -> odeme_emri: 28",
+   "diger -> yazisma: 18",
+   "sozlesme -> diger: 15",
+   "kira_sozlesmesi -> tutanak: 6",
+   "tebligat -> durusma_zapti: 5",
+   "diger -> mesajlasma: 5"
+  ],
+  "per_type": {
+   "aydinlatma_metni": "120/120",
+   "bilirkisi_raporu": "119/120",
+   "cevap_dilekcesi": "118/120",
+   "diger": "97/120",
+   "dilekce": "119/120",
+   "durusma_zapti": "118/120",
+   "fatura": "120/120",
+   "icra_takip_talebi": "92/120",
+   "ihtarname": "120/120",
+   "is_sozlesmesi": "119/120",
+   "kanun_yolu": "119/120",
+   "karar": "13/120",
+   "kira_sozlesmesi": "114/120",
+   "kvkk_basvuru": "120/120",
+   "mesajlasma": "116/120",
+   "odeme_emri": "120/120",
+   "saglik_raporu": "119/120",
+   "sirket_karari": "119/120",
+   "sozlesme": "5/120",
+   "suc_duyurusu": "120/120",
+   "tebligat": "111/120",
+   "tutanak": "120/120",
+   "vekaletname": "120/120",
+   "yazisma": "120/120"
+  }
+ },
+ "test_family_clean": {
+  "n": 1440,
+  "acc": 0.9055555555555556,
+  "macro_f1": 0.8775227604804371,
+  "acc_ci": [
+   89.1,
+   92.1
+  ],
+  "macro_f1_ci": [
+   87.0,
+   88.4
+  ],
+  "abstain_rate": 0.0006944444444444445,
+  "acc_no_abstain": 0.89375,
+  "coverage": 0.9993055555555556,
+  "acc_when_answered": 0.9025270758122743,
+  "keyword_baseline": {
+   "n": 1440,
+   "acc": 0.6465277777777778,
+   "macro_f1": 0.5771999153523161
+  },
+  "ms_per_doc": 2.4,
+  "top_confusions": [
+   "karar -> kanun_yolu: 60",
+   "sozlesme -> sirket_karari: 59",
+   "icra_takip_talebi -> odeme_emri: 9",
+   "diger -> yazisma: 4",
+   "diger -> mesajlasma: 2",
+   "mesajlasma -> yazisma: 1",
+   "sozlesme -> diger: 1"
+  ],
+  "per_type": {
+   "aydinlatma_metni": "60/60",
+   "bilirkisi_raporu": "60/60",
+   "cevap_dilekcesi": "60/60",
+   "diger": "54/60",
+   "dilekce": "60/60",
+   "durusma_zapti": "60/60",
+   "fatura": "60/60",
+   "icra_takip_talebi": "51/60",
+   "ihtarname": "60/60",
+   "is_sozlesmesi": "60/60",
+   "kanun_yolu": "60/60",
+   "karar": "0/60",
+   "kira_sozlesmesi": "60/60",
+   "kvkk_basvuru": "60/60",
+   "mesajlasma": "59/60",
+   "odeme_emri": "60/60",
+   "saglik_raporu": "60/60",
+   "sirket_karari": "60/60",
+   "sozlesme": "0/60",
+   "suc_duyurusu": "60/60",
+   "tebligat": "60/60",
+   "tutanak": "60/60",
+   "vekaletname": "60/60",
+   "yazisma": "60/60"
+  }
+ }
+}

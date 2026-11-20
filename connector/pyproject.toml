@@ -20,4 +20,4 @@ katip-kalkan = "katip_kalkan.cli:main"
 include = ["katip_kalkan*"]
 
 [tool.setuptools.package-data]
-katip_kalkan = ["engine.zip", "data/statutes.json.gz", "ui/*.html", "models/*/*.json", "models/*/onnx/*.onnx", "models/README.md", "ocr_models/*/*"]
+katip_kalkan = ["engine.zip", "data/statutes.json.gz", "ui/*.html", "doctype_packs/*", "models/*/*.json", "models/*/onnx/*.onnx", "models/README.md", "ocr_models/*/*"]

@@ -110,6 +110,10 @@
       "description": "Avukatın karara verdiği puanı bu bilgisayarda saklar · Save the lawyer's grade for a decision, on this computer"
     },
     {
+      "name": "scan_documents",
+      "description": "Belgelerin türünü bu bilgisayarda çıkarır, metin dönmez · Name each document's type on this computer, no text returned"
+    },
+    {
       "name": "katip_status",
       "description": "Motoru, eşiği ve eşleşme haritasının yerini gösterir · Show engine, threshold and map location"
     }
