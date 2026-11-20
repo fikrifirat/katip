@@ -1,0 +1,129 @@
+{
+ "run": "fitted",
+ "f": 32,
+ "T": 1024,
+ "window": 16,
+ "docs": [
+  "wiki-wiki-test-239",
+  "tlner-legal-unseen-616",
+  "wiki-wiki-test-797",
+  "wiki-wiki-test-180",
+  "wiki-wiki-test-416",
+  "tlner-legal-unseen-455",
+  "wiki-wiki-test-998",
+  "tlner-legal-unseen-72",
+  "tlner-legal-unseen-246",
+  "tlner-legal-unseen-1448",
+  "tlner-legal-unseen-184",
+  "wiki-wiki-test-984",
+  "wiki-wiki-test-298",
+  "tlner-legal-unseen-88",
+  "wiki-wiki-test-964",
+  "wiki-wiki-test-396",
+  "tlner-legal-unseen-1969",
+  "wiki-wiki-test-761",
+  "tlner-legal-unseen-2294",
+  "wiki-wiki-test-205",
+  "wiki-wiki-test-595",
+  "wiki-wiki-test-746",
+  "wiki-wiki-test-920",
+  "wiki-wiki-test-270",
+  "wiki-wiki-test-438"
+ ],
+ "tokens": 1021,
+ "words": 614,
+ "ring_dim": 65536,
+ "keygen_s": 6.6,
+ "keys": {
+  "public_key_MB": 17.8,
+  "relin_key_MB": 69.2,
+  "rotation_keys_MB": 4360.3
+ },
+ "batches": [
+  {
+   "windows": 25,
+   "tokens": 1021,
+   "encrypt_s": 0.6,
+   "upload_MB": 71.3,
+   "upload_ciphertexts": 4,
+   "server_s": 667.4,
+   "server_breakdown_s": {
+    "Q, K, V": 138.7,
+    "attention": 105.2,
+    "output + LayerNorm": 94.2,
+    "feed-forward + LayerNorm": 235.4,
+    "feed-forward + LayerNorm + classifier": 93.2
+   },
+   "ops": {
+    "rotations": 3900,
+    "pt_mults": 12416
+   },
+   "download_MB": 2.1,
+   "decrypt_s": 0.03,
+   "max_abs_logit_error": 2.6152770290721605e-05,
+   "token_label_agreement": 1.0
+  }
+ ],
+ "pipeline_identical_docs": 1.0,
+ "pipeline_score_plain": {
+  "KVKK-F2": 62.82,
+  "generated": NaN,
+  "leak%": 33.58,
+  "court-filled F2": 95.63,
+  "prose F2": 30.0,
+  "court-filled R/P": [
+   96.97,
+   90.62
+  ],
+  "prose R/P": [
+   30.0,
+   30.0
+  ]
+ },
+ "pipeline_score_encrypted": {
+  "KVKK-F2": 62.82,
+  "generated": NaN,
+  "leak%": 33.58,
+  "court-filled F2": 95.63,
+  "prose F2": 30.0,
+  "court-filled R/P": [
+   96.97,
+   90.62
+  ],
+  "prose R/P": [
+   30.0,
+   30.0
+  ]
+ },
+ "model_identical_docs": 1.0,
+ "model_score_plain": {
+  "KVKK-F2": 55.21,
+  "generated": NaN,
+  "leak%": 46.36,
+  "court-filled F2": 79.17,
+  "prose F2": 31.25,
+  "court-filled R/P": [
+   75.76,
+   96.55
+  ],
+  "prose R/P": [
+   30.0,
+   37.5
+  ]
+ },
+ "model_score_encrypted": {
+  "KVKK-F2": 55.21,
+  "generated": NaN,
+  "leak%": 46.36,
+  "court-filled F2": 79.17,
+  "prose F2": 31.25,
+  "court-filled R/P": [
+   75.76,
+   96.55
+  ],
+  "prose R/P": [
+   30.0,
+   37.5
+  ]
+ }
+}
