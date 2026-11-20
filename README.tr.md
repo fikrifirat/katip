@@ -202,13 +202,15 @@ türlü model kodu için).
 - [x] Cihaz üzerinde isim etiketleyici, herkese açık demo, Hugging Face Space ve model
 - [x] İsim, adres ve sağlık terimleri için BERTurk modeli ([`ml/berturk/`](ml/berturk/))
 - [x] BERTurk ile tüm akış: kör sette 757'de 757
-- [ ] GitHub Pages'e sığan daha küçük (damıtılmış) BERTurk
+- [x] GitHub Pages'e sığan daha küçük (damıtılmış) BERTurk ([Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini), 31 MB, tarayıcıda varsayılan)
 - [ ] Demoda ikinci karşılaştırma olarak hazır bir Türkçe NER modeli
 - [ ] Pilot bürolardan, izinli gerçek belgelerle değerlendirme
 - [ ] Dizüstü ve telefon süreleri; daha küçük ilk indirme
-- [ ] Kurum ve mahkeme adları, esas/karar numaraları, daha fazla KVKK md. 6 kategorisi
-- [ ] Excel, e-posta (`.eml`, `.msg`) ve klasörle toplu işlem
-- [ ] Çevrimdışı kullanım için tarayıcı eklentisi ve masaüstü uygulaması
+- [x] Kurum ve mahkeme adları, esas/karar numaraları, daha fazla KVKK md. 6 kategorisi
+- [x] Klasörle toplu işlem ([Katip Klasör](desktop/))
+- [ ] Excel ve e-posta (`.eml`, `.msg`)
+- [x] Çevrimdışı kullanım için masaüstü uygulaması ([Katip Klasör](desktop/), imzasız v0.1, Mac ve Windows)
+- [ ] Tarayıcı eklentisi
 
 ## Sorular, pilot ve iletişim
 

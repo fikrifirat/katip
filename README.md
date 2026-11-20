@@ -218,13 +218,15 @@ name-only and the multi-type model code).
 - [x] On-device name tagger, public demo, Hugging Face Space and model
 - [x] BERTurk model for names, addresses and health terms ([`ml/berturk/`](ml/berturk/))
 - [x] Full pipeline with BERTurk: 757 / 757 on the blind set
-- [ ] A smaller distilled BERTurk that fits on GitHub Pages
+- [x] A smaller distilled BERTurk that fits on GitHub Pages ([Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini), 31 MB, the browser default)
 - [ ] A stock Turkish NER model as a second baseline in the demo
 - [ ] Evaluation on real, consented documents from pilot firms
 - [ ] Laptop and phone timings; smaller first download
-- [ ] Organisation and court names, case numbers, more KVKK art. 6 categories
-- [ ] Excel, e-mail (`.eml`, `.msg`) and batch folders
-- [ ] Packaged as a browser extension and a desktop app for offline use
+- [x] Organisation and court names, case numbers, more KVKK art. 6 categories
+- [x] Batch folders ([Katip Klasör](desktop/))
+- [ ] Excel and e-mail (`.eml`, `.msg`)
+- [x] A desktop app for offline use ([Katip Klasör](desktop/), unsigned v0.1 for Mac and Windows)
+- [ ] A browser extension
 
 ## Questions, pilots and contact
 
