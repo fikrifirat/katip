@@ -320,8 +320,9 @@ katip-kalkan share dilekce.docx --relay https://<relay>
 # prints katip-AbC....xyz  (works once, for 15 minutes)
 ```
 
-Paste the code into ChatGPT with the Katip app enabled. ChatGPT fetches the masked text from
-the relay. The relay only ever holds masked text, encrypted, in memory.
+Paste the code into ChatGPT with the Katip connector enabled. ChatGPT fetches the masked text from
+the relay. The relay only ever holds masked text, encrypted, in memory. In the same chat it can search
+Yargıtay decisions (with the gavel button) and read statutes. Setup and limits: [CHATGPT.md](CHATGPT.md).
 
 ## Tools
 
@@ -338,6 +339,7 @@ the relay. The relay only ever holds masked text, encrypted, in memory.
 | `geri_bildirim` | Saves the lawyer's grade (0/1/2, would cite, note) for one `emsal_ara` result, on this computer | count of grades |
 | `katip_status` | Shows the engine, OCR, threshold, your folder (with a link) and where the map is kept | status |
 | `open_masked_document` (relay) | Opens a share code | masked text |
+| `emsal_ara`, `mevzuat_bak`, `geri_bildirim` (relay) | The same research tools for ChatGPT; verdicts are stored on the relay, without notes | as above |
 
 ## Developers
 
@@ -358,7 +360,7 @@ same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece m
 Face `tokenizers` exactly.
 Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.5; was 0.7 before 0.3.6), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
 `KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
-`KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`.
+`KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`; the other relay settings are in [CHATGPT.md](CHATGPT.md).
 
 Blind set (80 synthetic legal documents, 757 values, `.txt`, `ai` profile; a value counts only when no word
 of it is left readable): 0.3.6 at threshold 0.5, rules + Nano v1.1: 748. Earlier, at threshold 0.7 with
