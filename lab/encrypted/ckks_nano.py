@@ -263,6 +263,7 @@ class Server:
         del q, k, v
         self._tick("attention", t0); t0 = time.time()
         y = self._linear([(x, F.Ax), (a, F.Ba)], H, F.c1)
+        self._rcache = {}                                   # x is no longer needed
         self._tick("output + LayerNorm", t0); t0 = time.time()
         hp = self._linear([(y, F.W1)], F.W1.shape[0], F.b1)
         sq = [cc.EvalSquare(t) for t in hp]; del hp
@@ -278,6 +279,102 @@ class Server:
             x = self.layer(x, F, masks_pt, last=i == len(self.F) - 1)
             self.log(f"    layer {i + 1}: {time.time() - t0:.0f}s  {self.timings}", flush=True)
         return x
+
+
+class ServerTake2(Server):
+    """Take 2: same maths, same answers, faster on a multi-core CPU.
+
+    1. openfhe-python releases the GIL, and OpenMP inside one CKKS operation barely helps at these sizes, so
+       independent operations run on a thread pool (one thread per core) with OMP_NUM_THREADS=1.
+    2. Attention's 32 rotations per ciphertext and its products also run on the pool (take 2b).
+    3. Rotations of a ciphertext are computed once per layer and reused: x feeds Q, K, V and the residual
+       (4 linear layers), y feeds the FFN and its residual, so those rotations were being redone.
+    """
+
+    def __init__(self, *a, threads=None, **kw):
+        super().__init__(*a, **kw)
+        from concurrent.futures import ThreadPoolExecutor
+        self.pool = ThreadPoolExecutor(threads or os.cpu_count())
+        self._rcache = {}
+
+    def _map(self, fn, items):
+        return list(self.pool.map(fn, items))
+
+    def _rots_par(self, ct, steps):
+        """Hoisted rotations of one ciphertext, the rotations themselves spread over the thread pool."""
+        pre = self.cc.EvalFastRotationPrecompute(ct)
+        self.counts["rotations"] = self.counts.get("rotations", 0) + len([s for s in steps if s])
+        rs = self._map(lambda s: ct if s == 0 else self.cc.EvalFastRotation(ct, s, self.M, pre), steps)
+        return dict(zip(steps, rs))
+
+    def _rot_all(self, cts):
+        """Block rotations (multiples of T) for every ciphertext, cached by object identity for this layer."""
+        T, f = self.lay.T, self.lay.f
+        todo = [c for c in cts if id(c) not in self._rcache]
+        for c, R in zip(todo, self._map(lambda c: self._rots(c, [k * T for k in range(f)]), todo)):
+            self._rcache[id(c)] = (c, R)
+        return [self._rcache[id(c)][1] for c in cts]
+
+    def _linear(self, terms, n_out, bias):
+        cc, f, T = self.cc, self.lay.f, self.lay.T
+        nJ = (n_out + f - 1) // f
+        prepared = []
+        for cts, W in terms:
+            Wp = np.zeros((nJ * f, len(cts) * f)); Wp[:W.shape[0], :W.shape[1]] = W
+            prepared.append((self._rot_all(cts), Wp))
+        bp = np.zeros(nJ * f); bp[:len(bias)] = bias
+        b = np.arange(f)
+        def block(J):
+            acc = None
+            for Rs, Wp in prepared:
+                for I, R in enumerate(Rs):
+                    for k in range(f):
+                        diag = Wp[J * f + b, I * f + (b + k) % f]
+                        if not diag.any(): continue
+                        t = cc.EvalMult(R[k * T], cc.MakeCKKSPackedPlaintext(np.repeat(diag, T).tolist()))
+                        acc = t if acc is None else cc.EvalAdd(acc, t)
+            return cc.EvalAdd(acc, cc.MakeCKKSPackedPlaintext(np.repeat(bp[J * f:(J + 1) * f], T).tolist()))
+        return self._map(block, range(nJ))
+
+    def layer(self, x, F, masks_pt, last):
+        cc, W, f = self.cc, self.lay.window, self.lay.f
+        H = len(x) * f; d = H // self.heads; per = d // f
+        offs = list(range(-W, W + 1)); self._rcache = {}
+        t0 = time.time()
+        q = self._linear([(x, F.Wq)], H, F.bq); k = self._linear([(x, F.Wk)], H, F.bk); v = self._linear([(x, F.Wv)], H, F.bv)
+        self._tick("Q, K, V", t0); t0 = time.time()
+        a = [None] * len(v)
+        for h in range(self.heads):
+            Is = list(range(h * per, (h + 1) * per))
+            kr = {I: self._rots_par(k[I], offs) for I in Is}
+            def score(r):
+                acc = None
+                for I in Is:
+                    t = cc.EvalMultNoRelin(q[I], kr[I][r]); acc = t if acc is None else cc.EvalAdd(acc, t)
+                s = self._block_sum(cc.Relinearize(acc))
+                return cc.EvalSquare(cc.EvalAdd(s, 1.0))
+            p = dict(zip(offs, self._map(score, offs))); del kr
+            vr = {I: self._rots_par(v[I], offs) for I in Is}
+            def term(Ir):
+                I, r = Ir
+                return cc.EvalMultNoRelin(p[r], cc.EvalMult(vr[I][r], masks_pt[r]))
+            for I in Is:                                   # products in parallel, then a sum and one relinearization
+                ts = self._map(term, [(I, r) for r in offs])
+                acc = ts[0]
+                for t in ts[1:]: acc = cc.EvalAdd(acc, t)
+                a[I] = cc.Relinearize(acc)
+            del vr, p
+        del q, k, v
+        self._tick("attention", t0); t0 = time.time()
+        y = self._linear([(x, F.Ax), (a, F.Ba)], H, F.c1)
+        self._rcache = {}                                   # x is no longer needed
+        self._tick("output + LayerNorm", t0); t0 = time.time()
+        hp = self._linear([(y, F.W1)], F.W1.shape[0], F.b1)
+        sq = self._map(cc.EvalSquare, hp); del hp
+        out = self._linear([(y, F.Ay), (sq, F.Bs)], F.Ay.shape[0], F.c2)
+        self._tick("feed-forward + LayerNorm" + (" + classifier" if last else ""), t0)
+        self._rcache = {}
+        return out
 
 
 # ----------------------------------------------------------------------------------------------- client

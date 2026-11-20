@@ -49,6 +49,8 @@ def windows_of(tg, text):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("run"); ap.add_argument("--batches", type=int, default=1)
     ap.add_argument("--f", type=int, default=32); ap.add_argument("--slots", type=int, default=32768)
+    ap.add_argument("--take", type=int, default=1, help="1: first engine, 2: threaded + rotation reuse")
+    ap.add_argument("--label", default="", help="suffix for the results file")
     ap.add_argument("--toy", action="store_true", help="insecure ring dimension 4096, for a quick code check only")
     a = ap.parse_args()
     tg = tagger_for(a.run); net = tg.sess.net
@@ -64,7 +66,7 @@ def main():
     print(f"{len(chosen)} documents, {len(wins)} windows, {sum(map(len, wins))} tokens, "
           f"{sum(len(d['text'].split()) for d in chosen)} words", flush=True)
 
-    res = {"run": a.run, "f": a.f, "T": lay.T, "window": WINDOW, "docs": [d["id"] for d in chosen],
+    res = {"run": a.run, "take": a.take, "f": a.f, "T": lay.T, "window": WINDOW, "docs": [d["id"] for d in chosen],
            "tokens": sum(map(len, wins)), "words": sum(len(d["text"].split()) for d in chosen)}
     t0 = time.time(); ctx = C.make_context(lay.rotations(), ring_dim=4096, secure=False) if a.toy else C.make_context(lay.rotations())
     res["ring_dim"] = ctx.ring_dim; res["keygen_s"] = round(time.time() - t0, 1)
@@ -72,7 +74,8 @@ def main():
     res["keys"] = C.key_bytes(ctx); print("keys", res["keys"], flush=True)
 
     F = C.fold(net, 3.0)
-    cl = C.Client(ctx, net, lay); srv = C.Server(ctx.cc, F, net.heads, lay)
+    cl = C.Client(ctx, net, lay)
+    srv = (C.ServerTake2 if a.take == 2 else C.Server)(ctx.cc, F, net.heads, lay)
     embs = cl.embed(wins)
     with torch.no_grad():
         plain = [net(torch.tensor([w]), torch.ones(1, len(w), dtype=torch.long))[0].double().numpy() for w in wins]
@@ -105,7 +108,7 @@ def main():
         res[f"{mode}_score_encrypted"] = E.summary(E.BS.score(chosen, p_enc))
     print(json.dumps({k: v for k, v in res.items() if k != "docs"}, indent=1), flush=True)
     out = HERE / "results"; out.mkdir(exist_ok=True)
-    (out / f"encrypted_{a.run}.json").write_text(json.dumps(res, indent=1, default=float))
+    (out / f"encrypted_{a.run}{'_take%d' % a.take if a.take > 1 else ''}{a.label}.json").write_text(json.dumps(res, indent=1, default=float))
 
 
 if __name__ == "__main__":
