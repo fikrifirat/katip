@@ -329,7 +329,8 @@ Yargıtay decisions (with the gavel button) and read statutes. Setup and limits:
 | Tool | What it does | Returns |
 |---|---|---|
 | `list_files` | Finds documents in your case folder and Downloads; with `ara` it matches your words against the real names on your computer. Words in a file name that could be a person's name show as … | ids, safe names, where |
-| `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it | masked text, counts |
+| `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it. Also names the document's type on your computer and lists related articles; a precedent search is only suggested, with its query shown | masked text, counts, document type, next steps |
+| `scan_documents` | Names the type of each document in your case folder and Downloads (ödeme emri, ihtarname, karar, sözleşme…) on your computer; no text comes back. See `lab/doctype/README.md` | ids, safe names, types |
 | `write_masked_copy` | Saves `name.maskeli.docx` next to the original | path |
 | `restore_to_file` | Puts the real values back into the AI's text and saves it next to the source document (.docx, .txt or .md) | file name and count only |
 | `forget_matter` | Deletes a matter's placeholder map | ok |

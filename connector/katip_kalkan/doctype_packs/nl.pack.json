@@ -1,0 +1,844 @@
+{
+ "lang": "nl",
+ "version": "0.1",
+ "threshold": 0.5,
+ "status": "labels and actions only: no trained weights yet",
+ "note": {
+  "nl": "Artikelen en termijnen zijn aanwijzingen; controleer de actuele tekst en de feiten.",
+  "en": "Articles and time limits are pointers; check the current text and the facts."
+ },
+ "types": [
+  {
+   "id": "dagvaarding",
+   "name": {
+    "local": "Dagvaarding",
+    "en": "Writ of summons"
+   },
+   "mevzuat": [
+    {
+     "ref": "Rv art. 111",
+     "law": "BWBR0001827",
+     "art": "111",
+     "why": {
+      "nl": "Inhoud van de dagvaarding",
+      "en": "Contents of a summons"
+     }
+    },
+    {
+     "ref": "Rv art. 114",
+     "law": "BWBR0001827",
+     "art": "114",
+     "why": {
+      "nl": "Dagvaardingstermijn",
+      "en": "Summons period"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "nietigheid dagvaarding art. 111 Rv",
+     "en": "nullity of summons"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "vonnis",
+   "name": {
+    "local": "Vonnis / arrest",
+    "en": "Judgment"
+   },
+   "mevzuat": [
+    {
+     "ref": "Rv art. 230",
+     "law": "BWBR0001827",
+     "art": "230",
+     "why": {
+      "nl": "Inhoud van het vonnis",
+      "en": "Contents of a judgment"
+     }
+    },
+    {
+     "ref": "Rv art. 339",
+     "law": "BWBR0001827",
+     "art": "339",
+     "why": {
+      "nl": "Hoger beroep binnen drie maanden",
+      "en": "Appeal within three months"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "zelfde rechtsvraag",
+     "en": "same legal question"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "nl": "Appeltermijn van drie maanden berekenen (controleren)",
+      "en": "Work out the three-month appeal period (verify)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "beschikking",
+   "name": {
+    "local": "Beschikking (rechter of bestuursorgaan)",
+    "en": "Decision (court or authority)"
+   },
+   "mevzuat": [
+    {
+     "ref": "Awb art. 1:3",
+     "law": "BWBR0005537",
+     "art": "1:3",
+     "why": {
+      "nl": "Begrip besluit en beschikking",
+      "en": "Definition of an administrative decision"
+     }
+    },
+    {
+     "ref": "Awb art. 6:7",
+     "law": "BWBR0005537",
+     "art": "6:7",
+     "why": {
+      "nl": "Bezwaar- en beroepstermijn zes weken",
+      "en": "Six-week objection period"
+     }
+    },
+    {
+     "ref": "Rv art. 358",
+     "law": "BWBR0001827",
+     "art": "358",
+     "why": {
+      "nl": "Hoger beroep tegen beschikking",
+      "en": "Appeal against a court order"
+     }
+    }
+   ],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "nl": "Bezwaartermijn (6 weken) vanaf de dag na verzending berekenen (controleren)",
+      "en": "Work out the six-week objection period from the day after dispatch (verify)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "ind_beschikking",
+   "name": {
+    "local": "IND-beschikking / verblijfsdocument",
+    "en": "Immigration decision / residence document"
+   },
+   "mevzuat": [
+    {
+     "ref": "Vw 2000",
+     "law": "BWBR0011823",
+     "art": "",
+     "why": {
+      "nl": "Vreemdelingenwet 2000",
+      "en": "Aliens Act 2000"
+     }
+    },
+    {
+     "ref": "Awb art. 6:7",
+     "law": "BWBR0005537",
+     "art": "6:7",
+     "why": {
+      "nl": "Bezwaartermijn",
+      "en": "Objection period"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "verblijfsvergunning bezwaar IND",
+     "en": "residence permit objection"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "nl": "Bezwaartermijn (6 weken) vanaf de dag na verzending berekenen (controleren)",
+      "en": "Work out the six-week objection period from the day after dispatch (verify)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "belastingaanslag",
+   "name": {
+    "local": "Belastingaanslag / aangifte",
+    "en": "Tax assessment / return"
+   },
+   "mevzuat": [
+    {
+     "ref": "AWR art. 26",
+     "law": "BWBR0002320",
+     "art": "26",
+     "why": {
+      "nl": "Bezwaar tegen aanslag",
+      "en": "Objection to an assessment"
+     }
+    },
+    {
+     "ref": "Awb art. 6:7",
+     "law": "BWBR0005537",
+     "art": "6:7",
+     "why": {
+      "nl": "Bezwaartermijn",
+      "en": "Objection period"
+     }
+    }
+   ],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "nl": "Bezwaartermijn (6 weken) vanaf de dag na verzending berekenen (controleren)",
+      "en": "Work out the six-week objection period from the day after dispatch (verify)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "woz_beschikking",
+   "name": {
+    "local": "WOZ-beschikking",
+    "en": "Property valuation (WOZ) decision"
+   },
+   "mevzuat": [
+    {
+     "ref": "Wet WOZ art. 22",
+     "law": "BWBR0007119",
+     "art": "22",
+     "why": {
+      "nl": "WOZ-beschikking",
+      "en": "Valuation decision"
+     }
+    },
+    {
+     "ref": "Wet WOZ art. 26",
+     "law": "BWBR0007119",
+     "art": "26",
+     "why": {
+      "nl": "Bezwaar",
+      "en": "Objection"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "WOZ-waarde vergelijkingsobjecten",
+     "en": "WOZ value comparables"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "deadline",
+     "where": "device",
+     "why": {
+      "nl": "Bezwaartermijn (6 weken) vanaf de dag na verzending berekenen (controleren)",
+      "en": "Work out the six-week objection period from the day after dispatch (verify)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "arbeidsovereenkomst",
+   "name": {
+    "local": "Arbeidsovereenkomst",
+    "en": "Employment contract"
+   },
+   "mevzuat": [
+    {
+     "ref": "BW 7:610",
+     "law": "BWBR0005290",
+     "art": "7:610",
+     "why": {
+      "nl": "Arbeidsovereenkomst",
+      "en": "Employment contract"
+     }
+    },
+    {
+     "ref": "BW 7:668a",
+     "law": "BWBR0005290",
+     "art": "7:668a",
+     "why": {
+      "nl": "Ketenregeling",
+      "en": "Chain of fixed-term contracts"
+     }
+    },
+    {
+     "ref": "BW 7:672",
+     "law": "BWBR0005290",
+     "art": "7:672",
+     "why": {
+      "nl": "Opzegtermijnen",
+      "en": "Notice periods"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "ketenregeling opvolgend werkgeverschap",
+     "en": "successive employment chain rule"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "huurovereenkomst",
+   "name": {
+    "local": "Huurovereenkomst",
+    "en": "Lease agreement"
+   },
+   "mevzuat": [
+    {
+     "ref": "BW 7:201",
+     "law": "BWBR0005290",
+     "art": "7:201",
+     "why": {
+      "nl": "Huur",
+      "en": "Lease"
+     }
+    },
+    {
+     "ref": "BW 7:248",
+     "law": "BWBR0005290",
+     "art": "7:248",
+     "why": {
+      "nl": "Huurprijsverhoging woonruimte",
+      "en": "Rent increase (housing)"
+     }
+    },
+    {
+     "ref": "BW 7:271",
+     "law": "BWBR0005290",
+     "art": "7:271",
+     "why": {
+      "nl": "Opzegging woonruimte",
+      "en": "Termination (housing)"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "dringend eigen gebruik huur",
+     "en": "landlord's urgent own use"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "loonstrook",
+   "name": {
+    "local": "Loonstrook / jaaropgaaf",
+    "en": "Payslip / annual statement"
+   },
+   "mevzuat": [
+    {
+     "ref": "BW 7:626",
+     "law": "BWBR0005290",
+     "art": "7:626",
+     "why": {
+      "nl": "Loonspecificatie",
+      "en": "Pay statement"
+     }
+    }
+   ],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    }
+   ]
+  },
+  {
+   "id": "sommatie",
+   "name": {
+    "local": "Sommatie / ingebrekestelling",
+    "en": "Formal notice / notice of default"
+   },
+   "mevzuat": [
+    {
+     "ref": "BW 6:82",
+     "law": "BWBR0005289",
+     "art": "6:82",
+     "why": {
+      "nl": "Ingebrekestelling",
+      "en": "Notice of default"
+     }
+    },
+    {
+     "ref": "BW 6:83",
+     "law": "BWBR0005289",
+     "art": "6:83",
+     "why": {
+      "nl": "Verzuim zonder ingebrekestelling",
+      "en": "Default without notice"
+     }
+    },
+    {
+     "ref": "BW 6:96",
+     "law": "BWBR0005289",
+     "art": "6:96",
+     "why": {
+      "nl": "Buitengerechtelijke incassokosten",
+      "en": "Collection costs"
+     }
+    }
+   ],
+   "emsal": [
+    {
+     "q": "ingebrekestelling redelijke termijn",
+     "en": "notice of default, reasonable period"
+    }
+   ],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    },
+    {
+     "tool": "rechtspraak",
+     "fn": "katip_nl.rechtspraak.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Uitspraken zoeken op rechtspraak.nl (alleen ECLI/zoekterm)",
+      "en": "Search rulings on rechtspraak.nl (ECLI or query only)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "factuur",
+   "name": {
+    "local": "Factuur",
+    "en": "Invoice"
+   },
+   "mevzuat": [
+    {
+     "ref": "Wet OB 1968 art. 35a",
+     "law": "BWBR0002629",
+     "art": "35a",
+     "why": {
+      "nl": "Factuurvereisten",
+      "en": "Invoice requirements"
+     }
+    }
+   ],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    }
+   ]
+  },
+  {
+   "id": "bankafschrift",
+   "name": {
+    "local": "Bankafschrift",
+    "en": "Bank statement"
+   },
+   "mevzuat": [],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    }
+   ]
+  },
+  {
+   "id": "polis",
+   "name": {
+    "local": "Verzekeringspolis",
+    "en": "Insurance policy"
+   },
+   "mevzuat": [
+    {
+     "ref": "BW 7:925",
+     "law": "BWBR0005290",
+     "art": "7:925",
+     "why": {
+      "nl": "Verzekeringsovereenkomst",
+      "en": "Insurance contract"
+     }
+    },
+    {
+     "ref": "BW 7:928",
+     "law": "BWBR0005290",
+     "art": "7:928",
+     "why": {
+      "nl": "Mededelingsplicht",
+      "en": "Duty of disclosure"
+     }
+    }
+   ],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    },
+    {
+     "tool": "wetten",
+     "fn": "katip_nl.wetten.check_text",
+     "where": "network",
+     "why": {
+      "nl": "Artikelen op wetten.overheid.nl openen (alleen BWB-id's, geen tekst)",
+      "en": "Open articles on wetten.overheid.nl (BWB ids only, no text)"
+     }
+    }
+   ]
+  },
+  {
+   "id": "kvk_uittreksel",
+   "name": {
+    "local": "KvK-uittreksel",
+    "en": "Chamber of Commerce extract"
+   },
+   "mevzuat": [
+    {
+     "ref": "Handelsregisterwet 2007",
+     "law": "BWBR0021777",
+     "art": "",
+     "why": {
+      "nl": "Handelsregister",
+      "en": "Trade register"
+     }
+    }
+   ],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    }
+   ]
+  },
+  {
+   "id": "privacyverklaring",
+   "name": {
+    "local": "Privacyverklaring",
+    "en": "Privacy notice (GDPR)"
+   },
+   "mevzuat": [
+    {
+     "ref": "AVG art. 13",
+     "law": "",
+     "art": "13",
+     "why": {
+      "nl": "Informatie bij verzameling",
+      "en": "Information to be provided"
+     }
+    },
+    {
+     "ref": "AVG art. 14",
+     "law": "",
+     "art": "14",
+     "why": {
+      "nl": "Informatie indien niet verkregen bij betrokkene",
+      "en": "Information when not obtained from the person"
+     }
+    }
+   ],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    }
+   ]
+  },
+  {
+   "id": "overig",
+   "name": {
+    "local": "Overig / niet herkend",
+    "en": "Other / not recognised"
+   },
+   "mevzuat": [],
+   "emsal": [],
+   "steps": [
+    {
+     "tool": "mask",
+     "engine": "katip_nl.detect",
+     "where": "device",
+     "why": {
+      "nl": "Persoonsgegevens op dit apparaat maskeren",
+      "en": "Mask personal data on this device"
+     }
+    }
+   ]
+  }
+ ]
+}

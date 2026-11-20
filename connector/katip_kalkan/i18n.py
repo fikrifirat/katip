@@ -28,6 +28,7 @@ T = {
         "folder_cloud": "Bu klasör iCloud, OneDrive, Google Drive ya da Dropbox ile eşitleniyor gibi görünüyor: "
                         "müvekkil belgeleri ve gerçek adlı son metinler o hizmete de kopyalanır. Eşitlenmeyen bir klasör "
                         "seçmenizi öneririz (ör. kullanıcı klasörünüzde Davalar).",
+        "scan_note": "Türler bu bilgisayarda tahmin edildi; güven 0,5'in altındaysa \"diger\" denir. Bir belgeyle çalışmak için mask_file'a file_id verin.",
         "list_note": "Adlar bilerek kısaltıldı: kişi adı olabilecek sözcükler … olarak görünür. mask_file'a "
                      "file_id verin. Birden çok belge uyuyorsa kısaltılmış adları ve where'i gösterip kullanıcıya "
                      "hangisi olduğunu sorun. Liste en yeni belgeyle başlar.",
@@ -60,6 +61,7 @@ T = {
         "folder_cloud": "This folder seems to sync to iCloud, OneDrive, Google Drive or Dropbox, so client documents "
                         "and final texts with real names are copied there too. We recommend a folder that doesn't sync "
                         "(e.g. a Davalar folder in your user folder).",
+        "scan_note": "Types were guessed on this computer; below 0.5 confidence the type is \"diger\" (other). To work on a document, pass its file_id to mask_file.",
         "list_note": "Names are shortened on purpose: words that could be a person's name show as …. Pass "
                      "file_id to mask_file. If several documents match, show the shortened names and where, and "
                      "ask the user which one. Newest first.",
@@ -119,6 +121,10 @@ TOOLS = {
                           "atıf yapar mıydı; kısa not. Yalnızca bu bilgisayarda, karar kimliği ve sorgu kelimeleriyle "
                           "saklanır; Katip'i geliştirmek için ancak avukat dosyayı kendisi gönderirse kullanılır. "
                           "Nota müvekkil adı ya da numara yazmayın."),
+        "scan_documents": ("Belgelerin türünü çıkar (bu bilgisayarda)",
+                           "Dava klasöründeki ve İndirilenler'deki belgelerin türünü (ödeme emri, ihtarname, dilekçe, "
+                           "karar, sözleşme, tebligat…) bu bilgisayarda tanır. Metin dönmez: yalnızca kimlik, kısaltılmış "
+                           "ad, tür ve güven değeri. ara ile daraltılabilir."),
         "katip_status": ("Katip durumunu göster",
                          "Yerel motoru, OCR'ı, eşiği, Katip'in aradığı klasörleri ve eşleşme haritasının nerede "
                          "saklandığını gösterir."),
@@ -188,6 +194,10 @@ TOOLS = {
                           "Saves the lawyer's grade for an emsal_ara result: 0 not useful, 1 partly, 2 on point; whether "
                           "they would cite it; a short note. Stored only on this computer with the decision id and query "
                           "words; used to improve Katip only if the lawyer sends the file. No client names or numbers in the note."),
+        "scan_documents": ("Name each document's type (on this computer)",
+                           "Recognises the type of each document in the case folder and Downloads (payment order, formal "
+                           "notice, petition, decision, contract, service notice…) on this computer. No text comes back: "
+                           "only ids, shortened names, the type and a confidence. Narrow it with ara."),
         "katip_status": ("Katip status",
                          "Show the local engine, OCR, threshold, the folders Katip searches and where the placeholder "
                          "map is kept."),

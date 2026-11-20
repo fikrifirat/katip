@@ -49,6 +49,12 @@ placeholders such as [AD SOYAD-1] exactly as written.
 When the user wants a final document with the real names, call restore_to_file with your text and a file name such
 as cevap-dilekcesi.docx (.docx, .txt or .md). It is saved next to the document you masked last for that matter.
 Never open that file: you will only get the file path back, never the real values.
+mask_file also returns document_type (e.g. ödeme emri, ihtarname, bilirkişi raporu) and next_steps, worked out on
+the computer. Name the type, list the related articles (next_steps.mevzuat, always with "check the current text"),
+check them with mevzuat_bak (steps with kalkan_tool name the Katip tool). Offer the steps marked run "suggest"
+(emsal_ara, drafting) without running them: show the keywords you would send and wait for the user's yes. Never send
+document text to a search. If confidence is low or the type is "diger",
+don't claim a type. scan_documents lists the types of many documents at once (no text), e.g. for a data room.
 If a result has folder_warning, pass it on to the user once, in their language.
 If no document matches, ask for another word from its name, or where it is; if it is somewhere else, the user can
 add that folder in Katip's settings (Claude Desktop) or to ~/.katip/folders.txt (Claude Code).
@@ -165,6 +171,13 @@ TOOLS = [
          lambda result_id, puan, atif_yapar=None, matter="default", **kw: emsal.grade(
              result_id, puan, atif_yapar, kw.get("not", ""), matter),
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
+    Tool("scan_documents", *tool("scan_documents"),
+         {"type": "object", "properties": {INFO: LIST_NOTE,
+                                           "ara": {"type": "string", "description": "Optional words from file or folder names"},
+                                           "limit": {"type": "integer", "minimum": 1, "maximum": 200, "default": 30}},
+          "required": [INFO], "additionalProperties": False},
+         lambda ara=None, limit=30: core.scan_documents(ara, limit),
+         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
     Tool("katip_status", *tool("katip_status"),
          {"type": "object", "properties": {}, "additionalProperties": False},
          lambda: core.status(),

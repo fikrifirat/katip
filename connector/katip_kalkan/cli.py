@@ -80,6 +80,10 @@ def main(argv=None):
     p.add_argument("--matter", default="default")
     p = sub.add_parser("feedback", help="summary of precedent grades; --export writes them to one file to send")
     p.add_argument("--export")
+    p = sub.add_parser("scan", help="name the type of every document in a folder, on this computer")
+    p.add_argument("folder")
+    p.add_argument("--json", action="store_true")
+    p.add_argument("--steps", action="store_true", help="also show related statutes and suggested next steps")
     a = ap.parse_args(argv)
 
     if a.cmd == "serve":
@@ -104,6 +108,25 @@ def main(argv=None):
         print(json.dumps(core.restore_to_file(text, a.output, a.matter)))
     elif a.cmd == "install-model":
         print(install_model(a.folder, a.name, a.trust))
+    elif a.cmd == "scan":
+        from . import doctype
+        rows = doctype.scan(a.folder)
+        if a.json:
+            print(json.dumps(rows, ensure_ascii=False, indent=1))
+        for r in [] if a.json else rows:
+            if "error" in r:
+                print(f"{'?':5}  {'(unreadable: ' + r['error'] + ')':58}  {r['path']}")
+                continue
+            n = r.get("name") or {}
+            label = f"{n.get('local', r['type'])} · {n.get('en', '')}"
+            print(f"{r['confidence']:5.2f}  {label[:58]:58}  {r['path']}")
+            if a.steps and not r["abstained"]:
+                plan = doctype.next_steps({"type": r["type"], "lang": r["lang"]})
+                refs = ", ".join(m["ref"] for m in plan["mevzuat"])
+                if refs:
+                    print(f"{'':7}Mevzuat: {refs}")
+                for s in plan["steps"]:
+                    print(f"{'':7}{'→' if s['run'] == 'auto' else '?'} {s['tool']}: {s['why'].get('en', '')}")
     elif a.cmd == "forget":
         print(json.dumps(core.forget_matter(a.matter)))
     elif a.cmd == "feedback":
