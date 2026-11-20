@@ -5,6 +5,7 @@
     katip-kalkan share dilekce.docx --relay https://relay.katip.example
     katip-kalkan restore answer.txt out.txt --matter 2026/123
     katip-kalkan relay --port 8787             # run the relay (server side)
+    katip-kalkan feedback [--export grades.json]   # the lawyer's precedent grades (emsal_ara / geri_bildirim)
 """
 from __future__ import annotations
 
@@ -77,6 +78,8 @@ def main(argv=None):
     p.add_argument("--trust", type=float, help="0.5 for Base v2 and Nano v1.1 (as in registry.json)")
     p = sub.add_parser("forget")
     p.add_argument("--matter", default="default")
+    p = sub.add_parser("feedback", help="summary of precedent grades; --export writes them to one file to send")
+    p.add_argument("--export")
     a = ap.parse_args(argv)
 
     if a.cmd == "serve":
@@ -103,3 +106,6 @@ def main(argv=None):
         print(install_model(a.folder, a.name, a.trust))
     elif a.cmd == "forget":
         print(json.dumps(core.forget_matter(a.matter)))
+    elif a.cmd == "feedback":
+        from . import emsal
+        print(json.dumps(emsal.feedback(a.export), ensure_ascii=False, indent=1))

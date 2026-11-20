@@ -101,6 +101,24 @@ TOOLS = {
         "open_folder": ("Katip klasörümü aç",
                         "Katip'in varsayılan klasörünü Finder'da ya da Gezgin'de açar, yoksa oluşturur. Belgeleri buraya "
                         "taşımak gerekmez: Katip dava klasöründe ve İndirilenler'de de arar."),
+        "emsal_ara": ("Yargıtay kararı ara (yalnızca anahtar kelimeler gider)",
+                      "Belgeye ya da hukuki meseleye uyan Yargıtay kararlarını resmi kaynaktan (mevzuat.adalet.gov.tr) "
+                      "bulur. Bilgisayardan yalnızca sorgular'daki küçük harfli anahtar kelimeler çıkar; belge, maskeli "
+                      "metin ve kişi bilgisi gönderilmez, bu dosyada maskelenen bir değerin kelimesi sorguda olursa "
+                      "hiçbir şey gönderilmez. file_id verilirse belge bu bilgisayarda maskelenir ve sonuçlar ona göre "
+                      "sıralanır. Esas/karar numarası resmi metinde bulunmayan karar gösterilmez. Sorgular: 1-5 "
+                      "kelimelik, hukuki meseleyi anlatan kelimeler (ör. \"kira tespit hakkaniyet\", \"ticareti "
+                      "kullanmak kenevir\"); isim, rakam, yer adı yazmayın."),
+        "mevzuat_bak": ("Kanun maddesini oku / atıfları denetle (çevrimdışı)",
+                        "Bir kanun maddesini (ör. \"TBK 344\", \"İş Kanunu 25/II\") getirir ya da bir metindeki bütün "
+                        "kanun atıflarını denetler: madde var mı, yürürlükte mi, mülga mı, numara ile ad uyuşuyor mu. "
+                        "Tamamen bu bilgisayarda çalışır; mevzuat.adalet.gov.tr kopyasının tarihi sonuçta yazar. "
+                        "Yanıtınızda kanun maddesi gösterdiyseniz önce bununla denetleyin."),
+        "geri_bildirim": ("Karara puan ver (bu bilgisayarda saklanır)",
+                          "Avukatın emsal_ara sonucuna verdiği puanı kaydeder: 0 işe yaramaz, 1 kısmen, 2 tam isabet; "
+                          "atıf yapar mıydı; kısa not. Yalnızca bu bilgisayarda, karar kimliği ve sorgu kelimeleriyle "
+                          "saklanır; Katip'i geliştirmek için ancak avukat dosyayı kendisi gönderirse kullanılır. "
+                          "Nota müvekkil adı ya da numara yazmayın."),
         "katip_status": ("Katip durumunu göster",
                          "Yerel motoru, OCR'ı, eşiği, Katip'in aradığı klasörleri ve eşleşme haritasının nerede "
                          "saklandığını gösterir."),
@@ -125,6 +143,7 @@ TOOLS = {
         "doc_key": "belge",
         "doc_desc": "list_files'taki kısaltılmış ad (ör. \"… - Vatandaşlık Dava Dilekçesi.udf\"); onay kutusunda kullanıcıya gösterilir",
         "privacy_mask": "Belge bu bilgisayarda açılır ve maskelenir; Claude, Katip'in bulduğu kişisel verilerin yerine [AD SOYAD-1] gibi yer tutucuları görür. Katip bazı değerleri kaçırabilir.",
+        "privacy_emsal": "Yalnızca sorgulardaki anahtar kelimeler resmi karar arama servisine gider; belge ve kişi bilgisi gitmez.",
         "privacy_list": "Yalnızca dava klasöründe ve İndirilenler'de bu bilgisayarda aranır; dosya adlarındaki kişi adları gizlenir.",
         "privacy_restore": "Gerçek adlar yalnızca bu bilgisayarda, kaynak belgenin yanına yeni bir dosya olarak yazılır; Claude'a yalnızca dosya adı döner. Göndermeden önce son metni okuyun.",
     },
@@ -152,6 +171,23 @@ TOOLS = {
         "open_folder": ("Open my Katip folder",
                         "Open Katip's default folder in Finder or Explorer, creating it if needed. Documents don't have "
                         "to be moved there: Katip also searches the case folder and Downloads."),
+        "emsal_ara": ("Search Yargıtay decisions (only keywords leave)",
+                      "Finds Yargıtay decisions that fit the document or legal issue, from the official source "
+                      "(mevzuat.adalet.gov.tr). Only the lowercase keywords in queries leave this computer; never the "
+                      "document, its masked text or personal data, and if a query word is part of a value masked in "
+                      "this matter nothing is sent. With file_id the document is masked on this computer and results "
+                      "are ranked against it. A decision whose esas/karar numbers are not in the official text is not "
+                      "shown. Queries: 1-5 words naming the legal issue (e.g. \"kira tespit hakkaniyet\"); no names, "
+                      "digits or places."),
+        "mevzuat_bak": ("Read a statute article / check citations (offline)",
+                        "Returns a Turkish statute article (e.g. \"TBK 344\", \"İş Kanunu 25/II\") or checks every "
+                        "statute citation in a text: does the article exist, is it in force or repealed, do number and "
+                        "name match. Runs entirely on this computer; the date of the mevzuat.adalet.gov.tr copy is in "
+                        "the result. Check any article you cite with this first."),
+        "geri_bildirim": ("Grade a decision (kept on this computer)",
+                          "Saves the lawyer's grade for an emsal_ara result: 0 not useful, 1 partly, 2 on point; whether "
+                          "they would cite it; a short note. Stored only on this computer with the decision id and query "
+                          "words; used to improve Katip only if the lawyer sends the file. No client names or numbers in the note."),
         "katip_status": ("Katip status",
                          "Show the local engine, OCR, threshold, the folders Katip searches and where the placeholder "
                          "map is kept."),
@@ -176,6 +212,7 @@ TOOLS = {
         "doc_key": "document",
         "doc_desc": "The shortened name from list_files; shown to the user in the permission prompt",
         "privacy_mask": "The document is opened and masked on this computer; Claude sees placeholders like [AD SOYAD-1] instead of the personal data Katip finds. Katip can miss a value.",
+        "privacy_emsal": "Only the keywords in the queries go to the official decision search; never the document or personal data.",
         "privacy_list": "Only the case folder and Downloads are searched, on this computer; names in file names are hidden.",
         "privacy_restore": "Real names are written only to a new file on this computer, next to the source document; Claude gets only the file name back. Read the final text before you send it.",
     },

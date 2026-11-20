@@ -221,8 +221,11 @@ the [Katip Mask Nano model card](https://huggingface.co/f1k/katip-mask-nano) and
   `~/.katip`, it blocks the call and tells Claude to use Katip instead. It reads no file contents and
   makes no network calls. Claude Desktop chat doesn't run plugin hooks; there Katip's folder setting and
   Desktop's own permission prompts are the guard.
-* **Sends:** nothing. Katip has no telemetry, analytics or crash reporting, and makes no network calls
-  while processing documents. Claude receives only the masked text, under Anthropic's terms.
+* **Sends:** nothing while processing documents, and no telemetry, analytics or crash reporting. Claude
+  receives only the masked text, under Anthropic's terms. The one exception is precedent search
+  (`emsal_ara`), when Claude calls it: short lowercase keyword queries go to the Ministry of Justice's
+  public decision search, never the document or personal data (details and the off switch in
+  [PRIVACY.md](PRIVACY.md)).
 * **Fetches, once:** on first start, if uv is installed, uv downloads exact pinned versions of
   katip-mask 0.1.1 (the detection rules, the same as the app and the SDK), onnxruntime 1.32.0,
   numpy 2.5.4, cryptography 50.0.2, pymupdf 2.1 and rapidocr 3.10.0 from PyPI, and Python 3.12 if it's
@@ -330,6 +333,9 @@ the relay. The relay only ever holds masked text, encrypted, in memory.
 | `restore_to_file` | Puts the real values back into the AI's text and saves it next to the source document (.docx, .txt or .md) | file name and count only |
 | `forget_matter` | Deletes a matter's placeholder map | ok |
 | `open_folder` | Opens Katip's default folder in Finder or Explorer, creating it if needed | path and link |
+| `emsal_ara` | Finds Yargıtay decisions for 1–5 short keyword queries (Claude writes them from the masked text). With `file_id`, the document is masked here and the decisions are ranked against it. Only the keywords leave; a decision is shown only if its esas/karar numbers are in the official text | decision, link, outcome, quoted paragraph, `result_id` |
+| `mevzuat_bak` | Offline: reads a statute article (`TBK 344`) or checks every statute citation in a text (exists, in force, repealed, number and name match). 1,085 laws, article text for the core codes | verdicts, article text, source link, index date |
+| `geri_bildirim` | Saves the lawyer's grade (0/1/2, would cite, note) for one `emsal_ara` result, on this computer | count of grades |
 | `katip_status` | Shows the engine, OCR, threshold, your folder (with a link) and where the map is kept | status |
 | `open_masked_document` (relay) | Opens a share code | masked text |
 

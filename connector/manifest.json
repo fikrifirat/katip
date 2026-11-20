@@ -62,7 +62,8 @@
         "PYTHONPATH": "${__dirname}/server",
         "KATIP_PROFILE": "${user_config.profile}",
         "KATIP_LANG": "${user_config.language}",
-        "KATIP_MODEL": "${user_config.model}"
+        "KATIP_MODEL": "${user_config.model}",
+        "KATIP_EMSAL_ONLINE": "${user_config.precedent_search}"
       },
       "platform_overrides": {
         "win32": {
@@ -97,11 +98,30 @@
       "description": "Katip klasörünü açar · Open the Katip folder"
     },
     {
+      "name": "emsal_ara",
+      "description": "Yargıtay kararı arar; bilgisayardan yalnızca anahtar kelimeler çıkar, numaraları resmi metinle doğrulanmayan karar gösterilmez · Search Yargıtay decisions; only keywords leave, unverified decisions are not shown"
+    },
+    {
+      "name": "mevzuat_bak",
+      "description": "Kanun maddesini getirir ya da metindeki atıfları denetler, çevrimdışı · Read a statute article or check citations, offline"
+    },
+    {
+      "name": "geri_bildirim",
+      "description": "Avukatın karara verdiği puanı bu bilgisayarda saklar · Save the lawyer's grade for a decision, on this computer"
+    },
+    {
       "name": "katip_status",
       "description": "Motoru, eşiği ve eşleşme haritasının yerini gösterir · Show engine, threshold and map location"
     }
   ],
   "user_config": {
+    "precedent_search": {
+      "type": "boolean",
+      "title": "Yargıtay kararı arama / Precedent search",
+      "description": "Açıkken emsal_ara, Adalet Bakanlığı'nın herkese açık karar arama servisine (bedesten.adalet.gov.tr) yalnızca küçük harfli anahtar kelimeler gönderir; belge, maskeli metin ve kişi bilgisi gönderilmez. Kapalıyken Katip hiçbir ağ isteği yapmaz. · When on, emsal_ara sends only lowercase keywords to the Ministry of Justice's public decision search; never the document, masked text or personal data. When off, Katip makes no network requests.",
+      "required": false,
+      "default": true
+    },
     "allowed_dir": {
       "type": "directory",
       "title": "Dava dosyalarınızın klasörü / Case files folder",

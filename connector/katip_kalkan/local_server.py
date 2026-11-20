@@ -13,7 +13,7 @@ import logging
 import os
 import sys
 
-from . import __version__, core
+from . import __version__, core, emsal, mevzuat
 from .i18n import text, tool
 from .mcp_proto import Server, Tool
 
@@ -57,6 +57,12 @@ Remind the user once per conversation to review your work: Katip can miss a valu
 If the user attaches a client document to the chat instead, it has already been uploaded with the message: say so
 plainly, don't analyse it further unless they confirm, and suggest typing the document's name next time instead,
 so Katip can open it on their computer.
+For case law ("emsal", "içtihat", "Yargıtay kararı bul"), call emsal_ara with 1-5 short keyword queries that
+name the legal issue, written from the masked text (lowercase legal words; never names, digits or places), plus the
+document's file_id so results are ranked against it on this computer. Present each result with its decision
+number, link, outcome and the quoted paragraph; never invent or alter a decision number, and cite only decisions the
+tool returned. Ask the lawyer to grade the ones they read and save each grade with geri_bildirim.
+Before you state what a statute article says, or when the user asks to check citations, call mevzuat_bak (offline).
 When a Katip tool fails, explain the error in one or two plain sentences in the user's language. Never suggest
 pasting the text, attaching the file, or removing names by hand and sending it: point to the Katip app
 (https://fikrifirat.github.io/katip) instead."""
@@ -71,6 +77,7 @@ def _privacy(text: str) -> dict:
 MASK_NOTE = _privacy(text("privacy_mask"))
 LIST_NOTE = _privacy(text("privacy_list"))
 RESTORE_NOTE = _privacy(text("privacy_restore"))
+EMSAL_NOTE = _privacy(text("privacy_emsal"))
 INFO = text("info_key")  # the field's name is what Claude Desktop shows as its label ("Bilgi" / "Privacy")
 DOC = text("doc_key")    # display-only: the shortened file name, so the prompt says which document
 DOC_FIELD = {"type": "string", "description": text("doc_desc")}
@@ -118,11 +125,55 @@ TOOLS = [
          {"type": "object", "properties": {}, "additionalProperties": False},
          lambda: core.open_folder(),  # creates the folder on first use
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
+    Tool("emsal_ara", *tool("emsal_ara"),
+         {"type": "object", "properties": {
+             INFO: EMSAL_NOTE,
+             "sorgular": {"type": "array", "minItems": 1, "maxItems": 5,
+                          "items": {"type": "string", "description": "1-5 lowercase words, no names/digits/places"},
+                          "description": "Short keyword queries naming the legal issue, written from the masked text"},
+             DOC: DOC_FIELD, "file_id": FILE_ID, "matter": MATTER,
+             "alan": {"type": "string", "enum": ["ceza", "hukuk"],
+                      "description": "Criminal or civil: also searches that General Assembly (Ceza/Hukuk Genel Kurulu)"},
+             "adet": {"type": "integer", "minimum": 1, "maximum": 10, "default": 8}},
+          "required": [INFO, "sorgular"], "additionalProperties": False},
+         lambda sorgular, file_id=None, matter="default", alan=None, adet=8: _emsal(sorgular, file_id, matter, alan, adet),
+         # sends keyword queries to the court's public search: open world, read only
+         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True}),
+    Tool("mevzuat_bak", *tool("mevzuat_bak"),
+         {"type": "object", "properties": {
+             "atif": {"type": "string", "description": "One citation, e.g. \"TBK 344\" or \"6098 sayılı Kanun m. 344\""},
+             "metin": {"type": "string", "description": "A text whose statute citations should all be checked"}},
+          "additionalProperties": False},
+         lambda atif="", metin="": mevzuat.lookup(atif, metin),
+         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
+    Tool("geri_bildirim", *tool("geri_bildirim"),
+         {"type": "object", "properties": {
+             "result_id": {"type": "string", "description": "result_id from emsal_ara"},
+             "puan": {"type": "integer", "enum": [0, 1, 2], "description": "0 not useful, 1 partly, 2 on point"},
+             "atif_yapar": {"type": "boolean", "description": "Would the lawyer cite it?"},
+             "not": {"type": "string", "description": "Why, in a sentence; no client names or numbers"},
+             "matter": MATTER},
+          "required": ["result_id", "puan"], "additionalProperties": False},
+         lambda result_id, puan, atif_yapar=None, matter="default", **kw: emsal.grade(
+             result_id, puan, atif_yapar, kw.get("not", ""), matter),
+         {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
     Tool("katip_status", *tool("katip_status"),
          {"type": "object", "properties": {}, "additionalProperties": False},
          lambda: core.status(),
          {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": False}),
 ]
+
+
+def _emsal(queries, file_id, matter, domain, limit):
+    """Mask the document here (if given) and rank against its masked text; that text never leaves."""
+    ref = ""
+    if file_id:
+        first = core.mask_file(file_id=file_id, matter=matter)
+        parts = [first["masked_text"]]
+        for p in range(2, min(first["pages"], 20) + 1):
+            parts.append(core.mask_file(file_id=file_id, matter=matter, page=p)["masked_text"])
+        ref = "".join(parts)
+    return emsal.find(queries, matter, ref, domain, limit)
 
 
 def _prompt(name: str, key: str) -> dict:
