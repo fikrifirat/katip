@@ -120,7 +120,7 @@
       "title": "Yargıtay kararı arama / Precedent search",
       "description": "Açıkken emsal_ara, Adalet Bakanlığı'nın herkese açık karar arama servisine (bedesten.adalet.gov.tr) yalnızca küçük harfli anahtar kelimeler gönderir; belge, maskeli metin ve kişi bilgisi gönderilmez. Kapalıyken Katip hiçbir ağ isteği yapmaz. · When on, emsal_ara sends only lowercase keywords to the Ministry of Justice's public decision search; never the document, masked text or personal data. When off, Katip makes no network requests.",
       "required": false,
-      "default": true
+      "default": false
     },
     "allowed_dir": {
       "type": "directory",
