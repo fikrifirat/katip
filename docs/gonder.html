@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' blob: data: https://api.anthropic.com https://api.openai.com; img-src 'self' blob: data:; style-src 'self' 'unsafe-inline'; font-src 'self'; form-action 'none'; base-uri 'none'; frame-src 'none'; object-src 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0B0D10">
+<meta name="description" content="Belgenizi telefonunuzda veya bilgisayarınızda maskeleyin, yalnızca maskeli metni Claude'a veya ChatGPT'ye gönderin, cevaptaki isimleri geri koyun.">
+<title>Katip · Yapay zekâya gönder</title>
+<link rel="icon" href="mark.svg">
+<link rel="stylesheet" href="gonder.css">
+<script type="module" src="gonder.js"></script>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="./"><img src="mark.svg" width="28" height="28" alt=""><span class="word">Katip</span></a>
+  <span class="sub" data-i18n="tagline"></span>
+  <div class="seg lang" role="group" aria-label="Dil / Language"><button data-lang="tr">TR</button><button data-lang="en">EN</button></div>
+</header>
+
+<main>
+  <p class="trust" data-i18n="trust"></p>
+
+  <section class="card" id="s1">
+    <h2><span class="n">1</span> <span data-i18n="h1"></span></h2>
+    <label class="pick" for="file"><span data-i18n="pick"></span><small data-i18n="pickSub"></small></label>
+    <input type="file" id="file" accept=".pdf,.docx,.udf,.txt,.md,image/*" hidden>
+    <details id="pasteBox"><summary data-i18n="orPaste"></summary>
+      <textarea id="paste" rows="6" data-i18n-ph="pastePh"></textarea>
+      <button id="pasteGo" class="primary" data-i18n="maskThis"></button>
+    </details>
+    <p class="status" id="status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card" id="s2">
+    <h2><span class="n">2</span> <span data-i18n="h2"></span></h2>
+    <div class="seg" id="profiles" role="radiogroup"></div>
+    <p class="hint" id="profHint"></p>
+    <details class="why" id="why"><summary data-i18n="whyTitle"></summary><div id="whyBody"></div></details>
+  </section>
+
+  <section class="card hidden" id="s3">
+    <h2><span class="n">3</span> <span data-i18n="h3"></span></h2>
+    <div id="check"></div>
+    <div id="residual"></div>
+    <div id="items"></div>
+    <div class="row add">
+      <input type="text" id="addTerm" data-i18n-ph="addPh" autocomplete="off">
+      <button id="addGo" data-i18n="add"></button>
+    </div>
+    <pre id="masked" class="masked" tabindex="0"></pre>
+    <!-- Slot for the shared feedback control ("what Katip found" + judge button), designed in the precedent-finder
+         thread for the MCP, web and mobile apps. Left empty until that design lands. -->
+    <div id="feedback"></div>
+  </section>
+
+  <section class="card hidden" id="s4">
+    <h2><span class="n">4</span> <span data-i18n="h4"></span></h2>
+    <label class="tick"><input type="checkbox" id="withNote" checked> <span data-i18n="withNote"></span></label>
+    <div class="send">
+      <button class="primary" id="toClaude" data-i18n="toClaude"></button>
+      <button class="primary" id="toChatgpt" data-i18n="toChatgpt"></button>
+      <button id="share" data-i18n="share" hidden></button>
+      <button id="copy" data-i18n="copy"></button>
+    </div>
+    <p class="hint" id="sendHint" data-i18n="sendHint"></p>
+    <details id="apiBox"><summary data-i18n="apiTitle"></summary>
+      <p class="hint" data-i18n="apiHint"></p>
+      <div class="row">
+        <select id="apiProv"><option value="anthropic">Anthropic (Claude)</option><option value="openai">OpenAI (ChatGPT)</option></select>
+        <input type="text" id="apiModel" list="apiModels" autocomplete="off" spellcheck="false">
+        <datalist id="apiModels"></datalist>
+      </div>
+      <input type="password" id="apiKey" autocomplete="off" spellcheck="false" data-i18n-ph="keyPh">
+      <label class="tick"><input type="checkbox" id="apiRemember"> <span data-i18n="remember"></span></label>
+      <textarea id="apiAsk" rows="3" data-i18n-ph="askPh"></textarea>
+      <button class="primary" id="apiGo" data-i18n="ask"></button>
+    </details>
+  </section>
+
+  <section class="card hidden" id="s5">
+    <h2><span class="n">5</span> <span data-i18n="h5"></span></h2>
+    <textarea id="answer" rows="6" data-i18n-ph="answerPh"></textarea>
+    <div id="restored" class="restored hidden"></div>
+    <div class="send"><button id="copyBack" class="primary hidden" data-i18n="copyBack"></button><button id="dlBack" class="hidden" data-i18n="download"></button></div>
+  </section>
+
+  <details class="card log"><summary data-i18n="logTitle"></summary>
+    <p class="hint" data-i18n="logHint"></p>
+    <ol id="log"></ol>
+    <div class="send"><button id="logExport" data-i18n="export"></button><button id="logClear" data-i18n="clear"></button></div>
+  </details>
+
+  <p class="foot"><a href="./" data-i18n="fullApp"></a> · <a href="https://github.com/fikrifirat/katip/blob/main/PRIVACY.md" data-i18n="privacy"></a> · <a href="https://github.com/fikrifirat/katip" >GitHub</a></p>
+</main>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+</body>
+</html>

@@ -172,13 +172,34 @@ function maskedText({ spans }) {
   const r = E.pyRedact(py, "txt", new TextEncoder().encode(current.doc.text), spans, "label");
   postMessage({ type: "maskedText", text: new TextDecoder().decode(r) });
 }
+// Masked text plus the placeholder map, for the send-to-AI page: the labels come from local_formats._label, so they
+// are the same [AD SOYAD-1] style as every other Katip output. The map stays in the page and is used to put names back.
+function maskMap({ spans }) {
+  py.globals.set("_km_text", current.doc.text); py.globals.set("_km_spans", JSON.stringify(spans));
+  const r = py.runPython(`
+import json, local_formats
+from collections import defaultdict
+def _km():
+    c, seen, out, pos, m = defaultdict(int), {}, [], 0, {}
+    for sp in sorted(json.loads(_km_spans), key=lambda s: s["start"]):
+        if sp["start"] < pos:
+            continue
+        lab = local_formats._label(sp, c, seen)
+        m.setdefault(lab, sp["text"])
+        out.append(_km_text[pos:sp["start"]]); out.append(lab); pos = sp["end"]
+    out.append(_km_text[pos:])
+    return json.dumps({"text": "".join(out), "map": m}, ensure_ascii=False)
+_km()`);
+  const { text, map } = JSON.parse(r);
+  postMessage({ type: "maskMap", text, map, leaks: E.pyLeaks(py, text, spans) });
+}
 function original() { postMessage({ type: "original", bytes: current.bytes.slice(), name: current.name }); }
 function forget() { current = null; postMessage({ type: "forgotten" }); }
 
 onmessage = async ({ data }) => {
   try {
     if (data.type === "ocrResult") { const p = pendingOcr.get(data.id); pendingOcr.delete(data.id); data.error ? p.reject(new Error(data.error)) : p.resolve(data.lines); return; }
-    await ({ preview, analyze, redetect, redact, maskedText, original, forget })[data.type](data);
+    await ({ preview, analyze, redetect, redact, maskedText, maskMap, original, forget })[data.type](data);
   } catch (e) { postMessage({ type: "error", msg: String(e?.message ?? e), stack: String(e?.stack ?? "").slice(0, 600) }); }
 };
 postMessage({ type: "alive" });  // messages sent before this point (during module loading) would be lost
