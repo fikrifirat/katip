@@ -74,6 +74,10 @@ names never seen during development or training, in 16 document styles (4 of the
 | Network requests after a document is opened | **0** (verified in Chromium) |
 | First load | about 30 MB of engine files (Python, PDF, OCR), plus about 30 MB for the name tagger; cached by the browser afterwards |
 
+### On test sets built by other teams
+
+On held-out halves of four public Turkish PII test sets (all synthetic), Katip Mask Base scores F2 95.9 on NewMind's nm-kvkk-pii-6K, 95.9 on piimask TR, 95.2 on Çağrı Güngör's set and 95.8 on Werea's, against 93.9, 93.8, 72.6 and 54.3 for NewMind's kvkk-v2. The lead is significant on nm6k, piimask and Çağrı (95% paired bootstrap); on piimask documents with unseen templates the two tie (96.5), and Werea's halves share templates, so that result is not independent. NewMind keeps higher precision on nm6k (99.7 vs 91.2) and piimask (93.2 vs 89.8). Katip leaves less personal data readable on Çağrı (6.8% vs 41.1%) and Werea (26.3% vs 65.2%), about the same on nm6k and piimask. Method and every row: [RESULTS.md](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/external/RESULTS.md).
+
 ### Models in the demo
 
 | Model | What it is | Values found (blind) | Names found |

@@ -42,15 +42,17 @@ Katip's rule-based PII detection. It sits between [Katip Mask Nano](https://hugg
 [Katip Mask](https://huggingface.co/spaces/f1k/katip-kvkk-anonymization), a redaction tool where the document never leaves the
 user's computer, and for the [Katip Kalkan](https://github.com/fikrifirat/katip/tree/main/connector) connector for Claude.
 
-On [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) Mini scores 93.0 Overall (#6 of 16), against 96.1 for Base (#1) and 85.9 for Nano.
+On [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) Mini scores 93.0 Overall (#7 of 21), against 96.1 for Base (#1) and 85.9 for Nano.
 
 Mini is a smaller copy of Base. It starts from DistilBERTurk, keeps 3 of its 6 layers and the 12,000 word pieces
 our text uses, and is then taught by Base. Base catches more names in everyday prose. Mini is the option when 111 MB
 is too much to download in a browser tab.
 
+**Test sets built by other teams.** On held-out halves of four public Turkish PII test sets (all synthetic), Mini scores F2 93.4 on NewMind's nm-kvkk-pii-6K, 95.7 on piimask TR, 93.0 on Çağrı Güngör's set and 93.6 on Werea's, against 93.9, 93.8, 72.6 and 54.3 for NewMind's kvkk-v2 (1.1 GB). Mini ties NewMind on nm6k (95% CI −1.9 to +1.0) and piimask (−0.2 to +4.3) and is significantly ahead on Çağrı; Werea's halves share templates, so that result is not independent. Base scores 95.9, 95.9, 95.2 and 95.8. Method and every row: [RESULTS.md](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/external/RESULTS.md).
+
 ## Results
 
-These are [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) v0.1.2 scores (re-scored with the rules shipped on 16 Nov 2026). Every row runs
+These are [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) v0.1.2 scores (re-scored with the rules shipped on 19 Nov 2026). Every row runs
 Katip's rules plus the model, with the same detection code the browser runs. A value counts as found when a detected
 span of the same type covers it. Speed is measured in Python on an Apple M-series laptop CPU, one page being
 500 words.
@@ -61,11 +63,11 @@ names, everyday prose): 93.0 and 11.6% for Mini. The KVKK-F2 and leak figures be
 | | Nano v1.1 | **Mini v2** | Base v2 |
 | --- | --- | --- | --- |
 | Download (int8 ONNX) | 2.9 MB | **31 MB** | 111 MB |
-| KVKK-F2, all tracks | 80.8 | **88.9** | 93.1 |
+| KVKK-F2, all tracks | 80.8 | **89.0** | 93.2 |
 | Leaked (characters of personal data still readable) | 7.0% | **4.3%** | 3.1% |
-| Turkish names in real Yargıtay prose: found / precision | 94.1% / 95.8% | **99.2% / 98.8%** | 99.9% / 100% |
-| Foreign names, same sentences: found / precision | 95.5% / 95.6% | **96.8% / 98.6%** | 97.1% / 100% |
-| Names in everyday prose (Wiki NER test): found / precision | 53.7% / 62.2% | **72.2% / 78.7%** | 84.1% / 88.0% |
+| Turkish names in real Yargıtay prose: found / precision | 94.1% / 95.8% | **99.2% / 98.7%** | 99.9% / 100% |
+| Foreign names, same sentences: found / precision | 95.5% / 95.6% | **96.8% / 98.5%** | 97.0% / 100% |
+| Names in everyday prose (Wiki NER test): found / precision | 53.7% / 62.2% | **72.3% / 79.1%** | 84.1% / 88.4% |
 | Pages per second, laptop CPU | 32 | **5** | 1.7 |
 
 The two court-prose tracks use TurkishLegalNER *test* sentences (Koç University, Apache-2.0). Their anonymised name

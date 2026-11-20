@@ -38,9 +38,11 @@ Katip's rule-based PII detection. It is the fast mode of [Katip Mask](https://hu
 a KVKK redaction tool where the document never leaves the user's computer, and the default model of the
 [Katip Kalkan](https://github.com/fikrifirat/katip/tree/main/connector) connector for Claude.
 
-**Nano is Katip's smallest model, not its most accurate.** On [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) it scores 85.9 Overall (#9 of 16).
-[Katip Mask Base](https://huggingface.co/f1k/katip-mask-base) scores 96.1 (#1) and [Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini) 93.0 (#6). Most of the gap is names in everyday prose:
-55.2 for Nano against 84.8 for Base. On real court text the three are close (Turkish names 94.4 / 99.1 / 99.9).
+**Nano is Katip's smallest model, not its most accurate.** On [KVKK-Bench](https://huggingface.co/spaces/f1k/kvkk-bench) it scores 85.9 Overall (#11 of 21).
+[Katip Mask Base](https://huggingface.co/f1k/katip-mask-base) scores 96.1 (#1) and [Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini) 93.0 (#7). Most of the gap is names in everyday prose:
+55.2 for Nano against 84.9 for Base. On real court text the three are close (Turkish names 94.4 / 99.1 / 99.9).
+
+**Test sets built by other teams.** On held-out halves of four public Turkish PII test sets (all synthetic), Nano scores F2 89.6 on NewMind's nm-kvkk-pii-6K, 95.1 on piimask TR, 90.7 on Çağrı Güngör's set and 90.7 on Werea's, against 93.9, 93.8, 72.6 and 54.3 for NewMind's kvkk-v2 (1.1 GB). Nano is significantly behind on nm6k (95% CI −6.6 to −2.2), ties on piimask (−0.8 to +3.7) and is ahead on Çağrı; Werea's halves share templates, so that result is not independent. Base scores 95.9, 95.9, 95.2 and 95.8. Method and every row: [RESULTS.md](https://github.com/fikrifirat/katip/blob/legal-study/lab/legal/external/RESULTS.md).
 
 **New in v1.1 (13 Nov 2026):** trained with foreign client names as they appear in Turkish documents
 (Syrian, Iranian, Afghan, Georgian, Armenian, Greek, Arab, Russian/Ukrainian, Azerbaijani and Western names,
