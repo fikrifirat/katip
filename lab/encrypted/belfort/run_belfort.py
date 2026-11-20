@@ -28,10 +28,12 @@ import bench_eval as E  # noqa: E402
 import ckks_nano as C  # noqa: E402
 from compile_eml import calibration  # noqa: E402
 from dev_select import tagger_for  # noqa: E402
-from eml_nano import EmlNano, T, segment_mask  # noqa: E402
+import eml_nano  # noqa: E402
+from eml_nano import EmlNano, segment_mask  # noqa: E402
+from eml_nano_conv import EmlNanoConv, pack  # noqa: E402
 from run_encrypted import CachedSession, windows_of  # noqa: E402
 
-STRIDE = 32
+T, STRIDE = 64, 32   # set from --T in main
 
 
 def chunks(n):
@@ -70,7 +72,7 @@ def pack_inputs(net, wins):
             for wi, s, L in segs_in:
                 x[o:o + L] = net.embed(torch.tensor([wins[wi][s:s + L]]))[0].float().numpy()
                 placed.append((wi, s, o, L)); o += L
-            out.append((x, segment_mask([L for *_, L in segs_in]), placed))
+            out.append((x, segment_mask([L for *_, L in segs_in], T=T), placed))
     return out
 
 
@@ -92,9 +94,15 @@ def unpack(wins, inputs, outs):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("--minutes", type=int, default=30)
     ap.add_argument("--plaintext-only", action="store_true", help="run the chunked model in plaintext, no network")
+    ap.add_argument("--no-deploy", action="store_true", help="free dry run: compile on Belfort and upload keys, no deploy, no credits")
+    ap.add_argument("--T", type=int, default=64, help="tokens per eML call")
+    ap.add_argument("--name", default=None, help="Belfort model name (reuse a model already compiled from the same MLIR)")
     a = ap.parse_args()
+    global T, STRIDE
+    T, STRIDE = a.T, a.T // 2
     tg = tagger_for("fitted"); net = tg.sess.net
-    model_t = EmlNano(C.fold(net, 3.0)).eval()
+    model_t = EmlNanoConv(C.fold(net, 3.0)).eval()     # conv layout: what Belfort's compiler accepts
+    model_ref = EmlNano(C.fold(net, 3.0)).eval()        # matrix layout, for the plaintext cross-check
 
     ids = json.loads((HERE.parent / "results" / "encrypted_fitted.json").read_text())["docs"]
     docs = [d for d in E.gold({"court-filled", "prose"}) if d["id"] in set(ids)]
@@ -103,20 +111,24 @@ def main():
     print(f"{len(docs)} documents, {len(wins)} windows, {len(jobs)} eML calls of 64 tokens", flush=True)
 
     with torch.no_grad():
-        plain = [model_t(torch.tensor(x)[None], torch.tensor(m))[0].numpy() for x, m, _ in jobs]
+        plain = [model_t(torch.tensor(pack(x, m)))[0].numpy().T for x, m, _ in jobs]
+        ref = [model_ref(torch.tensor(x)[None], torch.tensor(m))[0].numpy() for x, m, _ in jobs]
+    res_conv_vs_matrix = max(float(np.abs(p - r).max()) for p, r in zip(plain, ref))
+    print("conv layout vs matrix layout, max logit difference:", res_conv_vs_matrix, flush=True)
 
-    res = {"documents": len(docs), "calls": len(jobs), "tokens": sum(map(len, wins))}
+    res = {"documents": len(docs), "calls": len(jobs), "T": T, "tokens": sum(map(len, wins)), "conv_vs_matrix_max_diff": res_conv_vs_matrix}
     if not a.plaintext_only:
         import belfort_ml
         from belfort_ml_client import Client
         out_dir = HERE / "build"
         with torch.no_grad():
-            calib = [(net.embed(torch.tensor([w])).float(), torch.tensor(segment_mask([T]))) for w in calibration(tg)]
-        artifacts = belfort_ml.compile(model_t, calib[0], "katip_nano_fhe", str(out_dir), calibration_inputs=calib)
+            calib = [torch.tensor(pack(net.embed(torch.tensor([w]))[0].float().numpy(), segment_mask([T], T=T))) for w in calibration(tg, 256, T)]
+        name = a.name or f"katip_nano_conv_{T}"
+        artifacts = belfort_ml.compile(model_t, calib[0], name, str(out_dir), calibration_inputs=calib)
         with belfort_ml.Provider() as provider:
             res["credits_before"] = provider.credits.get()
             t0 = time.time()
-            model = provider.models.get(name="katip_nano_fhe", create_from=artifacts, timeout=1800, use_composite_relu=False)
+            model = provider.models.get(name=name, create_from=artifacts, timeout=1800, use_composite_relu=False)
             res["server_compile_s"] = round(time.time() - t0, 1)
             print("compiled on Belfort in", res["server_compile_s"], "s", flush=True)
             token = model.create_client(label="katip-experiment", ttl_seconds=86400)
@@ -128,6 +140,11 @@ def main():
             th = threading.Thread(target=prepare); th.start()
             t0 = time.time(); model.wait_for_keys(token); res["key_upload_s"] = round(time.time() - t0, 1)
             print("keys uploaded in", res["key_upload_s"], "s", flush=True)
+            if a.no_deploy:
+                th.join(); res["client_prepare_s"] = prep.get("s"); res["credits_after"] = provider.credits.get()
+                client.close(); print(json.dumps(res, indent=1, default=str), flush=True)
+                (HERE.parent / "results" / "belfort_dry_run.json").write_text(json.dumps(res, indent=1, default=str))
+                return
             t0 = time.time()
             with model.deploy(key_set=token, max_lifetime=timedelta(minutes=a.minutes)) as deploy:
                 res["deploy_start_s"] = round(time.time() - t0, 1)
@@ -136,8 +153,8 @@ def main():
                 enc, lat, wall = [], [], []
                 t_page = time.time()
                 for x, m, _ in jobs:
-                    t = time.time(); ans = client.infer([x.reshape(-1).tolist(), m.reshape(-1).tolist()]); wall.append(time.time() - t)
-                    enc.append(np.array(ans["values"]).reshape(T, 3)); lat.append(ans.get("latency_ms"))
+                    t = time.time(); ans = client.infer([pack(x, m).reshape(-1).tolist()]); wall.append(time.time() - t)
+                    enc.append(np.array(ans["values"]).reshape(3, T).T); lat.append(ans.get("latency_ms"))
                 res["page_wall_s"] = round(time.time() - t_page, 1)
             client.close()
             res["gpu_latency_ms"] = {"mean": float(np.mean(lat)), "min": float(np.min(lat)), "max": float(np.max(lat))}

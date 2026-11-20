@@ -10,7 +10,9 @@ from fhe_ops import PolyFHE
 def tagger_for(run):
     tg = K.Tagger(nano_dir())
     if run == "nano": return tg
-    net = load_nano(ops=PolyFHE(), window=16)
+    w = 16
+    if "_w" in run: run, w = run.split("_w")[0], int(run.split("_w")[1])   # e.g. fitted_w8: local attention +-8
+    net = load_nano(ops=PolyFHE(), window=w)
     if run != "fitted": net.load_state_dict(torch.load(HERE / "runs" / run / "nano_fhe.pt"))
     tg.sess = TorchSession(net.eval()); return tg
 

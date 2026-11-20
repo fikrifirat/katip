@@ -1,9 +1,11 @@
 {
  "documents": 25,
- "calls": 24,
+ "calls": 10,
+ "T": 128,
  "tokens": 1021,
+ "conv_vs_matrix_max_diff": 3.0517578125e-05,
  "pipeline_identical_docs_vs_plain_chunked": 1.0,
  "pipeline_identical_docs_chunked_vs_cpu_model": 1.0,
  "model_identical_docs_vs_plain_chunked": 1.0,
- "model_identical_docs_chunked_vs_cpu_model": 0.96
+ "model_identical_docs_chunked_vs_cpu_model": 1.0
 }

@@ -14,7 +14,7 @@ from dev_select import tagger_for
 from train_fhe import sequences
 from eml_nano import EmlNano, T, segment_mask
 
-def calibration(tg, n=512):
+def calibration(tg, n=512, T=T):
     wiki = K.load_wiki("train"); random.Random(1).shuffle(wiki)
     docs = list(K.load_synth("train"))[:400] + K.pack(wiki)[:400]
     ws = [ids[:T] for ids, _ in sequences(tg, docs) if len(ids) >= T]
