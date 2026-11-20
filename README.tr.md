@@ -212,6 +212,16 @@ türlü model kodu için).
 - [x] Çevrimdışı kullanım için masaüstü uygulaması ([Katip Klasör](desktop/), imzasız v0.1, Mac ve Windows)
 - [ ] Tarayıcı eklentisi
 
+**Platform** (maskeleme bunların altındaki güven katmanı)
+
+- [x] Claude ve ChatGPT'de emsal karar arama ve kanun kontrolü (Katip Kalkan, aktarıcı), avukatın değerlendirme düğmesiyle
+- [ ] Zamanla büyüyen bir dava dosyası açan tek soru ekranı: sonraki adım, kaynaklar, geçmiş, taslaklar
+- [ ] Dosyanın içinde emsal, mevzuat ve atıf kontrolü
+- [ ] Cihazda belge türünü tanıyıp uygun araçları öneren algılama
+- [ ] Dosyanın kaynaklarından taslak (Taslak)
+- [ ] Hollanda hukuku (maskeleme, wetten, rechtspraak)
+- [ ] Bürolar için kurulum: dizüstünde, büronun kendi sunucusunda
+
 ## Sorular, pilot ve iletişim
 
 - Sorular, kaçan maskelemeler, öneriler: [issue açın](https://github.com/fikrifirat/katip/issues/new/choose).

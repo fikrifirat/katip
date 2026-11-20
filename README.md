@@ -228,6 +228,16 @@ name-only and the multi-type model code).
 - [x] A desktop app for offline use ([Katip Klasör](desktop/), unsigned v0.1 for Mac and Windows)
 - [ ] A browser extension
 
+**Platform** (masking is the trust layer under these)
+
+- [x] Precedent search and statute checks in Claude and ChatGPT (Katip Kalkan, the relay), with the lawyer's grade button
+- [ ] One ask screen that opens a case folder (*dosya*) that grows over time: next step, sources, history, drafts
+- [ ] Precedents, statutes and citation checks inside the case
+- [ ] Document-type detection on the device that suggests the right tools
+- [ ] Drafting (Taslak) from the case's sources
+- [ ] Dutch law (masking, wetten, rechtspraak)
+- [ ] Deployment for firms: on a laptop, on the firm's own server
+
 ## Questions, pilots and contact
 
 - Questions, missed redactions, feature requests: [open an issue](https://github.com/fikrifirat/katip/issues/new/choose).
