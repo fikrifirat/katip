@@ -52,6 +52,7 @@ jobs:
       - name: Build
         run: cd desktop && pyinstaller packaging/katip-klasor.spec --noconfirm
       - name: Smoke test the built app (scan + status on a synthetic file, Turkish names)
+        timeout-minutes: 10
         run: |
           mkdir -p "$RUNNER_TEMP/Katip/1 Gelen/Dava Ş"
           cp connector/tests/fixtures/dilekce_01.udf "$RUNNER_TEMP/Katip/1 Gelen/Dava Ş/"

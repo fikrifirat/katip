@@ -52,7 +52,18 @@ def _cli_release(case: str) -> int:
     return 0
 
 
+def _utf8_console() -> None:
+    """Windows consoles default to cp1252, which can't print Turkish letters (ş, ğ, ı)."""
+    for stream in (sys.stdout, sys.stderr):
+        if stream is not None and hasattr(stream, "reconfigure"):
+            try:
+                stream.reconfigure(encoding="utf-8", errors="replace")
+            except (OSError, ValueError):
+                pass
+
+
 def main(argv: list[str] | None = None) -> int:
+    _utf8_console()
     ap = argparse.ArgumentParser(prog="katip-klasor", description="Katip Klasör: belgeleri bu bilgisayarda maskeler.")
     ap.add_argument("cmd", nargs="?", choices=["scan", "status", "release"])
     ap.add_argument("case", nargs="?")
