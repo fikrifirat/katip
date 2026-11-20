@@ -1,0 +1,62 @@
+{
+ "design": "split: server = all weight layers encrypted, client = attention mixing",
+ "documents": 25,
+ "calls": 24,
+ "round_trips_per_call": 3,
+ "eml_models": 3,
+ "tokens": 1021,
+ "credits_before": {
+  "granted": 10,
+  "used": 1,
+  "reserved": 0,
+  "available": 9,
+  "credit_minutes": 10
+ },
+ "server_compile_Q_s": 0.1,
+ "server_compile_B_s": 0.5,
+ "server_compile_F_s": 0.5,
+ "key_upload_s": 20.6,
+ "deploy_start_s": {
+  "Q": 216.4,
+  "B": 316.8,
+  "F": 286.3
+ },
+ "stage_s": {
+  "Q": 12.5,
+  "B": 13.9,
+  "F": 13.9
+ },
+ "page_wall_s": 40.3,
+ "client_attention": "plaintext, on the client, between stages",
+ "deploy_total_s": 1989.2,
+ "gpu_latency_ms": {
+  "Q": {
+   "mean": 225.66666666666666,
+   "sum": 5416.0,
+   "n": 24
+  },
+  "B": {
+   "mean": 300.125,
+   "sum": 7203.0,
+   "n": 24
+  },
+  "F": {
+   "mean": 299.375,
+   "sum": 7185.0,
+   "n": 24
+  }
+ },
+ "credits_after": {
+  "granted": 10,
+  "used": 4,
+  "reserved": 0,
+  "available": 6,
+  "credit_minutes": 10
+ },
+ "max_abs_logit_error": 43.762203216552734,
+ "call_label_agreement": 0.912109375,
+ "pipeline_identical_docs_vs_plain": 0.84,
+ "pipeline_identical_docs_vs_cpu_model": 0.84,
+ "model_identical_docs_vs_plain": 0.72,
+ "model_identical_docs_vs_cpu_model": 0.72
+}
