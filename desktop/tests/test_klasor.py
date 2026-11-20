@@ -284,3 +284,63 @@ def test_api_needs_token(k):
             urllib.request.urlopen(base + "/../pyproject.toml")
     finally:
         srv.shutdown()
+
+
+# ---------------------------------------------------------------- test on real documents (counts only)
+EVAL_TEXT = ("Davacı Elvin Sözeri, T.C. Kimlik No: 10000000146, Tel: 0532 123 45 67 ile görüşüldü. "
+             "Tanık Nurhan Kayalıbağ dinlendi; Kayalıbağ ifadesini imzaladı.\n")
+
+
+def test_eval_scores_found_false_missed_and_masks_misses(k):
+    root, layout, pipeline, store = k
+    from katip_klasor import evaluate
+    job = _flagged_job(root, layout, pipeline, store, EVAL_TEXT)
+    key, text = job["key"], job["text"]
+    evaluate.update(CASE, key, {"on": True, "doc_type": "tutanak"})
+    tel = next(s for s in job["spans"] if s["entity_type"] == "PHONE")
+    evaluate.update(CASE, key, {"wrong_add": {"type": "PHONE", "start": tel["start"], "end": tel["end"]}})
+    masked = {(s["start"], s["end"]) for s in job["spans"]}
+    a = text.index("Kayalıbağ ifadesini")
+    if (a, a + len("Kayalıbağ")) not in masked:  # the detector may or may not catch the lone surname
+        evaluate.update(CASE, key, {"missed_add": {"type": "PERSON", "start": a, "end": a + len("Kayalıbağ")}})
+    job = evaluate.update(CASE, key, {"complete": True})
+    sc = evaluate.score_job(job)
+    assert sc["false"].get("PHONE") == 1 and "PHONE" not in sc["found"]
+    assert sc["found"].get("TCKN") == 1
+    # a value marked missed is masked in the shared copy too
+    rel = pipeline.release(root, CASE, key, store.load_settings(), who="test")
+    out = (root / layout.OUT / CASE / rel["outputs"][0]).read_text(encoding="utf-8")
+    assert "Kayalıbağ" not in out and "10000000146" not in out
+    assert "0532 123 45 67" not in out  # a "wrong" mark never unmasks
+
+
+def test_eval_report_has_only_counts(k):
+    root, layout, pipeline, store = k
+    from katip_klasor import evaluate
+    job = _flagged_job(root, layout, pipeline, store, EVAL_TEXT)
+    key, text = job["key"], job["text"]
+    a = text.index("Kayalıbağ ifadesini")
+    evaluate.update(CASE, key, {"on": True, "doc_type": "tutanak", "missed_add": {"type": "PERSON", "start": a, "end": a + 9}})
+    assert evaluate.report([CASE])["files"] == 0          # not counted until the lawyer has read it all
+    evaluate.update(CASE, key, {"complete": True})
+    rep = evaluate.report([CASE])
+    assert rep["files"] == 1 and rep["documents"][0]["doc_type"] == "tutanak"
+    assert rep["total"]["found"] > 0 and rep["total"]["recall"] is not None
+    blob = json.dumps(rep, ensure_ascii=False)
+    for v in ("Elvin", "Sözeri", "Kayalıbağ", "10000000146", "0532", CASE, "not.txt", "Boşanma"):
+        assert v not in blob
+    evaluate.check_no_values(rep, [text])
+    with pytest.raises(ValueError):
+        evaluate.check_no_values(dict(rep, extra="Nurhan Kayalıbağ"), [text])
+
+
+def test_eval_marks_survive_reprocess_and_lock_after_release(k):
+    root, layout, pipeline, store = k
+    from katip_klasor import evaluate
+    job = _flagged_job(root, layout, pipeline, store, EVAL_TEXT)
+    evaluate.update(CASE, job["key"], {"on": True, "complete": True, "doc_type": "dilekce"})
+    job = pipeline.process(root, root / layout.INBOX / CASE / "not.txt", store.load_settings(), force=True)
+    assert job["eval"]["complete"] and job["eval"]["doc_type"] == "dilekce"
+    pipeline.release(root, CASE, job["key"], store.load_settings(), who="test")
+    with pytest.raises(ValueError):
+        evaluate.update(CASE, job["key"], {"missed_add": {"type": "PERSON", "start": 0, "end": 6}})

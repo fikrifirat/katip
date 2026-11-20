@@ -45,6 +45,28 @@ still readable, nothing is written and the file goes to Hata. "Her zaman maskele
 Every step goes to the audit log (Kayıt, CSV export): time, user, file hash, safe name, profile, counts. The log
 never holds a real value or an original file name.
 
+## Test Katip on your own documents
+
+Turn on **Bu belgeyle Katip'i test et** in the review screen to measure Katip on a firm's real files without
+sending them anywhere.
+
+1. Pick the document type.
+2. Read the whole document. Click a mask that is wrong; select an unmasked value Katip missed and press
+   **Seçili metin kaçmış**. Flag decisions count too ("Maskeleme" on a masked value is a false mask,
+   "Maskele" on a missed candidate is a miss), and so do words added with "Her zaman maskele".
+3. Tick **Belgenin tamamını ve kontrol listesini okudum**. Only files with this tick count.
+4. **Test raporunu kaydet** writes `Katip test raporu <date>.json` to the Katip folder
+   (or `katip-klasor eval --export rapor.json`).
+
+Scores are for the detector as it ran, before your review: *found* = values it masked that you did not mark
+wrong, *false* = masks you marked wrong, *missed* = every unmasked occurrence of a value you marked missed.
+The report holds per-type counts, recall, precision and F2, and per file only the document type, format,
+OCR yes/no, profile and a size bucket. It never holds a value, a file name, a case name or a position, and
+the export refuses to write if any string in it appears in one of your documents. Read it before you send it.
+
+Testing never makes the shared copy less private: a value you mark missed is masked in the shared copy too,
+and a mask you mark wrong stays masked (only "Maskeleme" on a flagged value unmasks it).
+
 ## Run from the repo
 
 ```bash
