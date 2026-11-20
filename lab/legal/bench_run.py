@@ -134,6 +134,17 @@ SYSTEMS = {
     "openmed-sc-434m": ("OpenMed/OpenMed-PII-SuperClinical-Large-434M-v1", lambda: _baseline("openmed-sc-434m")),
 }
 
+def _external(key):
+    """Systems first scored on other teams' test sets (external/ext_bench.py), with the same wrappers and label maps."""
+    sys.path.insert(0, str(HERE / "external"))
+    import ext_bench as EB
+    det, meta = EB.EXTRA[key][1]()
+    return det, {k: v for k, v in meta.items() if not k.startswith("_")}
+
+for _k in ("horizon-pii-base", "werea-pii-150m", "hushmark-tr-289m"):
+    SYSTEMS[_k] = ({"horizon-pii-base": "Horizon-Labs/pii-redactor-base (mmBERT)", "werea-pii-150m": "Werea-co/Werea-KVKK-PII-150M (ModernBERT-TR; girenit's 150M has the same weights)",
+                    "hushmark-tr-289m": "lokomotifai/hushmark-tr-289m (GLiNER, model only)"}[_k], (lambda k: lambda: _external(k))(_k))
+
 def run(key, split="public"):
     name, make = SYSTEMS[key]
     det, meta = make()

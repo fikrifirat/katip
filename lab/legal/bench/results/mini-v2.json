@@ -187,9 +187,9 @@
     "PERSON": {
      "gold": 1011,
      "recall": 0.9683481701285855,
-     "precision": 0.986272439281943,
-     "f2": 0.9718807136332591,
-     "exact_recall": 0.8625123639960435
+     "precision": 0.9852476290832455,
+     "f2": 0.9716815233967224,
+     "exact_recall": 0.8635014836795252
     },
     "CRIMINAL_RECORD": {
      "gold": 0,
@@ -214,10 +214,10 @@
     }
    },
    "recall": 0.9683481701285855,
-   "precision": 0.9247524752475248,
-   "f2": 0.9593032649123375,
+   "precision": 0.9239130434782609,
+   "f2": 0.9591224689263455,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.6954196246231645,
+   "false_per_1k_words": 3.7440435670524166,
    "leak_rate": 0.030683403068340307,
    "clean_doc_rate": 0.8960244648318043
   },
@@ -286,8 +286,8 @@
     "PERSON": {
      "gold": 1011,
      "recall": 0.9920870425321464,
-     "precision": 0.9877300613496932,
-     "f2": 0.991212573949787,
+     "precision": 0.9867211440245148,
+     "f2": 0.9910091990473037,
      "exact_recall": 0.9129574678536103
     },
     "CRIMINAL_RECORD": {
@@ -313,10 +313,10 @@
     }
    },
    "recall": 0.9920870425321464,
-   "precision": 0.9279538904899135,
-   "f2": 0.9785608974378399,
+   "precision": 0.927063339731286,
+   "f2": 0.9783626805718522,
    "special_category_recall": NaN,
-   "false_per_1k_words": 3.6862282512533175,
+   "false_per_1k_words": 3.7353779612700286,
    "leak_rate": 0.008329581269698334,
    "clean_doc_rate": 0.9724770642201835
   },
@@ -346,8 +346,8 @@
     "HEALTH": {
      "gold": 10,
      "recall": 1.0,
-     "precision": 0.5,
-     "f2": 0.8333333333333334,
+     "precision": 0.6666666666666666,
+     "f2": 0.9090909090909091,
      "exact_recall": 1.0
     },
     "IBAN": {
@@ -373,10 +373,10 @@
     }
    },
    "recall": 1.0,
-   "precision": 0.8823529411764706,
-   "f2": 0.9740259740259741,
+   "precision": 0.9375,
+   "f2": 0.9868421052631579,
    "special_category_recall": 1.0,
-   "false_per_1k_words": 20.964360587002098,
+   "false_per_1k_words": 10.482180293501049,
    "leak_rate": 0.0,
    "clean_doc_rate": 1.0
   },
@@ -388,20 +388,13 @@
      "precision": 0.0,
      "f2": NaN,
      "exact_recall": NaN
-    },
-    "HEALTH": {
-     "gold": 0,
-     "recall": NaN,
-     "precision": 0.0,
-     "f2": NaN,
-     "exact_recall": NaN
     }
    },
    "recall": NaN,
    "precision": 0.0,
    "f2": NaN,
    "special_category_recall": NaN,
-   "false_per_1k_words": 4.784688995215311,
+   "false_per_1k_words": 2.3923444976076556,
    "leak_rate": NaN,
    "clean_doc_rate": NaN
   },
@@ -484,9 +477,9 @@
     "PERSON": {
      "gold": 2108,
      "recall": 0.9701138519924098,
-     "precision": 0.9822286263208453,
-     "f2": 0.9725128400228267,
-     "exact_recall": 0.9501897533206831
+     "precision": 0.9826923076923076,
+     "f2": 0.9726037163505425,
+     "exact_recall": 0.9497153700189753
     },
     "PASSPORT": {
      "gold": 219,
@@ -525,21 +518,21 @@
     }
    },
    "recall": 0.974859287054409,
-   "precision": 0.984463812050019,
-   "f2": 0.9767651703135573,
+   "precision": 0.9848312476298824,
+   "f2": 0.9768374909287538,
    "special_category_recall": NaN,
-   "false_per_1k_words": 2.1254536029030584,
-   "leak_rate": 0.028939075630252102,
-   "clean_doc_rate": 0.9366666666666666
+   "false_per_1k_words": 2.0736132711249353,
+   "leak_rate": 0.029201680672268908,
+   "clean_doc_rate": 0.9333333333333333
   },
   "prose": {
    "types": {
     "PERSON": {
      "gold": 654,
-     "recall": 0.7217125382262997,
-     "precision": 0.7873754152823921,
-     "f2": 0.7339541035923491,
-     "exact_recall": 0.39143730886850153
+     "recall": 0.7232415902140673,
+     "precision": 0.7913188647746243,
+     "f2": 0.7359035679516528,
+     "exact_recall": 0.38837920489296635
     },
     "RELIGION": {
      "gold": 0,
@@ -548,14 +541,14 @@
      "f2": NaN,
      "exact_recall": NaN
     },
-    "HEALTH": {
+    "BIOMETRIC_GENETIC": {
      "gold": 0,
      "recall": NaN,
      "precision": 0.0,
      "f2": NaN,
      "exact_recall": NaN
     },
-    "BIOMETRIC_GENETIC": {
+    "HEALTH": {
      "gold": 0,
      "recall": NaN,
      "precision": 0.0,
@@ -570,18 +563,18 @@
      "exact_recall": NaN
     }
    },
-   "recall": 0.7217125382262997,
-   "precision": 0.7559808612440191,
-   "f2": 0.7283153897838961,
+   "recall": 0.7232415902140673,
+   "precision": 0.7682333873581848,
+   "f2": 0.7318133598811876,
    "special_category_recall": NaN,
-   "false_per_1k_words": 10.122394971882237,
-   "leak_rate": 0.308721241305511,
-   "clean_doc_rate": 0.3515439429928741
+   "false_per_1k_words": 9.460800529275554,
+   "leak_rate": 0.30818619582664525,
+   "clean_doc_rate": 0.34679334916864607
   }
  },
  "missing_predictions": 0,
- "KVKK-F2": 0.8887265173780245,
- "F2 generated": 0.9877624767300451,
- "F2 all tracks": 0.9547504902793718,
- "leak_rate": 0.042805055024409976
+ "KVKK-F2": 0.8897661697931284,
+ "F2 generated": 0.9899105520387751,
+ "F2 all tracks": 0.9565290912902262,
+ "leak_rate": 0.042774783864760094
 }
