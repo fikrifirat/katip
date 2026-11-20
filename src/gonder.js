@@ -30,7 +30,7 @@ const I18N = {
     refused: "Model bu isteği yanıtlamadı.", apiErr: "API hatası: {e}",
     answerPh: "Yapay zekânın cevabını buraya yapıştırın; [AD SOYAD-1] gibi etiketler gerçek değerlerle değişir.",
     restoredN: "{n} etiket geri kondu.", unknown: "Bu belgede olmayan etiketler: {l}", copyBack: "Kopyala", download: "İndir (.txt)",
-    logTitle: "Kayıt (yalnızca bu cihazda)", logHint: "Ne zaman, hangi profille, ne türde kaç değer maskelenip nereye gönderildi. Değerlerin kendisi kaydedilmez.", export: "Dışa aktar", clear: "Temizle",
+    logTitle: "Kayıt (yalnızca bu cihazda)", logHint: "Ne zaman, hangi profille, ne türde kaç değer maskelenip nereye gönderildi. Değerlerin kendisi kaydedilmez.", export: "Dışa aktar", fbExport: "Hükümleri dışa aktar", clear: "Temizle",
     fullApp: "Tam uygulama (PDF karartma, ayarlar)", privacy: "Gizlilik",
     note: "Not: Bu metindeki [AD SOYAD-1] gibi köşeli parantezli etiketler, maskelenmiş kişisel verilerdir. Etiketleri cevabında aynen kullan; gerçek değerlerini tahmin etmeye çalışma.",
     err: "Hata: {e}",
@@ -55,7 +55,7 @@ const I18N = {
     refused: "The model declined this request.", apiErr: "API error: {e}",
     answerPh: "Paste the AI's answer here; labels like [AD SOYAD-1] are replaced with the real values.",
     restoredN: "{n} labels put back.", unknown: "Labels not in this document: {l}", copyBack: "Copy", download: "Download (.txt)",
-    logTitle: "Record (on this device only)", logHint: "When, with which profile, how many values of each type were masked and where they were sent. The values themselves are never stored.", export: "Export", clear: "Clear",
+    logTitle: "Record (on this device only)", logHint: "When, with which profile, how many values of each type were masked and where they were sent. The values themselves are never stored.", export: "Export", fbExport: "Export verdicts", clear: "Clear",
     fullApp: "Full app (PDF redaction, settings)", privacy: "Privacy",
     note: "Note: labels in square brackets like [AD SOYAD-1] are masked personal data. Use the labels as they are in your answer; don't try to guess the real values.",
     err: "Error: {e}",
@@ -135,7 +135,7 @@ const progressText = s => lang === "tr" ? s : PROGRESS_EN.reduce((a, [re, r]) =>
 
 // ---------------------------------------------------------------- open a document
 async function open(name, bytes) {
-  doc = { name, spans: null, off: new Set(), on: new Set(), mask: [] };
+  doc = { id: "web-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8), name, spans: null, off: new Set(), on: new Set(), mask: [] };
   ["s3", "s4", "s5"].forEach(id => $(id).classList.add("hidden"));
   $("answer").value = ""; renderRestore();
   status(ready ? t("working") : t("loading"));
@@ -179,6 +179,7 @@ function render() {
   const txt = doc.text.replace(/\f\n?/g, "\n");
   while ((m = re.exec(txt))) { pre.append(txt.slice(pos, m.index), el("mark", { textContent: m[0] })); pos = m.index + m[0].length; }
   pre.append(txt.slice(pos));
+  renderFeedback();
 }
 // one chip per distinct value (a name repeated ten times is one decision)
 function uniq(spans) { const seen = new Map(); for (const s of spans) { const k = s.entity_type + "|" + s.text.toLocaleLowerCase("tr"); if (!seen.has(k)) seen.set(k, s); } return [...seen.values()]; }
@@ -209,6 +210,75 @@ function renderProfiles() {
       el("p", {}, el("b", { textContent: t("why") + ": " }), loc(g.why)),
       el("ul", { className: "law" }, ...g.law.map(law)))),
     el("details", { className: "grp" }, el("summary", {}, el("b", { textContent: t("always") })), el("ul", { className: "law" }, ...ALWAYS.map(law))));
+}
+
+// ---------------------------------------------------------------- feedback: one block for this masking, judge button
+// Follows the shared spec (project files feedback-block/SPEC.md, reference connector/katip_kalkan/ui/emsal.html).
+// The block never shows or stores a value from the document: only types, counts and the lawyer's corrections.
+const VERDICTS = [{ v: 0, tr: "Eksik", en: "Missed some" }, { v: 1, tr: "Fazla", en: "Too much" }, { v: 2, tr: "Doğru", en: "Correct" }];
+const GAVEL = `<svg viewBox="0 0 28 28" aria-hidden="true"><circle class="ring" cx="8" cy="22" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/>
+<rect x="1" y="22" width="14" height="3.5" rx="1.5" fill="currentColor" opacity=".55"/><g class="hammer"><rect x="11" y="14.5" width="15.5" height="3" rx="1.5" fill="currentColor"/>
+<rect x="4.5" y="8" width="7" height="14" rx="2" fill="currentColor"/><rect x="3.5" y="9.5" width="9" height="2" rx="1" fill="currentColor"/><rect x="3.5" y="18.5" width="9" height="2" rx="1" fill="currentColor"/></g></svg>`;
+const fbText = { tr: { title: "Katip'in maskelemesi", judge: "Hüküm ver", saving: "Kaydediliyor", retry: "Tekrar dene", saved: "Kaydedildi · değiştirmek için tokmağa basın",
+    found: "Katip'in bulduğu", fixes: "Sizin düzeltmeleriniz", opened: "açılan", added: "eklenen", context: "sonradan maskelenen", none: "yok",
+    note: "Bu cihazda saklanır, hiçbir yere gönderilmez. Değerler değil, yalnızca türler ve sayılar kaydedilir.", exp: "Hükümleri dışa aktar" },
+  en: { title: "Katip's masking", judge: "Judge", saving: "Saving", retry: "Try again", saved: "Saved · tap the gavel to change",
+    found: "What Katip found", fixes: "Your corrections", opened: "unmasked", added: "added", context: "masked later", none: "none",
+    note: "Kept on this device and never sent anywhere. Only types and counts are stored, never values.", exp: "Export verdicts" } };
+const ft = k => fbText[lang][k];
+function readGrades() { try { return JSON.parse(store.get("katip-mask-feedback") ?? "[]"); } catch { return []; } }
+function feedbackRecord(v) {
+  const types = {}; for (const s of doc.spans.filter(isOn)) types[s.entity_type] = (types[s.entity_type] ?? 0) + 1;
+  const offN = doc.spans.filter(s => doc.off.has(key(s))).length, ctxN = doc.spans.filter(s => doc.on.has(key(s))).length;
+  return { result_id: doc.id, gorev: "maskeleme", puan: v, profil: profile, model: "katip-mask-mini", turler: types,
+    duzeltme: { acilan: offN, eklenen: doc.mask.length, baglam: ctxN }, t: new Date().toISOString() };
+}
+function saveGrade(rec) {
+  const all = readGrades().filter(r => r.result_id !== rec.result_id);  // latest verdict wins
+  all.unshift(rec); store.set("katip-mask-feedback", JSON.stringify(all.slice(0, 500)));
+  if (!store.get("katip-mask-feedback")) throw new Error(lang === "tr" ? "Tarayıcı depolamaya izin vermiyor" : "This browser blocks storage");
+}
+function renderFeedback() {
+  const box = $("feedback"); if (!doc?.map) { box.replaceChildren(); return; }
+  const prev = readGrades().find(r => r.result_id === doc.id);
+  const wasOpen = box.querySelector(".fb")?.classList.contains("open");
+  const types = {}; for (const lab of Object.keys(doc.map)) { const k = lab.replace(/^\[|-\d+\]$/g, ""); types[k] = (types[k] ?? 0) + 1; }
+  const offN = doc.spans.filter(s => doc.off.has(key(s))).length, ctxN = doc.spans.filter(s => doc.on.has(key(s))).length;
+  const b = el("div", { className: "fb" + (wasOpen ? " open" : "") });
+  if (prev) b.dataset.verdict = prev.puan;
+  const vword = v => loc(VERDICTS[v]);
+  b.innerHTML = `<button class="row" aria-expanded="${!!wasOpen}"><span class="title"></span><span class="ind"><span class="dot"></span><span class="ind-text"></span><span class="chev"></span></span></button>
+    <div class="body"><div class="label"></div><p class="found"></p><div class="label fx"></div><p class="fixes"></p>
+    <div class="judge" data-state="${prev ? "done" : "idle"}"><button class="gavel" aria-haspopup="true"><span class="g">${GAVEL}</span><span class="gtext"></span></button>
+    <span class="verdicts" role="group"></span><span class="status" aria-live="polite"></span></div><p class="hint fbnote"></p></div>`;
+  const q = s => b.querySelector(s);
+  q(".title").textContent = `${ft("title")} · ${Object.keys(doc.map).length}`;
+  q(".ind-text").textContent = prev ? vword(prev.puan) : ft("judge");
+  q(".label").textContent = ft("found");
+  q(".found").textContent = Object.entries(types).map(([k, n]) => `${k} ${n}`).join(" · ") || ft("none");
+  q(".fx").textContent = ft("fixes");
+  q(".fixes").textContent = `${ft("opened")} ${offN} · ${ft("added")} ${doc.mask.length} · ${ft("context")} ${ctxN}`;
+  q(".gtext").textContent = prev ? vword(prev.puan) : ft("judge");
+  q(".status").textContent = prev ? ft("saved") : "";
+  q(".fbnote").textContent = ft("note");
+  q(".verdicts").setAttribute("aria-label", ft("judge"));
+  q(".verdicts").append(...VERDICTS.map(x => { const e = el("button", { className: "v", textContent: loc(x) }); e.dataset.v = x.v; return e; }));
+  const row = q(".row"), judge = q(".judge"), status = q(".status"), gtext = q(".gtext");
+  row.onclick = () => { const o = b.classList.toggle("open"); row.setAttribute("aria-expanded", o); };
+  q(".gavel").onclick = () => {
+    if (judge.dataset.state === "striking") return;
+    judge.dataset.state = judge.dataset.state === "open" ? (b.dataset.verdict ? "done" : "idle") : "open";
+    if (judge.dataset.state === "open") { status.textContent = ""; q(".v").focus(); }
+  };
+  b.querySelectorAll(".v").forEach(x => x.onclick = async () => {
+    const v = Number(x.dataset.v);
+    judge.dataset.state = "striking"; gtext.textContent = ft("saving"); status.textContent = "";
+    try {
+      await Promise.all([Promise.resolve().then(() => saveGrade(feedbackRecord(v))), new Promise(r => setTimeout(r, 450))]);
+      judge.dataset.state = "done"; b.dataset.verdict = v; gtext.textContent = vword(v); q(".ind-text").textContent = vword(v); status.textContent = ft("saved");
+    } catch (e) { judge.dataset.state = "error"; gtext.textContent = ft("retry"); status.textContent = String(e.message ?? e); }
+  });
+  box.replaceChildren(b);
 }
 
 // ---------------------------------------------------------------- send
@@ -315,6 +385,10 @@ function renderLog() {
 }
 $("logExport").onclick = () => {
   const a = el("a", { href: URL.createObjectURL(new Blob([JSON.stringify(readLog(), null, 1)], { type: "application/json" })), download: "katip-kayit.json" });
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+$("fbExport").onclick = () => {
+  const a = el("a", { href: URL.createObjectURL(new Blob([JSON.stringify({ format: "katip-mask-feedback/1", grades: readGrades() }, null, 1)], { type: "application/json" })), download: "katip-geri-bildirim.json" });
   a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
 };
 $("logClear").onclick = () => { store.set("katip-send-log", null); renderLog(); };

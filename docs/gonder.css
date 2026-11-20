@@ -59,3 +59,44 @@ button.primary{background:var(--lime);border:1.5px solid var(--brand-bg);color:v
 .foot{text-align:center;font-size:13px;color:var(--muted);margin:16px 0}
 #toast{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));max-width:480px;margin:0 auto;background:var(--brand-bg);color:var(--brand-ink);padding:12px 14px;border-radius:12px;font-size:14px;box-shadow:0 8px 28px rgba(0,0,0,.25);z-index:20}
 @media (min-width:640px){.send{grid-template-columns:repeat(4,auto);justify-content:start}}
+/* feedback block + judge button: shared spec (feedback-block/SPEC.md), same states and colours as the emsal view */
+:root{--v0:#b42318;--v1:#b54708;--v2:#2f6f1f;--tile:#1F242B}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--v0:#f97066;--v1:#fdb022;--v2:#a6e36b;--tile:#2c333c}}
+:root[data-theme=dark]{--v0:#f97066;--v1:#fdb022;--v2:#a6e36b;--tile:#2c333c}
+#feedback:empty{display:none}#feedback{margin-top:12px}
+.fb{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.fb[data-verdict="0"]{border-left:4px solid var(--v0)}.fb[data-verdict="1"]{border-left:4px solid var(--v1)}.fb[data-verdict="2"]{border-left:4px solid var(--v2)}
+.fb .row{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px;cursor:pointer;min-height:48px}
+.fb .row:focus-visible{outline:2px solid var(--ink);outline-offset:-2px}
+.fb .title{font-weight:600;font-size:14px;flex:1;min-width:0}
+.fb .ind{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap}
+.fb .dot{width:14px;height:14px;border-radius:50%;border:2px dashed var(--line)}
+.fb[data-verdict="0"] .dot{border:0;background:var(--v0)}.fb[data-verdict="1"] .dot{border:0;background:var(--v1)}.fb[data-verdict="2"] .dot{border:0;background:var(--v2)}
+.fb .chev{width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-left:4px}
+.fb.open .chev{transform:rotate(-135deg)}
+.fb .body{display:none;padding:0 12px 12px}.fb.open .body{display:block}
+.fb .label{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin:2px 0 4px}
+.fb .found,.fb .fixes{margin:0 0 10px;padding:8px 10px;background:var(--bg);border-radius:8px;font-size:13.5px}
+.judge{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.gavel{all:unset;box-sizing:border-box;display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px 0 8px;border-radius:99px;background:var(--tile);color:#fff;font-weight:600;font-size:14px;cursor:pointer;transition:transform .12s,background .2s}
+.gavel:hover{transform:translateY(-1px)}.gavel:active{transform:translateY(1px)}.gavel:focus-visible{outline:2px solid var(--lime);outline-offset:2px}
+.gavel svg{width:26px;height:26px;overflow:visible}
+.hammer{transform-box:view-box;transform-origin:26px 16px;transform:rotate(20deg);transition:transform .2s ease-out}
+.judge[data-state="idle"] .gavel:hover .hammer{transform:rotate(28deg)}
+.judge[data-state="striking"] .hammer{animation:strike .5s cubic-bezier(.5,0,.9,.4) infinite alternate}
+.judge[data-state="done"] .hammer{transform:rotate(0deg)}
+.ring{opacity:0;transform-box:view-box;transform-origin:8px 22px}
+.judge[data-state="done"] .ring{animation:impact .5s ease-out 1}
+.judge[data-state="done"] .gavel{background:var(--lime);color:var(--tile)}
+.judge[data-state="error"] .gavel{animation:shake .35s}
+@keyframes strike{from{transform:rotate(28deg)}to{transform:rotate(-1deg)}}
+@keyframes impact{0%{opacity:.9;transform:scale(.4)}100%{opacity:0;transform:scale(1.8)}}
+@keyframes shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.verdicts{display:none;gap:6px}
+.judge[data-state="open"] .verdicts{display:inline-flex;animation:pop .18s ease-out}
+@keyframes pop{from{opacity:0;transform:translateX(-6px)}}
+.fb .v{all:unset;box-sizing:border-box;height:36px;padding:0 12px;border-radius:99px;border:1.5px solid var(--line);font-size:13.5px;font-weight:600;cursor:pointer;background:var(--panel)}
+.fb .v:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.fb .v[data-v="0"]:hover{border-color:var(--v0);color:var(--v0)}.fb .v[data-v="1"]:hover{border-color:var(--v1);color:var(--v1)}.fb .v[data-v="2"]:hover{border-color:var(--v2);color:var(--v2)}
+.judge .status{font-size:12.5px;color:var(--muted)}.judge[data-state="error"] .status{color:var(--v0)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
