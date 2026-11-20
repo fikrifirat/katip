@@ -61,7 +61,7 @@ def main(bundle: str) -> None:
 
     rpc("initialize", {"protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "smoke"}})
     tools = {t["name"]: t for t in rpc("tools/list")["result"]["tools"]}
-    assert len(tools) == 10, tools.keys()
+    assert len(tools) == 11, tools.keys()
     info = tools["mask_file"]["inputSchema"]["properties"]["bilgi"]["default"]
     print("approval line:", info)
     status, _ = call("katip_status")
