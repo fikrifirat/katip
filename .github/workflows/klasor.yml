@@ -84,4 +84,7 @@ jobs:
         with: { path: out, merge-multiple: true }
       - name: Pre-release with the Mac and Windows builds
         env: { GH_TOKEN: "${{ github.token }}" }
-        run: gh release create "$GITHUB_REF_NAME" out/* --repo "$GITHUB_REPOSITORY" --prerelease --title "Katip Klasör ${GITHUB_REF_NAME#klasor-v}" --notes "Unsigned beta. Mac: right-click the app, Open. Windows: More info, Run anyway. See desktop/README.md."
+        run: |
+          gh release create "$GITHUB_REF_NAME" out/* --repo "$GITHUB_REPOSITORY" --prerelease \
+            --title "Katip Klasör ${GITHUB_REF_NAME#klasor-v}" \
+            --notes "Unsigned beta. Mac: right-click the app, Open. Windows: More info, Run anyway. See desktop/README.md."
