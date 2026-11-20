@@ -20,6 +20,12 @@ Run on fikri's Mac and repeated on a 4-core Linux VM. The two runs agree within 
 
 Mac results: `reference/results-mac/`. VM run (executed notebooks and results): `reference/`.
 
+## Study 5 · Cite-Bench-TR (`cite/`)
+
+Do AI models cite Turkish law correctly? `cite/katip_cite.py` checks every statute citation in a text against the
+official text of all 1,085 Turkish laws (1.6 MB index, offline). `cite/01_cite_bench.ipynb` ranks language models on
+63 questions in 10 risk areas, asked in Turkish and English. See `cite/README.md`.
+
 ## The notebooks
 
 | Notebook | What you do | Time on a laptop |
