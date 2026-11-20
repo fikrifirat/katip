@@ -139,3 +139,30 @@ def test_feedback_summary_and_export(tmp_path):
     b = json.loads((tmp_path / "out.json").read_text(encoding="utf-8"))
     assert b["format"] == "katip-emsal-feedback/1" and len(b["runs"]) == 1
     assert "████" not in json.dumps(b, ensure_ascii=False) and "97 gram" not in json.dumps(b, ensure_ascii=False)
+
+
+def test_emsal_view_served_and_linked():
+    from katip_kalkan import local_server
+    srv = local_server.build()
+    tools = {t["name"]: t for t in srv.handle({"jsonrpc": "2.0", "id": 1, "method": "tools/list"})["result"]["tools"]}
+    uri = tools["emsal_ara"]["_meta"]["ui"]["resourceUri"]
+    assert "_meta" not in tools["mask_file"]
+    init = srv.handle({"jsonrpc": "2.0", "id": 2, "method": "initialize", "params": {}})["result"]
+    assert "resources" in init["capabilities"]
+    listed = srv.handle({"jsonrpc": "2.0", "id": 3, "method": "resources/list"})["result"]["resources"]
+    assert [r["uri"] for r in listed] == [uri]
+    c = srv.handle({"jsonrpc": "2.0", "id": 4, "method": "resources/read", "params": {"uri": uri}})["result"]["contents"][0]
+    assert c["mimeType"] == "text/html;profile=mcp-app"
+    assert "geri_bildirim" in c["text"] and "ui/initialize" in c["text"]
+    assert "http://" not in c["text"].replace("http://www.w3", "") and "fetch(" not in c["text"]   # the view never calls out
+    assert srv.handle({"jsonrpc": "2.0", "id": 5, "method": "resources/read", "params": {"uri": "ui://x"}})["error"]
+
+
+def test_judged_again_latest_verdict_wins():
+    r = emsal.find(["kenevir kişisel kullanım"], "default", DOC, None, 3)
+    rid = r["results"][0]["result_id"]
+    emsal.grade(rid, 0, False)
+    g = emsal.grade(rid, 2, True)
+    assert g["grades_on_this_computer"] == 1
+    s = emsal.feedback()
+    assert s["grades"] == 1 and s["on_point"] == 1

@@ -15,7 +15,9 @@ import sys
 
 from . import __version__, core, emsal, mevzuat
 from .i18n import text, tool
-from .mcp_proto import Server, Tool
+from pathlib import Path
+
+from .mcp_proto import Resource, Server, Tool
 
 PROFILE = {"type": "string", "enum": ["ai", "court", "anon"], "default": "ai",
            "description": "ai = Yapay zekâ ile paylaşım (default: all personal data, the whole address, case and "
@@ -61,7 +63,8 @@ For case law ("emsal", "içtihat", "Yargıtay kararı bul"), call emsal_ara with
 name the legal issue, written from the masked text (lowercase legal words; never names, digits or places), plus the
 document's file_id so results are ranked against it on this computer. Present each result with its decision
 number, link, outcome and the quoted paragraph; never invent or alter a decision number, and cite only decisions the
-tool returned. Ask the lawyer to grade the ones they read and save each grade with geri_bildirim.
+tool returned. Ask the lawyer to judge the ones they read: in apps that show the results as cards, with the gavel
+("Hüküm ver") button on each card; otherwise in words, and save each verdict with geri_bildirim.
 Before you state what a statute article says, or when the user asks to check citations, call mevzuat_bak (offline).
 When a Katip tool fails, explain the error in one or two plain sentences in the user's language. Never suggest
 pasting the text, attaching the file, or removing names by hand and sending it: point to the Katip app
@@ -82,6 +85,9 @@ INFO = text("info_key")  # the field's name is what Claude Desktop shows as its 
 DOC = text("doc_key")    # display-only: the shortened file name, so the prompt says which document
 DOC_FIELD = {"type": "string", "description": text("doc_desc")}
 FILE_ID = {"type": "string", "description": "Id from list_files (preferred: keeps the file name private)"}
+
+EMSAL_UI = "ui://katip-kalkan/emsal.html"
+UI_DIR = Path(__file__).parent / "ui"
 
 TOOLS = [
     Tool("list_files", *tool("list_files"),
@@ -138,7 +144,9 @@ TOOLS = [
           "required": [INFO, "sorgular"], "additionalProperties": False},
          lambda sorgular, file_id=None, matter="default", alan=None, adet=8: _emsal(sorgular, file_id, matter, alan, adet),
          # sends keyword queries to the court's public search: open world, read only
-         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True}),
+         {"readOnlyHint": True, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True},
+         # hosts with MCP Apps show the results as blocks with a judge button (ui/emsal.html); others get the JSON
+         {"ui": {"resourceUri": EMSAL_UI}}),
     Tool("mevzuat_bak", *tool("mevzuat_bak"),
          {"type": "object", "properties": {
              "atif": {"type": "string", "description": "One citation, e.g. \"TBK 344\" or \"6098 sayılı Kanun m. 344\""},
@@ -190,7 +198,10 @@ def _prompts() -> list[dict]:
 
 
 def build() -> Server:
-    return Server("katip-kalkan", __version__, INSTRUCTIONS, TOOLS, _prompts())
+    views = [Resource(EMSAL_UI, "Emsal sonuçları", "text/html;profile=mcp-app",
+                      lambda: (UI_DIR / "emsal.html").read_text(encoding="utf-8"),
+                      {"ui": {"prefersBorder": False}})]  # no csp domains: the view cannot reach the network
+    return Server("katip-kalkan", __version__, INSTRUCTIONS, TOOLS, _prompts(), views)
 
 
 def main() -> None:

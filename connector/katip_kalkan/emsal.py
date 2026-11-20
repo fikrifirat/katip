@@ -387,7 +387,7 @@ def grade(result_id: str, relevance: int, would_cite: bool | None = None, note: 
            "relevance": relevance, "would_cite": would_cite, "note": (note or "")[:500]}
     with (home() / "grades.jsonl").open("a", encoding="utf-8") as f:
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
-    n = sum(1 for _ in (home() / "grades.jsonl").open(encoding="utf-8"))
+    n = len({json.loads(l)["result_id"] for l in (home() / "grades.jsonl").open(encoding="utf-8")})
     return {"saved": True, "grade": GRADES[relevance], "grades_on_this_computer": n,
             "where": "~/.katip/emsal/grades.jsonl (only public decision ids, query words and your note)"}
 
@@ -398,6 +398,7 @@ def feedback(export: str | None = None) -> dict:
     h = home()
     grades = [json.loads(l) for l in (h / "grades.jsonl").read_text(encoding="utf-8").splitlines()] \
         if (h / "grades.jsonl").exists() else []
+    grades = list({g["result_id"]: g for g in grades}.values())  # judged again: the latest verdict wins
     by_rank: dict[int, list[int]] = {}
     for g in grades:
         by_rank.setdefault(g["rank"], []).append(g["relevance"])
