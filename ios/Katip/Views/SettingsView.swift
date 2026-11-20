@@ -3,6 +3,7 @@ import SwiftUI
 struct SettingsView: View {
     @EnvironmentObject private var engine: MaskEngine
     @EnvironmentObject private var store: SessionStore
+    @EnvironmentObject private var feedback: FeedbackStore
     @Environment(\.dismiss) private var dismiss
     @AppStorage("model") private var model: KatipModel = .mini
     @State private var confirmWipe = false
@@ -33,6 +34,21 @@ struct SettingsView: View {
                         DisclosureGroup(ProfileSpec.shared.title(p)) { ProfileDetails(profile: p) }
                     }
                     NavigationLink(L("Hukuki notlar", "Legal notes")) { LegalNotesView() }
+                }
+
+                Section {
+                    if let file = try? feedback.exportFile(), !feedback.records.isEmpty {
+                        ShareLink(item: file) {
+                            Label(L("Hükümleri dışa aktar (\(feedback.records.count))", "Export verdicts (\(feedback.records.count))"), systemImage: "square.and.arrow.up")
+                        }
+                    } else {
+                        Text(L("Henüz hüküm yok.", "No verdicts yet.")).foregroundStyle(.secondary)
+                    }
+                } header: {
+                    Text(L("Geri bildirim", "Feedback"))
+                } footer: {
+                    Text(L("Hükümler yalnızca veri türünü, nasıl bulunduğunu ve kararınızı içerir; değeri ya da metni içermez. Siz paylaşmadıkça hiçbir yere gönderilmez.",
+                           "Verdicts hold only the data type, how it was found and your verdict, never the value or text. Nothing is sent unless you share it."))
                 }
 
                 Section {

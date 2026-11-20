@@ -66,8 +66,6 @@ struct SessionView: View {
                        "Read it before sending: Katip can miss values. Model: \(s.engineModel ?? KatipModel.rules.title)."))
             }
 
-            // "What Katip found" block. The shared feedback control (judge-hammer grade, designed in the precedent
-            // finder thread for the MCP, web and mobile apps) goes on this block once that design lands.
             Section {
                 DisclosureGroup(L("Maskelenenler (\(s.values.count))", "Masked values (\(s.values.count))")) {
                     ForEach(s.values, id: \.value) { v in
@@ -106,7 +104,8 @@ struct SessionView: View {
                     .disabled(addTerm.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
             } footer: {
-                Text(L("Eklediğiniz ifade belgede geçtiği her yerde maskelenir.", "A phrase you add is masked everywhere it appears."))
+                Text(L("Eklediğiniz ifade belgede geçtiği her yerde maskelenir.",
+                       "A phrase you add is masked everywhere it appears."))
             }
 
             // 2 · Send
@@ -165,6 +164,14 @@ struct SessionView: View {
             } footer: {
                 Text(L("Yapay zekânın cevabını kopyalayıp yapıştırın. [AD SOYAD-1] gibi yer tutucular bu telefonda gerçek değerlerle değiştirilir.",
                        "Copy the AI's answer and paste it here. Placeholders such as [AD SOYAD-1] are replaced with the real values on this phone."))
+            }
+
+            // "What Katip found" + judge button, per feedback-block/SPEC.md ("Masking block"): one block per document.
+            Section {
+                MaskFeedbackBlock(session: s)
+            } footer: {
+                Text(L("Hükmünüz yalnızca bu telefonda, değerler ve metin olmadan tutulur. Ayarlar'dan dışa aktarabilirsiniz.",
+                       "Your verdict stays on this phone, without values or text. Export it from Settings."))
             }
 
             Section {
@@ -230,6 +237,68 @@ private struct CountsView: View {
                             .background(Theme.placeholder, in: Capsule())
                     }
                 }
+            }
+        }
+    }
+}
+
+
+/// Did Katip mask the right things? Shows types, counts and the lawyer's corrections, never a value.
+private struct MaskFeedbackBlock: View {
+    let session: MaskSession
+    @EnvironmentObject private var feedback: FeedbackStore
+    @State private var open = false
+
+    private var current: Int? { feedback.records[session.id.uuidString]?.puan }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Button { withAnimation(.easeOut(duration: 0.18)) { open.toggle() } } label: {
+                HStack {
+                    Text(L("Maskeleme doğru muydu?", "Was the masking right?")).font(.callout.weight(.medium))
+                    Spacer()
+                    Indicator(verdict: MaskVerdicts.all.first { $0.puan == current })
+                }
+                .contentShape(Rectangle())
+            }
+            .buttonStyle(.plain)
+
+            if open {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(L("KATİP'İN BULDUĞU", "WHAT KATIP FOUND")).font(.caption2).foregroundStyle(.secondary)
+                    Text(session.counts.map { "\(ProfileSpec.shared.label($0.type)) \($0.n)" }.joined(separator: " · "))
+                        .font(.footnote)
+                    Text(L("SİZİN DÜZELTMELERİNİZ", "YOUR CORRECTIONS")).font(.caption2).foregroundStyle(.secondary)
+                    Text(L("Okunur bırakılan \(session.allow.count) · eklenen \(session.deny.count)",
+                           "Kept readable \(session.allow.count) · added \(session.deny.count)")).font(.footnote)
+                    JudgeButton(verdicts: MaskVerdicts.all, current: current) { puan in
+                        try feedback.save(.init(
+                            result_id: session.id.uuidString, gorev: "maskeleme", puan: puan, profil: session.profile,
+                            model: session.engineModel ?? "rules",
+                            turler: Dictionary(uniqueKeysWithValues: session.counts.map { ($0.type, $0.n) }),
+                            duzeltme: .init(acilan: session.allow.count, eklenen: session.deny.count, baglam: 0), t: Date()))
+                    }
+                }
+                .transition(.opacity)
+            }
+        }
+        .padding(.leading, 6)
+        .overlay(alignment: .leading) {
+            if let v = MaskVerdicts.all.first(where: { $0.puan == current }) { Rectangle().fill(v.color).frame(width: 4) }
+        }
+    }
+}
+
+private struct Indicator: View {
+    let verdict: Verdict?
+    var body: some View {
+        HStack(spacing: 5) {
+            if let verdict {
+                Circle().fill(verdict.color).frame(width: 9, height: 9)
+                Text(verdict.label).font(.caption.weight(.semibold)).foregroundStyle(verdict.color)
+            } else {
+                Circle().strokeBorder(style: StrokeStyle(lineWidth: 1.5, dash: [2, 2])).frame(width: 11, height: 11).foregroundStyle(.secondary)
+                Text(L("Hüküm ver", "Judge")).font(.caption).foregroundStyle(.secondary)
             }
         }
     }

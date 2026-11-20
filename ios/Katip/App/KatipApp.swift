@@ -4,6 +4,7 @@ import SwiftUI
 struct KatipApp: App {
     @StateObject private var engine = MaskEngine()
     @StateObject private var store = SessionStore()
+    @StateObject private var feedback = FeedbackStore()
     @State private var incoming: URL?
 
     var body: some Scene {
@@ -11,6 +12,7 @@ struct KatipApp: App {
             HomeView(incoming: $incoming)
                 .environmentObject(engine)
                 .environmentObject(store)
+                .environmentObject(feedback)
                 .background(EngineHost(engine: engine).frame(width: 1, height: 1).opacity(0).accessibilityHidden(true))
                 .tint(Theme.accent)
                 // Files shared to Katip from Files, Mail, WhatsApp... ("Open in Katip" / "Copy to Katip").
