@@ -2,7 +2,7 @@
 
 [English](PRIVACY.md) · **Türkçe**
 
-Son güncelleme: 16 Kasım 2026. Bu metin Katip web uygulamasını (fikrifirat.github.io/katip ve Hugging Face
+Son güncelleme: 20 Kasım 2026. Bu metin Katip web uygulamasını (fikrifirat.github.io/katip ve Hugging Face
 Space), Python ve JavaScript için `katip-mask` paketlerini ve Claude için Katip Kalkan bağlayıcısını kapsar.
 İletişim: fikrifirat@gmail.com ya da [GitHub issues](https://github.com/fikrifirat/katip/issues) (oraya gerçek kişisel veri yazmayın). Metin ileride geliştiricinin kendi
 sitesine taşınacak; bu dosya kopya olarak kalır.
@@ -19,6 +19,7 @@ hâle getirmez ve bazı değerleri kaçırabilir; çıktıyı yine sizin kontrol
 | | Belgeler nerede işlenir | Bilgisayarınızdan ne çıkar | Ne saklanır |
 |---|---|---|---|
 | **Web uygulaması** | Tarayıcı sekmenizde | Hiçbir şey. Sayfanın içerik güvenliği politikası (CSP) başka adreslere veri gönderilmesini engeller. Maskeli kopyayı siz indirirsiniz. | Hiçbir şey. Sekmeyi kapatınca belge silinir. |
+| **Gönder sayfası** (`gonder.html`) | Tarayıcı sekmenizde | Varsayılan olarak hiçbir şey. Claude'u ya da ChatGPT'yi maskeli metinle siz açarsınız, ya da metni kopyalar veya paylaşırsınız. Yalnızca "Kendi API anahtarınızla burada sorun"u kullanırsanız maskeli metin (asla asıl belge ya da yer tutucu eşleşmeleri değil) tarayıcınızdan doğrudan kendi hesabınızla api.anthropic.com ya da api.openai.com'a gider; sayfanın CSP'si yalnızca bu iki adrese izin verir. | Tarayıcınızın deposunda: dil, profil, gönderim kaydı (zaman, profil, hedef, veri türü sayıları; değerler asla) ve değerlendirmeleriniz. API anahtarınız yalnızca "Bu cihazda hatırla"yı işaretlerseniz. Yer tutucu eşleşmeleri yalnızca açık sekmede tutulur. |
 | **katip-mask (Python, npm)** | Kendi programınızın içinde | Hiçbir şey; yalnızca `model=` verirseniz model dosyaları bir kez Hugging Face'ten sabit bir sürümle indirilir ve SHA-256 ile doğrulanır. Metin gönderilmez. | İndirilen modeller, `~/.cache/katip-mask` içinde. |
 | **Katip Kalkan (Claude)** | Bilgisayarınızda, Claude'un başlattığı yerel bir programda | Yalnızca maskeli metin, kullanmayı seçtiğiniz Claude'a. İlk açılışta açık kaynak yardımcı paketler bir kez PyPI'dan indirilir. | Yer tutucu eşleşmeleri (`[AD SOYAD-1]` → gerçek ad), `~/.katip/vault` içinde AES-256-GCM ile şifreli; 30 gün sonra ya da istediğinizde silinir. Ayrıntı: [connector/PRIVACY.md](connector/PRIVACY.md). |
 
