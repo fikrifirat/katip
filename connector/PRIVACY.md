@@ -42,7 +42,19 @@ computer. Only the masked text, with placeholders such as `[AD SOYAD-1]`, is ret
   Hugging Face at a pinned commit. The Claude Code plugin also downloads the PaddleOCR text recogniser
   once from Hugging Face, at a pinned commit, the first time you open a scan or photo
   (`KATIP_OCR_DOWNLOAD=0` turns this off; the `.mcpb` already contains it). These requests contain no document data. Set `KATIP_AUTO_DEPS=0` to turn
-  the package downloads off. Katip makes no other network requests.
+  the package downloads off.
+* **Precedent search (`emsal_ara`), off by default:** only if you turn on the "Precedent search" setting
+  (or `KATIP_EMSAL_ONLINE=1`) and Claude calls it, short keyword queries such as
+  `kira tespit hakkaniyet` go to the Ministry of Justice's public decision search (bedesten.adalet.gov.tr),
+  and the full text of the decisions found is fetched from there. A query may hold only lowercase letters;
+  Katip refuses it, before sending anything, if a word has a capital, a digit or a sign, or is part of a
+  value Katip masked in that matter. The document, its masked text and any quote from it are never sent.
+  Every request is listed in `~/.katip/emsal/requests.log`. While the setting is off (the
+  default), Katip makes no network requests at all.
+  Katip makes no other network requests. `mevzuat_bak` (statutes) works offline.
+* **Grades (`geri_bildirim`):** kept on your computer in `~/.katip/emsal/grades.jsonl`: the public decision
+  id, the query words, your grade and note. They reach the author only if you send that file yourself
+  (`katip-kalkan feedback --export grades.json` writes it so you can read it first).
 
 ## What Katip can't protect
 

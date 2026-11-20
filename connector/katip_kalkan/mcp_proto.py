@@ -29,20 +29,35 @@ class Tool:
     schema: dict
     fn: Callable[..., dict]
     annotations: dict = field(default_factory=dict)
+    meta: dict | None = None  # e.g. {"ui": {"resourceUri": "ui://..."}} (MCP Apps); hosts without it ignore it
 
     def describe(self) -> dict:
-        return {"name": self.name, "title": self.title, "description": self.description,
-                "inputSchema": self.schema, "annotations": {"title": self.title, **self.annotations}}
+        d = {"name": self.name, "title": self.title, "description": self.description,
+             "inputSchema": self.schema, "annotations": {"title": self.title, **self.annotations}}
+        if self.meta:
+            d["_meta"] = self.meta
+        return d
+
+
+@dataclass
+class Resource:
+    """A read-only resource, here the HTML views of MCP Apps (mimeType text/html;profile=mcp-app)."""
+    uri: str
+    name: str
+    mime: str
+    read: Callable[[], str]
+    meta: dict | None = None
 
 
 class Server:
     def __init__(self, name: str, version: str, instructions: str, tools: list[Tool],
-                 prompts: list[dict] | None = None):
+                 prompts: list[dict] | None = None, resources: list[Resource] | None = None):
         """prompts: [{"name", "title", "description", "arguments": [...], "render": fn(args) -> str}]
         (shown by Claude Desktop as ready-made requests, like a slash command)."""
         self.name, self.version, self.instructions = name, version, instructions
         self.tools = {t.name: t for t in tools}
         self.prompts = {p["name"]: p for p in prompts or []}
+        self.resources = {r.uri: r for r in resources or []}
 
     def handle(self, msg: dict) -> dict | None:
         """One JSON-RPC message in, one response out (None for notifications)."""
@@ -63,13 +78,24 @@ class Server:
             want = params.get("protocolVersion")
             return {"protocolVersion": want if want in SUPPORTED else SUPPORTED[0],
                     "capabilities": {"tools": {"listChanged": False},
-                                     **({"prompts": {"listChanged": False}} if self.prompts else {})},
+                                     **({"prompts": {"listChanged": False}} if self.prompts else {}),
+                                     **({"resources": {"listChanged": False}} if self.resources else {})},
                     "serverInfo": {"name": self.name, "version": self.version},
                     "instructions": self.instructions}
         if method == "ping":
             return {}
         if method == "tools/list":
             return {"tools": [t.describe() for t in self.tools.values()]}
+        if method == "resources/list":
+            return {"resources": [{"uri": r.uri, "name": r.name, "mimeType": r.mime} for r in self.resources.values()]}
+        if method == "resources/read":
+            r = self.resources.get(params.get("uri"))
+            if not r:
+                raise _RpcError(-32002, f"unknown resource {params.get('uri')!r}")
+            c = {"uri": r.uri, "mimeType": r.mime, "text": r.read()}
+            if r.meta:
+                c["_meta"] = r.meta
+            return {"contents": [c]}
         if method == "prompts/list":
             return {"prompts": [{k: v for k, v in p.items() if k != "render"} for p in self.prompts.values()]}
         if method == "prompts/get":
