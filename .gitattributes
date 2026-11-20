@@ -6,3 +6,6 @@ sdk/** text=auto eol=lf
 docs/ export-ignore
 src/ export-ignore
 hf/ export-ignore
+
+# The desktop app is released as its own download, not through the Claude plugin archive.
+desktop/ export-ignore

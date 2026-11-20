@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Katip Klasör</title>
+<link rel="icon" href="mark.svg">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<header class="top">
+  <div class="logo">
+    <img class="mark" src="mark.svg" width="30" height="30" alt="">
+    <div><div class="word">Katip <span class="word2">Klasör</span></div>
+    <div class="sub">Belgeler bu bilgisayarda maskelenir; hiçbir şey yüklenmez.</div></div>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-view="files" aria-selected="true">Dosyalar</button>
+    <button role="tab" data-view="restore">Geri yükle</button>
+    <button role="tab" data-view="audit">Kayıt</button>
+    <button role="tab" data-view="settings">Ayarlar</button>
+  </nav>
+  <div class="busy" id="busy" hidden><span class="dot"></span><span id="busyText"></span></div>
+</header>
+<div class="banner" id="warn" hidden></div>
+<main>
+  <section id="view-files" class="view">
+    <aside class="cases">
+      <h2>Davalar</h2>
+      <ul id="caseList"></ul>
+      <form id="newCase" class="newcase">
+        <input type="text" id="newCaseName" placeholder="Yeni dava klasörü" aria-label="Yeni dava klasörü adı">
+        <button type="submit">Ekle</button>
+      </form>
+      <p class="hint">Dava adı Katip klasöründe görünür, maskeli belgelere girmez.</p>
+      <h2 class="sep">Araçlar</h2>
+      <ul class="tools" id="tools"></ul>
+    </aside>
+    <div class="pane" id="casePane"></div>
+  </section>
+  <section id="view-review" class="view" hidden></section>
+  <section id="view-restore" class="view one" hidden>
+    <div class="card narrow">
+      <h1>Yapay zekânın cevabına gerçek adları geri koyun</h1>
+      <p class="lead">Cevabı buraya yapıştırın ya da dosya olarak <b>3 Yapay zekâ cevapları</b> klasörüne, aynı dava klasörüne koyun. Sonuç <b>4 Geri yüklenmiş</b> klasörüne yazılır ve bu bilgisayarda kalır.</p>
+      <label class="lbl" for="restoreCase">Dava</label>
+      <select id="restoreCase"></select>
+      <label class="lbl" for="restoreText">Cevap</label>
+      <textarea id="restoreText" rows="12" placeholder="[AD SOYAD-1] ile ilgili dilekçe taslağı…"></textarea>
+      <div class="row"><button class="primary" id="restoreBtn">Gerçek adları geri koy</button>
+      <button id="openAnswers">Cevaplar klasörünü aç</button></div>
+      <p id="restoreOut" class="result" hidden></p>
+    </div>
+  </section>
+  <section id="view-audit" class="view one" hidden>
+    <div class="card">
+      <div class="row spread"><h1>Kayıt</h1>
+        <div class="row"><select id="auditCase" aria-label="Dava"></select><a id="auditCsv" class="btn" download>CSV indir</a></div></div>
+      <p class="lead">Ne zaman, hangi belge, hangi profil ve kaç değer maskelendi. Kayıtta gerçek değerler ve asıl dosya adları yer almaz.</p>
+      <div class="tablewrap"><table class="grid"><thead><tr><th>Zaman</th><th>Olay</th><th>Belge</th><th>Profil</th><th>Maskelenen</th><th>Ayrıntı</th><th>Kullanıcı</th></tr></thead>
+      <tbody id="auditRows"></tbody></table></div>
+    </div>
+  </section>
+  <section id="view-settings" class="view one" hidden>
+    <div class="card narrow">
+      <h1>Ayarlar</h1>
+      <label class="lbl" for="setFolder">Katip klasörü</label>
+      <div class="row"><input type="text" id="setFolder"><button id="openRoot">Aç</button></div>
+      <label class="lbl" for="setModel">Ad tanıma modeli</label>
+      <select id="setModel">
+        <option value="base">Katip Mask Base: en doğru, 111 MB (önerilen)</option>
+        <option value="mini">Katip Mask Mini: eski bilgisayarlar için, 31 MB</option>
+        <option value="nano">Katip Mask Nano: en hızlı, 2,6 MB</option>
+      </select>
+      <label class="lbl" for="setProfile">Yeni davalar için profil</label>
+      <select id="setProfile"></select>
+      <label class="check"><input type="checkbox" id="setAuto"> İşaretli yeri olmayan belgeleri kontrol beklemeden maskeli klasöre koy</label>
+      <div class="row"><button class="primary" id="saveSettings">Kaydet</button><span id="savedNote" class="hint" hidden>Kaydedildi.</span></div>
+      <h2 class="sep">Modüller</h2>
+      <ul class="mods" id="mods"></ul>
+      <h2 class="sep">Davayı unut</h2>
+      <p class="hint">Davanın anahtarını ve kontrol verisini siler. Bundan sonra o davanın cevaplarına gerçek adlar geri konamaz. Belgeleriniz silinmez.</p>
+      <div class="row"><select id="forgetCase" aria-label="Dava"></select><button id="forgetBtn" class="danger">Unut</button></div>
+      <p class="hint" id="engineInfo"></p>
+    </div>
+  </section>
+</main>
+</body>
+</html>

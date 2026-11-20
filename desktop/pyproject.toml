@@ -1,0 +1,28 @@
+[project]
+name = "katip-klasor"
+version = "0.1.0"
+description = "Mask the documents a lawyer drops into a folder, on their own computer (KVKK)"
+requires-python = ">=3.10"
+license = {text = "AGPL-3.0-or-later"}
+# katip_kalkan (../connector) provides detection, the case vault and the leak check.
+dependencies = [
+  "cryptography==50.0.2",   # encrypted case keys and review data
+  "pymupdf==2.1",           # PDF reading and real redaction
+  "rapidocr==3.10.0",       # PaddleOCR for scans and photos
+  "onnxruntime==1.32.0",    # Katip Mask name model
+  "numpy==2.5.4",
+  "katip-mask==0.1.1",      # = connector engine.SDK_PIN
+]
+
+[project.optional-dependencies]
+window = ["pywebview==6.2.1"]  # native window; without it the screens open in the browser
+dev = ["pytest>=8", "pyinstaller==6.22.3"]
+
+[project.scripts]
+katip-klasor = "katip_klasor.app:main"
+
+[tool.setuptools.packages.find]
+include = ["katip_klasor*"]
+
+[tool.setuptools.package-data]
+katip_klasor = ["ui/*", "ui/fonts/*"]
