@@ -155,7 +155,7 @@ window.addEventListener("message", e => {
   }
 });
 
-/* saving a verdict: the host runs geri_bildirim on this computer (demo mode fakes it) */
+/* saving a verdict: the host runs geri_bildirim (Kalkan on this computer, or the relay for ChatGPT; demo mode fakes it) */
 async function save(resultId, v) {
   const args = { result_id: resultId, puan: v, atif_yapar: v === 2 };
   if (!embedded) { await new Promise(r => setTimeout(r, 700)); if (resultId.endsWith("-3") && !save.failed) { save.failed = 1; throw new Error("demo"); } return { saved: true }; }
@@ -169,7 +169,7 @@ function render(data) {
   const results = data.results || [];
   $("#sub").textContent = results.length ? `${results.length} karar · okuduklarınıza hüküm verin` : "";
   $("#foot").textContent = results.length
-    ? "Hükümleriniz yalnızca bu bilgisayarda saklanır; Katip'i geliştirmek için ancak siz gönderirseniz kullanılır."
+    ? (data.grades_note || "Hükümleriniz yalnızca bu bilgisayarda saklanır; Katip'i geliştirmek için ancak siz gönderirseniz kullanılır.")
     : (data.note || "Sonuç yok.");
   const list = $("#list"); list.innerHTML = "";
   results.forEach((r, i) => list.appendChild(block(r, i + 1)));
@@ -201,7 +201,7 @@ function block(r, rank) {
   $(".g", el).appendChild($("#gavel-svg").content.cloneNode(true));
   const row = $(".row", el), judge = $(".judge", el), status = $(".status", el), gtext = $(".gtext", el);
   row.onclick = () => { const open = el.classList.toggle("open"); row.setAttribute("aria-expanded", open); };
-  $("[data-link]", el).onclick = e => { if (embedded) { e.preventDefault(); request("ui/open-link", { url: r.link }).catch(() => {}); } };
+  $("[data-link]", el).onclick = e => { if (embedded) { e.preventDefault(); request("ui/open-link", { url: r.link }).catch(() => window.open(r.link, "_blank", "noopener")); } };
   $(".gavel", el).onclick = () => {
     if (judge.dataset.state === "striking") return;
     judge.dataset.state = judge.dataset.state === "open" ? (el.dataset.verdict ? "done" : "idle") : "open";

@@ -68,7 +68,17 @@ exercise rights over client data, contact the firm. To delete everything Katip s
 
 ## ChatGPT relay (separate, not part of the plugin)
 
-The optional `katip-kalkan share` command sends text that your computer has already masked and encrypted
-with a one-time key to a relay you choose. The relay keeps it in memory only and deletes it after one
-read or 15 minutes. It logs request method, path, status and size, never content, codes or keys. No
-public relay is operated yet; this section will name the host and region before one is.
+The ChatGPT connector is a relay server (see [CHATGPT.md](CHATGPT.md)). It never receives an original
+document or a real value:
+
+* **Share codes.** Your device (the Katip web app or `katip-kalkan share`) masks the document, encrypts the
+  masked text with a one-time key and uploads only the ciphertext. The key is in the share code you paste into
+  ChatGPT. The relay keeps the ciphertext in memory only and deletes it after one read or 15 minutes.
+* **Precedent search.** Only short lowercase keyword queries go from the relay to the Ministry of Justice's
+  decision search. The optional ranking context (`baglam`) is masked text, used in memory and not stored.
+* **Verdicts.** The gavel button stores the decision id, the query words, the rank and your verdict on the
+  relay, with no account, name or note.
+* **Logs** hold request method, path, status and size, never content, codes or keys.
+
+Masked text is still personal data in pseudonymised form, and ChatGPT receives it. No public relay is operated
+yet; this section will name the host and region before one is.
