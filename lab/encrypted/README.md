@@ -41,6 +41,28 @@ Encrypted run of Nano-FHE on one page of bench text (25 documents, 614 words, 1,
 So the encrypted model gives exactly the plaintext simulation's answers on that page, and the bench accuracy
 of the encrypted system is the "Nano-FHE fitted" row (74.0 vs 75.8). The price is speed and bytes.
 
+## Take 2: faster on the same CPU (`ServerTake2`, `--take 2`)
+
+openfhe-python releases the GIL, and OpenMP inside a single CKKS operation barely helps at this size (one
+operation: same time with 1 or 4 threads; 4 operations side by side: 3.2x). Take 2 runs independent operations on
+a thread pool with `OMP_NUM_THREADS=1` and reuses rotations across the linear layers that share an input.
+
+| | Take 1 | Take 2 | Take 2b (attention rotations also parallel) |
+| --- | ---: | ---: | ---: |
+| Server time per page | 667 s | 432 s | **373 s** |
+| Rotations | 3,900 | 2,908 | 2,908 |
+| Labels identical to plaintext | 1,021/1,021 | 1,021/1,021 | 1,021/1,021 |
+
+The rest is about 12,400 plaintext-ciphertext multiplications per page, set by the model's multiply-adds.
+
+## Take 3: Belfort eML (`belfort/`)
+
+`eml_nano.py` writes Nano-FHE with eML-supported operations only (Linear, add, tensor products); one encrypted
+input of 64 embedded tokens plus a plaintext attention mask, so short windows share a call exactly. It compiles
+locally (`compile_eml.py`). `run_belfort.py` runs the same page as the CPU runs: 24 calls, one deploy of at most
+30 minutes (needs `BELFORT_API_KEY`; spends credits). `--plaintext-only` checks the packing: the masked page is
+identical to the CPU model's (rules + model, 25 of 25 documents).
+
 ## What makes it encryption-friendly (`fhe_ops.PolyFHE`)
 
 CKKS can only add and multiply, and each multiplication spends one level. Nano's non-linearities become:
