@@ -169,6 +169,44 @@ every value.
    lawyer can restore later?
 4. DPA template for the relay, to review with counsel.
 
+## 7. Product plan (added 20 Nov 2026)
+
+fikri chose option E and widened it into a small product of its own:
+
+* **A simple, mobile-first web app** for this one job: add a document or paste text, pick a profile, check the
+  masked preview, send it to Claude or ChatGPT, then paste the answer back to put the names back. It is cut down
+  from the demo and lives next to it, on the same engine and models (Mini by default, Nano as fast mode).
+* **Ways to send**, from simplest to strongest: copy; open claude.ai or chatgpt.com with the text filled in
+  (short texts only, because it goes in the link); the phone's share sheet (ChatGPT and Claude apps appear there);
+  and the one-time code through the relay, once the relay is live.
+* **An optional API key mode.** The lawyer pastes their own Anthropic or OpenAI API key and asks the question on
+  the page. Only masked text is sent, straight from the browser to the provider. API terms differ from consumer
+  chat: by default the providers say they don't train on API data and they offer DPAs. Note that a Claude Pro/Max
+  or ChatGPT Plus subscription does **not** include API credits; the API is billed separately.
+* **A details panel for each profile and data type**: what is masked, why, the legal text with a link, and what
+  can happen if it leaks.
+* **A native iOS app (SwiftUI)**, built in parallel in its own thread: mask on the phone, then send with the
+  share sheet or deep links, and restore from the answer.
+
+## 8. Masked text is still personal data: what we do about it
+
+Masking with a key kept on the device is pseudonymisation. KVKK still applies to the masked text whenever
+the facts left in it (dates, places, events) can point to a person. We don't hide that. What we do:
+
+1. **Minimise (KVKK m.4).** Each profile lets through only what the task needs. IDs, contact details and the
+   special categories of m.6 are masked by default. "Tam anonim" also blurs dates, places and institutions.
+2. **The key never leaves the device.** Neither Katip nor the AI provider can reverse the placeholders. In EU
+   law, the Court of Justice held in *EDPS v SRB* (C-413/23 P, 4 Sep 2025) that pseudonymised data may not be
+   personal data for a recipient who cannot reasonably re-identify it. There is no such KVKK decision, so we use
+   this to lower the risk, not as a legal argument that KVKK stops applying.
+3. **Warn about what is left.** Before sending, the app lists values that could still identify someone (dates,
+   places, institutions) and masks any of them with one tap.
+4. **Send through better terms.** API mode and business plans have DPAs and no training by default.
+5. **Keep a record (m.12).** A log on the device keeps what was masked (types and counts, never values), with
+   which profile, when, and where it was sent.
+6. **Say the rest plainly.** The transfer abroad still needs a basis under m.9; each details panel links to it
+   and to the Board's lawyers' guide.
+
 ## Sources
 
 * KVKK, *Avukatların Mesleki Faaliyetlerinde Kişisel Verilerin Korunmasına İlişkin Uygulama Rehberi* (KVKK
