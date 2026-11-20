@@ -32,9 +32,9 @@ jobs:
         run: cd desktop && python -m pytest -q
 
   build:
-    # unsigned betas: Mac users right-click > Open the first time, Windows users pass SmartScreen
+    # unsigned betas: Mac users right-click > Open the first time, Windows users pass SmartScreen.
+    # Runs on pull requests too, so a reviewer can download the app from the run's artifacts.
     needs: test
-    if: github.event_name != 'pull_request'
     name: build ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
