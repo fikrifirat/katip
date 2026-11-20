@@ -1,0 +1,68 @@
+# XcodeGen spec for the Katip iOS app. Generate the Xcode project with ./setup.sh (or `xcodegen generate`).
+name: Katip
+options:
+  bundleIdPrefix: com.fikrifirat
+  deploymentTarget:
+    iOS: "17.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    DEVELOPMENT_TEAM: ""          # set your team in Xcode (Signing & Capabilities)
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+targets:
+  Katip:
+    type: application
+    platform: iOS
+    sources:
+      - path: Katip
+        excludes:
+          - "Resources/Engine"
+          - "Resources/Engine/**"
+      # Folder reference, so index.html, engine.js, ort/ and models/ keep their paths inside the app bundle.
+      - path: Katip/Resources/Engine
+        type: folder
+        buildPhase: resources
+    preBuildScripts:
+      - name: Check engine bundle
+        basedOnDependencyAnalysis: false
+        script: |
+          if [ ! -f "${SRCROOT}/Katip/Resources/Engine/engine.js" ]; then
+            echo "error: engine bundle missing. Run ios/setup.sh once (needs Node 22+)."
+            exit 1
+          fi
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fikrifirat.katip
+        TARGETED_DEVICE_FAMILY: "1,2"
+        GENERATE_INFOPLIST_FILE: YES
+        INFOPLIST_KEY_CFBundleDisplayName: Katip
+        INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_NSCameraUsageDescription: "Kâğıt belgeyi taramak için. Görüntü bu telefonda okunur, hiçbir yere gönderilmez."
+        INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace: NO
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight
+    info:
+      path: Katip/Info.plist
+      properties:
+        CFBundleDevelopmentRegion: tr
+        CFBundleLocalizations: [tr, en]
+        ITSAppUsesNonExemptEncryption: false
+        # "Open in Katip" / "Copy to Katip" from Files, Mail, WhatsApp...
+        CFBundleDocumentTypes:
+          - CFBundleTypeName: Document
+            CFBundleTypeRole: Viewer
+            LSHandlerRank: Alternate
+            LSItemContentTypes:
+              - com.adobe.pdf
+              - org.openxmlformats.wordprocessingml.document
+              - com.fikrifirat.katip.udf
+              - public.plain-text
+              - public.image
+        UTImportedTypeDeclarations:
+          - UTTypeIdentifier: com.fikrifirat.katip.udf
+            UTTypeDescription: UYAP Doküman Editörü belgesi
+            UTTypeConformsTo: [public.data]
+            UTTypeTagSpecification:
+              public.filename-extension: [udf]
