@@ -237,6 +237,11 @@ name-only and the multi-type model code).
 - [ ] Drafting (Taslak) from the case's sources
 - [ ] Dutch law (masking, wetten, rechtspraak)
 - [ ] Deployment for firms: on a laptop, on the firm's own server
+- [ ] A firm setting for what runs on its own and what waits for a lawyer
+- [ ] Lawyer-reviewed help for people without a lawyer (*Cebindeki hukuk*), after a written opinion on bar rules
+
+The order we're building these in, how we'll know each is done, and a check against the last 30 days of
+public discussion: [ROADMAP.md](ROADMAP.md).
 
 ## Questions, pilots and contact
 
