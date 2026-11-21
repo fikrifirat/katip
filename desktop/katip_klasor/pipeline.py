@@ -177,6 +177,12 @@ def final_spans(job: dict) -> list[dict]:
     add = {(f["type"], norm(f["value"])) for f in flags if f["kind"] == "missed" and f["decision"] == "mask"}
     out = [s for s in job["spans"] if (s["entity_type"], norm(s["text"])) not in keep]
     extra = [c for c in job["cands"] if (c["entity_type"], norm(c["text"])) in add and not _overlaps(c, out)]
+    # values the lawyer marked as missed while testing are masked too (a test never leaves a value readable)
+    for m in (job.get("eval") or {}).get("missed", []):
+        s = {"id": f"e{m['start']}", "entity_type": m["type"], "start": m["start"], "end": m["end"],
+             "text": text[m["start"]:m["end"]], "score": 1.0, "recognizer": "katip_eval"}
+        if not _overlaps(s, out + extra):
+            extra.append(s)
     # every occurrence of an added value, not just the one the detector scored
     return core._propagate(text, sorted(out + extra, key=lambda s: s["start"]),
                            [(c["entity_type"], c["text"].strip()) for c in extra])
@@ -204,6 +210,8 @@ def process(root: Path, p: Path, settings: dict, force: bool = False) -> dict:
         safe = layout.safe_name(p) + p.suffix.lower()
         job = {"key": key, "case": case, "name": layout.nfc(p.name), "safe": safe, "sha": digest,
                "profile": profile, "at": time.time(), "outputs": [], "status": "working"}
+        if old and old["sha"] == digest and old.get("eval"):
+            job["eval"] = old["eval"]  # the lawyer's test marks survive a re-run on the same file
         try:
             kind, text, _, ocr_ranges, readers, starts = read_doc(p)
             if not text.strip():

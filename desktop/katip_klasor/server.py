@@ -17,7 +17,7 @@ from urllib.parse import parse_qs, urlparse
 
 from katip_kalkan import engine, ner
 
-from . import __version__, layout, modules, pipeline, store
+from . import __version__, evaluate, layout, modules, pipeline, store
 from .watcher import Watcher
 
 UI = Path(__file__).resolve().parent / "ui"
@@ -56,21 +56,43 @@ def preview(job: dict) -> list[dict]:
     final = pipeline.final_spans(job)
     marks = [dict(s, m="mask") for s in final]
     marks += [dict(c, m="cand") for c in job["cands"] if not pipeline._overlaps(c, final)]
+    ev = job.get("eval") or {}
+    wrong = {tuple(w) for w in ev.get("wrong", [])}
+    if ev.get("on"):  # the lawyer's "missed" marks, shown in the text while testing
+        taken = marks[:]
+        for m in ev.get("missed", []):
+            s = {"start": m["start"], "end": m["end"], "entity_type": m["type"], "text": text[m["start"]:m["end"]], "m": "miss"}
+            if not pipeline._overlaps(s, taken):
+                marks.append(s)
+                taken.append(s)
     out, pos = [], 0
     for s in sorted(marks, key=lambda s: (s["start"], -s["end"])):
         if s["start"] < pos or s["start"] >= len(text):
             continue
         if s["start"] > pos:
-            out.append({"t": text[pos:s["start"]]})
+            out.append({"t": text[pos:s["start"]], "s": pos})
         f = fl.get((s["entity_type"], pipeline.norm(s["text"])))
         out.append({"t": text[s["start"]:s["end"]], "m": s["m"], "type": pipeline.type_label(s["entity_type"]),
-                    "flag": f["id"] if f else None})
+                    "flag": f["id"] if f else None, "s": s["start"], "e": s["end"], "et": s["entity_type"],
+                    "wrong": (s["entity_type"], pipeline.norm(s["text"])) in wrong})
         pos = s["end"]
     if pos < len(text):
-        out.append({"t": text[pos:]})
+        out.append({"t": text[pos:], "s": pos})
     if len(job["text"]) > PREVIEW_CHARS:
         out.append({"t": "\n\n[… önizleme burada kesildi; maskeleme belgenin tamamına uygulanır]"})
     return out
+
+
+def eval_view(job: dict) -> dict:
+    """The lawyer's test marks for the review screen (values stay on this computer)."""
+    ev = evaluate._ev(dict(job))
+    text = job["text"]
+    return {"eval": {"on": ev["on"], "complete": ev["complete"], "doc_type": ev["doc_type"], "wrong": ev["wrong"],
+                     "missed": [dict(m, value=text[m["start"]:m["end"]]) for m in ev["missed"]],
+                     "score": evaluate.score_job(dict(job))},
+            "doc_types": evaluate.DOC_TYPES,
+            "types": {t: pipeline.type_label(t) for t in ("PERSON", "ADDRESS", "TCKN", "PHONE", "EMAIL", "IBAN",
+                                                          "BIRTH_DATE", "HEALTH", "PLATE", "TERM")}}
 
 
 def open_path(p: Path) -> None:
@@ -95,7 +117,27 @@ class Api:
         row = _job_row(j)
         if j["status"] == "error":
             return {"job": row, "flags": [], "segments": []}
-        return {"job": row, "flags": j["flags"], "segments": preview(j), "readers": j.get("readers", [])}
+        return {"job": row, "flags": j["flags"], "segments": preview(j), "readers": j.get("readers", []),
+                **eval_view(j)}
+
+    def post_eval(self, b):
+        j = evaluate.update(b["case"], b["key"], b.get("change") or {})
+        return {"segments": preview(j), "flags": j["flags"], **eval_view(j)}
+
+    def post_eval_export(self, b):
+        rep = self.get_eval_report({})
+        root = self.root()
+        p = root / f"Katip test raporu {rep['made']}.json"
+        p.write_text(json.dumps(rep, ensure_ascii=False, indent=1), encoding="utf-8")
+        return {"path": str(p), "files": rep["files"], "total": rep["total"]}
+
+    def get_eval_report(self, q):
+        s = store.load_settings()
+        root = layout.ensure(store.folder(s))
+        cases = [layout.GENERAL] + layout.cases(root)
+        rep = evaluate.report(cases)
+        evaluate.check_no_values(rep, [j.get("text", "") for c in cases for j in store.load_jobs(c).values()])
+        return rep
 
     def post_decide(self, b):
         j = pipeline.set_decision(b["case"], b["key"], b["flag"], b["decision"])
@@ -147,6 +189,9 @@ class Api:
 
     def post_open(self, b):
         root = self.root()
+        if b["which"] == "root":
+            open_path(root)
+            return {"ok": True}
         top = {"inbox": layout.INBOX, "out": layout.OUT, "answers": layout.ANSWERS, "restored": layout.RESTORED}[b["which"]]
         d = layout.case_dir(root, top, b["case"]) if b.get("case") else root / top
         d.mkdir(parents=True, exist_ok=True)
