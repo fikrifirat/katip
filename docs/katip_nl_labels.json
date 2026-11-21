@@ -1,0 +1,92 @@
+{
+ "PERSON": {
+  "tag": "NAAM",
+  "nl": "Naam",
+  "en": "Name",
+  "tr": "Ad soyad"
+ },
+ "BSN": {
+  "tag": "BSN",
+  "nl": "Burgerservicenummer (BSN)",
+  "en": "Citizen service number",
+  "tr": "Vatandaşlık hizmet numarası (BSN)"
+ },
+ "IBAN": {
+  "tag": "IBAN",
+  "nl": "Rekeningnummer (IBAN)",
+  "en": "Bank account (IBAN)",
+  "tr": "IBAN"
+ },
+ "POSTCODE": {
+  "tag": "POSTCODE",
+  "nl": "Postcode",
+  "en": "Postcode",
+  "tr": "Posta kodu"
+ },
+ "HOUSE_NUMBER": {
+  "tag": "HUISNR",
+  "nl": "Huisnummer",
+  "en": "House number",
+  "tr": "Kapı numarası"
+ },
+ "ADDRESS": {
+  "tag": "ADRES",
+  "nl": "Adres",
+  "en": "Address",
+  "tr": "Adres"
+ },
+ "PHONE": {
+  "tag": "TELEFOON",
+  "nl": "Telefoonnummer",
+  "en": "Phone number",
+  "tr": "Telefon"
+ },
+ "EMAIL": {
+  "tag": "E-MAIL",
+  "nl": "E-mailadres",
+  "en": "E-mail address",
+  "tr": "E-posta"
+ },
+ "PLATE": {
+  "tag": "KENTEKEN",
+  "nl": "Kenteken",
+  "en": "Licence plate",
+  "tr": "Plaka"
+ },
+ "ID_DOCUMENT": {
+  "tag": "DOCUMENTNR",
+  "nl": "Paspoort-, ID- of rijbewijsnummer",
+  "en": "Passport, ID card or driving licence no.",
+  "tr": "Pasaport / kimlik / ehliyet no"
+ },
+ "V_NUMBER": {
+  "tag": "V-NUMMER",
+  "nl": "Vreemdelingennummer (V-nummer)",
+  "en": "Immigration number (V-number)",
+  "tr": "Yabancı numarası (V-nummer)"
+ },
+ "VAT_ID": {
+  "tag": "BTW-ID",
+  "nl": "Btw-identificatienummer",
+  "en": "VAT id",
+  "tr": "KDV numarası"
+ },
+ "KVK": {
+  "tag": "KVK",
+  "nl": "KvK-nummer",
+  "en": "Chamber of Commerce no.",
+  "tr": "Ticaret sicil no (KvK)"
+ },
+ "RSIN": {
+  "tag": "RSIN",
+  "nl": "RSIN / fiscaal nummer",
+  "en": "RSIN / tax number",
+  "tr": "RSIN / vergi no"
+ },
+ "BIRTH_DATE": {
+  "tag": "GEBOORTEDATUM",
+  "nl": "Geboortedatum",
+  "en": "Date of birth",
+  "tr": "Doğum tarihi"
+ }
+}

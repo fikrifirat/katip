@@ -34,6 +34,7 @@ not promises to anyone. How the plan was made: [design note](roadmap/design-2026
 | X4 | **Katip for iOS**, first real build | Built in Xcode and on TestFlight; mask, send, restore names works on a phone | `local` `reach` | #64 open, never built |
 | X5 | **Dutch first slice** out of draft | Dutch masking test set scored; wetten and rechtspraak checks work; one conversation with a Dutch lawyer about the NOvA recommendations | `sources` `local` | #67 draft |
 | X6 | **Firm deployment**: on a laptop and on the firm's own server | The compose or Helm package ran on one real firm or test server with outbound traffic blocked | `trust` `local` | written, never run on real hardware |
+| X7 | **Letter explained, private client test** (`cep.html`): a Dutch letter is read and masked on the phone, Katip names the type and the deadline rule with its official source, the AI explains it in plain NL/EN/TR, and the page points to Juridisch Loket, Raad voor Rechtsbijstand and NOvA | fikri tested it with his own IND and Dutch letters; letter types and deadlines checked by a Dutch lawyer before anyone else sees it. Not linked from the site, not public (N6 still applies) | `local` `trust` | built (this PR), untested on real letters |
 
 ## Alongside: all the time
 

@@ -7,6 +7,7 @@ import * as E from "./engine.js";
 import { loadNer, runNer } from "./ner.js";
 import { MARK, drawMark } from "./brand.js";
 import { createPaddleOcr, decodeImage } from "./paddle_ocr.js";
+import { guessLanguage } from "./letters.js";
 
 let py, current = null, ocrSeq = 0, T = null;
 const pendingOcr = new Map();
@@ -92,8 +93,29 @@ function renderPages(bytes, max = 12, scale = 1.25) {
   return out;
 }
 
+// Dutch recognizers (lab/nl/katip_nl, stdlib only) ship as their own small zip, loaded the first time a Dutch
+// document arrives; the Turkish bundle (katip_py.zip) is untouched.
+let nlLoaded = null;
+const loadNl = () => nlLoaded ??= (async () => {
+  py.unpackArchive(await (await fetch(here("./katip_nl.zip"))).arrayBuffer(), "zip", { extractDir: "/home/pyodide" });
+  py.runPython("import katip_nl.recognizers");
+})().catch(e => { nlLoaded = null; throw e; });
+const docLang = (text, s) => (s.docLang === "nl" || s.docLang === "tr") ? s.docLang : s.docLang === "auto" ? guessLanguage(text) : "tr";
+
+async function detectNl(text, s, extra) {
+  await loadNl();
+  // the Turkish name model still helps on Dutch letters (Turkish and other foreign names); only confident names go in
+  const names = extra.filter(x => x[3] === "PERSON" && x[2] >= 0.8).map(x => [x[0], x[1], x[2], "PERSON"]);
+  py.globals.set("_T", text);
+  py.globals.set("_O", JSON.stringify({ threshold: s.threshold, extra: names, address_detail: s.addressDetail === "full" ? "full" : "street", mask: s.mask ?? [], allow: s.allow ?? [] }));
+  return JSON.parse(py.runPython(`import json
+from katip_nl import recognizers as _nl
+_o = json.loads(_O)
+json.dumps(_nl.detect(_T, _o["threshold"], None, [tuple(x) for x in _o["extra"]], _o["address_detail"], _o["mask"], _o["allow"]), ensure_ascii=False)`));
+}
+
 async function detectWithModel(text, s, doc = null) {
-  const t0 = performance.now();
+  const t0 = performance.now(), lang = docLang(text, s);
   let extra = [];
   if (s.ner) {
     T ??= await import("./vendor/transformers/transformers.min.js");
@@ -102,9 +124,14 @@ async function detectWithModel(text, s, doc = null) {
     extra = await runNer(T, ner, text, { minScore: s.threshold });
   }
   const tn = performance.now();
+  if (lang === "nl") {
+    progress("Nederlandse gegevens zoeken");
+    const spans = (await detectNl(text, s, extra)).filter(x => !x.flag_only || s.flagOnly);
+    return { spans, lang, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
+  }
   const spans = E.pyDetect(py, text, { threshold: s.threshold, entities: s.entities, mask: s.mask ?? [], allow: s.allow ?? [], extra, baseline: s.baseline ?? null, trust: s.trust ?? null,
     ocr_ranges: (doc?.pages ?? []).filter(p => p.ocr).map(p => [p.start, p.end]), address_detail: s.addressDetail ?? "street" });
-  return { spans, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
+  return { spans, lang, nerMs: Math.round(tn - t0), rulesMs: Math.round(performance.now() - tn), nerCount: extra.length };
 }
 
 // Analyses can overlap (OCR awaits the main thread), so only the newest one may become the current document.
@@ -124,14 +151,14 @@ async function analyze({ name, bytes, settings, seq }) {
   current = { name, kind, bytes, doc };
   if (kind === "pdf" || kind === "image") { E.attachBoxes(doc, r.spans); if (!settings.entities || settings.entities.includes("UNREAD")) r.spans.push(...E.unreadSpans(doc)); }
   const previews = kind === "pdf" ? renderPages(bytes) : [];
-  postMessage({ type: "analyzed", seq, kind, text: doc.text, spans: r.spans, ocrPages: doc.ocrPages ?? 0, pages: doc.pages?.length ?? 1, pageSizes: pageSizes(doc),
+  postMessage({ type: "analyzed", seq, kind, text: doc.text, spans: r.spans, lang: r.lang, ocrPages: doc.ocrPages ?? 0, pages: doc.pages?.length ?? 1, pageSizes: pageSizes(doc),
                 timing: { parse: parseMs, ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount, previews }, previews.map(p => p.buffer));
 }
 
 async function redetect({ settings }) {
   const r = await detectWithModel(current.doc.text, settings, current.doc);
   if (current.kind === "pdf" || current.kind === "image") { E.attachBoxes(current.doc, r.spans); if (!settings.entities || settings.entities.includes("UNREAD")) r.spans.push(...E.unreadSpans(current.doc)); }
-  postMessage({ type: "redetected", spans: r.spans, timing: { ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount });
+  postMessage({ type: "redetected", spans: r.spans, lang: r.lang, timing: { ner: r.nerMs, rules: r.rulesMs }, nerCount: r.nerCount });
 }
 
 const mimeOf = n => ({ jpg: "image/jpeg", jpeg: "image/jpeg", tif: "image/tiff", tiff: "image/tiff", bmp: "image/bmp", webp: "image/webp" })[n.toLowerCase().split(".").pop()] ?? "image/png";
@@ -174,17 +201,33 @@ function maskedText({ spans }) {
 }
 // Masked text plus the placeholder map, for the send-to-AI page: the labels come from local_formats._label, so they
 // are the same [AD SOYAD-1] style as every other Katip output. The map stays in the page and is used to put names back.
-function maskMap({ spans }) {
-  py.globals.set("_km_text", current.doc.text); py.globals.set("_km_spans", JSON.stringify(spans));
+// tags (optional): entity -> placeholder word, e.g. the Dutch tags from katip_nl/labels.py ([NAAM-1], [V-NUMMER-1])
+function maskMap({ spans, tags = null }) {
+  py.globals.set("_km_text", current.doc.text); py.globals.set("_km_spans", JSON.stringify(spans)); py.globals.set("_km_tags", JSON.stringify(tags));
   const r = py.runPython(`
 import json, local_formats
 from collections import defaultdict
+_tags = json.loads(_km_tags)
+def _km_label(sp, c, seen):
+    if not _tags:
+        return local_formats._label(sp, c, seen)
+    k = (sp["entity_type"], " ".join((sp.get("ref") or sp["text"]).split()).casefold())
+    if k not in seen and sp["entity_type"] == "PERSON":
+        # "mevrouw Yildiz" after "A. Yildiz": same person, same label
+        for (typ, full), lab in list(seen.items()):
+            if typ == "PERSON" and full.endswith(" " + k[1]):
+                seen[k] = lab
+                break
+    if k not in seen:
+        c[sp["entity_type"]] += 1
+        seen[k] = "[%s-%d]" % (_tags.get(sp["entity_type"], sp["entity_type"]), c[sp["entity_type"]])
+    return seen[k]
 def _km():
     c, seen, out, pos, m = defaultdict(int), {}, [], 0, {}
     for sp in sorted(json.loads(_km_spans), key=lambda s: s["start"]):
         if sp["start"] < pos:
             continue
-        lab = local_formats._label(sp, c, seen)
+        lab = _km_label(sp, c, seen)
         m.setdefault(lab, sp["text"])
         out.append(_km_text[pos:sp["start"]]); out.append(lab); pos = sp["end"]
     out.append(_km_text[pos:])
