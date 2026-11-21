@@ -178,3 +178,34 @@ def id_tokens(text: str) -> list[str]:
         if len(t) >= 6 and sum(ch.isdigit() for ch in t) >= 5:
             out.append(t)
     return out
+
+
+_NUM = re.compile(r"\b\d{10,11}\b")
+_VKN_LABEL = re.compile(r"(vergi|v\.?\s?k\.?\s?n|vkn)[^\d]{0,25}$", re.I)
+
+
+def vkn_ok(s: str) -> bool:
+    """Turkish 10-digit tax number (VKN) checksum, as published by the Revenue Administration."""
+    if not re.fullmatch(r"\d{10}", s or ""):
+        return False
+    d, tot = [int(c) for c in s], 0
+    for i in range(9):
+        t = (d[i] + 9 - i) % 10
+        v = (t * 2 ** (9 - i)) % 9
+        tot += 9 if t and not v else v
+    return (10 - tot % 10) % 10 == d[9]
+
+
+def mask_ids(text: str, label: str = "[kimlik no]") -> str:
+    """Mask 10-11 digit numbers that could identify a person (TCKN, YKN, phone).
+
+    A 10-digit number is kept only when it passes the VKN checksum and the words just before it
+    name it as a tax number (vergi no, VKN): a company's tax number is not personal data and helps
+    DD. Every 11-digit number is masked: TCKN and YKN are 11 digits.
+    """
+    def sub(m):
+        n = m.group(0)
+        if len(n) == 10 and vkn_ok(n) and _VKN_LABEL.search(text[max(0, m.start() - 40): m.start()]):
+            return n
+        return label
+    return _NUM.sub(sub, text or "")

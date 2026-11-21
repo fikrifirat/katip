@@ -13,7 +13,9 @@ due-diligence tools:
 
 Nothing is summarised: every hit is a record the source published. A "review" hit needs checking,
 and no hit is not a clearance. Before a result reaches the AI, other people's ID numbers and
-parents' names are removed; the listed name, dates, decision and links stay. In your own terminal
+parents' names are removed; the listed name, dates, decision and links stay. A company's 10-digit tax
+number (VKN) stays visible when it passes the VKN checksum and is labelled as one ("vergi no"):
+it is not personal data and it pins the company down. Every 11-digit number (TCKN, YKN) is masked. In your own terminal
 `katip-kalkan dd search NAME` shows the full record.
 
 The index lives on your computer in `~/.katip/dd` (`KATIP_DD_HOME`). Fill it once:

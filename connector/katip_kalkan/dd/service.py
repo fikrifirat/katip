@@ -16,14 +16,13 @@ import re
 
 from .match import MATCH, REVIEW, ListIndex, TextIndex
 from .net import Blocked, PoliteClient
-from .normalize import id_tokens
+from .normalize import id_tokens, mask_ids, vkn_ok
 from .sources import gazette, ilan, masak
 from .store import Store, now
 
 SOURCES = ("masak", "ilan", "gazette")
 LISTS = list(masak.LISTS)
 _PRIVATE_FIELDS = ("tckn_vkn", "anne_adı", "baba_adı")
-_ID = re.compile(r"\b\d{10,11}\b")
 _cache: dict = {}
 
 HOW_TO_READ = ("score is name similarity, not probability. band 'match' >= %.2f, 'review' >= %.2f. Confirm every hit "
@@ -39,6 +38,12 @@ def _indexes(st: Store) -> dict:
         _cache.update(key=key, path=str(st.path), masak=ListIndex(st.records("masak")),
                       ilan=TextIndex(st.records("ilan")), gazette=TextIndex(st.records("gazette")))
     return _cache
+
+
+def _company_vkn(rec: dict, value: str) -> bool:
+    """A listed company's 10-digit tax number stays visible; a person's numbers never do."""
+    toks = id_tokens(value)
+    return rec.get("kind") != "person" and bool(toks) and all(vkn_ok(t) for t in toks)
 
 
 def _date(rec: dict) -> str:
@@ -65,7 +70,7 @@ def _hit(source: str, h, verbatim: bool, redact: bool, id_number: str) -> dict:
     if r.get("csv_only"):
         d["notes"].append("row found only in MASAK's CSV file, not in its search data")
     if redact:
-        d["notes"] = [_ID.sub("[kimlik no]", n) for n in d["notes"]]
+        d["notes"] = [mask_ids(n) for n in d["notes"]]
         if d["matched_on"].startswith("ID "):
             d["matched_on"] = "ID number"
         if id_number:
@@ -78,10 +83,10 @@ def _hit(source: str, h, verbatim: bool, redact: bool, id_number: str) -> dict:
         src = dict(r.get("raw") or {"text": r.get("text", "")})
         if redact:
             for k in _PRIVATE_FIELDS:
-                if src.get(k):
+                if src.get(k) and not (k == "tckn_vkn" and _company_vkn(r, src[k])):
                     src[k] = "[gizlendi]"
             if "text" in src:
-                src["text"] = _ID.sub("[kimlik no]", src["text"])
+                src["text"] = mask_ids(src["text"])
         d["source_record"] = src
     return d
 
@@ -127,12 +132,12 @@ def record(record_id: str, redact: bool = True, store: Store | None = None) -> d
                 out.pop("ids", None)
                 raw = dict(out.get("raw") or {})
                 for k in _PRIVATE_FIELDS:
-                    if raw.get(k):
+                    if raw.get(k) and not (k == "tckn_vkn" and _company_vkn(r, raw[k])):
                         raw[k] = "[gizlendi]"
                 if raw:
                     out["raw"] = raw
                 if out.get("text"):
-                    out["text"] = _ID.sub("[kimlik no]", out["text"])
+                    out["text"] = mask_ids(out["text"])
             return out
     raise KeyError(f"no record {record_id}")
 

@@ -16,7 +16,7 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 
-from .normalize import EQUIV, canon, fold, id_tokens, skeleton, tokens
+from .normalize import EQUIV, mask_ids, canon, fold, id_tokens, skeleton, tokens
 
 TOKEN_MIN = 0.85
 MATCH = 0.93   # tuned on the dev split in eval_dd.py, reported on the test split
@@ -220,7 +220,7 @@ class TextIndex:
                 if s >= floor and (di not in hits or s > hits[di].score):
                     start = max(0, lo - 8)
                     # mask 11-digit numbers (TCKN/VKN) of other people named in the notice
-                    snippet = re.sub(r"\b\d{10,11}\b", "[kimlik no]", " ".join(toks[start: lo + len(q) + 10]))
+                    snippet = mask_ids(" ".join(toks[start: lo + len(q) + 10]))
                     notes = [f"…{snippet}…"]
                     if self.docs[di].get("full_text") is False:
                         notes.append("title/summary only: notice page was not opened, check the full notice")
