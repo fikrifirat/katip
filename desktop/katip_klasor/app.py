@@ -5,6 +5,7 @@
   katip-klasor scan            mask what is waiting in 1 Gelen once, then exit (no window)
   katip-klasor release CASE    release every file of a case that has nothing left to check
   katip-klasor status          folder, model, counts per case
+  katip-klasor eval [--export rapor.json]   test scores from the lawyer's marks (counts only)
 """
 from __future__ import annotations
 
@@ -62,18 +63,41 @@ def _utf8_console() -> None:
                 pass
 
 
+def _cli_eval(export: str | None) -> int:
+    import json
+    from . import evaluate, layout, store
+    root = layout.ensure(store.folder(store.load_settings()))
+    cases = [layout.GENERAL] + layout.cases(root)
+    rep = evaluate.report(cases)
+    texts = [j.get("text", "") for c in cases for j in store.load_jobs(c).values()]
+    evaluate.check_no_values(rep, texts)
+    t = rep["total"]
+    print(f"{rep['files']} test dosyası · bulunan {t['found']} · yanlış {t['false']} · kaçan {t['missed']} · "
+          f"duyarlılık %{t['recall']} · kesinlik %{t['precision']} · F2 {t['f2']}")
+    for typ, m in rep["by_type"].items():
+        print(f"  {typ}: bulunan {m['found']}, yanlış {m['false']}, kaçan {m['missed']}")
+    if export:
+        with open(export, "w", encoding="utf-8") as f:
+            json.dump(rep, f, ensure_ascii=False, indent=1)
+        print(f"Yazıldı: {export}. Göndermeden önce açıp okuyun; yalnızca sayılar içerir.")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     _utf8_console()
     ap = argparse.ArgumentParser(prog="katip-klasor", description="Katip Klasör: belgeleri bu bilgisayarda maskeler.")
-    ap.add_argument("cmd", nargs="?", choices=["scan", "status", "release"])
+    ap.add_argument("cmd", nargs="?", choices=["scan", "status", "release", "eval"])
     ap.add_argument("case", nargs="?")
     ap.add_argument("--browser", action="store_true", help="pencere yerine tarayıcıda aç")
     ap.add_argument("--port", type=int, default=0)
+    ap.add_argument("--export", help="eval: write the counts-only report here")
     a = ap.parse_args(argv)
     if a.cmd == "scan":
         return _cli_scan()
     if a.cmd == "status":
         return _cli_status()
+    if a.cmd == "eval":
+        return _cli_eval(a.export)
     if a.cmd == "release":
         if not a.case:
             ap.error("release needs a case name")

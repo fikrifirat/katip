@@ -126,8 +126,12 @@ async function openReview(caseName, key) {
 function renderReview() {
   const R = review, j = R.job, root = $("#view-review"); root.replaceChildren();
   const released = j.status === "released";
-  const paper = h("div", { class: "paper", id: "paper" }, R.segments.map(s => {
-    if (!s.m) return s.t;
+  const T = R.eval && R.eval.on && !released;
+  const paper = h("div", { class: "paper" + (T ? " testing" : ""), id: "paper" }, R.segments.map(s => {
+    if (!s.m) return T ? h("span", { "data-s": s.s }, s.t) : s.t;
+    if (s.m === "miss") return h("span", { class: "miss", title: `${s.type}: kaçan değer (test)` }, s.t);
+    if (s.m === "mask" && T && !s.flag) return h("span", { class: "m" + (s.wrong ? " wrong" : ""), title: s.wrong ? "Yanlış maske (test). Geri almak için tıklayın." : "Yanlış maskeyse tıklayın (test)",
+      onclick: () => evalChange({ [s.wrong ? "wrong_remove" : "wrong_add"]: { type: s.et, start: s.s, end: s.e } }) }, s.wrong ? s.t : s.type);
     if (s.m === "mask") return h("span", { class: "m" + (s.flag ? " flag" : ""), "data-flag": s.flag, title: s.flag ? "Kontrol listesinde" : "Maskelenecek", onclick: s.flag ? () => pick(s.flag) : null }, s.type);
     return h("span", { class: "c", "data-flag": s.flag, title: `${s.type}: maskelenmeyecek`, onclick: s.flag ? () => pick(s.flag) : null }, s.t);
   }));
@@ -149,7 +153,47 @@ function renderReview() {
     released ? h("button", { onclick: () => api("open", { which: "out", case: R.case }) }, "Maskeli klasörü aç")
       : h("button", { class: "primary", id: "approve", onclick: approve }, "Onayla ve maskeli klasöre koy"),
     h("p", { class: "caveat" }, "Katip yalnızca tespit ettiğini maskeler; bu ekran, gözden kaçabilecek yerleri göstermek içindir."));
-  root.append(h("div", { class: "review" }, doc, h("aside", { class: "side" }, scroll, foot)));
+  root.append(h("div", { class: "review" }, doc, h("aside", { class: "side" }, testPanel(released), scroll, foot)));
+}
+
+// ---------------------------------------------------------------- test on real documents (counts only)
+async function evalChange(change) {
+  try { Object.assign(review, await api("eval", { case: review.case, key: review.key, change })); renderReview(); }
+  catch (e) { alert(e.message); }
+}
+
+function selectionRange() {
+  const sel = window.getSelection(); if (!sel || sel.isCollapsed) return null;
+  const r = sel.getRangeAt(0);
+  const a = r.startContainer.parentElement?.closest("[data-s]"), b = r.endContainer.parentElement?.closest("[data-s]");
+  if (!a || a !== b) return null;  // inside one stretch of unmasked text
+  const base = Number(a.dataset.s);
+  return { start: base + r.startOffset, end: base + r.endOffset };
+}
+
+function testPanel(released) {
+  const E = review.eval; if (!E) return null;
+  const toggle = h("label", { class: "row" }, h("input", { type: "checkbox", checked: E.on, disabled: released && !E.on,
+    onchange: e => evalChange({ on: e.target.checked }) }), " Bu belgeyle Katip'i test et");
+  if (!E.on) return h("div", { class: "group test" }, toggle);
+  const sc = E.score, sum = o => Object.values(o).reduce((a, b) => a + b, 0);
+  const type = h("select", { "aria-label": "Değer türü" }, Object.entries(review.types).map(([k, l]) => h("option", { value: k }, l)));
+  const docType = h("select", { "aria-label": "Belge türü", onchange: e => evalChange({ doc_type: e.target.value }) },
+    h("option", { value: "" }, "Belge türü seçin"), Object.entries(review.doc_types).map(([k, l]) => h("option", { value: k, selected: E.doc_type === k }, l)));
+  return h("div", { class: "group test" }, toggle,
+    h("p", { class: "why" }, "Belgeyi baştan sona okuyun. Yanlış maskeye tıklayın; kaçan bir değeri seçip aşağıdan işaretleyin. Kaçan değerler paylaşılan kopyada da maskelenir. Yanlış işaretlenen maskeler güvenli kalmak için maskeli kalır. Rapor yalnızca sayıları içerir."),
+    docType,
+    released ? h("p", { class: "hint" }, "Bu dosya maskeli klasörde. Kaçan değer işaretlemek için önce yeniden işleyin.")
+      : h("div", { class: "row" }, type, h("button", { onclick: () => { const r = selectionRange();
+          if (!r) return alert("Maskelenmemiş metinden bir parça seçin."); evalChange({ missed_add: { ...r, type: type.value } }); } }, "Seçili metin kaçmış")),
+    E.missed.length ? h("ul", { class: "missed" }, E.missed.map((m, i) => h("li", {}, `${review.types[m.type] || m.type}: `, h("b", {}, m.value), " ",
+      released ? null : h("button", { class: "link", onclick: () => evalChange({ missed_remove: i }) }, "geri al")))) : null,
+    h("p", { class: "score" }, `Bulunan ${sum(sc.found)} · yanlış ${sum(sc.false)} · kaçan ${sum(sc.missed)}`),
+    h("label", { class: "row" }, h("input", { type: "checkbox", checked: E.complete, onchange: e => evalChange({ complete: e.target.checked }) }),
+      " Belgenin tamamını ve kontrol listesini okudum"),
+    h("button", { onclick: async () => { try { const r = await api("eval_export", {});
+      alert(`${r.files} test dosyası. Rapor: ${r.path}\nGöndermeden önce açıp okuyun; yalnızca sayılar içerir.`); api("open", { which: "root" }).catch(() => {}); }
+      catch (e) { alert(e.message); } } }, "Test raporunu kaydet"));
 }
 
 function spot(f) {
