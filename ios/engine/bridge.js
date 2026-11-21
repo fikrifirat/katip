@@ -3,6 +3,7 @@
 // Nothing here touches the network: models and the ONNX runtime are served from the app bundle by the
 // katip-engine:// scheme handler, and the page's CSP allows no other origin.
 import * as ort from "onnxruntime-web/wasm";
+import { letter, letterInfo, letterPrompt } from "./letter.js";
 import { Masker, MODELS, loadModelFromFiles, restore as restoreText, LeakError, PROFILES, LABELS_TR, VERSION, ENGINE_SHA256 } from "katip-mask";
 
 ort.env.wasm.numThreads = 1;          // no SharedArrayBuffer without cross-origin isolation
@@ -117,6 +118,10 @@ window.katip = {
   ready: () => ({ version: VERSION, engine: ENGINE_SHA256 }),
   warm: async ({ model = "mini" }) => { await nameModel(model); return true; },
   mask, extract,
+  // "Letter explained" (Dutch letters; see letter.js and docs/cep.html)
+  letter: args => letter(args, { mask, nameModel }),
+  letterInfo: () => letterInfo(),
+  letterPrompt: args => letterPrompt(args),
   restore: ({ text, mapping }) => {
     const out = restoreText(text, mapping);
     const left = [...out.matchAll(/\[[A-ZÇĞİÖŞÜÂ .\/()-]+-\d+\]/g)].map(m => m[0]).filter(p => !(p in mapping));

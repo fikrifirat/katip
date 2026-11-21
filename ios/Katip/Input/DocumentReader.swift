@@ -33,7 +33,7 @@ enum DocumentReader {
     static let importable: [UTType] = [.pdf, .docx, .udf, .plainText, .utf8PlainText, .image]
 
     @MainActor
-    static func read(url: URL, engine: MaskEngine) async throws -> ReadResult {
+    static func read(url: URL, engine: MaskEngine, ocrLanguage: String = "tr") async throws -> ReadResult {
         let scoped = url.startAccessingSecurityScopedResource()
         defer {
             if scoped { url.stopAccessingSecurityScopedResource() }
@@ -45,13 +45,13 @@ enum DocumentReader {
         let data = try Data(contentsOf: url)
         var r: ReadResult
         switch ext {
-        case "pdf": r = try await pdf(data, title: title)
+        case "pdf": r = try await pdf(data, title: title, ocrLanguage: ocrLanguage)
         case "docx": r = ReadResult(text: try await engine.extract(data, kind: "docx"), title: title, ocr: false)
         case "udf": r = ReadResult(text: try await engine.extract(data, kind: "udf"), title: title, ocr: false)
         case "txt", "text", "md": r = ReadResult(text: decode(data), title: title, ocr: false)
         case "jpg", "jpeg", "png", "heic", "heif", "tif", "tiff":
             guard let img = UIImage(data: data)?.cgImage else { throw ReadError.empty }
-            let (t, note) = try await ocr([img])
+            let (t, note) = try await ocr([img], language: ocrLanguage)
             r = ReadResult(text: t, title: title, ocr: true, note: note)
         default: throw ReadError.unsupported(ext)
         }
@@ -67,7 +67,7 @@ enum DocumentReader {
     }
 
     /// Text layer if the PDF has one; otherwise each page is rendered and read with OCR.
-    static func pdf(_ data: Data, title: String) async throws -> ReadResult {
+    static func pdf(_ data: Data, title: String, ocrLanguage: String = "tr") async throws -> ReadResult {
         guard let doc = PDFDocument(data: data) else { throw ReadError.empty }
         let text = (0 ..< doc.pageCount).compactMap { doc.page(at: $0)?.string }.joined(separator: "\n\n")
         if text.filter({ $0.isLetter }).count > 20 * max(1, doc.pageCount) / 2 {
@@ -87,12 +87,13 @@ enum DocumentReader {
             }
             if let cg = img.cgImage { images.append(cg) }
         }
-        let (t, note) = try await ocr(images)
+        let (t, note) = try await ocr(images, language: ocrLanguage)
         return ReadResult(text: t, title: title, ocr: true, note: note)
     }
 
-    /// Apple Vision OCR, on the device. Turkish is used when this iOS version supports it.
-    static func ocr(_ images: [CGImage]) async throws -> (String, String?) {
+    /// Apple Vision OCR, on the device. Turkish ("tr", the default) or Dutch ("nl", for Letter explained) is used
+    /// when this iOS version supports it.
+    static func ocr(_ images: [CGImage], language: String = "tr") async throws -> (String, String?) {
         try await Task.detached(priority: .userInitiated) {
             var pages: [String] = []
             var note: String?
@@ -101,8 +102,10 @@ enum DocumentReader {
                 req.recognitionLevel = .accurate
                 req.usesLanguageCorrection = true
                 let supported = (try? req.supportedRecognitionLanguages()) ?? []
-                if let tr = supported.first(where: { $0.hasPrefix("tr") }) {
-                    req.recognitionLanguages = [tr, "en-US"]
+                if let lang = supported.first(where: { $0.hasPrefix(language) }) {
+                    req.recognitionLanguages = [lang, "en-US"]
+                } else if language != "tr" {
+                    req.automaticallyDetectsLanguage = true
                 } else {
                     req.automaticallyDetectsLanguage = true
                     note = L("Bu iOS sürümünde Türkçe metin tanıma yok; ç, ğ, ı, ş gibi harfler yanlış okunabilir. Maskeyi dikkatle kontrol edin.",

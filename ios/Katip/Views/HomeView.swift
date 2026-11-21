@@ -14,6 +14,7 @@ struct HomeView: View {
     @State private var error: String?
     @State private var path: [MaskSession] = []
     @State private var showSettings = false
+    @State private var showLetter = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -63,6 +64,17 @@ struct HomeView: View {
                            "PDF, Word (.docx), UYAP (.udf), text or photo. The document is read and masked on this phone and is not uploaded anywhere."))
                 }
 
+                Section {
+                    Button { showLetter = true } label: {
+                        Label(L("Hollanda'dan gelen bir mektubu anla", "Understand a letter from the Netherlands"), systemImage: "envelope.open")
+                    }
+                } header: {
+                    Text(L("Test · Mektup açıklaması", "Test · Letter explained"))
+                } footer: {
+                    Text(L("IND, belediye veya işveren mektubu: türü, süresi ve kaynağı, sade bir açıklama ve yardım alabileceğiniz yerler. Hukuki danışmanlık değildir.",
+                           "A letter from the IND, gemeente or employer: its type, deadline and source, a plain explanation, and where to get help. Not legal advice."))
+                }
+
                 if !store.sessions.isEmpty {
                     Section {
                         ForEach(store.sessions) { s in
@@ -96,6 +108,11 @@ struct HomeView: View {
                 .ignoresSafeArea()
             }
             .sheet(isPresented: $showSettings) { SettingsView() }
+            .fullScreenCover(isPresented: $showLetter) {
+                LetterView()
+                    .environmentObject(engine)
+                    .tint(Theme.accent)
+            }
             .overlay { if let busy { BusyOverlay(text: busy) } }
             .alert(L("Olmadı", "Something went wrong"), isPresented: Binding(get: { error != nil }, set: { if !$0 { error = nil } })) {
                 Button("OK", role: .cancel) {}
