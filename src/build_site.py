@@ -16,8 +16,11 @@ src, nm, out, here = Path(a.src), Path(a.nm), Path(a.out), Path(__file__).parent
 subprocess.run([sys.executable, str(here / "build_core.py"), str(src), str(nm), str(out)], check=True)
 
 for f in ("index.html", "app.js", "worker.js", "engine.js", "ner.js", "paddle_ocr.js", "style.css", "config.js", "serve.py", "brand.js", "mark.svg",
-          "gonder.html", "gonder.js", "gonder.css", "legal.js"):  # gonder = the small send-to-AI page
+          "gonder.html", "gonder.js", "gonder.css", "legal.js",  # gonder = the small send-to-AI page
+          "cep.html", "cep.js", "letters.js"):  # cep = private "test as a client" page for Dutch letters
+
     shutil.copy2(here / f, out / f)
+subprocess.run([sys.executable, str(here / "build_nl.py"), str(out)], check=True)  # Dutch recognizers, loaded on demand
 shutil.copytree(here / "fonts", out / "fonts", dirs_exist_ok=True)  # Geist (SIL OFL), self-hosted
 shutil.copytree(here / "hero", out / "hero", dirs_exist_ok=True)  # before/after images on the home screen
 shutil.copytree(here / "site", out, dirs_exist_ok=True)  # FAQ pages, sitemap, llms.txt, share image (see build_faq.py)
