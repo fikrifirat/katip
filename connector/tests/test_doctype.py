@@ -124,3 +124,29 @@ def test_scan_documents_tool(home):
     out = core.scan_documents()
     assert out["files"] and out["files"][0]["type"] == "kira_sozlesmesi"
     assert "masked_text" not in out["files"][0] and "text" not in out["files"][0]
+
+
+@pytest.mark.parametrize("mode,net_ok,device_run,net_run", [
+    ("device", True, "auto", "suggest"),
+    ("ask", True, "suggest", "suggest"),
+    ("auto", True, "auto", "auto"),
+    ("auto", False, "auto", "suggest"),   # precedent search off: nothing leaves on its own
+    ("nonsense", True, "auto", "suggest"),  # unknown value falls back to the safe default
+])
+def test_autonomy_modes(mode, net_ok, device_run, net_run):
+    plan = D.next_steps({"type": "odeme_emri", "lang": "tr"}, settings={"mode": mode, "network_ok": net_ok})
+    runs = {s["where"]: s["run"] for s in plan["steps"]}
+    assert runs["device"] == device_run and runs["network"] == net_run
+    assert plan["autonomy"]["mode"] in ("ask", "device", "auto")
+
+
+def test_autonomy_from_settings(monkeypatch):
+    from katip_kalkan import core
+    monkeypatch.setenv("KATIP_AUTONOMY", "auto")
+    monkeypatch.setenv("KATIP_STEPS_OFF", "emsal, draft")
+    monkeypatch.delenv("KATIP_EMSAL_ONLINE", raising=False)
+    a = core.autonomy()
+    assert a == {"mode": "auto", "off": ["emsal", "draft"], "network_ok": False}
+    plan = D.next_steps({"type": "odeme_emri", "lang": "tr"}, settings=a)
+    assert not {s["tool"] for s in plan["steps"]} & {"emsal", "draft"}
+    assert all(s["run"] == "suggest" for s in plan["steps"] if s["where"] == "network")

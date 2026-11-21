@@ -441,12 +441,23 @@ def _doc_type(text: str) -> dict:
         r = doctype.classify(text)
         if r.get("type") is None:
             return {}
-        plan = doctype.next_steps(r, text)
+        plan = doctype.next_steps(r, text, settings=autonomy())
         return {"document_type": {"type": r["type"], "name": r.get("name"), "confidence": r["confidence"],
                                   "lang": r["lang"], "abstained": r["abstained"]},
                 "next_steps": plan}
     except Exception:  # noqa: BLE001
         return {}
+
+
+def autonomy() -> dict:
+    """The firm's setting for what runs on its own (roadmap N5; the Dutch bar's 2026 AI recommendations ask firms
+    to decide this in advance). KATIP_AUTONOMY: device (default) | ask | auto. KATIP_STEPS_OFF: comma-separated
+    step tools to hide (mask, mevzuat, cite_check, deadline, emsal, position, draft). Network steps can only run on
+    their own while precedent search is switched on."""
+    mode = os.environ.get("KATIP_AUTONOMY", "device").strip().lower() or "device"
+    off = [x.strip().lower() for x in os.environ.get("KATIP_STEPS_OFF", "").split(",") if x.strip()]
+    net = os.environ.get("KATIP_EMSAL_ONLINE", "0").strip().lower() in ("1", "true", "yes", "on")
+    return {"mode": mode if mode in ("ask", "device", "auto") else "device", "off": off, "network_ok": net}
 
 
 def scan_documents(query: str | None = None, limit: int = 30) -> dict:

@@ -51,8 +51,10 @@ as cevap-dilekcesi.docx (.docx, .txt or .md). It is saved next to the document y
 Never open that file: you will only get the file path back, never the real values.
 mask_file also returns document_type (e.g. ödeme emri, ihtarname, bilirkişi raporu) and next_steps, worked out on
 the computer. Name the type, list the related articles (next_steps.mevzuat, always with "check the current text"),
-check them with mevzuat_bak (steps with kalkan_tool name the Katip tool). Offer the steps marked run "suggest"
-(emsal_ara, drafting) without running them: show the keywords you would send and wait for the user's yes. Never send
+check them with mevzuat_bak (steps with kalkan_tool name the Katip tool). Steps marked run "auto" may be done
+without asking; offer the steps marked run "suggest" without running them: show the keywords you would send and wait
+for the user's yes. Even for an "auto" precedent search, show the keywords you send. The firm chose this
+(next_steps.autonomy). Never send
 document text to a search. If confidence is low or the type is "diger",
 don't claim a type. scan_documents lists the types of many documents at once (no text), e.g. for a data room.
 If a result has folder_warning, pass it on to the user once, in their language.

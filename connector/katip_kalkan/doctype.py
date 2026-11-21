@@ -15,7 +15,8 @@ Design rules
   A pack without weights loads fine (labels and actions only) and `classify` says so.
 - Privacy split (plan H10): steps that run on the device ("where": "device") may run automatically.
   Steps that leave the device ("where": "network", e.g. a live precedent search) are returned as
-  suggestions with the exact query shown; this module never runs them.
+  suggestions with the exact query shown; this module never runs them. The firm can make every step
+  wait for a lawyer, or let network steps run on their own (next_steps settings, Kalkan's autonomy).
 """
 from __future__ import annotations
 
@@ -220,14 +221,25 @@ def cited(text: str, limit: int = 12) -> list[str]:
     return out
 
 
+MODES = ("ask", "device", "auto")
+
+
 def next_steps(result: dict, text: str = "", lang: str | None = None, settings: dict | None = None) -> dict:
     """Plan for a classified document. Nothing here runs a network call.
 
-    settings: {"auto_network": False, "off": ["emsal", ...]}: the lawyer's switches. Device steps
-    auto-run unless switched off; network steps are suggestions unless auto_network is on, and even
-    then the caller runs them, showing the query first.
+    settings: the firm's switches (Kalkan's "autonomy" setting).
+      mode: "device" (default): steps on the device run on their own; steps that leave it are suggestions.
+            "ask": every step waits for the lawyer's yes.
+            "auto": steps that leave the device may run on their own too, but only where network_ok
+                    (e.g. precedent search switched on); the caller still shows the query it sends.
+      off: tools the firm switched off, e.g. ["emsal"].
+      auto_network: older spelling of mode "auto".
     """
     settings = settings or {}
+    mode = settings.get("mode") or ("auto" if settings.get("auto_network") else "device")
+    if mode not in MODES:
+        mode = "device"
+    network_ok = settings.get("network_ok", True)
     lang = lang or result.get("lang") or "tr"
     off = set(settings.get("off") or ())
     p = pack(lang)
@@ -237,13 +249,15 @@ def next_steps(result: dict, text: str = "", lang: str | None = None, settings: 
         if s["tool"] in off:
             continue
         net = s.get("where") == "network"
-        steps.append({**s, "run": ("suggest" if net and not settings.get("auto_network") else "auto")})
+        auto = mode == "auto" and network_ok if net else mode != "ask"
+        steps.append({**s, "run": "auto" if auto else "suggest"})
     return {
         "type": result.get("type"), "name": name(result.get("type") or "diger", lang),
         "mevzuat": t.get("mevzuat", []),
         "cited_in_document": cited(text) if text else [],
         "emsal_queries": t.get("emsal", []),
         "steps": steps,
+        "autonomy": {"mode": mode, "off": sorted(off)},
         "note": p.meta.get("note", {}),
     }
 
