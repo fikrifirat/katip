@@ -455,24 +455,103 @@ def write_redacted(path: str | None = None, matter: str = "default", output_path
             "name": names.safe_title(out.stem) + out.suffix.lower(), "entity_counts": _counts(spans)}
 
 
+RESTORE_EXTS = (".docx", ".udf", ".pdf", ".txt", ".md")
+
+
 def restore_to_file(text: str, output_path: str, matter: str = "default") -> dict:
     """Swap placeholders back to real values and write the result to a local file.
-    Returns only the path and a count: the real values never go back to the model."""
+    Returns only the path, a count and the statute citation check: the real values never go back to the model.
+    The check runs on the masked text Claude wrote, so it reports nothing Claude has not already seen."""
     out = _out_path(output_path, _LAST_DIR.get(matter))
-    if out.suffix.lower() not in (".docx", ".txt", ".md"):
+    ext = out.suffix.lower()
+    if ext not in RESTORE_EXTS:
         raise ValueError(msg("restore_ext"))
     if out.exists():
         raise FileExistsError(msg("exists"))
+    checked = citation_check(text)
     v = vault.open_vault(matter)
     restored, n = v.unmask(text)
     out.parent.mkdir(parents=True, exist_ok=True)
-    data = _docx(restored) if out.suffix.lower() == ".docx" else restored.encode("utf-8")
+    data = {".docx": _docx, ".udf": _udf, ".pdf": _pdf}.get(ext, lambda t: t.encode("utf-8"))(restored)
     fd = os.open(out, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     with os.fdopen(fd, "wb") as fh:
         fh.write(data)
-    return {"output_path": str(out), "placeholders_restored": n,
-            "saved": "next to the source document, on this computer" if _LAST_DIR.get(matter) == out.parent
-            else "in your case folder, on this computer"}
+    res = {"output_path": str(out), "placeholders_restored": n,
+           "saved": "next to the source document, on this computer" if _LAST_DIR.get(matter) == out.parent
+           else "in your case folder, on this computer"}
+    if checked:
+        res["citation_check"] = checked
+    return res
+
+
+def citation_check(text: str) -> dict | None:
+    """Statute citations in a draft, checked offline against Katip's copy of mevzuat.adalet.gov.tr.
+    None when the draft cites no statute. Problems are listed so Claude can tell the lawyer before they file it."""
+    from . import mevzuat
+    try:
+        r = mevzuat.lookup(text=text, with_text=False)
+    except Exception as e:  # a broken index must never stop the lawyer from saving their draft
+        return {"error": f"citation check unavailable: {type(e).__name__}"}
+    statutes = [c for c in r.get("citations", []) if c["kind"] == "statute"]
+    if not statutes:
+        return None
+    problems = [{"cited_as": c["cited_as"], "verdict": c["verdict"], "meaning": c["meaning"]}
+                for c in statutes if c["verdict"] != "OK"]
+    return {"statutes": len(statutes), "ok": len(statutes) - len(problems), "problems": problems,
+            "index_as_of": r.get("index", {}).get("as_of"),
+            "note": msg("cite_problems") if problems else msg("cite_ok")}
+
+
+def _udf(text: str) -> bytes:
+    """A UYAP UDF file: a zip with content.xml holding the text and one paragraph element per line.
+    Offsets count characters, and each paragraph's length includes its line break."""
+    import io
+    import zipfile
+    from xml.sax.saxutils import quoteattr
+    text = text.replace("\r\n", "\n")
+    if not text.endswith("\n"):
+        text += "\n"
+    paras, start = [], 0
+    for line in text.split("\n")[:-1]:
+        n = len(line) + 1
+        paras.append(f'<paragraph><content startOffset="{start}" length="{n}" family={quoteattr("Times New Roman")} '
+                     f'size="12"/></paragraph>')
+        start += n
+    body = text.replace("]]>", "]]]]><![CDATA[>")
+    xml = ('<?xml version="1.0" encoding="UTF-8" ?>\n<template format_id="1.8">\n'
+           f'<content><![CDATA[{body}]]></content>\n'
+           '<properties><pageFormat mediaSizeName="1" leftMargin="70.875" rightMargin="70.875" topMargin="70.875" '
+           'bottomMargin="70.875" paperOrientation="1" headerFOffset="20.0" footerFOffset="20.0"/></properties>\n'
+           f'<elements resolver="hvl-default">{"".join(paras)}</elements>\n<styles/>\n</template>\n')
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w", zipfile.ZIP_DEFLATED) as z:
+        z.writestr("content.xml", xml)
+    return buf.getvalue()
+
+
+def _pdf(text: str) -> bytes:
+    """An A4 PDF with the text as written (line breaks and spacing kept), via PyMuPDF."""
+    try:
+        import pymupdf
+    except ImportError:
+        raise ValueError(msg("restore_pdf")) from None
+    import io
+    from html import escape
+    story = pymupdf.Story(html=f"<p>{escape(text.replace(chr(13) + chr(10), chr(10)))}</p>",
+                          user_css="p {font-family: serif; font-size: 11pt; line-height: 1.35; "
+                                   "white-space: pre-wrap; margin: 0}")
+    buf = io.BytesIO()
+    writer = pymupdf.DocumentWriter(buf)
+    page = pymupdf.paper_rect("a4")
+    where = page + (70.875, 70.875, -70.875, -70.875)
+    more = True
+    while more:
+        dev = writer.begin_page(page)
+        more, _ = story.place(where)
+        story.draw(dev)
+        writer.end_page()
+    writer.close()
+    return buf.getvalue()
 
 
 def _docx(text: str) -> bytes:
