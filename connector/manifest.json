@@ -63,7 +63,9 @@
         "KATIP_PROFILE": "${user_config.profile}",
         "KATIP_LANG": "${user_config.language}",
         "KATIP_MODEL": "${user_config.model}",
-        "KATIP_EMSAL_ONLINE": "${user_config.precedent_search}"
+        "KATIP_EMSAL_ONLINE": "${user_config.precedent_search}",
+        "KATIP_AUTONOMY": "${user_config.autonomy}",
+        "KATIP_STEPS_OFF": "${user_config.steps_off}"
       },
       "platform_overrides": {
         "win32": {
@@ -110,6 +112,10 @@
       "description": "Avukatın karara verdiği puanı bu bilgisayarda saklar · Save the lawyer's grade for a decision, on this computer"
     },
     {
+      "name": "scan_documents",
+      "description": "Belgelerin türünü bu bilgisayarda çıkarır, metin dönmez · Name each document's type on this computer, no text returned"
+    },
+    {
       "name": "katip_status",
       "description": "Motoru, eşiği ve eşleşme haritasının yerini gösterir · Show engine, threshold and map location"
     }
@@ -121,6 +127,20 @@
       "description": "Açıkken emsal_ara, Adalet Bakanlığı'nın herkese açık karar arama servisine (bedesten.adalet.gov.tr) yalnızca küçük harfli anahtar kelimeler gönderir; belge, maskeli metin ve kişi bilgisi gönderilmez. Kapalıyken Katip hiçbir ağ isteği yapmaz. · When on, emsal_ara sends only lowercase keywords to the Ministry of Justice's public decision search; never the document, masked text or personal data. When off, Katip makes no network requests.",
       "required": false,
       "default": false
+    },
+    "autonomy": {
+      "type": "string",
+      "title": "Kendiliğinden çalışan adımlar / What runs on its own",
+      "description": "device = bu bilgisayarda kalan adımlar (maskeleme, kanun maddesi kontrolü, süre) kendiliğinden çalışır, bilgisayardan çıkan her adım (karar arama, taslak) önce size sorulur (varsayılan, önerilen); ask = her adım önce size sorulur; auto = karar arama açıksa o da sormadan çalışır, gönderilen anahtar kelimeler yine gösterilir. · device = steps that stay on this computer (masking, statute checks, deadlines) run on their own; anything that leaves it (precedent search, drafting) asks first (default, recommended); ask = every step asks first; auto = precedent search also runs without asking when it is on, and the keywords sent are still shown.",
+      "required": false,
+      "default": "device"
+    },
+    "steps_off": {
+      "type": "string",
+      "title": "Kapalı adımlar / Steps switched off",
+      "description": "Önerilmesini istemediğiniz adımlar, virgülle: mevzuat, cite_check, deadline, emsal, position, draft. Boş = hepsi açık. · Steps you don't want suggested, comma-separated. Empty = all on.",
+      "required": false,
+      "default": ""
     },
     "allowed_dir": {
       "type": "directory",

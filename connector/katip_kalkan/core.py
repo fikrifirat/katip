@@ -427,7 +427,58 @@ def mask_file(path: str | None = None, matter: str = "default", page: int = 1, p
         "placeholders": sorted(set(v.labels[f"{s['entity_type']}|{vault._norm(s['text'])}"] for s in spans)),
         "vault": "encrypted on this device" if vault.persistent() else "memory only (install `cryptography` to keep it)",
         "note": msg("placeholders"),
+        **_doc_type(text),
     }
+
+
+def _doc_type(text: str) -> dict:
+    """Document type + next steps, worked out on this device from the original text. Only labels, statute
+    pointers and fixed query templates come back: no value from the document. Never breaks masking."""
+    if os.environ.get("KATIP_DOCTYPE", "1") == "0":
+        return {}
+    try:
+        from . import doctype
+        r = doctype.classify(text)
+        if r.get("type") is None:
+            return {}
+        plan = doctype.next_steps(r, text, settings=autonomy())
+        return {"document_type": {"type": r["type"], "name": r.get("name"), "confidence": r["confidence"],
+                                  "lang": r["lang"], "abstained": r["abstained"]},
+                "next_steps": plan}
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def autonomy() -> dict:
+    """The firm's setting for what runs on its own (roadmap N5; the Dutch bar's 2026 AI recommendations ask firms
+    to decide this in advance). KATIP_AUTONOMY: device (default) | ask | auto. KATIP_STEPS_OFF: comma-separated
+    step tools to hide (mask, mevzuat, cite_check, deadline, emsal, position, draft). Network steps can only run on
+    their own while precedent search is switched on."""
+    mode = os.environ.get("KATIP_AUTONOMY", "device").strip().lower() or "device"
+    off = [x.strip().lower() for x in os.environ.get("KATIP_STEPS_OFF", "").split(",") if x.strip()]
+    net = os.environ.get("KATIP_EMSAL_ONLINE", "0").strip().lower() in ("1", "true", "yes", "on")
+    return {"mode": mode if mode in ("ask", "device", "auto") else "device", "off": off, "network_ok": net}
+
+
+def scan_documents(query: str | None = None, limit: int = 30) -> dict:
+    """Name the type of each document Katip can see, on this device. Returns ids, safe names and types,
+    never text: the lawyer sees what is in the folder and which Katip tools fit each document."""
+    from . import doctype
+    words = _fold(query or "").split()
+    hits = [(r, p) for r, p in _files() if not words or _matches(r, p, words)][:max(1, min(int(limit or 30), 200))]
+    items, counts = [], {}
+    for r, p in hits:
+        row = {"file_id": names.file_id(p), "name": names.safe_title(p.stem) + p.suffix.lower(), "where": _where(r, p)}
+        try:
+            if p.stat().st_size > MAX_BYTES:
+                raise ValueError("too big")
+            res = doctype.classify(_read(p)[1])
+            row.update(type=res["type"], type_name=res.get("name"), confidence=res["confidence"])
+            counts[res["type"]] = counts.get(res["type"], 0) + 1
+        except Exception as e:  # noqa: BLE001
+            row["error"] = type(e).__name__
+        items.append(row)
+    return {"files": items, "by_type": counts, "note": msg("scan_note")}
 
 
 _LAST_DIR: dict[str, Path] = {}  # matter -> folder of the document masked last, where the final text goes

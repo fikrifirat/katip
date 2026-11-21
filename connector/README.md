@@ -329,7 +329,8 @@ Yargıtay decisions (with the gavel button) and read statutes. Setup and limits:
 | Tool | What it does | Returns |
 |---|---|---|
 | `list_files` | Finds documents in your case folder and Downloads; with `ara` it matches your words against the real names on your computer. Words in a file name that could be a person's name show as … | ids, safe names, where |
-| `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it | masked text, counts |
+| `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it. Also names the document's type on your computer and lists related articles; a precedent search is only suggested, with its query shown | masked text, counts, document type, next steps |
+| `scan_documents` | Names the type of each document in your case folder and Downloads (ödeme emri, ihtarname, karar, sözleşme…) on your computer; no text comes back. See `lab/doctype/README.md` | ids, safe names, types |
 | `write_masked_copy` | Saves `name.maskeli.docx` next to the original | path |
 | `restore_to_file` | Puts the real values back into the AI's text and saves it next to the source document (.docx, .udf, .pdf, .txt or .md); checks the statute citations in it | file name, count and the citation check |
 | `forget_matter` | Deletes a matter's placeholder map | ok |
@@ -359,7 +360,7 @@ are optional, pinned in `katip_kalkan/launch.py`. The detection engine is `katip
 same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
 Face `tokenizers` exactly.
 Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.5; was 0.7 before 0.3.6), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
-`KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
+`KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_AUTONOMY` (`device`: steps on this computer run on their own, anything that leaves it asks first; `ask`: every step asks; `auto`: precedent search also runs on its own while it is switched on), `KATIP_STEPS_OFF` (e.g. `emsal,draft`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`; the other relay settings are in [CHATGPT.md](CHATGPT.md).
 
 Blind set (80 synthetic legal documents, 757 values, `.txt`, `ai` profile; a value counts only when no word
