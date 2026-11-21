@@ -218,5 +218,7 @@ def add_gazette(paths, use_ocr: bool = False, store: Store | None = None) -> dic
         return {"status": "unavailable", "error": f"{e.name or e} is not installed. Reading Gazette PDFs needs "
                 "PyMuPDF, and scanned pages need OCR: pip install 'katip-kalkan[ocr]' (or: pip install pymupdf rapidocr "
                 "onnxruntime)"}
-    stats = _merge(st, "gazette", new, {"files": [str(f) for f in files]}, started)
+    files_done = {r["rid"].rsplit(":", 2)[0] for r in new}  # re-adding a file replaces its old notices
+    keep = [r for r in st.records("gazette") if r["rid"].rsplit(":", 2)[0] not in files_done]
+    stats = st.replace_source("gazette", keep + new, {"files": [str(f) for f in files]}, started)
     return {"status": "ok", "files": len(files), "notices": len(new), "store_records": stats["n"]}

@@ -79,3 +79,16 @@ def test_add_gazette_says_what_is_missing(tmp_path, monkeypatch):
     f.write_bytes(b"%PDF-1.4")
     out = service.add_gazette([f], store=Store())
     assert out["status"] == "unavailable" and "pip install" in out["error"]
+
+
+def test_re_adding_a_file_replaces_its_notices(tmp_path, monkeypatch):
+    from katip_kalkan.dd import service
+    from katip_kalkan.dd.store import Store
+    monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path))
+    st = Store()
+    st.replace_source("gazette", [{"rid": "gazette:abc:1:0", "title": "old", "text": "x"},
+                                  {"rid": "gazette:abc:1:7", "title": "stale", "text": "y"},
+                                  {"rid": "gazette:zzz:1:0", "title": "other file", "text": "z"}], {}, "t0")
+    monkeypatch.setattr(gazette, "ingest", lambda files, ocr=False: [{"rid": "gazette:abc:1:0", "title": "new", "text": "n"}])
+    service.add_gazette([tmp_path], store=st)
+    assert sorted(r["title"] for r in st.records("gazette")) == ["new", "other file"]
