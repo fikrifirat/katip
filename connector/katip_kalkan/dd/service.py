@@ -222,3 +222,31 @@ def add_gazette(paths, use_ocr: bool = False, store: Store | None = None) -> dic
     keep = [r for r in st.records("gazette") if r["rid"].rsplit(":", 2)[0] not in files_done]
     stats = st.replace_source("gazette", keep + new, {"files": [str(f) for f in files]}, started)
     return {"status": "ok", "files": len(files), "notices": len(new), "store_records": stats["n"]}
+
+
+def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = False, store: Store | None = None) -> dict:
+    """One named target on the Ticaret Sicili Gazetesi, through the lawyer's own login on this computer.
+
+    Opens Chrome on a new, empty profile; the lawyer logs in (e-Devlet); Katip searches the site's
+    own form, saves up to ``max_pages`` free gazette pages, logs out and deletes the profile, then
+    reads the pages with OCR into the index.
+    """
+    from .sources import gazette_browser
+    from .store import home
+
+    try:
+        saved, info = gazette_browser.lookup(target, office, out_dir=home() / "tsg", max_pages=min(max_pages, 5),
+                                            court=court)
+    except ImportError:
+        return {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
+                "(uses Google Chrome, or run: python -m playwright install chromium)"}
+    out = {"status": "blocked" if info.get("blocked") and not saved else "ok", "results_on_site": info.get("results"),
+           "saved_pages": len(saved), "logged_out": info.get("logged_out"), "blocked": info.get("blocked"),
+           "notices_on_site": info.get("notices", [])[:30]}
+    if saved:
+        ing = add_gazette(saved, use_ocr=True, store=store)
+        out["notices"] = ing.get("notices")
+        if ing.get("status") != "ok":
+            out.update(status=ing["status"], error=ing.get("error"))
+    out["next"] = "call dd_screen with the same name to see the notices that mention it"
+    return out

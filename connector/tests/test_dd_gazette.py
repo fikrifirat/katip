@@ -13,36 +13,49 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from katip_kalkan.dd.sources import gazette  # noqa: E402
 
-W = 1754
+W = 2339
 
 
-def notice(y0, office, sira, name_lines, body_lines):
-    """Boxes (y, x, h, w, text) for one notice: fields at x=60, body at x=560."""
-    fields = [office, f"İlan Sıra No: {sira}", "Mersis No: 0123456789000017", "Ticaret Sicil/Dosya No: 69921",
-              "Ticaret Unvani:", *name_lines]
-    boxes = [(y0 + 30 * i, 60, 20, 420, t) for i, t in enumerate(fields)]
-    boxes += [(y0 + 30 * i, 560, 20, 1100, t) for i, t in enumerate(body_lines)]
-    return boxes
+def col(x, y0, lines):
+    return [(y0 + 30 * i, x + (200 if t.isupper() and len(t) < 45 else 0), 28, 600, t) for i, t in enumerate(lines)]
 
 
-PAGE = (notice(100, "BURSA TİCARET SİCİLİ MÜDÜRLÜĞÜ'NDEN", 13033, ["KUZEYRÜZGARI TEKSTİL", "ANONİM ŞİRKETİ"],
-               ["Bursa 2. Asliye Ticaret Mahkemesinin kararı ile konkordato", "kesin mühlet verilmiştir.",
-                "Yukarıdaki bilgilerin 18.11.2026 tarihinde Ticaret Sicili Müdürlüğünce", "tescil edildiği ilan olunur."])
-        + notice(400, "BURSA TİCARET SİCİLİ MÜDÜRLÜĞÜ'NDEN", 13034, ["GÜNEYRÜZGARI GIDA SANAYİ", "LİMİTED ŞİRKETİ"],
-                 ["Şirketin sermayesi 500.000 TL'ye artırılmıştır.", "türlü inşaat taahhüt işleri ile konut"])
-        + [(1150, 700, 20, 300, "T.C."), (20, 600, 20, 600, "TÜRKİYE TİCARET SİCİLİ GAZETESİ")])
+# Real layout (21 Nov 2026 pages): two page columns split at the middle; each notice is a stacked
+# block (office heading, İlan Sıra No, Mersis, Sicil No, "Ticaret Unvani:", name, body) and often
+# runs on at the top of the next column. Row by row, left and right columns would mix.
+HEADER = [(272, 889, 33, 568, "TÜRKİYE TİCARET SİCİLİ GAZETESİ"), (272, 1940, 33, 181, "SAYFA: 843"),
+          (274, 194, 33, 369, "7 EKİM 2026 SAYI:11682")]
+LEFT = col(194, 344, [
+    "önceki sayfadan devam eden metin, yönetim kurulu kararı ile",
+    "T.C. BURSA TİCARET SİCİLİ MÜDÜRLÜĞÜ'NDEN", "İlan Sıra No: 18185", "Mersis No: 0123456789000017",
+    "Ticaret Sicil/Dosya No: 69921", "Ticaret Unvani:", "KUZEYRÜZGARI TEKSTİL ANONİM ŞİRKETİ",
+    "Bursa 2. Asliye Ticaret Mahkemesinin kararı ile konkordato", "geçici mühleti uzatılmıştır.",
+    "(21230770)",
+    "T.C. BURSA TİCARET SİCİLİ MÜDÜRLÜĞÜ'NDEN", "Ílan Sıra No: 220515", "Mersis No: 0987654321000011",
+    "Ticaret Sicil/Dosya No: 1234", "Ticaret Unvani:", "GÜNEYRÜZGARI MAĞAZACILIK", "ANONİM ŞİRKETİ",
+    "Şirketin amaç ve konusu aşağıdaki gibidir:"])
+RIGHT = col(1211, 344, [
+    "I. Her türlü kıymetli eşya ve mücevherat alım satımı,", "J. saat servis ve montaj hizmetleri.",
+    "(21230771)",
+    "T.C. İSTANBUL TİCARET SİCİLİ MÜDÜRLÜĞÜ", "İlan Sıra No: 145510", "Mersis No: 0815121072100001",
+    "Ticaret Sicil/Dosya No: 1142256", "Ticaret Unvani:", "TASFİYE HALİNDE BATIRÜZGARI SAĞLIK HİZMETLERİ LİMİTED ŞİRKETİ",
+    "1. İLAN", "Alacaklıların şirkete başvurmaları ilan olunur."])
+PAGE = HEADER + LEFT + RIGHT
 
 
-def test_layout_keeps_columns_apart():
+def test_layout_reads_columns_in_order_and_follows_run_ons():
     ns = gazette.layout_notices(PAGE, W)
-    assert len(ns) == 2
-    a, b = ns
-    assert a["title"] == "KUZEYRÜZGARI TEKSTİL ANONİM ŞİRKETİ"
-    assert b["title"] == "GÜNEYRÜZGARI GIDA SANAYİ LİMİTED ŞİRKETİ"
-    assert "sermayesi" not in a["text"] and "konkordato" not in b["text"]
-    assert "KUZEYRÜZGARI TEKSTİL ANONİM ŞİRKETİ" in a["text"]  # name on one line, not split by body text
-    assert a["sira"] == "13033"
-    assert "T.C." not in b["text"].split() and "GAZETESİ" not in a["text"]
+    titles = [n["title"] for n in ns]
+    assert titles[1:] == ["KUZEYRÜZGARI TEKSTİL ANONİM ŞİRKETİ", "GÜNEYRÜZGARI MAĞAZACILIK ANONİM ŞİRKETİ",
+                          "TASFİYE HALİNDE BATIRÜZGARI SAĞLIK HİZMETLERİ LİMİTED ŞİRKETİ"]
+    head, a, b, c = ns
+    assert head["continuation"] and "önceki sayfadan" in head["text"]
+    assert [a["sira"], b["sira"], c["sira"]] == ["18185", "220515", "145510"]  # Í read by OCR still anchors
+    assert "kıymetli eşya" in b["text"] and "kıymetli eşya" not in a["text"]  # run-on to the next column
+    assert "konkordato" in a["text"] and "konkordato" not in b["text"]
+    assert "Alacaklıların" in c["text"] and "kıymetli" not in c["text"]
+    blob = " ".join(n["text"] for n in ns)
+    assert "SAYFA" not in blob and "SAYI:11682" not in blob and "GAZETESİ" not in blob
 
 
 def test_text_split_ignores_office_in_body():

@@ -1,6 +1,6 @@
 # Katip DD: screen a name against Turkish public lists, from any AI app
 
-Katip DD is part of the Katip Kalkan MCP server. One install gives the masking tools and five
+Katip DD is part of the Katip Kalkan MCP server. One install gives the masking tools and six
 due-diligence tools:
 
 | Tool | What it does |
@@ -10,6 +10,7 @@ due-diligence tools:
 | `dd_sources` | What each source holds, how fresh it is and its last failure. |
 | `dd_update` | Fetches the four MASAK lists (about 10 requests, 2 s apart). |
 | `dd_ilan_lookup` | Looks up ONE named target on ilan.gov.tr in a real browser on your computer (needs Playwright). |
+| `dd_gazette_lookup` | Looks up ONE company in the Ticaret Sicili Gazetesi. Opens Chrome on your computer; you log in with e-Devlet yourself; Katip searches the site's form (registry office + first 5 letters), saves up to 3 free gazette pages, logs out and deletes the browser profile, then reads the pages with OCR. |
 
 Nothing is summarised: every hit is a record the source published. A "review" hit needs checking,
 and no hit is not a clearance. Before a result reaches the AI, other people's ID numbers and
@@ -24,6 +25,7 @@ The index lives on your computer in `~/.katip/dd` (`KATIP_DD_HOME`). Fill it onc
 katip-kalkan dd update                       # MASAK, about 10 requests
 katip-kalkan dd add-gazette ~/Downloads/tsg  # Gazete PDFs you saved (add --ocr for scans)
 katip-kalkan dd ilan-lookup "Firma Adı" --headed
+katip-kalkan dd gazette-lookup "Firma Adı" --office BURSA   # you log in; logged out at the end
 ```
 
 Or ask the AI to call `dd_update`. Without `pip install`, the same commands run as
@@ -40,7 +42,7 @@ nobody has run it yet.
 | App | Status (21 Nov 2026) |
 |---|---|
 | Claude Code | **Tested**: connected, `dd_screen` called on a real MASAK snapshot, results redacted |
-| Claude Desktop (.mcpb) | **Tested by script**: the built bundle lists 16 tools and answers `dd_sources` (`tests/smoke_mcpb.py`); not yet clicked through by a person |
+| Claude Desktop (.mcpb) | **Tested by script**: the built bundle lists 17 tools and answers `dd_sources` (`tests/smoke_mcpb.py`); not yet clicked through by a person |
 | Cursor, VS Code, Windsurf, Codex, Gemini CLI | Config only |
 | ChatGPT | Not deployed: needs the relay (below) |
 

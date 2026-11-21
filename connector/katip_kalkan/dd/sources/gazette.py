@@ -25,9 +25,8 @@ _OFFICE = re.compile(r"(?m)^(?=\S+(?:[ \t]\S+)?[ \t]+Ticaret[ \t]+Sicil(?:i)?[ \
 _SICIL = re.compile(r"(?=Ticaret\s+Sicil(?:i)?\s+No\s*:)", re.I)
 _LABEL = re.compile(r"(?:Ticaret\s+)?[UÜuü]nvan[ıiIİ]\s*:?", re.I)
 _ISSUE = re.compile(r"Sayı\s*:?\s*(\d{4,6}).{0,40}?(\d{1,2}[./]\d{1,2}[./]\d{4})", re.S)
-_SIRA = re.compile(r"[İI]lan\s*S[ıi]ra\s*No", re.I)
-_FIELD = re.compile(r"[İI]lan\s*S[ıi]ra|Mersis|Sicil\s*(?:/|No)|[UÜ]nvan|Müdürlüğü", re.I)
-_CHROME = re.compile(r"^(T\.?\s?C\.?|.*TİCARET SİCİLİ GAZETESİ.*|\(?Devamı.*Sayfada\)?)$", re.I)
+_SIRA = re.compile(r"[İIÍÌi1l]lan\s*S[ıi1]ra\s*No", re.I)  # OCR reads İ as Í, Ì, I...
+_CHROME = re.compile(r"^(T\.?\s?C\.?|.*TİCARET SİCİLİ GAZETESİ.*|\(?Devamı.*Sayfada\)?|SAYFA\s*:?\s*\d+|\d{1,2}\s+\S+\s+\d{4}\s+SAYI\s*:?\s*\d+)$", re.I)
 _FORMS = re.compile(r"(ŞİRKETİ|ŞTİ\.?|KOOPERATİFİ|A\.Ş\.?|ŞUBESİ|İŞLETMESİ)\s*$")
 _NAME = re.compile(r"tsg_(\d{4}-\d{2}-\d{2})_(\d{3,6})_p(\d+)", re.I)
 
@@ -72,43 +71,37 @@ def _rows(boxes) -> list[str]:
 
 
 def layout_notices(boxes, width: float) -> list[dict]:
-    """Split one scanned page into notices using the layout: anchor on "İlan Sıra No", keep the
-    narrow field column apart from the body, and drop the page header and footer.
+    """Split one scanned gazette page into notices using its layout.
 
-    ``boxes`` are (y_centre, x_left, height, width, text). Returns [] when the page has no anchor,
-    so the caller falls back to the plain text splitter.
+    A TSG page has two columns split at the middle. Each notice is a stacked block: office
+    heading, "İlan Sıra No", Mersis, Sicil No, "Ticaret Unvanı:", the name, then the body, and it
+    often runs on at the top of the next column. So: read the left column top to bottom, then
+    the right, and cut that one stream before each office heading + "İlan Sıra No". Text before
+    the first notice continues one from the previous page and is kept as its own record.
+
+    ``boxes`` are (y_centre, x_left, height, width, text). Returns [] when the page has no
+    "İlan Sıra No", so the caller falls back to the plain text splitter.
     """
     boxes = [b for b in boxes if b[-1].strip() and not _CHROME.match(b[-1].strip())]
-    anchors = sorted((b for b in boxes if _SIRA.search(b[-1])), key=lambda b: b[1])
-    if not anchors:
+    if not any(_SIRA.search(b[-1]) for b in boxes):
         return []
-    cols: list[list] = []  # page columns, by the x of their anchors
-    for a in anchors:
-        if cols and abs(cols[-1][0][1] - a[1]) < 0.15 * width:
-            cols[-1].append(a)
-        else:
-            cols.append([a])
+    mid = width / 2
+    lines = _rows([b for b in boxes if b[1] < mid]) + _rows([b for b in boxes if b[1] >= mid])
+    lines = [ln for ln in lines if not _CHROME.match(ln.strip())]
+    starts = []
+    for i, ln in enumerate(lines):
+        if _SIRA.search(ln):
+            starts.append(i - 1 if i and "MÜDÜRLÜ" in lines[i - 1].upper() and not _SIRA.search(lines[i - 1]) else i)
     out = []
-    for ci, col in enumerate(cols):
-        x0 = min(a[1] for a in col) - 0.03 * width
-        x1 = (min(a[1] for a in cols[ci + 1]) - 0.03 * width) if ci + 1 < len(cols) else width + 1
-        inside = [b for b in boxes if x0 <= b[1] < x1]
-        labels = [b for b in inside if _FIELD.search(b[-1]) and b[1] < x0 + 0.5 * (x1 - x0)]
-        edge = max(b[1] + b[3] for b in labels) + 0.01 * width  # right edge of the field column
-        col = sorted(col)
-        starts = [a[0] - 2.2 * a[2] for a in col]  # the office heading sits a line above the anchor
-        for k, a in enumerate(col):
-            y0 = starts[k] if k else -1
-            y1 = starts[k + 1] if k + 1 < len(col) else float("inf")
-            part = [b for b in inside if y0 <= b[0] < y1]
-            fields = _rows([b for b in part if b[1] < edge])
-            body = _rows([b for b in part if b[1] >= edge])
-            ftext = "\n".join(fields)
-            title = title_of(ftext)
-            name_line = title if title and title not in fields else None
-            text = "\n".join([*fields, *([name_line] if name_line else []), *body])
-            sira = re.search(r"(\d{3,})", next((f for f in fields if _SIRA.search(f)), "")) 
-            out.append({"title": title, "text": text, "sira": sira.group(1) if sira else ""})
+    if starts[0] > 0:
+        text = "\n".join(lines[:starts[0]]).strip()
+        if len(text) > 40:
+            out.append({"title": "(önceki sayfadan devam)", "text": text, "sira": "", "continuation": True})
+    for k, st in enumerate(starts):
+        part = lines[st: starts[k + 1] if k + 1 < len(starts) else len(lines)]
+        sira = re.search(r"(\d{3,})", next((ln for ln in part if _SIRA.search(ln)), ""))
+        out.append({"title": title_of("\n".join(part)), "text": "\n".join(part), "sira": sira.group(1) if sira else "",
+                    "continuation": False})
     return out
 
 

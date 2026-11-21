@@ -341,7 +341,7 @@ Yargıtay decisions (with the gavel button) and read statutes. Setup and limits:
 | `mevzuat_bak` | Offline: reads a statute article (`TBK 344`) or checks every statute citation in a text (exists, in force, repealed, number and name match). 1,085 laws, article text for the core codes | verdicts, article text, source link, index date |
 | `geri_bildirim` | Saves the lawyer's grade (0/1/2, would cite, note) for one `emsal_ara` result, on this computer | count of grades |
 | `katip_status` | Shows the engine, OCR, threshold, your folder (with a link) and where the map is kept | status |
-| `dd_screen`, `dd_record`, `dd_sources`, `dd_update`, `dd_ilan_lookup` | Due-diligence screening of a person or company against MASAK asset-freeze lists, ilan.gov.tr notices and Ticaret Sicili Gazetesi issues, from an index on this computer. Others' ID numbers and parents' names are removed. See [DD.md](DD.md) | source records, links, score, data date |
+| `dd_screen`, `dd_record`, `dd_sources`, `dd_update`, `dd_ilan_lookup`, `dd_gazette_lookup` | Due-diligence screening of a person or company against MASAK asset-freeze lists, ilan.gov.tr notices and Ticaret Sicili Gazetesi issues, from an index on this computer. Others' ID numbers and parents' names are removed. See [DD.md](DD.md) | source records, links, score, data date |
 | `open_masked_document` (relay) | Opens a share code | masked text |
 | `emsal_ara`, `mevzuat_bak`, `geri_bildirim` (relay) | The same research tools for ChatGPT; verdicts are stored on the relay, without notes | as above |
 
