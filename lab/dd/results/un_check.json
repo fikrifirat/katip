@@ -1,0 +1,21 @@
+{
+ "un_generated": "2026-11-21T00:00:07.510Z",
+ "un_entries_1267_1988": 473,
+ "masak_art5_rows": 475,
+ "masak_fetched": "2026-11-21T20:18:56+0000",
+ "un_found_in_masak_match": 472,
+ "un_found_in_masak_review": 0,
+ "un_not_found": 1,
+ "un_not_found_by_listing_year": {
+  "2015": 1
+ },
+ "un_not_found_newest": [
+  {
+   "ref": "QDe.148",
+   "listed_on": "2015-08-06",
+   "regime": "Al-Qaida",
+   "best": 0.0
+  }
+ ],
+ "masak_rows_without_un_counterpart": 0
+}

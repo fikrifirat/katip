@@ -1,0 +1,252 @@
+{
+ "snapshot": {
+  "records": 2310,
+  "fetched": "2026-11-21T20:18:56+0000",
+  "lists": [
+   "6415-m5-bmgk",
+   "6415-m6-yabanci",
+   "6415-m7-ic",
+   "7262-kitle-imha"
+  ]
+ },
+ "seed": 2026,
+ "shipped_thresholds": {
+  "match": 0.93,
+  "review": 0.86
+ },
+ "dev_chosen_thresholds": {
+  "match": 0.95,
+  "review": 0.89
+ },
+ "test_at_shipped": {
+  "positives": 1545,
+  "decoys": 600,
+  "recall_match": 0.9042,
+  "recall_review": 0.9903,
+  "top1": 0.9896,
+  "decoy_false_match_rate": 0.005,
+  "decoy_flag_rate_review": 0.0167,
+  "precision_match_on_this_mix": 0.9979,
+  "precision_review_on_this_mix": 0.9935,
+  "by_query_kind": {
+   "alias": {
+    "n": 75,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9867
+   },
+   "ascii_lower": {
+    "n": 300,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9967
+   },
+   "exact": {
+    "n": 300,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9967
+   },
+   "middle_dropped": {
+    "n": 113,
+    "recall_match": 0.0885,
+    "recall_review": 0.9292,
+    "top1": 0.9381
+   },
+   "reordered": {
+    "n": 296,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9966
+   },
+   "translit": {
+    "n": 175,
+    "recall_match": 0.9771,
+    "recall_review": 0.9829,
+    "top1": 0.9829
+   },
+   "typo": {
+    "n": 286,
+    "recall_match": 0.8566,
+    "recall_review": 0.986,
+    "top1": 0.993
+   }
+  },
+  "by_decoy_kind": {
+   "common_tr_name": {
+    "n": 137,
+    "false_match": 0.0073,
+    "flagged_review": 0.0438
+   },
+   "company_word_swapped": {
+    "n": 145,
+    "false_match": 0.0,
+    "flagged_review": 0.0069
+   },
+   "same_first_other_surname": {
+    "n": 153,
+    "false_match": 0.0131,
+    "flagged_review": 0.0196
+   },
+   "tr_company": {
+    "n": 165,
+    "false_match": 0.0,
+    "flagged_review": 0.0
+   }
+  }
+ },
+ "test_at_dev_chosen": {
+  "positives": 1545,
+  "decoys": 600,
+  "recall_match": 0.857,
+  "recall_review": 0.9858,
+  "top1": 0.9896,
+  "decoy_false_match_rate": 0.0033,
+  "decoy_flag_rate_review": 0.0083,
+  "precision_match_on_this_mix": 0.9985,
+  "precision_review_on_this_mix": 0.9967,
+  "by_query_kind": {
+   "alias": {
+    "n": 75,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9867
+   },
+   "ascii_lower": {
+    "n": 300,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9967
+   },
+   "exact": {
+    "n": 300,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9967
+   },
+   "middle_dropped": {
+    "n": 113,
+    "recall_match": 0.0708,
+    "recall_review": 0.9292,
+    "top1": 0.9381
+   },
+   "reordered": {
+    "n": 296,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9966
+   },
+   "translit": {
+    "n": 175,
+    "recall_match": 0.9543,
+    "recall_review": 0.9829,
+    "top1": 0.9829
+   },
+   "typo": {
+    "n": 286,
+    "recall_match": 0.6224,
+    "recall_review": 0.9615,
+    "top1": 0.993
+   }
+  },
+  "by_decoy_kind": {
+   "common_tr_name": {
+    "n": 137,
+    "false_match": 0.0073,
+    "flagged_review": 0.0219
+   },
+   "company_word_swapped": {
+    "n": 145,
+    "false_match": 0.0,
+    "flagged_review": 0.0
+   },
+   "same_first_other_surname": {
+    "n": 153,
+    "false_match": 0.0065,
+    "flagged_review": 0.0131
+   },
+   "tr_company": {
+    "n": 165,
+    "false_match": 0.0,
+    "flagged_review": 0.0
+   }
+  }
+ },
+ "dev_at_shipped": {
+  "positives": 1552,
+  "decoys": 600,
+  "recall_match": 0.9014,
+  "recall_review": 0.9955,
+  "top1": 0.9878,
+  "decoy_false_match_rate": 0.0033,
+  "decoy_flag_rate_review": 0.0167,
+  "precision_match_on_this_mix": 0.9986,
+  "precision_review_on_this_mix": 0.9936,
+  "by_query_kind": {
+   "alias": {
+    "n": 73,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9452
+   },
+   "ascii_lower": {
+    "n": 300,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9967
+   },
+   "exact": {
+    "n": 300,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 0.9967
+   },
+   "middle_dropped": {
+    "n": 123,
+    "recall_match": 0.0569,
+    "recall_review": 0.9756,
+    "top1": 0.9268
+   },
+   "reordered": {
+    "n": 298,
+    "recall_match": 1.0,
+    "recall_review": 1.0,
+    "top1": 1.0
+   },
+   "translit": {
+    "n": 171,
+    "recall_match": 0.9883,
+    "recall_review": 0.9883,
+    "top1": 0.9942
+   },
+   "typo": {
+    "n": 287,
+    "recall_match": 0.878,
+    "recall_review": 0.993,
+    "top1": 0.9895
+   }
+  },
+  "by_decoy_kind": {
+   "common_tr_name": {
+    "n": 148,
+    "false_match": 0.0068,
+    "flagged_review": 0.0338
+   },
+   "company_word_swapped": {
+    "n": 171,
+    "false_match": 0.0,
+    "flagged_review": 0.0058
+   },
+   "same_first_other_surname": {
+    "n": 137,
+    "false_match": 0.0073,
+    "flagged_review": 0.0292
+   },
+   "tr_company": {
+    "n": 144,
+    "false_match": 0.0,
+    "flagged_review": 0.0
+   }
+  }
+ }
+}
