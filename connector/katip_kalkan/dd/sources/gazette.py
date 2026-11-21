@@ -26,10 +26,7 @@ _ISSUE = re.compile(r"Sayı\s*:?\s*(\d{4,6}).{0,40}?(\d{1,2}[./]\d{1,2}[./]\d{4}
 
 
 def _ocr_page(page) -> str:
-    root = Path(__file__).resolve().parents[3] / "connector"
-    if str(root) not in sys.path:
-        sys.path.insert(0, str(root))
-    from katip_kalkan import ocr  # noqa: E402  (heavy; only when asked)
+    from ... import ocr  # Kalkan's reader (PaddleOCR or Tesseract); heavy, only when asked
 
     pix = page.get_pixmap(dpi=200)
     text, _reader = ocr.ocr_page(ocr.pixmap_rgb(pix))

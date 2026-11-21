@@ -16,7 +16,7 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass, field
 
-from normalize import EQUIV, canon, fold, id_tokens, skeleton, tokens
+from .normalize import EQUIV, canon, fold, id_tokens, skeleton, tokens
 
 TOKEN_MIN = 0.85
 MATCH = 0.93   # tuned on the dev split in eval_dd.py, reported on the test split

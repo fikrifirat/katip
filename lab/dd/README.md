@@ -14,7 +14,6 @@ python lab/dd/dd.py search "Kuzeyrüzgarı Tekstil Ltd. Şti." --json
 python lab/dd/dd.py status                         # what is stored, how fresh, what failed
 python lab/dd/dd.py add-gazette ~/Documents/katip/tsg --ocr   # Gazete PDFs you saved (files or a folder)
 python lab/dd/dd.py ilan-lookup "Kuzeyrüzgarı Tekstil" --headed  # ilan.gov.tr in a real browser, one target
-python lab/dd/mcp_dd.py                            # the same search as an MCP server (dd_screen, dd_record, dd_sources)
 python lab/dd/test_dd.py                           # offline tests (invented names)
 python lab/dd/eval_dd.py --seed 2026 --n 600       # matching evaluation on your local snapshot
 python lab/dd/check_un.py                          # MASAK art. 5 vs the UN Security Council list
@@ -30,7 +29,7 @@ parents' names.
 | Source | Status | How |
 |---|---|---|
 | MASAK, Law 6415 art. 5 (UN), art. 6 (foreign request), art. 7 (domestic), Law 7262 (WMD) | **Works** | The list pages are a React app whose own search box calls an open JSON endpoint. One POST per list, empty name filter, returns every row with aliases, ID/passport, birth date, organisation and the Resmî Gazete date/issue. robots.txt allows all. We also read the CSV files linked from each page. |
-| ilan.gov.tr (Basın İlan Kurumu) | **Blocked from the cloud; browser route on your own computer** | The site's search API answers a plain, honestly labelled client with HTTP 403 (from the site's own IIS behind Kong, not a captcha). Sitemaps listed in robots.txt return 404. We do not forge headers or imitate a browser. `ilan-lookup` opens the site in a real browser on the lawyer's computer, types one target into the site's own search box, and keeps the notices the page loads: one target per run, ≤20 notice pages, 5 s between pages, stops on any captcha or block page. robots.txt disallows `/*tebligat`, so those notices are skipped, even though they are the ones that name individuals. **First live run from fikri's Mac (21 Nov 2026): works.** Query "konkordato" returned 12 notices; the 3 opened came through in full (~1,170 chars each), the rest as titles only, which are marked "title/summary only" in results. End-to-end test the same evening: a company picked from a full-text konkordato notice was looked up by name; the site returned 4 notices, 3 mention the company (July, October and November 2026 konkordato decisions) and all 3 came back as MATCH 1.00, for both the full name and "ertona tekstil" (lower case, no Turkish letters, no legal form); the 4th notice did not mention it and stayed below the threshold. No captcha or block page. CLI snippets mask 11-digit ID numbers of other people in a notice; the MCP `source_record` stays verbatim. |
+| ilan.gov.tr (Basın İlan Kurumu) | **Blocked from the cloud; browser route on your own computer** | The site's search API answers a plain, honestly labelled client with HTTP 403 (from the site's own IIS behind Kong, not a captcha). Sitemaps listed in robots.txt return 404. We do not forge headers or imitate a browser. `ilan-lookup` opens the site in a real browser on the lawyer's computer, types one target into the site's own search box, and keeps the notices the page loads: one target per run, ≤20 notice pages, 5 s between pages, stops on any captcha or block page. robots.txt disallows `/*tebligat`, so those notices are skipped, even though they are the ones that name individuals. **First live run from fikri's Mac (21 Nov 2026): works.** Query "konkordato" returned 12 notices; the 3 opened came through in full (~1,170 chars each), the rest as titles only, which are marked "title/summary only" in results. End-to-end test the same evening: a company picked from a full-text konkordato notice was looked up by name; the site returned 4 notices, 3 mention the company (July, October and November 2026 konkordato decisions) and all 3 came back as MATCH 1.00, for both the full name and "ertona tekstil" (lower case, no Turkish letters, no legal form); the 4th notice did not mention it and stayed below the threshold. No captcha or block page. Snippets mask 11-digit ID numbers of other people in a notice; through MCP the whole record is redacted the same way. |
 | Türkiye Ticaret Sicili Gazetesi (TOBB) | **Blocked from the cloud; drop-folder works** | www.ticaretsicil.gov.tr closes the connection after the TLS handshake from our cloud machine, which looks like a geo or WAF block. Search on the site is captcha-gated as far as we know, and we do not automate captchas. Intake modes: (a) **drop folder**: save issue PDFs, `add-gazette` reads the text layer and OCRs scanned pages with Katip's own reader (PaddleOCR or Tesseract, same as Kalkan); (b) the same command fed by a fetcher run from a Turkish connection, still to be written once we see what the site allows from there; (c) a licensed feed, if Uğur's company names one. |
 
 Uğur mentioned the Ministry of Trade once offered an API and withdrew it citing load. We found
@@ -104,16 +103,16 @@ How to read this honestly:
   birth date and source link.
 - No real lawyer queries yet. Next: Uğur's own past DD targets as a labelled set.
 
-## MCP tool (for agents)
+## MCP tools (for agents): now inside Katip Kalkan
 
-`mcp_dd.py` exposes `dd_screen(name, birth_year, id_number, sources, lists, date_from, date_to,
-min_band)`, `dd_record(record_id)` and `dd_sources()`. Every hit returns the verbatim source row,
-`source_url`, Resmî Gazete link, score, band and data date. An agent can write the report, but
-each claim must point at a record this tool returned. Config:
-
-```json
-{"mcpServers": {"katip-dd": {"command": "python3", "args": ["/ABS/PATH/katip/lab/dd/mcp_dd.py"]}}}
-```
+The code moved to `connector/katip_kalkan/dd/`, and the tools are part of the Kalkan MCP server, so
+one install gives masking and DD: `dd_screen`, `dd_record`, `dd_sources`, `dd_update` (refresh
+MASAK) and `dd_ilan_lookup` (one named target on ilan.gov.tr, in a browser on your computer).
+Results for the AI carry the listed name, dates, list, decision and links; third parties' ID numbers
+and parents' names are removed (`id_number_matches` says yes or no instead). The same commands as
+above also run as `katip-kalkan dd update|search|status|add-gazette|ilan-lookup`. Install for
+Claude, Cursor, VS Code, Windsurf, Codex, Gemini CLI and ChatGPT: [connector/DD.md](../../connector/DD.md).
+The scripts in this folder stay for evaluation.
 
 **KVKK, not solved here.** Running this for yourself is processing public data for a legal
 claim or obligation. Serving the index to another firm's agents makes the operator a controller or

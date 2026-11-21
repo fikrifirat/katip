@@ -230,6 +230,14 @@ VIEWS = [Resource(EMSAL_UI, "Emsal sonuçları", "text/html;profile=mcp-app",
                           **({"domain": os.environ["KATIP_RELAY_PUBLIC_URL"]}
                              if os.environ.get("KATIP_RELAY_PUBLIC_URL") else {})}})]
 
+if os.environ.get("KATIP_RELAY_DD") == "1":
+    # Katip DD on the relay: off unless the operator switches it on. Serving a list index that holds personal
+    # data to other people's agents makes the operator a KVKK controller/processor for that use (see lab/dd/README).
+    from .dd.tools import relay_tools
+    TOOLS = TOOLS + relay_tools()
+    INSTRUCTIONS = INSTRUCTIONS + ("\nDD: dd_screen checks a name against Turkish public lists held by this relay. "
+                                   "Quote hits with source_url and data date; no hit is not a clearance.")
+
 MCP = Server("katip-relay", __version__, INSTRUCTIONS, TOOLS, None, VIEWS)
 
 

@@ -61,9 +61,13 @@ def main(bundle: str) -> None:
 
     rpc("initialize", {"protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "smoke"}})
     tools = {t["name"]: t for t in rpc("tools/list")["result"]["tools"]}
-    assert len(tools) == 11, tools.keys()
+    assert len(tools) == 16, tools.keys()  # 11 Kalkan tools + 5 Katip DD tools
+    manifest = {t["name"] for t in json.load(open(Path(__file__).parents[1] / "manifest.json"))["tools"]}
+    assert manifest == set(tools), set(tools) ^ manifest
     info = tools["mask_file"]["inputSchema"]["properties"]["bilgi"]["default"]
     print("approval line:", info)
+    dd, _ = call("dd_sources")
+    assert not dd["isError"] and "masak" in dd["structuredContent"], dd
     status, _ = call("katip_status")
     print("status:", {k: status["structuredContent"][k] for k in ("engine", "vault", "ocr")})
     if sys.platform != "linux":

@@ -19,12 +19,12 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "connector"))
 
-from match import REVIEW, ListIndex, TextIndex  # noqa: E402
-from net import Blocked, PoliteClient  # noqa: E402
-from sources import gazette, ilan, masak  # noqa: E402
-from store import Store, now  # noqa: E402
+from katip_kalkan.dd.match import REVIEW, ListIndex, TextIndex  # noqa: E402
+from katip_kalkan.dd.net import Blocked, PoliteClient  # noqa: E402
+from katip_kalkan.dd.sources import gazette, ilan, masak  # noqa: E402
+from katip_kalkan.dd.store import Store, now  # noqa: E402
 
 FETCHERS = {"masak": masak.fetch, "ilan": ilan.fetch}
 DEFAULT_UPDATE = ("masak",)  # ilan's plain API answers 403; use `ilan-lookup` (real browser) instead

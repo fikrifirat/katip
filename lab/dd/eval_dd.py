@@ -28,12 +28,12 @@ import random
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "connector"))
 
-import match  # noqa: E402
-from match import ListIndex  # noqa: E402
-from normalize import fold, tokens  # noqa: E402
-from store import Store  # noqa: E402
+from katip_kalkan.dd import match  # noqa: E402
+from katip_kalkan.dd.match import ListIndex  # noqa: E402
+from katip_kalkan.dd.normalize import fold, tokens  # noqa: E402
+from katip_kalkan.dd.store import Store  # noqa: E402
 
 TR_FIRST = ["Mehmet", "Ahmet", "Mustafa", "Ali", "Hüseyin", "Hasan", "İbrahim", "İsmail", "Osman", "Yusuf",
             "Murat", "Ömer", "Ramazan", "Halil", "Süleyman", "Abdullah", "Mahmut", "Recep", "Fatma", "Ayşe",

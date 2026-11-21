@@ -55,6 +55,33 @@ def install_model(folder: str, name: str | None = None, trust: float | None = No
     return str(dst)
 
 
+def _dd(a):
+    """Your own terminal: full records, nothing redacted."""
+    from .dd import service
+    if a.dd_cmd == "search":
+        out = service.screen(a.name, birth_year=a.birth, id_number=a.id, redact=False, verbatim=a.json)
+        if a.json:
+            print(json.dumps(out, ensure_ascii=False, indent=1))
+            return
+        for h in out["hits"]:
+            print(f"{h['score']:.2f} {h['band']:6} {h['source']:7} {h['listed_name'][:50]:50} {h['date']:10} {h['source_url']}")
+            for n in h["notes"]:
+                print(f"{'':16}{n}")
+        for s, v in out["sources_status"].items():
+            print(f"{s}: {v['records']} records, data as of {v['data_as_of'] or 'never'}")
+        print(out["how_to_read"])
+        return
+    if a.dd_cmd == "update":
+        out = service.update("masak")
+    elif a.dd_cmd == "status":
+        out = service.sources_status()
+    elif a.dd_cmd == "add-gazette":
+        out = service.add_gazette(a.paths, use_ocr=a.ocr)
+    else:
+        out = service.ilan_lookup(a.target, a.max_ads, headed=a.headed)
+    print(json.dumps(out, ensure_ascii=False, indent=1))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="katip-kalkan")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -84,8 +111,26 @@ def main(argv=None):
     p.add_argument("folder")
     p.add_argument("--json", action="store_true")
     p.add_argument("--steps", action="store_true", help="also show related statutes and suggested next steps")
+    d = sub.add_parser("dd", help="due-diligence screening: MASAK lists, ilan.gov.tr, Ticaret Sicili Gazetesi")
+    dsub = d.add_subparsers(dest="dd_cmd", required=True)
+    dsub.add_parser("update", help="fetch the four MASAK asset-freeze lists (about 10 requests, 2 s apart)")
+    dsub.add_parser("status", help="records and data date of each source")
+    q = dsub.add_parser("search", help="screen a person or company name")
+    q.add_argument("name")
+    q.add_argument("--birth", default="")
+    q.add_argument("--id", default="")
+    q.add_argument("--json", action="store_true")
+    g = dsub.add_parser("add-gazette", help="add Ticaret Sicili Gazetesi PDFs (files or a folder)")
+    g.add_argument("paths", nargs="+")
+    g.add_argument("--ocr", action="store_true")
+    il = dsub.add_parser("ilan-lookup", help="look up ONE named target on ilan.gov.tr in a real browser")
+    il.add_argument("target")
+    il.add_argument("--max-ads", type=int, default=20)
+    il.add_argument("--headed", action="store_true")
     a = ap.parse_args(argv)
 
+    if a.cmd == "dd":
+        return _dd(a)
     if a.cmd == "serve":
         from .local_server import main as serve
         return serve()
@@ -132,3 +177,7 @@ def main(argv=None):
     elif a.cmd == "feedback":
         from . import emsal
         print(json.dumps(emsal.feedback(a.export), ensure_ascii=False, indent=1))
+
+
+if __name__ == "__main__":
+    sys.exit(main())

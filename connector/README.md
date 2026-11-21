@@ -141,6 +141,8 @@ documents with real names are saved next to the source, so they would sync too).
 mobile apps or ChatGPT: those reach only connectors on the provider's servers, so the document would leave
 your computer before masking.
 
+**Other agent apps.** Cursor, VS Code, Windsurf, Codex and Gemini CLI can start the same local server; snippets and what has been tested are in [DD.md](DD.md#install-in-each-app).
+
 **Requirements.** macOS (tested by hand) or Linux; Windows is checked by automated tests on every change but not yet tried by a person. `python3` 3.9 or later on the
 PATH, and [uv](https://docs.astral.sh/uv/) (recommended: `brew install uv`). With uv, Katip has the
 name model, PDF and scan reading and the encrypted map. Without uv it runs on rules only, can't read
@@ -339,6 +341,7 @@ Yargıtay decisions (with the gavel button) and read statutes. Setup and limits:
 | `mevzuat_bak` | Offline: reads a statute article (`TBK 344`) or checks every statute citation in a text (exists, in force, repealed, number and name match). 1,085 laws, article text for the core codes | verdicts, article text, source link, index date |
 | `geri_bildirim` | Saves the lawyer's grade (0/1/2, would cite, note) for one `emsal_ara` result, on this computer | count of grades |
 | `katip_status` | Shows the engine, OCR, threshold, your folder (with a link) and where the map is kept | status |
+| `dd_screen`, `dd_record`, `dd_sources`, `dd_update`, `dd_ilan_lookup` | Due-diligence screening of a person or company against MASAK asset-freeze lists, ilan.gov.tr notices and Ticaret Sicili Gazetesi issues, from an index on this computer. Others' ID numbers and parents' names are removed. See [DD.md](DD.md) | source records, links, score, data date |
 | `open_masked_document` (relay) | Opens a share code | masked text |
 | `emsal_ara`, `mevzuat_bak`, `geri_bildirim` (relay) | The same research tools for ChatGPT; verdicts are stored on the relay, without notes | as above |
 

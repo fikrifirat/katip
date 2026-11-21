@@ -214,11 +214,21 @@ def _prompts() -> list[dict]:
     return [_prompt("katip", "prompt"), _prompt("katip_incele", "prompt_review"), _prompt("katip_taslak", "prompt_draft")]
 
 
+DD_NOTE = """
+Due diligence (DD): to check whether a person or company appears in Turkish public lists (MASAK asset freezes,
+ilan.gov.tr notices, Ticaret Sicili Gazetesi), call dd_screen with the name. Quote each hit as returned, with its
+source_url and data date; say "needs checking" for a review hit; never call "no hits" a clearance and name the
+sources that were empty (not_covered). If MASAK data is missing or old, call dd_update. For ilan.gov.tr, call
+dd_ilan_lookup once for the named target, then dd_screen again. Do not summarise records into claims they do not make.
+"""
+
+
 def build() -> Server:
     views = [Resource(EMSAL_UI, "Emsal sonuçları", "text/html;profile=mcp-app",
                       lambda: (UI_DIR / "emsal.html").read_text(encoding="utf-8"),
                       {"ui": {"prefersBorder": False}})]  # no csp domains: the view cannot reach the network
-    return Server("katip-kalkan", __version__, INSTRUCTIONS, TOOLS, _prompts(), views)
+    from .dd.tools import local_tools  # Katip DD: public-list screening (MASAK, ilan.gov.tr, TSG)
+    return Server("katip-kalkan", __version__, INSTRUCTIONS + DD_NOTE, TOOLS + local_tools(), _prompts(), views)
 
 
 def main() -> None:

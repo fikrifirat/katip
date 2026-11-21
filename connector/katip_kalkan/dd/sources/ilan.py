@@ -20,8 +20,8 @@ import json
 import re
 from pathlib import Path
 
-from net import Blocked
-from normalize import fold
+from ..net import Blocked
+from ..normalize import fold
 
 SOURCE = "ilan"
 BASE = "https://www.ilan.gov.tr"

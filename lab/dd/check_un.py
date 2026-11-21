@@ -17,11 +17,11 @@ import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "connector"))
 
-from match import MATCH, REVIEW, ListIndex  # noqa: E402
-from net import PoliteClient  # noqa: E402
-from store import Store  # noqa: E402
+from katip_kalkan.dd.match import MATCH, REVIEW, ListIndex  # noqa: E402
+from katip_kalkan.dd.net import PoliteClient  # noqa: E402
+from katip_kalkan.dd.store import Store  # noqa: E402
 
 UN_XML = "https://scsanctions.un.org/resources/xml/en/consolidated.xml"
 REGIMES = {"Al-Qaida", "Taliban"}

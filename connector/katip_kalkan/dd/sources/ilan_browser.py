@@ -22,7 +22,7 @@ import json
 import re
 import time
 
-from normalize import fold
+from ..normalize import fold
 
 BASE = "https://www.ilan.gov.tr"
 SEARCH_BOX = ["input[type=search]", "input[placeholder*='Ara']", "input[placeholder*='ara']",
@@ -128,18 +128,3 @@ def search(target: str, *, max_ads: int = 20, pause: float = 5.0, headed: bool =
     info["kept"] = len(docs)
     info["log"] = log[-40:]
     return docs, info
-
-
-if __name__ == "__main__":  # quick manual probe: python sources/ilan_browser.py "ACME İnşaat" --headed
-    import argparse
-    import sys
-    from pathlib import Path
-
-    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-    ap = argparse.ArgumentParser()
-    ap.add_argument("target")
-    ap.add_argument("--headed", action="store_true")
-    ap.add_argument("--max-ads", type=int, default=5)
-    a = ap.parse_args()
-    docs, info = search(a.target, max_ads=a.max_ads, headed=a.headed)
-    print(json.dumps({"info": info, "first": docs[:2]}, ensure_ascii=False, indent=1))

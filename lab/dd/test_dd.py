@@ -8,11 +8,11 @@ import sys
 import tempfile
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "connector"))
 
-from match import MATCH, REVIEW, ListIndex, TextIndex, name_score, token_sim  # noqa: E402
-from normalize import fold, id_tokens, split_aliases, tokens  # noqa: E402
-from sources import gazette, masak  # noqa: E402
+from katip_kalkan.dd.match import MATCH, REVIEW, ListIndex, TextIndex, name_score, token_sim  # noqa: E402
+from katip_kalkan.dd.normalize import fold, id_tokens, split_aliases, tokens  # noqa: E402
+from katip_kalkan.dd.sources import gazette, masak  # noqa: E402
 
 FAILS = []
 

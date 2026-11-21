@@ -12,7 +12,7 @@ import hashlib
 import io
 import re
 
-from normalize import fold, split_aliases
+from ..normalize import fold, split_aliases
 
 SOURCE = "masak"
 BASE = "https://masak.hmb.gov.tr"
@@ -140,8 +140,8 @@ def csv_only_records(client, records: list[dict], detail: dict) -> list[dict]:
     The two disagree on a handful of rows (see README). For screening a missed name is worse
     than a duplicate, so these rows are kept too, marked ``csv_only``.
     """
-    from match import name_score
-    from normalize import tokens
+    from ..match import name_score
+    from ..normalize import tokens
 
     extra = []
     for label, info in detail["lists"].items():
