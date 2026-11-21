@@ -74,6 +74,10 @@ t = TextIndex(docs)
 h = t.search("Kuzeyruzgari Tekstil Ltd Sti")
 check(h and h[0].record["rid"] == "g1", "mention in notice")
 check(not [x for x in h if x.record["rid"] == "g2"], "no hit on the other company")
+t2 = TextIndex([{"rid": "g3", "text": "Konkordato: ERTUNA ÖRNEK ANONİM ŞİRKETİ ile müşterek talepçi 12345678901 TC kimlik nolu kişi"}])
+h = t2.search("Ertuna Örnek")
+check(h and "12345678901" not in " ".join(h[0].reasons), "kimlik numbers masked in snippet")
+check(h and h[0].matched == "ertuna ornek", f"matched span {h and h[0].matched}")
 
 # -- gazette splitting and PDF ingest ---------------------------------------------------------
 parts = gazette.split_notices(docs[0]["text"] + "\n" + docs[1]["text"])

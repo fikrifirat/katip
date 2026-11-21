@@ -219,9 +219,11 @@ class TextIndex:
                 s = name_score(q, wt[: len(q) + 1]) if wt else 0.0
                 if s >= floor and (di not in hits or s > hits[di].score):
                     start = max(0, lo - 8)
-                    snippet = " ".join(toks[start: lo + len(q) + 10])
+                    # mask 11-digit numbers (TCKN/VKN) of other people named in the notice
+                    snippet = re.sub(r"\b\d{10,11}\b", "[kimlik no]", " ".join(toks[start: lo + len(q) + 10]))
                     notes = [f"…{snippet}…"]
                     if self.docs[di].get("full_text") is False:
                         notes.append("title/summary only: notice page was not opened, check the full notice")
-                    hits[di] = Hit(s, band(s), " ".join(window[: len(q) + 1]), self.docs[di], notes)
+                    span = window[: len(q)] if name_score(q, (tokens(" ".join(window[: len(q)])) or window)[: len(q)]) >= s else window[: len(q) + 1]
+                    hits[di] = Hit(s, band(s), " ".join(span), self.docs[di], notes)
         return sorted(hits.values(), key=lambda h: -h.score)[:limit]
