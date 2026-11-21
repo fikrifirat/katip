@@ -25,6 +25,61 @@ struct MaskOutput: Codable {
     let error: String?
 }
 
+struct LetterOutput: Codable {
+    let ok: Bool
+    let lang: String?      // "nl" or "tr"
+    let type: String?      // key into LetterInfo.types
+    let why: [String]?     // words the type was recognised by
+    let text: String?
+    let mapping: [String: String]?
+    let model: String?
+    let ms: Int?
+    let spans: [FoundSpan]?
+    let leak: Bool?
+    let kinds: [String]?
+    let lines: [Int]?
+    let error: String?
+}
+
+/// Text in Dutch, English and Turkish. The app shows Turkish or English, with the Dutch next to it.
+struct Loc3: Codable, Hashable {
+    let nl: String
+    let en: String
+    let tr: String
+    var app: String { appIsTurkish ? tr : en }
+}
+
+struct LetterInfo: Codable {
+    struct Kind: Codable {
+        let name: Loc3
+        let what: Loc3
+        let deadline: Loc3?
+        let urgent: Bool?
+        let law: [String]
+    }
+    struct Law: Codable {
+        let ref: String
+        let url: String
+        let quote: String
+    }
+    struct Helper: Codable, Hashable {
+        let name: String
+        let url: String
+        let what: Loc3
+    }
+    struct NLLabel: Codable {
+        let tag: String
+        let nl: String
+        let en: String
+        let tr: String
+    }
+    let order: [String]
+    let types: [String: Kind]
+    let law: [String: Law]
+    let help: [Helper]
+    let labels: [String: NLLabel]
+}
+
 struct RestoreOutput: Codable {
     let text: String
     /// Placeholder-looking tokens in the answer that are not in this document's map.
@@ -121,6 +176,25 @@ final class MaskEngine: ObservableObject {
 
     func restore(_ text: String, mapping: [String: String]) async throws -> RestoreOutput {
         try await call("restore", ["text": text, "mapping": mapping], as: RestoreOutput.self)
+    }
+
+    /// "Letter explained": masks a letter (Dutch with the katip_nl rules, Turkish with the SDK) and names its type.
+    func letter(_ text: String, model: KatipModel, allow: [String] = [], deny: [String] = []) async throws -> LetterOutput {
+        var args: [String: Any] = ["text": text, "allow": allow, "deny": deny]
+        args["model"] = model == .rules ? NSNull() : model.rawValue
+        let out = try await call("letter", args, as: LetterOutput.self)
+        if out.leak == true { throw EngineError.leak(kinds: out.kinds ?? [], lines: out.lines ?? []) }
+        return out
+    }
+
+    /// Letter types, deadline rules with their sources, help links and Dutch labels (src/letters.js).
+    func letterInfo() async throws -> LetterInfo {
+        try await call("letterInfo", [:], as: LetterInfo.self)
+    }
+
+    /// The question that goes with the masked letter (same text as docs/cep.html).
+    func letterPrompt(type: String, docLang: String, answerLang: String, masked: String) async throws -> String {
+        try await call("letterPrompt", ["type": type, "docLang": docLang, "answerLang": answerLang, "masked": masked], as: String.self)
     }
 
     /// Plain text of a .docx or .udf file (same walk as the web app).

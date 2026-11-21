@@ -23,6 +23,18 @@ Xcode yet.
 5. **Put names back:** paste the AI's answer. Placeholders are replaced from this document's map, on the phone.
    Placeholders that don't belong to this document are listed, not guessed.
 
+### Letter explained (test)
+
+"Understand a letter from the Netherlands" on the home screen opens the same flow as the private web page
+[`docs/cep.html`](../docs/cep.html): a letter from the IND, the gemeente, an employer or a court is read and masked
+on the phone, Katip names its type and the deadline rule it knows with the official source (`src/letters.js`:
+IND decision 4 weeks under Vreemdelingenwet 2000 art. 69, other decisions 6 weeks under Awb 6:7), the masked
+letter goes to ChatGPT or Claude with a request for a plain explanation in Turkish, English or Dutch, the names
+come back on the phone, and the screen ends with Juridisch Loket, Raad voor Rechtsbijstand and NOvA. Dutch
+letters are masked by the `katip_nl` rules (`lab/nl`) running in Pyodide (about 13 MB in the bundle, loaded only
+for Dutch letters); Turkish letters go through the usual engine. Nothing is stored. It is a test, not legal advice,
+and the deadline rules have not been checked by a Dutch lawyer yet.
+
 ## Privacy design
 
 * **Same engine everywhere.** The app runs the `katip-mask` JavaScript SDK (rules plus Katip Mask Mini or Nano)
@@ -62,14 +74,15 @@ Engine smoke test (Chromium, no Xcode needed): `node ios/engine/build.mjs && nod
 
 | Path | What |
 |---|---|
-| `engine/bridge.js` | `window.katip.mask / restore / extract` on top of the SDK; .docx/.udf text reader |
+| `engine/bridge.js` | `window.katip.mask / restore / extract / letter` on top of the SDK; .docx/.udf text reader |
+| `engine/letter.js` | Letter explained: Dutch masking in Pyodide, letter type, prompt (`src/letters.js`) |
 | `engine/build.mjs` | esbuild bundle + ORT wasm + models + `profiles.json` |
 | `Katip/Engine` | `MaskEngine` (WKWebView bridge), `EngineSchemeHandler` (bundle-only, hash-checked) |
 | `Katip/Input` | PDF text / OCR, Vision OCR, document camera |
 | `Katip/Store` | Sessions, encrypted store, profiles |
 | `Katip/Handoff` | ChatGPT / Claude hand-off, clipboard |
 | `Katip/Legal` | Per-profile and per-type reasons, sources, sanctions |
-| `Katip/Views` | Home, document (check · send · restore), profile details, settings |
+| `Katip/Views` | Home, document (check · send · restore), Letter explained, profile details, settings |
 
 ## Still to check on a device
 

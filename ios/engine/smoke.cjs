@@ -22,6 +22,22 @@ srv.listen(8799, async () => {
     const r = await p.evaluate(async ([b, k]) => (await window.katip.extract({ base64: b, kind: k })).text, [b64, k]);
     console.log(k, r.length, JSON.stringify(r.slice(0, 120)));
   }
+  // Letter explained: a synthetic IND letter (Dutch, Pyodide path) and a Turkish one (SDK path)
+  const letters = path.join(repo, 'src/tests/letters/');
+  const fail = m => { console.log('FAIL:', m); process.exitCode = 1; };
+  const ind = await p.evaluate(async t => window.katip.letter({ text: t, model: 'mini' }), fs.readFileSync(letters + 'ind_besluit.txt', 'utf8'));
+  console.log('letter nl', ind.ok, ind.lang, ind.type, ind.ms + 'ms', Object.keys(ind.mapping || {}).join(' '));
+  if (!(ind.ok && ind.lang === 'nl' && ind.type === 'ind_besluit')) fail('IND letter type');
+  for (const v of ['111222333', '3012345678', 'Yıldız']) if (ind.text.includes(v)) fail('still readable: ' + v);
+  if (!ind.text.includes('Immigratie- en Naturalisatiedienst') || !/\[NAAM-1\]/.test(ind.text) || !/\[V-NUMMER-1\]/.test(ind.text)) fail('Dutch labels / sender');
+  const tr = await p.evaluate(async t => window.katip.letter({ text: t, model: 'mini' }), fs.readFileSync(letters + 'turks.txt', 'utf8'));
+  console.log('letter tr', tr.ok, tr.lang, tr.type, Object.keys(tr.mapping || {}).join(' '));
+  if (!(tr.ok && tr.lang === 'tr' && !tr.text.includes('Ahmet Yılmaz'))) fail('Turkish letter');
+  const info = await p.evaluate(() => window.katip.letterInfo());
+  if (!info.types.ind_besluit || !info.law.vw69 || info.help.length !== 3 || info.labels.PERSON.tag !== 'NAAM') fail('letterInfo');
+  const pr = await p.evaluate(m => window.katip.letterPrompt({ type: 'ind_besluit', docLang: 'nl', answerLang: 'en', masked: m }), ind.text);
+  if (!/art\. 69/.test(pr) || pr.includes('111222333')) fail('letterPrompt');
   console.log('txt', text.length, 'external requests:', ext);
+  if (ext.length) fail('external requests');
   await b.close(); srv.close();
 });

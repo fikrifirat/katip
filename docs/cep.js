@@ -5,7 +5,7 @@
 // Not linked from the site and marked noindex: this is for testing with our own letters, not a public service.
 import Tesseract from "./vendor/tesseract.js/dist/tesseract.esm.min.js";
 import { GROUPS } from "./legal.js";
-import { TYPES, LAW, HELP, classifyLetter } from "./letters.js";
+import { TYPES, LAW, HELP, classifyLetter, letterPrompt } from "./letters.js";
 
 const $ = id => document.getElementById(id);
 const el = (tag, props = {}, ...kids) => { const e = Object.assign(document.createElement(tag), props); e.append(...kids.filter(k => k != null)); return e; };
@@ -223,25 +223,7 @@ function renderHelp() {
 }
 
 // ---------------------------------------------------------------- the question sent with the masked letter
-const ANSWER_LANG = { nl: "Dutch (eenvoudig Nederlands, B1)", en: "plain English", tr: "plain Turkish (sade Türkçe)" };
-function prompt() {
-  const T = TYPES[doc.type], rule = doc.lang === "nl" && T.deadline
-    ? `Katip's rule for this type: ${T.deadline.en} Source: ${T.law.map(k => `${LAW[k].ref} (${LAW[k].url})`).join("; ")}. Check this against what the letter itself says, and say so if they differ.`
-    : "Katip has no deadline rule for this letter: only give a deadline if the letter states one, and quote it.";
-  return [
-    `I received the letter below. Personal details were replaced on my device with labels in square brackets, such as [${doc.lang === "nl" ? "NAAM" : "AD SOYAD"}-1]. Keep the labels exactly as they are and don't guess what they hide.`,
-    doc.type !== "other" ? `Katip, a tool on my phone, thinks this is: ${T.name.en}.` : "",
-    rule,
-    `Please explain it to me in ${ANSWER_LANG[lang]}, short and without legal jargon:`,
-    "1. Who sent it and what is it about?",
-    "2. What does it decide, or what does it ask me to do?",
-    "3. What can I do, and by when? Quote the date or paragraph from the letter.",
-    "4. What happens if I do nothing?",
-    "5. Should I get a lawyer or free legal help, and what kind?",
-    "Say clearly where you are unsure. This is not a request for legal advice; I will check with a person.",
-    "", "<letter>", doc.text.replace(/\f\n?/g, "\n").trim(), "</letter>",
-  ].filter(x => x !== "").join("\n").replace("\n<letter>", "\n\n<letter>");
-}
+const prompt = () => letterPrompt({ type: doc.type, docLang: doc.lang, answerLang: lang, masked: doc.text });
 
 // ---------------------------------------------------------------- send
 function toast(msg) { const e = $("toast"); e.textContent = msg; e.hidden = false; clearTimeout(toast.h); toast.h = setTimeout(() => { e.hidden = true; }, 3500); }

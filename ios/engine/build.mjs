@@ -1,5 +1,6 @@
 // Builds the offline engine bundle for the iOS app into ios/Katip/Resources/Engine:
-//   index.html, engine.js (katip-mask SDK + bridge), ort/ (onnxruntime-web wasm), models/{mini,nano}/...
+//   index.html, engine.js (katip-mask SDK + bridge), ort/ (onnxruntime-web wasm), models/{mini,nano}/...,
+//   nl/ (Pyodide and docs/katip_nl.zip, for Dutch letters)
 // Models are copied from docs/models (the same files the web app serves) and checked against sdk/spec/models.json.
 // Run from the repo root:  (cd sdk/js && npm ci && npm run build) && node ios/engine/build.mjs
 import { build } from "../../sdk/js/node_modules/esbuild/lib/main.js";
@@ -28,6 +29,11 @@ await build({
 
 for (const f of ["ort-wasm-simd-threaded.mjs", "ort-wasm-simd-threaded.wasm"]) copyFileSync(join(ortDist, f), join(out, "ort", f));
 copyFileSync(join(here, "index.html"), join(out, "index.html"));
+// Pyodide + the Dutch recognizers, for "Letter explained"; loaded only when a Dutch letter arrives
+mkdirSync(join(out, "nl"), { recursive: true });
+for (const f of ["pyodide.mjs", "pyodide.asm.mjs", "pyodide.asm.wasm", "python_stdlib.zip", "pyodide-lock.json"])
+  copyFileSync(join(root, "docs/vendor/pyodide", f), join(out, "nl", f));
+copyFileSync(join(root, "docs/katip_nl.zip"), join(out, "nl/katip_nl.zip"));
 copyFileSync(join(root, "sdk/spec/profiles.json"), join(out, "profiles.json"));
 
 const spec = JSON.parse(readFileSync(join(root, "sdk/spec/models.json"), "utf8"));

@@ -119,3 +119,26 @@ export const HELP = {
     { name: "Zoek een advocaat (NOvA)", url: "https://zoekeenadvocaat.advocatenorde.nl", what: { nl: "Vind een advocaat, bijvoorbeeld in het vreemdelingenrecht.", en: "Find a lawyer, for example in immigration law.", tr: "Avukat bulun, örneğin yabancılar hukukunda." } },
   ],
 };
+
+// The question sent with the masked letter (cep.html and the iOS app). Written in English for the model; the
+// answer comes back in the reader's language. Katip's deadline rule goes with it, so the model checks it against
+// the letter instead of inventing one.
+const ANSWER_LANG = { nl: "Dutch (eenvoudig Nederlands, B1)", en: "plain English", tr: "plain Turkish (sade Türkçe)" };
+export function letterPrompt({ type, docLang, answerLang, masked }) {
+  const T = TYPES[type] ?? TYPES.other, rule = docLang === "nl" && T.deadline
+    ? `Katip's rule for this type: ${T.deadline.en} Source: ${T.law.map(k => `${LAW[k].ref} (${LAW[k].url})`).join("; ")}. Check this against what the letter itself says, and say so if they differ.`
+    : "Katip has no deadline rule for this letter: only give a deadline if the letter states one, and quote it.";
+  return [
+    `I received the letter below. Personal details were replaced on my device with labels in square brackets, such as [${docLang === "nl" ? "NAAM" : "AD SOYAD"}-1]. Keep the labels exactly as they are and don't guess what they hide.`,
+    type !== "other" ? `Katip, a tool on my phone, thinks this is: ${T.name.en}.` : "",
+    rule,
+    `Please explain it to me in ${ANSWER_LANG[answerLang] ?? ANSWER_LANG.en}, short and without legal jargon:`,
+    "1. Who sent it and what is it about?",
+    "2. What does it decide, or what does it ask me to do?",
+    "3. What can I do, and by when? Quote the date or paragraph from the letter.",
+    "4. What happens if I do nothing?",
+    "5. Should I get a lawyer or free legal help, and what kind?",
+    "Say clearly where you are unsure. This is not a request for legal advice; I will check with a person.",
+    "", "<letter>", masked.replace(/\f\n?/g, "\n").trim(), "</letter>",
+  ].filter(x => x !== "").join("\n").replace("\n<letter>", "\n\n<letter>");
+}

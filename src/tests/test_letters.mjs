@@ -36,3 +36,13 @@ assert.match(TYPES.overheid_besluit.deadline.en, /6 weeks/); assert.match(LAW.aw
 assert.match(TYPES.beeindiging.deadline.en, /14 days/); assert.match(LAW.bw670b.quote, /veertien dagen/);
 for (const h of HELP.nl) assert.match(h.url, /^https:\/\//);
 console.log("letters: ok");
+
+// the prompt carries the type, Katip's rule and its source, and the masked text, in the chosen answer language
+{
+  const { letterPrompt } = await import("../letters.js");
+  const p = letterPrompt({ type: "ind_besluit", docLang: "nl", answerLang: "tr", masked: "Geachte [NAAM-1]," });
+  assert.match(p, /IND decision \(residence or visa\)/); assert.match(p, /Vreemdelingenwet 2000, art\. 69/);
+  assert.match(p, /plain Turkish/); assert.match(p, /<letter>\nGeachte \[NAAM-1\],\n<\/letter>$/);
+  assert.match(letterPrompt({ type: "other", docLang: "tr", answerLang: "en", masked: "x" }), /no deadline rule/);
+  console.log("letterPrompt: ok");
+}
