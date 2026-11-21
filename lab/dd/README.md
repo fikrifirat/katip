@@ -8,7 +8,7 @@ and the official link**. It never summarises. A hit is a lead to check against t
 and no hit is not a clearance.
 
 ```
-python lab/dd/dd.py update                         # MASAK now; ilan.gov.tr reports that it is blocked
+python lab/dd/dd.py update                         # MASAK (ilan.gov.tr goes through ilan-lookup)
 python lab/dd/dd.py search "Ayşe Nur Kocabey" --birth 1978
 python lab/dd/dd.py search "Kuzeyrüzgarı Tekstil Ltd. Şti." --json
 python lab/dd/dd.py status                         # what is stored, how fresh, what failed

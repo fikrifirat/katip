@@ -27,12 +27,13 @@ from sources import gazette, ilan, masak  # noqa: E402
 from store import Store, now  # noqa: E402
 
 FETCHERS = {"masak": masak.fetch, "ilan": ilan.fetch}
+DEFAULT_UPDATE = ("masak",)  # ilan's plain API answers 403; use `ilan-lookup` (real browser) instead
 TEXT_SOURCES = ("ilan", "gazette")
 
 
 def cmd_update(a):
     st, client = Store(), PoliteClient(min_interval=a.interval)
-    for name in ([a.source] if a.source else FETCHERS):
+    for name in ([a.source] if a.source else DEFAULT_UPDATE):
         started = now()
         try:
             records, detail = FETCHERS[name](client)
