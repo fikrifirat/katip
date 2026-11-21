@@ -64,6 +64,7 @@ def _hit(source: str, h, verbatim: bool, redact: bool, id_number: str) -> dict:
          "other_names": (r.get("names") or [])[1:], "birth": " ".join(str(r.get("birth", "")).split()),
          "nationality": r.get("nationality", ""), "organisation": r.get("organisation", ""),
          "decision": r.get("decision", ""), "date": _date(r), "source_url": r.get("url", ""),
+         **({"gazette_issue": r["issue"], "gazette_page": r.get("gazette_page", "")} if source == "gazette" and r.get("issue") else {}),
          "gazette_url": r.get("gazette_url", ""), "notes": list(h.reasons)}
     if r.get("full_text") is False and not any("title/summary" in n for n in d["notes"]):
         d["notes"].append("title/summary only: notice page was not opened, check the full notice")
@@ -211,6 +212,11 @@ def add_gazette(paths, use_ocr: bool = False, store: Store | None = None) -> dic
     for p in map(Path, paths):
         files += sorted(p.glob("*.pdf")) if p.is_dir() else [p]
     st, started = store or Store(), now()
-    new = gazette.ingest(files, ocr=use_ocr)
+    try:
+        new = gazette.ingest(files, ocr=use_ocr)
+    except ImportError as e:
+        return {"status": "unavailable", "error": f"{e.name or e} is not installed. Reading Gazette PDFs needs "
+                "PyMuPDF, and scanned pages need OCR: pip install 'katip-kalkan[ocr]' (or: pip install pymupdf rapidocr "
+                "onnxruntime)"}
     stats = _merge(st, "gazette", new, {"files": [str(f) for f in files]}, started)
     return {"status": "ok", "files": len(files), "notices": len(new), "store_records": stats["n"]}

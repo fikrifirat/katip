@@ -150,15 +150,21 @@ def _lines(boxes: list[tuple[float, float, float, str]]) -> str:
     return "\n".join(" ".join(t for _, t in sorted(items)) for _, items in rows)
 
 
-def _ocr_paddle(rgb) -> str:
+def ocr_boxes(rgb) -> list[tuple[float, float, float, float, str]]:
+    """PaddleOCR text boxes as (y_centre, x_left, height, width, text), for layout-aware callers."""
     r = _paddle_engine()(rgb)
     if r is None or r.boxes is None:
-        return ""
-    boxes = []
+        return []
+    out = []
     for quad, txt in zip(r.boxes, r.txts):
         ys, xs = [p[1] for p in quad], [p[0] for p in quad]
-        boxes.append(((min(ys) + max(ys)) / 2, min(xs), max(ys) - min(ys), " ".join(fix_case(w) for w in txt.split())))
-    return _lines(boxes)
+        out.append(((min(ys) + max(ys)) / 2, min(xs), max(ys) - min(ys), max(xs) - min(xs),
+                    " ".join(fix_case(w) for w in txt.split())))
+    return out
+
+
+def _ocr_paddle(rgb) -> str:
+    return _lines([(y, x, h, t) for y, x, h, _w, t in ocr_boxes(rgb)])
 
 
 def _ocr_tesseract(rgb) -> str:
