@@ -93,6 +93,35 @@ questions, and take their key from an environment variable (`--api-key-env`), ne
   records the snapshot commit. Verify against mevzuat.gov.tr before relying on a text.
 - Katip code: AGPL-3.0, commercial licence on request (see the repository root).
 
+## How often the checker catches a wrong citation
+
+Two checks, read together (21 Nov 2026, index snapshot `9759778`):
+
+**1. Labelled citations built from the index** (`python lab/cite/catch_rate.py`, seed 7, `results/catch_rate.json`).
+930 citations in 11 written forms (Turkish by number, by official title, by abbreviation, with suffixes such as
+"TBK'nın", paragraph marks such as "md. 344/1", lists such as "TMK m. 161, 166", and English "Article 344 of Law No.
+6098" / "Law No. 6098, Article 344").
+
+| Kind | n | Flagged as wrong | Right reason |
+|---|---|---|---|
+| Article past the law's last one | 150 | 100% | 100% |
+| Article marked Mülga | 150 | 100% | 100% |
+| Article of a repealed law | 150 | 100% | 100% |
+| Law number nobody has | 100 | 100% | 100% |
+| One law's number, another's name | 80 | 100% | 100% |
+| **Correct citation** (false alarm) | 300 | **0%** | 99.7% OK, 1 unverified (a 300-character official title) |
+
+This shows the extraction and decision logic work on well-formed citations. It does **not** show the index matches
+the official text (the labels come from the same index; `make_questions.py` read 80 articles by hand for that), and
+real answers are messier than templates.
+
+**2. Real model answers** (`review/audit.csv`, 40 citations from three local models, checked by hand). The first audit
+found 8 wrong verdicts: 7 were one parser bug (a bare "Law No. 4857" read as law 485, article 7) and 1 an ambiguous
+abbreviation ("TCC" for the procedure code, read as the Civil Code). Both were fixed in `3c7f8aa`: the bare law
+numbers now resolve to the right law, and the ambiguous "TCC, Article 179" is no longer matched at all, so it goes
+unchecked rather than wrongly passed. On those 40, the current checker gives 39 right verdicts and skips 1. Forty is
+small; the next audit should use answers from larger models.
+
 ## Limits
 
 - "Exists and in force" is not "supports the argument". The *right article* metric covers that for the bench, using

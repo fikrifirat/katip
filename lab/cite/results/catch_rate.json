@@ -1,0 +1,123 @@
+{
+ "seed": 7,
+ "checker": "katip_cite.py",
+ "index": {
+  "source": "github.com/onurcan-b/acik-mevzuat",
+  "commit": "9759778ce9adaa24f596967ec92a8337d9cc481b",
+  "commit_date": "2026-11-11T15:34:17+00:00"
+ },
+ "summary": {
+  "OK": {
+   "n": 300,
+   "found %": 100.0,
+   "verdicts": {
+    "OK": 299,
+    "UNVERIFIED": 1
+   },
+   "false alarm %": 0.0,
+   "unverified %": 0.3,
+   "exact by form %": {
+    "abbreviation": 100.0,
+    "abbreviation_messy": 100.0,
+    "en_number": 100.0,
+    "en_number_messy": 100.0,
+    "tr_number": 100.0,
+    "tr_number_messy": 100.0,
+    "tr_title": 97.6
+   }
+  },
+  "NO_SUCH_ARTICLE": {
+   "n": 150,
+   "found %": 100.0,
+   "verdicts": {
+    "NO_SUCH_ARTICLE": 150
+   },
+   "flagged as wrong %": 100.0,
+   "exact reason %": 100.0,
+   "exact by form %": {
+    "abbreviation_messy": 100.0,
+    "en_number": 100.0,
+    "en_number_messy": 100.0,
+    "tr_number": 100.0,
+    "tr_number_messy": 100.0,
+    "tr_title": 100.0
+   }
+  },
+  "ARTICLE_REPEALED": {
+   "n": 150,
+   "found %": 100.0,
+   "verdicts": {
+    "ARTICLE_REPEALED": 150
+   },
+   "flagged as wrong %": 100.0,
+   "exact reason %": 100.0,
+   "exact by form %": {
+    "abbreviation": 100.0,
+    "abbreviation_messy": 100.0,
+    "en_number": 100.0,
+    "en_number_messy": 100.0,
+    "tr_number": 100.0,
+    "tr_number_messy": 100.0,
+    "tr_title": 100.0
+   }
+  },
+  "LAW_REPEALED": {
+   "n": 150,
+   "found %": 100.0,
+   "verdicts": {
+    "LAW_REPEALED": 150
+   },
+   "flagged as wrong %": 100.0,
+   "exact reason %": 100.0,
+   "exact by form %": {
+    "abbreviation": 100.0,
+    "abbreviation_messy": 100.0,
+    "en_number": 100.0,
+    "en_number_messy": 100.0,
+    "tr_number": 100.0,
+    "tr_number_messy": 100.0
+   }
+  },
+  "UNKNOWN_LAW": {
+   "n": 100,
+   "found %": 100.0,
+   "verdicts": {
+    "UNKNOWN_LAW": 100
+   },
+   "flagged as wrong %": 100.0,
+   "exact reason %": 100.0,
+   "exact by form %": {
+    "en_number": 100.0,
+    "tr_number": 100.0
+   }
+  },
+  "NUMBER_NAME_CLASH": {
+   "n": 80,
+   "found %": 100.0,
+   "verdicts": {
+    "NUMBER_NAME_CLASH": 80
+   },
+   "flagged as wrong %": 100.0,
+   "exact reason %": 100.0,
+   "exact by form %": {
+    "tr_number+title": 100.0
+   }
+  },
+  "ALL WRONG": {
+   "n": 630,
+   "flagged as wrong %": 100.0
+  }
+ },
+ "misses": [
+  {
+   "label": "OK",
+   "law": "5454",
+   "article": "11",
+   "form": "tr_title",
+   "citation": "T.c. Emekli Sandığı, Sosyal Sigortalar Kurumu ve Bağ-kurdan Aylık Veya Gelir Almakta Olanlara Ek Ödeme Yapılması ile Sosyal Sigortalar Kurumu ve Bağ-kurdan Aylık Veya Gelir Almakta Olanlara Ödenen Gelir ve Aylıklarda 2006 Yılında Yapılacak Artışlar ve Bazı Kanunlarda Değişiklik Yapılması hakkında Kanun m. 11",
+   "text": "Bu konuda T.c. Emekli Sandığı, Sosyal Sigortalar Kurumu ve Bağ-kurdan Aylık Veya Gelir Almakta Olanlara Ek Ödeme Yapılması ile Sosyal Sigortalar Kurumu ve Bağ-kurdan Aylık Veya Gelir Almakta Olanlara Ödenen Gelir ve Aylıklarda 2006 Yılında Yapılacak Artışlar ve Bazı Kanunlarda Değişiklik Yapılması hakkında Kanun m. 11 uygulanır.",
+   "found": true,
+   "verdict": "UNVERIFIED"
+  }
+ ]
+}
