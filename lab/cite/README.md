@@ -119,8 +119,10 @@ real answers are messier than templates.
 found 8 wrong verdicts: 7 were one parser bug (a bare "Law No. 4857" read as law 485, article 7) and 1 an ambiguous
 abbreviation ("TCC" for the procedure code, read as the Civil Code). Both were fixed in `3c7f8aa`: the bare law
 numbers now resolve to the right law, and the ambiguous "TCC, Article 179" is no longer matched at all, so it goes
-unchecked rather than wrongly passed. On those 40, the current checker gives 39 right verdicts and skips 1. Forty is
-small; the next audit should use answers from larger models.
+unchecked rather than wrongly passed. Re-checking the 40 citation strings on their own with the current checker: the
+7 bug cases now come out right, 30 keep their (correct) verdict, "TCC" is skipped, and 2 (a bare "184" and "16" from
+a list) can't be re-checked without the sentence around them. Forty is small; the next audit should use answers from
+larger models.
 
 ## Limits
 
