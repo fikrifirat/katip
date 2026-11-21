@@ -220,5 +220,8 @@ class TextIndex:
                 if s >= floor and (di not in hits or s > hits[di].score):
                     start = max(0, lo - 8)
                     snippet = " ".join(toks[start: lo + len(q) + 10])
-                    hits[di] = Hit(s, band(s), " ".join(window[: len(q) + 1]), self.docs[di], [f"…{snippet}…"])
+                    notes = [f"…{snippet}…"]
+                    if self.docs[di].get("full_text") is False:
+                        notes.append("title/summary only: notice page was not opened, check the full notice")
+                    hits[di] = Hit(s, band(s), " ".join(window[: len(q) + 1]), self.docs[di], notes)
         return sorted(hits.values(), key=lambda h: -h.score)[:limit]

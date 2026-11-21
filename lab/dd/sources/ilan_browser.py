@@ -49,7 +49,8 @@ def _ad_to_doc(ad: dict, detail: dict | None) -> dict:
     return {"rid": f"ilan:{rid}", "source": "ilan", "kind": "notice", "title": title, "names": [title],
             "text": f"{title}\n{ad.get('advertiserName', d.get('advertiserName', ''))}\n{text}",
             "date": ad.get("publishStartDate") or d.get("publishStartDate") or "", "url": url,
-            "category": ad.get("categoryName") or d.get("categoryName") or "", "raw_keys": sorted(ad)[:40]}
+            "category": ad.get("categoryName") or d.get("categoryName") or "", "raw_keys": sorted(ad)[:40],
+            "full_text": bool(detail)}
 
 
 def search(target: str, *, max_ads: int = 20, pause: float = 5.0, headed: bool = False) -> tuple[list[dict], dict]:
