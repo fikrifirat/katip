@@ -221,6 +221,11 @@ türlü model kodu için).
 - [ ] Dosyanın kaynaklarından taslak (Taslak)
 - [ ] Hollanda hukuku (maskeleme, wetten, rechtspraak)
 - [ ] Bürolar için kurulum: dizüstünde, büronun kendi sunucusunda
+- [ ] Neyin kendiliğinden çalışacağını, neyin avukatı bekleyeceğini büronun seçtiği bir ayar
+- [ ] Avukatı olmayan kişilere avukat incelemeli yardım (*Cebindeki hukuk*), baro kuralları üzerine yazılı görüş alındıktan sonra
+
+Bunları hangi sırayla yaptığımız, her birinin ne zaman bitmiş sayılacağı ve son 30 günün kamuya açık
+tartışmalarıyla karşılaştırma: [ROADMAP.md](ROADMAP.md) (İngilizce).
 
 ## Sorular, pilot ve iletişim
 

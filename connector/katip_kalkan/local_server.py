@@ -47,8 +47,10 @@ Pass matter only when the user works on several documents of one case (a neutral
 client name); for a single document leave the default. Do not ask the user to paste or upload the original. Keep
 placeholders such as [AD SOYAD-1] exactly as written.
 When the user wants a final document with the real names, call restore_to_file with your text and a file name such
-as cevap-dilekcesi.docx (.docx, .txt or .md). It is saved next to the document you masked last for that matter.
-Never open that file: you will only get the file path back, never the real values.
+as cevap-dilekcesi.docx (.docx, .udf for UYAP, .pdf, .txt or .md). It is saved next to the document you masked
+last for that matter. Never open that file: you will only get the file path back, never the real values.
+If the result has citation_check with problems, list each cited_as and its meaning to the user before they file the
+document; never say a citation was verified unless it is counted as ok.
 mask_file also returns document_type (e.g. ödeme emri, ihtarname, bilirkişi raporu) and next_steps, worked out on
 the computer. Name the type, list the related articles (next_steps.mevzuat, always with "check the current text"),
 check them with mevzuat_bak (steps with kalkan_tool name the Katip tool). Steps marked run "auto" may be done
@@ -126,7 +128,7 @@ TOOLS = [
          {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": False, "openWorldHint": False}),
     Tool("restore_to_file", *tool("restore_to_file"),
          {"type": "object", "properties": {INFO: RESTORE_NOTE, "text": {"type": "string"},
-                                           "output_path": {"type": "string", "description": "File name, saved next to the source document: .docx, .txt or .md (e.g. cevap-dilekcesi.docx)"},
+                                           "output_path": {"type": "string", "description": "File name, saved next to the source document: .docx, .udf (UYAP), .pdf, .txt or .md (e.g. cevap-dilekcesi.docx)"},
                                            "matter": MATTER},
           "required": [INFO, "text", "output_path"], "additionalProperties": False},
          lambda text, output_path, matter="default": core.restore_to_file(text, output_path, matter),

@@ -492,7 +492,7 @@ def test_outputs_stay_in_the_katip_folder(home, tmp_path):
     with pytest.raises(PermissionError):
         core.restore_to_file("[AD SOYAD-1]", "../escape.txt", "m9")
     with pytest.raises(ValueError):
-        core.restore_to_file("[AD SOYAD-1]", "cevap.pdf", "m9")
+        core.restore_to_file("[AD SOYAD-1]", "cevap.html", "m9")
     res = core.restore_to_file("Davacı [AD SOYAD-1]\nİkinci satır & <son>", "cevap.docx", "m9")
     assert res["output_path"] == str(tmp_path / "cevap.docx")
     with zipfile.ZipFile(tmp_path / "cevap.docx") as z:
@@ -727,3 +727,45 @@ def test_ocr_recogniser_is_downloaded_once_and_checked(monkeypatch, tmp_path):
         monkeypatch.setenv("KATIP_OCR_DOWNLOAD", "0")
         with pytest.raises(RuntimeError, match="KATIP_OCR_DOWNLOAD"):
             ocr.rec_model()
+
+
+@pytest.mark.parametrize("ext", ["udf", "pdf"])
+def test_restore_udf_and_pdf(home, ext):
+    from katip_kalkan import core
+    if ext == "pdf" and importlib.util.find_spec("pymupdf") is None:
+        pytest.skip("pymupdf not installed")
+    core.mask_file(str(FIX / "dilekce_01.txt"), "m-out")
+    answer = "İZMİR 3. İŞ MAHKEMESİ'NE\n\nDAVACI     : [T.C. KİMLİK NO-1]\nŞüphesiz ğ ü ş ı ö ç İ"
+    out = home / "out" / f"cevap.{ext}"
+    res = core.restore_to_file(answer, str(out), "m-out")
+    assert res["placeholders_restored"] == 1 and "citation_check" not in res
+    if ext == "udf":
+        with zipfile.ZipFile(out) as z:
+            xml = z.read("content.xml").decode("utf-8")
+        body = xml.split("<![CDATA[", 1)[1].split("]]></content>", 1)[0]
+        assert "75428707268" in body and body.endswith("ç İ\n")
+        import re
+        paras = [(int(a), int(b)) for a, b in re.findall(r'startOffset="(\d+)" length="(\d+)"', xml)]
+        assert len(paras) == 4 and paras[0] == (0, 25) and paras[1] == (25, 1)
+        assert sum(n for _, n in paras) == len(body)  # offsets cover the text exactly, line breaks included
+        # the UDF reader the app uses reads it back
+        sys.path.insert(0, str(ROOT.parent / "src" / "py"))
+        import local_formats
+        assert local_formats.udf_text(out.read_bytes())[1] == body
+    else:
+        import pymupdf
+        with pymupdf.open(out) as d:
+            t = d[0].get_text()
+        assert "75428707268" in t and "ğ ü ş ı ö ç İ" in t and "DAVACI     :" in t
+
+
+def test_restore_checks_statute_citations(home):
+    from katip_kalkan import core
+    core.mask_file(str(FIX / "dilekce_01.txt"), "m-cite")
+    answer = ("[AD SOYAD-1] adına, TBK m. 344 ve TMK m. 166 uyarınca; ayrıca TBK m. 9999 uyarınca talep ederiz.")
+    res = core.restore_to_file(answer, str(home / "out" / "c.docx"), "m-cite")
+    cc = res["citation_check"]
+    assert cc["statutes"] == 3 and cc["ok"] == 2
+    assert [p["verdict"] for p in cc["problems"]] == ["NO_SUCH_ARTICLE"]
+    assert "9999" in cc["problems"][0]["cited_as"]
+

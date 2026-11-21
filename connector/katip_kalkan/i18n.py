@@ -19,7 +19,10 @@ T = {
         "outside": "Belge Katip'in açabildiği klasörlerin dışında. Katip yalnızca ayarlarda seçilen dava klasöründeki ve İndirilenler'deki belgeleri açar.",
         "exists": "Bu adda bir dosya zaten var; başka bir output_path seçin.",
         "outside_write": "Katip yalnızca açabildiği klasörlere yazar; output_path olarak yalnızca bir dosya adı verin (ör. cevap-dilekcesi.docx), belgenin yanına kaydedilir.",
-        "restore_ext": "Gerçek adlı metin .docx, .txt ya da .md olarak kaydedilebilir.",
+        "restore_ext": "Gerçek adlı metin .docx, .udf, .pdf, .txt ya da .md olarak kaydedilebilir.",
+        "restore_pdf": "PDF için PyMuPDF gerekli (Katip bunu uv ile kurar). Şimdilik .docx ya da .udf olarak kaydedin.",
+        "cite_ok": "Taslaktaki kanun maddesi atıflarının hepsi Katip'in çevrimdışı kopyasında var ve yürürlükte.",
+        "cite_problems": "Bazı kanun maddesi atıfları kontrolden geçmedi. Avukata dosyayı sunmadan önce bunları göstermesini söyleyin; karar atıfları burada denetlenmez.",
         "no_burn": "PDF ve fotoğraflarda kalıcı karartma Katip uygulamasında yapılır; metin için mask_file kullanın.",
         "folder_note": "Müvekkil dosyalarını buraya koyun; Katip yalnızca bu klasördeki dosyaları açar.",
         "folder_broad": "Dava klasörü çok geniş seçilmiş (ana klasör, Masaüstü ya da Belgeler'in tamamı): "
@@ -52,7 +55,10 @@ T = {
         "outside": "The document is outside the folders Katip may open. Katip only opens documents in the case folder and Downloads picked in its settings.",
         "exists": "A file with this name already exists; pick another output_path.",
         "outside_write": "Katip only writes into the folders it may open; give output_path as a file name only (e.g. cevap-dilekcesi.docx), it is saved next to the document.",
-        "restore_ext": "The text with real names can be saved as .docx, .txt or .md.",
+        "restore_ext": "The text with real names can be saved as .docx, .udf, .pdf, .txt or .md.",
+        "restore_pdf": "PDF needs PyMuPDF (Katip installs it with uv). Save as .docx or .udf for now.",
+        "cite_ok": "Every statute citation in the draft exists and is in force in Katip's offline copy.",
+        "cite_problems": "Some statute citations failed the check. Show them to the lawyer before the document is filed; decision citations are not checked here.",
         "no_burn": "Burn-in redaction of PDFs and photos runs in the Katip app; use mask_file for the text.",
         "folder_note": "Put client files here; Katip only opens files in this folder.",
         "folder_broad": "The case folder is very broad (your home folder, or all of Desktop or Documents): "
