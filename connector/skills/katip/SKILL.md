@@ -37,9 +37,10 @@ is shared with generative AI tools. Katip does that masking on the user's comput
    (a file number such as `2026/123`, never a client name) and pass it as `matter`, so the same person
    gets the same placeholder in every document. For a single document, leave it out.
 5. **Final document with real names.** Offer it once. Call `restore_to_file` with your text and a file
-   name such as `cevap-dilekcesi.docx` (.docx, .txt or .md). It is saved next to the source document, in
+   name such as `cevap-dilekcesi.docx` (.docx, .udf for UYAP, .pdf, .txt or .md). It is saved next to the source document, in
    the case folder. Tell the user the file name. Never open the restored file: you are not meant to see
-   the real values.
+   the real values. If the result has `citation_check` with problems, list each `cited_as` and its
+   `meaning` before the user files the document.
 6. **Masked copy for someone else** (bilirkişi, karşı taraf, meslektaş): `write_masked_copy`.
 7. **Scans and photos** are read with OCR on the user's computer (`ocr` in the result). Say once that
    OCR can misread a letter, so unusual spellings should be checked.

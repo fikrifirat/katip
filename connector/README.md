@@ -331,7 +331,7 @@ Yargıtay decisions (with the gavel button) and read statutes. Setup and limits:
 | `list_files` | Finds documents in your case folder and Downloads; with `ara` it matches your words against the real names on your computer. Words in a file name that could be a person's name show as … | ids, safe names, where |
 | `mask_file` | Opens a .docx, .udf, .txt, .pdf, scan or phone photo on your computer (OCR runs locally) and masks it | masked text, counts |
 | `write_masked_copy` | Saves `name.maskeli.docx` next to the original | path |
-| `restore_to_file` | Puts the real values back into the AI's text and saves it next to the source document (.docx, .txt or .md) | file name and count only |
+| `restore_to_file` | Puts the real values back into the AI's text and saves it next to the source document (.docx, .udf, .pdf, .txt or .md); checks the statute citations in it | file name, count and the citation check |
 | `forget_matter` | Deletes a matter's placeholder map | ok |
 | `open_folder` | Opens Katip's default folder in Finder or Explorer, creating it if needed | path and link |
 | `emsal_ara` | Finds Yargıtay decisions for 1–5 short keyword queries (Claude writes them from the masked text). With `file_id`, the document is masked here and the decisions are ranked against it. Only the keywords leave; a decision is shown only if its esas/karar numbers are in the official text | decision, link, outcome, quoted paragraph, `result_id` |

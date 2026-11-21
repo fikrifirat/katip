@@ -1,7 +1,7 @@
 {
   "name": "katip-kalkan",
   "displayName": "Katip: KVKK Masking & Anonymisation for Lawyers",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "KVKK masking for Turkish lawyers: Katip finds and masks names, T.C. kimlik, YKN and passport numbers, addresses, IBANs and health data in client documents (UYAP .udf, Word, PDF, scans) on your computer, so Claude works with placeholders such as [AD SOYAD-1] (PII redaction, pseudonymisation), then puts the real names back into your final draft. Avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme: dilekçe, sözleşme, bilirkişi raporu.",
   "author": {
     "name": "fikrifirat",
