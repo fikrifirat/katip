@@ -10,7 +10,8 @@ dependencies = []  # standard library only; the engine ships as a zip, the name 
 crypto = ["cryptography>=42"]   # encrypted vault + share codes (strongly recommended)
 model = ["onnxruntime>=1.18", "numpy"]  # Katip Mask name model (launch.py fetches these with uv if missing)
 pdf = ["pymupdf>=1.24"]
-ocr = ["rapidocr>=3.4", "pymupdf>=1.24"]  # PaddleOCR (bundled ONNX models); Tesseract is used too when installed
+ocr = ["rapidocr>=3.4", "pymupdf>=1.24"]
+dd = ["playwright>=1.45"]  # Katip DD: ilan.gov.tr lookups in a real browser on this computer  # PaddleOCR (bundled ONNX models); Tesseract is used too when installed
 dev = ["pytest>=8", "cryptography>=42"]
 
 [project.scripts]
@@ -20,4 +21,4 @@ katip-kalkan = "katip_kalkan.cli:main"
 include = ["katip_kalkan*"]
 
 [tool.setuptools.package-data]
-katip_kalkan = ["engine.zip", "data/statutes.json.gz", "ui/*.html", "doctype_packs/*", "models/*/*.json", "models/*/onnx/*.onnx", "models/README.md", "ocr_models/*/*"]
+katip_kalkan = ["engine.zip", "data/statutes.json.gz", "ui/*.html", "doctype_packs/*", "models/*/*.json", "models/*/onnx/*.onnx", "models/README.md", "ocr_models/*/*", "dd/certs/*.pem"]

@@ -118,6 +118,26 @@
     {
       "name": "katip_status",
       "description": "Motoru, eşiği ve eşleşme haritasının yerini gösterir · Show engine, threshold and map location"
+    },
+    {
+      "name": "dd_screen",
+      "description": "Kişi/şirketi MASAK, ilan.gov.tr ve Ticaret Sicili Gazetesi kayıtlarında tarar, kaynak bağlantısıyla · Screen a name against Turkish public lists, with source links"
+    },
+    {
+      "name": "dd_record",
+      "description": "Tek bir DD kaydını verir, üçüncü kişilerin kimlik numaraları gizli · One DD record, third parties' IDs removed"
+    },
+    {
+      "name": "dd_sources",
+      "description": "DD kaynaklarının tarihi ve son hatası · Date and last failure of each DD source"
+    },
+    {
+      "name": "dd_update",
+      "description": "MASAK listelerini masak.hmb.gov.tr'den günceller · Refresh the MASAK lists"
+    },
+    {
+      "name": "dd_ilan_lookup",
+      "description": "Bir adı ilan.gov.tr'de bu bilgisayardaki tarayıcıyla arar · Look up one name on ilan.gov.tr in a browser on this computer"
     }
   ],
   "user_config": {
