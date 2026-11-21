@@ -1,0 +1,42 @@
+{
+ "lin_64_2d": {
+  "ok": false,
+  "s": 1,
+  "err": "could not lower probe_lin_64_2d_161844 to MLIR: ProxyTorchDispatchMode slot already occupied by <torch.fx.experimental.proxy_tensor.ProxyTorchDispatchMode object at 0x7f543ca6bfe0>"
+ },
+ "ff_64_2d": {
+  "ok": false,
+  "s": 1,
+  "err": "could not lower probe_ff_64_2d_161844 to MLIR: Trying to pop empty mode stack"
+ },
+ "attn_63_2d": {
+  "ok": false,
+  "s": 1,
+  "err": "could not lower probe_attn_63_2d_161844 to MLIR: Trying to pop empty mode stack"
+ },
+ "qk_64_2d": {
+  "ok": false,
+  "s": 1,
+  "err": "could not lower probe_qk_64_2d_161844 to MLIR: Trying to pop empty mode stack"
+ },
+ "lin_63_2d": {
+  "ok": false,
+  "s": 1,
+  "err": "could not lower probe_lin_63_2d_161844 to MLIR: Trying to pop empty mode stack"
+ },
+ "attn_64_2d": {
+  "ok": false,
+  "s": 1,
+  "err": "could not lower probe_attn_64_2d_161844 to MLIR: Trying to pop empty mode stack"
+ },
+ "lin_64_3d": {
+  "ok": false,
+  "s": 2,
+  "err": "could not lower probe_lin_64_3d_161844 to MLIR: Trying to pop empty mode stack"
+ },
+ "qk_63_2d": {
+  "ok": false,
+  "s": 2,
+  "err": "could not lower probe_qk_63_2d_161844 to MLIR: CURRENT_PATCHER is None in finally block"
+ }
+}

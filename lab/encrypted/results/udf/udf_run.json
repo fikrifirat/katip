@@ -1,0 +1,59 @@
+{
+ "files": [
+  "dilekce_01.udf",
+  "dilekce_02.udf",
+  "dilekce_03.udf",
+  "ihtarname_01.udf",
+  "bilirkisi_01.udf"
+ ],
+ "words": 636,
+ "tokens": 930,
+ "encrypt_s": 0.5,
+ "upload_MB": 71.3,
+ "server_s": 887.0,
+ "decrypt_s": 0.03,
+ "max_abs_logit_error": 4.5299530029296875e-06,
+ "identical_to_plaintext_same_model": 1.0,
+ "identical_to_plain_nano": 0.8,
+ "per_file": [
+  {
+   "file": "dilekce_01",
+   "spans": 16,
+   "same_as_plain_nano": true,
+   "differs_from_plain_nano": []
+  },
+  {
+   "file": "dilekce_02",
+   "spans": 17,
+   "same_as_plain_nano": true,
+   "differs_from_plain_nano": []
+  },
+  {
+   "file": "dilekce_03",
+   "spans": 18,
+   "same_as_plain_nano": false,
+   "differs_from_plain_nano": [
+    {
+     "text": "T.C",
+     "only_in": "encrypted"
+    },
+    {
+     "text": "TCKN",
+     "only_in": "encrypted"
+    }
+   ]
+  },
+  {
+   "file": "ihtarname_01",
+   "spans": 9,
+   "same_as_plain_nano": true,
+   "differs_from_plain_nano": []
+  },
+  {
+   "file": "bilirkisi_01",
+   "spans": 8,
+   "same_as_plain_nano": true,
+   "differs_from_plain_nano": []
+  }
+ ]
+}

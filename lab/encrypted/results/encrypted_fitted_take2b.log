@@ -1,0 +1,114 @@
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1462.96it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1253.24it/s]
+25 documents, 25 windows, 1021 tokens, 614 words
+ring dimension 65536, 32768 slots, keygen 21.8s
+keys {'public_key_MB': 17.8, 'relin_key_MB': 69.2, 'rotation_keys_MB': 4360.3}
+    layer 1: 230s  {'Q, K, V': 28.3, 'attention': 55.8, 'output + LayerNorm': 23.4, 'feed-forward + LayerNorm': 122.8}
+    layer 2: 142s  {'Q, K, V': 61.7, 'attention': 80.7, 'output + LayerNorm': 42.4, 'feed-forward + LayerNorm': 122.8, 'feed-forward + LayerNorm + classifier': 64.6}
+  batch 1: {"windows": 25, "tokens": 1021, "encrypt_s": 0.6, "upload_MB": 71.3, "upload_ciphertexts": 4, "server_s": 373.2, "server_breakdown_s": {"Q, K, V": 61.7, "attention": 80.7, "output + LayerNorm": 42.4, "feed-forward + LayerNorm": 122.8, "feed-forward + LayerNorm + classifier": 64.6}, "ops": {"rotations": 2908}, "download_MB": 2.1, "decrypt_s": 0.06, "max_abs_logit_error": 2.6380436784378958e-05, "token_label_agreement": 1.0}
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1275.73it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1526.81it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1115.51it/s]
+Fetching 9 files:   0%|          | 0/9 [00:00<?, ?it/s]Fetching 9 files: 100%|██████████| 9/9 [00:00<00:00, 1510.74it/s]
+{
+ "run": "fitted",
+ "take": 2,
+ "f": 32,
+ "T": 1024,
+ "window": 16,
+ "tokens": 1021,
+ "words": 614,
+ "ring_dim": 65536,
+ "keygen_s": 21.8,
+ "keys": {
+  "public_key_MB": 17.8,
+  "relin_key_MB": 69.2,
+  "rotation_keys_MB": 4360.3
+ },
+ "batches": [
+  {
+   "windows": 25,
+   "tokens": 1021,
+   "encrypt_s": 0.6,
+   "upload_MB": 71.3,
+   "upload_ciphertexts": 4,
+   "server_s": 373.2,
+   "server_breakdown_s": {
+    "Q, K, V": 61.7,
+    "attention": 80.7,
+    "output + LayerNorm": 42.4,
+    "feed-forward + LayerNorm": 122.8,
+    "feed-forward + LayerNorm + classifier": 64.6
+   },
+   "ops": {
+    "rotations": 2908
+   },
+   "download_MB": 2.1,
+   "decrypt_s": 0.06,
+   "max_abs_logit_error": 2.6380436784378958e-05,
+   "token_label_agreement": 1.0
+  }
+ ],
+ "pipeline_identical_docs": 1.0,
+ "pipeline_score_plain": {
+  "KVKK-F2": 62.82,
+  "generated": NaN,
+  "leak%": 33.58,
+  "court-filled F2": 95.63,
+  "prose F2": 30.0,
+  "court-filled R/P": [
+   96.97,
+   90.62
+  ],
+  "prose R/P": [
+   30.0,
+   30.0
+  ]
+ },
+ "pipeline_score_encrypted": {
+  "KVKK-F2": 62.82,
+  "generated": NaN,
+  "leak%": 33.58,
+  "court-filled F2": 95.63,
+  "prose F2": 30.0,
+  "court-filled R/P": [
+   96.97,
+   90.62
+  ],
+  "prose R/P": [
+   30.0,
+   30.0
+  ]
+ },
+ "model_identical_docs": 1.0,
+ "model_score_plain": {
+  "KVKK-F2": 55.21,
+  "generated": NaN,
+  "leak%": 46.36,
+  "court-filled F2": 79.17,
+  "prose F2": 31.25,
+  "court-filled R/P": [
+   75.76,
+   96.55
+  ],
+  "prose R/P": [
+   30.0,
+   37.5
+  ]
+ },
+ "model_score_encrypted": {
+  "KVKK-F2": 55.21,
+  "generated": NaN,
+  "leak%": 46.36,
+  "court-filled F2": 79.17,
+  "prose F2": 31.25,
+  "court-filled R/P": [
+   75.76,
+   96.55
+  ],
+  "prose R/P": [
+   30.0,
+   37.5
+  ]
+ }
+}

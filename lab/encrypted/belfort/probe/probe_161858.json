@@ -1,0 +1,42 @@
+{
+ "lin_64_2d": {
+  "ok": false,
+  "s": 28,
+  "err": "error: 'linalg.matmul' op expected type of operand #2 ('tensor<8x1024xf32>') to match type of corresponding result ('tensor<64x1024xf32>')\n    %3 = linalg.matmul ins(%arg0, %transposed : tensor<64x128xf32>, tensor<128x128xf32>) outs(%2 : tensor<64x128xf32>) -> tensor<64x128xf32>\n         ^\nA failed "
+ },
+ "lin_63_2d": {
+  "ok": false,
+  "s": 28,
+  "err": "error: failed to legalize operation 'memref.expand_shape' that was explicitly marked illegal: %84 = \"memref.expand_shape\"(%83) <{reassociation = [[0, 1]], static_output_shape = array<i64: 1, 16384>}> : (memref<16384xf32>) -> memref<1x16384xf32>\n    %extracted_slice = tensor.extract_slice %8[12, 0] ["
+ },
+ "lin_64_3d": {
+  "ok": false,
+  "s": 28,
+  "err": "error: 'linalg.matmul' op expected type of operand #2 ('tensor<8x1024xf32>') to match type of corresponding result ('tensor<64x1024xf32>')\n    %5 = linalg.batch_matmul ins(%arg0, %2 : tensor<1x64x128xf32>, tensor<1x128x128xf32>) outs(%4 : tensor<1x64x128xf32>) -> tensor<1x64x128xf32>\n         ^\nA fa"
+ },
+ "qk_63_2d": {
+  "ok": false,
+  "s": 28,
+  "err": "error: slice along dimension 0 runs out-of-bounds: 62 >= 1\n    %10 = linalg.matmul ins(%4, %transposed_5 : tensor<63x64xf32>, tensor<64x63xf32>) outs(%9 : tensor<63x63xf32>) -> tensor<63x63xf32>\n          ^\nA failed model does not compile again: delete it and create it again."
+ },
+ "attn_64_2d": {
+  "ok": false,
+  "s": 28,
+  "err": "error: slice along dimension 0 runs out-of-bounds: 63 >= 8\n    %3 = linalg.matmul ins(%arg0, %transposed : tensor<64x128xf32>, tensor<128x64xf32>) outs(%2 : tensor<64x64xf32>) -> tensor<64x64xf32>\n         ^\nA failed model does not compile again: delete it and create it again."
+ },
+ "qk_64_2d": {
+  "ok": false,
+  "s": 28,
+  "err": "error: slice along dimension 0 runs out-of-bounds: 63 >= 8\n    %3 = linalg.matmul ins(%arg0, %transposed : tensor<64x128xf32>, tensor<128x64xf32>) outs(%2 : tensor<64x64xf32>) -> tensor<64x64xf32>\n         ^\nA failed model does not compile again: delete it and create it again."
+ },
+ "attn_63_2d": {
+  "ok": false,
+  "s": 38,
+  "err": "error: slice along dimension 0 runs out-of-bounds: 62 >= 1\n    %10 = linalg.matmul ins(%4, %transposed_8 : tensor<63x64xf32>, tensor<64x63xf32>) outs(%9 : tensor<63x63xf32>) -> tensor<63x63xf32>\n          ^\nA failed model does not compile again: delete it and create it again."
+ },
+ "ff_64_2d": {
+  "ok": false,
+  "s": 39,
+  "err": "error: 'linalg.matmul' op expected type of operand #2 ('tensor<32x1024xf32>') to match type of corresponding result ('tensor<64x1024xf32>')\n    %3 = linalg.matmul ins(%arg0, %transposed : tensor<64x128xf32>, tensor<128x512xf32>) outs(%2 : tensor<64x512xf32>) -> tensor<64x512xf32>\n         ^\nA failed"
+ }
+}

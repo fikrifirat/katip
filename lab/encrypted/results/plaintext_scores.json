@@ -1,0 +1,107 @@
+{
+ "nano": {
+  "pipeline": {
+   "KVKK-F2": 75.78,
+   "generated": NaN,
+   "leak%": 24.27,
+   "court-filled F2": 96.67,
+   "prose F2": 54.9,
+   "court-filled R/P": [
+    98.3,
+    90.67
+   ],
+   "prose R/P": [
+    53.67,
+    60.42
+   ],
+   "secs": 4.9
+  },
+  "model": {
+   "KVKK-F2": 72.9,
+   "generated": NaN,
+   "leak%": 30.12,
+   "court-filled F2": 92.48,
+   "prose F2": 53.32,
+   "court-filled R/P": [
+    91.78,
+    95.35
+   ],
+   "prose R/P": [
+    51.38,
+    62.82
+   ],
+   "secs": 1.8
+  },
+  "ms_per_doc_plaintext": 1.79
+ },
+ "fitted": {
+  "pipeline": {
+   "KVKK-F2": 73.96,
+   "generated": NaN,
+   "leak%": 26.38,
+   "court-filled F2": 96.09,
+   "prose F2": 51.83,
+   "court-filled R/P": [
+    97.99,
+    89.17
+   ],
+   "prose R/P": [
+    50.31,
+    59.01
+   ],
+   "secs": 6.1
+  },
+  "model": {
+   "KVKK-F2": 68.56,
+   "generated": NaN,
+   "leak%": 33.46,
+   "court-filled F2": 89.1,
+   "prose F2": 48.02,
+   "court-filled R/P": [
+    90.51,
+    83.91
+   ],
+   "prose R/P": [
+    47.25,
+    51.4
+   ],
+   "secs": 3.5
+  },
+  "ms_per_doc_plaintext": 2.73
+ },
+ "kd_singles": {
+  "pipeline": {
+   "KVKK-F2": 73.74,
+   "generated": NaN,
+   "leak%": 27.29,
+   "court-filled F2": 96.45,
+   "prose F2": 51.02,
+   "court-filled R/P": [
+    97.87,
+    91.17
+   ],
+   "prose R/P": [
+    48.01,
+    68.09
+   ],
+   "secs": 6.5
+  },
+  "model": {
+   "KVKK-F2": 67.67,
+   "generated": NaN,
+   "leak%": 37.09,
+   "court-filled F2": 86.9,
+   "prose F2": 48.44,
+   "court-filled R/P": [
+    85.15,
+    94.68
+   ],
+   "prose R/P": [
+    44.65,
+    73.36
+   ],
+   "secs": 3.1
+  },
+  "ms_per_doc_plaintext": 2.63
+ }
+}

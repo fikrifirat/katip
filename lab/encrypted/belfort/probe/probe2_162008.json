@@ -1,0 +1,28 @@
+{
+ "shift_64": {
+  "ok": false,
+  "local": true,
+  "err": "the model uses operations that the Belfort compiler does not support:\n  - a grouped convolution (groups > 1) other than a depthwise one [linalg.conv_2d_ngchw_gfchw] at /home/user/katip/lab/encrypted/belfort/probe/probe2.py:38\nChange the model to remove them, then compile again. What compiles: https:"
+ },
+ "vec": {
+  "ok": true,
+  "s": 28
+ },
+ "c1_64": {
+  "ok": true,
+  "s": 38
+ },
+ "prod_64": {
+  "ok": false,
+  "s": 49,
+  "err": "error: entry interface requires the encrypt, decrypt and evaluate facades; cheddar-build-entry-interface did not generate them (see its warnings)\nmodule attributes {backend.cheddar, cheddar.P = array<i64: 2148728833, 2148794369, 2149810177, 2150072321, 2150301697, 2150563841, 2150694913, 2150760449,"
+ },
+ "ff_64": {
+  "ok": true,
+  "s": 49
+ },
+ "c1_256": {
+  "ok": true,
+  "s": 70
+ }
+}
