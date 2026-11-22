@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 
 from .match import MATCH, REVIEW, ListIndex, TextIndex
 from .net import Blocked, PoliteClient
@@ -192,10 +193,20 @@ def ilan_lookup(target: str, max_ads: int = 20, headed: bool = False, store: Sto
         raise ValueError("give the name of one person or company")
     st, started = store or Store(), now()
     try:
-        docs, info = ilan_browser.search(target, max_ads=min(max_ads, 20), headed=headed)
+        try:
+            docs, info = ilan_browser.search(target, max_ads=min(max_ads, 20), headed=headed)
+        except Exception as e:  # noqa: BLE001
+            if "ERR_CERT" not in str(e):
+                raise
+            # ilan.gov.tr sends no intermediate certificate; Chrome usually fetches it, once it did not
+            time.sleep(10)
+            docs, info = ilan_browser.search(target, max_ads=min(max_ads, 20), headed=headed)
     except ImportError:
         return {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
                 "(uses Google Chrome, or run: python -m playwright install chromium)"}
+    except Exception as e:  # noqa: BLE001
+        st.log_failure("ilan", started, "tls_error" if "ERR_CERT" in str(e) else "error", {"error": repr(e)[:300]})
+        return {"status": "tls_error" if "ERR_CERT" in str(e) else "error", "error": repr(e)[:300]}
     if info.get("blocked"):
         st.log_failure("ilan", started, "blocked", info)
         return {"status": "blocked", "error": info["blocked"]}

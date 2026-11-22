@@ -109,6 +109,7 @@ def main():
     ap.add_argument("--ilan", action="store_true")
     ap.add_argument("--gazette", action="store_true")
     ap.add_argument("--screen-only", action="store_true")
+    ap.add_argument("--resume", action="store_true", help="skip ilan.gov.tr searches that already succeeded")
     ap.add_argument("--ilan-ads", type=int, default=5)
     ap.add_argument("--gazette-pages", type=int, default=2)
     ap.add_argument("--out", default=str(Path(__file__).with_name("results") / "eval_news.json"))
@@ -116,9 +117,16 @@ def main():
     st = Store()
     log = {"ilan": [], "gazette": []}
     if a.ilan and not a.screen_only:
+        done = {x["query"] for x in json.loads(Path(a.out).read_text()).get("fetch_log", {}).get("ilan", [])
+                if x.get("status") == "ok"} if a.resume and Path(a.out).exists() else set()
         for c in CASES:
+            if c["query"] in done:
+                continue
             print(f"ilan.gov.tr: {c['query']}", flush=True)
-            r = service.ilan_lookup(c["query"], max_ads=a.ilan_ads, store=st)
+            try:
+                r = service.ilan_lookup(c["query"], max_ads=a.ilan_ads, store=st)
+            except Exception as e:  # noqa: BLE001 - one company failing must not lose the others
+                r = {"status": "error", "error": repr(e)[:200]}
             log["ilan"].append({"query": c["query"], **{k: r.get(k) for k in ("status", "results_on_site", "kept",
                                                                              "opened_full_text", "error")}})
             time.sleep(5)
@@ -129,7 +137,10 @@ def main():
                 log["gazette"].append({"query": c["query"], "status": "skipped", "why": "registry office unknown"})
                 continue
             print(f"Gazette: {c['query']} ({office})", flush=True)
-            r = service.gazette_lookup(c["query"], office, max_pages=a.gazette_pages, store=st)
+            try:
+                r = service.gazette_lookup(c["query"], office, max_pages=a.gazette_pages, store=st)
+            except Exception as e:  # noqa: BLE001
+                r = {"status": "error", "error": repr(e)[:200]}
             log["gazette"].append({"query": c["query"], "office": office,
                                    **{k: r.get(k) for k in ("status", "results_on_site", "saved_pages", "notices",
                                                             "login", "blocked", "error")}})
