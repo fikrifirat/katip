@@ -1,20 +1,20 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.fikrifirat/katip-kalkan",
-  "title": "Katip: KVKK Masking & Anonymisation for Lawyers",
-  "description": "Masks Turkish client data (KVKK) in legal documents on your computer before Claude sees the text.",
+  "title": "Katip: KVKK Masking, Mevzuat, Emsal & DD for Lawyers",
+  "description": "Turkish lawyers: local KVKK masking, then statute checks, Yargıtay precedents and DD screening.",
   "repository": {
     "url": "https://github.com/fikrifirat/katip",
     "source": "github",
     "subfolder": "connector"
   },
   "websiteUrl": "https://fikrifirat.github.io/katip",
-  "version": "0.4.0-beta.1",
+  "version": "0.5.0-beta.1",
   "packages": [
     {
       "registryType": "mcpb",
-      "identifier": "https://github.com/fikrifirat/katip/releases/download/kalkan-v0.4.0-beta.1/katip-kalkan.mcpb",
-      "fileSha256": "bb500391ea69b4577bf20087a77ef2eb9dc7266f6ae1c8254320f32fe7f27659",
+      "identifier": "https://github.com/fikrifirat/katip/releases/download/kalkan-v0.5.0-beta.1/katip-kalkan.mcpb",
+      "fileSha256": "52cf447bc199b78575c7c6ae451679ab565d84571f12213aa94bcd32e9d3b1e3",
       "transport": {
         "type": "stdio"
       }
