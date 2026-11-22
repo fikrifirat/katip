@@ -145,5 +145,7 @@ What is **not** proven or not special:
 - ilan.gov.tr and the Gazette work one named target at a time on the lawyer's computer. Neither is a
   full index. The Gazette site asked for its security code after about 6 searches in one login (22 Nov
   2026); a Chrome window then opens for the lawyer to type it (Katip never solves it), so expect a few
-  companies per login, not a batch.
+  companies per login, not a batch. A gazette page saved by an earlier
+  lookup is not asked for again, and `~/.katip/dd/tsg/requests.jsonl` (times and request kinds only, no
+  names) counts the searches and pages before each code, so the real trigger can be measured.
 - Tested in Claude Code and Claude Desktop only; the other apps are config only (table above).

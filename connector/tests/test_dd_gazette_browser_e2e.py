@@ -136,7 +136,7 @@ def test_login_once_then_headless_until_logout(site, tmp_path, new_tab):
     assert info["results"] == 2 and sum("pdf_goster.php" in u for u in Site.log) == 1
     assert b.logins == 1 and not b.profile.exists() and gb.session_read() is not None
     b2, saved2, info2 = run(site, tmp_path, keep_hours=8)  # second run: no window, saved login
-    assert b2.logins == 0 and info2["session"] == "reused saved login" and saved2
+    assert b2.logins == 0 and info2["session"] == "reused saved login" and info2["cached"] and not saved2
     out = gb.logout(browser=gb._Playwright(executable_path=CHROME, sandbox=SANDBOX), base=site)
     assert out["logged_out"] is True and gb.session_read() is None
     assert "/cart" not in Site.log
@@ -163,7 +163,7 @@ def test_expired_login_is_logged_out_then_asked_again(site, tmp_path):
     f.write_bytes(nonce + vault.AESGCM(vault._key()).encrypt(nonce, json.dumps(data).encode(), gb._AAD))
     Site.log = []
     b, saved, info = run(site, tmp_path, keep_hours=8)
-    assert b.logins == 1 and saved  # asked to log in again
+    assert b.logins == 1 and info["cached"]  # asked to log in again; the saved page is not fetched twice
     assert Site.log.index("/view/menu/cikis.php") < Site.log.index("/view/hizlierisim/girisyap.php")
 
 
@@ -188,3 +188,24 @@ def test_no_code_typed_stops_cleanly(site, tmp_path):
     Site.new_tab, Site.captcha, Site.lawyer_types = False, True, False
     b, saved, info = run(site, tmp_path, keep_hours=0, code_timeout=3)
     assert not saved and info["blocked"] == "security code asked" and info["logged_out"] is True
+
+
+def test_a_page_saved_before_is_not_asked_for_again_and_requests_are_journalled(site, tmp_path):
+    Site.new_tab = False
+    _, saved, info = run(site, tmp_path, keep_hours=8)
+    assert len(saved) == 1 and info["cached"] == []
+    before = sum(1 for p in Site.log if "pdf_goster" in p or "tmp_gazete" in p)
+    _, saved2, info2 = run(site, tmp_path, keep_hours=8)
+    assert saved2 == [] and [Path(c).name for c in info2["cached"]] == [saved[0].name]
+    assert sum(1 for p in Site.log if "pdf_goster" in p or "tmp_gazete" in p) == before  # no new page request
+    lines = (tmp_path / "dd" / "tsg" / "requests.jsonl").read_text().splitlines()
+    assert [__import__("json").loads(x)["kind"] for x in lines] == ["login", "search", "page", "pdf", "search"]
+    assert "KUZEY" not in "".join(lines).upper()  # the journal holds no names
+
+
+def test_journal_counts_pages_before_each_security_code(site, tmp_path):
+    Site.new_tab, Site.captcha = False, True
+    _, saved, info = run(site, tmp_path, keep_hours=8)
+    st = info["site_requests"]
+    assert st["codes_asked"] == 1 and st["codes_typed"] == 1
+    assert st["before_each_code"][0]["searches"] == 1 and st["before_each_code"][0]["pages"] == 1

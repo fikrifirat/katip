@@ -262,6 +262,8 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
     cookies are then kept encrypted for a few hours (KATIP_TSG_SESSION_HOURS, default 8) and later
     runs search headless. Saves up to ``max_pages`` free gazette pages and reads them with OCR.
     """
+    from pathlib import Path
+
     from .sources import gazette_browser
     from .store import home
 
@@ -276,11 +278,19 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
         return {"status": "error", "error": repr(e)[:300],
                 "note": "the run stopped; Katip tried to log out on the site and deleted the browser profile"}
     listed = info.get("notices", [])
-    read = {p.name for p in saved}
-    out = {"status": "blocked" if info.get("blocked") and not saved else "ok", "results_on_site": info.get("results"),
-           "saved_pages": len(saved), "listed_only": sum(1 for n in listed if n["file"] not in read),
+    # Pages saved by an earlier lookup were not asked for again. Those already in the store count as
+    # read; one that is on disk but not in the store is read now.
+    st0 = store or Store()
+    in_store = {str(r.get("url", "")).split("#", 1)[0] for r in st0.records("gazette") if r.get("kind") == "notice"}
+    cached = [Path(c) for c in info.get("cached", [])]
+    fetched = len(saved)
+    saved = list(saved) + [c for c in cached if str(c) not in in_store]
+    read = {p.name for p in saved} | {c.name for c in cached}
+    out = {"status": "blocked" if info.get("blocked") and not read else "ok", "results_on_site": info.get("results"),
+           "saved_pages": fetched, "pages_from_earlier_lookups": len(cached), "listed_only": sum(1 for n in listed if n["file"] not in read),
            "login": info.get("session"), "logged_out": info.get("logged_out"), "blocked": info.get("blocked"),
            **({"security_code": info["security_code"]} if info.get("security_code") else {}),
+           **({"site_requests": info["site_requests"]} if info.get("site_requests") else {}),
            "notices_on_site": [{**{k: n[k] for k in ("date", "issue", "page", "type", "unvan", "row")},
                                 "read": n["file"] in read, "citation": gazette_citation(n)} for n in listed],
            "verify": GAZETTE_VERIFY,

@@ -191,3 +191,21 @@ def test_every_site_row_is_kept_and_marked_listed_only(tmp_path, monkeypatch):
     service.gazette_lookup("Kuzeyrüzgarı Tekstil", "Bursa", store=st)
     kinds = sorted(r.get("kind") for r in st.records("gazette"))
     assert kinds.count("listing") == 4 and kinds.count("notice") == 1
+
+
+def test_cached_pages_count_as_read_without_a_new_fetch(tmp_path, monkeypatch):
+    from katip_kalkan.dd import service
+    from katip_kalkan.dd.store import Store
+    monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path))
+    pdf = tmp_path / "tsg" / "tsg_2026-11-19_11712_p101.pdf"
+    n = {"date": "2026-11-19", "issue": "11712", "page": "101", "type": "Konkordato", "unvan": "KUZEYRÜZGARI A.Ş.",
+         "office": "BURSA", "sicil_no": "1", "file": pdf.name, "row": ["BURSA"]}
+    monkeypatch.setattr(gb, "lookup", lambda *a, **k: ([], {"results": 1, "blocked": None, "notices": [n],
+                                                            "cached": [str(pdf)]}))
+    ingested = []
+    monkeypatch.setattr(service, "add_gazette",
+                        lambda paths, use_ocr=False, store=None: ingested.append(list(paths)) or {"status": "ok", "notices": 1})
+    out = service.gazette_lookup("Kuzeyrüzgarı", "Bursa", store=Store())
+    assert out["status"] == "ok" and out["saved_pages"] == 0 and out["pages_from_earlier_lookups"] == 1
+    assert out["notices_on_site"][0]["read"] is True and out["listed_only"] == 0
+    assert ingested == [[pdf]]  # on disk but not yet in the store: read now, without asking the site
