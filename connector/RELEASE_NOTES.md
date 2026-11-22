@@ -7,6 +7,12 @@ e-mail attachments) is searched too. Nothing has to be copied anywhere. The inst
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.5.0 (Katip DD: due-diligence screening, beta):**
+- Seven `dd_*` tools screen a person or company against MASAK asset-freeze lists, ilan.gov.tr notices and the Ticaret Sicili Gazetesi, from the same extension. Every hit is the source's own record with its official link and the date of the data; nothing is summarised, and no hit is not a clearance. Other people's ID numbers and parents' names are removed before Claude sees a result; a company's labelled tax number (VKN) stays.
+- ilan.gov.tr and the Gazette are looked up one named target at a time in the Google Chrome already on your computer. For the Gazette you log in once with e-Devlet in a Chrome window; the site's cookies are kept encrypted for 8 hours and later lookups run in the background with no window. `dd_gazette_logout` ends it at once. If the site asks for its security code (it did after about 6 searches in our test), Katip stops and does not solve it.
+- First start also fetches Playwright (about 40 MB) once with the other helpers. Without Google Chrome, the lookup tools say so and point to the download.
+- Tested on a real Mac against the live sites (22 Nov 2026): 17 of 17 ilan.gov.tr notices and 7 of 7 Gazette notices about 10 companies from konkordato news found, no wrong hits, no hits for 6 invented companies. Not yet tried by a lawyer.
+
 **New in 0.4.1 (final documents for UYAP, and a citation check):**
 - `restore_to_file` saves the final document with real names as `.udf` (UYAP's document format, written the same way as the UDF test files Katip already reads; not yet opened in UYAP Doküman Editörü by us, so check the first one) or `.pdf`, besides `.docx`, `.txt` and `.md`.
 - Every draft saved this way has its statute citations checked first, offline, against Katip's copy of mevzuat.adalet.gov.tr: does the article exist, is it in force, do number and name match. Claude lists any citation that fails before you file the document. Decision citations are not checked here (use precedent search).

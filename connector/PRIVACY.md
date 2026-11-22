@@ -1,6 +1,6 @@
 # Katip Kalkan privacy policy
 
-Last updated: 14 November 2026. Applies to Katip Kalkan 0.3.5 and later (Claude plugin and Claude
+Last updated: 22 November 2026. Applies to Katip Kalkan 0.3.5 and later (Claude plugin and Claude
 Desktop extension). Contact: fikrifirat@gmail.com, or open an issue at https://github.com/fikrifirat/katip/issues
 (never post real personal data there).
 
@@ -29,6 +29,12 @@ computer. Only the masked text, with placeholders such as `[AD SOYAD-1]`, is ret
   `cryptography` package the map is kept in memory only and lost when Claude closes.
 * **Restored documents** (`restore_to_file`): written next to the document you masked (or into your case folder), only inside the allowed folders, readable only by you.
 * **Masked copies** (`write_masked_copy`): written next to the original.
+* **Due-diligence index (Katip DD)**: in `~/.katip/dd` (`KATIP_DD_HOME`) on your computer: the MASAK
+  lists you fetched, the ilan.gov.tr notices and Gazette pages you looked up (these are public records
+  that name other people), and a log of failed fetches. Kept until you delete the folder. The Gazette
+  login (the site's cookies only) is kept in `~/.katip/dd/tsg/session.bin`, encrypted with the same
+  key, for 8 hours (`KATIP_TSG_SESSION_HOURS`, 0 = log out after every lookup); `dd_gazette_logout`
+  logs out on the site and deletes it at once.
 
 ## What it sends, and to whom
 
@@ -50,7 +56,14 @@ computer. Only the masked text, with placeholders such as `[AD SOYAD-1]`, is ret
   Katip refuses it, before sending anything, if a word has a capital, a digit or a sign, or is part of a
   value Katip masked in that matter. The document, its masked text and any quote from it are never sent.
   Every request is listed in `~/.katip/emsal/requests.log`. While the setting is off (the
-  default), Katip makes no network requests at all.
+  default), Katip sends no precedent-search requests.
+* **Due-diligence lookups (Katip DD), only when Claude calls a `dd_*` tool:** `dd_update` downloads the
+  four MASAK asset-freeze lists from masak.hmb.gov.tr (about 10 requests). `dd_ilan_lookup` searches
+  ilan.gov.tr for the one name you asked about, in the Google Chrome on your computer.
+  `dd_gazette_lookup` opens the Ticaret Sicili Gazetesi (www.ticaretsicil.gov.tr) in Chrome, where you log
+  in with e-Devlet yourself, and sends the company name and registry office to the site's search. These
+  requests carry the name you look up, never a document or masked text. Katip never reads your own
+  Chrome profile or its cookies; it uses a separate, temporary profile.
   Katip makes no other network requests. `mevzuat_bak` (statutes) works offline.
 * **Grades (`geri_bildirim`):** kept on your computer in `~/.katip/emsal/grades.jsonl`: the public decision
   id, the query words, your grade and note. They reach the author only if you send that file yourself

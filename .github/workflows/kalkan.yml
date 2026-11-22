@@ -29,7 +29,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }  # = launch.py PYTHON
       - name: Install the pinned helpers (same versions as launch.py)
-        run: pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0 katip-mask==0.1.1
+        run: pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0 playwright==1.65.2 katip-mask==0.1.1
       - name: Unit tests (on Linux also a model download through the SDK, checked by SHA-256)
         env:
           KATIP_TEST_DOWNLOAD: ${{ matrix.os == 'ubuntu-latest' && '1' || '' }}

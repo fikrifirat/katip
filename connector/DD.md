@@ -41,7 +41,7 @@ server over stdio; nothing is hosted. **Tested** means a person or a script star
 and called a DD tool; **config only** means the snippet follows the app's documented format but
 nobody has run it yet.
 
-| App | Status (21 Nov 2026) |
+| App | Status (22 Nov 2026) |
 |---|---|
 | Claude Code | **Tested**: connected, `dd_screen` called on a real MASAK snapshot, results redacted |
 | Claude Desktop (.mcpb) | **Tested by script**: the built bundle lists 18 tools and answers `dd_sources` (`tests/smoke_mcpb.py`); not yet clicked through by a person |
@@ -142,6 +142,7 @@ What is **not** proven or not special:
   that is unproven either way.
 - No real lawyer queries yet. The matching numbers use generated variants; Uğur's past DD targets
   are the next labelled set.
-- ilan.gov.tr works only one named target at a time on the lawyer's computer, and the Gazette only
-  from PDFs the lawyer saves. Neither is a full index.
+- ilan.gov.tr and the Gazette work one named target at a time on the lawyer's computer. Neither is a
+  full index. The Gazette site asked for its security code after about 6 searches in one login (22 Nov
+  2026); Katip stops there, so expect a few companies per login, not a batch.
 - Tested in Claude Code only; the other apps are config only (table above).

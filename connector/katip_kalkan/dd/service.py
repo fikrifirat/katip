@@ -31,6 +31,18 @@ HOW_TO_READ = ("score is name similarity, not probability. band 'match' >= %.2f,
                "clearance." % (MATCH, REVIEW))
 
 
+
+_NO_PLAYWRIGHT = {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
+                  "(it uses Google Chrome; the Claude Desktop extension installs it on first start)"}
+_NO_BROWSER = {"status": "no_browser", "error": "Google Chrome is not installed on this computer. Install it from "
+               "https://www.google.com/chrome/ and try again (or run: python -m playwright install chromium)."}
+
+
+def _no_browser(e: Exception) -> bool:
+    """Neither Google Chrome nor Playwright's own Chromium is on this computer."""
+    msg = str(e)
+    return "Executable doesn't exist" in msg or "is not found at" in msg or "Chromium distribution 'chrome'" in msg
+
 def _indexes(st: Store) -> dict:
     """Rebuild the in-memory indexes only when the store changed."""
     key = tuple(r["id"] for r in st.runs(1))
@@ -202,9 +214,10 @@ def ilan_lookup(target: str, max_ads: int = 20, headed: bool = False, store: Sto
             time.sleep(10)
             docs, info = ilan_browser.search(target, max_ads=min(max_ads, 20), headed=headed)
     except ImportError:
-        return {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
-                "(uses Google Chrome, or run: python -m playwright install chromium)"}
+        return _NO_PLAYWRIGHT
     except Exception as e:  # noqa: BLE001
+        if _no_browser(e):
+            return _NO_BROWSER
         st.log_failure("ilan", started, "tls_error" if "ERR_CERT" in str(e) else "error", {"error": repr(e)[:300]})
         return {"status": "tls_error" if "ERR_CERT" in str(e) else "error", "error": repr(e)[:300]}
     if info.get("blocked"):
@@ -250,9 +263,10 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
         saved, info = gazette_browser.lookup(target, office, out_dir=home() / "tsg", max_pages=min(max_pages, 5),
                                             court=court)
     except ImportError:
-        return {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
-                "(uses Google Chrome, or run: python -m playwright install chromium)"}
+        return _NO_PLAYWRIGHT
     except Exception as e:  # noqa: BLE001
+        if _no_browser(e):
+            return _NO_BROWSER
         return {"status": "error", "error": repr(e)[:300],
                 "note": "the run stopped; Katip tried to log out on the site and deleted the browser profile"}
     out = {"status": "blocked" if info.get("blocked") and not saved else "ok", "results_on_site": info.get("results"),

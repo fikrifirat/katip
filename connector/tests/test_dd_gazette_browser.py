@@ -154,3 +154,13 @@ def test_registry_office_from_court_district():
     assert gb.resolve_office("İstanbul Anadolu", opts) == "İSTANBUL"
     assert gb.resolve_office("Ankara Batı", opts) == "ANKARA"
     assert gb.resolve_office("Narnia", opts) == ""
+
+
+def test_no_chrome_gives_a_plain_install_hint(monkeypatch):
+    from katip_kalkan.dd import service
+
+    def boom(*a, **k):
+        raise RuntimeError("BrowserType.launch: Executable doesn't exist at /x/chrome")
+    monkeypatch.setattr(gb, "lookup", boom)
+    out = service.gazette_lookup("Kuzeyrüzgarı", "BURSA")
+    assert out["status"] == "no_browser" and "google.com/chrome" in out["error"]
