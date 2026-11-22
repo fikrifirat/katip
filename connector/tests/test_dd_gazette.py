@@ -95,13 +95,17 @@ def test_add_gazette_says_what_is_missing(tmp_path, monkeypatch):
 
 
 def test_re_adding_a_file_replaces_its_notices(tmp_path, monkeypatch):
+    """Same file saved again with other bytes (new digest): its old notices must go, others stay."""
     from katip_kalkan.dd import service
     from katip_kalkan.dd.store import Store
     monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path))
     st = Store()
-    st.replace_source("gazette", [{"rid": "gazette:abc:1:0", "title": "old", "text": "x"},
-                                  {"rid": "gazette:abc:1:7", "title": "stale", "text": "y"},
-                                  {"rid": "gazette:zzz:1:0", "title": "other file", "text": "z"}], {}, "t0")
-    monkeypatch.setattr(gazette, "ingest", lambda files, ocr=False: [{"rid": "gazette:abc:1:0", "title": "new", "text": "n"}])
+    f = str(tmp_path / "tsg_2026-11-19_11712_p101.pdf")
+    st.replace_source("gazette", [{"rid": "gazette:olddigest:1:0", "title": "old", "text": "x", "url": f + "#page=1"},
+                                  {"rid": "gazette:olddigest:1:7", "title": "stale", "text": "y", "url": f + "#page=1"},
+                                  {"rid": "gazette:zzz:1:0", "title": "other file", "text": "z", "url": "/x/other.pdf#page=1"}],
+                      {}, "t0")
+    monkeypatch.setattr(gazette, "ingest", lambda files, ocr=False: [{"rid": "gazette:newdigest:1:0", "title": "new",
+                                                                       "text": "n", "url": f + "#page=1"}])
     service.add_gazette([tmp_path], store=st)
     assert sorted(r["title"] for r in st.records("gazette")) == ["new", "other file"]

@@ -136,6 +136,9 @@ def main():
             if not office:
                 log["gazette"].append({"query": c["query"], "status": "skipped", "why": "registry office unknown"})
                 continue
+            if any(x.get("blocked") == "not logged in within the time limit" for x in log["gazette"]):
+                log["gazette"].append({"query": c["query"], "status": "skipped", "why": "no login"})
+                continue
             print(f"Gazette: {c['query']} ({office})", flush=True)
             try:
                 r = service.gazette_lookup(c["query"], office, max_pages=a.gazette_pages, store=st)
