@@ -374,7 +374,10 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
         info["results"] = len(hits)
         say(f"{len(hits)} notices on the site; saving up to {max_pages} gazette pages...")
         info["notices"] = [{k: h[k] for k in ("date", "issue", "page", "type", "unvan")} for h in hits]
-        for h in hits[:max_pages]:
+        pages: dict[str, dict] = {}
+        for h in hits:  # two notices on one gazette page: fetch the page once (each fetch counts toward the captcha)
+            pages.setdefault(h["file"], h)
+        for h in list(pages.values())[:max_pages]:
             html = page.evaluate(_TXT, "/view/hizlierisim/" + h["href"].lstrip("/"))
             m = re.search(r'(?:src|data)="(/tmp_gazete/[^"]+\.pdf)"', html)
             if not m:

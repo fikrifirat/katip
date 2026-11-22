@@ -65,7 +65,11 @@ class Site(BaseHTTPRequestHandler):
                          "<th>Sayfa</th><th>İlan Türü</th><th>Gazete</th><th>Sepete Ekle</th></tr>"
                          "<tr><td>BURSA</td><td>1</td><td>KUZEYRÜZGARI A.Ş.</td><td>19.11.2026</td><td>11712</td><td>101</td>"
                          "<td>Konkordato</td><td><a href='pdf_goster.php?Guid=a'>Gazete</a></td>"
-                         "<td><a href='#' onclick='location=\"/cart\"'>Sepete Ekle</a></td></tr></table>")
+                         "<td><a href='#' onclick='location=\"/cart\"'>Sepete Ekle</a></td></tr>"
+                         # a second notice on the same gazette page: the page is fetched once
+                         "<tr><td>BURSA</td><td>2</td><td>KUZEYRÜZGARI GIDA A.Ş.</td><td>19.11.2026</td><td>11712</td>"
+                         "<td>101</td><td>Genel Kurul</td><td><a href='pdf_goster.php?Guid=b'>Gazete</a></td>"
+                         "<td>Sepete Ekle</td></tr></table>")
             return self._send("<a href='/view/menu/cikis.php'>ÇIKIŞ</a><form id=FormIlanGoruntuleme method=get>"
                               "<select id=SicilMudurluguId name=SicilMudurluguId><option value=0>Seçiniz</option>"
                               "<option value=40>BURSA</option></select><input id=TicSicNo name=TicSicNo>"
@@ -121,6 +125,7 @@ def test_login_once_then_headless_until_logout(site, tmp_path, new_tab):
     b, saved, info = run(site, tmp_path, keep_hours=8)
     assert info["blocked"] is None, info
     assert [p.name for p in saved] == ["tsg_2026-11-19_11712_p101.pdf"] and saved[0].read_bytes() == PDF
+    assert info["results"] == 2 and sum("pdf_goster.php" in u for u in Site.log) == 1
     assert b.logins == 1 and not b.profile.exists() and gb.session_read() is not None
     b2, saved2, info2 = run(site, tmp_path, keep_hours=8)  # second run: no window, saved login
     assert b2.logins == 0 and info2["session"] == "reused saved login" and saved2
