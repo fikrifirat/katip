@@ -138,6 +138,14 @@
     {
       "name": "dd_ilan_lookup",
       "description": "Bir adı ilan.gov.tr'de bu bilgisayardaki tarayıcıyla arar · Look up one name on ilan.gov.tr in a browser on this computer"
+    },
+    {
+      "name": "dd_gazette_lookup",
+      "description": "Bir şirketi Ticaret Sicili Gazetesi'nde kendi e-Devlet girişinizle arar; giriş birkaç saat şifreli saklanır · Look up one company in the Trade Registry Gazette with your own login, kept encrypted for a few hours"
+    },
+    {
+      "name": "dd_gazette_logout",
+      "description": "Gazete oturumunu kapatır ve saklanan girişi siler · Log out of the Trade Registry Gazette and delete the kept login"
     }
   ],
   "user_config": {

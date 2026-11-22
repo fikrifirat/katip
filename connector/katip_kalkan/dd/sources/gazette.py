@@ -18,18 +18,106 @@ import sys
 from pathlib import Path
 
 SOURCE = "gazette"
-# A new notice usually starts with the registry office line or the "Ticaret Sicil No" field.
-_OFFICE = re.compile(r"(?=\b\w+(?:\s\w+)?\s+Ticaret\s+Sicil(?:i)?\s+Müdürlüğü)", re.I)
+_UP = "A-ZÇĞİIÖŞÜ"
+# A notice starts with the registry office heading at the start of a line ("BURSA TİCARET SİCİLİ
+# MÜDÜRLÜĞÜ'NDEN"). Body text like "... Ticaret Sicili Müdürlüğünce tescil edilmiştir" must not split.
+_OFFICE = re.compile(r"(?m)^(?=\S+(?:[ \t]\S+)?[ \t]+Ticaret[ \t]+Sicil(?:i)?[ \t]+Müdürlüğü(?:'?nden)?(?![\wçğıöşü]))", re.I)
 _SICIL = re.compile(r"(?=Ticaret\s+Sicil(?:i)?\s+No\s*:)", re.I)
-_TITLE = re.compile(r"(?:Ticaret Unvanı|Unvanı|ÜNVANI)\s*:?\s*(.+)")
+_LABEL = re.compile(r"(?:Ticaret\s+)?[UÜuü]nvan[ıiIİ]\s*:?", re.I)
 _ISSUE = re.compile(r"Sayı\s*:?\s*(\d{4,6}).{0,40}?(\d{1,2}[./]\d{1,2}[./]\d{4})", re.S)
+_SIRA = re.compile(r"[İIÍÌi1l]lan\s*S[ıi1]ra\s*No", re.I)  # OCR reads İ as Í, Ì, I...
+_CHROME = re.compile(r"^(T\.?\s?C\.?|.*TİCARET SİCİLİ GAZETESİ.*|\(?Devamı.*Sayfada\)?|SAYFA\s*:?\s*\d+|\d{1,2}\s+\S+\s+\d{4}\s+SAYI\s*:?\s*\d+)$", re.I)
+_FORMS = re.compile(r"(ŞİRKETİ|ŞTİ\.?|KOOPERATİFİ|A\.Ş\.?|ŞUBESİ|İŞLETMESİ)\s*$")
+_NAME = re.compile(r"tsg_(\d{4}-\d{2}-\d{2})_(\d{3,6})_p(\d+)", re.I)
 
 
-def _ocr_page(page) -> str:
+def meta_from_name(name: str) -> dict:
+    """Issue, date and gazette page from a saved file name like tsg_2026-11-19_11712_p101.pdf."""
+    m = _NAME.search(name)
+    return {"date": m.group(1), "issue": m.group(2), "gazette_page": m.group(3)} if m else {}
+
+
+def title_of(notice: str) -> str:
+    """The company name after "Ticaret Unvanı:", on the same line or the lines after it."""
+    lines = [ln.strip() for ln in notice.splitlines()]
+    for i, ln in enumerate(lines):
+        m = _LABEL.search(ln)
+        if not m:
+            continue
+        rest, name = ln[m.end():].strip(), []
+        if rest:
+            name.append(rest)
+        for nxt in lines[i + 1:]:
+            if not nxt or (name and _FORMS.search(name[-1])) or len(name) >= 4:
+                break
+            if sum(c.isupper() for c in nxt) < 0.6 * sum(c.isalpha() for c in nxt):
+                break  # body text, not the capitalised name
+            name.append(nxt)
+        if name:
+            return " ".join(name)[:200]
+    first = next((ln for ln in lines if ln), "")
+    return first[:200]
+
+
+def _rows(boxes) -> list[str]:
+    rows: list[list] = []
+    for b in sorted(boxes):
+        y, x, h, t = b[0], b[1], b[2], b[-1]
+        if rows and abs(rows[-1][0] - y) < max(8.0, 0.5 * h):
+            rows[-1][1].append((x, t))
+        else:
+            rows.append([y, [(x, t)]])
+    return [" ".join(t for _, t in sorted(items)) for _, items in rows]
+
+
+def layout_notices(boxes, width: float) -> list[dict]:
+    """Split one scanned gazette page into notices using its layout.
+
+    A TSG page has two columns split at the middle. Each notice is a stacked block: office
+    heading, "İlan Sıra No", Mersis, Sicil No, "Ticaret Unvanı:", the name, then the body, and it
+    often runs on at the top of the next column. So: read the left column top to bottom, then
+    the right, and cut that one stream before each office heading + "İlan Sıra No". Text before
+    the first notice continues one from the previous page and is kept as its own record.
+
+    ``boxes`` are (y_centre, x_left, height, width, text). Returns [] when the page has no
+    "İlan Sıra No", so the caller falls back to the plain text splitter.
+    """
+    boxes = [b for b in boxes if b[-1].strip() and not _CHROME.match(b[-1].strip())]
+    if not any(_SIRA.search(b[-1]) for b in boxes):
+        return []
+    mid = width / 2
+    lines = _rows([b for b in boxes if b[1] < mid]) + _rows([b for b in boxes if b[1] >= mid])
+    lines = [ln for ln in lines if not _CHROME.match(ln.strip())]
+    starts = []
+    for i, ln in enumerate(lines):
+        if _SIRA.search(ln):
+            starts.append(i - 1 if i and "MÜDÜRLÜ" in lines[i - 1].upper() and not _SIRA.search(lines[i - 1]) else i)
+    out = []
+    if starts[0] > 0:
+        text = "\n".join(lines[:starts[0]]).strip()
+        if len(text) > 40:
+            out.append({"title": "(önceki sayfadan devam)", "text": text, "sira": "", "continuation": True})
+    for k, st in enumerate(starts):
+        part = lines[st: starts[k + 1] if k + 1 < len(starts) else len(lines)]
+        sira = re.search(r"(\d{3,})", next((ln for ln in part if _SIRA.search(ln)), ""))
+        out.append({"title": title_of("\n".join(part)), "text": "\n".join(part), "sira": sira.group(1) if sira else "",
+                    "continuation": False})
+    return out
+
+
+def _ocr_page(page):
+    """Text of a scanned page, or a list of notices when the layout is recognised."""
     from ... import ocr  # Kalkan's reader (PaddleOCR or Tesseract); heavy, only when asked
 
     pix = page.get_pixmap(dpi=200)
-    text, _reader = ocr.ocr_page(ocr.pixmap_rgb(pix))
+    rgb = ocr.pixmap_rgb(pix)
+    try:
+        notices = layout_notices(ocr.ocr_boxes(rgb), pix.w)
+        if notices:
+            return notices
+    except (ImportError, OSError, RuntimeError):
+        pass  # no PaddleOCR here: plain text below
+    text, _reader = ocr.ocr_page(rgb)
     return text
 
 
@@ -52,6 +140,7 @@ def _pages(path: Path, use_ocr: bool):
 
 
 def split_notices(text: str) -> list[str]:
+    text = "\n".join(ln for ln in text.splitlines() if not _CHROME.match(ln.strip()))
     splitter = _OFFICE if _OFFICE.search(text) else _SICIL
     parts = [p.strip() for p in splitter.split(text) if p and p.strip()]
     if len(parts) > 1 and not splitter.match(parts[0]):
@@ -63,16 +152,24 @@ def ingest(paths: list[Path], ocr: bool = False) -> list[dict]:
     out = []
     for path in paths:
         digest = hashlib.sha1(path.read_bytes()).hexdigest()[:10]
-        issue = date = ""
-        for page_no, text in _pages(path, ocr):
-            if not issue:
-                m = _ISSUE.search(text)
-                if m:
-                    issue, date = m.groups()
-            for k, notice in enumerate(split_notices(text)):
-                m = _TITLE.search(notice)
-                title = (m.group(1).strip() if m else notice.splitlines()[0])[:200]
-                out.append({"rid": f"gazette:{digest}:{page_no}:{k}", "source": SOURCE, "kind": "notice",
-                            "title": title, "names": [title], "text": notice, "issue": issue, "date": date,
-                            "url": f"{path}#page={page_no}"})
+        meta = meta_from_name(path.name)
+        issue, date = meta.get("issue", ""), meta.get("date", "")
+        for page_no, content in _pages(path, ocr):
+            if isinstance(content, str):
+                if not issue:
+                    m = _ISSUE.search(content)
+                    if m:
+                        issue, date = m.groups()
+                notices = [{"title": title_of(n), "text": n} for n in split_notices(content)]
+            else:
+                notices = content
+            for k, n in enumerate(notices):
+                rec = {"rid": f"gazette:{digest}:{page_no}:{k}", "source": SOURCE, "kind": "notice",
+                       "title": n["title"], "names": [n["title"]], "text": n["text"], "issue": issue, "date": date,
+                       "url": f"{path}#page={page_no}"}
+                if meta.get("gazette_page"):
+                    rec["gazette_page"] = meta["gazette_page"]
+                if n.get("sira"):
+                    rec["ilan_sira_no"] = n["sira"]
+                out.append(rec)
     return out

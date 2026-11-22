@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import json
 import re
+import time
 
 from .match import MATCH, REVIEW, ListIndex, TextIndex
 from .net import Blocked, PoliteClient
@@ -64,6 +65,7 @@ def _hit(source: str, h, verbatim: bool, redact: bool, id_number: str) -> dict:
          "other_names": (r.get("names") or [])[1:], "birth": " ".join(str(r.get("birth", "")).split()),
          "nationality": r.get("nationality", ""), "organisation": r.get("organisation", ""),
          "decision": r.get("decision", ""), "date": _date(r), "source_url": r.get("url", ""),
+         **({"gazette_issue": r["issue"], "gazette_page": r.get("gazette_page", "")} if source == "gazette" and r.get("issue") else {}),
          "gazette_url": r.get("gazette_url", ""), "notes": list(h.reasons)}
     if r.get("full_text") is False and not any("title/summary" in n for n in d["notes"]):
         d["notes"].append("title/summary only: notice page was not opened, check the full notice")
@@ -191,10 +193,20 @@ def ilan_lookup(target: str, max_ads: int = 20, headed: bool = False, store: Sto
         raise ValueError("give the name of one person or company")
     st, started = store or Store(), now()
     try:
-        docs, info = ilan_browser.search(target, max_ads=min(max_ads, 20), headed=headed)
+        try:
+            docs, info = ilan_browser.search(target, max_ads=min(max_ads, 20), headed=headed)
+        except Exception as e:  # noqa: BLE001
+            if "ERR_CERT" not in str(e):
+                raise
+            # ilan.gov.tr sends no intermediate certificate; Chrome usually fetches it, once it did not
+            time.sleep(10)
+            docs, info = ilan_browser.search(target, max_ads=min(max_ads, 20), headed=headed)
     except ImportError:
         return {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
                 "(uses Google Chrome, or run: python -m playwright install chromium)"}
+    except Exception as e:  # noqa: BLE001
+        st.log_failure("ilan", started, "tls_error" if "ERR_CERT" in str(e) else "error", {"error": repr(e)[:300]})
+        return {"status": "tls_error" if "ERR_CERT" in str(e) else "error", "error": repr(e)[:300]}
     if info.get("blocked"):
         st.log_failure("ilan", started, "blocked", info)
         return {"status": "blocked", "error": info["blocked"]}
@@ -211,6 +223,56 @@ def add_gazette(paths, use_ocr: bool = False, store: Store | None = None) -> dic
     for p in map(Path, paths):
         files += sorted(p.glob("*.pdf")) if p.is_dir() else [p]
     st, started = store or Store(), now()
-    new = gazette.ingest(files, ocr=use_ocr)
-    stats = _merge(st, "gazette", new, {"files": [str(f) for f in files]}, started)
+    try:
+        new = gazette.ingest(files, ocr=use_ocr)
+    except ImportError as e:
+        return {"status": "unavailable", "error": f"{e.name or e} is not installed. Reading Gazette PDFs needs "
+                "PyMuPDF, and scanned pages need OCR: pip install 'katip-kalkan[ocr]' (or: pip install pymupdf rapidocr "
+                "onnxruntime)"}
+    # re-adding a file replaces its old notices, also when the file's bytes changed (saved again)
+    files_done = {str(r.get("url", "")).split("#", 1)[0] for r in new}
+    keep = [r for r in st.records("gazette") if str(r.get("url", "")).split("#", 1)[0] not in files_done]
+    stats = st.replace_source("gazette", keep + new, {"files": [str(f) for f in files]}, started)
     return {"status": "ok", "files": len(files), "notices": len(new), "store_records": stats["n"]}
+
+
+def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = False, store: Store | None = None) -> dict:
+    """One named target on the Ticaret Sicili Gazetesi, through the lawyer's own login on this computer.
+
+    The first run opens Chrome on a new, empty profile for the lawyer's e-Devlet login; the site's
+    cookies are then kept encrypted for a few hours (KATIP_TSG_SESSION_HOURS, default 8) and later
+    runs search headless. Saves up to ``max_pages`` free gazette pages and reads them with OCR.
+    """
+    from .sources import gazette_browser
+    from .store import home
+
+    try:
+        saved, info = gazette_browser.lookup(target, office, out_dir=home() / "tsg", max_pages=min(max_pages, 5),
+                                            court=court)
+    except ImportError:
+        return {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
+                "(uses Google Chrome, or run: python -m playwright install chromium)"}
+    except Exception as e:  # noqa: BLE001
+        return {"status": "error", "error": repr(e)[:300],
+                "note": "the run stopped; Katip tried to log out on the site and deleted the browser profile"}
+    out = {"status": "blocked" if info.get("blocked") and not saved else "ok", "results_on_site": info.get("results"),
+           "saved_pages": len(saved), "login": info.get("session"), "logged_out": info.get("logged_out"),
+           "blocked": info.get("blocked"),
+           "notices_on_site": info.get("notices", [])[:30]}
+    if saved:
+        ing = add_gazette(saved, use_ocr=True, store=store)
+        out["notices"] = ing.get("notices")
+        if ing.get("status") != "ok":
+            out.update(status=ing["status"], error=ing.get("error"))
+    out["next"] = "call dd_screen with the same name to see the notices that mention it"
+    return out
+
+
+def gazette_logout() -> dict:
+    """Log out of the Ticaret Sicili Gazetesi now and delete the kept login."""
+    from .sources import gazette_browser
+    try:
+        return gazette_browser.logout()
+    except ImportError:
+        gazette_browser.session_delete()
+        return {"status": "ok", "note": "Playwright is missing, so the site was not told; the kept login was deleted"}

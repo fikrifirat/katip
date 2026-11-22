@@ -77,6 +77,10 @@ def _dd(a):
         out = service.sources_status()
     elif a.dd_cmd == "add-gazette":
         out = service.add_gazette(a.paths, use_ocr=a.ocr)
+    elif a.dd_cmd == "gazette-logout":
+        out = service.gazette_logout()
+    elif a.dd_cmd == "gazette-lookup":
+        out = service.gazette_lookup(a.target, a.office, a.max_pages, a.court)
     else:
         out = service.ilan_lookup(a.target, a.max_ads, headed=a.headed)
     print(json.dumps(out, ensure_ascii=False, indent=1))
@@ -127,6 +131,12 @@ def main(argv=None):
     il.add_argument("target")
     il.add_argument("--max-ads", type=int, default=20)
     il.add_argument("--headed", action="store_true")
+    dsub.add_parser("gazette-logout", help="log out of the Ticaret Sicili Gazetesi now and delete the kept login")
+    gl = dsub.add_parser("gazette-lookup", help="look up ONE company in the Ticaret Sicili Gazetesi with your own login")
+    gl.add_argument("target")
+    gl.add_argument("--office", required=True, help="ticaret sicili müdürlüğü, e.g. BURSA")
+    gl.add_argument("--max-pages", type=int, default=3)
+    gl.add_argument("--court", action="store_true", help="court and bankruptcy-office notices (konkordato, iflas)")
     a = ap.parse_args(argv)
 
     if a.cmd == "dd":
