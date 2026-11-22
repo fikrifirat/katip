@@ -1,6 +1,7 @@
 """Gazette lookup through the lawyer's own TSG login: the login must never outlive the run."""
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
@@ -85,7 +86,9 @@ def test_failed_run_deletes_login_profile_and_logs_out_when_nothing_is_kept(tmp_
 def test_session_is_encrypted_and_expires(tmp_path):
     exp = gb.session_save({"cookies": [{"name": "PHPSESSID", "value": "secret-cookie"}]}, hours=8)
     raw = gb._session_file().read_bytes()
-    assert b"secret-cookie" not in raw and oct(gb._session_file().stat().st_mode)[-3:] == "600"
+    assert b"secret-cookie" not in raw
+    if os.name == "posix":  # Windows has no POSIX file modes
+        assert oct(gb._session_file().stat().st_mode)[-3:] == "600"
     assert gb.session_read()["expires"] == exp
     assert gb.session_save({"cookies": []}, hours=0) is None  # 0 hours: nothing kept
 
