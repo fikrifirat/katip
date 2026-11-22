@@ -79,3 +79,23 @@ def test_kalkan_has_gazette_lookup_tool():
     tools = {t["name"]: t for t in local_server.build().handle({"jsonrpc": "2.0", "id": 1, "method": "tools/list"})["result"]["tools"]}
     t = tools["dd_gazette_lookup"]
     assert t["annotations"]["openWorldHint"] is True and set(t["inputSchema"]["required"]) == {"target", "office"}
+
+
+def test_login_wait_survives_navigation(tmp_path):
+    """e-Devlet redirects while we poll: page.content() raises 'page is navigating'."""
+    class Navigating(FakePage):
+        def __init__(self):
+            super().__init__(fail_at="ilangoruntuleme")
+            self.calls = 0
+
+        def content(self):
+            self.calls += 1
+            if self.calls <= 2:
+                raise RuntimeError("Page.content: Unable to retrieve content because the page is navigating")
+            return self.content_html
+
+    page = Navigating()
+    with pytest.raises(RuntimeError, match="network down"):  # got past the login wait to the search page
+        gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, launcher=lambda p: FakeContext(page), pause=0,
+                  login_timeout=30, poll=0)
+    assert page.calls >= 3 and page.visited[-1].endswith("/view/menu/cikis.php")

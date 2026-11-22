@@ -240,6 +240,9 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
     except ImportError:
         return {"status": "unavailable", "error": "Playwright is not installed on this computer: pip install playwright "
                 "(uses Google Chrome, or run: python -m playwright install chromium)"}
+    except Exception as e:  # noqa: BLE001
+        return {"status": "error", "error": repr(e)[:300],
+                "note": "the run stopped; Katip tried to log out on the site and deleted the browser profile"}
     out = {"status": "blocked" if info.get("blocked") and not saved else "ok", "results_on_site": info.get("results"),
            "saved_pages": len(saved), "logged_out": info.get("logged_out"), "blocked": info.get("blocked"),
            "notices_on_site": info.get("notices", [])[:30]}

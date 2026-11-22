@@ -83,8 +83,20 @@ def _close(ctx) -> None:
             pw.stop()
 
 
+def _logged_in(ctx) -> bool:
+    """True once any tab shows the site's logout link. While e-Devlet redirects, a tab is
+    navigating and reading it raises; that just means "not yet"."""
+    for pg in list(getattr(ctx, "pages", [])):
+        try:
+            if "ticaretsicil.gov.tr" in (getattr(pg, "url", "") or "ticaretsicil.gov.tr") and "cikis.php" in pg.content():
+                return True
+        except Exception:  # noqa: BLE001 - navigating, closed, or not loaded yet
+            continue
+    return False
+
+
 def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: bool = False, pause: float = 6.0,
-           login_timeout: float = 360, launcher=None, say=print) -> tuple[list[Path], dict]:
+           login_timeout: float = 360, launcher=None, say=print, poll: float = 3.0) -> tuple[list[Path], dict]:
     if len(name.strip()) < 5:
         raise ValueError("the site needs at least the first 5 letters of the name")
     out_dir = Path(out_dir)
@@ -100,11 +112,16 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
         say("Log in with e-Devlet in the Chrome window that just opened (Katip waits up to "
             f"{int(login_timeout // 60)} min; it logs out and forgets the login when done).")
         t0 = time.time()
-        while "cikis.php" not in page.content():
+        while not _logged_in(ctx):
             if time.time() - t0 > login_timeout:
                 info["blocked"] = "not logged in within the time limit"
                 return saved, info
-            time.sleep(3)
+            time.sleep(poll)
+        page = next((pg for pg in ctx.pages if "ticaretsicil.gov.tr" in (getattr(pg, "url", "") or "ticaretsicil.gov.tr")), page)
+        try:
+            page.wait_for_load_state("domcontentloaded")
+        except Exception:  # noqa: BLE001
+            pass
         time.sleep(pause)
         page.goto(SEARCH, wait_until="domcontentloaded", timeout=90000)
         if "girisyap.php" in page.url:
@@ -142,11 +159,16 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
         return saved, info
     finally:
         if ctx is not None:
-            try:
-                ctx.pages[0].goto(LOGOUT, wait_until="domcontentloaded", timeout=30000)
-                info["logged_out"] = "cikis.php" not in ctx.pages[0].content()
-            except Exception as e:  # noqa: BLE001
-                info["logout_error"] = repr(e)[:200]
+            for attempt in range(3):  # the page may still be navigating; the logout must happen
+                try:
+                    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
+                    pg.goto(LOGOUT, wait_until="domcontentloaded", timeout=30000)
+                    info["logged_out"] = not _logged_in(ctx)
+                    info.pop("logout_error", None)
+                    break
+                except Exception as e:  # noqa: BLE001
+                    info["logout_error"] = repr(e)[:200]
+                    time.sleep(1)
             try:
                 _close(ctx)
             except Exception:  # noqa: BLE001
