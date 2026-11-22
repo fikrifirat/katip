@@ -141,7 +141,11 @@
     },
     {
       "name": "dd_gazette_lookup",
-      "description": "Bir şirketi Ticaret Sicili Gazetesi'nde kendi e-Devlet girişinizle arar; oturum sonunda kapatılır · Look up one company in the Trade Registry Gazette with your own login, logged out at the end"
+      "description": "Bir şirketi Ticaret Sicili Gazetesi'nde kendi e-Devlet girişinizle arar; giriş birkaç saat şifreli saklanır · Look up one company in the Trade Registry Gazette with your own login, kept encrypted for a few hours"
+    },
+    {
+      "name": "dd_gazette_logout",
+      "description": "Gazete oturumunu kapatır ve saklanan girişi siler · Log out of the Trade Registry Gazette and delete the kept login"
     }
   ],
   "user_config": {

@@ -5,9 +5,12 @@ whose form has a captcha). The lawyer logs in themselves in the window this open
 never types credentials and never touches a captcha. Then it searches the site's own
 "İlan Görüntüleme" form for ONE named target and saves the free gazette page of a few notices.
 
-The login must not outlive the run. Each run uses a new, empty browser profile in a temporary
-folder; at the end, also when the run fails, it logs out on the site (which ends the session on
-the site's side) and deletes the profile.
+The login is bounded. The lawyer logs in once in a visible window (a new, empty browser profile
+in a temporary folder, deleted right after). Katip keeps only the site's session cookies,
+encrypted with Katip's own key (AES-256-GCM, key in the macOS Keychain), for ``keep_hours``
+(default 8, ``KATIP_TSG_SESSION_HOURS``; 0 = log out after every run). Searches and downloads
+run headless, so no window opens again while the session lasts. When it expires, the next run
+logs out on the site and deletes it; ``katip-kalkan dd gazette-logout`` does that at once.
 
 Rules: one target per run, at most ``max_pages`` gazette pages (default 3), several seconds
 between page loads, never the "Sepete Ekle" (paid copy) button, stop at any captcha or block.
@@ -62,26 +65,127 @@ def parse_results(rows: list[list[str]], links: list[str]) -> list[dict]:
     return out
 
 
-def _chrome(profile: str):
-    from playwright.sync_api import sync_playwright
+class _Playwright:
+    """One Playwright for the run: a visible Chrome for the login, headless contexts after it."""
 
-    pw = sync_playwright().start()
+    def __init__(self, executable_path: str | None = None, headless_login: bool = False, sandbox: bool = True):
+        from playwright.sync_api import sync_playwright
+
+        self.pw = sync_playwright().start()
+        self.exe, self.headless_login, self.browser, self.sandbox = executable_path, headless_login, None, sandbox
+
+    def _opts(self, headless: bool) -> dict:
+        o = {"headless": headless, "chromium_sandbox": self.sandbox}  # Playwright adds --no-sandbox otherwise
+        return {**o, "executable_path": self.exe} if self.exe else {**o, "channel": "chrome"}
+
+    def visible(self, profile: str):
+        try:
+            return self.pw.chromium.launch_persistent_context(profile, locale="tr-TR", **self._opts(self.headless_login))
+        except Exception:  # noqa: BLE001 - no Google Chrome: Playwright's own Chromium
+            return self.pw.chromium.launch_persistent_context(profile, locale="tr-TR", headless=self.headless_login,
+                                                              chromium_sandbox=self.sandbox)
+
+    def headless(self, state: dict):
+        if self.browser is None:
+            try:
+                self.browser = self.pw.chromium.launch(**self._opts(True))
+            except Exception:  # noqa: BLE001
+                self.browser = self.pw.chromium.launch(headless=True, chromium_sandbox=self.sandbox)
+        return self.browser.new_context(storage_state=state, locale="tr-TR")
+
+    def stop(self) -> None:
+        try:
+            if self.browser:
+                self.browser.close()
+        finally:
+            self.pw.stop()
+
+
+# -- the kept session: cookies only, encrypted, with an expiry --------------------------------
+_AAD = b"katip-tsg-session"
+
+
+def _session_file() -> Path:
+    from ..store import home
+    return home() / "tsg" / "session.bin"
+
+
+def keep_hours_default() -> float:
+    import os
     try:
-        ctx = pw.chromium.launch_persistent_context(profile, channel="chrome", headless=False, locale="tr-TR",
-                                                    chromium_sandbox=True)  # Playwright adds --no-sandbox otherwise
-    except Exception:
-        ctx = pw.chromium.launch_persistent_context(profile, headless=False, locale="tr-TR", chromium_sandbox=True)
-    ctx._katip_pw = pw  # stopped in _close
-    return ctx
+        return float(os.environ.get("KATIP_TSG_SESSION_HOURS", "8"))
+    except ValueError:
+        return 8.0
 
 
-def _close(ctx) -> None:
+def session_save(state: dict, hours: float) -> float | None:
+    """Encrypt the site's cookies with Katip's key; returns the expiry time, or None if not kept."""
+    import json
+    import os
+    import secrets
+
+    from ... import vault
+    if hours <= 0 or vault.AESGCM is None:
+        return None
+    exp = time.time() + hours * 3600
+    nonce = secrets.token_bytes(12)
+    blob = vault.AESGCM(vault._key()).encrypt(nonce, json.dumps({"expires": exp, "state": state}).encode(), _AAD)
+    f = _session_file()
+    f.parent.mkdir(parents=True, exist_ok=True)
+    tmp = f.with_suffix(".tmp")
+    fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+    with os.fdopen(fd, "wb") as fh:
+        fh.write(nonce + blob)
+    tmp.replace(f)
+    return exp
+
+
+def session_read() -> dict | None:
+    """The kept session (expired or not), or None."""
+    import json
+
+    from ... import vault
+    f = _session_file()
+    if not f.exists() or vault.AESGCM is None:
+        return None
+    raw = f.read_bytes()
     try:
+        return json.loads(vault.AESGCM(vault._key()).decrypt(raw[:12], raw[12:], _AAD))
+    except Exception:  # noqa: BLE001 - other key or damaged: useless, forget it
+        f.unlink(missing_ok=True)
+        return None
+
+
+def session_delete() -> None:
+    _session_file().unlink(missing_ok=True)
+
+
+def _logout_proof(ctx, base: str) -> bool:
+    """Log out on the site, then prove it: the search page must send us to the login page."""
+    pg = ctx.new_page() if not ctx.pages else ctx.pages[0]
+    pg.goto(base + "/view/menu/cikis.php", wait_until="domcontentloaded", timeout=30000)
+    pg.goto(base + "/view/hizlierisim/ilangoruntuleme.php", wait_until="domcontentloaded", timeout=30000)
+    return "girisyap.php" in _live_url(pg)
+
+
+def logout(*, browser=None, base: str = BASE) -> dict:
+    """End the kept session on the site and delete it (``katip-kalkan dd gazette-logout``)."""
+    sess = session_read()
+    if not sess:
+        session_delete()
+        return {"status": "ok", "had_session": False}
+    b = browser or _Playwright()
+    out = {"status": "ok", "had_session": True, "logged_out": False}
+    try:
+        ctx = b.headless(sess["state"])
+        out["logged_out"] = _logout_proof(ctx, base)
         ctx.close()
+    except Exception as e:  # noqa: BLE001
+        out["error"] = repr(e)[:200]
     finally:
-        pw = getattr(ctx, "_katip_pw", None)
-        if pw:
-            pw.stop()
+        session_delete()
+        b.stop()
+    return out
 
 
 _LOGOUT_MARK = re.compile(r"cikis\.php|ÇIKIŞ|Çıkış", re.I)
@@ -137,26 +241,17 @@ def _enter_pressed() -> bool:
     return False
 
 
-def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: bool = False, pause: float = 6.0,
-           login_timeout: float = 360, launcher=None, say=print, poll: float = 3.0,
-           base: str = BASE) -> tuple[list[Path], dict]:
-    if len(name.strip()) < 5:
-        raise ValueError("the site needs at least the first 5 letters of the name")
-    login, search, logout = (base + "/view/hizlierisim/girisyap.php", base + "/view/hizlierisim/ilangoruntuleme.php",
-                             base + "/view/menu/cikis.php")
-    out_dir = Path(out_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
+def _visible_login(b, base: str, login_timeout: float, poll: float, say) -> dict | None:
+    """Visible window on a fresh profile; the lawyer logs in. Returns the site's cookies, or None."""
+    login, search = base + "/view/hizlierisim/girisyap.php", base + "/view/hizlierisim/ilangoruntuleme.php"
     profile = tempfile.mkdtemp(prefix="katip-tsg-")
-    info = {"target": name, "office": office, "blocked": None, "logged_out": False}
-    saved: list[Path] = []
     ctx = None
     try:
-        ctx = (launcher or _chrome)(profile)
+        ctx = b.visible(profile)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
         page.goto(login, wait_until="domcontentloaded", timeout=90000)
         say("Log in with e-Devlet in the Chrome window that just opened. Katip notices the login by itself "
-            f"(or press Enter here once you are in). It waits up to {int(login_timeout // 60)} min, and logs out "
-            "and forgets the login when done.")
+            f"(or press Enter here once you are in). It waits up to {int(login_timeout // 60)} min.")
         t0 = last = time.time()
         while not _logged_in(ctx, base):
             if _enter_pressed():
@@ -166,25 +261,77 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
                     break
                 say("  the site still shows its login page; finish the login in the Chrome window")
             if time.time() - t0 > login_timeout:
-                info["blocked"] = "not logged in within the time limit"
-                info["tabs"] = _tabs(ctx)
-                return saved, info
+                say(f"  no login after {int(login_timeout // 60)} min; open tabs: {', '.join(_tabs(ctx)) or '-'}")
+                return None
             if time.time() - last > 15:
                 last = time.time()
                 say(f"  waiting for the login... open tabs: {', '.join(_tabs(ctx)) or '-'}")
             _wait(ctx, poll)
-        say("Logged in. Searching the gazette (a few seconds between pages)...")
-        host = base.split("//", 1)[-1]
-        page = next((pg for pg in reversed(ctx.pages) if host in (_live_url(pg) or host)), page)
-        try:
-            page.wait_for_load_state("domcontentloaded")
-        except Exception:  # noqa: BLE001
-            pass
-        time.sleep(pause)
-        page.goto(search, wait_until="domcontentloaded", timeout=90000)
-        if "girisyap.php" in page.url:
-            info["blocked"] = "login was not accepted"
-            return saved, info
+        _wait(ctx, 1)
+        return ctx.storage_state()
+    finally:
+        if ctx is not None:
+            try:
+                ctx.close()
+            except Exception:  # noqa: BLE001
+                pass
+        shutil.rmtree(profile, ignore_errors=True)
+
+
+def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: bool = False, pause: float = 6.0,
+           login_timeout: float = 360, browser=None, say=print, poll: float = 3.0, base: str = BASE,
+           keep_hours: float | None = None) -> tuple[list[Path], dict]:
+    if len(name.strip()) < 5:
+        raise ValueError("the site needs at least the first 5 letters of the name")
+    keep = keep_hours_default() if keep_hours is None else keep_hours
+    search = base + "/view/hizlierisim/ilangoruntuleme.php"
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    info = {"target": name, "office": office, "blocked": None}
+    saved: list[Path] = []
+    b = browser or _Playwright()
+    ctx = None
+    try:
+        sess = session_read()
+        if sess and sess["expires"] < time.time():
+            say("The saved Gazette login expired; logging it out on the site...")
+            try:
+                c = b.headless(sess["state"])
+                _logout_proof(c, base)
+                c.close()
+            except Exception:  # noqa: BLE001
+                pass
+            session_delete()
+            sess = None
+        page = None
+        if sess:
+            ctx = b.headless(sess["state"])
+            page = ctx.new_page()
+            page.goto(search, wait_until="domcontentloaded", timeout=90000)
+            if "girisyap.php" in _live_url(page):
+                say("The site ended the saved login; please log in again.")
+                ctx.close()
+                ctx, page = None, None
+                session_delete()
+                sess = None
+            else:
+                info["session"] = "reused saved login"
+        if page is None:
+            state = _visible_login(b, base, login_timeout, poll, say)
+            if state is None:
+                info["blocked"] = "not logged in within the time limit"
+                return saved, info
+            exp = session_save(state, keep)
+            info["session"] = (f"login kept until {time.strftime('%H:%M', time.localtime(exp))}" if exp
+                               else "login not kept")
+            ctx = b.headless(state)
+            page = ctx.new_page()
+            time.sleep(pause)
+            page.goto(search, wait_until="domcontentloaded", timeout=90000)
+            if "girisyap.php" in _live_url(page):
+                info["blocked"] = "the site did not accept the login in the background window"
+                return saved, info
+        say("Searching the gazette in the background (a few seconds between pages)...")
         page.select_option("#SicilMudurluguId", label=tr_upper(office))
         if court:
             page.check("#BagliIlan")
@@ -218,20 +365,22 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
             time.sleep(pause)
         return saved, info
     finally:
-        if ctx is not None:
-            for attempt in range(3):  # the page may still be navigating; the logout must happen
+        if ctx is not None and keep <= 0:
+            for _ in range(3):  # the login must not outlive the run when nothing is kept
                 try:
-                    pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-                    pg.goto(logout, wait_until="domcontentloaded", timeout=30000)
-                    pg.goto(search, wait_until="domcontentloaded", timeout=30000)  # proof: the site sends us to login
-                    info["logged_out"] = "girisyap.php" in _live_url(pg)
+                    info["logged_out"] = _logout_proof(ctx, base)
                     info.pop("logout_error", None)
                     break
                 except Exception as e:  # noqa: BLE001
                     info["logout_error"] = repr(e)[:200]
                     time.sleep(1)
+            session_delete()
+        if ctx is not None:
             try:
-                _close(ctx)
+                ctx.close()
             except Exception:  # noqa: BLE001
                 pass
-        shutil.rmtree(profile, ignore_errors=True)
+        try:
+            b.stop()
+        except Exception:  # noqa: BLE001
+            pass

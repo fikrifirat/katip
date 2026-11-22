@@ -72,9 +72,10 @@ def local_tools() -> list[Tool]:
         Tool("dd_gazette_lookup", "Ticaret Sicili Gazetesi'nde ara · Look up one name in the Trade Registry Gazette",
              "Search the Türkiye Ticaret Sicili Gazetesi for ONE named DD target. Opens Chrome on this computer; the "
              "lawyer logs in with e-Devlet themselves (Katip never types credentials). Katip searches the site's own "
-             "form (registry office + at least the first 5 letters of the name), saves up to 3 free gazette pages, "
-             "logs out and deletes the browser profile, then reads the pages with OCR. Takes a few minutes. Then call "
-             "dd_screen. Needs Playwright and OCR on this computer.",
+             "form (registry office + at least the first 5 letters of the name), saves up to 3 free gazette pages and "
+             "reads them with OCR. The login is kept encrypted for a few hours, so later lookups run in the background "
+             "without a window; dd_gazette_logout ends it. Takes a few minutes. Then call dd_screen. Needs Playwright "
+             "and OCR on this computer.",
              {"type": "object", "properties": {
                  "target": {"type": "string", "description": "Company name (at least 5 letters) as registered"},
                  "office": {"type": "string", "description": "Ticaret sicili müdürlüğü, e.g. BURSA, İSTANBUL, ANKARA"},
@@ -83,6 +84,11 @@ def local_tools() -> list[Tool]:
                            "description": "Search court and bankruptcy-office notices (konkordato, iflas) instead"}},
               "required": ["target", "office"], "additionalProperties": False},
              lambda target, office, max_pages=3, court=False: service.gazette_lookup(target, office, max_pages, court),
+             {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True}),
+        Tool("dd_gazette_logout", "Gazete oturumunu kapat · Log out of the Trade Registry Gazette",
+             "Log out of the Ticaret Sicili Gazetesi now and delete the login Katip kept.",
+             {"type": "object", "properties": {}, "additionalProperties": False},
+             lambda: service.gazette_logout(),
              {"readOnlyHint": False, "destructiveHint": False, "idempotentHint": True, "openWorldHint": True}),
     ]
 

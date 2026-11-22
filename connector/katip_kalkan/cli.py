@@ -77,6 +77,8 @@ def _dd(a):
         out = service.sources_status()
     elif a.dd_cmd == "add-gazette":
         out = service.add_gazette(a.paths, use_ocr=a.ocr)
+    elif a.dd_cmd == "gazette-logout":
+        out = service.gazette_logout()
     elif a.dd_cmd == "gazette-lookup":
         out = service.gazette_lookup(a.target, a.office, a.max_pages, a.court)
     else:
@@ -129,6 +131,7 @@ def main(argv=None):
     il.add_argument("target")
     il.add_argument("--max-ads", type=int, default=20)
     il.add_argument("--headed", action="store_true")
+    dsub.add_parser("gazette-logout", help="log out of the Ticaret Sicili Gazetesi now and delete the kept login")
     gl = dsub.add_parser("gazette-lookup", help="look up ONE company in the Ticaret Sicili Gazetesi with your own login")
     gl.add_argument("target")
     gl.add_argument("--office", required=True, help="ticaret sicili müdürlüğü, e.g. BURSA")

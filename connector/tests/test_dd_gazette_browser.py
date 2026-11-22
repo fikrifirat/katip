@@ -14,14 +14,22 @@ from katip_kalkan.dd.sources import gazette_browser as gb  # noqa: E402
 class FakePage:
     def __init__(self, fail_at=None):
         self.visited, self.fail_at, self.content_html = [], fail_at, "<a href='/view/menu/cikis.php'>ÇIKIŞ</a>"
+        self.url = ""
 
     def goto(self, url, **kw):
         self.visited.append(url)
+        self.url = url.replace("view/hizlierisim/girisyap.php", "index.php")  # the person logs in at once
         if self.fail_at and self.fail_at in url:
             raise RuntimeError("network down")
 
+    def evaluate(self, js, *a):
+        return self.url
+
     def content(self):
         return self.content_html
+
+    def wait_for_timeout(self, ms):
+        pass
 
 
 class FakeContext:
@@ -29,23 +37,57 @@ class FakeContext:
         self.page, self.closed = page, False
         self.pages = [page]
 
+    def new_page(self):
+        return self.page
+
+    def storage_state(self):
+        return {"cookies": [{"name": "PHPSESSID", "value": "x"}]}
+
     def close(self):
         self.closed = True
 
 
-def test_profile_is_deleted_and_logout_tried_even_when_the_run_fails(tmp_path):
+class FakeBrowser:
+    def __init__(self, page):
+        self.page, self.profiles, self.states, self.stopped = page, [], [], False
+
+    def visible(self, profile):
+        self.profiles.append(Path(profile))
+        assert Path(profile).exists()
+        return FakeContext(self.page)
+
+    def headless(self, state):
+        self.states.append(state)
+        return FakeContext(self.page)
+
+    def stop(self):
+        self.stopped = True
+
+
+@pytest.fixture(autouse=True)
+def katip_home(tmp_path, monkeypatch):
+    monkeypatch.setenv("KATIP_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path / "dd"))
+    monkeypatch.setenv("KATIP_NO_KEYCHAIN", "1")
+
+
+def test_failed_run_deletes_login_profile_and_logs_out_when_nothing_is_kept(tmp_path):
     page = FakePage(fail_at="ilangoruntuleme")
-    seen = {}
-
-    def launcher(profile):
-        seen["profile"] = Path(profile)
-        assert seen["profile"].exists()
-        return FakeContext(page)
-
+    b = FakeBrowser(page)
     with pytest.raises(RuntimeError):
-        gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, launcher=launcher, pause=0, login_timeout=1)
-    assert not seen["profile"].exists()
+        gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, browser=b, pause=0, login_timeout=1, poll=0,
+                  keep_hours=0)
+    assert not b.profiles[0].exists() and b.stopped
     assert any(v.endswith("/view/menu/cikis.php") for v in page.visited)
+    assert gb.session_read() is None
+
+
+def test_session_is_encrypted_and_expires(tmp_path):
+    exp = gb.session_save({"cookies": [{"name": "PHPSESSID", "value": "secret-cookie"}]}, hours=8)
+    raw = gb._session_file().read_bytes()
+    assert b"secret-cookie" not in raw and oct(gb._session_file().stat().st_mode)[-3:] == "600"
+    assert gb.session_read()["expires"] == exp
+    assert gb.session_save({"cookies": []}, hours=0) is None  # 0 hours: nothing kept
 
 
 def test_tr_upper_and_rows():
@@ -96,6 +138,6 @@ def test_login_wait_survives_navigation(tmp_path):
 
     page = Navigating()
     with pytest.raises(RuntimeError, match="network down"):  # got past the login wait to the search page
-        gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, launcher=lambda p: FakeContext(page), pause=0,
-                  login_timeout=30, poll=0)
-    assert page.calls >= 3 and any(v.endswith("/view/menu/cikis.php") for v in page.visited)
+        gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, browser=FakeBrowser(page), pause=0,
+                  login_timeout=30, poll=0, keep_hours=0)
+    assert page.calls >= 3

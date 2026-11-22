@@ -227,9 +227,9 @@ def add_gazette(paths, use_ocr: bool = False, store: Store | None = None) -> dic
 def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = False, store: Store | None = None) -> dict:
     """One named target on the Ticaret Sicili Gazetesi, through the lawyer's own login on this computer.
 
-    Opens Chrome on a new, empty profile; the lawyer logs in (e-Devlet); Katip searches the site's
-    own form, saves up to ``max_pages`` free gazette pages, logs out and deletes the profile, then
-    reads the pages with OCR into the index.
+    The first run opens Chrome on a new, empty profile for the lawyer's e-Devlet login; the site's
+    cookies are then kept encrypted for a few hours (KATIP_TSG_SESSION_HOURS, default 8) and later
+    runs search headless. Saves up to ``max_pages`` free gazette pages and reads them with OCR.
     """
     from .sources import gazette_browser
     from .store import home
@@ -244,7 +244,8 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
         return {"status": "error", "error": repr(e)[:300],
                 "note": "the run stopped; Katip tried to log out on the site and deleted the browser profile"}
     out = {"status": "blocked" if info.get("blocked") and not saved else "ok", "results_on_site": info.get("results"),
-           "saved_pages": len(saved), "logged_out": info.get("logged_out"), "blocked": info.get("blocked"),
+           "saved_pages": len(saved), "login": info.get("session"), "logged_out": info.get("logged_out"),
+           "blocked": info.get("blocked"),
            "notices_on_site": info.get("notices", [])[:30]}
     if saved:
         ing = add_gazette(saved, use_ocr=True, store=store)
@@ -253,3 +254,13 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
             out.update(status=ing["status"], error=ing.get("error"))
     out["next"] = "call dd_screen with the same name to see the notices that mention it"
     return out
+
+
+def gazette_logout() -> dict:
+    """Log out of the Ticaret Sicili Gazetesi now and delete the kept login."""
+    from .sources import gazette_browser
+    try:
+        return gazette_browser.logout()
+    except ImportError:
+        gazette_browser.session_delete()
+        return {"status": "ok", "note": "Playwright is missing, so the site was not told; the kept login was deleted"}

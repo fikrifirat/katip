@@ -61,7 +61,7 @@ def main(bundle: str) -> None:
 
     rpc("initialize", {"protocolVersion": "2025-06-18", "capabilities": {}, "clientInfo": {"name": "smoke"}})
     tools = {t["name"]: t for t in rpc("tools/list")["result"]["tools"]}
-    assert len(tools) == 17, tools.keys()  # 11 Kalkan tools + 6 Katip DD tools
+    assert len(tools) == 18, tools.keys()  # 11 Kalkan tools + 7 Katip DD tools
     manifest = {t["name"] for t in json.load(open(Path(__file__).parents[1] / "manifest.json"))["tools"]}
     assert manifest == set(tools), set(tools) ^ manifest
     info = tools["mask_file"]["inputSchema"]["properties"]["bilgi"]["default"]

@@ -24,6 +24,9 @@ CHROME = next((p for p in [os.environ.get("KATIP_TEST_CHROMIUM", ""), "/opt/pw-b
                            "/opt/pw-browsers/chromium-1243/chrome-linux64/chrome"] if p and Path(p).exists()), None)
 
 
+SANDBOX = getattr(os, "geteuid", lambda: 1)() != 0  # Chrome's sandbox refuses to run as root (CI containers)
+
+
 class Site(BaseHTTPRequestHandler):
     log = []
     new_tab = True
@@ -78,30 +81,73 @@ class Site(BaseHTTPRequestHandler):
         return self._send("not found", code=404)
 
 
-@pytest.mark.skipif(CHROME is None, reason="no Chromium binary")
-@pytest.mark.parametrize("new_tab", [True, False], ids=["login-in-new-tab", "login-in-same-tab"])
-def test_lookup_end_to_end(tmp_path, new_tab):
-    Site.new_tab, Site.log = new_tab, []
+@pytest.fixture
+def site(tmp_path, monkeypatch):
+    monkeypatch.setenv("KATIP_HOME", str(tmp_path / "home"))
+    monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path / "dd"))
+    monkeypatch.setenv("KATIP_NO_KEYCHAIN", "1")
+    Site.log = []
     srv = ThreadingHTTPServer(("127.0.0.1", 0), Site)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
-    base = f"http://127.0.0.1:{srv.server_address[1]}"
-    profiles = []
+    yield f"http://127.0.0.1:{srv.server_address[1]}"
+    srv.shutdown()
 
-    def launcher(profile):
-        profiles.append(Path(profile))
-        p = pw.sync_playwright().start()
-        ctx = p.chromium.launch_persistent_context(profile, executable_path=CHROME, headless=True)
-        ctx._katip_pw = p
-        return ctx
 
-    lines = []
-    try:
-        saved, info = gb.lookup("Kuzeyrüzgarı", "Bursa", out_dir=tmp_path, launcher=launcher, pause=0.2,
-                                login_timeout=30, poll=0.3, base=base, say=lines.append)
-    finally:
-        srv.shutdown()
-    assert info["blocked"] is None, (info, lines)
+class Counting(gb._Playwright):
+    def __init__(self):
+        super().__init__(executable_path=CHROME, headless_login=True, sandbox=SANDBOX)
+        self.logins = 0
+
+    def visible(self, profile):
+        self.logins += 1
+        self.profile = Path(profile)
+        return super().visible(profile)
+
+
+def run(base, tmp_path, **kw):
+    b = Counting()
+    saved, info = gb.lookup("Kuzeyrüzgarı", "Bursa", out_dir=tmp_path / "out", browser=b, pause=0.1,
+                            login_timeout=30, poll=0.3, base=base, say=lambda *_: None, **kw)
+    return b, saved, info
+
+
+pytestmark = pytest.mark.skipif(CHROME is None, reason="no Chromium binary")
+
+
+@pytest.mark.parametrize("new_tab", [True, False], ids=["login-in-new-tab", "login-in-same-tab"])
+def test_login_once_then_headless_until_logout(site, tmp_path, new_tab):
+    Site.new_tab = new_tab
+    b, saved, info = run(site, tmp_path, keep_hours=8)
+    assert info["blocked"] is None, info
     assert [p.name for p in saved] == ["tsg_2026-11-19_11712_p101.pdf"] and saved[0].read_bytes() == PDF
-    assert info["logged_out"] is True
-    assert not profiles[0].exists()
-    assert "/cart" not in Site.log and any(x.startswith("/view/menu/cikis.php") for x in Site.log)
+    assert b.logins == 1 and not b.profile.exists() and gb.session_read() is not None
+    b2, saved2, info2 = run(site, tmp_path, keep_hours=8)  # second run: no window, saved login
+    assert b2.logins == 0 and info2["session"] == "reused saved login" and saved2
+    out = gb.logout(browser=gb._Playwright(executable_path=CHROME, sandbox=SANDBOX), base=site)
+    assert out["logged_out"] is True and gb.session_read() is None
+    assert "/cart" not in Site.log
+
+
+def test_nothing_kept_means_logged_out_after_the_run(site, tmp_path):
+    Site.new_tab = False
+    b, saved, info = run(site, tmp_path, keep_hours=0)
+    assert saved and info["logged_out"] is True and gb.session_read() is None
+
+
+def test_expired_login_is_logged_out_then_asked_again(site, tmp_path):
+    Site.new_tab = False
+    run(site, tmp_path, keep_hours=8)
+    sess = gb.session_read()
+    gb.session_save(sess["state"], hours=1)
+    f = gb._session_file()
+    import json
+    from katip_kalkan import vault
+    raw = f.read_bytes()
+    data = json.loads(vault.AESGCM(vault._key()).decrypt(raw[:12], raw[12:], gb._AAD))
+    data["expires"] = 0
+    nonce = os.urandom(12)
+    f.write_bytes(nonce + vault.AESGCM(vault._key()).encrypt(nonce, json.dumps(data).encode(), gb._AAD))
+    Site.log = []
+    b, saved, info = run(site, tmp_path, keep_hours=8)
+    assert b.logins == 1 and saved  # asked to log in again
+    assert Site.log.index("/view/menu/cikis.php") < Site.log.index("/view/hizlierisim/girisyap.php")
