@@ -45,7 +45,7 @@ def test_profile_is_deleted_and_logout_tried_even_when_the_run_fails(tmp_path):
     with pytest.raises(RuntimeError):
         gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, launcher=launcher, pause=0, login_timeout=1)
     assert not seen["profile"].exists()
-    assert page.visited[-1].endswith("/view/menu/cikis.php")
+    assert any(v.endswith("/view/menu/cikis.php") for v in page.visited)
 
 
 def test_tr_upper_and_rows():
@@ -98,4 +98,4 @@ def test_login_wait_survives_navigation(tmp_path):
     with pytest.raises(RuntimeError, match="network down"):  # got past the login wait to the search page
         gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, launcher=lambda p: FakeContext(page), pause=0,
                   login_timeout=30, poll=0)
-    assert page.calls >= 3 and page.visited[-1].endswith("/view/menu/cikis.php")
+    assert page.calls >= 3 and any(v.endswith("/view/menu/cikis.php") for v in page.visited)

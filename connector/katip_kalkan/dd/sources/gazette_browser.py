@@ -87,27 +87,63 @@ def _close(ctx) -> None:
 _LOGOUT_MARK = re.compile(r"cikis\.php|ÇIKIŞ|Çıkış", re.I)
 
 
+def _live_url(pg) -> str:
+    """The tab's address now. Playwright's ``page.url`` only updates while Playwright is called,
+    so ask the page itself."""
+    try:
+        return pg.evaluate("location.href")
+    except Exception:  # noqa: BLE001 - navigating or closed
+        return str(getattr(pg, "url", "") or "")
+
+
 def _tabs(ctx) -> list[str]:
-    return [str(getattr(pg, "url", "")) for pg in list(getattr(ctx, "pages", []))]
+    return [_live_url(pg) for pg in list(getattr(ctx, "pages", []))]
 
 
-def _logged_in(ctx) -> bool:
-    """True once any ticaretsicil.gov.tr tab shows the logout link. While e-Devlet redirects, a
-    tab is navigating and reading it raises; that just means "not yet"."""
+def _logged_in(ctx, base: str = BASE) -> bool:
+    """True once any tab on the site, other than the login page, shows the logout link. While
+    e-Devlet redirects, a tab is navigating and reading it raises; that just means "not yet"."""
+    host = base.split("//", 1)[-1]
     for pg in list(getattr(ctx, "pages", [])):
         try:
-            url = getattr(pg, "url", "") or "ticaretsicil.gov.tr"
-            if "ticaretsicil.gov.tr" in url and "girisyap.php" not in url and _LOGOUT_MARK.search(pg.content()):
+            url = _live_url(pg) or base
+            if host in url and "girisyap.php" not in url and _LOGOUT_MARK.search(pg.content()):
                 return True
-        except Exception:  # noqa: BLE001 - navigating, closed, or not loaded yet
+        except Exception:  # noqa: BLE001
             continue
     return False
 
 
+def _wait(ctx, seconds: float) -> None:
+    """Sleep while letting Playwright process browser events (new tabs, navigations)."""
+    try:
+        ctx.pages[0].wait_for_timeout(seconds * 1000)
+    except Exception:  # noqa: BLE001
+        time.sleep(seconds)
+
+
+def _enter_pressed() -> bool:
+    try:
+        import select
+        import sys
+        if not sys.stdin.isatty():
+            return False
+        r, _, _ = select.select([sys.stdin], [], [], 0)
+        if r:
+            sys.stdin.readline()
+            return True
+    except Exception:  # noqa: BLE001 - no select on this platform
+        pass
+    return False
+
+
 def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: bool = False, pause: float = 6.0,
-           login_timeout: float = 360, launcher=None, say=print, poll: float = 3.0) -> tuple[list[Path], dict]:
+           login_timeout: float = 360, launcher=None, say=print, poll: float = 3.0,
+           base: str = BASE) -> tuple[list[Path], dict]:
     if len(name.strip()) < 5:
         raise ValueError("the site needs at least the first 5 letters of the name")
+    login, search, logout = (base + "/view/hizlierisim/girisyap.php", base + "/view/hizlierisim/ilangoruntuleme.php",
+                             base + "/view/menu/cikis.php")
     out_dir = Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     profile = tempfile.mkdtemp(prefix="katip-tsg-")
@@ -117,12 +153,18 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
     try:
         ctx = (launcher or _chrome)(profile)
         page = ctx.pages[0] if ctx.pages else ctx.new_page()
-        page.goto(LOGIN, wait_until="domcontentloaded", timeout=90000)
-        say("Log in with e-Devlet in the Chrome window that just opened (Katip waits up to "
-            f"{int(login_timeout // 60)} min; it logs out and forgets the login when done).")
-        t0 = time.time()
-        last = t0
-        while not _logged_in(ctx):
+        page.goto(login, wait_until="domcontentloaded", timeout=90000)
+        say("Log in with e-Devlet in the Chrome window that just opened. Katip notices the login by itself "
+            f"(or press Enter here once you are in). It waits up to {int(login_timeout // 60)} min, and logs out "
+            "and forgets the login when done.")
+        t0 = last = time.time()
+        while not _logged_in(ctx, base):
+            if _enter_pressed():
+                pg = ctx.pages[-1]
+                pg.goto(search, wait_until="domcontentloaded", timeout=90000)
+                if "girisyap.php" not in _live_url(pg):
+                    break
+                say("  the site still shows its login page; finish the login in the Chrome window")
             if time.time() - t0 > login_timeout:
                 info["blocked"] = "not logged in within the time limit"
                 info["tabs"] = _tabs(ctx)
@@ -130,15 +172,16 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
             if time.time() - last > 15:
                 last = time.time()
                 say(f"  waiting for the login... open tabs: {', '.join(_tabs(ctx)) or '-'}")
-            time.sleep(poll)
+            _wait(ctx, poll)
         say("Logged in. Searching the gazette (a few seconds between pages)...")
-        page = next((pg for pg in ctx.pages if "ticaretsicil.gov.tr" in (getattr(pg, "url", "") or "ticaretsicil.gov.tr")), page)
+        host = base.split("//", 1)[-1]
+        page = next((pg for pg in reversed(ctx.pages) if host in (_live_url(pg) or host)), page)
         try:
             page.wait_for_load_state("domcontentloaded")
         except Exception:  # noqa: BLE001
             pass
         time.sleep(pause)
-        page.goto(SEARCH, wait_until="domcontentloaded", timeout=90000)
+        page.goto(search, wait_until="domcontentloaded", timeout=90000)
         if "girisyap.php" in page.url:
             info["blocked"] = "login was not accepted"
             return saved, info
@@ -179,8 +222,9 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
             for attempt in range(3):  # the page may still be navigating; the logout must happen
                 try:
                     pg = ctx.pages[0] if ctx.pages else ctx.new_page()
-                    pg.goto(LOGOUT, wait_until="domcontentloaded", timeout=30000)
-                    info["logged_out"] = not _logged_in(ctx)
+                    pg.goto(logout, wait_until="domcontentloaded", timeout=30000)
+                    pg.goto(search, wait_until="domcontentloaded", timeout=30000)  # proof: the site sends us to login
+                    info["logged_out"] = "girisyap.php" in _live_url(pg)
                     info.pop("logout_error", None)
                     break
                 except Exception as e:  # noqa: BLE001
