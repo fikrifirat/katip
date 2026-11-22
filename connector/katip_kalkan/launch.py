@@ -18,6 +18,8 @@ from pathlib import Path
 # pymupdf: PDFs; rapidocr: PaddleOCR for scans. Bump them together and rerun the tests.
 DEPS = {"onnxruntime": "onnxruntime==1.32.0", "numpy": "numpy==2.5.4", "cryptography": "cryptography==50.0.2",
         "pymupdf": "pymupdf==2.1", "rapidocr": "rapidocr==3.10.0",
+        # Katip DD: drives the Google Chrome already on this computer (no browser download)
+        "playwright": "playwright==1.65.2",
         # detection rules and the pinned, SHA-256-checked model downloads; = engine.SDK_PIN (a test checks)
         "katip_mask": "katip-mask==0.1.1"}
 PYTHON = "3.12"  # uv fetches this Python once if the computer doesn't have it
