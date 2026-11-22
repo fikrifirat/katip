@@ -7,6 +7,7 @@ Playwright or a Chromium is not installed.
 from __future__ import annotations
 
 import os
+import time
 import sys
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
@@ -151,3 +152,12 @@ def test_expired_login_is_logged_out_then_asked_again(site, tmp_path):
     b, saved, info = run(site, tmp_path, keep_hours=8)
     assert b.logins == 1 and saved  # asked to log in again
     assert Site.log.index("/view/menu/cikis.php") < Site.log.index("/view/hizlierisim/girisyap.php")
+
+
+def test_unknown_registry_office_stops_without_a_30_second_wait(site, tmp_path):
+    Site.new_tab = False
+    b = Counting()
+    t = time.time()
+    saved, info = gb.lookup("Kuzeyrüzgarı", "Narnia", out_dir=tmp_path / "out", browser=b, pause=0.1,
+                            login_timeout=30, poll=0.3, base=site, say=lambda *_: None, keep_hours=0)
+    assert not saved and "not on the site's list" in info["blocked"] and time.time() - t < 25

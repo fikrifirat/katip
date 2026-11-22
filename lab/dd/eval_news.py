@@ -136,8 +136,10 @@ def main():
             if not office:
                 log["gazette"].append({"query": c["query"], "status": "skipped", "why": "registry office unknown"})
                 continue
-            if any(x.get("blocked") == "not logged in within the time limit" for x in log["gazette"]):
-                log["gazette"].append({"query": c["query"], "status": "skipped", "why": "no login"})
+            stop = next((x["blocked"] for x in log["gazette"] if x.get("blocked") in
+                         ("not logged in within the time limit", "security code asked")), None)
+            if stop:  # never retry past a captcha or a missed login: stop the run
+                log["gazette"].append({"query": c["query"], "status": "skipped", "why": stop})
                 continue
             print(f"Gazette: {c['query']} ({office})", flush=True)
             try:

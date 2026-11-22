@@ -144,3 +144,13 @@ def test_login_wait_survives_navigation(tmp_path):
         gb.lookup("Kuzeyrüzgarı Tekstil", "BURSA", out_dir=tmp_path, browser=FakeBrowser(page), pause=0,
                   login_timeout=30, poll=0, keep_hours=0)
     assert page.calls >= 3
+
+
+def test_registry_office_from_court_district():
+    opts = ["Seçiniz", "ANKARA", "BURSA", "İSTANBUL", "İZMİR"]
+    assert gb.resolve_office("Bursa", opts) == "BURSA"
+    assert gb.resolve_office("izmir", opts) == "İZMİR"
+    assert gb.resolve_office("BAKIRKÖY", opts) == "İSTANBUL"  # a court district, registered in Istanbul
+    assert gb.resolve_office("İstanbul Anadolu", opts) == "İSTANBUL"
+    assert gb.resolve_office("Ankara Batı", opts) == "ANKARA"
+    assert gb.resolve_office("Narnia", opts) == ""

@@ -46,6 +46,28 @@ def _iso(d: str) -> str:
     return f"{m.group(3)}-{int(m.group(2)):02d}-{int(m.group(1)):02d}" if m else ""
 
 
+# Court districts that are not registry offices of their own: the company is registered in the city.
+_COURT_CITY = {"BAKIRKÖY": "İSTANBUL", "ANADOLU": "İSTANBUL", "KARTAL": "İSTANBUL",
+               "KÜÇÜKÇEKMECE": "İSTANBUL", "BÜYÜKÇEKMECE": "İSTANBUL", "GAZİOSMANPAŞA": "İSTANBUL",
+               "ÇATALCA": "İSTANBUL", "SİLİVRİ": "İSTANBUL", "ŞİLE": "İSTANBUL", "BATI": "ANKARA"}
+
+
+def resolve_office(office: str, options: list[str]) -> str:
+    """The site's label for a registry office, or "" if it is not on the list.
+
+    Takes the office as typed, or the city of an Istanbul/Ankara court district (Bakırköy → İSTANBUL).
+    """
+    want = tr_upper(office).strip()
+    labels = {tr_upper(o).strip(): o for o in options if o.strip()}
+    if want in labels:
+        return labels[want]
+    for word in want.split():
+        city = _COURT_CITY.get(word)
+        if city and city in labels:
+            return labels[city]
+    return ""
+
+
 def parse_results(rows: list[list[str]], links: list[str]) -> list[dict]:
     """Result table rows (header first) + the 'Gazete' links in row order -> notices to fetch."""
     if not rows:
@@ -332,7 +354,13 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
                 info["blocked"] = "the site did not accept the login in the background window"
                 return saved, info
         say("Searching the gazette in the background (a few seconds between pages)...")
-        page.select_option("#SicilMudurluguId", label=tr_upper(office))
+        options = page.eval_on_selector_all("#SicilMudurluguId option", "os => os.map(o => o.textContent.trim())")
+        label = resolve_office(office, options)
+        if not label:
+            info["blocked"] = f"registry office {tr_upper(office)!r} is not on the site's list"
+            return saved, info
+        info["office"] = label
+        page.select_option("#SicilMudurluguId", label=label)
         if court:
             page.check("#BagliIlan")
         page.fill("#TicaretUnvani", tr_upper(name))
