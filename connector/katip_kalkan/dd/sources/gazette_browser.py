@@ -30,6 +30,7 @@ LOGIN = BASE + "/view/hizlierisim/girisyap.php"
 SEARCH = BASE + "/view/hizlierisim/ilangoruntuleme.php"
 LOGOUT = BASE + "/view/menu/cikis.php"
 
+_PDF_SRC = re.compile(r'(?:src|data)="(/tmp_gazete/[^"]+\.pdf)"')
 _TXT = "async (u) => { const r = await fetch(u, {credentials: 'include'}); return await r.text(); }"
 _BIN = """async (u) => { const r = await fetch(u, {credentials: 'include'});
   const b = new Uint8Array(await r.arrayBuffer()); let s = '';
@@ -77,13 +78,14 @@ def parse_results(rows: list[list[str]], links: list[str]) -> list[dict]:
     def col(name):
         return next((i for i, h in enumerate(head) if name in h), None)
 
-    ix = {k: col(k) for k in ("müdürlük", "unvan", "tarih", "sayı", "sayfa", "tür")}
+    ix = {k: col(k) for k in ("müdürlük", "sicil", "unvan", "tarih", "sayı", "sayfa", "tür")}
     out = []
     for r, href in zip([r for r in rows[1:] if len(r) >= len(head) - 2], links):
         g = lambda k: r[ix[k]].strip() if ix[k] is not None and ix[k] < len(r) else ""  # noqa: E731
         date, issue, page = _iso(g("tarih")), g("sayı"), g("sayfa")
-        out.append({"office": g("müdürlük"), "unvan": g("unvan"), "date": date, "issue": issue, "page": page,
-                    "type": g("tür"), "href": href, "file": f"tsg_{date}_{issue}_p{page}.pdf"})
+        out.append({"office": g("müdürlük"), "sicil_no": g("sicil"), "unvan": g("unvan"), "date": date, "issue": issue,
+                    "page": page, "type": g("tür"), "href": href, "file": f"tsg_{date}_{issue}_p{page}.pdf",
+                    "row": [c for c in r[:len(head)] if c and c not in ("Gazete", "Sepete Ekle")]})
     return out
 
 
@@ -300,9 +302,43 @@ def _visible_login(b, base: str, login_timeout: float, poll: float, say) -> dict
         shutil.rmtree(profile, ignore_errors=True)
 
 
+def _visible_code(b, state: dict, url: str, timeout: float, poll: float, say) -> dict | None:
+    """The site asked for its security code: show that page in a visible window with the lawyer's own
+    login, and let the lawyer type the code. Katip never reads or fills the code. Returns the cookies
+    after the gazette page opens, or None if nobody typed it in time."""
+    profile = tempfile.mkdtemp(prefix="katip-tsg-")
+    ctx = None
+    try:
+        ctx = b.visible(profile)
+        ctx.add_cookies(state.get("cookies", []))
+        page = ctx.pages[0] if ctx.pages else ctx.new_page()
+        page.goto(url, wait_until="domcontentloaded", timeout=90000)
+        say("The Gazette site asks for its security code. Type it in the Chrome window that just opened; "
+            f"Katip then carries on in the background. It waits up to {int(timeout // 60)} min.")
+        t0 = time.time()
+        while time.time() - t0 < timeout:
+            for pg in list(ctx.pages):
+                try:
+                    html = pg.content()
+                except Exception:  # noqa: BLE001 - navigating after the lawyer pressed the button
+                    continue
+                if _PDF_SRC.search(html):
+                    _wait(ctx, 1)
+                    return ctx.storage_state()
+            _wait(ctx, poll)
+        return None
+    finally:
+        if ctx is not None:
+            try:
+                ctx.close()
+            except Exception:  # noqa: BLE001
+                pass
+        shutil.rmtree(profile, ignore_errors=True)
+
+
 def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: bool = False, pause: float = 6.0,
            login_timeout: float = 360, browser=None, say=print, poll: float = 3.0, base: str = BASE,
-           keep_hours: float | None = None) -> tuple[list[Path], dict]:
+           keep_hours: float | None = None, code_timeout: float = 240) -> tuple[list[Path], dict]:
     if len(name.strip()) < 5:
         raise ValueError("the site needs at least the first 5 letters of the name")
     keep = keep_hours_default() if keep_hours is None else keep_hours
@@ -373,13 +409,30 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
         hits = parse_results(next((rows[i:] for i, r in enumerate(rows) if any("Unvan" in c for c in r)), []), links)
         info["results"] = len(hits)
         say(f"{len(hits)} notices on the site; saving up to {max_pages} gazette pages...")
-        info["notices"] = [{k: h[k] for k in ("date", "issue", "page", "type", "unvan")} for h in hits]
+        info["notices"] = [{k: h[k] for k in ("date", "issue", "page", "type", "unvan", "office", "sicil_no", "file", "row")}
+                           for h in hits]
+        info["court"] = court
         pages: dict[str, dict] = {}
         for h in hits:  # two notices on one gazette page: fetch the page once (each fetch counts toward the captcha)
             pages.setdefault(h["file"], h)
+        codes = 0
         for h in list(pages.values())[:max_pages]:
-            html = page.evaluate(_TXT, "/view/hizlierisim/" + h["href"].lstrip("/"))
-            m = re.search(r'(?:src|data)="(/tmp_gazete/[^"]+\.pdf)"', html)
+            rel = "/view/hizlierisim/" + h["href"].lstrip("/")
+            html = page.evaluate(_TXT, rel)
+            m = _PDF_SRC.search(html)
+            if not m and "FormGuvenlikKodu" in html and codes < 2 and code_timeout > 0:
+                codes += 1  # the lawyer types the code in a visible window; Katip never solves it
+                state = _visible_code(b, ctx.storage_state(), base + rel, code_timeout, poll, say)
+                if state is not None:
+                    info["security_code"] = "typed by you in the Chrome window"
+                    if keep > 0:
+                        session_save(state, keep)
+                    ctx.close()
+                    ctx = b.headless(state)
+                    page = ctx.new_page()
+                    page.goto(search, wait_until="domcontentloaded", timeout=90000)
+                    html = page.evaluate(_TXT, rel)
+                    m = _PDF_SRC.search(html)
             if not m:
                 info["blocked"] = "security code asked" if "FormGuvenlikKodu" in html else "gazette page not found"
                 break

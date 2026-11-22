@@ -31,6 +31,8 @@ SANDBOX = getattr(os, "geteuid", lambda: 1)() != 0  # Chrome's sandbox refuses t
 class Site(BaseHTTPRequestHandler):
     log = []
     new_tab = True
+    captcha = False      # pdf_goster asks for the security code until the code cookie is set
+    lawyer_types = True  # the page "types" the code itself, standing in for the lawyer
 
     def log_message(self, *a):
         pass
@@ -75,6 +77,12 @@ class Site(BaseHTTPRequestHandler):
                               "<option value=40>BURSA</option></select><input id=TicSicNo name=TicSicNo>"
                               "<input id=TicaretUnvani name=TicaretUnvani><input type=checkbox id=BagliIlan name=BagliIlan>"
                               "<button type=submit>Sorgula</button></form>" + table)
+        if p.startswith("/kod"):
+            return self._send("", code=302, headers=[("Location", "/view/hizlierisim/pdf_goster.php?Guid=a"),
+                                                     ("Set-Cookie", "code=1; Path=/")])
+        if p.startswith("/view/hizlierisim/pdf_goster.php") and Site.captcha and "code=1" not in (self.headers.get("Cookie") or ""):
+            js = "<script>setTimeout(()=>location='/kod',800)</script>" if Site.lawyer_types else ""
+            return self._send("<form id=FormGuvenlikKodu><img src='/x.png'><input name=kod></form>" + js)
         if p.startswith("/view/hizlierisim/pdf_goster.php"):
             return self._send("<embed src=\"/tmp_gazete/x1.pdf\" type=\"application/pdf\" />")
         if p.startswith("/tmp_gazete/"):
@@ -91,7 +99,7 @@ def site(tmp_path, monkeypatch):
     monkeypatch.setenv("KATIP_HOME", str(tmp_path / "home"))
     monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path / "dd"))
     monkeypatch.setenv("KATIP_NO_KEYCHAIN", "1")
-    Site.log = []
+    Site.log, Site.captcha, Site.lawyer_types = [], False, True
     srv = ThreadingHTTPServer(("127.0.0.1", 0), Site)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     yield f"http://127.0.0.1:{srv.server_address[1]}"
@@ -166,3 +174,17 @@ def test_unknown_registry_office_stops_without_a_30_second_wait(site, tmp_path):
     saved, info = gb.lookup("Kuzeyrüzgarı", "Narnia", out_dir=tmp_path / "out", browser=b, pause=0.1,
                             login_timeout=30, poll=0.3, base=site, say=lambda *_: None, keep_hours=0)
     assert not saved and "not on the site's list" in info["blocked"] and time.time() - t < 25
+
+
+def test_security_code_is_typed_by_the_lawyer_in_a_window_then_background(site, tmp_path):
+    Site.new_tab, Site.captcha = False, True
+    b, saved, info = run(site, tmp_path, keep_hours=8)
+    assert saved and info["blocked"] is None and info["security_code"].startswith("typed by you")
+    assert b.logins == 2  # one window for e-Devlet, one for the code; Katip never fills the code itself
+    assert "/cart" not in Site.log
+
+
+def test_no_code_typed_stops_cleanly(site, tmp_path):
+    Site.new_tab, Site.captcha, Site.lawyer_types = False, True, False
+    b, saved, info = run(site, tmp_path, keep_hours=0, code_timeout=3)
+    assert not saved and info["blocked"] == "security code asked" and info["logged_out"] is True

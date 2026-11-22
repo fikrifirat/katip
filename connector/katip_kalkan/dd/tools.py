@@ -72,10 +72,13 @@ def local_tools() -> list[Tool]:
         Tool("dd_gazette_lookup", "Ticaret Sicili Gazetesi'nde ara · Look up one name in the Trade Registry Gazette",
              "Search the Türkiye Ticaret Sicili Gazetesi for ONE named DD target. Opens Chrome on this computer; the "
              "lawyer logs in with e-Devlet themselves (Katip never types credentials). Katip searches the site's own "
-             "form (registry office + at least the first 5 letters of the name), saves up to 3 free gazette pages and "
-             "reads them with OCR. The login is kept encrypted for a few hours, so later lookups run in the background "
-             "without a window; dd_gazette_logout ends it. Takes a few minutes. Then call dd_screen. Needs Playwright "
-             "and OCR on this computer.",
+             "form (registry office + at least the first 5 letters of the name), returns the site's FULL result list "
+             "(notices_on_site, each with a citation) and reads up to 3 of those gazette pages with OCR; the rest are "
+             "listed only (read=false): say so in a report, never present the read ones as all. If the site asks for "
+             "its security code, a Chrome window opens for the lawyer to type it (Katip never solves it). Court "
+             "notices (konkordato, iflas) need a second call with court=true. The login is kept encrypted for a few "
+             "hours, so later lookups run in the background; dd_gazette_logout ends it. Then call dd_screen. Needs "
+             "Playwright and OCR on this computer.",
              {"type": "object", "properties": {
                  "target": {"type": "string", "description": "Company name (at least 5 letters) as registered"},
                  "office": {"type": "string", "description": "Ticaret sicili müdürlüğü, e.g. BURSA, İSTANBUL, ANKARA"},
