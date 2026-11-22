@@ -67,9 +67,10 @@ def _chrome(profile: str):
 
     pw = sync_playwright().start()
     try:
-        ctx = pw.chromium.launch_persistent_context(profile, channel="chrome", headless=False, locale="tr-TR")
+        ctx = pw.chromium.launch_persistent_context(profile, channel="chrome", headless=False, locale="tr-TR",
+                                                    chromium_sandbox=True)  # Playwright adds --no-sandbox otherwise
     except Exception:
-        ctx = pw.chromium.launch_persistent_context(profile, headless=False, locale="tr-TR")
+        ctx = pw.chromium.launch_persistent_context(profile, headless=False, locale="tr-TR", chromium_sandbox=True)
     ctx._katip_pw = pw  # stopped in _close
     return ctx
 
@@ -83,12 +84,20 @@ def _close(ctx) -> None:
             pw.stop()
 
 
+_LOGOUT_MARK = re.compile(r"cikis\.php|ÇIKIŞ|Çıkış", re.I)
+
+
+def _tabs(ctx) -> list[str]:
+    return [str(getattr(pg, "url", "")) for pg in list(getattr(ctx, "pages", []))]
+
+
 def _logged_in(ctx) -> bool:
-    """True once any tab shows the site's logout link. While e-Devlet redirects, a tab is
-    navigating and reading it raises; that just means "not yet"."""
+    """True once any ticaretsicil.gov.tr tab shows the logout link. While e-Devlet redirects, a
+    tab is navigating and reading it raises; that just means "not yet"."""
     for pg in list(getattr(ctx, "pages", [])):
         try:
-            if "ticaretsicil.gov.tr" in (getattr(pg, "url", "") or "ticaretsicil.gov.tr") and "cikis.php" in pg.content():
+            url = getattr(pg, "url", "") or "ticaretsicil.gov.tr"
+            if "ticaretsicil.gov.tr" in url and "girisyap.php" not in url and _LOGOUT_MARK.search(pg.content()):
                 return True
         except Exception:  # noqa: BLE001 - navigating, closed, or not loaded yet
             continue
@@ -112,11 +121,17 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
         say("Log in with e-Devlet in the Chrome window that just opened (Katip waits up to "
             f"{int(login_timeout // 60)} min; it logs out and forgets the login when done).")
         t0 = time.time()
+        last = t0
         while not _logged_in(ctx):
             if time.time() - t0 > login_timeout:
                 info["blocked"] = "not logged in within the time limit"
+                info["tabs"] = _tabs(ctx)
                 return saved, info
+            if time.time() - last > 15:
+                last = time.time()
+                say(f"  waiting for the login... open tabs: {', '.join(_tabs(ctx)) or '-'}")
             time.sleep(poll)
+        say("Logged in. Searching the gazette (a few seconds between pages)...")
         page = next((pg for pg in ctx.pages if "ticaretsicil.gov.tr" in (getattr(pg, "url", "") or "ticaretsicil.gov.tr")), page)
         try:
             page.wait_for_load_state("domcontentloaded")
@@ -139,6 +154,7 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
         rows = [r for r in rows if r]
         hits = parse_results(next((rows[i:] for i, r in enumerate(rows) if any("Unvan" in c for c in r)), []), links)
         info["results"] = len(hits)
+        say(f"{len(hits)} notices on the site; saving up to {max_pages} gazette pages...")
         info["notices"] = [{k: h[k] for k in ("date", "issue", "page", "type", "unvan")} for h in hits]
         for h in hits[:max_pages]:
             html = page.evaluate(_TXT, "/view/hizlierisim/" + h["href"].lstrip("/"))
@@ -155,6 +171,7 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
             p = out_dir / h["file"]
             p.write_bytes(body)
             saved.append(p)
+            say(f"  saved {p.name}")
             time.sleep(pause)
         return saved, info
     finally:
