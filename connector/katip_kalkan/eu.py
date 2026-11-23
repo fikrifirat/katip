@@ -18,6 +18,7 @@ the computer. Values that are not detected are not covered.
 """
 from __future__ import annotations
 
+import os
 import re
 
 # ---------------------------------------------------------------- labels
@@ -125,6 +126,24 @@ def be_nn_valid(s: str) -> bool:
     return 97 - body % 97 == check or 97 - int("2" + d[:9]) % 97 == check
 
 
+def hetu_valid(s: str) -> bool:
+    """FI henkilötunnus DDMMYY[-+A-FU-Y]NNNC: check character = table[DDMMYYNNN mod 31]."""
+    m = re.fullmatch(r"(\d{6})[-+A-FU-Y](\d{3})([0-9A-Y])", s.upper())
+    return bool(m) and "0123456789ABCDEFHJKLMNPRSTUVWXY"[int(m.group(1) + m.group(2)) % 31] == m.group(3)
+
+
+def nss_es_valid(s: str) -> bool:
+    """ES número de la Seguridad Social: 12 digits, the last two = first ten mod 97."""
+    d = _digits(s)
+    return len(d) == 12 and int(d[:10]) % 97 == int(d[10:])
+
+
+def rvnr_shape(s: str) -> bool:
+    """DE Rentenversicherungsnummer: area 2 digits, birth date DDMMYY, initial letter, serial 2 digits, check digit."""
+    m = re.fullmatch(r"(\d{2})\s?(\d{2})(\d{2})(\d{2})\s?([A-Z])\s?(\d{3})", s.upper())
+    return bool(m) and 1 <= int(m.group(2)) <= 31 and 1 <= int(m.group(3)) <= 12
+
+
 def pesel_valid(s: str) -> bool:
     d = _digits(s)
     if len(d) != 11:
@@ -156,7 +175,14 @@ ID_CUES = ("bsn", "burgerservicenummer", "sofinummer", "steuer-id", "steuerid", 
            "nir", "n° ss", "insee", "codice fiscale", "cod. fisc", "c.f.", "dni", "nie", "nif", "rijksregisternummer",
            "rijksregister", "registre national", "numéro national", "national number", "niss", "insz", "pesel",
            "national id", "national identification", "personal number", "personal id", "personnummer",
-           "social security", "ssn", "tax id", "tin", "id number", "identity number", "citizen service number")
+           "social security", "ssn", "tax id", "tin", "id number", "identity number", "citizen service number",
+           "henkilötunnus", "hetu", "personal identity code", "rentenversicherungsnummer", "sozialversicherungsnummer",
+           "rv-nr", "seguridad social", "nss", "naf", "steuernummer", "tc kimlik", "kimlik no", "yabancı kimlik",
+           "cnp", "cod numeric personal", "isikukood", "egn", "егн", "oib", "ppsn", "pps number", "amka", "αμκα", "afm",
+           "αφμ", "krankenversicherungsnummer", "versichertennummer", "kvnr", "tessera sanitaria", "codice sanitario",
+           "rodné číslo", "rodne cislo", "emšo", "emso", "asmens kodas", "personas kods", "henkilötunnus",
+           "sozialversicherung", "svnr", "personnummer", "cpr", "cpr-nr", "fødselsnummer", "nif", "niss", "cc n.º",
+           "cartão de cidadão", "numéro fiscal", "steuer-nr")
 
 _ID_RES = [
     # BE first: its dotted form is distinctive (85.07.30-033.28)
@@ -168,12 +194,15 @@ _ID_RES = [
     ("dni", re.compile(r"(?<![\w])((?:[XYZ][-\s]?\d{7}|\d{8})[-\s]?[A-Z])(?![\w])"), dni_valid),
     ("steuer", re.compile(r"(?<![\w.])(?<!\d\s)([1-9]\d[\s]?\d{3}[\s]?\d{3}[\s]?\d{3}|[1-9]\d{10})(?![\w])(?![\s.]\d)"), steuer_id_valid),
     ("pesel", re.compile(r"(?<![\w.])(\d{11})(?![\w])"), pesel_valid),
+    ("hetu", re.compile(r"(?<![\w-])(\d{6}[-+A][0-9]{3}[0-9A-Y])(?![\w])"), hetu_valid),
+    ("rvnr", re.compile(r"(?<![\w])(\d{2}\s?\d{6}\s?[A-Z]\s?\d{3})(?![\w])"), rvnr_shape),
+    ("nss", re.compile(r"(?<![\w])(\d{2}[\s/]?\d{8}[\s/]?\d{2})(?![\w])"), nss_es_valid),
     ("bsn", re.compile(r"(?<![\w./-])(?<!\d\s)(\d{4}\.\d{2}\.\d{3}|\d{3}[.\s]\d{3}[.\s]\d{3}|\d{9})(?![\w/-]|[.\s]\d)"), bsn_valid),
 ]
 # a number right after an ID cue: masked even when no checksum fits (fail closed)
 _CUED = re.compile(r"(?i)\b(?:" + "|".join(re.escape(c) for c in sorted(ID_CUES, key=len, reverse=True)) +
                    r")(?!\w)[^\d\n]{0,30}?"
-                   r"(?-i:((?=[A-Z0-9 .-]{6,24}(?![\w]))(?<![\w])[A-Z0-9](?:[ .-]?[A-Z0-9]){5,19}))(?![\w])")
+                   r"(?-i:((?=[A-Z0-9 ./-]{6,24}(?![\w]))(?<![\w])[A-Z0-9](?:[ ./-]?[A-Z0-9]){5,19}))(?![\w])")
 
 
 def find_national_ids(text):
@@ -184,6 +213,8 @@ def find_national_ids(text):
             if any(x < b and a < y for x, y in taken):
                 continue
             cue = any(c in _before(text, a) for c in ID_CUES)
+            if name in ("bsn", "pesel") and not cue:  # "needs the BSN of Dirk\n[18:05] Charlotte: it's 273849153"
+                cue = any(re.search(rf"\b{re.escape(c)}\b", _before(text, a, 120)) for c in ("bsn", "pesel", "burgerservicenummer"))
             if name == "bsn" and len(_digits(m.group(1))) == 9 and not cue and not re.search(r"[.\s]", m.group(1)):
                 # a bare 9-digit number passes the 11-proef one time in 11: only with a cue
                 continue
@@ -196,6 +227,8 @@ def find_national_ids(text):
         a, b = m.span(1)
         if any(x < b and a < y for x, y in taken) or not re.search(r"\d", m.group(1)):
             continue
+        if re.fullmatch(r"[ABCDEFGHJNPQRSUVW]-?\d{7}-?[0-9A-J]", m.group(1)):
+            continue  # a Spanish company tax number (CIF), not a person's
         out.append(_span("NATIONAL_ID", a, b, text, 0.7, "eu_id_cue", "number after an ID cue (no checksum fits)"))
         taken.append((a, b))
     return out
@@ -248,10 +281,25 @@ _PHONE_CUE = re.compile(r"(?i)\b(?:tel|tél|telefon|telephone|téléphone|telefo
                         r"(0\d(?:[\s./-]?\(?\d\)?){6,12})(?![\w])")
 
 
+_PHONE_NATIONAL = re.compile(
+    r"(?<![\w+/.-])("
+    r"0[1-9](?:[ .]\d{2}){4}"                       # FR 02 98 44 71 20
+    r"|06[- ]?\d{8}|06(?:[ -]\d{2}){4}"            # NL mobile 06-41837265
+    r"|01[5-7]\d[ /-]?\d{6,8}"                     # DE mobile 0171/2293847
+    r"|3[2-9]\d[ ]?\d{6,7}"                        # IT mobile 347 2210983
+    r"|0\d{1,4}[ /-]\d{2,4}[ -]?\d{3,5}(?=\s*(?:$|\n|[,;)]|–|-\s))"  # landline at the end of a contact line
+    r")(?![\w/.-])")
+
+
 def find_phones(text):
     out = [_span("PHONE", *m.span(1), text, 0.9, "eu_phone", "international number") for m in _PHONE_INTL.finditer(text)]
     out += [_span("PHONE", *m.span(1), text, 0.85, "eu_phone_cue", "number after a phone cue")
             for m in _PHONE_CUE.finditer(text)]
+    for m in _PHONE_NATIONAL.finditer(text):
+        if re.match(r"(?:19|20)\d{2}\b", m.group(1)) or re.search(r"(?i)(?:az\.|aktenzeichen|case|no\.|nr\.|r\.?g\.?)\s*$",
+                                                                   text[max(0, m.start() - 20):m.start()]):
+            continue
+        out.append(_span("PHONE", *m.span(1), text, 0.75, "eu_phone_national", "national phone format"))
     return out
 
 
@@ -260,14 +308,14 @@ _DOC = re.compile(
     r"personalausweis|ausweis(?:nummer)?|carte d'identité|carte nationale d'identité|cni|carta d'identità|"
     r"documento de identidad|identiteitskaart|id-kaart|dowód osobisty|identity card|id card|driving licen[cs]e|"
     r"driver's license|führerschein|permis de conduire|patente|permiso de conducir|rijbewijs|document number|"
-    r"residence permit|aufenthaltstitel|titre de séjour)\b[^\w\n]{0,4}(?:(?:(?:no|nr|number|nummer|numéro|numero|número|"
-    r"num)\b\.?|n[°º]|n\.º?)[^\w\n]{0,4})?([A-Z0-9](?:[ -]?[A-Z0-9]){5,13})(?![\w])")
+    r"residence permit|aufenthaltstitel|titre de séjour|verblijfsvergunning|documentnummer|pasaport|kimlik kartı|"
+    r"ehliyet|oturma izni|passport copies)(?!\w)[^\d\n]{0,25}?(?-i:(?<![\w])([A-Z0-9](?:[ -]?[A-Z0-9]){5,13}))(?![\w])")
 
 
 def find_documents(text):
     out = []
     for m in _DOC.finditer(text):
-        if not re.search(r"\d", m.group(2)):
+        if not re.search(r"\d", m.group(2)) or not re.search(r"[A-Z]|\d{6}", m.group(2)) and len(_digits(m.group(2))) < 6:
             continue
         typ = "PASSPORT" if re.match(r"(?i)pas|reisepass", m.group(1)) else "ID_DOCUMENT"
         out.append(_span(typ, *m.span(2), text, 0.9, "eu_document", f"number after '{m.group(1)}'"))
@@ -299,24 +347,34 @@ _W = r"[^\W\d_][\w'’.-]*"  # a word (letters first)
 _STREET = re.compile(
     "|".join([
         # DE / AT / CH / NL compounds: Hauptstraße 5, Keizersgracht 123-III, Am Markt 3
-        rf"(?:\b[A-ZÄÖÜ][\w'’-]*(?:straße|strasse|str\.|weg|platz|allee|gasse|ring|damm|ufer|chaussee|steig|"
+        rf"(?:\b(?:[A-ZÄÖÜ][\w'’-]*er\s)?[A-ZÄÖÜ][\w'’-]*(?:straße|strasse|str\.|weg|platz|allee|gasse|ring|damm|ufer|chaussee|steig|"
         rf"straat|laan|gracht|plein|kade|singel|dijk|steeg))\s+\d{{1,4}}(?:\s?[a-zA-Z]\b|-\w{{1,4}})?",
+        # DE / AT separate word: Venloer Straße 389, Schweizer Str. 77; Nordic: Vasagatan 41, Strandvejen 5
+        rf"\b(?:[A-ZÄÖÜ][\w'’-]+\s){{1,2}}(?:Straße|Strasse|Str\.|Weg|Platz|Allee|Gasse|Ring|Damm)\s+\d{{1,4}}"
+        rf"(?:\s?[a-zA-Z]\b|-\d{{1,4}})?",
+        rf"\b[A-ZÅÄÖØÆ][\w'’-]*(?:gatan|vägen|gränd|torget|gade|vej|veien|gata|katu|tie|kuja)\s+\d{{1,4}}(?:\s?[A-Za-z]\b)?",
+        # PL: ul. Marszałkowska 12/4; NL: Laan van Meerdervoort 210
+        rf"\b(?:ul\.|al\.|pl\.|os\.)\s?[A-ZŁŚŻŹĆ][\w'’-]+(?:\s[A-ZŁŚŻŹĆ][\w'’-]+)?\s+\d{{1,4}}(?:/\d{{1,4}})?[a-zA-Z]?",
+        rf"\bLaan van [A-Z][\w'’-]+\s+\d{{1,4}}[a-zA-Z]?",
+        rf"\b(?:Strada|Bulevardul|Calea|Ulica)\s+[A-ZȘȚĂÂÎ][\w'’-]+(?:\s[A-ZȘȚĂÂÎ][\w'’-]+)?\s+(?:nr\.\s?)?\d{{1,4}}",
         # DE: Am Rosengarten 5, An der Alster 12, Im Tal 3
         rf"\b(?:Am|An der|An den|Im|In der|Auf der|Auf dem|Zum|Zur|Unter den|Hinter der)\s+[A-ZÄÖÜ][\w'’-]+\s+\d{{1,4}}"
         rf"(?:\s?[a-zA-Z]\b)?",
         # IT / ES / PT / CA: Via Roma 12, Calle Mayor, 5; Avenida da Liberdade 110
         rf"\b(?:Via|Viale|Piazza|Piazzale|Corso|Largo|Vicolo|Calle|C/|Avenida|Avda\.|Plaza|Paseo|Carrer|Rua|"
         rf"Travessa|Ronda|Camino)\s+(?:{_W}\s+){{0,4}}?{_W},?\s+(?:n\.?\s?|nº\s?)?\d{{1,4}}(?:\s?[a-zA-Z]\b|/\w+)?",
+        # HU: Andrássy út 52
+        rf"\b[A-ZÁÉÍÓÖŐÚÜŰ][\w'’-]+\s(?:út|utca|u\.|tér|körút|krt\.)\s+\d{{1,4}}(?:/[A-Za-z0-9]+)?",
         # FR: 12 rue de la Paix, 5 bis avenue Foch
         rf"\b\d{{1,4}}(?:\s?(?:bis|ter|[a-z]\b))?,?\s+(?:rue|avenue|av\.|boulevard|bd|place|chemin|allée|allee|"
-        rf"impasse|quai|cours|route|square)\s+(?:(?:de|du|des|la|le|l['’]|d['’])\s*)*[A-ZÀ-Þ][\w'’-]*"
+        rf"impasse|quai|cours|route|square|promenade|esplanade|résidence|lieu-dit)\s+(?:(?:de|du|des|la|le|l['’]|d['’])\s*)*[A-ZÀ-Þ][\w'’-]*"
         rf"(?:\s+(?:(?:de|du|des|la|le|l['’]|d['’])\s*)*[A-ZÀ-Þ][\w'’-]*){{0,3}}",
         # EN: 221B Baker Street, 10 Downing St.
         rf"(?:\b(?:Flat|Apt\.?|Apartment|Unit|Suite)\s+\d{{1,4}}[A-Za-z]?,?\s+)?\b\d{{1,4}}[A-Za-z]?,?\s+(?:[A-Z][\w'’-]*\s+){{1,3}}(?:Street|St\.|Road|Rd\.|Avenue|Ave\.|Lane|Drive|"
         rf"Close|Way|Place|Square|Crescent|Terrace|Gardens|Row|Mews|Hill|Park)\b",
     ]))
 # what may follow a street on the same line: a postcode and the town
-_POSTCODE_TOWN = re.compile(r",?\s{1,3}(?:(?:[A-Z]{1,2}-)?(?:\d{5}|\d{4}\s?[A-Z]{2}|\d{4}|\d{2}-\d{3}|[A-Z]{1,2}\d[A-Z\d]?\s\d[A-Z]{2})"
+_POSTCODE_TOWN = re.compile(r",?\s{1,3}(?:(?:[A-Z]{1,2}-)?(?:\d{5}|\d{4}-\d{3}|\d{4}\s?[A-Z]{2}|\d{6}|\d{3}\s\d{2}|\d{4}|\d{2}-\d{3}|[A-Z]{1,2}\d[A-Z\d]?\s\d[A-Z]{2}|[AC-FHKNPRTV-Y]\d[\dW]\s?[\dAC-FHKNPRTV-Y]{4})"
                             r"(?:\s+[A-ZÀ-Þ][\w'’-]+(?:[\s-][A-ZÀ-Þ][\w'’-]+){0,2})?"
                             # UK / IE: town first, then a district number or a postcode
                             r"|[A-ZÀ-Þ][a-zà-ÿ'’-]+(?:\s(?:\d{1,2}(?!\d)|[A-Z]{1,2}\d[A-Z\d]?\s\d[A-Z]{2}))?(?=[\s,.;)]|$))")
@@ -326,9 +384,14 @@ def find_addresses(text):
     out = []
     for m in _STREET.finditer(text):
         a, b = m.span()
-        t = _POSTCODE_TOWN.match(text, b)
-        if t and t.end() > b:
+        for _ in range(3):  # "Merrion Square, Dublin 2, D02 X285", "Schweizer Str. 77, 60594 Frankfurt am Main"
+            t = _POSTCODE_TOWN.match(text, b)
+            if not t or t.end() <= b:
+                break
             b = t.end()
+            am = re.match(r"\s(?:am|an der|im|sur|upon|bei)\s[A-ZÀ-Þ][\w'’-]+", text[b:])
+            if am:
+                b += am.end()
         out.append(_span("ADDRESS", a, b, text, 0.85, "eu_street", "street and house number"))
     return out
 
@@ -339,7 +402,9 @@ TITLES = ("Mr", "Mrs", "Ms", "Miss", "Mx", "Dr", "Prof", "Sir", "Dame", "Lord", 
           "M", "Mme", "Mlle", "MM", "Me", "Maître", "Sig", "Sig.ra", "Sig.na", "Sigg", "Dott", "Dott.ssa", "Avv",
           "Ing", "Sr", "Sra", "Srta", "D", "Dª", "Dña", "Don", "Doña", "dhr", "mevr", "mw", "Dhr", "Mevr", "Mw",
           "De heer", "Mevrouw", "Pan", "Pani", "mr", "Mag", "Dipl.-Ing", "RA", "RAin", "Rechtsanwalt", "Rechtsanwältin",
-          "Notar", "Notarin", "Avocat", "Avocate", "Abogado", "Abogada", "Avvocato", "Advocaat")
+          "Notar", "Notarin", "Avocat", "Avocate", "Abogado", "Abogada", "Avvocato", "Advocaat", "Sayın", "Sn", "Bay",
+          "Bayan", "Av", "Messrs", "Mgr", "Kyrios", "Kyria", "D.ª", "Dña.", "drs", "ir", "ing", "mr.", "mevrouw",
+          "Herr Dr", "Frau Dr", "κ", "κα", "Κ", "Κα", "κύριος", "κυρία", "Κύριος", "Κυρία", "κ.κ")
 _TITLE = re.compile(r"(?<![\w.])(?:" + "|".join(re.escape(t) for t in sorted(TITLES, key=len, reverse=True)) +
                     r")(?:\.|\b)\s+(?=[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ])")
 PARTICLES = {"von", "van", "der", "den", "de", "del", "della", "degli", "di", "da", "dos", "das", "do", "du", "des",
@@ -363,6 +428,7 @@ Raad Hoge Garante EuGH BGH Abs Art Paris Berlin Rome Roma Madrid Amsterdam Bruss
 Munich München Hamburg Frankfurt Cologne Köln Milan Milano Barcelona Lyon Marseille Rotterdam Antwerp Dublin London
 Istanbul Ankara Izmir Turkey Türkiye Germany Deutschland France Italy Italia Spain España Netherlands Nederland Belgium
 Poland Polska Austria Österreich Portugal Ireland Greece Sweden Denmark Finland
+Ich Wir Sie Officer Protection Medical Claims Travel Present Signed Patient Exa Excelência Kollegin Kollege
 Your Our Ihre Ihr Unsere Unser Die Der Das Le La Les Il Lo Gli El Los Las De Het Votre Notre Vostro Nostro Su Uw Ons
 No Nr Number Page Seite Annex Schedule Section Chapter Part Data Subject Personal Name Address Phone Email""".split())
 _TOK = re.compile(r"[^\W\d_](?:[^\W\d_]|['’-](?=[^\W\d_]))*\.?|[^\S\n]+|.", re.S)
@@ -450,6 +516,10 @@ Seán Sean Ciarán Ciaran Niamh Aoife Siobhán Siobhan Saoirse Cian Oisín Oisin
 Georgios Dimitrios Konstantinos Ioannis Nikolaos Panagiotis Vasileios Christos Eleni Aikaterini Vasiliki Sofia
 Jiří Jiri Petr Tomáš Tomas Martin Lukáš Jakub Ondřej Lenka Jana Petra Tereza Eszter Zsófia Zsofia László Laszlo
 Gábor Gabor Zoltán Zoltan István Istvan Ion Andrei Alexandru Mihai Ioana Elena Andreea Ivana Ana Marko Luka Matej
+Sergei Sergey Dmitry Dmitri Igor Oleg Olena Olga Yulia Iryna Natalia Tetiana Oksana Andriy Mykola Vladimir Alexei
+Aleksandr Mindaugas Rūta Ruta Agnė Eglė Jānis Ilze Kristaps Andres Kadri Olle Annika
+Ahmed Mohammed Mohamed Mehmet Ali Fatima Aisha Yusuf Omar Hassan Karim Leila Amina Youssef Ibrahim Moussa Mamadou
+Ionuț Ionut Bogdan Florin Radu Sorin Cristian Valentin Bianca Alina Roxana Dorin Vlad
 """.split())
 # given names that are also everyday words: only with a title or a cue
 AMBIGUOUS_FIRST = {"Mark", "Grace", "Rose", "Will", "May", "Bill", "Art", "Bruno", "Tom", "Max", "Rita", "Ben",
@@ -462,7 +532,8 @@ _FIELD = re.compile(
     r"name des|nachname|vorname|geburtsname|nome|cognome|nombre|apellidos?|naam|achternaam|voornaam|imię|nazwisko|"
     r"data subject|employee|employer|client|customer|patient|tenant|landlord|claimant|applicant|respondent|witness|"
     r"contact person|signed|signatory|mandant(?:in)?|kläger(?:in)?|beklagte[rn]?|zeuge|zeugin|demandeur|défendeur|"
-    r"témoin|attore|convenuto|ricorrente|testimone|demandante|demandado|testigo|eiser|gedaagde|getuige)"
+    r"témoin|attore|convenuto|ricorrente|testimone|demandante|demandado|testigo|eiser|gedaagde|getuige|"
+    r"ονοματεπώνυμο|όνομα|επώνυμο|πατρώνυμο|imię i nazwisko|nume|prenume|nome completo|namn)"
     r"[ \t]*:[ \t]*(?=\S)")
 _CLOSING = re.compile(
     r"(?im)(?:kind regards|best regards|warm regards|regards|yours sincerely|yours faithfully|sincerely|"
@@ -511,12 +582,412 @@ def find_names(text):
     return out
 
 
+# Common surnames of EU countries (and of people from Turkey, the Maghreb and the Levant living there), used only as
+# "capitalised word + known surname", so an unknown first name is still caught ("Hidde Hoekstra").
+SURNAMES = set("""
+Smith Jones Williams Brown Taylor Davies Evans Wilson Thomas Johnson Roberts Walker Wright Robinson Thompson White
+Hughes Edwards Green Hall Wood Harris Lewis Martin Jackson Clarke Clark Turner Hill Scott Cooper Morris Ward Moore King
+Watson Baker Harrison Morgan Patel Young Allen Mitchell James Anderson Phillips Lee Bell Parker Davis Murphy Kelly
+O'Sullivan Walsh O'Brien Byrne Ryan O'Connor O'Neill Reilly Doyle McCarthy Gallagher Doherty Kennedy Lynch Murray Quinn
+Moore McLaughlin Carroll Connolly Daly Connell Brennan Burke Collins Campbell Clarke Johnston Hughes Farrell Fitzgerald
+Müller Mueller Schmidt Schneider Fischer Weber Meyer Meier Wagner Becker Schulz Hoffmann Schäfer Koch Bauer Richter Klein
+Wolf Schröder Neumann Schwarz Zimmermann Braun Krüger Hofmann Hartmann Lange Schmitt Werner Schmitz Krause Meier Lehmann
+Schmid Schulze Maier Köhler Herrmann König Walter Mayer Huber Kaiser Fuchs Peters Lang Scholz Möller Weiß Weiss Jung Hahn
+Schubert Vogel Friedrich Keller Günther Frank Berger Winkler Roth Beck Lorenz Baumann Franke Albrecht Schuster Simon
+Ludwig Böhm Winter Kraus Martin Schumacher Krämer Vogt Stein Jäger Otto Sommer Groß Seidel Heinrich Brandt Haas Schreiber
+Graf Schulte Dietrich Ziegler Kuhn Kühn Pohl Engel Horn Busch Bergmann Thomas Voigt Sauer Arnold Wolff Pfeiffer Gruber
+Martin Bernard Dubois Thomas Robert Richard Petit Durand Leroy Moreau Simon Laurent Lefebvre Lefèvre Michel Garcia David
+Bertrand Roux Vincent Fournier Morel Girard André Lefèvre Mercier Dupont Lambert Bonnet François Martinez Legrand
+Garnier Faure Rousseau Blanc Guerin Guérin Muller Henry Roussel Nicolas Perrin Morin Mathieu Clément Gauthier Dumont
+Lopez Fontaine Chevalier Robin Masson Sanchez Gerard Gérard Nguyen Boyer Denis Lemaire Duval Joly Gautier Roger Roche
+Roy Noel Noël Meyer Lucas Meunier Jean Perez Marchand Dufour Blanchard Marie Barbier Brun Dumas Brunet Schmitt Leroux
+Colin Fernandez Pierre Renard Arnaud Rolland Caron Aubert Giraud Leclerc Vidal Bourgeois Renaud Lemoine Picard Gaillard
+Philippe Leclercq Lacroix Fabre Dupuis Olivier Rodriguez Da Silva Hubert Louis Charles Guillot Rivière Le Gall Guillaume
+Rossi Russo Ferrari Esposito Bianchi Romano Colombo Ricci Marino Greco Bruno Gallo Conti De Luca Mancini Costa Giordano
+Rizzo Lombardi Moretti Barbieri Fontana Santoro Mariani Rinaldi Caruso Ferrara Galli Martini Leone Longo Gentile Martinelli
+Vitale Lombardo Serra Coppola De Santis D'Angelo Marchetti Parisi Villa Conte Ferraro Ferri Fabbri Bianco Marini Grasso
+Valentini Messina Sala De Angelis Gatti Pellegrini Palumbo Sanna Farina Rizzi Monti Cattaneo Morelli Amato Silvestri
+Mazza Testa Grassi Pellegrino Carbone Giuliani Benedetti Barone Rossetti Caputo Montanari Guerra Palmieri Bernardi
+Martino Fiore De Rosa Ferretti Bellini Basile Riva Donati Piras Vitali Battaglia Sartori Neri Costantini Milani
+García González Rodríguez Fernández López Martínez Sánchez Pérez Gómez Martín Jiménez Ruiz Hernández Díaz Moreno Muñoz
+Álvarez Romero Alonso Gutiérrez Navarro Torres Domínguez Vázquez Ramos Gil Ramírez Serrano Blanco Molina Morales Suárez
+Ortega Delgado Castro Ortiz Rubio Marín Sanz Núñez Iglesias Medina Garrido Cortés Castillo Santos Lozano Guerrero Cano
+Prieto Méndez Cruz Calvo Gallego Vidal León Márquez Herrera Peña Flores Cabrera Campos Vega Fuentes Carrasco Diez Díez
+Caballero Reyes Nieto Aguilar Pascual Santana Herrero Lorenzo Montero Hidalgo Giménez Ibáñez Ferrer Durán Santiago
+Benítez Mora Vicente Vargas Arias Carmona Crespo Román Pastor Soto Sáez Velasco Moya Soler Parra Esteban Bravo Gallardo
+Rojas Etxeberria Agirre Garaikoetxea Zubizarreta Goikoetxea Arrieta Urrutia Elizondo Iturbe Larrañaga Mendizabal
+Silva Santos Ferreira Pereira Oliveira Costa Rodrigues Martins Jesus Sousa Fernandes Gonçalves Gomes Lopes Marques Alves
+Almeida Ribeiro Pinto Carvalho Teixeira Moreira Correia Mendes Nunes Soares Vieira Monteiro Cardoso Rocha Raposo Neves
+Jansen Janssen Visser Smit Meijer Bakker Mulder Bos Vos Peters Hendriks Dekker Brouwer Dijkstra Smits Koster Willems
+Verhoeven Kok Jacobs Haan Vermeulen Schouten Hoekstra Prins Huisman Boer Postma Kuipers Veenstra Kramer Kuiper Wouters
+Peeters Maes Claes Goossens Wuyts Mertens Willems Dubois Lambert Dupont Martens Pauwels Michiels Desmet Hermans Verstraeten
+Nowak Kowalski Kowalska Wiśniewski Wiśniewska Wójcik Kowalczyk Kamiński Kamińska Lewandowski Lewandowska Zieliński
+Zielińska Szymański Szymańska Woźniak Dąbrowski Dąbrowska Kozłowski Kozłowska Jankowski Mazur Kwiatkowski Krawczyk
+Piotrowski Grabowski Nowakowski Pawłowski Michalski Nowicki Adamczyk Dudek Zając Wieczorek Jabłoński Król Majewski
+Olszewski Jaworski Wróbel Malinowski Pawlak Witkowski Walczak Stępień Górski Rutkowski Michalak Sikora Ostrowski Baran
+Papadopoulos Papadopoulou Georgiou Dimitriou Nikolaou Konstantinou Ioannou Christodoulou Pappas Vlachos Oikonomou
+Popescu Popa Pop Radu Dumitru Stan Stoica Gheorghe Matei Ciobanu Ionescu Rusu Constantin Munteanu Florea Moldovan Nagy
+Kovács Tóth Szabó Horváth Varga Kiss Molnár Németh Farkas Balogh Novák Svoboda Novotný Dvořák Černý Procházka Kučera
+Johansson Andersson Karlsson Nilsson Eriksson Larsson Olsson Persson Svensson Gustafsson Pettersson Jonsson Jensen
+Nielsen Hansen Pedersen Andersen Christensen Larsen Sørensen Rasmussen Jørgensen Petersen Madsen Kristensen Olsen
+Korhonen Virtanen Mäkinen Nieminen Mäkelä Hämäläinen Laine Heikkinen Koskinen Järvinen Horvat Kovačević Babić Marić
+Novak Kovačič Krajnc Zupančič Ivanov Petrov Georgiev Dimitrov Kazlauskas Jankauskas Bērziņš Kalniņš Tamm Saar Sepp
+Borg Camilleri Vella Farrugia Zammit Galea Micallef Grech Attard Spiteri Azzopardi Georgiou Hadjiantoniou
+Yılmaz Kaya Demir Şahin Çelik Yıldız Yıldırım Öztürk Aydın Özdemir Arslan Doğan Kılıç Aslan Çetin Kara Koç Kurt Özkan
+Benali Haddad Khalil Hassan Mansour Saleh Nasser Ibrahim Rahman Ahmadi Hosseini Mohammadi Rezaei Karimi Haidari Hussaini
+Berg Vries Meer Dijk Graaf Leeuwen Heuvel Linden Wal Brink Beek Veen Bosch Velde Horst Hoek Wijk Laan Berge Broek Steen
+Luca Santis Rosa Angelis Silva Souza Gall Goff Roux Bois Costa Sousa
+""".split())
+_SURNAME_PAIR = re.compile(r"(?<![\w'’.-])([A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ][a-zà-ÿłśżźćńšžčřđőűąęėįųūāēīō'’-]+)\s+"
+                           r"((?:(?i:" + "|".join(sorted(PARTICLES - {"i", "y", "el", "al", "op", "'t"}, key=len, reverse=True)) +
+                           r")\s+)*(?:" + "|".join(re.escape(n) for n in sorted(SURNAMES, key=len, reverse=True)) +
+                           r"))(?![\w'’-])")
+
+_SURNAME_ENDING = re.compile(
+    r"(?<![\w'’.-])([A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ][a-zà-ÿłśżźćńšžčřđőűąęėįųūāēīō'’-]{1,14})\s+"
+    r"([A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ][a-zà-ÿłśżźćńšžčřđőűąęėįųūāēīō'’-]*(?:ov|ova|ev|eva|enko|chuk|czuk|uk|yk|ski|ska|sky|ský|ská|"
+    r"cki|cka|wicz|vić|ović|ević|ić|escu|eanu|auskas|iauskas|ienė|aitė|ytė|ūtė|onis|aitis|poulos|poulou|akis|idis|"
+    r"opoulos|oğlu|sson|sdóttir|dóttir|ström|qvist|kvist|ainen|äinen|ovič|evič))(?![\w'’-])")
+
+
+# a role or an act that is followed by a person's name ("vertreten durch", "UBO:", "Geschäftsführer")
+_BEFORE_CUE = re.compile(
+    r"(?i)\b(?:represented by|on behalf of|we act for|acting for|act for|our client|signed by|attn\.?|attention|c/o|"
+    r"for the attention of|vertreten durch|im namen von|für unseren? mandant(?:in|en)?|unser(?:e[rn]?)? mandant(?:in)?|"
+    r"wir vertreten|z\. ?hd\.?|zu händen(?: von)?|nous représentons|représentée? par|pour le compte de|"
+    r"à l'attention de|au nom de|assistiamo|rappresentat[oa] da|per conto di|alla c\.a\.|all'attenzione di|"
+    r"in nome di|representamos a|representad[oa] por|en nombre de|a la atención de|a la att\.|wij staan|"
+    r"vertegenwoordigd door|namens|t\.a\.v\.|ten behoeve van|müvekkil(?:imiz)?|vekili|"
+    r"directors?|managing director|non-executive director|chief executive officer|ceo|cfo|coo|chairman|chairwoman|"
+    r"shareholders?|ubos?|beneficial owners?|ultimate beneficial owners?|partners?|employee|tenant|landlord|"
+    r"geschäftsführer(?:in)?|vorstand|vorstandsvorsitzende[r]?|gesellschafter(?:in)?|prokurist(?:in)?|"
+    r"wirtschaftlich berechtigte[rn]?|arbeitnehmer(?:in)?|mieter(?:in)?|vermieter(?:in)?|gérante?|président(?:e)?|"
+    r"directeur général|directrice générale|actionnaires?|bénéficiaires? effectifs?|salariée?|locataire|bailleur|"
+    r"amministratore(?: unico| delegato)?|presidente|soci[oa]?|titolare effettivo|dipendente|lavoratore|lavoratrice|"
+    r"administrador(?:a)?(?: únic[oa])?|consejero delegado|titular real|trabajador(?:a)?|arrendatari[oa]|"
+    r"bestuurder|directeur|aandeelhouders?|uiteindelijk belanghebbende|werknemer|huurder|verhuurder|"
+    r"yönetim kurulu üyesi|ortak|pay sahibi)\b(?:\s*\([^)]{1,30}\))?[ \t]*[:,]?[ \t]+(?=[A-ZÀ-ÞŁŚŻ])")
+_LIST_SEP = re.compile(r"\s*(?:,|;|\band\b|\bund\b|\bet\b|\be\b|\by\b|\ben\b|\boraz\b|\bve\b|&)\s*(?=[A-ZÀ-ÞŁŚŻ])")
+# a name right before an apposition ("Anna Kowalski, born ...", "Jan Visser (the Employee)")
+_AFTER_CUE = re.compile(
+    r"(?i)(?:,\s*|\s*\(\s*)(?:born|b\.|geb\.|geboren|née?|nat[oa]|nacid[oa]|residing|resident|domiciled|"
+    r"wohnhaft|demeurant|domicilié(?:e)?|residente|con domicilio|domiciliad[oa]|wonende|woonachtig|"
+    r"the [\"“”']?(?:employee|client|tenant|seller|buyer|guarantor|data subject)|hereinafter|nachfolgend|"
+    r"ci-après|di seguito|en adelante|hierna|doğum|ikamet|tc kimlik|passport|reisepass|passeport|"
+    r"date of birth|\d{4}\s*[-–]\s*\)|\*\s?\d)")
+# e-mail headers: "From: Anna Kowalski <anna@...>"
+_MAIL_HEADER = re.compile(r"(?im)^[ \t]*(?:from|to|cc|bcc|von|an|de|à|a|da|van|aan|kimden|kime)[ \t]*:[ \t]*"
+                          r"(?=[^<\n]{3,60}<)")
+_EMAIL_NAME = re.compile(r"(?<![\w.+-])([A-Za-zÀ-ÿ]{2,})[._]([A-Za-zÀ-ÿ]{2,}(?:-[A-Za-zÀ-ÿ]{2,})?)@[\w-]+(?:\.[\w-]+)+")
+_NAME_BEFORE = re.compile(r"((?:[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ][\w'’-]*\.?\s+(?:(?:" +
+                          "|".join(sorted(PARTICLES - {"i", "y"}, key=len, reverse=True)) +
+                          r")\s+)*){1,3}[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ][\w'’-]+)$")
+
+
+def _fold(s):
+    import unicodedata
+    return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c)).lower()
+
+
+def find_names_context(text):
+    """Names found by what surrounds them rather than by a word list: after a role or act ("vertreten durch",
+    "UBO:", "Geschäftsführer"), lists after such a role, before an apposition ("…, born", "… (the Employee)"),
+    in e-mail headers, names spelled out in an e-mail address (anna.kowalski@ -> "Anna Kowalski"), and
+    a capitalised word followed by a common surname."""
+    out = []
+
+    def take(pos, why, score):
+        t = _TITLE.match(text, pos)
+        while t:
+            pos = t.end()
+            t = _TITLE.match(text, pos)
+        r = _name_at(text, pos, max_words=4)
+        if not r:
+            return None
+        a, b = r
+        words = text[a:b].split()
+        if len(words) < 2 and not (len(words) == 1 and _is_cap(words[0]) and words[0].rstrip(".") in SURNAMES):
+            return None  # one capitalised word after a role is too often a company or a place
+        if words[-1].lower() in PARTICLES:
+            return None
+        out.append(_span("PERSON", a, b, text, score, "eu_name_context", why))
+        return b
+
+    for m in _BEFORE_CUE.finditer(text):
+        end = take(m.end(), "after a role or act (vertreten durch, UBO:, director ...)", 0.8)
+        while end is not None:  # "Directors: Anna Kowalski, Jan Visser and Marie Dubois"
+            sep = _LIST_SEP.match(text, end)
+            if not sep:
+                break
+            end = take(sep.end(), "in a list of people after a role", 0.75)
+    for m in _MAIL_HEADER.finditer(text):
+        take(m.end(), "e-mail header", 0.85)
+    for m in _AFTER_CUE.finditer(text):
+        head = text[max(0, m.start() - 80):m.start()]
+        n = _NAME_BEFORE.search(head)
+        if not n:
+            continue
+        a = m.start() - len(n.group(1))
+        # keep only the capitalised run right before the cue, and never across a sentence start like "The"
+        words = n.group(1).split()
+        while words and (words[0].rstrip(".") in NOT_NAMES or words[0].rstrip(".") in TITLES):
+            a += len(text[a:].split(words[0], 1)[0]) + len(words[0])
+            a = len(text) - len(text[a:].lstrip())
+            words = words[1:]
+        if len(words) >= 3 and words[0] not in FIRST_NAMES and not _is_initial(words[0]):
+            a += len(words[0]) + len(text[a + len(words[0]):]) - len(text[a + len(words[0]):].lstrip())
+            words = words[1:]  # "Assistiamo Gennaro Caruso, residente": the verb before the name
+        if len(words) >= 2 and all(_is_cap(w) or w.lower() in PARTICLES or _is_initial(w) for w in words):
+            out.append(_span("PERSON", a, m.start(), text, 0.8, "eu_name_context", "before an apposition (…, born; …, wohnhaft)"))
+    for m in _EMAIL_NAME.finditer(text):
+        first, last = _fold(m.group(1)), _fold(m.group(2))
+        if first in {"info", "contact", "office", "mail", "kanzlei", "legal", "privacy", "dpo", "hr", "support", "no"}:
+            continue
+        for w in re.finditer(r"(?<![\w'’-])([^\W\d_][\w'’-]+)\s+((?:[a-zà-ÿ]+\s+)*[^\W\d_][\w'’-]+)(?![\w'’-])", text):
+            if _fold(w.group(1)) == first and _fold(w.group(2).split()[-1]) == last and w.group(1)[0].isupper():
+                out.append(_span("PERSON", w.start(), w.end(), text, 0.9, "eu_name_email", "name spelled out in an e-mail address"))
+    for m in _SURNAME_ENDING.finditer(text):
+        first = m.group(1)
+        if first in NOT_NAMES or first in TITLES or first in _DETERMINERS or first in _FIELD_WORDS or \
+                first in _COMPANY_WORDS or _COMPANY_AFTER.match(text, m.end(2)):
+            continue
+        out.append(_span("PERSON", m.start(1), m.end(2), text, 0.75, "eu_name_surname", "capitalised word + typical surname ending"))
+    for m in _SURNAME_PAIR.finditer(text):
+        first = m.group(1)
+        if first in NOT_NAMES or first in TITLES or first.rstrip(".").lower() in PARTICLES or first in SURNAMES and \
+                m.start() > 0 and text[m.start() - 1] not in " \n\t(\"“":
+            continue
+        r = _name_at(text, m.start(1), max_words=4)  # "Amaia García López": take the second surname too
+        end = max(m.end(2), r[1] if r else 0)
+        out.append(_span("PERSON", m.start(1), end, text, 0.75, "eu_name_surname", "capitalised word + common surname"))
+    return out
+
+
+_INITIAL_NAME = re.compile(r"(?<![\w.])((?:[A-ZÀ-ÞŁŚŻ]\.[ -]?){1,3}\s?(?:(?i:" +
+                           "|".join(sorted(PARTICLES - {"i", "y", "'t"}, key=len, reverse=True)) +
+                           r")\s+)*[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘŞÇĞÖÜİ][a-zà-ÿłśżźćńšžčřđőűąęėįųūāēīōışğçöü'’-]{2,}"
+                           r"(?:-[A-ZÀ-Þ][a-zà-ÿ'’-]+)?)(?![\w'’])")
+# chat lines: "[22/10/2026, 18:03] Ahmed Al-Masri: ...", "Jule: ...", "Carmen 10:14: ..."
+_CHAT = re.compile(r"(?m)^[ \t]*(?:\[[^\]\n]{4,25}\][ \t]*|\d{1,2}[:.]\d{2}[ \t]+)?"
+                   r"((?:[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ][\w'’-]+)(?:[ \t]+(?:[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘ][\w'’-]+|[a-z]{1,3}|[A-Z]\.)){0,3})"
+                   r"(?:[ \t]+\d{1,2}[:.]\d{2})?[ \t]*:[ \t]+\S")
+
+
+_FIRST_FOLD = None
+_HANDLE = re.compile(r"(?<![\w.@/-])@?([a-zà-ÿ]{2,}[._][a-zà-ÿ]{2,}(?:-[a-zà-ÿ]+)?)(?![\w@-]|\.[a-z])")
+
+
+def _handles(text):
+    """Chat handles first.last (@lucia.moretti) whose first part is a known first name."""
+    global _FIRST_FOLD
+    if _FIRST_FOLD is None:
+        _FIRST_FOLD = {_fold(n) for n in FIRST_NAMES}
+    return [_span("PERSON", *m.span(1), text, 0.8, "eu_name_handle", "user handle first.last")
+            for m in _HANDLE.finditer(text) if _fold(re.split(r"[._]", m.group(1))[0]) in _FIRST_FOLD]
+
+
+def find_names_shapes(text):
+    """Initials + surname ("J. Müller", "P. van der Heijden") and chat speakers (two or more chat-style lines)."""
+    out = []
+    for m in _INITIAL_NAME.finditer(text):
+        last = m.group(1).split()[-1]
+        before = text[max(0, m.start() - 6):m.start()]
+        if last.rstrip(".") in NOT_NAMES or last in _DETERMINERS or len(last) > 15 or \
+                re.search(r"(?i)(?:art|abs|nr|no|lit|s|para?)\.?\s*$|\b[a-z]\.\s?$", before):
+            continue
+        if re.fullmatch(r"(?:[A-Z]\.\s?){2,3}", m.group(1).rsplit(" ", 1)[0] + " ") and last.isupper():
+            continue  # "U.S. GAAP"
+        out.append(_span("PERSON", m.start(1), m.end(1), text, 0.8, "eu_name_initials", "initials + surname"))
+    cands = [m for m in _CHAT.finditer(text)
+             if m.group(1).split()[0] not in NOT_NAMES and m.group(1).split()[0] not in _FIELD_WORDS
+             and not m.group(1).isupper() and not any(w in _LABEL_WORDS for w in m.group(1).split())]
+    from collections import Counter
+    times = Counter(m.group(1) for m in cands)
+    # "Anwesend:", "Protokoll:", "DAVACI:" are labels, each once; a chat speaker has a time stamp or speaks twice
+    speakers = [m for m in cands if times[m.group(1)] >= 2 or re.match(r"[ \t]*(?:\[|\d{1,2}[:.]\d{2})", text[m.start():m.start(1)])
+                or re.match(r"[ \t]+\d{1,2}[:.]\d{2}", text[m.end(1):])]
+    if len(speakers) >= 2:
+        for m in speakers:
+            out.append(_span("PERSON", *m.span(1), text, 0.8, "eu_name_chat", "chat speaker"))
+        # in a chat people are called by first name alone ("¿has hablado con Pablo?")
+        for m in re.finditer(r"(?<![\w'’-])([A-ZÀ-ÞŁŚŻ][\w'’-]+)(?![\w-])", text):
+            if m.group(1) in FIRST_NAMES and m.group(1) not in AMBIGUOUS_FIRST:
+                out.append(_span("PERSON", *m.span(1), text, 0.7, "eu_name_chat", "first name in a chat"))
+    return out
+
+
+_LABEL_WORDS = set("""Present Anwesend Abwesend Gäste Protokoll Protokollführer Zeugen Sachverhalt Signed Getekend
+Aanwezig Afwezig Notulist Patient Anschrift Diagnosen Diagnose Verantwortlicher Ansprechpartner Beschreibung Betroffene
+Daten Maßnahmen Organisatie Contactpersoon Titolare Responsabile Présents Absents Secrétaire Presenti Assenti Presentes
+Ausentes Secretario Attendees Apologies Minutes Chair Chairman Secretary Agenda Tagesordnung Ordre Ordine Orden
+Agenda Konu Davacı Davalı Vekili Deliller Suç Şüpheli Müşteki Mağdur Tanık Sonuç Talep Açıklamalar Hukuki Nedenler""".split())
+_FIELD_WORDS = set("""Name Surname Address Phone Tel Email E-mail Date Subject Re Betreff Objet Oggetto Asunto Betreft
+Client Mandant From To Cc Von An De Da Van Aan Note Notes Status Result Action Purpose Category Categories Recipient
+Recipients Retention Legal Basis Controller Processor Source Answer Request Response Q A Step Ergebnis Hinweis Datum
+Adresse Telefon Nom Prénom Nome Nombre Naam Adres Kimden Kime Konu Tarih Not Sonuç Role Function Funktion Fonction
+Ruolo Función Functie Requester Antragsteller Demandeur Richiedente Solicitante Verzoeker Total Amount Betrag IBAN BIC
+Bank VAT USt TVA IVA Ref Reference Az Aktenzeichen Case Matter Project Deadline Owner Hash Risk Match Score""".split())
+
+
+# ---------------------------------------------------------------- tables (CSV exports, customer lists)
+_COL_TYPES = [
+    ("PERSON", r"(?:full ?name|name|vorname|nachname|surname|first ?name|last ?name|given ?names?|family ?name|nom|prénom|"
+               r"nome|cognome|nombre|apellidos?|naam|voornaam|achternaam|imię|nazwisko|namn|förnamn|efternamn|"
+               r"customer|kunde|kundin|client|cliente|klant|employee|mitarbeiter|patient|ad|soyad|ad soyad|όνομα|επώνυμο)"),
+    ("BIRTH_DATE", r"(?:dob|date of birth|birth ?date|geburtsdatum|geb\.?|date de naissance|data di nascita|"
+                   r"fecha de nacimiento|geboortedatum|data urodzenia|födelsedatum|doğum tarihi)"),
+    ("NATIONAL_ID", r"(?:steuer-?id|tax ?id|tin|bsn|nir|codice fiscale|cf|dni|nie|nif|pesel|cnp|personnummer|"
+                    r"national ?id|id ?number|ssn|amka|tc ?kimlik|tckn)"),
+    ("ADDRESS", r"(?:address|street|anschrift|straße|strasse|adresse|indirizzo|dirección|direccion|adres|straat|"
+                r"ulica|adress|gatuadress)"),
+    ("PHONE", r"(?:phone|tel\.?|telefon|téléphone|telefono|teléfono|telefoon|mobile|handy)"),
+]
+
+
+def find_table_cells(text):
+    """A delimited table (header row + rows, split by ; , tab or |): cells under a name, birth-date, ID, address or
+    phone header are masked whatever they look like."""
+    out = []
+    lines = [(m.start(), m.group()) for m in re.finditer(r"[^\n]+", text)]
+    i = 0
+    while i < len(lines):
+        start, line = lines[i]
+        sep = max(";\t|,", key=line.count) if any(c in line for c in ";\t|,") else None
+        if sep is None or line.count(sep) < 2:
+            i += 1
+            continue
+        heads = [re.sub(r"[_-]+", " ", h.strip().strip('"').lower()) for h in line.split(sep)]
+        kinds = [next((t for t, rx in _COL_TYPES if re.fullmatch(rx, h)), None) for h in heads]
+        if not any(kinds):
+            i += 1
+            continue
+        j = i + 1
+        while j < len(lines) and lines[j][1].count(sep) == line.count(sep):
+            rs, row = lines[j]
+            pos = rs
+            for k, cell in enumerate(row.split(sep)):
+                c = cell.strip().strip('"')
+                if k < len(kinds) and kinds[k] and c and c not in ("-", "–", "n/a", "N/A"):
+                    a = pos + cell.find(c)
+                    out.append(_span(kinds[k], a, a + len(c), text, 0.8, "eu_table", f"table column '{heads[k]}'"))
+                pos += len(cell) + 1
+            j += 1
+        i = j
+    return out
+
+
+# ---------------------------------------------------------------- special categories (GDPR Art. 9 and 10)
+# keyword level, like the Turkish HEALTH rules: the medical word is masked, the sentence around it stays
+_SPECIAL = {
+    "HEALTH": r"""diabetes|diabetic|diabète|diabetico|diabético|suikerziekte|cancer|krebs|tumou?r|tumeur|tumore|leukaemia|
+        leukemia|hiv|aids|hepatitis|depression|depressione|depresión|depressie|dépression|burn-?out|anxiety|angststörung|
+        schizophreni\w*|bipolar\w*|psychiatri\w*|psychotherap\w*|epilep\w*|asthma|dementia|demenz|démence|alzheimer|
+        parkinson|multiple sclerosis|multiple sklerose|sclérose en plaques|stroke|schlaganfall|infarct\w*|heart attack|
+        herzinfarkt|pregnan\w*|schwanger\w*|enceinte|grossesse|incinta|gravidanza|embarazad\w*|zwanger\w*|
+        disabilit\w*|behinderung|schwerbehindert\w*|handicap\w*|disabilità|invalidità|discapacidad|minusval\w*|
+        sick leave|sick note|krankgeschrieben|arbeitsunfähig\w*|krankmeldung|arrêt maladie|arrêt de travail|
+        malattia|baja médica|incapacidad temporal|ziekteverlof|ziekgemeld|arbeidsongeschikt\w*|bedrijfsarts|
+        occupational physician|diagnos\w*|diagnose|diagnostic|diagnosi|diagnóstico|medication|medikament\w*|
+        médicament\w*|farmac\w*|therapy|therapie|thérapie|terapia|surgery|operation am|chirurgie|intervento chirurgico|
+        cirugía|operatie|hospitali[sz]\w*|krankenhaus\w*|ospedale|ricovero|hospitalización|ziekenhuisopname|
+        burns?|verbrennung\w*|brûlure\w*|ustion\w*|quemadura\w*|brandwond\w*|skin graft|hauttransplantation|
+        fracture\w*|fraktur|frattura|fractura|breuk|addiction|sucht|alcoholism|alkoholabhängig\w*|drug use|
+        hypoglyc\w*|hypoglyk\w*|insulin\w*|chemotherap\w*|dialys\w*|rehabilita\w*|reintegrat\w*|wiedereingliederung""",
+    "RELIGION": r"""muslim\w*|islam\w*|christian\w*|catholic\w*|katholisch\w*|catholique|cattolic\w*|católic\w*|
+        katholiek\w*|protestant\w*|evangelisch\w*|jewish|jüdisch\w*|juif|juive|ebreo|ebrea|judío|judía|joods|
+        buddhist\w*|hindu\w*|atheist\w*|athée|ateo|atea|kirchensteuer|church tax|religious affiliation|konfession""",
+    "UNION": r"""trade union member\w*|union member\w*|gewerkschaftsmitglied\w*|mitglied der gewerkschaft|syndiqué\w*|
+        membre d'un syndicat|iscritt[oa] al sindacato|afiliad[oa] (?:a|al) sindicato|vakbondslid|lid van de vakbond""",
+    "POLITICAL": r"""party member(?:ship)?|parteimitglied\w*|membre du parti|iscritt[oa] al partito|afiliad[oa] al partido|
+        partijlid""",
+    "SEXUAL_LIFE": r"""homosexual\w*|gay|lesbian|lesbisch\w*|bisexual\w*|transgender|sexual orientation|sexuelle orientierung|
+        orientation sexuelle|orientamento sessuale|orientación sexual|seksuele geaardheid""",
+    "BIOMETRIC_GENETIC": r"""fingerprints?|fingerabdr\w*|empreintes? digitales?|impronte digitali|huellas dactilares|
+        vingerafdruk\w*|genetic test\w*|gentest\w*|dna[- ]test\w*|test génétique|facial recognition|gesichtserkennung""",
+    "CRIMINAL_RECORD": r"""criminal record|vorstrafe\w*|vorbestraft|casier judiciaire|casellario giudiziale|antecedentes penales|
+        strafblad|convicted|verurteilt|condamné\w*|condannat\w*|condenad\w*|veroordeeld|investigation for|
+        ermittlungsverfahren""",
+}
+_SPECIAL_RE = {k: re.compile(r"(?i)(?<![\w-])(?:" + re.sub(r"\s+", "", v) + r")(?![\w-])") for k, v in _SPECIAL.items()}
+
+
+def find_special(text):
+    if _looks_turkish(text):
+        return []  # the Turkish engine has its own lists
+    return [_span(k, m.start(), m.end(), text, 0.7, "eu_special", "special category keyword (GDPR Art. 9/10)")
+            for k, rx in _SPECIAL_RE.items() for m in rx.finditer(text)]
+
+
+# ---------------------------------------------------------------- optional multilingual model
+
+_NER = None
+
+
+def _ner():
+    """GLiNER multi-PII as an extra name layer, only when KATIP_EU_NER=gliner and the gliner package is installed
+    (it brings PyTorch and a ~1.1 GB model, downloaded once from Hugging Face; Apache-2.0). Off by default."""
+    global _NER
+    if _NER is None:
+        _NER = False
+        if os.environ.get("KATIP_EU_NER", "").lower() == "gliner":
+            try:
+                from gliner import GLiNER
+                _NER = GLiNER.from_pretrained(os.environ.get("KATIP_EU_NER_MODEL", "urchade/gliner_multi_pii-v1"))
+            except Exception as e:  # noqa: BLE001 - the rules still run
+                import logging
+                logging.getLogger("katip").warning("EU name model not loaded: %s", type(e).__name__)
+    return _NER or None
+
+
+def _chunks(text, size=900):
+    """Pieces of at most ~size characters, cut at a line or sentence end (the model reads ~384 tokens)."""
+    start = 0
+    while start < len(text):
+        end = min(len(text), start + size)
+        if end < len(text):
+            cut = max(text.rfind("\n", start, end), text.rfind(". ", start, end))
+            if cut > start + size // 3:
+                end = cut + 1
+        yield start, text[start:end]
+        start = end
+
+
+_DETERMINERS = set("""Each Every Any All Such Other Jeder Jede Jedes Jedem Jeden Dem Den Des Einer Eines Einem Ein Eine
+Chaque Tout Toute Tous Ogni Cada Elke Ieder Iedere Vorsitz Mitglied Mitglieder""".split())
+
+
+def find_names_model(text):
+    model = _ner()
+    if not model:
+        return []
+    thr = float(os.environ.get("KATIP_EU_NER_THRESHOLD", "0.5"))
+    out = []
+    for off, piece in _chunks(text):
+        for e in model.predict_entities(piece, ["person"], threshold=thr):
+            a, b = off + e["start"], off + e["end"]
+            words = [w.strip(".,;:()") for w in text[a:b].split()]
+            # the model also tags role nouns ("controller", "data subject", "der Verantwortliche"): a name here
+            # must be capitalised, must not start with an article or a stop word, and a single word must be a
+            # known first name or surname
+            if not words or not words[0][:1].isupper() or words[0] in NOT_NAMES or words[0] in _DETERMINERS:
+                continue
+            if any(len(w) > 15 for w in words):
+                continue  # "Datenschutzbeauftragten": German compound nouns, not names
+            if any(not (w[:1].isupper() or w.lower() in PARTICLES or _is_initial(w + ".")) for w in words):
+                continue
+            if len(words) == 1 and words[0] not in FIRST_NAMES and words[0] not in SURNAMES:
+                continue
+            out.append(_span("PERSON", a, b, text, round(float(e["score"]), 3), "eu_gliner", "multilingual name model"))
+    return out
+
+
 # ---------------------------------------------------------------- entry points
 
 def detect(text: str) -> list[dict]:
     """Every EU span this module finds; overlaps between them are left to merge()."""
     return (find_iban(text) + find_vat(text) + find_national_ids(text) + find_documents(text) + find_phones(text)
-            + find_birth_dates(text) + find_addresses(text) + find_names(text))
+            + find_birth_dates(text) + find_addresses(text) + find_names(text) + find_names_context(text)
+            + find_names_shapes(text) + _handles(text) + find_names_model(text) + find_special(text) + find_table_cells(text))
 
 
 _RANK = {t: i for i, t in enumerate(("PERSON", "ADDRESS", "BIRTH_DATE", "PHONE", "ID_DOCUMENT", "PASSPORT",
@@ -567,10 +1038,11 @@ def _drop_engine_name(s: dict, turkish_text: bool) -> bool:
     words = [w.strip(".,") for w in s["text"].split()]
     if all(w in NOT_NAMES or (w.isupper() and len(w) <= 3) for w in words):
         return True
-    if turkish_text or s.get("recognizer") != "name_tagger" or any(_turkish_name(w) for w in words):
+    if turkish_text or s.get("recognizer") not in ("name_tagger", "tr_person_gazetteer") or \
+            any(_turkish_name(w) for w in words):
         return False
     # "DSGVO, EuGH", "Hoge Raad": an abbreviation or a legal word inside the guess
-    return len(words) == 1 or any(w in NOT_NAMES or (w.isupper() and len(w) >= 2) for w in words)
+    return len(words) == 1 or any(w in NOT_NAMES or (w.isupper() and len(w) >= 2) or len(w) > 15 for w in words)
 
 
 def merge(text: str, spans: list[dict], extra: list[dict] | None = None) -> list[dict]:
@@ -591,6 +1063,131 @@ def merge(text: str, spans: list[dict], extra: list[dict] | None = None) -> list
         pick = max(ids or group, key=lambda s: (s["end"] - s["start"], _RANK.get(s["entity_type"], 0)))
         out = [s for s in out if s not in hit]
         out.append({**pick, "id": e.get("id") or f"eu{len(out):04d}", "start": a, "end": b, "text": text[a:b]})
+    out = _drop_companies_and_acts(text, out)
+    out = _spread_names(text, out)
+    out = _widen_names(text, out)
     for i, s in enumerate(sorted(out, key=lambda s: s["start"])):
         s.setdefault("id", f"eu{i:04d}")
     return sorted(out, key=lambda s: s["start"])
+
+
+COMPANY_FORMS = (r"(?:GmbH(?:\s&\sCo\.\sKG)?|AG|SE|KG|KGaA|OHG|e\.V\.|B\.V\.|BV|N\.V\.|NV|S\.A\.S?|SA|SAS|SARL|S\.à\s?r\.l\.|"
+                 r"S\.r\.l\.|Srl|S\.p\.A\.|SpA|S\.L\.U?\.?|SL|S\.A\.U\.|Lda\.?|Ltd\.?|Limited|plc|PLC|LLP|LLC|Inc\.?|"
+                 r"ICAV|DAC|UAB|AB|ASA|AS|A/S|ApS|Oy|Oyj|Sp\.\sz\so\.o\.|s\.r\.o\.|a\.s\.|Kft\.?|Zrt\.?|A\.Ş\.|Ltd\.\sŞti\.)")
+_COMPANY_AFTER = re.compile(r"[ \t]*,?[ \t]*(?:(?:&[ \t]*)?[A-ZÀ-Þ][\w'’&.-]*[ \t]+){0,4}" + COMPANY_FORMS + r"(?![\w])")
+_COMPANY_WORDS = set("""Bank Group Holding Holdings Trading Export Import Energy Fund Services Solutions Partners Capital
+Logistics Consulting Systems Technologies Software Retail Industries Investments Properties Immobilien Verwaltung
+Beteiligungen Arredamenti Tessuti Cerámicas Boulangeries Frères Agro Timber Port Otomotiv Insurance Versicherung
+Kanzlei Studio Despacho Cabinet Advocaten Notariaat Stiftung Foundation Fondation Fondazione Fundación Stichting
+Verein Association Associazione Asociación Vereniging Universität University Université Università Universidad
+Klinik Clinic Hospital Krankenhaus Hôpital Ospedale Hotel Restaurant Café Market Markt Supermarkt""".split())
+_ACT_BEFORE = re.compile(r"(?i)(?:regulation|directive|decision|implementing decision|verordnung|richtlinie|beschluss|"
+                         r"durchführungsbeschluss|règlement|directive|décision|regolamento|direttiva|decisione|"
+                         r"reglamento|directiva|decisión|verordening|richtlijn|besluit|uitvoeringsbesluit|"
+                         r"d\.\s?lgs\.|d\.\s?l\.|d\.\s?p\.\s?r\.|legge|l\.|law|gesetz|ley|loi|wet|"
+                         r"\((?:eu|ue|eg|ce|eu)\)|no\.?|nr\.?)\s*(?:\((?:eu|ue|eg|ce)\)\s*)?(?:no\.?|nr\.?|n[°º.])?\s*$")
+
+
+def _drop_companies_and_acts(text, spans):
+    """A name directly followed by a company form ("Rossi Tessuti S.r.l.", "Deutsche Bank AG") or holding a company
+    word is a company, which a DD report needs to read. An EU act number ("Decision (EU) 2021/914") is not a case
+    number of the client."""
+    out = []
+    for s in spans:
+        if s["entity_type"] == "PERSON":
+            words = [w.strip(".,()") for w in s["text"].split()]
+            if _COMPANY_AFTER.match(text, s["end"]) or any(w in _COMPANY_WORDS for w in words) or \
+                    re.search(COMPANY_FORMS + r"$", s["text"]):
+                continue
+        if s["entity_type"] == "CASE_NO" and _ACT_BEFORE.search(text[max(0, s["start"] - 45):s["start"]]):
+            continue
+        out.append(s)
+    return out
+
+
+_TR_SUFFIX = r"(?:['’][a-zçğıöşü]{1,6})?"
+
+
+def _widen_names(text, spans):
+    """A masked name never stays half readable: the capitalised name words right after it, and a known first name or
+    an initial right before it, join the span ("Wiebke [P]" -> "[P]")."""
+    out = []
+    for s in sorted(spans, key=lambda s: s["start"]):
+        if s["entity_type"] == "PERSON":
+            a, b = s["start"], s["end"]
+            for _ in range(3):
+                m = re.match(r"[ \t]+((?:(?i:" + "|".join(sorted(PARTICLES - {"i", "y", "'t", "e", "et"}, key=len, reverse=True)) +
+                             r")[ \t]+)*[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘŞÇĞÖÜİĐΑ-Ω][\w'’-]+)", text[b:])
+                if not m or not _is_cap(m.group(1).split()[-1]) or m.group(1).split()[-1] in _FIELD_WORDS or \
+                        m.group(1).split()[-1] in _COMPANY_WORDS or m.group(1).split()[-1] in _LABEL_WORDS or \
+                        _COMPANY_AFTER.match(text, b + m.end()):
+                    break
+                b += m.end()
+            m = re.search(r"(?<![\w'’-])([A-ZÀ-ÞŁŚŻ][\w'’-]+|[A-ZÀ-Þ]\.)[ \t]+$", text[max(0, a - 30):a])
+            if m and (m.group(1) in FIRST_NAMES or _is_initial(m.group(1))):
+                a -= len(m.group(0))
+            if (a, b) != (s["start"], s["end"]):
+                s = {**s, "start": a, "end": b, "text": text[a:b]}
+        out.append(s)
+    # widening can make spans overlap: join them
+    out.sort(key=lambda s: (s["start"], -s["end"]))
+    joined = []
+    for s in out:
+        if joined and s["start"] < joined[-1]["end"]:
+            if s["end"] > joined[-1]["end"]:
+                if joined[-1]["entity_type"] == "PERSON" and s["entity_type"] == "PERSON":
+                    joined[-1] = {**joined[-1], "end": s["end"], "text": text[joined[-1]["start"]:s["end"]]}
+                else:
+                    joined.append(s)
+            continue
+        joined.append(s)
+    return joined
+
+
+def _spread_names(text, spans):
+    """Every later mention of a masked name is masked too: the full name, the surname alone (also with particles,
+    "Van der Heijden", and with a Turkish suffix, "Brennan'ın"), the first name alone, and initial + surname. A
+    part that is followed by more capitalised words is widened to the whole name ("Ulrike" -> "Ulrike Oberhuber")."""
+    names = [s for s in spans if s["entity_type"] == "PERSON"]
+    parts = set()
+    for s in names:
+        words = [w.strip(".,;:()") for w in s["text"].split()]
+        words = [w for w in words if w and w not in TITLES]
+        for i, w in enumerate(words):
+            if len(w) >= 3 and w[0].isupper() and w not in NOT_NAMES and w not in _DETERMINERS and w not in _FIELD_WORDS \
+                    and not _is_initial(w + ".") and w not in AMBIGUOUS_FIRST:
+                parts.add(w)
+            if w.lower() in PARTICLES and i + 1 < len(words):  # "van der Heijden" as a unit
+                j = i
+                while j < len(words) and words[j].lower() in PARTICLES:
+                    j += 1
+                if j < len(words):
+                    parts.add(" ".join(words[i:j + 1]))
+    if not parts:
+        return spans
+    out = list(spans)
+    covered = lambda a, b: any(x["start"] <= a and x["end"] >= b for x in out)  # noqa: E731
+    for part in sorted(parts, key=len, reverse=True):
+        pat = re.compile(r"(?<![\w'’-])" + r"\s+".join(re.escape(w) if not w.lower() in PARTICLES else f"(?i:{re.escape(w)})"
+                                                     for w in part.split()) + r"(?![\w-])" + _TR_SUFFIX)
+        for m in pat.finditer(text):
+            a = m.start()
+            b = m.start() + len(m.group(0).split("'")[0].split("’")[0])
+            if covered(a, b) or _COMPANY_AFTER.match(text, b) or re.match(
+                    r"\s+(?:[A-ZÀ-Þ][\w'’-]+\s+){0,2}(?:" + "|".join(_COMPANY_WORDS) + r")\b", text[b:]):
+                continue  # "Ferraro Arredamenti S.r.l.": the company keeps its name
+            ini = re.search(r"(?:[A-ZÀ-Þ]\.\s?){1,3}$", text[max(0, a - 8):a])
+            if ini:
+                a -= len(ini.group(0))
+            r = _name_at(text, b + 1, max_words=2) if text[b:b + 1] == " " else None
+            if r and all(_is_cap(w) for w in text[r[0]:r[1]].split()) and not _COMPANY_AFTER.match(text, r[1]):
+                b = r[1]
+            hit = [x for x in out if x["start"] < b and a < x["end"]]
+            if any(x["entity_type"] != "PERSON" for x in hit):
+                continue
+            a = min([a] + [x["start"] for x in hit])
+            b = max([b] + [x["end"] for x in hit])
+            out = [x for x in out if x not in hit]
+            out.append({"entity_type": "PERSON", "start": a, "end": b, "text": text[a:b], "score": 0.7,
+                        "recognizer": "eu_name_spread", "explanation": f"mention of a masked name ({part})"})
+    return out
