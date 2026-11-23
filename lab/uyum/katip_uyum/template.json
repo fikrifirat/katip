@@ -1,0 +1,91 @@
+{
+  "_help": "Describe the data flows of your AI agent system. Use null for 'not known yet': the pack will print an [OPEN] marker and list the question. Never put a client's or person's real data in this file. Allowed values are listed in the _help keys; see examples/dd_harness.json for a filled example.",
+  "system": {
+    "name": "My agent harness",
+    "date": null,
+    "stage": "pilot",
+    "description": null
+  },
+  "controller": {
+    "_help": "role: controller | processor | both (towards clients). country: ISO code, e.g. TR, DE.",
+    "name": "My firm",
+    "country": null,
+    "address": null,
+    "contact": null,
+    "role": null,
+    "eu_establishment": null,
+    "eu_representative": null,
+    "dpo": null
+  },
+  "scope": {
+    "kvkk_applies": null,
+    "eu_clients": null,
+    "offers_to_eu_data_subjects": null,
+    "monitors_eu_behaviour": null
+  },
+  "scale": {"data_subjects_per_year": null, "large_scale": null},
+  "subjects": [
+    {"_help": "vulnerable: employees, children, patients...", "id": "clients", "label": "Clients", "in_eu": null, "vulnerable": null}
+  ],
+  "data": [
+    {"_help": "kind: ordinary | contact | id_number | financial | special (Art. 9) | criminal (Art. 10) | minor", "id": "contact", "label": "Names and contact details", "kind": "contact"}
+  ],
+  "activities": [
+    {
+      "_help": "source: data_subject | client | public | third_party | generated. lawful_basis: 6(1)(a)...6(1)(f). art9_condition e.g. 9(2)(f).",
+      "id": "main",
+      "name": "Main purpose",
+      "purpose": null,
+      "subjects": ["clients"],
+      "data": ["contact"],
+      "source": null,
+      "source_detail": null,
+      "lawful_basis": null,
+      "legitimate_interest": null,
+      "art9_condition": null,
+      "art10_basis": null,
+      "profiling": null,
+      "automated_decision": null,
+      "combines_sources": null,
+      "monitoring": null,
+      "agents": ["agent1"],
+      "storage": ["files"],
+      "retention": null,
+      "retention_reason": null
+    }
+  ],
+  "agents": [
+    {"_help": "models: vendor ids of the language models; vendors: other vendors the agent sends data to. output: internal | client | court | published", "id": "agent1", "name": "Agent", "does": null, "models": ["llm"], "vendors": [], "tools": [], "human_review": null, "output": null}
+  ],
+  "vendors": [
+    {"_help": "role: processor | sub_processor | controller | joint_controller | none. country: ISO code or LOCAL. receives: raw | masked | metadata | none. dpa: signed | accepted_online | available | none. transfer_mechanism: adequacy | dpf | scc | bcr | derogation | none", "id": "llm", "name": "Model vendor", "service": "Language model", "role": "processor", "country": null, "region": null, "receives": null, "data": ["contact"], "dpa": null, "transfer_mechanism": null, "dpf_certified": null, "retention": null, "trains_on_data": null, "subprocessors_published": null, "notes": null}
+  ],
+  "storage": [
+    {"_help": "vendor: id of the vendor hosting it (a LOCAL vendor for your own computer)", "id": "files", "what": "Matter files", "vendor": null, "encrypted": null, "retention": null, "deletion": null}
+  ],
+  "security": {
+    "masking_before_cloud": null,
+    "encryption_in_transit": null,
+    "encryption_at_rest": null,
+    "mfa": null,
+    "access_control": null,
+    "logging": null,
+    "log_retention": null,
+    "backups": null,
+    "key_management": null,
+    "agent_guardrails": null,
+    "pentest": null,
+    "staff_training": null,
+    "incident_owner": null
+  },
+  "ai": {
+    "_help": "role: deployer | provider | both. annex_iii: [] if none; areas: employment, credit, insurance, justice, migration, biometric, education, essential_services, law_enforcement",
+    "role": null,
+    "offered_under_own_name": null,
+    "fine_tunes_models": null,
+    "annex_iii": null,
+    "predicts_crime_risk": null,
+    "chats_with_people": null,
+    "publishes_text": null
+  }
+}
