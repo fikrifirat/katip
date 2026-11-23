@@ -62,6 +62,12 @@ def header(an, title):
 # ------------------------------------------------------------------------------------------- 00 özet
 def ozet(an: Analysis) -> str:
     out = [header(an, "Özet ve yapılacaklar")]
+    if an.q.get("assumptions"):
+        out.append("## Varsayılan cevaplar (doğrulanmadı)\n\nAşağıdaki cevaplar tahmindir. Bunlara dayanan her bulgu "
+                   "ancak tahmin kadar doğrudur; paketi kullanmadan önce her birini doğrulayın.\n\n" +
+                   table(["Alan", "Varsayılan cevap", "Neden"],
+                         [[a.get("field", ""), a.get("value_tr") or a.get("value", ""), a.get("basis_tr") or a.get("basis", "")]
+                          for a in an.q["assumptions"]]) + "\n")
     top = an.top(5)
     if top:
         out.append("## Önce bunlar\n\nÖnem ve verinin hassasiyetine göre sıralandı.\n\n" +

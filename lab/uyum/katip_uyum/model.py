@@ -86,6 +86,9 @@ def validate(q: dict) -> None:
     for d in q.get("data", []):
         enum(f"data {d.get('id')}.kind", d.get("kind"), DATA_KINDS)
         enum(f"data {d.get('id')}.criminal_type", d.get("criminal_type"), CRIMINAL_TYPES)
+    if q.get("assumptions") is not None and not (isinstance(q["assumptions"], list) and
+                                                 all(isinstance(a, dict) and a.get("field") for a in q["assumptions"])):
+        errs.append("assumptions must be a list of {field, value, basis} objects")
     enum("controller.role", q.get("controller", {}).get("role"), ROLES)
     for p in q.get("partners", []):
         enum(f"partner {p.get('id')}.role", p.get("role"), PARTNER_ROLES)

@@ -15,7 +15,7 @@ cd lab/uyum
 python -m katip_uyum template > my_harness.json        # empty questionnaire
 python -m katip_uyum check  examples/dd_harness.json   # findings only: must-dos, risks, open questions
 python -m katip_uyum build  examples/dd_harness.json --out pack/
-python -m pytest tests -q                              # 18 offline tests
+python -m pytest tests -q                              # 19 offline tests
 python eval/eval_uyum.py                               # scored eval (below)
 ```
 
@@ -98,5 +98,8 @@ reviewer (an AI persona) reviews each version, and its notes drove v0.2.
   contracts are English only.
 - Vendor facts in the example are placeholders, not checked claims about those vendors.
 - No contract text is generated (SCCs, DPAs): the pack points to the official texts and checks them.
+
+If you fill in answers on someone's behalf, list the guesses under `assumptions`: the pack shows them first,
+in English and Turkish, so the reader confirms them before trusting the findings.
 
 `SORULAR.tr.md` is the questionnaire in plain Turkish, to send to a lawyer who runs an agent system.
