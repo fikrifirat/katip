@@ -182,5 +182,6 @@
     "chats_with_people": null,
     "publishes_text": null,
     "offering_planned": null
-  }
+  },
+  "_help_assumptions": "Optional: assumptions: [{field, value, basis, value_tr, basis_tr}] for answers you guessed. They are listed at the top of 00-overview and 00-ozet so the reader confirms them first."
 }
