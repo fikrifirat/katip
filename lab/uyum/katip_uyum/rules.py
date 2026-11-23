@@ -560,9 +560,11 @@ def analyse(q: dict) -> Analysis:
                 "codice fiscale...) and many non-Turkish names. Use the 'eu' profile (beta) for EU clients' files.",
                 "GDPR Arts. 25, 32(1)(a)", ["09", "02"], "AB belgeleri Türkçe profille maskeleniyor", "security", 2)
         elif eu_people and prof == "eu":
-            add("maskprofile", "info", "The 'eu' masking profile is beta: lone names are its weak spot",
-                "On synthetic tests it masked every checksummed EU ID, IBAN, VAT, phone and address, but only about half "
-                "of bare names with no title or cue around them. Review names in EU documents before sending.",
+            add("maskprofile", "info", "The 'eu' masking profile is beta: names are its weak spot",
+                "On a held-out set of 24 lawyer-style EU documents (221 values; lab/eu/README.md) the rules alone masked "
+                "about 73% of all values and 64% of names; with the optional name model about 89% and 92%. National IDs "
+                "were caught in 21 of 24 documents, IBANs and e-mail addresses in all. Only 21% (rules) or 42% (with the "
+                "name model) of documents had every value masked, so a person must check the output before it is sent.",
                 "GDPR Arts. 25, 32(1)(a)", ["09"], "'eu' maskeleme profili beta: tek başına geçen adlar zayıf nokta", "security")
         elif eu_people and prof is None:
             add("maskprofile", "open", "Which masking profile is used for EU documents?",

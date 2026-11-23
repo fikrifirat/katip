@@ -99,7 +99,7 @@ Three agents help two lawyers prepare due-diligence (DD) reports and legal opini
 | Open question | Security: Multi-factor login for staff and admin accounts? | GDPR Art. 32(1)(b) | 09 |
 | Open question | Security: A tested restore from backup? | GDPR Art. 32(1)(c)-(d) | 09 |
 | Note | Masked text is pseudonymised, not anonymous | GDPR Art. 4(5), Recital 26; CJEU C-413/23 P | 02, 03, 09 |
-| Note | The 'eu' masking profile is beta: lone names are its weak spot | GDPR Arts. 25, 32(1)(a) | 09 |
+| Note | The 'eu' masking profile is beta: names are its weak spot | GDPR Arts. 25, 32(1)(a) | 09 |
 
 ### Information and rights
 

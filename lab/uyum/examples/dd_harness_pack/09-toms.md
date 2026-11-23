@@ -46,7 +46,7 @@ Summary for a checklist; the decision text is authoritative.
 - **Open question: Security: A tested restore from backup?** Not answered. *(GDPR Art. 32(1)(c)-(d))*
 - **Note: AI literacy.** Providers and deployers must take measures to support the AI literacy of staff who operate AI systems (Art. 4 as amended in 2026). Keep a short training record. *(AI Act Art. 4)*
 - **Note: Masked text is pseudonymised, not anonymous.** Masked text is still personal data for you, because you hold the key (Art. 4(5), Recital 26). For a recipient that cannot re-identify it, the CJEU accepts it may not be personal data (C-413/23 P, EDPS v SRB, 4 Sep 2025), but your duties to inform and to secure stay the same. Describe masking as: detected values are masked and leak-checked before the text leaves the computer. *(GDPR Art. 4(5), Recital 26; CJEU C-413/23 P)*
-- **Note: The 'eu' masking profile is beta: lone names are its weak spot.** On synthetic tests it masked every checksummed EU ID, IBAN, VAT, phone and address, but only about half of bare names with no title or cue around them. Review names in EU documents before sending. *(GDPR Arts. 25, 32(1)(a))*
+- **Note: The 'eu' masking profile is beta: names are its weak spot.** On a held-out set of 24 lawyer-style EU documents (221 values; lab/eu/README.md) the rules alone masked about 73% of all values and 64% of names; with the optional name model about 89% and 92%. National IDs were caught in 21 of 24 documents, IBANs and e-mail addresses in all. Only 21% (rules) or 42% (with the name model) of documents had every value masked, so a person must check the output before it is sent. *(GDPR Arts. 25, 32(1)(a))*
 
 ## KVKK (Türkiye)
 

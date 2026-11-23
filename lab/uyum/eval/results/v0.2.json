@@ -455,7 +455,7 @@
    "cite": "25",
    "status": "exists (range end or overview repeat)",
    "why": "",
-   "context": "| Note | The 'eu' masking profile is beta: lone names are its weak spot | GDPR Arts. 25, 32(1)(a) | 09 |"
+   "context": "| Note | The 'eu' masking profile is beta: names are its weak spot | GDPR Arts. 25, 32(1)(a) | 09 |"
   },
   {
    "doc": "00-overview.md",
@@ -463,7 +463,7 @@
    "cite": "32(1)(a)",
    "status": "exists (range end or overview repeat)",
    "why": "",
-   "context": "| Note | The 'eu' masking profile is beta: lone names are its weak spot | GDPR Arts. 25, 32(1)(a) | 09 |"
+   "context": "| Note | The 'eu' masking profile is beta: names are its weak spot | GDPR Arts. 25, 32(1)(a) | 09 |"
   },
   {
    "doc": "00-overview.md",
@@ -2775,7 +2775,7 @@
    "cite": "25",
    "status": "verified",
    "why": "",
-   "context": "- **Note: The 'eu' masking profile is beta: lone names are its weak spot.** On synthetic tests it masked every checksummed EU ID, IBAN, VAT, phone and address, "
+   "context": "- **Note: The 'eu' masking profile is beta: names are its weak spot.** On a held-out set of 24 lawyer-style EU documents (221 values; lab/eu/README.md) the rule"
   },
   {
    "doc": "09-toms.md",
@@ -2783,7 +2783,7 @@
    "cite": "32(1)(a)",
    "status": "verified",
    "why": "",
-   "context": "- **Note: The 'eu' masking profile is beta: lone names are its weak spot.** On synthetic tests it masked every checksummed EU ID, IBAN, VAT, phone and address, "
+   "context": "- **Note: The 'eu' masking profile is beta: names are its weak spot.** On a held-out set of 24 lawyer-style EU documents (221 values; lab/eu/README.md) the rule"
   },
   {
    "doc": "09-toms.md",
