@@ -1,6 +1,6 @@
-# Katip: KVKK masking for lawyers (Katip Kalkan for Claude)
+# Katip: KVKK masking, mevzuat, emsal and DD for lawyers (Katip Kalkan for Claude)
 
-*Avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme · PII redaction for Turkish legal documents*
+*Avukatlar için KVKK maskeleme, mevzuat atıf kontrolü, emsal arama ve DD taraması · PII redaction and legal research tools for Turkish lawyers*
 
 **Work on client files with Claude, with the client's personal data masked on your computer first.** Katip Kalkan
 opens the document on your computer, replaces the names, ID numbers and health details it finds with
@@ -32,6 +32,18 @@ Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Boa
   file name back, not the names.
 * If a value Katip found would still be readable, it refuses to hand over the text.
 * No account, no telemetry. The author receives nothing.
+
+**Behind the mask**
+
+Masking is the core: Claude works on the masked text, and these tools work with it. Each one says what it sends.
+
+| Tool | What it does for you | Where it runs | Status |
+|---|---|---|---|
+| `mevzuat_bak` | Reads a statute article (`TBK 344`) and checks every statute citation in a draft: does the article exist, is it in force, do number and name match. `restore_to_file` runs it on every final document | On your computer, offline | Since 0.4.1 |
+| `scan_documents` (Algıla) | Names each document's type (ödeme emri, ihtarname, karar, sözleşme…) and suggests next steps | On your computer; no text comes back | Since 0.5.0 |
+| `emsal_ara` | Finds Yargıtay decisions for short keyword queries; a decision is shown only if its esas/karar numbers are in the official text | Sends only keywords to bedesten.adalet.gov.tr | **Off by default** until 20 cases are graded by lawyers |
+| `dd_*` (Katip DD) | Screens a person or company for a DD raporu against MASAK asset-freeze lists, ilan.gov.tr and the Ticaret Sicili Gazetesi, with each source's own record and link. A hit is not a finding and no hit is not a clearance | Sends only the name you look up to those official sites; you log in to the Gazette with your own e-Devlet | **Beta**: tested by us on the live sites, not yet by a lawyer. [DD.md](DD.md) |
+| `geri_bildirim` | Keeps your grade for a precedent, so ranking can be checked against lawyers' judgement | On your computer | Since 0.4.1 |
 
 **Try it in three steps**
 
