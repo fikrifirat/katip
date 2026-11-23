@@ -17,7 +17,7 @@ import time
 
 from .match import MATCH, REVIEW, ListIndex, TextIndex
 from .net import Blocked, PoliteClient
-from .normalize import id_tokens, mask_ids, vkn_ok
+from .normalize import fold, id_tokens, mask_ids, vkn_ok
 from .sources import gazette, ilan, masak
 from .store import Store, now
 
@@ -77,9 +77,15 @@ def _hit(source: str, h, verbatim: bool, redact: bool, id_number: str) -> dict:
          "other_names": (r.get("names") or [])[1:], "birth": " ".join(str(r.get("birth", "")).split()),
          "nationality": r.get("nationality", ""), "organisation": r.get("organisation", ""),
          "decision": r.get("decision", ""), "date": _date(r), "source_url": r.get("url", ""),
-         **({"gazette_issue": r["issue"], "gazette_page": r.get("gazette_page", "")} if source == "gazette" and r.get("issue") else {}),
+         **({"gazette_issue": r["issue"], "gazette_page": r.get("gazette_page", ""),
+            "citation": gazette_citation({"date": r.get("date", ""), "issue": r["issue"], "page": r.get("gazette_page", "")}),
+            "verify": GAZETTE_VERIFY} if source == "gazette" and r.get("issue") else {}),
          "gazette_url": r.get("gazette_url", ""), "notes": list(h.reasons)}
-    if r.get("full_text") is False and not any("title/summary" in n for n in d["notes"]):
+    if r.get("listing_only"):
+        d["notes"].append("listed in the Gazette site's search results only: the gazette page was not read, its text "
+                          "is unknown; cite it as listed (issue/page) and verify on ticaretsicil.gov.tr")
+        d["citation"] = r.get("url", "")
+    elif r.get("full_text") is False and not any("title/summary" in n for n in d["notes"]):
         d["notes"].append("title/summary only: notice page was not opened, check the full notice")
     if r.get("csv_only"):
         d["notes"].append("row found only in MASAK's CSV file, not in its search data")
@@ -256,6 +262,8 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
     cookies are then kept encrypted for a few hours (KATIP_TSG_SESSION_HOURS, default 8) and later
     runs search headless. Saves up to ``max_pages`` free gazette pages and reads them with OCR.
     """
+    from pathlib import Path
+
     from .sources import gazette_browser
     from .store import home
 
@@ -269,17 +277,70 @@ def gazette_lookup(target: str, office: str, max_pages: int = 3, court: bool = F
             return _NO_BROWSER
         return {"status": "error", "error": repr(e)[:300],
                 "note": "the run stopped; Katip tried to log out on the site and deleted the browser profile"}
-    out = {"status": "blocked" if info.get("blocked") and not saved else "ok", "results_on_site": info.get("results"),
-           "saved_pages": len(saved), "login": info.get("session"), "logged_out": info.get("logged_out"),
-           "blocked": info.get("blocked"),
-           "notices_on_site": info.get("notices", [])[:30]}
+    listed = info.get("notices", [])
+    # Pages saved by an earlier lookup were not asked for again. Those already in the store count as
+    # read; one that is on disk but not in the store is read now.
+    st0 = store or Store()
+    in_store = {str(r.get("url", "")).split("#", 1)[0] for r in st0.records("gazette") if r.get("kind") == "notice"}
+    cached = [Path(c) for c in info.get("cached", [])]
+    fetched = len(saved)
+    saved = list(saved) + [c for c in cached if str(c) not in in_store]
+    read = {p.name for p in saved} | {c.name for c in cached}
+    out = {"status": "blocked" if info.get("blocked") and not read else "ok", "results_on_site": info.get("results"),
+           "saved_pages": fetched, "pages_from_earlier_lookups": len(cached), "listed_only": sum(1 for n in listed if n["file"] not in read),
+           "login": info.get("session"), "logged_out": info.get("logged_out"), "blocked": info.get("blocked"),
+           **({"security_code": info["security_code"]} if info.get("security_code") else {}),
+           **({"site_requests": info["site_requests"]} if info.get("site_requests") else {}),
+           "notices_on_site": [{**{k: n[k] for k in ("date", "issue", "page", "type", "unvan", "row")},
+                                "read": n["file"] in read, "citation": gazette_citation(n)} for n in listed],
+           "verify": GAZETTE_VERIFY,
+           "how_to_read": ("notices_on_site is the site's full result list. read=false rows were listed by the site "
+                           "but their gazette page was not downloaded, so their text is unknown: report them as "
+                           "listed, not as read. 'row' is the site's own table row, verbatim; do not infer facts "
+                           "(share structure, officers) that are not in it.")}
+    out["court_notices"] = ("included (court and bankruptcy-office notices)" if court else
+                            "NOT included: court notices (konkordato, iflas) are a separate search on the site; "
+                            "call dd_gazette_lookup again with court=true to list them")
     if saved:
         ing = add_gazette(saved, use_ocr=True, store=store)
         out["notices"] = ing.get("notices")
         if ing.get("status") != "ok":
             out.update(status=ing["status"], error=ing.get("error"))
-    out["next"] = "call dd_screen with the same name to see the notices that mention it"
+    if listed:
+        _keep_listing(listed, target, store)
+    out["next"] = "call dd_screen with the same name: it returns read notices and listed-only rows"
     return out
+
+
+GAZETTE_VERIFY = ("No public link per notice: verify on www.ticaretsicil.gov.tr > İlan Görüntüleme (e-Devlet login) "
+                  "with the registry office and trade name, or by issue number and page.")
+
+
+def gazette_citation(n: dict) -> str:
+    d = n.get("date", "")
+    dt = ".".join(reversed(d.split("-"))) if d else ""
+    return f"TTSG {dt}, sayı {n.get('issue', '')}, s. {n.get('page', '')}".strip()
+
+
+def _keep_listing(listed: list[dict], target: str, store: Store | None) -> None:
+    """Every row of the site's result list becomes a record, so dd_screen shows all of them; rows whose
+    page Katip has read are shown through the read notices instead."""
+    st, started = store or Store(), now()
+    recs = st.records("gazette")
+    pages_read = {(r.get("issue"), r.get("gazette_page")) for r in recs if r.get("kind") == "notice"}
+    new = {}
+    for n in listed:
+        if (n["issue"], n["page"]) in pages_read:
+            continue
+        rid = f"gazette:list:{n['issue']}:{n['page']}:{fold(n['unvan'])[:60]}"
+        new[rid] = {"rid": rid, "source": "gazette", "kind": "listing", "title": n["unvan"], "names": [n["unvan"]],
+                    "text": " · ".join([n["unvan"], n.get("type", ""), *[c for c in n.get("row") or [] if c != n["unvan"]]]), "issue": n["issue"],
+                    "gazette_page": n["page"], "date": n["date"], "full_text": False, "listing_only": True,
+                    "decision": n.get("type", ""), "url": gazette_citation(n), "sicil_no": n.get("sicil_no", ""),
+                    "office": n.get("office", "")}
+    keep = [r for r in recs if r["rid"] not in new
+            and not (r.get("kind") == "listing" and (r.get("issue"), r.get("gazette_page")) in pages_read)]
+    st.replace_source("gazette", keep + list(new.values()), {"listing_for": target}, started)
 
 
 def gazette_logout() -> dict:

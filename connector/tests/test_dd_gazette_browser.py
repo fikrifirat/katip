@@ -99,9 +99,10 @@ def test_tr_upper_and_rows():
             ["BURSA", "69921", "KUZEYRÜZGARI TEKSTİL A.Ş.", "19.11.2026", "11712", "101", "Konkordato", ""]]
     links = ["pdf_goster.php?Guid=abc"]
     got = gb.parse_results(rows, links)
-    assert got == [{"office": "BURSA", "unvan": "KUZEYRÜZGARI TEKSTİL A.Ş.", "date": "2026-11-19", "issue": "11712",
-                    "page": "101", "type": "Konkordato", "href": "pdf_goster.php?Guid=abc",
-                    "file": "tsg_2026-11-19_11712_p101.pdf"}]
+    assert got == [{"office": "BURSA", "sicil_no": "69921", "unvan": "KUZEYRÜZGARI TEKSTİL A.Ş.", "date": "2026-11-19",
+                    "issue": "11712", "page": "101", "type": "Konkordato", "href": "pdf_goster.php?Guid=abc",
+                    "file": "tsg_2026-11-19_11712_p101.pdf",
+                    "row": ["BURSA", "69921", "KUZEYRÜZGARI TEKSTİL A.Ş.", "19.11.2026", "11712", "101", "Konkordato"]}]
 
 
 def test_service_ingests_saved_pages_and_reports_logout(tmp_path, monkeypatch):
@@ -164,3 +165,47 @@ def test_no_chrome_gives_a_plain_install_hint(monkeypatch):
     monkeypatch.setattr(gb, "lookup", boom)
     out = service.gazette_lookup("Kuzeyrüzgarı", "BURSA")
     assert out["status"] == "no_browser" and "google.com/chrome" in out["error"]
+
+
+def test_every_site_row_is_kept_and_marked_listed_only(tmp_path, monkeypatch):
+    """Claude Desktop test, 22 Nov: the site listed 10 notices, Katip read 3 pages, and the report showed
+    only those 3 as if they were all. Every row must reach dd_screen, marked as listed, not read."""
+    from katip_kalkan.dd import service
+    from katip_kalkan.dd.store import Store
+    monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path))
+    rows = [{"date": f"2025-0{i}-01", "issue": str(11000 + i), "page": str(i), "type": "Denetçi değişikliği",
+             "unvan": "KUZEYRÜZGARI TEKSTİL SANAYİ VE TİCARET A.Ş.", "office": "BURSA", "sicil_no": "69921",
+             "file": f"tsg_2025-0{i}-01_{11000 + i}_p{i}.pdf", "row": ["BURSA", "69921", "KUZEYRÜZGARI…", "Denetçi değişikliği"]}
+            for i in range(1, 6)]
+    monkeypatch.setattr(gb, "lookup", lambda *a, **k: ([], {"results": 5, "notices": rows, "blocked": "security code asked"}))
+    st = Store()
+    out = service.gazette_lookup("Kuzeyrüzgarı Tekstil", "Bursa", store=st)
+    assert out["listed_only"] == 5 and len(out["notices_on_site"]) == 5 and "court=true" in out["court_notices"]
+    assert out["notices_on_site"][0]["citation"] == "TTSG 01.01.2025, sayı 11001, s. 1" and not out["notices_on_site"][0]["read"]
+    hits = service.screen("Kuzeyrüzgarı Tekstil", sources=["gazette"], store=st)["hits"]
+    assert len(hits) == 5 and all("not read" in " ".join(h["notes"]) and h["citation"].startswith("TTSG") for h in hits)
+    # a page read later replaces its listed-only row
+    st.replace_source("gazette", st.records("gazette") + [{"rid": "gazette:abc:1:0", "source": "gazette", "kind": "notice",
+                      "title": "KUZEYRÜZGARI TEKSTİL SANAYİ VE TİCARET A.Ş.", "names": ["KUZEYRÜZGARI TEKSTİL SANAYİ VE TİCARET A.Ş."],
+                      "text": "...", "issue": "11001", "gazette_page": "1", "date": "2025-01-01", "url": "/x.pdf#page=1"}], {}, "t")
+    service.gazette_lookup("Kuzeyrüzgarı Tekstil", "Bursa", store=st)
+    kinds = sorted(r.get("kind") for r in st.records("gazette"))
+    assert kinds.count("listing") == 4 and kinds.count("notice") == 1
+
+
+def test_cached_pages_count_as_read_without_a_new_fetch(tmp_path, monkeypatch):
+    from katip_kalkan.dd import service
+    from katip_kalkan.dd.store import Store
+    monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path))
+    pdf = tmp_path / "tsg" / "tsg_2026-11-19_11712_p101.pdf"
+    n = {"date": "2026-11-19", "issue": "11712", "page": "101", "type": "Konkordato", "unvan": "KUZEYRÜZGARI A.Ş.",
+         "office": "BURSA", "sicil_no": "1", "file": pdf.name, "row": ["BURSA"]}
+    monkeypatch.setattr(gb, "lookup", lambda *a, **k: ([], {"results": 1, "blocked": None, "notices": [n],
+                                                            "cached": [str(pdf)]}))
+    ingested = []
+    monkeypatch.setattr(service, "add_gazette",
+                        lambda paths, use_ocr=False, store=None: ingested.append(list(paths)) or {"status": "ok", "notices": 1})
+    out = service.gazette_lookup("Kuzeyrüzgarı", "Bursa", store=Store())
+    assert out["status"] == "ok" and out["saved_pages"] == 0 and out["pages_from_earlier_lookups"] == 1
+    assert out["notices_on_site"][0]["read"] is True and out["listed_only"] == 0
+    assert ingested == [[pdf]]  # on disk but not yet in the store: read now, without asking the site

@@ -7,6 +7,13 @@ e-mail attachments) is searched too. Nothing has to be copied anywhere. The inst
 warning appears for every extension installed from a file. To check this download, run
 `gh attestation verify katip-kalkan.mcpb --repo fikrifirat/katip`.
 
+**New in 0.5.1 (Gazette lookups, from the first lawyer-style test):**
+- The Gazette lookup now keeps every notice the site lists, not only the pages Katip reads. Notices whose page was not read are marked "listed, text not read", so a report can no longer present 3 of 10 as all of them.
+- When the Gazette site asks for its security code, a Chrome window opens on that page; you type the code, and Katip carries on in the background. Katip never reads or fills the code.
+- Every Gazette record carries a citation (TTSG date, issue, page) and how to verify it on ticaretsicil.gov.tr. The answer also says when court notices (konkordato, iflas) were not part of the search.
+- A gazette page that holds two of the notices is downloaded once, and a page already saved on your computer is not downloaded again, so the site asks for its security code less often.
+- Katip keeps a log of its own requests to the Gazette site, without names (`~/.katip/dd/tsg/requests.jsonl`), so we can see what makes the site ask for the code.
+
 **New in 0.5.0 (Katip DD: due-diligence screening, beta):**
 - Seven `dd_*` tools screen a person or company against MASAK asset-freeze lists, ilan.gov.tr notices and the Ticaret Sicili Gazetesi, from the same extension. Every hit is the source's own record with its official link and the date of the data; nothing is summarised, and no hit is not a clearance. Other people's ID numbers and parents' names are removed before Claude sees a result; a company's labelled tax number (VKN) stays.
 - ilan.gov.tr and the Gazette are looked up one named target at a time in the Google Chrome already on your computer. For the Gazette you log in once with e-Devlet in a Chrome window; the site's cookies are kept encrypted for 8 hours and later lookups run in the background with no window. `dd_gazette_logout` ends it at once. If the site asks for its security code (it did after about 6 searches in our test), Katip stops and does not solve it.

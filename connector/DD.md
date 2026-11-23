@@ -10,7 +10,7 @@ due-diligence tools:
 | `dd_sources` | What each source holds, how fresh it is and its last failure. |
 | `dd_update` | Fetches the four MASAK lists (about 10 requests, 2 s apart). |
 | `dd_ilan_lookup` | Looks up ONE named target on ilan.gov.tr in a real browser on your computer (needs Playwright). |
-| `dd_gazette_lookup` | Looks up ONE company in the Ticaret Sicili Gazetesi. Opens Chrome on your computer; you log in with e-Devlet yourself; Katip searches the site's form (registry office + first 5 letters), saves up to 3 free gazette pages and reads them with OCR. Only the site's cookies are kept, encrypted with Katip's key, for 8 hours (`KATIP_TSG_SESSION_HOURS`, 0 = log out after each run); until then lookups run in the background with no window. |
+| `dd_gazette_lookup` | Looks up ONE company in the Ticaret Sicili Gazetesi. Opens Chrome on your computer; you log in with e-Devlet yourself; Katip searches the site's form (registry office + first 5 letters), lists every notice the site finds (with issue/page citations) and reads up to 3 of those gazette pages with OCR; the rest are marked "listed, not read". If the site asks for its security code, a Chrome window opens for you to type it. Court notices need `court=true`. Only the site's cookies are kept, encrypted with Katip's key, for 8 hours (`KATIP_TSG_SESSION_HOURS`, 0 = log out after each run); until then lookups run in the background with no window. |
 | `dd_gazette_logout` | Logs out of the Gazette site now and deletes the kept login. |
 
 Nothing is summarised: every hit is a record the source published. A "review" hit needs checking,
@@ -44,7 +44,7 @@ nobody has run it yet.
 | App | Status (22 Nov 2026) |
 |---|---|
 | Claude Code | **Tested**: connected, `dd_screen` called on a real MASAK snapshot, results redacted |
-| Claude Desktop (.mcpb) | **Tested by script**: the built bundle lists 18 tools and answers `dd_sources` (`tests/smoke_mcpb.py`); not yet clicked through by a person |
+| Claude Desktop (.mcpb) | **Tested**: 0.5.0 installed on a Mac on 22 Nov 2026; MASAK update, ilan.gov.tr and Gazette lookups and `dd_screen` run from a chat (and the bundle smoke test, `tests/smoke_mcpb.py`) |
 | Cursor, VS Code, Windsurf, Codex, Gemini CLI | Config only |
 | ChatGPT | Not deployed: needs the relay (below) |
 
@@ -144,5 +144,8 @@ What is **not** proven or not special:
   are the next labelled set.
 - ilan.gov.tr and the Gazette work one named target at a time on the lawyer's computer. Neither is a
   full index. The Gazette site asked for its security code after about 6 searches in one login (22 Nov
-  2026); Katip stops there, so expect a few companies per login, not a batch.
-- Tested in Claude Code only; the other apps are config only (table above).
+  2026); a Chrome window then opens for the lawyer to type it (Katip never solves it), so expect a few
+  companies per login, not a batch. A gazette page saved by an earlier
+  lookup is not asked for again, and `~/.katip/dd/tsg/requests.jsonl` (times and request kinds only, no
+  names) counts the searches and pages before each code, so the real trigger can be measured.
+- Tested in Claude Code and Claude Desktop only; the other apps are config only (table above).

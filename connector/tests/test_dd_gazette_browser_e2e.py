@@ -31,6 +31,8 @@ SANDBOX = getattr(os, "geteuid", lambda: 1)() != 0  # Chrome's sandbox refuses t
 class Site(BaseHTTPRequestHandler):
     log = []
     new_tab = True
+    captcha = False      # pdf_goster asks for the security code until the code cookie is set
+    lawyer_types = True  # the page "types" the code itself, standing in for the lawyer
 
     def log_message(self, *a):
         pass
@@ -65,12 +67,22 @@ class Site(BaseHTTPRequestHandler):
                          "<th>Sayfa</th><th>İlan Türü</th><th>Gazete</th><th>Sepete Ekle</th></tr>"
                          "<tr><td>BURSA</td><td>1</td><td>KUZEYRÜZGARI A.Ş.</td><td>19.11.2026</td><td>11712</td><td>101</td>"
                          "<td>Konkordato</td><td><a href='pdf_goster.php?Guid=a'>Gazete</a></td>"
-                         "<td><a href='#' onclick='location=\"/cart\"'>Sepete Ekle</a></td></tr></table>")
+                         "<td><a href='#' onclick='location=\"/cart\"'>Sepete Ekle</a></td></tr>"
+                         # a second notice on the same gazette page: the page is fetched once
+                         "<tr><td>BURSA</td><td>2</td><td>KUZEYRÜZGARI GIDA A.Ş.</td><td>19.11.2026</td><td>11712</td>"
+                         "<td>101</td><td>Genel Kurul</td><td><a href='pdf_goster.php?Guid=b'>Gazete</a></td>"
+                         "<td>Sepete Ekle</td></tr></table>")
             return self._send("<a href='/view/menu/cikis.php'>ÇIKIŞ</a><form id=FormIlanGoruntuleme method=get>"
                               "<select id=SicilMudurluguId name=SicilMudurluguId><option value=0>Seçiniz</option>"
                               "<option value=40>BURSA</option></select><input id=TicSicNo name=TicSicNo>"
                               "<input id=TicaretUnvani name=TicaretUnvani><input type=checkbox id=BagliIlan name=BagliIlan>"
                               "<button type=submit>Sorgula</button></form>" + table)
+        if p.startswith("/kod"):
+            return self._send("", code=302, headers=[("Location", "/view/hizlierisim/pdf_goster.php?Guid=a"),
+                                                     ("Set-Cookie", "code=1; Path=/")])
+        if p.startswith("/view/hizlierisim/pdf_goster.php") and Site.captcha and "code=1" not in (self.headers.get("Cookie") or ""):
+            js = "<script>setTimeout(()=>location='/kod',800)</script>" if Site.lawyer_types else ""
+            return self._send("<form id=FormGuvenlikKodu><img src='/x.png'><input name=kod></form>" + js)
         if p.startswith("/view/hizlierisim/pdf_goster.php"):
             return self._send("<embed src=\"/tmp_gazete/x1.pdf\" type=\"application/pdf\" />")
         if p.startswith("/tmp_gazete/"):
@@ -87,7 +99,7 @@ def site(tmp_path, monkeypatch):
     monkeypatch.setenv("KATIP_HOME", str(tmp_path / "home"))
     monkeypatch.setenv("KATIP_DD_HOME", str(tmp_path / "dd"))
     monkeypatch.setenv("KATIP_NO_KEYCHAIN", "1")
-    Site.log = []
+    Site.log, Site.captcha, Site.lawyer_types = [], False, True
     srv = ThreadingHTTPServer(("127.0.0.1", 0), Site)
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     yield f"http://127.0.0.1:{srv.server_address[1]}"
@@ -121,9 +133,10 @@ def test_login_once_then_headless_until_logout(site, tmp_path, new_tab):
     b, saved, info = run(site, tmp_path, keep_hours=8)
     assert info["blocked"] is None, info
     assert [p.name for p in saved] == ["tsg_2026-11-19_11712_p101.pdf"] and saved[0].read_bytes() == PDF
+    assert info["results"] == 2 and sum("pdf_goster.php" in u for u in Site.log) == 1
     assert b.logins == 1 and not b.profile.exists() and gb.session_read() is not None
     b2, saved2, info2 = run(site, tmp_path, keep_hours=8)  # second run: no window, saved login
-    assert b2.logins == 0 and info2["session"] == "reused saved login" and saved2
+    assert b2.logins == 0 and info2["session"] == "reused saved login" and info2["cached"] and not saved2
     out = gb.logout(browser=gb._Playwright(executable_path=CHROME, sandbox=SANDBOX), base=site)
     assert out["logged_out"] is True and gb.session_read() is None
     assert "/cart" not in Site.log
@@ -150,7 +163,7 @@ def test_expired_login_is_logged_out_then_asked_again(site, tmp_path):
     f.write_bytes(nonce + vault.AESGCM(vault._key()).encrypt(nonce, json.dumps(data).encode(), gb._AAD))
     Site.log = []
     b, saved, info = run(site, tmp_path, keep_hours=8)
-    assert b.logins == 1 and saved  # asked to log in again
+    assert b.logins == 1 and info["cached"]  # asked to log in again; the saved page is not fetched twice
     assert Site.log.index("/view/menu/cikis.php") < Site.log.index("/view/hizlierisim/girisyap.php")
 
 
@@ -161,3 +174,38 @@ def test_unknown_registry_office_stops_without_a_30_second_wait(site, tmp_path):
     saved, info = gb.lookup("Kuzeyrüzgarı", "Narnia", out_dir=tmp_path / "out", browser=b, pause=0.1,
                             login_timeout=30, poll=0.3, base=site, say=lambda *_: None, keep_hours=0)
     assert not saved and "not on the site's list" in info["blocked"] and time.time() - t < 25
+
+
+def test_security_code_is_typed_by_the_lawyer_in_a_window_then_background(site, tmp_path):
+    Site.new_tab, Site.captcha = False, True
+    b, saved, info = run(site, tmp_path, keep_hours=8)
+    assert saved and info["blocked"] is None and info["security_code"].startswith("typed by you")
+    assert b.logins == 2  # one window for e-Devlet, one for the code; Katip never fills the code itself
+    assert "/cart" not in Site.log
+
+
+def test_no_code_typed_stops_cleanly(site, tmp_path):
+    Site.new_tab, Site.captcha, Site.lawyer_types = False, True, False
+    b, saved, info = run(site, tmp_path, keep_hours=0, code_timeout=3)
+    assert not saved and info["blocked"] == "security code asked" and info["logged_out"] is True
+
+
+def test_a_page_saved_before_is_not_asked_for_again_and_requests_are_journalled(site, tmp_path):
+    Site.new_tab = False
+    _, saved, info = run(site, tmp_path, keep_hours=8)
+    assert len(saved) == 1 and info["cached"] == []
+    before = sum(1 for p in Site.log if "pdf_goster" in p or "tmp_gazete" in p)
+    _, saved2, info2 = run(site, tmp_path, keep_hours=8)
+    assert saved2 == [] and [Path(c).name for c in info2["cached"]] == [saved[0].name]
+    assert sum(1 for p in Site.log if "pdf_goster" in p or "tmp_gazete" in p) == before  # no new page request
+    lines = (tmp_path / "dd" / "tsg" / "requests.jsonl").read_text().splitlines()
+    assert [__import__("json").loads(x)["kind"] for x in lines] == ["login", "search", "page", "pdf", "search"]
+    assert "KUZEY" not in "".join(lines).upper()  # the journal holds no names
+
+
+def test_journal_counts_pages_before_each_security_code(site, tmp_path):
+    Site.new_tab, Site.captcha = False, True
+    _, saved, info = run(site, tmp_path, keep_hours=8)
+    st = info["site_requests"]
+    assert st["codes_asked"] == 1 and st["codes_typed"] == 1
+    assert st["before_each_code"][0]["searches"] == 1 and st["before_each_code"][0]["pages"] == 1

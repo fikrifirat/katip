@@ -1,7 +1,7 @@
 {
   "name": "katip-kalkan",
   "displayName": "Katip: KVKK Masking, Mevzuat, Emsal & DD for Lawyers",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Katip for Turkish lawyers, run on your computer. It masks KVKK personal data in client documents (UYAP .udf, Word, PDF, scans) before Claude reads them, and works behind that mask: it checks statute citations offline against mevzuat, names document types, searches Yargıtay precedents (off by default), and screens a person or company against MASAK, ilan.gov.tr and the Ticaret Sicili Gazetesi for a DD raporu (beta). Avukatlar için KVKK maskeleme, mevzuat atıf kontrolü, emsal arama ve DD taraması.",
   "author": {
     "name": "fikrifirat",
