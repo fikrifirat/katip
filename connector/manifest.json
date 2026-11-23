@@ -1,10 +1,10 @@
 {
   "manifest_version": "0.3",
   "name": "katip-kalkan",
-  "display_name": "Katip: KVKK Masking & Anonymisation for Lawyers",
+  "display_name": "Katip: KVKK Masking, Mevzuat, Emsal & DD for Lawyers",
   "version": "0.5.1",
-  "description": "Müvekkil belgelerindeki KVKK verilerini Claude görmeden bu bilgisayarda maskeler · Masks KVKK personal data on your computer before Claude reads a document.",
-  "long_description": "Katip müvekkil belgelerinizi (.docx, UYAP .udf, .pdf, taramalar ve fotoğraflar) bu bilgisayarda açar ve Claude'a göndermeden önce ad soyad, T.C. kimlik / YKN / pasaport no, adres, telefon, IBAN ve sağlık gibi KVKK verilerini [AD SOYAD-1] gibi yer tutucularla değiştirir. Belgenin aslı ve gerçek adlar bilgisayarınızdan çıkmaz; isterseniz son metni gerçek adlarla yine bilgisayarınıza kaydeder. Claude Desktop \"bilgisayarınıza erişim\" uyarısını her eklenti için gösterir; Katip yalnızca seçtiğiniz klasördeki dosyaları açar. İlk açılışta açık kaynak yardımcı bileşenler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir sunucuya gönderilmez. Ayrıca DD araçları bir kişi veya şirket adını MASAK malvarlığı dondurma listeleri, ilan.gov.tr ve Ticaret Sicili Gazetesi kayıtlarında tarar; bunun için yalnızca aradığınız adla bu resmî sitelere bağlanır, Gazete için e-Devlet girişini kendiniz yaparsınız. Katip bir güvenlik katmanıdır, garanti değildir: bazı değerleri kaçırabilir, maskeli metin KVKK'ya göre hâlâ kişisel veridir ve Claude'un yanıtlarını kontrol etmeniz gerekir.\n\nKatip opens client documents (.docx, UYAP .udf, .pdf, scans and photos) on your computer and replaces names, T.C. kimlik / YKN / passport numbers, addresses, phones, IBANs and health data with placeholders such as [AD SOYAD-1] before Claude sees them. The original and the real names stay on your computer; Katip can save the final text with the real names there. Claude Desktop shows its \"access to your computer\" warning for every extension; Katip only opens files in the folder you pick. On first start it downloads its open-source helpers once (about a minute); your documents are never sent to any server. The DD tools also screen a person or company name against MASAK asset-freeze lists, ilan.gov.tr and the Ticaret Sicili Gazetesi; for that they contact those official sites with only the name you look up, and you log in to the Gazette with e-Devlet yourself. Katip is a safety layer, not a guarantee: it can miss values, masked text is still personal data under KVKK, and you should review Claude's answers.",
+  "description": "Müvekkil belgelerini Claude görmeden bu bilgisayarda maskeler; kanun atıflarını denetler, Yargıtay emsali arar, MASAK, ilan.gov.tr ve Ticaret Sicili Gazetesi'nde DD taraması yapar · Masks client documents on your computer before Claude reads them, then checks statute citations, searches Yargıtay precedents and screens names for a DD raporu.",
+  "long_description": "Katip müvekkil belgelerinizi (.docx, UYAP .udf, .pdf, taramalar ve fotoğraflar) bu bilgisayarda açar ve Claude'a göndermeden önce ad soyad, T.C. kimlik / YKN / pasaport no, adres, telefon, IBAN ve sağlık gibi KVKK verilerini [AD SOYAD-1] gibi yer tutucularla değiştirir. Belgenin aslı ve gerçek adlar bilgisayarınızdan çıkmaz; isterseniz son metni gerçek adlarla yine bilgisayarınıza kaydeder. Claude Desktop \"bilgisayarınıza erişim\" uyarısını her eklenti için gösterir; Katip yalnızca seçtiğiniz klasördeki dosyaları açar. İlk açılışta açık kaynak yardımcı bileşenler bir kez indirilir (yaklaşık 1 dakika); belgeleriniz hiçbir sunucuya gönderilmez. Maskenin arkasında başka araçlar da çalışır: mevzuat_bak kanun maddesini getirir ve taslaktaki atıfları çevrimdışı denetler (madde var mı, yürürlükte mi); scan_documents belgelerin türünü bu bilgisayarda çıkarır; emsal_ara Yargıtay kararı arar (varsayılan olarak kapalı; açarsanız yalnızca anahtar kelimeler gönderilir); DD araçları (beta) bir kişi veya şirket adını MASAK malvarlığı dondurma listeleri, ilan.gov.tr ve Ticaret Sicili Gazetesi kayıtlarında tarar, her sonucu kaynağın kendi kaydı ve bağlantısıyla verir. DD için yalnızca aradığınız adla bu resmî sitelere bağlanılır, Gazete için e-Devlet girişini kendiniz yaparsınız. Katip bir güvenlik katmanıdır, garanti değildir: bazı değerleri kaçırabilir, maskeli metin KVKK'ya göre hâlâ kişisel veridir ve Claude'un yanıtlarını kontrol etmeniz gerekir.\n\nKatip opens client documents (.docx, UYAP .udf, .pdf, scans and photos) on your computer and replaces names, T.C. kimlik / YKN / passport numbers, addresses, phones, IBANs and health data with placeholders such as [AD SOYAD-1] before Claude sees them. The original and the real names stay on your computer; Katip can save the final text with the real names there. Claude Desktop shows its \"access to your computer\" warning for every extension; Katip only opens files in the folder you pick. On first start it downloads its open-source helpers once (about a minute); your documents are never sent to any server. Other tools work behind the mask: mevzuat_bak reads a statute article and checks a draft's citations offline (does the article exist, is it in force); scan_documents names each document's type on your computer; emsal_ara searches Yargıtay decisions (off by default; when on, only keywords are sent); the DD tools (beta) screen a person or company against MASAK asset-freeze lists, ilan.gov.tr and the Ticaret Sicili Gazetesi and return each source's own record with its link. For DD, Katip contacts those official sites with only the name you look up, and you log in to the Gazette with e-Devlet yourself. Katip is a safety layer, not a guarantee: it can miss values, masked text is still personal data under KVKK, and you should review Claude's answers.",
   "author": {
     "name": "fikrifirat",
     "email": "fikrifirat@gmail.com",
@@ -40,7 +40,18 @@
     "pseudonymization",
     "data-protection",
     "privacy",
-    "gdpr"
+    "gdpr",
+    "mevzuat",
+    "emsal",
+    "yargitay",
+    "yargıtay",
+    "emsal-karar",
+    "due-diligence",
+    "dd",
+    "masak",
+    "ticaret-sicili",
+    "legal-research",
+    "citation-check"
   ],
   "privacy_policies": [
     "https://github.com/fikrifirat/katip/blob/main/connector/PRIVACY.md"
@@ -187,7 +198,7 @@
     "profile": {
       "type": "string",
       "title": "Maskeleme düzeyi / Masking level",
-      "description": "ai = Yapay zekâ ile paylaşım (önerilen: tüm kişisel veriler); court = Mahkemeye sunum (taraf adresleri, UETS ve sicil no gizlenir; dava konusu taşınmazın adresi, dosya no ve tarihler görünür); anon = Tam anonim (tarih, il, kurum da gizlenir).",
+      "description": "ai = Yapay zekâ ile paylaşım (önerilen: tüm kişisel veriler); court = Mahkemeye sunum (taraf adresleri, UETS ve sicil no gizlenir; dava konusu taşınmazın adresi, dosya no ve tarihler görünür); anon = Tam anonim (tarih, il, kurum da gizlenir); eu = AB / GDPR (ai + AB kimlik numaraları, KDV numaraları, AB telefon ve adresleri, yabancı adlar).",
       "required": false,
       "default": "ai"
     },

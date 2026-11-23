@@ -1,6 +1,6 @@
-# Katip: KVKK masking for lawyers (Katip Kalkan for Claude)
+# Katip: KVKK masking, mevzuat, emsal and DD for lawyers (Katip Kalkan for Claude)
 
-*Avukatlar için KVKK kişisel veri maskeleme ve anonimleştirme · PII redaction for Turkish legal documents*
+*Avukatlar için KVKK maskeleme, mevzuat atıf kontrolü, emsal arama ve DD taraması · PII redaction and legal research tools for Turkish lawyers*
 
 **Work on client files with Claude, with the client's personal data masked on your computer first.** Katip Kalkan
 opens the document on your computer, replaces the names, ID numbers and health details it finds with
@@ -20,6 +20,11 @@ Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Boa
 * Three profiles: **court filing** keeps case numbers, court names and the disputed property readable;
   **sharing with AI** (the default) masks those too; **fully anonymous** also hides dates, places and
   institutions. Precedent citations (Yargıtay, Danıştay, AYM) stay readable in all three.
+* An **EU / GDPR** profile (`eu`, beta) adds EU documents to *sharing with AI*: national ID numbers of NL, DE,
+  FR, IT, ES, BE and PL (each checked by its checksum; after an ID cue also when the checksum fails), EU VAT ids,
+  IBANs, EU phone numbers, street addresses, passport and ID-card numbers, dates of birth and non-Turkish names
+  (after a title, in a form field, under a closing, or starting with a common European first name). Names with
+  none of these around them can be missed: see `lab/eu/README.md` for the measured recall.
 * The same person gets the same placeholder in every document of a matter.
 * Finds documents where you already keep them: your case folder (with client subfolders) and Downloads, where UYAP
   downloads and e-mail attachments land. Nothing is copied.
@@ -27,6 +32,18 @@ Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Boa
   file name back, not the names.
 * If a value Katip found would still be readable, it refuses to hand over the text.
 * No account, no telemetry. The author receives nothing.
+
+**Behind the mask**
+
+Masking is the core: Claude works on the masked text, and these tools work with it. Each one says what it sends.
+
+| Tool | What it does for you | Where it runs | Status |
+|---|---|---|---|
+| `mevzuat_bak` | Reads a statute article (`TBK 344`) and checks every statute citation in a draft: does the article exist, is it in force, do number and name match. `restore_to_file` runs it on every final document | On your computer, offline | Since 0.4.1 |
+| `scan_documents` (Algıla) | Names each document's type (ödeme emri, ihtarname, karar, sözleşme…) and suggests next steps | On your computer; no text comes back | Since 0.5.0 |
+| `emsal_ara` | Finds Yargıtay decisions for short keyword queries; a decision is shown only if its esas/karar numbers are in the official text | Sends only keywords to bedesten.adalet.gov.tr | **Off by default** until 20 cases are graded by lawyers |
+| `dd_*` (Katip DD) | Screens a person or company for a DD raporu against MASAK asset-freeze lists, ilan.gov.tr and the Ticaret Sicili Gazetesi, with each source's own record and link. A hit is not a finding and no hit is not a clearance | Sends only the name you look up to those official sites; you log in to the Gazette with your own e-Devlet | **Beta**: tested by us on the live sites, not yet by a lawyer. [DD.md](DD.md) |
+| `geri_bildirim` | Keeps your grade for a precedent, so ranking can be checked against lawyers' judgement | On your computer | Since 0.4.1 |
 
 **Try it in three steps**
 
@@ -103,7 +120,7 @@ Dosyayı bulmak için müvekkilin adını yazarsanız o ad Claude'a yazdığın�
 dosya numarası bunu önler.
 
 Dilekçe, sözleşme, bilirkişi raporu, UYAP `.udf`, `.docx`, `.pdf`, tarama ve telefon fotoğrafı okur.
-Üç maskeleme düzeyi vardır: **Mahkemeye sunum** dosya numaralarını, mahkeme adlarını ve dava konusu
+Dört maskeleme düzeyi vardır (dördüncüsü, AB belgeleri için **AB / GDPR**, `eu`, deneme sürümü): **Mahkemeye sunum** dosya numaralarını, mahkeme adlarını ve dava konusu
 taşınmazı okunur bırakır; **Yapay zekâ ile paylaşım** (varsayılan) bunları da maskeler; **Tam anonim**
 tarih, yer ve kurum adlarını da gizler. Emsal karar künyeleri her düzeyde okunur kalır.
 
@@ -363,7 +380,7 @@ are optional, pinned in `katip_kalkan/launch.py`. The detection engine is `katip
 same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
 Face `tokenizers` exactly.
 Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.5; was 0.7 before 0.3.6), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
-`KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_AUTONOMY` (`device`: steps on this computer run on their own, anything that leaves it asks first; `ask`: every step asks; `auto`: precedent search also runs on its own while it is switched on), `KATIP_STEPS_OFF` (e.g. `emsal,draft`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
+`KATIP_PROFILE` (`ai`, `court`, `anon`, `eu`), `KATIP_AUTONOMY` (`device`: steps on this computer run on their own, anything that leaves it asks first; `ask`: every step asks; `auto`: precedent search also runs on its own while it is switched on), `KATIP_STEPS_OFF` (e.g. `emsal,draft`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`; the other relay settings are in [CHATGPT.md](CHATGPT.md).
 
 Blind set (80 synthetic legal documents, 757 values, `.txt`, `ai` profile; a value counts only when no word

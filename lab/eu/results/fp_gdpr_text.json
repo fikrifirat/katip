@@ -1,0 +1,92 @@
+{
+ "articles": 198,
+ "chars": 424289,
+ "profiles": {
+  "ai": {
+   "false_spans": 117,
+   "chars_masked": 1356,
+   "per_10k_chars": 2.76,
+   "top": [
+    [
+     "PERSON: Zertifizierung",
+     12
+    ],
+    [
+     "PERSON: Behörden",
+     8
+    ],
+    [
+     "PERSON: Chapter",
+     7
+    ],
+    [
+     "PERSON: Zertifizierungsstelle",
+     6
+    ],
+    [
+     "PERSON: Zertifizierungsstellen",
+     5
+    ],
+    [
+     "PERSON: Ersuchen",
+     5
+    ],
+    [
+     "PERSON: Behörde",
+     4
+    ],
+    [
+     "PERSON: Fehlen",
+     3
+    ],
+    [
+     "PERSON: Zertifizierungsverfahren",
+     3
+    ],
+    [
+     "PERSON: Angelegenheit",
+     3
+    ],
+    [
+     "PERSON: Mehrheit",
+     3
+    ],
+    [
+     "PERSON: VIII",
+     2
+    ],
+    [
+     "PERSON: Wahrnehmung",
+     2
+    ],
+    [
+     "PERSON: Zertifizierungsverfahrens",
+     2
+    ],
+    [
+     "PERSON: Erstellung",
+     2
+    ]
+   ]
+  },
+  "eu": {
+   "false_spans": 3,
+   "chars_masked": 30,
+   "per_10k_chars": 0.07,
+   "top": [
+    [
+     "HEALTH: diagnosis",
+     1
+    ],
+    [
+     "HEALTH: Diagnostik",
+     1
+    ],
+    [
+     "HEALTH: Behinderung",
+     1
+    ]
+   ]
+  }
+ }
+}

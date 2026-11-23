@@ -1,0 +1,443 @@
+{
+  "_note": "Invented example: a two-lawyer firm in Istanbul running agents for due-diligence (DD) reports and legal opinions, with some EU clients. Vendor details are plausible placeholders, NOT checked facts about these vendors: confirm each against the vendor's current terms.",
+  "system": {
+    "name": "Örnek Hukuk agent harness",
+    "date": "2026-11-23",
+    "stage": "pilot",
+    "description": "Three agents help two lawyers prepare due-diligence (DD) reports and legal opinions. An intake agent sorts the client's documents and checks conflicts. A screening agent looks up the target company and its officers and shareholders in Turkish public sources (MASAK asset-freeze lists, ilan.gov.tr, Türkiye Ticaret Sicili Gazetesi) and returns the exact records with links. A drafting agent writes report and opinion drafts with a cloud language model. Documents are masked on the lawyer's computer (Katip Kalkan) before any text goes to a cloud model. A lawyer reviews every output before it goes to the client."
+  },
+  "controller": {
+    "name": "Örnek Hukuk Bürosu",
+    "country": "TR",
+    "address": "Örnek Mah. 1. Sok. No:1, Beşiktaş, İstanbul",
+    "contact": "kvkk@ornekhukuk.example",
+    "role": "controller",
+    "eu_establishment": false,
+    "eu_representative": null,
+    "dpo": null
+  },
+  "scope": {
+    "kvkk_applies": true,
+    "eu_clients": true,
+    "offers_to_eu_data_subjects": null,
+    "monitors_eu_behaviour": false,
+    "data_subject_languages": [
+      "tr",
+      "en",
+      "de"
+    ]
+  },
+  "scale": {
+    "data_subjects_per_year": 1500,
+    "large_scale": false
+  },
+  "subjects": [
+    {
+      "id": "clients",
+      "label": "Clients (individuals) and contact persons of corporate clients",
+      "in_eu": true,
+      "contract_party": false,
+      "label_tr": "Müvekkiller ve irtibat kişileri"
+    },
+    {
+      "id": "targets",
+      "label": "Officers, shareholders and signatories of DD target companies",
+      "in_eu": true,
+      "label_tr": "DD konusu şirketlerin yöneticileri, ortakları ve imza yetkilileri"
+    },
+    {
+      "id": "parties",
+      "label": "People named in case files (employees, witnesses, counterparties)",
+      "in_eu": null,
+      "vulnerable": true,
+      "label_tr": "Dosyalarda adı geçen kişiler (çalışanlar, tanıklar, karşı taraflar)"
+    },
+    {
+      "id": "staff",
+      "label": "Lawyers and assistants using the system",
+      "label_tr": "Sistemi kullanan avukatlar ve asistanlar",
+      "in_eu": false
+    }
+  ],
+  "data": [
+    {
+      "id": "contact",
+      "label": "Names and contact details",
+      "kind": "contact",
+      "label_tr": "Ad ve iletişim bilgileri"
+    },
+    {
+      "id": "ids",
+      "label": "National ID and passport numbers",
+      "kind": "id_number",
+      "label_tr": "T.C. kimlik ve pasaport numaraları"
+    },
+    {
+      "id": "corporate",
+      "label": "Roles, shareholdings and signing powers",
+      "kind": "ordinary",
+      "label_tr": "Görev, pay ve imza yetkileri"
+    },
+    {
+      "id": "financial",
+      "label": "Financial and insolvency information (konkordato, bankruptcy notices)",
+      "kind": "financial",
+      "label_tr": "Mali bilgiler ve iflas/konkordato ilanları"
+    },
+    {
+      "id": "sanctions",
+      "label": "Sanctions, asset-freeze and court records about individuals",
+      "kind": "criminal",
+      "label_tr": "Yaptırım, malvarlığı dondurma ve mahkeme kayıtları",
+      "criminal_type": "sanctions_listing"
+    },
+    {
+      "id": "health",
+      "label": "Health data in case files (e.g. workplace accident opinions)",
+      "kind": "special",
+      "label_tr": "Dosyalardaki sağlık verileri (ör. iş kazası görüşleri)"
+    },
+    {
+      "id": "usage",
+      "label": "Login, prompt and agent-action logs",
+      "kind": "ordinary",
+      "label_tr": "Giriş, istem ve ajan işlem kayıtları"
+    }
+  ],
+  "activities": [
+    {
+      "id": "intake",
+      "name": "Client intake and conflict check",
+      "purpose": "Take on the client, identify the matter, check conflicts of interest",
+      "subjects": [
+        "clients"
+      ],
+      "data": [
+        "contact",
+        "ids"
+      ],
+      "source": [
+        "data_subject",
+        "client"
+      ],
+      "lawful_basis": "6(1)(f)",
+      "agents": [
+        "intake"
+      ],
+      "storage": [
+        "matters",
+        "vault"
+      ],
+      "retention": "10 years after the matter closes",
+      "retention_reason": "Turkish limitation periods: TBK m.146 (10 years) or m.147/5 (5 years for mandate claims); reviewer to choose",
+      "name_tr": "Müvekkil kabulü ve çıkar çatışması kontrolü",
+      "purpose_tr": "Müvekkili kabul etmek, işi tanımlamak, çıkar çatışmasını kontrol etmek",
+      "retention_tr": "Dosya kapandıktan sonra 10 yıl",
+      "kvkk_basis": "m.5/2-e",
+      "legitimate_interest": "Taking on the client and avoiding conflicts of interest; for individual clients the contract (6(1)(b)) also applies"
+    },
+    {
+      "id": "screening",
+      "name": "DD screening of target companies and their people",
+      "purpose": "Find public records (sanctions lists, insolvency and court notices, trade registry gazette) about the target company and the individuals behind it, for the client's DD report",
+      "subjects": [
+        "targets"
+      ],
+      "data": [
+        "contact",
+        "ids",
+        "corporate",
+        "financial",
+        "sanctions"
+      ],
+      "source": "public",
+      "source_detail": "MASAK lists, ilan.gov.tr, Türkiye Ticaret Sicili Gazetesi",
+      "lawful_basis": "6(1)(f)",
+      "legitimate_interest": "The client's interest in knowing who it is dealing with before a transaction; limited to people with a control or signing role",
+      "art10_basis": null,
+      "combines_sources": true,
+      "profiling": false,
+      "automated_decision": false,
+      "agents": [
+        "screening"
+      ],
+      "storage": [
+        "dd_db",
+        "matters"
+      ],
+      "retention": "Until the DD report is delivered + 2 years, then only the report",
+      "name_tr": "DD için şirket ve kişilerin taranması",
+      "purpose_tr": "Müvekkilin DD raporu için hedef şirket ve arkasındaki kişiler hakkında kamuya açık kayıtları (yaptırım listeleri, iflas ve dava ilanları, ticaret sicili gazetesi) bulmak",
+      "retention_tr": "DD raporu teslim edildikten sonra 2 yıl, ardından yalnızca rapor",
+      "source_detail_tr": "MASAK listeleri, ilan.gov.tr, Türkiye Ticaret Sicili Gazetesi",
+      "kvkk_basis": "m.5/2-e"
+    },
+    {
+      "id": "drafting",
+      "name": "Drafting DD reports and legal opinions",
+      "purpose": "Draft reports and opinions from the client's documents and the screening results",
+      "subjects": [
+        "clients",
+        "targets",
+        "parties"
+      ],
+      "data": [
+        "contact",
+        "corporate",
+        "financial",
+        "health"
+      ],
+      "source": "client",
+      "source_detail": "documents the client sends",
+      "lawful_basis": "6(1)(f)",
+      "legitimate_interest": "Providing the legal service the client engaged us for, which requires reading the documents it sends",
+      "art9_condition": "9(2)(f)",
+      "agents": [
+        "drafting"
+      ],
+      "storage": [
+        "matters",
+        "vectors",
+        "vault"
+      ],
+      "retention": "10 years after the matter closes",
+      "name_tr": "DD raporu ve hukuki görüş taslağı",
+      "purpose_tr": "Müvekkilin belgeleri ve tarama sonuçlarından rapor ve görüş taslağı hazırlamak",
+      "retention_tr": "Dosya kapandıktan sonra 10 yıl",
+      "source_detail_tr": "müvekkilin gönderdiği belgeler",
+      "kvkk_basis": "m.5/2-e",
+      "legal_service": true
+    },
+    {
+      "id": "ops",
+      "name": "Running and securing the system",
+      "purpose": "Security logs, abuse detection, troubleshooting",
+      "subjects": [
+        "staff"
+      ],
+      "data": [
+        "usage"
+      ],
+      "source": "generated",
+      "lawful_basis": "6(1)(f)",
+      "legitimate_interest": "Keeping client data secure (Art. 32)",
+      "monitoring": false,
+      "agents": [],
+      "storage": [
+        "logs"
+      ],
+      "retention": "90 days",
+      "name_tr": "Sistemin işletilmesi ve güvenliği",
+      "purpose_tr": "Güvenlik kayıtları, kötüye kullanımın tespiti, arıza giderme",
+      "retention_tr": "90 gün"
+    }
+  ],
+  "agents": [
+    {
+      "id": "intake",
+      "name": "Intake agent",
+      "does": "Sorts incoming documents, extracts parties, runs the conflict check",
+      "models": [
+        "mistral"
+      ],
+      "human_review": true,
+      "output": "internal"
+    },
+    {
+      "id": "screening",
+      "name": "Screening agent",
+      "does": "Searches public sources by name and shows exact records with links; no scores, no summaries about people",
+      "models": [],
+      "vendors": [
+        "tsg"
+      ],
+      "tools": [
+        "Katip DD (local)"
+      ],
+      "human_review": true,
+      "output": "internal"
+    },
+    {
+      "id": "drafting",
+      "name": "Drafting agent",
+      "does": "Writes report and opinion drafts from masked documents",
+      "models": [
+        "anthropic"
+      ],
+      "vendors": [
+        "hetzner"
+      ],
+      "tools": [
+        "Katip Kalkan masking",
+        "Katip Mevzuat",
+        "Katip Emsal"
+      ],
+      "human_review": true,
+      "output": "client"
+    }
+  ],
+  "vendors": [
+    {
+      "id": "anthropic",
+      "name": "Anthropic (Claude API)",
+      "service": "Language model for drafting",
+      "role": "processor",
+      "country": "US",
+      "region": null,
+      "receives": "masked",
+      "data": [
+        "contact",
+        "corporate",
+        "financial",
+        "health"
+      ],
+      "dpa": "accepted_online",
+      "transfer_mechanism": null,
+      "dpf_certified": null,
+      "retention": null,
+      "trains_on_data": false,
+      "subprocessors_published": true,
+      "notes": "Example values: confirm the commercial terms, retention and DPF status for the exact contracting entity.",
+      "service_tr": "Taslak yazımı için dil modeli",
+      "tier": "paid"
+    },
+    {
+      "id": "mistral",
+      "name": "Mistral AI",
+      "service": "Language model for intake sorting",
+      "role": "processor",
+      "country": "FR",
+      "region": "EU",
+      "receives": "masked",
+      "data": [
+        "contact"
+      ],
+      "dpa": "available",
+      "transfer_mechanism": null,
+      "retention": null,
+      "trains_on_data": null,
+      "subprocessors_published": true,
+      "notes": "Example values: confirm.",
+      "service_tr": "Belge sınıflandırma için dil modeli",
+      "tier": "paid"
+    },
+    {
+      "id": "hetzner",
+      "name": "Hetzner",
+      "service": "Server for the vector store and agent logs",
+      "role": "processor",
+      "country": "DE",
+      "region": "Falkenstein",
+      "receives": "masked",
+      "data": [
+        "corporate",
+        "usage"
+      ],
+      "dpa": "signed",
+      "retention": "as configured by us",
+      "trains_on_data": false,
+      "subprocessors_published": true,
+      "service_tr": "Vektör veritabanı ve ajan kayıtları için sunucu"
+    },
+    {
+      "id": "tsg",
+      "name": "TOBB Türkiye Ticaret Sicili Gazetesi portal",
+      "service": "Public gazette searched by company name",
+      "role": "controller",
+      "country": "TR",
+      "receives": "metadata",
+      "data": [
+        "corporate"
+      ],
+      "notes": "Only the search term (company name, first letters) leaves the computer, under the lawyer's own login.",
+      "service_tr": "Şirket adıyla aranan resmî gazete"
+    },
+    {
+      "id": "kalkan",
+      "name": "Katip Kalkan (on the lawyer's computer)",
+      "service": "Masking and re-identification vault",
+      "role": "none",
+      "country": "LOCAL",
+      "receives": "raw"
+    }
+  ],
+  "storage": [
+    {
+      "id": "matters",
+      "what": "Matter folders (originals)",
+      "vendor": "kalkan",
+      "encrypted": true,
+      "retention": "10 years after the matter closes",
+      "deletion": "Secure delete of the matter folder, logged",
+      "what_tr": "Dosya klasörleri (asıllar), avukatın bilgisayarı"
+    },
+    {
+      "id": "vault",
+      "what": "Masking vault (placeholder ↔ real value)",
+      "vendor": "kalkan",
+      "encrypted": true,
+      "retention": "Deleted with the matter (forget_matter)",
+      "deletion": "Katip forget_matter",
+      "what_tr": "Maskeleme kasası, avukatın bilgisayarı"
+    },
+    {
+      "id": "dd_db",
+      "what": "Local snapshot of public lists and saved notices",
+      "vendor": "kalkan",
+      "encrypted": null,
+      "retention": "Refreshed weekly; notices kept with the matter",
+      "deletion": null,
+      "what_tr": "Kamu listelerinin yerel kopyası"
+    },
+    {
+      "id": "vectors",
+      "what": "Vector store of masked document chunks",
+      "vendor": "hetzner",
+      "encrypted": true,
+      "retention": "Deleted with the matter",
+      "deletion": null,
+      "what_tr": "Maskeli belge parçalarının vektör deposu (Hetzner)"
+    },
+    {
+      "id": "logs",
+      "what": "Agent-action and access logs",
+      "vendor": "hetzner",
+      "encrypted": true,
+      "retention": "90 days",
+      "deletion": "Automatic rotation",
+      "what_tr": "Ajan ve erişim kayıtları (Hetzner)"
+    }
+  ],
+  "security": {
+    "masking_before_cloud": true,
+    "encryption_in_transit": true,
+    "encryption_at_rest": true,
+    "mfa": null,
+    "access_control": "Per-matter folders; two named lawyer accounts",
+    "logging": true,
+    "log_retention": "90 days",
+    "backups": null,
+    "key_management": null,
+    "agent_guardrails": "Each agent has a fixed tool list; documents are treated as data",
+    "pentest": null,
+    "staff_training": null,
+    "incident_owner": null,
+    "masking_profile": "eu",
+    "restore_tested": null,
+    "shared_logins": false
+  },
+  "ai": {
+    "role": "deployer",
+    "offered_under_own_name": false,
+    "fine_tunes_models": false,
+    "annex_iii": [],
+    "predicts_crime_risk": false,
+    "chats_with_people": false,
+    "publishes_text": false,
+    "offering_planned": null
+  },
+  "secrecy": {
+    "turkish_lawyer": true,
+    "client_regimes": []
+  }
+}

@@ -1,0 +1,1640 @@
+{
+ "set": "ugur_round2.jsonl",
+ "docs": 48,
+ "negatives": 30,
+ "profiles": {
+  "ai": {
+   "recall": {
+    "all=values": {
+     "caught": 166,
+     "of": 486,
+     "pct": 34.2,
+     "ci95": [
+      30.1,
+      38.5
+     ]
+    },
+    "doc_type=board_minutes": {
+     "caught": 14,
+     "of": 52,
+     "pct": 26.9,
+     "ci95": [
+      16.8,
+      40.3
+     ]
+    },
+    "doc_type=breach_notification": {
+     "caught": 11,
+     "of": 34,
+     "pct": 32.4,
+     "ci95": [
+      19.1,
+      49.2
+     ]
+    },
+    "doc_type=chat": {
+     "caught": 5,
+     "of": 10,
+     "pct": 50.0,
+     "ci95": [
+      23.7,
+      76.3
+     ]
+    },
+    "doc_type=court": {
+     "caught": 2,
+     "of": 6,
+     "pct": 33.3,
+     "ci95": [
+      9.7,
+      70.0
+     ]
+    },
+    "doc_type=cover_email": {
+     "caught": 26,
+     "of": 50,
+     "pct": 52.0,
+     "ci95": [
+      38.5,
+      65.2
+     ]
+    },
+    "doc_type=criminal_complaint": {
+     "caught": 15,
+     "of": 31,
+     "pct": 48.4,
+     "ci95": [
+      32.0,
+      65.2
+     ]
+    },
+    "doc_type=csv_export": {
+     "caught": 21,
+     "of": 65,
+     "pct": 32.3,
+     "ci95": [
+      22.2,
+      44.4
+     ]
+    },
+    "doc_type=dd_report": {
+     "caught": 0,
+     "of": 8,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      32.4
+     ]
+    },
+    "doc_type=dilekce": {
+     "caught": 15,
+     "of": 17,
+     "pct": 88.2,
+     "ci95": [
+      65.7,
+      96.7
+     ]
+    },
+    "doc_type=invoice": {
+     "caught": 4,
+     "of": 7,
+     "pct": 57.1,
+     "ci95": [
+      25.0,
+      84.2
+     ]
+    },
+    "doc_type=kyc_email": {
+     "caught": 0,
+     "of": 9,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      29.9
+     ]
+    },
+    "doc_type=letter": {
+     "caught": 10,
+     "of": 66,
+     "pct": 15.2,
+     "ci95": [
+      8.4,
+      25.7
+     ]
+    },
+    "doc_type=medical_insurance": {
+     "caught": 12,
+     "of": 33,
+     "pct": 36.4,
+     "ci95": [
+      22.2,
+      53.4
+     ]
+    },
+    "doc_type=mutalaa": {
+     "caught": 13,
+     "of": 16,
+     "pct": 81.2,
+     "ci95": [
+      57.0,
+      93.4
+     ]
+    },
+    "doc_type=sanctions_memo": {
+     "caught": 1,
+     "of": 10,
+     "pct": 10.0,
+     "ci95": [
+      1.8,
+      40.4
+     ]
+    },
+    "doc_type=slack_export": {
+     "caught": 11,
+     "of": 39,
+     "pct": 28.2,
+     "ci95": [
+      16.5,
+      43.8
+     ]
+    },
+    "doc_type=spa": {
+     "caught": 6,
+     "of": 33,
+     "pct": 18.2,
+     "ci95": [
+      8.6,
+      34.4
+     ]
+    },
+    "lang=de": {
+     "caught": 27,
+     "of": 99,
+     "pct": 27.3,
+     "ci95": [
+      19.5,
+      36.8
+     ]
+    },
+    "lang=el": {
+     "caught": 0,
+     "of": 15,
+     "pct": 0.0,
+     "ci95": [
+      -0.0,
+      20.4
+     ]
+    },
+    "lang=en": {
+     "caught": 38,
+     "of": 137,
+     "pct": 27.7,
+     "ci95": [
+      20.9,
+      35.8
+     ]
+    },
+    "lang=es": {
+     "caught": 7,
+     "of": 24,
+     "pct": 29.2,
+     "ci95": [
+      14.9,
+      49.2
+     ]
+    },
+    "lang=fr": {
+     "caught": 10,
+     "of": 32,
+     "pct": 31.2,
+     "ci95": [
+      18.0,
+      48.6
+     ]
+    },
+    "lang=it": {
+     "caught": 1,
+     "of": 21,
+     "pct": 4.8,
+     "ci95": [
+      0.8,
+      22.7
+     ]
+    },
+    "lang=mixed": {
+     "caught": 15,
+     "of": 22,
+     "pct": 68.2,
+     "ci95": [
+      47.3,
+      83.6
+     ]
+    },
+    "lang=nl": {
+     "caught": 9,
+     "of": 22,
+     "pct": 40.9,
+     "ci95": [
+      23.3,
+      61.3
+     ]
+    },
+    "lang=pl": {
+     "caught": 2,
+     "of": 12,
+     "pct": 16.7,
+     "ci95": [
+      4.7,
+      44.8
+     ]
+    },
+    "lang=pt": {
+     "caught": 1,
+     "of": 13,
+     "pct": 7.7,
+     "ci95": [
+      1.4,
+      33.3
+     ]
+    },
+    "lang=ro": {
+     "caught": 5,
+     "of": 15,
+     "pct": 33.3,
+     "ci95": [
+      15.2,
+      58.3
+     ]
+    },
+    "lang=sv": {
+     "caught": 2,
+     "of": 11,
+     "pct": 18.2,
+     "ci95": [
+      5.1,
+      47.7
+     ]
+    },
+    "lang=tr": {
+     "caught": 49,
+     "of": 63,
+     "pct": 77.8,
+     "ci95": [
+      66.1,
+      86.3
+     ]
+    },
+    "type=ADDRESS": {
+     "caught": 2,
+     "of": 37,
+     "pct": 5.4,
+     "ci95": [
+      1.5,
+      17.7
+     ]
+    },
+    "type=BIRTH_DATE": {
+     "caught": 1,
+     "of": 23,
+     "pct": 4.3,
+     "ci95": [
+      0.8,
+      21.0
+     ]
+    },
+    "type=COMPANY_REG_NO": {
+     "caught": 0,
+     "of": 1,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      79.3
+     ]
+    },
+    "type=EMAIL": {
+     "caught": 32,
+     "of": 32,
+     "pct": 100.0,
+     "ci95": [
+      89.3,
+      100.0
+     ]
+    },
+    "type=IBAN": {
+     "caught": 12,
+     "of": 12,
+     "pct": 100.0,
+     "ci95": [
+      75.7,
+      100.0
+     ]
+    },
+    "type=ID_DOCUMENT": {
+     "caught": 0,
+     "of": 4,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      49.0
+     ]
+    },
+    "type=NATIONAL_ID": {
+     "caught": 3,
+     "of": 27,
+     "pct": 11.1,
+     "ci95": [
+      3.9,
+      28.1
+     ]
+    },
+    "type=PASSPORT": {
+     "caught": 3,
+     "of": 4,
+     "pct": 75.0,
+     "ci95": [
+      30.1,
+      95.4
+     ]
+    },
+    "type=PERSON": {
+     "caught": 111,
+     "of": 311,
+     "pct": 35.7,
+     "ci95": [
+      30.6,
+      41.2
+     ]
+    },
+    "type=PHONE": {
+     "caught": 2,
+     "of": 34,
+     "pct": 5.9,
+     "ci95": [
+      1.6,
+      19.1
+     ]
+    },
+    "type=VAT_ID": {
+     "caught": 0,
+     "of": 1,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      79.3
+     ]
+    }
+   },
+   "docs_fully_masked_pct": 2.1,
+   "negatives": {
+    "spans": 17,
+    "chars_masked": 101,
+    "chars_total": 2585,
+    "examples": [
+     "PERSON: Decision",
+     "PERSON: Abs",
+     "PERSON: Schaden",
+     "PERSON: Schadenersatz",
+     "PERSON: München",
+     "PERSON: Il Garante",
+     "PERSON: Invoice",
+     "PERSON: BGH",
+     "PERSON: ZR",
+     "PERSON: Schaden",
+     "PERSON: Corte",
+     "PERSON: I",
+     "PERSON: Tribunal",
+     "PERSON: Hoge Raad",
+     "PERSON: NL",
+     "PERSON: HR",
+     "PERSON: Ireland"
+    ]
+   },
+   "keep_readable": {
+    "kept": 208,
+    "of": 223
+   },
+   "over_masked": [
+    {
+     "doc": "ugur2-06",
+     "text": "Alpentherm Heizsysteme GmbH"
+    },
+    {
+     "doc": "ugur2-08",
+     "text": "Hanseatische Reederei Bramfeld GmbH"
+    },
+    {
+     "doc": "ugur2-11",
+     "text": "Allianz Partners"
+    },
+    {
+     "doc": "ugur2-14",
+     "text": "2918 sayılı Karayolları Trafik Kanunu m. 91"
+    },
+    {
+     "doc": "ugur2-15",
+     "text": "Data Protection Commission"
+    },
+    {
+     "doc": "ugur2-18",
+     "text": "Polizia Postale"
+    },
+    {
+     "doc": "ugur2-20",
+     "text": "2025/644 E."
+    },
+    {
+     "doc": "ugur2-28",
+     "text": "2026/3381"
+    },
+    {
+     "doc": "ugur2-28",
+     "text": "Bosphorus Legal Avukatlık Ortaklığı"
+    },
+    {
+     "doc": "ugur2-29",
+     "text": "Selskabsloven"
+    },
+    {
+     "doc": "ugur2-29",
+     "text": "2026/07"
+    },
+    {
+     "doc": "ugur2-30",
+     "text": "2021/6612 E., 2022/4471 K."
+    },
+    {
+     "doc": "ugur2-31",
+     "text": "Bosphorus Tourism Hotels A.Ş."
+    },
+    {
+     "doc": "ugur2-32",
+     "text": "2026/18823 E."
+    },
+    {
+     "doc": "ugur2-34",
+     "text": "Stalbud S.A."
+    }
+   ],
+   "first_misses": [
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Róisín Ní Bhriain",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Cormac Gallagher",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Torben Kjærgaard",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Ewa Szymańska",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Gearóid Mac Suibhne",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Kjærgaard",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Szymańska",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Gallagher",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Ní Bhriain",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Gallagher",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Róisín Ní Bhriain",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-02",
+     "type": "PERSON",
+     "text": "Prof. Dr. Gunther Weißhaupt",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-02",
+     "type": "PERSON",
+     "text": "Bärbel Hirschmann",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-02",
+     "type": "PERSON",
+     "text": "Dr. Lukas Ebner",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-02",
+     "type": "PERSON",
+     "text": "Annegret Lutz",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-02",
+     "type": "PERSON",
+     "text": "Weißhaupt",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-02",
+     "type": "PHONE",
+     "text": "+49 151 22870413",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-02",
+     "type": "PERSON",
+     "text": "Weißhaupt",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-03",
+     "type": "PERSON",
+     "text": "Marieke Dekker-Lambregts",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-03",
+     "type": "PERSON",
+     "text": "Sjoerd Wiersma",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-03",
+     "type": "PERSON",
+     "text": "Noor Bouzidi",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-03",
+     "type": "PERSON",
+     "text": "Dekker-Lambregts",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-03",
+     "type": "PERSON",
+     "text": "Wiersma",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-03",
+     "type": "PERSON",
+     "text": "Wiersma",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-03",
+     "type": "ADDRESS",
+     "text": "Havenweg 8, 4401 NL Yerseke",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Alberto Zanetti",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Francesca Lo Iacono",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Matteo Bortolotti",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Zanetti",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Serena Dal Molin",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Ruggero Fabbri",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "BIRTH_DATE",
+     "text": "14/02/1969",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "NATIONAL_ID",
+     "text": "FBBRGR69B14G224P",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Lo Iacono",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Bortolotti",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Zanetti",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "A. Zanetti",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "S. Dal Molin",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "PERSON",
+     "text": "Ville Aalto",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "ADDRESS",
+     "text": "Bulevardi 21 A 7, 00120 Helsinki",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "PERSON",
+     "text": "Kaisa Rantanen-Lehto",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "ADDRESS",
+     "text": "Hämeenkatu 14 B, 33100 Tampere",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "ADDRESS",
+     "text": "Aleksanterinkatu 5, 15110 Lahti",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "PERSON",
+     "text": "Aalto",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "NATIONAL_ID",
+     "text": "090574-213T",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "PERSON",
+     "text": "Rantanen-Lehto",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-05",
+     "type": "NATIONAL_ID",
+     "text": "230881-448M",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "PERSON",
+     "text": "Ferdinand Pötzl",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "BIRTH_DATE",
+     "text": "21.08.1964",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "ADDRESS",
+     "text": "Gumpendorfer Straße 63, 1060 Wien",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "PASSPORT",
+     "text": "P4728113",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "PERSON",
+     "text": "Zsófia Kertész",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "BIRTH_DATE",
+     "text": "02.12.1979",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "ADDRESS",
+     "text": "Andrássy út 52, 1062 Budapest",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "PERSON",
+     "text": "Pötzl",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "PERSON",
+     "text": "Pötzl",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "PERSON",
+     "text": "Kertész",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-06",
+     "type": "PERSON",
+     "text": "Pötzl",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur2-07",
+     "type": "PERSON",
+     "text": "Gaëtan Lefebvre-Nicolaï",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur2-07",
+     "type": "BIRTH_DATE",
+     "text": "30 juin 1972",
+     "setting": null
+    }
+   ]
+  },
+  "eu": {
+   "recall": {
+    "all=values": {
+     "caught": 445,
+     "of": 486,
+     "pct": 91.6,
+     "ci95": [
+      88.8,
+      93.7
+     ]
+    },
+    "doc_type=board_minutes": {
+     "caught": 50,
+     "of": 52,
+     "pct": 96.2,
+     "ci95": [
+      87.0,
+      98.9
+     ]
+    },
+    "doc_type=breach_notification": {
+     "caught": 32,
+     "of": 34,
+     "pct": 94.1,
+     "ci95": [
+      80.9,
+      98.4
+     ]
+    },
+    "doc_type=chat": {
+     "caught": 9,
+     "of": 10,
+     "pct": 90.0,
+     "ci95": [
+      59.6,
+      98.2
+     ]
+    },
+    "doc_type=court": {
+     "caught": 3,
+     "of": 6,
+     "pct": 50.0,
+     "ci95": [
+      18.8,
+      81.2
+     ]
+    },
+    "doc_type=cover_email": {
+     "caught": 45,
+     "of": 50,
+     "pct": 90.0,
+     "ci95": [
+      78.6,
+      95.7
+     ]
+    },
+    "doc_type=criminal_complaint": {
+     "caught": 31,
+     "of": 31,
+     "pct": 100.0,
+     "ci95": [
+      89.0,
+      100.0
+     ]
+    },
+    "doc_type=csv_export": {
+     "caught": 63,
+     "of": 65,
+     "pct": 96.9,
+     "ci95": [
+      89.5,
+      99.2
+     ]
+    },
+    "doc_type=dd_report": {
+     "caught": 7,
+     "of": 8,
+     "pct": 87.5,
+     "ci95": [
+      52.9,
+      97.8
+     ]
+    },
+    "doc_type=dilekce": {
+     "caught": 17,
+     "of": 17,
+     "pct": 100.0,
+     "ci95": [
+      81.6,
+      100.0
+     ]
+    },
+    "doc_type=invoice": {
+     "caught": 6,
+     "of": 7,
+     "pct": 85.7,
+     "ci95": [
+      48.7,
+      97.4
+     ]
+    },
+    "doc_type=kyc_email": {
+     "caught": 6,
+     "of": 9,
+     "pct": 66.7,
+     "ci95": [
+      35.4,
+      87.9
+     ]
+    },
+    "doc_type=letter": {
+     "caught": 53,
+     "of": 66,
+     "pct": 80.3,
+     "ci95": [
+      69.2,
+      88.1
+     ]
+    },
+    "doc_type=medical_insurance": {
+     "caught": 29,
+     "of": 33,
+     "pct": 87.9,
+     "ci95": [
+      72.7,
+      95.2
+     ]
+    },
+    "doc_type=mutalaa": {
+     "caught": 16,
+     "of": 16,
+     "pct": 100.0,
+     "ci95": [
+      80.6,
+      100.0
+     ]
+    },
+    "doc_type=sanctions_memo": {
+     "caught": 10,
+     "of": 10,
+     "pct": 100.0,
+     "ci95": [
+      72.2,
+      100.0
+     ]
+    },
+    "doc_type=slack_export": {
+     "caught": 35,
+     "of": 39,
+     "pct": 89.7,
+     "ci95": [
+      76.4,
+      95.9
+     ]
+    },
+    "doc_type=spa": {
+     "caught": 33,
+     "of": 33,
+     "pct": 100.0,
+     "ci95": [
+      89.6,
+      100.0
+     ]
+    },
+    "lang=de": {
+     "caught": 91,
+     "of": 99,
+     "pct": 91.9,
+     "ci95": [
+      84.9,
+      95.8
+     ]
+    },
+    "lang=el": {
+     "caught": 9,
+     "of": 15,
+     "pct": 60.0,
+     "ci95": [
+      35.7,
+      80.2
+     ]
+    },
+    "lang=en": {
+     "caught": 127,
+     "of": 137,
+     "pct": 92.7,
+     "ci95": [
+      87.1,
+      96.0
+     ]
+    },
+    "lang=es": {
+     "caught": 21,
+     "of": 24,
+     "pct": 87.5,
+     "ci95": [
+      69.0,
+      95.7
+     ]
+    },
+    "lang=fr": {
+     "caught": 31,
+     "of": 32,
+     "pct": 96.9,
+     "ci95": [
+      84.3,
+      99.4
+     ]
+    },
+    "lang=it": {
+     "caught": 19,
+     "of": 21,
+     "pct": 90.5,
+     "ci95": [
+      71.1,
+      97.3
+     ]
+    },
+    "lang=mixed": {
+     "caught": 20,
+     "of": 22,
+     "pct": 90.9,
+     "ci95": [
+      72.2,
+      97.5
+     ]
+    },
+    "lang=nl": {
+     "caught": 21,
+     "of": 22,
+     "pct": 95.5,
+     "ci95": [
+      78.2,
+      99.2
+     ]
+    },
+    "lang=pl": {
+     "caught": 10,
+     "of": 12,
+     "pct": 83.3,
+     "ci95": [
+      55.2,
+      95.3
+     ]
+    },
+    "lang=pt": {
+     "caught": 11,
+     "of": 13,
+     "pct": 84.6,
+     "ci95": [
+      57.8,
+      95.7
+     ]
+    },
+    "lang=ro": {
+     "caught": 14,
+     "of": 15,
+     "pct": 93.3,
+     "ci95": [
+      70.2,
+      98.8
+     ]
+    },
+    "lang=sv": {
+     "caught": 9,
+     "of": 11,
+     "pct": 81.8,
+     "ci95": [
+      52.3,
+      94.9
+     ]
+    },
+    "lang=tr": {
+     "caught": 62,
+     "of": 63,
+     "pct": 98.4,
+     "ci95": [
+      91.5,
+      99.7
+     ]
+    },
+    "type=ADDRESS": {
+     "caught": 27,
+     "of": 37,
+     "pct": 73.0,
+     "ci95": [
+      57.0,
+      84.6
+     ]
+    },
+    "type=BIRTH_DATE": {
+     "caught": 21,
+     "of": 23,
+     "pct": 91.3,
+     "ci95": [
+      73.2,
+      97.6
+     ]
+    },
+    "type=COMPANY_REG_NO": {
+     "caught": 0,
+     "of": 1,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      79.3
+     ]
+    },
+    "type=EMAIL": {
+     "caught": 32,
+     "of": 32,
+     "pct": 100.0,
+     "ci95": [
+      89.3,
+      100.0
+     ]
+    },
+    "type=IBAN": {
+     "caught": 12,
+     "of": 12,
+     "pct": 100.0,
+     "ci95": [
+      75.7,
+      100.0
+     ]
+    },
+    "type=ID_DOCUMENT": {
+     "caught": 3,
+     "of": 4,
+     "pct": 75.0,
+     "ci95": [
+      30.1,
+      95.4
+     ]
+    },
+    "type=NATIONAL_ID": {
+     "caught": 22,
+     "of": 27,
+     "pct": 81.5,
+     "ci95": [
+      63.3,
+      91.8
+     ]
+    },
+    "type=PASSPORT": {
+     "caught": 4,
+     "of": 4,
+     "pct": 100.0,
+     "ci95": [
+      51.0,
+      100.0
+     ]
+    },
+    "type=PERSON": {
+     "caught": 296,
+     "of": 311,
+     "pct": 95.2,
+     "ci95": [
+      92.2,
+      97.1
+     ]
+    },
+    "type=PHONE": {
+     "caught": 27,
+     "of": 34,
+     "pct": 79.4,
+     "ci95": [
+      63.2,
+      89.7
+     ]
+    },
+    "type=VAT_ID": {
+     "caught": 1,
+     "of": 1,
+     "pct": 100.0,
+     "ci95": [
+      20.7,
+      100.0
+     ]
+    }
+   },
+   "docs_fully_masked_pct": 47.9,
+   "negatives": {
+    "spans": 1,
+    "chars_masked": 19,
+    "chars_total": 2585,
+    "examples": [
+     "PERSON: One Microsoft Place"
+    ]
+   },
+   "keep_readable": {
+    "kept": 210,
+    "of": 223
+   },
+   "over_masked": [
+    {
+     "doc": "ugur2-13",
+     "text": "Hugstetter Straße 55, 79106 Freiburg"
+    },
+    {
+     "doc": "ugur2-14",
+     "text": "2918 sayılı Karayolları Trafik Kanunu m. 91"
+    },
+    {
+     "doc": "ugur2-15",
+     "text": "21 Fitzwilliam Square South, Dublin 2"
+    },
+    {
+     "doc": "ugur2-18",
+     "text": "Farmacia Comunale di Lecce S.p.A."
+    },
+    {
+     "doc": "ugur2-20",
+     "text": "2025/644 E."
+    },
+    {
+     "doc": "ugur2-28",
+     "text": "2026/3381"
+    },
+    {
+     "doc": "ugur2-28",
+     "text": "Bosphorus Legal Avukatlık Ortaklığı"
+    },
+    {
+     "doc": "ugur2-29",
+     "text": "Selskabsloven"
+    },
+    {
+     "doc": "ugur2-30",
+     "text": "2021/6612 E., 2022/4471 K."
+    },
+    {
+     "doc": "ugur2-32",
+     "text": "2026/18823 E."
+    },
+    {
+     "doc": "ugur2-36",
+     "text": "Av. D. Carlos I, 134, 1.º, 1200-651 Lisboa"
+    },
+    {
+     "doc": "ugur2-41",
+     "text": "Banca Transilvania S.A."
+    },
+    {
+     "doc": "ugur2-42",
+     "text": "RO40981127"
+    }
+   ],
+   "first_misses": [
+    {
+     "lang": "en",
+     "doc": "ugur2-01",
+     "type": "PERSON",
+     "text": "Ní Bhriain",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-04",
+     "type": "PERSON",
+     "text": "Lo Iacono",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur2-12",
+     "type": "ADDRESS",
+     "text": "La Grange Haute, 19260 Treignac",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-13",
+     "type": "ADDRESS",
+     "text": "Wiehre, Talstraße 38, 79102 Freiburg",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-13",
+     "type": "NATIONAL_ID",
+     "text": "T482937155",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-13",
+     "type": "PHONE",
+     "text": "0761 4589 2210",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur2-17",
+     "type": "PHONE",
+     "text": "038 421 77 09",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur2-18",
+     "type": "PERSON",
+     "text": "Addolorata Quarta",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-19",
+     "type": "PERSON",
+     "text": "Andrzej",
+     "setting": null
+    },
+    {
+     "lang": "mixed",
+     "doc": "ugur2-20",
+     "type": "PERSON",
+     "text": "Despina",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-21",
+     "type": "PERSON",
+     "text": "Reinhardt",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-21",
+     "type": "PERSON",
+     "text": "Reinhardt",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-23",
+     "type": "NATIONAL_ID",
+     "text": "39581627405",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-23",
+     "type": "NATIONAL_ID",
+     "text": "72419360588",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur2-26",
+     "type": "ADDRESS",
+     "text": "Maria-Theresien-Straße 18, 6020 Innsbruck",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur2-27",
+     "type": "ADDRESS",
+     "text": "Alameda de Recalde 36, 48009 Bilbao",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur2-27",
+     "type": "PHONE",
+     "text": "944 23 51 70",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur2-27",
+     "type": "PHONE",
+     "text": "688 41 20 93",
+     "setting": null
+    },
+    {
+     "lang": "tr",
+     "doc": "ugur2-28",
+     "type": "NATIONAL_ID",
+     "text": "77091408617",
+     "setting": null
+    },
+    {
+     "lang": "pl",
+     "doc": "ugur2-34",
+     "type": "PERSON",
+     "text": "Ryszarda Sobczaka",
+     "setting": null
+    },
+    {
+     "lang": "pl",
+     "doc": "ugur2-34",
+     "type": "PHONE",
+     "text": "22 401 88 15",
+     "setting": null
+    },
+    {
+     "lang": "pt",
+     "doc": "ugur2-36",
+     "type": "PHONE",
+     "text": "912 778 340",
+     "setting": null
+    },
+    {
+     "lang": "pt",
+     "doc": "ugur2-36",
+     "type": "BIRTH_DATE",
+     "text": "21/07/1993",
+     "setting": null
+    },
+    {
+     "lang": "sv",
+     "doc": "ugur2-37",
+     "type": "PERSON",
+     "text": "Johan Fredriksson",
+     "setting": null
+    },
+    {
+     "lang": "sv",
+     "doc": "ugur2-38",
+     "type": "BIRTH_DATE",
+     "text": "3 januari 1989",
+     "setting": null
+    },
+    {
+     "lang": "el",
+     "doc": "ugur2-39",
+     "type": "PERSON",
+     "text": "Γεώργιο Μαυρίδη",
+     "setting": null
+    },
+    {
+     "lang": "el",
+     "doc": "ugur2-39",
+     "type": "ADDRESS",
+     "text": "Οδός Σταδίου 28, 105 64 Αθήνα",
+     "setting": null
+    },
+    {
+     "lang": "el",
+     "doc": "ugur2-39",
+     "type": "PERSON",
+     "text": "Αικατερίνη Σταθοπούλου",
+     "setting": null
+    },
+    {
+     "lang": "el",
+     "doc": "ugur2-39",
+     "type": "PHONE",
+     "text": "210 362 4418",
+     "setting": null
+    },
+    {
+     "lang": "el",
+     "doc": "ugur2-40",
+     "type": "ID_DOCUMENT",
+     "text": "ΑΚ 482913",
+     "setting": null
+    },
+    {
+     "lang": "el",
+     "doc": "ugur2-40",
+     "type": "ADDRESS",
+     "text": "Λεωφόρος Κηφισίας 215, 151 24 Μαρούσι",
+     "setting": null
+    },
+    {
+     "lang": "ro",
+     "doc": "ugur2-41",
+     "type": "ADDRESS",
+     "text": "Strada Memorandumului 21, 400114 Cluj-Napoca",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-43",
+     "type": "NATIONAL_ID",
+     "text": "37908154210",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-43",
+     "type": "ADDRESS",
+     "text": "Narva mnt 7, 10117 Tallinn",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-43",
+     "type": "PERSON",
+     "text": "Kadri",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-44",
+     "type": "ADDRESS",
+     "text": "14 Seapoint Avenue, Blackrock, Co. Dublin A94 X2Y6",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-44",
+     "type": "PERSON",
+     "text": "McElroy",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-44",
+     "type": "PERSON",
+     "text": "McElroy",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-45",
+     "type": "COMPANY_REG_NO",
+     "text": "71834291",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur2-47",
+     "type": "ADDRESS",
+     "text": "Ilica 87, 10000 Zagreb",
+     "setting": null
+    },
+    {
+     "lang": "mixed",
+     "doc": "ugur2-48",
+     "type": "PERSON",
+     "text": "Leyla",
+     "setting": null
+    }
+   ]
+  }
+ }
+}
