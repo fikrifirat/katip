@@ -20,6 +20,11 @@ Built for Turkish lawyers and legal teams, on the recommendation in the KVKK Boa
 * Three profiles: **court filing** keeps case numbers, court names and the disputed property readable;
   **sharing with AI** (the default) masks those too; **fully anonymous** also hides dates, places and
   institutions. Precedent citations (Yargıtay, Danıştay, AYM) stay readable in all three.
+* An **EU / GDPR** profile (`eu`, beta) adds EU documents to *sharing with AI*: national ID numbers of NL, DE,
+  FR, IT, ES, BE and PL (each checked by its checksum; after an ID cue also when the checksum fails), EU VAT ids,
+  IBANs, EU phone numbers, street addresses, passport and ID-card numbers, dates of birth and non-Turkish names
+  (after a title, in a form field, under a closing, or starting with a common European first name). Names with
+  none of these around them can be missed: see `lab/eu/README.md` for the measured recall.
 * The same person gets the same placeholder in every document of a matter.
 * Finds documents where you already keep them: your case folder (with client subfolders) and Downloads, where UYAP
   downloads and e-mail attachments land. Nothing is copied.
@@ -103,7 +108,7 @@ Dosyayı bulmak için müvekkilin adını yazarsanız o ad Claude'a yazdığın�
 dosya numarası bunu önler.
 
 Dilekçe, sözleşme, bilirkişi raporu, UYAP `.udf`, `.docx`, `.pdf`, tarama ve telefon fotoğrafı okur.
-Üç maskeleme düzeyi vardır: **Mahkemeye sunum** dosya numaralarını, mahkeme adlarını ve dava konusu
+Dört maskeleme düzeyi vardır (dördüncüsü, AB belgeleri için **AB / GDPR**, `eu`, deneme sürümü): **Mahkemeye sunum** dosya numaralarını, mahkeme adlarını ve dava konusu
 taşınmazı okunur bırakır; **Yapay zekâ ile paylaşım** (varsayılan) bunları da maskeler; **Tam anonim**
 tarih, yer ve kurum adlarını da gizler. Emsal karar künyeleri her düzeyde okunur kalır.
 
@@ -363,7 +368,7 @@ are optional, pinned in `katip_kalkan/launch.py`. The detection engine is `katip
 same spans as `ml/eval_system.py` on all 183 eval documents, and its WordPiece matches Hugging
 Face `tokenizers` exactly.
 Settings: `KATIP_FOLDER` (default folder, `~/Documents/katip-documents`), `KATIP_THRESHOLD` (0.5; was 0.7 before 0.3.6), `KATIP_MODEL` (folder or `none`), `KATIP_TRUST`,
-`KATIP_PROFILE` (`ai`, `court`, `anon`), `KATIP_AUTONOMY` (`device`: steps on this computer run on their own, anything that leaves it asks first; `ask`: every step asks; `auto`: precedent search also runs on its own while it is switched on), `KATIP_STEPS_OFF` (e.g. `emsal,draft`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
+`KATIP_PROFILE` (`ai`, `court`, `anon`, `eu`), `KATIP_AUTONOMY` (`device`: steps on this computer run on their own, anything that leaves it asks first; `ask`: every step asks; `auto`: precedent search also runs on its own while it is switched on), `KATIP_STEPS_OFF` (e.g. `emsal,draft`), `KATIP_OCR` (`auto`, `paddle`, `tesseract`), `KATIP_ALLOWED_DIRS`, `KATIP_VAULT_DAYS` (30),
 `KATIP_RELAY_TTL` (900 s), `KATIP_RELAY_MAX_READS` (1), `KATIP_RELAY_UPLOAD_TOKEN`; the other relay settings are in [CHATGPT.md](CHATGPT.md).
 
 Blind set (80 synthetic legal documents, 757 values, `.txt`, `ai` profile; a value counts only when no word

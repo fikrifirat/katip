@@ -39,17 +39,22 @@ PROFILES = {
     "court": {"label": "Mahkemeye sunum", "addr": "street", "extra": ["BAR_NO"], "drop": ["CRIMINAL_RECORD"]},
     "ai": {"label": "Yapay zekâ ile paylaşım", "addr": "full", "extra": CASE, "drop": []},
     "anon": {"label": "Tam anonim", "addr": "full", "extra": CASE + ANON, "drop": []},
+    # "ai" plus the EU rules in eu.py (national IDs, VAT ids, EU phones and addresses, non-Turkish names)
+    "eu": {"label": "AB / GDPR: yapay zekâ ile paylaşım", "addr": "full", "extra": CASE, "drop": [], "eu": True},
 }
 
 
 def profile_types(profile: str) -> tuple[list[str], str]:
     """(entity types, address rule) for a profile name."""
     if profile not in PROFILES:
-        raise ValueError(f"unknown profile {profile!r}: use court, ai or anon")
+        raise ValueError(f"unknown profile {profile!r}: use court, ai, anon or eu")
     load()
     from katip_redact.recognizers import ALL_ENTITIES
     p = PROFILES[profile]
-    return [e for e in ALL_ENTITIES if e not in p["drop"]] + p["extra"], p["addr"]
+    eu_types = []
+    if p.get("eu"):
+        from .eu import ENTITIES as eu_types
+    return [e for e in ALL_ENTITIES if e not in p["drop"]] + p["extra"] + list(eu_types), p["addr"]
 
 
 def _bundle() -> Path:
@@ -176,4 +181,5 @@ def label_name(entity_type: str) -> str:
     load()
     from katip_redact.textutil import tr_upper
     from local_formats import ENTITY_LABELS_TR  # includes the profile types (Dosya No, Tarih, Kurum ...)
-    return tr_upper(ENTITY_LABELS_TR.get(entity_type, entity_type))
+    from .eu import LABELS_TR as EU_LABELS
+    return tr_upper(ENTITY_LABELS_TR.get(entity_type) or EU_LABELS.get(entity_type, entity_type))

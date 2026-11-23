@@ -1,0 +1,819 @@
+{
+ "set": "eu_synth_seed2611.jsonl",
+ "docs": 300,
+ "negatives": 30,
+ "profiles": {
+  "ai": {
+   "recall": {
+    "all=values": {
+     "caught": 963,
+     "of": 2700,
+     "pct": 35.7,
+     "ci95": [
+      33.9,
+      37.5
+     ]
+    },
+    "id=typo": {
+     "caught": 23,
+     "of": 42,
+     "pct": 54.8,
+     "ci95": [
+      39.9,
+      68.8
+     ]
+    },
+    "id=valid": {
+     "caught": 127,
+     "of": 258,
+     "pct": 49.2,
+     "ci95": [
+      43.2,
+      55.3
+     ]
+    },
+    "lang=de": {
+     "caught": 134,
+     "of": 450,
+     "pct": 29.8,
+     "ci95": [
+      25.7,
+      34.2
+     ]
+    },
+    "lang=en": {
+     "caught": 149,
+     "of": 450,
+     "pct": 33.1,
+     "ci95": [
+      28.9,
+      37.6
+     ]
+    },
+    "lang=es": {
+     "caught": 166,
+     "of": 450,
+     "pct": 36.9,
+     "ci95": [
+      32.6,
+      41.4
+     ]
+    },
+    "lang=fr": {
+     "caught": 125,
+     "of": 450,
+     "pct": 27.8,
+     "ci95": [
+      23.8,
+      32.1
+     ]
+    },
+    "lang=it": {
+     "caught": 192,
+     "of": 450,
+     "pct": 42.7,
+     "ci95": [
+      38.2,
+      47.3
+     ]
+    },
+    "lang=nl": {
+     "caught": 197,
+     "of": 450,
+     "pct": 43.8,
+     "ci95": [
+      39.3,
+      48.4
+     ]
+    },
+    "name_pool=listed": {
+     "caught": 92,
+     "of": 150,
+     "pct": 61.3,
+     "ci95": [
+      53.3,
+      68.8
+     ]
+    },
+    "name_pool=unlisted": {
+     "caught": 93,
+     "of": 150,
+     "pct": 62.0,
+     "ci95": [
+      54.0,
+      69.4
+     ]
+    },
+    "name_setting=bare": {
+     "caught": 35,
+     "of": 67,
+     "pct": 52.2,
+     "ci95": [
+      40.5,
+      63.7
+     ]
+    },
+    "name_setting=closing": {
+     "caught": 49,
+     "of": 74,
+     "pct": 66.2,
+     "ci95": [
+      54.9,
+      76.0
+     ]
+    },
+    "name_setting=field": {
+     "caught": 46,
+     "of": 83,
+     "pct": 55.4,
+     "ci95": [
+      44.7,
+      65.6
+     ]
+    },
+    "name_setting=title": {
+     "caught": 55,
+     "of": 76,
+     "pct": 72.4,
+     "ci95": [
+      61.4,
+      81.2
+     ]
+    },
+    "type=ADDRESS": {
+     "caught": 20,
+     "of": 300,
+     "pct": 6.7,
+     "ci95": [
+      4.4,
+      10.1
+     ]
+    },
+    "type=BIRTH_DATE": {
+     "caught": 0,
+     "of": 300,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      1.3
+     ]
+    },
+    "type=EMAIL": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=IBAN": {
+     "caught": 297,
+     "of": 300,
+     "pct": 99.0,
+     "ci95": [
+      97.1,
+      99.7
+     ]
+    },
+    "type=NATIONAL_ID": {
+     "caught": 150,
+     "of": 300,
+     "pct": 50.0,
+     "ci95": [
+      44.4,
+      55.6
+     ]
+    },
+    "type=PASSPORT": {
+     "caught": 11,
+     "of": 300,
+     "pct": 3.7,
+     "ci95": [
+      2.1,
+      6.4
+     ]
+    },
+    "type=PERSON": {
+     "caught": 185,
+     "of": 300,
+     "pct": 61.7,
+     "ci95": [
+      56.1,
+      67.0
+     ]
+    },
+    "type=PHONE": {
+     "caught": 0,
+     "of": 300,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      1.3
+     ]
+    },
+    "type=VAT_ID": {
+     "caught": 0,
+     "of": 300,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      1.3
+     ]
+    }
+   },
+   "docs_fully_masked_pct": 0.0,
+   "negatives": {
+    "spans": 17,
+    "chars_masked": 101,
+    "chars_total": 2585,
+    "examples": [
+     "PERSON: Decision",
+     "PERSON: Abs",
+     "PERSON: Schaden",
+     "PERSON: Schadenersatz",
+     "PERSON: München",
+     "PERSON: Il Garante",
+     "PERSON: Invoice",
+     "PERSON: BGH",
+     "PERSON: ZR",
+     "PERSON: Schaden",
+     "PERSON: Corte",
+     "PERSON: I",
+     "PERSON: Tribunal",
+     "PERSON: Hoge Raad",
+     "PERSON: NL",
+     "PERSON: HR",
+     "PERSON: Ireland"
+    ]
+   },
+   "first_misses": [
+    {
+     "lang": "en",
+     "type": "NATIONAL_ID",
+     "text": "98.07.16-365.02",
+     "setting": "title"
+    },
+    {
+     "lang": "en",
+     "type": "BIRTH_DATE",
+     "text": "13 July 1970",
+     "setting": "title"
+    },
+    {
+     "lang": "en",
+     "type": "ADDRESS",
+     "text": "44 Merrion Square, Dublin 2",
+     "setting": "title"
+    },
+    {
+     "lang": "en",
+     "type": "PHONE",
+     "text": "+353 18 183 8824",
+     "setting": "title"
+    },
+    {
+     "lang": "en",
+     "type": "VAT_ID",
+     "text": "IE9248892W",
+     "setting": "title"
+    },
+    {
+     "lang": "en",
+     "type": "PASSPORT",
+     "text": "XFVQKUM46",
+     "setting": "title"
+    },
+    {
+     "lang": "de",
+     "type": "PERSON",
+     "text": "Jonas von Arnim",
+     "setting": "bare"
+    },
+    {
+     "lang": "de",
+     "type": "NATIONAL_ID",
+     "text": "97 932 184 605",
+     "setting": "bare"
+    },
+    {
+     "lang": "de",
+     "type": "BIRTH_DATE",
+     "text": "14.01.1978",
+     "setting": "bare"
+    },
+    {
+     "lang": "de",
+     "type": "ADDRESS",
+     "text": "Lindenstraße 22, 10969 Berlin",
+     "setting": "bare"
+    },
+    {
+     "lang": "de",
+     "type": "PHONE",
+     "text": "+49 04 409 7962",
+     "setting": "bare"
+    },
+    {
+     "lang": "de",
+     "type": "VAT_ID",
+     "text": "DE655890628",
+     "setting": "bare"
+    },
+    {
+     "lang": "de",
+     "type": "PASSPORT",
+     "text": "X6D6W6251",
+     "setting": "bare"
+    },
+    {
+     "lang": "fr",
+     "type": "NATIONAL_ID",
+     "text": "2 19 11 36 973 510 95",
+     "setting": "title"
+    },
+    {
+     "lang": "fr",
+     "type": "BIRTH_DATE",
+     "text": "05.09.1953",
+     "setting": "title"
+    },
+    {
+     "lang": "fr",
+     "type": "ADDRESS",
+     "text": "123 avenue Victor Hugo, 69006 Lyon",
+     "setting": "title"
+    },
+    {
+     "lang": "fr",
+     "type": "PHONE",
+     "text": "+33 55 581 7853",
+     "setting": "title"
+    },
+    {
+     "lang": "fr",
+     "type": "VAT_ID",
+     "text": "FR26124035057",
+     "setting": "title"
+    },
+    {
+     "lang": "fr",
+     "type": "PASSPORT",
+     "text": "P06ZL7T97",
+     "setting": "title"
+    },
+    {
+     "lang": "it",
+     "type": "PERSON",
+     "text": "Beatrice Rossi",
+     "setting": "field"
+    },
+    {
+     "lang": "it",
+     "type": "BIRTH_DATE",
+     "text": "24.09.2001",
+     "setting": "field"
+    },
+    {
+     "lang": "it",
+     "type": "ADDRESS",
+     "text": "Via Garibaldi 142, 20121 Milano",
+     "setting": "field"
+    },
+    {
+     "lang": "it",
+     "type": "PHONE",
+     "text": "+39 54 217 1197",
+     "setting": "field"
+    },
+    {
+     "lang": "it",
+     "type": "VAT_ID",
+     "text": "IT41085247308",
+     "setting": "field"
+    },
+    {
+     "lang": "it",
+     "type": "PASSPORT",
+     "text": "PMR2V9M22",
+     "setting": "field"
+    },
+    {
+     "lang": "es",
+     "type": "PERSON",
+     "text": "Santiago de la Fuente",
+     "setting": "closing"
+    },
+    {
+     "lang": "es",
+     "type": "BIRTH_DATE",
+     "text": "02.12.1958",
+     "setting": "closing"
+    },
+    {
+     "lang": "es",
+     "type": "ADDRESS",
+     "text": "Calle Mayor, 112, 28013 Madrid",
+     "setting": "closing"
+    },
+    {
+     "lang": "es",
+     "type": "PHONE",
+     "text": "+34 70 992 2804",
+     "setting": "closing"
+    },
+    {
+     "lang": "es",
+     "type": "VAT_ID",
+     "text": "ESB38546390",
+     "setting": "closing"
+    },
+    {
+     "lang": "es",
+     "type": "PASSPORT",
+     "text": "CTPH1PE17",
+     "setting": "closing"
+    },
+    {
+     "lang": "nl",
+     "type": "PERSON",
+     "text": "Willemijn van der Meer",
+     "setting": "field"
+    },
+    {
+     "lang": "nl",
+     "type": "BIRTH_DATE",
+     "text": "10.04.1961",
+     "setting": "field"
+    },
+    {
+     "lang": "nl",
+     "type": "PHONE",
+     "text": "+31 26 471 5586",
+     "setting": "field"
+    },
+    {
+     "lang": "nl",
+     "type": "VAT_ID",
+     "text": "NL430202675B01",
+     "setting": "field"
+    },
+    {
+     "lang": "nl",
+     "type": "PASSPORT",
+     "text": "Y76329637",
+     "setting": "field"
+    },
+    {
+     "lang": "en",
+     "type": "NATIONAL_ID",
+     "text": "94.02.25-015.59",
+     "setting": "closing"
+    },
+    {
+     "lang": "en",
+     "type": "BIRTH_DATE",
+     "text": "26 January 1976",
+     "setting": "closing"
+    },
+    {
+     "lang": "en",
+     "type": "ADDRESS",
+     "text": "103 Merrion Square, Dublin 2",
+     "setting": "closing"
+    },
+    {
+     "lang": "en",
+     "type": "PHONE",
+     "text": "+353 09 010 0113",
+     "setting": "closing"
+    }
+   ]
+  },
+  "eu": {
+   "recall": {
+    "all=values": {
+     "caught": 2684,
+     "of": 2700,
+     "pct": 99.4,
+     "ci95": [
+      99.0,
+      99.6
+     ]
+    },
+    "id=typo": {
+     "caught": 42,
+     "of": 42,
+     "pct": 100.0,
+     "ci95": [
+      91.6,
+      100.0
+     ]
+    },
+    "id=valid": {
+     "caught": 258,
+     "of": 258,
+     "pct": 100.0,
+     "ci95": [
+      98.5,
+      100.0
+     ]
+    },
+    "lang=de": {
+     "caught": 450,
+     "of": 450,
+     "pct": 100.0,
+     "ci95": [
+      99.2,
+      100.0
+     ]
+    },
+    "lang=en": {
+     "caught": 448,
+     "of": 450,
+     "pct": 99.6,
+     "ci95": [
+      98.4,
+      99.9
+     ]
+    },
+    "lang=es": {
+     "caught": 445,
+     "of": 450,
+     "pct": 98.9,
+     "ci95": [
+      97.4,
+      99.5
+     ]
+    },
+    "lang=fr": {
+     "caught": 447,
+     "of": 450,
+     "pct": 99.3,
+     "ci95": [
+      98.1,
+      99.8
+     ]
+    },
+    "lang=it": {
+     "caught": 448,
+     "of": 450,
+     "pct": 99.6,
+     "ci95": [
+      98.4,
+      99.9
+     ]
+    },
+    "lang=nl": {
+     "caught": 446,
+     "of": 450,
+     "pct": 99.1,
+     "ci95": [
+      97.7,
+      99.7
+     ]
+    },
+    "name_pool=listed": {
+     "caught": 150,
+     "of": 150,
+     "pct": 100.0,
+     "ci95": [
+      97.5,
+      100.0
+     ]
+    },
+    "name_pool=unlisted": {
+     "caught": 134,
+     "of": 150,
+     "pct": 89.3,
+     "ci95": [
+      83.4,
+      93.3
+     ]
+    },
+    "name_setting=bare": {
+     "caught": 51,
+     "of": 67,
+     "pct": 76.1,
+     "ci95": [
+      64.7,
+      84.7
+     ]
+    },
+    "name_setting=closing": {
+     "caught": 74,
+     "of": 74,
+     "pct": 100.0,
+     "ci95": [
+      95.1,
+      100.0
+     ]
+    },
+    "name_setting=field": {
+     "caught": 83,
+     "of": 83,
+     "pct": 100.0,
+     "ci95": [
+      95.6,
+      100.0
+     ]
+    },
+    "name_setting=title": {
+     "caught": 76,
+     "of": 76,
+     "pct": 100.0,
+     "ci95": [
+      95.2,
+      100.0
+     ]
+    },
+    "type=ADDRESS": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=BIRTH_DATE": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=EMAIL": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=IBAN": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=NATIONAL_ID": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=PASSPORT": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=PERSON": {
+     "caught": 284,
+     "of": 300,
+     "pct": 94.7,
+     "ci95": [
+      91.5,
+      96.7
+     ]
+    },
+    "type=PHONE": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    },
+    "type=VAT_ID": {
+     "caught": 300,
+     "of": 300,
+     "pct": 100.0,
+     "ci95": [
+      98.7,
+      100.0
+     ]
+    }
+   },
+   "docs_fully_masked_pct": 94.7,
+   "negatives": {
+    "spans": 0,
+    "chars_masked": 0,
+    "chars_total": 2585,
+    "examples": []
+   },
+   "first_misses": [
+    {
+     "lang": "it",
+     "type": "PERSON",
+     "text": "Ludovica De Luca",
+     "setting": "bare"
+    },
+    {
+     "lang": "nl",
+     "type": "PERSON",
+     "text": "Wietske van den Berg",
+     "setting": "bare"
+    },
+    {
+     "lang": "en",
+     "type": "PERSON",
+     "text": "Rupert Thompson",
+     "setting": "bare"
+    },
+    {
+     "lang": "fr",
+     "type": "PERSON",
+     "text": "Solène Dupont",
+     "setting": "bare"
+    },
+    {
+     "lang": "es",
+     "type": "PERSON",
+     "text": "Amaia García López",
+     "setting": "bare"
+    },
+    {
+     "lang": "es",
+     "type": "PERSON",
+     "text": "Nerea Martínez",
+     "setting": "bare"
+    },
+    {
+     "lang": "nl",
+     "type": "PERSON",
+     "text": "Joep van den Berg",
+     "setting": "bare"
+    },
+    {
+     "lang": "es",
+     "type": "PERSON",
+     "text": "Iñaki de la Fuente",
+     "setting": "bare"
+    },
+    {
+     "lang": "es",
+     "type": "PERSON",
+     "text": "Aitor García López",
+     "setting": "bare"
+    },
+    {
+     "lang": "nl",
+     "type": "PERSON",
+     "text": "Geertje van der Meer",
+     "setting": "bare"
+    },
+    {
+     "lang": "en",
+     "type": "PERSON",
+     "text": "Fionnuala O'Connor",
+     "setting": "bare"
+    },
+    {
+     "lang": "fr",
+     "type": "PERSON",
+     "text": "Solène Girard",
+     "setting": "bare"
+    },
+    {
+     "lang": "it",
+     "type": "PERSON",
+     "text": "Ludovica De Luca",
+     "setting": "bare"
+    },
+    {
+     "lang": "fr",
+     "type": "PERSON",
+     "text": "Solène Lefèvre",
+     "setting": "bare"
+    },
+    {
+     "lang": "es",
+     "type": "PERSON",
+     "text": "Itziar García López",
+     "setting": "bare"
+    },
+    {
+     "lang": "nl",
+     "type": "PERSON",
+     "text": "Wietske de Vries",
+     "setting": "bare"
+    }
+   ]
+  }
+ }
+}

@@ -19,11 +19,12 @@ from pathlib import Path
 
 from .mcp_proto import Resource, Server, Tool
 
-PROFILE = {"type": "string", "enum": ["ai", "court", "anon"], "default": "ai",
+PROFILE = {"type": "string", "enum": ["ai", "court", "anon", "eu"], "default": "ai",
            "description": "ai = Yapay zekâ ile paylaşım (default: all personal data, the whole address, case and "
                           "bar numbers); court = Mahkemeye sunum (parties' own addresses, UETS and bar numbers masked; the disputed "
                           "property's address, case numbers and dates stay readable); "
-                          "anon = Tam anonim (also dates, provinces, courts, companies and institutions)."}
+                          "anon = Tam anonim (also dates, provinces, courts, companies and institutions); "
+                          "eu = AB / GDPR (ai plus EU national IDs, VAT ids, EU phones and addresses, non-Turkish names)."}
 MATTER = {"type": "string", "description": "Matter (dosya) label; files of the same case share placeholders. "
                                            "Use a neutral label such as a file number, not a client name.",
           "default": "default"}
@@ -42,7 +43,8 @@ mask_file also accepts it. Then call mask_file with file_id and put the shortene
 (belge / document) so the user sees which document they are approving. Do not list, search or open documents with
 any other tool (no file listing, Read, Bash or computer use). Work only with the masked text that mask_file returns.
 Use the default profile "ai" unless the user asks for a court copy ("court": mahkemeye sunulacak, dilekçe eki) or
-full anonymisation ("anon": tam anonim, anonimleştir, yayın, makale).
+full anonymisation ("anon": tam anonim, anonimleştir, yayın, makale). Use "eu" for documents with EU parties or
+GDPR work (AB, GDPR, Avrupa, German/French/Italian/Spanish/Dutch documents).
 Pass matter only when the user works on several documents of one case (a neutral label such as 2026/123, never a
 client name); for a single document leave the default. Do not ask the user to paste or upload the original. Keep
 placeholders such as [AD SOYAD-1] exactly as written.

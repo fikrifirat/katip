@@ -380,6 +380,9 @@ def _detect(text: str, v, profile: str, ocr_ranges=()) -> list[dict]:
     types, addr = engine.profile_types(profile)
     known = [(k.split("|", 1)[0], v.values[lab]) for k, lab in v.labels.items() if k.split("|", 1)[0] in types]
     spans = engine.detect(text, _threshold(), types, ocr_ranges=ocr_ranges, address_detail=addr)
+    if engine.PROFILES[profile].get("eu"):
+        from . import eu
+        spans = eu.merge(text, spans)
     return _propagate(text, _id_numbers(text, spans), known)
 
 
