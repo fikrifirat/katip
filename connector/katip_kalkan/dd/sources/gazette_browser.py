@@ -184,6 +184,50 @@ def session_delete() -> None:
     _session_file().unlink(missing_ok=True)
 
 
+# -- request journal: what Katip asked the site and when, without any name ---------------------
+# It exists to measure what makes the site ask for its security code (count, rate or session age),
+# so Katip can ask for fewer pages. It is never used to get around the code.
+def _journal_file() -> Path:
+    from ..store import home
+    return home() / "tsg" / "requests.jsonl"
+
+
+def _note(kind: str) -> None:
+    """kind: login | search | page | pdf | code_asked | code_typed."""
+    import json
+    try:
+        f = _journal_file()
+        f.parent.mkdir(parents=True, exist_ok=True)
+        with f.open("a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"t": round(time.time(), 1), "kind": kind}) + "\n")
+    except OSError:
+        pass
+
+
+def journal_stats() -> dict:
+    """How many searches and gazette pages came before each security code, and since the last one."""
+    import json
+    try:
+        ev = [json.loads(x) for x in _journal_file().read_text(encoding="utf-8").splitlines() if x.strip()]
+    except (OSError, ValueError):
+        ev = []
+    runs, cur, login_t = [], {"searches": 0, "pages": 0, "first": None}, None
+    for e in ev:
+        k, t = e.get("kind"), e.get("t", 0)
+        if k == "login":
+            login_t, cur = t, {"searches": 0, "pages": 0, "first": None}
+        elif k in ("search", "page"):
+            cur["searches" if k == "search" else "pages"] += 1
+            cur["first"] = cur["first"] or t
+        elif k == "code_asked":
+            runs.append({"searches": cur["searches"], "pages": cur["pages"],
+                         "minutes": round((t - cur["first"]) / 60, 1) if cur["first"] else 0,
+                         "minutes_since_login": round((t - login_t) / 60, 1) if login_t else None})
+            cur = {"searches": 0, "pages": 0, "first": None}
+    return {"codes_asked": len(runs), "codes_typed": sum(1 for e in ev if e.get("kind") == "code_typed"),
+            "before_each_code": runs[-20:], "since_last_code": {"searches": cur["searches"], "pages": cur["pages"]}}
+
+
 def _logout_proof(ctx, base: str) -> bool:
     """Log out on the site, then prove it: the search page must send us to the login page."""
     pg = ctx.new_page() if not ctx.pages else ctx.pages[0]
@@ -336,6 +380,14 @@ def _visible_code(b, state: dict, url: str, timeout: float, poll: float, say) ->
         shutil.rmtree(profile, ignore_errors=True)
 
 
+def _is_pdf(p: Path) -> bool:
+    try:
+        with p.open("rb") as fh:
+            return fh.read(4) == b"%PDF"
+    except OSError:
+        return False
+
+
 def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: bool = False, pause: float = 6.0,
            login_timeout: float = 360, browser=None, say=print, poll: float = 3.0, base: str = BASE,
            keep_hours: float | None = None, code_timeout: float = 240) -> tuple[list[Path], dict]:
@@ -379,6 +431,7 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
             if state is None:
                 info["blocked"] = "not logged in within the time limit"
                 return saved, info
+            _note("login")
             exp = session_save(state, keep)
             info["session"] = (f"login kept until {time.strftime('%H:%M', time.localtime(exp))}" if exp
                                else "login not kept")
@@ -401,6 +454,7 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
             page.check("#BagliIlan")
         page.fill("#TicaretUnvani", tr_upper(name))
         page.click("#FormIlanGoruntuleme button[type=submit]")
+        _note("search")
         page.wait_for_load_state("domcontentloaded")
         time.sleep(pause)
         rows = page.eval_on_selector_all("table tr", "rs => rs.map(r => [...r.cells].map(c => c.innerText.trim()))")
@@ -415,15 +469,23 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
         pages: dict[str, dict] = {}
         for h in hits:  # two notices on one gazette page: fetch the page once (each fetch counts toward the captcha)
             pages.setdefault(h["file"], h)
+        # A gazette page never changes once published: one already saved here is not asked for again,
+        # and does not count toward max_pages.
+        have = [h for h in pages.values() if _is_pdf(out_dir / h["file"])]
+        info["cached"] = [str(out_dir / h["file"]) for h in have]
         codes = 0
-        for h in list(pages.values())[:max_pages]:
+        for h in [h for h in pages.values() if h not in have][:max_pages]:
             rel = "/view/hizlierisim/" + h["href"].lstrip("/")
+            _note("page")
             html = page.evaluate(_TXT, rel)
             m = _PDF_SRC.search(html)
+            if not m and "FormGuvenlikKodu" in html:
+                _note("code_asked")
             if not m and "FormGuvenlikKodu" in html and codes < 2 and code_timeout > 0:
                 codes += 1  # the lawyer types the code in a visible window; Katip never solves it
                 state = _visible_code(b, ctx.storage_state(), base + rel, code_timeout, poll, say)
                 if state is not None:
+                    _note("code_typed")
                     info["security_code"] = "typed by you in the Chrome window"
                     if keep > 0:
                         session_save(state, keep)
@@ -437,6 +499,7 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
                 info["blocked"] = "security code asked" if "FormGuvenlikKodu" in html else "gazette page not found"
                 break
             time.sleep(pause)
+            _note("pdf")
             res = page.evaluate(_BIN, m.group(1))
             body = base64.b64decode(res["b64"])
             if not body.startswith(b"%PDF"):
@@ -449,6 +512,7 @@ def lookup(name: str, office: str, *, out_dir: Path, max_pages: int = 3, court: 
             time.sleep(pause)
         return saved, info
     finally:
+        info["site_requests"] = journal_stats()
         if ctx is not None and keep <= 0:
             for _ in range(3):  # the login must not outlive the run when nothing is kept
                 try:
