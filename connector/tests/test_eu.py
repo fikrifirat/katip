@@ -143,3 +143,55 @@ def test_profile_listed_for_claude():
     assert "eu" in engine.PROFILES and "eu" in local_server.PROFILE["enum"]
     types, _ = engine.profile_types("eu")
     assert {"NATIONAL_ID", "VAT_ID", "ID_DOCUMENT", "TCKN", "PERSON"} <= set(types)
+
+
+# ------------------------------------------------------------------ names without a title (round 2 of the EU work)
+def _eu_spans(text):
+    from katip_kalkan import engine, eu
+    types, addr = engine.profile_types("eu")
+    return eu.merge(text, engine.detect(text, 0.5, types, address_detail=addr))
+
+
+def _masked(text):
+    out, pos = [], 0
+    for s in sorted(_eu_spans(text), key=lambda s: (s["start"], -s["end"])):
+        if s["start"] < pos:
+            continue
+        out.append(text[pos:s["start"]] + "#")
+        pos = s["end"]
+    return "".join(out) + text[pos:]
+
+
+@pytest.mark.parametrize("text,secret", [
+    ("Wir vertreten Detlef Weißenberger in dieser Sache.", "Weißenberger"),          # act cue
+    ("Directors: Anna Kowalski, Hidde Hoekstra and Marie Dubois.", "Hoekstra"),     # role + list
+    ("Rozenn Perrin (the Employee) agrees to the terms.", "Rozenn"),                # apposition
+    ("Please contact orla.brennan@example.ie. Orla Brennan will reply.", "Orla Brennan"),  # name in e-mail
+    ("The shares are held by Tjeerd Postma since 2019.", "Postma"),                 # known surname
+    ("Signed for the seller: Mindaugas Kazlauskas.", "Kazlauskas"),                 # surname ending
+    ("Approved by P. van der Heijden. Van der Heijden left early.", "Heijden"),      # initials + repeat
+    ("[10:01] Jule Krause: hi\n[10:02] Fabian Krüger: ok\n", "Krüger"),              # chat speakers
+    ("Müvekkilimiz Siobhan Brennan ile görüştük. Brennan'ın talebi açıktır.", "Brennan"),  # Turkish suffix
+    ("Tel. 06-41837265 of 02 98 44 71 20", "41837265"),                              # national phones
+    ("Anschrift: Venloer Straße 389, 50825 Köln", "389"),
+    ("The employee has been on sick leave since May (burn-out).", "burn-out"),       # Art. 9 keyword
+])
+def test_eu_names_and_more_without_titles(text, secret):
+    assert secret not in _masked(text), _masked(text)
+
+
+@pytest.mark.parametrize("text,keep", [
+    ("The seller is Rossi Tessuti S.r.l., represented by its director.", "Rossi Tessuti S.r.l."),
+    ("Payment to Deutsche Bank AG, Frankfurt.", "Deutsche Bank AG"),
+    ("Clause 13 of Commission Implementing Decision (EU) 2021/914 applies.", "2021/914"),
+    ("Siehe z. B. Pseudonymisierung nach Art. 4 DSGVO.", "Pseudonymisierung"),
+])
+def test_eu_keeps_companies_and_acts_readable(text, keep):
+    assert keep in _masked(text), _masked(text)
+
+
+def test_eu_name_model_is_off_by_default(monkeypatch):
+    from katip_kalkan import eu
+    monkeypatch.delenv("KATIP_EU_NER", raising=False)
+    eu._NER = None
+    assert eu.find_names_model("Gennaro Caruso signed.") == []

@@ -70,10 +70,23 @@
    ]
   },
   "eu": {
-   "false_spans": 0,
-   "chars_masked": 0,
-   "per_10k_chars": 0.0,
-   "top": []
+   "false_spans": 3,
+   "chars_masked": 30,
+   "per_10k_chars": 0.07,
+   "top": [
+    [
+     "HEALTH: diagnosis",
+     1
+    ],
+    [
+     "HEALTH: Diagnostik",
+     1
+    ],
+    [
+     "HEALTH: Behinderung",
+     1
+    ]
+   ]
   }
  }
 }

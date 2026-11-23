@@ -1,0 +1,1177 @@
+{
+ "set": "ugur_round3.jsonl",
+ "docs": 24,
+ "negatives": 30,
+ "profiles": {
+  "ai": {
+   "recall": {
+    "all=values": {
+     "caught": 67,
+     "of": 221,
+     "pct": 30.3,
+     "ci95": [
+      24.6,
+      36.7
+     ]
+    },
+    "doc_type=chat": {
+     "caught": 9,
+     "of": 29,
+     "pct": 31.0,
+     "ci95": [
+      17.3,
+      49.2
+     ]
+    },
+    "doc_type=contract": {
+     "caught": 11,
+     "of": 26,
+     "pct": 42.3,
+     "ci95": [
+      25.5,
+      61.1
+     ]
+    },
+    "doc_type=court": {
+     "caught": 12,
+     "of": 58,
+     "pct": 20.7,
+     "ci95": [
+      12.3,
+      32.8
+     ]
+    },
+    "doc_type=dd_correspondence": {
+     "caught": 11,
+     "of": 27,
+     "pct": 40.7,
+     "ci95": [
+      24.5,
+      59.3
+     ]
+    },
+    "doc_type=dpa": {
+     "caught": 5,
+     "of": 16,
+     "pct": 31.2,
+     "ci95": [
+      14.2,
+      55.6
+     ]
+    },
+    "doc_type=email": {
+     "caught": 5,
+     "of": 22,
+     "pct": 22.7,
+     "ci95": [
+      10.1,
+      43.4
+     ]
+    },
+    "doc_type=hr_export": {
+     "caught": 14,
+     "of": 43,
+     "pct": 32.6,
+     "ci95": [
+      20.5,
+      47.5
+     ]
+    },
+    "lang=de": {
+     "caught": 5,
+     "of": 36,
+     "pct": 13.9,
+     "ci95": [
+      6.1,
+      28.7
+     ]
+    },
+    "lang=en": {
+     "caught": 15,
+     "of": 51,
+     "pct": 29.4,
+     "ci95": [
+      18.7,
+      43.0
+     ]
+    },
+    "lang=es": {
+     "caught": 4,
+     "of": 19,
+     "pct": 21.1,
+     "ci95": [
+      8.5,
+      43.3
+     ]
+    },
+    "lang=fr": {
+     "caught": 7,
+     "of": 26,
+     "pct": 26.9,
+     "ci95": [
+      13.7,
+      46.1
+     ]
+    },
+    "lang=it": {
+     "caught": 4,
+     "of": 18,
+     "pct": 22.2,
+     "ci95": [
+      9.0,
+      45.2
+     ]
+    },
+    "lang=mixed": {
+     "caught": 8,
+     "of": 19,
+     "pct": 42.1,
+     "ci95": [
+      23.1,
+      63.7
+     ]
+    },
+    "lang=nl": {
+     "caught": 3,
+     "of": 18,
+     "pct": 16.7,
+     "ci95": [
+      5.8,
+      39.2
+     ]
+    },
+    "lang=pl": {
+     "caught": 0,
+     "of": 8,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      32.4
+     ]
+    },
+    "lang=tr": {
+     "caught": 21,
+     "of": 26,
+     "pct": 80.8,
+     "ci95": [
+      62.1,
+      91.5
+     ]
+    },
+    "type=ADDRESS": {
+     "caught": 1,
+     "of": 21,
+     "pct": 4.8,
+     "ci95": [
+      0.8,
+      22.7
+     ]
+    },
+    "type=BIRTH_DATE": {
+     "caught": 1,
+     "of": 13,
+     "pct": 7.7,
+     "ci95": [
+      1.4,
+      33.3
+     ]
+    },
+    "type=COMPANY_REG_NO": {
+     "caught": 0,
+     "of": 1,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      79.3
+     ]
+    },
+    "type=EMAIL": {
+     "caught": 10,
+     "of": 10,
+     "pct": 100.0,
+     "ci95": [
+      72.2,
+      100.0
+     ]
+    },
+    "type=IBAN": {
+     "caught": 12,
+     "of": 12,
+     "pct": 100.0,
+     "ci95": [
+      75.7,
+      100.0
+     ]
+    },
+    "type=ID_DOCUMENT": {
+     "caught": 0,
+     "of": 1,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      79.3
+     ]
+    },
+    "type=NATIONAL_ID": {
+     "caught": 6,
+     "of": 24,
+     "pct": 25.0,
+     "ci95": [
+      12.0,
+      44.9
+     ]
+    },
+    "type=PASSPORT": {
+     "caught": 0,
+     "of": 1,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      79.3
+     ]
+    },
+    "type=PERSON": {
+     "caught": 37,
+     "of": 127,
+     "pct": 29.1,
+     "ci95": [
+      21.9,
+      37.6
+     ]
+    },
+    "type=PHONE": {
+     "caught": 0,
+     "of": 9,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      29.9
+     ]
+    },
+    "type=VAT_ID": {
+     "caught": 0,
+     "of": 2,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      65.8
+     ]
+    }
+   },
+   "docs_fully_masked_pct": 4.2,
+   "negatives": {
+    "spans": 17,
+    "chars_masked": 101,
+    "chars_total": 2585,
+    "examples": [
+     "PERSON: Decision",
+     "PERSON: Abs",
+     "PERSON: Schaden",
+     "PERSON: Schadenersatz",
+     "PERSON: München",
+     "PERSON: Il Garante",
+     "PERSON: Invoice",
+     "PERSON: BGH",
+     "PERSON: ZR",
+     "PERSON: Schaden",
+     "PERSON: Corte",
+     "PERSON: I",
+     "PERSON: Tribunal",
+     "PERSON: Hoge Raad",
+     "PERSON: NL",
+     "PERSON: HR",
+     "PERSON: Ireland"
+    ]
+   },
+   "keep_readable": {
+    "kept": 84,
+    "of": 87
+   },
+   "over_masked": [
+    {
+     "doc": "ugur3-04",
+     "text": "Clinique Vétérinaire des Deux Caps SELARL"
+    },
+    {
+     "doc": "ugur3-04",
+     "text": "dpo@opale-logiciels.example.fr"
+    },
+    {
+     "doc": "ugur3-22",
+     "text": "2026/1192 E."
+    }
+   ],
+   "first_misses": [
+    {
+     "lang": "en",
+     "doc": "ugur3-01",
+     "type": "PERSON",
+     "text": "Wendelin Strobl",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-01",
+     "type": "ADDRESS",
+     "text": "Hauptplatz 9, 8010 Graz",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-01",
+     "type": "PERSON",
+     "text": "Strobl",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-01",
+     "type": "PERSON",
+     "text": "Ailbhe Ó Duinnshléibhe",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-01",
+     "type": "PERSON",
+     "text": "Ottilie Vanderstraeten",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-01",
+     "type": "PERSON",
+     "text": "Tadhg Breathnach",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-01",
+     "type": "PERSON",
+     "text": "O. Vanderstraeten",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "PERSON",
+     "text": "Brunhild Oberascher",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "ADDRESS",
+     "text": "Linzer Gasse 27, 5020 Salzburg",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "NATIONAL_ID",
+     "text": "29384710565",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "PERSON",
+     "text": "Quirin Haselbeck",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "PERSON",
+     "text": "Leocadia Mbeki-Haselbeck",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "ADDRESS",
+     "text": "Fraunhoferstraße 17, 80469 München",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "PERSON",
+     "text": "Oberascher",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-02",
+     "type": "PERSON",
+     "text": "Haselbeck",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "PERSON",
+     "text": "Fiorenzo Tagliapietra",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "PERSON",
+     "text": "Amalasunta Ghirardelli",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "BIRTH_DATE",
+     "text": "9 novembre 1981",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "NATIONAL_ID",
+     "text": "GHRMLS81S49L407C",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "VAT_ID",
+     "text": "IT05123480265",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "ADDRESS",
+     "text": "Borgo Cavour 44, 31100 Treviso",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "PERSON",
+     "text": "Ghirardelli",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-04",
+     "type": "PERSON",
+     "text": "Enguerrand Dehaene-Delmotte",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-04",
+     "type": "PHONE",
+     "text": "03 21 87 44 06",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-04",
+     "type": "PHONE",
+     "text": "03 20 15 92 61",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-04",
+     "type": "PERSON",
+     "text": "Clovis Hennebelle",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-05",
+     "type": "PERSON",
+     "text": "Gerolf Wienecke",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-05",
+     "type": "ADDRESS",
+     "text": "Bilker Allee 128, 40217 Düsseldorf",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-05",
+     "type": "PERSON",
+     "text": "Wienecke",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-05",
+     "type": "BIRTH_DATE",
+     "text": "17.03.1971",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-05",
+     "type": "PERSON",
+     "text": "Ermengarde Pohlmann",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-05",
+     "type": "PERSON",
+     "text": "Sieglinde Abt",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "PERSON",
+     "text": "Hortense Larrouturou",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "ADDRESS",
+     "text": "12 chemin de Peyrelongue, 33410 Cadillac",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "PERSON",
+     "text": "Bastien Etcheverry",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "PERSON",
+     "text": "Maxence Lagarde",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "PERSON",
+     "text": "Eudes Fournial",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "BIRTH_DATE",
+     "text": "2 octobre 1966",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "PERSON",
+     "text": "Fournial",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "COMPANY_REG_NO",
+     "text": "482 917 330",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "ADDRESS",
+     "text": "5 rue des Feuillants, 47000 Agen",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "PERSON",
+     "text": "Larrouturou",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "PERSON",
+     "text": "Ludovico Barberis",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "NATIONAL_ID",
+     "text": "BRBLDV75E21L219X",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "ADDRESS",
+     "text": "Via Garibaldi 88, 10122 Torino",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "PERSON",
+     "text": "Teodolinda Revelli",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "PERSON",
+     "text": "Ilinca Vasilescu",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "ADDRESS",
+     "text": "Corso Vercelli 301, 10155 Torino",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "PERSON",
+     "text": "Barberis",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "PERSON",
+     "text": "Eulalia Sarasa Lacambra",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "PERSON",
+     "text": "Fermín Bescós",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "PERSON",
+     "text": "Ximeno Arbués Lalaguna",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "ADDRESS",
+     "text": "Paseo de la Independencia 31, 50001 Zaragoza",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "PERSON",
+     "text": "Arbués Lalaguna",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "PERSON",
+     "text": "Ximena Coscolla",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "PHONE",
+     "text": "976 41 22 85",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur3-09",
+     "type": "PERSON",
+     "text": "Wigbold Hoekstra",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur3-09",
+     "type": "ADDRESS",
+     "text": "Oosterstraat 61, 9711 NR Groningen",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur3-09",
+     "type": "PERSON",
+     "text": "Jildou Postma",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur3-09",
+     "type": "PERSON",
+     "text": "Sietske Feenstra-Oosting",
+     "setting": null
+    }
+   ]
+  },
+  "eu": {
+   "recall": {
+    "all=values": {
+     "caught": 197,
+     "of": 221,
+     "pct": 89.1,
+     "ci95": [
+      84.4,
+      92.6
+     ]
+    },
+    "doc_type=chat": {
+     "caught": 28,
+     "of": 29,
+     "pct": 96.6,
+     "ci95": [
+      82.8,
+      99.4
+     ]
+    },
+    "doc_type=contract": {
+     "caught": 25,
+     "of": 26,
+     "pct": 96.2,
+     "ci95": [
+      81.1,
+      99.3
+     ]
+    },
+    "doc_type=court": {
+     "caught": 52,
+     "of": 58,
+     "pct": 89.7,
+     "ci95": [
+      79.2,
+      95.2
+     ]
+    },
+    "doc_type=dd_correspondence": {
+     "caught": 21,
+     "of": 27,
+     "pct": 77.8,
+     "ci95": [
+      59.2,
+      89.4
+     ]
+    },
+    "doc_type=dpa": {
+     "caught": 15,
+     "of": 16,
+     "pct": 93.8,
+     "ci95": [
+      71.7,
+      98.9
+     ]
+    },
+    "doc_type=email": {
+     "caught": 20,
+     "of": 22,
+     "pct": 90.9,
+     "ci95": [
+      72.2,
+      97.5
+     ]
+    },
+    "doc_type=hr_export": {
+     "caught": 36,
+     "of": 43,
+     "pct": 83.7,
+     "ci95": [
+      70.0,
+      91.9
+     ]
+    },
+    "lang=de": {
+     "caught": 33,
+     "of": 36,
+     "pct": 91.7,
+     "ci95": [
+      78.2,
+      97.1
+     ]
+    },
+    "lang=en": {
+     "caught": 47,
+     "of": 51,
+     "pct": 92.2,
+     "ci95": [
+      81.5,
+      96.9
+     ]
+    },
+    "lang=es": {
+     "caught": 14,
+     "of": 19,
+     "pct": 73.7,
+     "ci95": [
+      51.2,
+      88.2
+     ]
+    },
+    "lang=fr": {
+     "caught": 23,
+     "of": 26,
+     "pct": 88.5,
+     "ci95": [
+      71.0,
+      96.0
+     ]
+    },
+    "lang=it": {
+     "caught": 16,
+     "of": 18,
+     "pct": 88.9,
+     "ci95": [
+      67.2,
+      96.9
+     ]
+    },
+    "lang=mixed": {
+     "caught": 18,
+     "of": 19,
+     "pct": 94.7,
+     "ci95": [
+      75.4,
+      99.1
+     ]
+    },
+    "lang=nl": {
+     "caught": 17,
+     "of": 18,
+     "pct": 94.4,
+     "ci95": [
+      74.2,
+      99.0
+     ]
+    },
+    "lang=pl": {
+     "caught": 6,
+     "of": 8,
+     "pct": 75.0,
+     "ci95": [
+      40.9,
+      92.9
+     ]
+    },
+    "lang=tr": {
+     "caught": 23,
+     "of": 26,
+     "pct": 88.5,
+     "ci95": [
+      71.0,
+      96.0
+     ]
+    },
+    "type=ADDRESS": {
+     "caught": 16,
+     "of": 21,
+     "pct": 76.2,
+     "ci95": [
+      54.9,
+      89.4
+     ]
+    },
+    "type=BIRTH_DATE": {
+     "caught": 10,
+     "of": 13,
+     "pct": 76.9,
+     "ci95": [
+      49.7,
+      91.8
+     ]
+    },
+    "type=COMPANY_REG_NO": {
+     "caught": 0,
+     "of": 1,
+     "pct": 0.0,
+     "ci95": [
+      0.0,
+      79.3
+     ]
+    },
+    "type=EMAIL": {
+     "caught": 10,
+     "of": 10,
+     "pct": 100.0,
+     "ci95": [
+      72.2,
+      100.0
+     ]
+    },
+    "type=IBAN": {
+     "caught": 12,
+     "of": 12,
+     "pct": 100.0,
+     "ci95": [
+      75.7,
+      100.0
+     ]
+    },
+    "type=ID_DOCUMENT": {
+     "caught": 1,
+     "of": 1,
+     "pct": 100.0,
+     "ci95": [
+      20.7,
+      100.0
+     ]
+    },
+    "type=NATIONAL_ID": {
+     "caught": 21,
+     "of": 24,
+     "pct": 87.5,
+     "ci95": [
+      69.0,
+      95.7
+     ]
+    },
+    "type=PASSPORT": {
+     "caught": 1,
+     "of": 1,
+     "pct": 100.0,
+     "ci95": [
+      20.7,
+      100.0
+     ]
+    },
+    "type=PERSON": {
+     "caught": 117,
+     "of": 127,
+     "pct": 92.1,
+     "ci95": [
+      86.1,
+      95.7
+     ]
+    },
+    "type=PHONE": {
+     "caught": 8,
+     "of": 9,
+     "pct": 88.9,
+     "ci95": [
+      56.5,
+      98.0
+     ]
+    },
+    "type=VAT_ID": {
+     "caught": 1,
+     "of": 2,
+     "pct": 50.0,
+     "ci95": [
+      9.5,
+      90.5
+     ]
+    }
+   },
+   "docs_fully_masked_pct": 41.7,
+   "negatives": {
+    "spans": 1,
+    "chars_masked": 19,
+    "chars_total": 2585,
+    "examples": [
+     "PERSON: One Microsoft Place"
+    ]
+   },
+   "keep_readable": {
+    "kept": 85,
+    "of": 87
+   },
+   "over_masked": [
+    {
+     "doc": "ugur3-04",
+     "text": "dpo@opale-logiciels.example.fr"
+    },
+    {
+     "doc": "ugur3-22",
+     "text": "2026/1192 E."
+    }
+   ],
+   "first_misses": [
+    {
+     "lang": "it",
+     "doc": "ugur3-03",
+     "type": "ADDRESS",
+     "text": "Borgo Cavour 44, 31100 Treviso",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-04",
+     "type": "PERSON",
+     "text": "Enguerrand Dehaene-Delmotte",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-06",
+     "type": "COMPANY_REG_NO",
+     "text": "482 917 330",
+     "setting": null
+    },
+    {
+     "lang": "it",
+     "doc": "ugur3-07",
+     "type": "PERSON",
+     "text": "Teodolinda Revelli",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-08",
+     "type": "PHONE",
+     "text": "976 41 22 85",
+     "setting": null
+    },
+    {
+     "lang": "nl",
+     "doc": "ugur3-09",
+     "type": "ADDRESS",
+     "text": "Zuiderdiep 140, 9711 HM Groningen",
+     "setting": null
+    },
+    {
+     "lang": "pl",
+     "doc": "ugur3-10",
+     "type": "PERSON",
+     "text": "Bogumiła Szczepaniak",
+     "setting": null
+    },
+    {
+     "lang": "pl",
+     "doc": "ugur3-10",
+     "type": "VAT_ID",
+     "text": "7781423569",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-12",
+     "type": "PERSON",
+     "text": "Ludmila",
+     "setting": null
+    },
+    {
+     "lang": "tr",
+     "doc": "ugur3-14",
+     "type": "PERSON",
+     "text": "Wannes-Jozef",
+     "setting": null
+    },
+    {
+     "lang": "tr",
+     "doc": "ugur3-14",
+     "type": "ADDRESS",
+     "text": "Coupure Links 214, 9000 Gent",
+     "setting": null
+    },
+    {
+     "lang": "tr",
+     "doc": "ugur3-14",
+     "type": "PERSON",
+     "text": "Nilüfer",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-16",
+     "type": "BIRTH_DATE",
+     "text": "04.06.1962",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-16",
+     "type": "BIRTH_DATE",
+     "text": "19.12.1995",
+     "setting": null
+    },
+    {
+     "lang": "de",
+     "doc": "ugur3-16",
+     "type": "BIRTH_DATE",
+     "text": "27.08.1977",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-17",
+     "type": "NATIONAL_ID",
+     "text": "36 10482731 52",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-17",
+     "type": "ADDRESS",
+     "text": "Rúa do Castro 6, 36600 Vilagarcía de Arousa",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-17",
+     "type": "NATIONAL_ID",
+     "text": "36 20917344 08",
+     "setting": null
+    },
+    {
+     "lang": "es",
+     "doc": "ugur3-17",
+     "type": "NATIONAL_ID",
+     "text": "36 11094583 71",
+     "setting": null
+    },
+    {
+     "lang": "fr",
+     "doc": "ugur3-20",
+     "type": "PERSON",
+     "text": "Anselme",
+     "setting": null
+    },
+    {
+     "lang": "mixed",
+     "doc": "ugur3-23",
+     "type": "PERSON",
+     "text": "Ivo",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-24",
+     "type": "PERSON",
+     "text": "Mirjam",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-24",
+     "type": "ADDRESS",
+     "text": "Trubarjeva cesta 52, 1000 Ljubljana",
+     "setting": null
+    },
+    {
+     "lang": "en",
+     "doc": "ugur3-24",
+     "type": "PERSON",
+     "text": "Yekta",
+     "setting": null
+    }
+   ]
+  }
+ }
+}
