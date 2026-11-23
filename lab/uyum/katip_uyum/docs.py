@@ -168,6 +168,11 @@ def overview(an: Analysis) -> str:
     q = an.q
     s, c = q["system"], q["controller"]
     out = [banner(an, "00")]
+    if q.get("assumptions"):
+        out.append("## Answers assumed, not confirmed\n\nWhoever filled in the questionnaire guessed these answers. "
+                   "Every finding that depends on them is only as good as the guess: confirm each before relying on the pack.\n\n" +
+                   table(["Field", "Assumed answer", "Why we assumed it"],
+                         [[a.get("field", ""), a.get("value", ""), a.get("basis", "")] for a in q["assumptions"]]) + "\n")
     top = an.top(5)
     if top:
         out.append("## Do these first\n\nRanked by severity and by how sensitive the data involved is.\n\n" +
@@ -573,7 +578,7 @@ def contracts(an: Analysis) -> str:
     sec = q.get("secrecy") or {}
     out.append("## Professional secrecy\n\n" + table(["Regime", "Applies?"], [
         [law.SECRECY["TR"], v(sec.get("turkish_lawyer"), "Turkish lawyer's secrecy applies?") if q.get("secrecy") is not None else O("secrecy regimes")],
-        [law.SECRECY["DE"], ", ".join(sec.get("client_regimes", [])) or O("does a foreign law firm instruct you?")],
+        [law.SECRECY["DE"], ", ".join(sec.get("client_regimes") or []) or O("does a foreign law firm instruct you?")],
     ]) + "\n\nEach vendor that sees client text must accept confidentiality terms that cover client secrets; the "
          "checklist below has a row for it.\n")
     out.append("## Vendors\n\nMost AI vendors offer a standard DPA; you usually cannot negotiate it, but you must read it "

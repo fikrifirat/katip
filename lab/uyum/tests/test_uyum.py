@@ -181,3 +181,23 @@ def test_masked_text_is_never_called_unintelligible():
     assert "34(3)(a)" in files["07-breach.md"]
     for name, text in files.items():
         assert "masked data is unintelligible" not in text.lower(), name
+
+
+def test_assumed_answers_are_listed_first():
+    x = q(assumptions=[{"field": "scope.eu_clients", "value": "true", "basis": "he mentioned GDPR",
+                        "value_tr": "evet", "basis_tr": "GDPR'dan söz etti"}])
+    validate(x)
+    files = render_all(analyse(x))
+    assert "## Answers assumed, not confirmed" in files["00-overview.md"]
+    assert "GDPR'dan söz etti" in files["00-ozet.tr.md"]
+    with pytest.raises(QuestionnaireError, match="assumptions"):
+        validate(q(assumptions=["eu_clients"]))
+
+
+def test_null_answers_never_crash_the_build():
+    """Every top-level answer set to null still renders (null = not known yet)."""
+    x = copy.deepcopy(SIMULATED)
+    x["secrecy"] = {"turkish_lawyer": None, "client_regimes": None}
+    for key in ("security", "ai", "scope", "scale"):
+        x[key] = {k: None for k in x[key]}
+    render_all(analyse(x))
