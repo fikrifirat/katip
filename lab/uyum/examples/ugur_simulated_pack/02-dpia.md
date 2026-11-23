@@ -18,7 +18,7 @@
 | Innovative use or new technological or organisational solutions (EDPB lists AI) | yes | agents built on language models |
 | Processing that prevents data subjects from exercising a right or using a service | unknown | not answered |
 
-**At least 5 of 9 criteria met; 4 unanswered.** Two or more usually mean a DPIA is required: treat this document as mandatory and complete it before go-live.
+**At least 5 of 9 criteria met; 4 unanswered.** Two or more usually mean a DPIA is required. The system is already in use, so this DPIA is overdue: Art. 35(1) asks for it before the processing starts. Complete it now, and pause the highest-risk flows until it is done.
 
 ## 2. Systematic description (Art. 35(7)(a))
 
@@ -102,7 +102,6 @@ Status comes from the answers: a measure is only marked in place when the questi
 - **Risk to address: 'DD screening of officers and shareholders' puts a risk label on people.** A per-person label (e.g. red/amber/green) is profiling (Art. 4(4)): it is personal data in its own right, must be accurate (Art. 5(1)(d)), and is exactly what a person will ask about under Art. 15. Write down the logic, show the source records next to it, and keep it internal. If the label predicts whether someone will commit an offence, see the AI Act Art. 5(1)(d) finding. *(GDPR Arts. 4(4), 5(1)(d), 15, 22)*
 - **Risk to address: 'Sending agent' sends output to the client that a lawyer only sometimes reads first.** Outputs about people that leave the firm unchecked risk wrong facts about a person (Art. 5(1)(d)), the wrong recipient (the most common law-firm breach, Art. 33) and an Art. 22 decision without a person. Either require approval before sending, or limit what can be sent unreviewed and log it. The privacy notice no longer says 'a lawyer reviews every result' while this is open. *(GDPR Arts. 5(1)(d), 22, 25(1), 32(1)(b), 33)*
 - **Risk to address: Cloud models see the raw text.** Pseudonymising before the model call (Art. 4(5)) is the cheapest strong measure available here. *(GDPR Arts. 25, 32(1)(a))*
-- **Risk to address: EU documents are masked with a Turkish profile.** Kalkan's 'ai' profile is built for Turkish documents and misses EU ID formats (BSN, Steuer-ID, NIR, codice fiscale...) and many non-Turkish names. Use the 'eu' profile (beta) for EU clients' files. *(GDPR Arts. 25, 32(1)(a))*
 - **Risk to address: Supabase (pgvector) still sees the facts in forensic and hospital reports, disability rates, indictments, statements, sanctions and asset-freeze listings.** Masking hides who the person is, not what happened to them. A rare accident or diagnosis plus a date and place can point back to the person. Keep such passages local or generalise them. *(GDPR Arts. 9, 25, 32; Recital 26)*
 - **Risk to address: Anthropic (Claude API) receives unmasked criminal, id_number, special data.** Mask before sending (Katip does this on the device) or justify why the raw text is needed. *(GDPR Arts. 5(1)(c), 25, 32(1)(a))*
 - **Risk to address: Google Gemini API (free tier) receives unmasked id_number, special data.** Mask before sending (Katip does this on the device) or justify why the raw text is needed. *(GDPR Arts. 5(1)(c), 25, 32(1)(a))*

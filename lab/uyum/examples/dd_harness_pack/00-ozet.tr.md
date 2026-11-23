@@ -12,7 +12,7 @@
 2. **AB müvekkilleri için SCC hazırlanmalı (Türkiye için yeterlilik kararı yok)** *(GDPR Art. 46(2)(c); Decision (EU) 2021/914)*
 3. **Canlıya almadan önce DPIA yapılmalı** *(GDPR Arts. 35(1), 35(7), 36; WP248 rev.01)*
 4. **Yurt dışına aktarım (KVKK m.9): Anthropic (Claude API), Mistral AI, Hetzner** *(KVKK m.9; Regulation on transfers abroad (10 Jul 2024))*
-5. **Mistral AI ile veri işleme sözleşmesi yapılmalı** *(GDPR Art. 28(3))*
+5. **Anthropic (Claude API) maskeli metinde de olay ayrıntılarını görüyor** *(GDPR Arts. 9, 25, 32; Recital 26)*
 
 ## Tüm bulgular
 

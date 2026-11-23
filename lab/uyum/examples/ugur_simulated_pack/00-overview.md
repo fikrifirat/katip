@@ -8,11 +8,11 @@
 
 Ranked by severity and by how sensitive the data involved is.
 
-1. **Stop sending client data to Google Gemini API (free tier).** This tier offers no Art. *(GDPR Arts. 28(1), 28(3), 28(10), 9(1); Avukatlık Kanunu m.36)*
-2. **Split the legal basis for 'Email intake, filing and conflict check'.** Art. *(GDPR Art. 6(1)(b), 6(1)(f); EDPB Guidelines 2/2019)*
-3. **Split the legal basis for 'Emailing drafts to clients'.** Art. *(GDPR Art. 6(1)(b), 6(1)(f); EDPB Guidelines 2/2019)*
-4. **Write the legitimate-interests test for 'Operating the system'.** Legitimate interests need a documented three-step test: a legitimate interest, necessity, and a balance against the data subjects' rights and reasonable expectations. *(GDPR Art. 6(1)(f), Recital 47; CJEU C-252/21)*
-5. **Write the legitimate-interests test for 'DD screening of officers and shareholders'.** Legitimate interests need a documented three-step test: a legitimate interest, necessity, and a balance against the data subjects' rights and reasonable expectations. *(GDPR Art. 6(1)(f), Recital 47; CJEU C-252/21)*
+1. **Stop sending client data to Google Gemini API (free tier).** This tier offers no Art. 28 terms and may use your inputs for its own purposes. *(GDPR Arts. 28(1), 28(3), 28(10), 9(1); Avukatlık Kanunu m.36)*
+2. **'Emailing drafts to clients' keeps data with no end date.** Retention 'Not deleted' is not a limit. *(GDPR Arts. 5(1)(e), 13(2)(a); KVKK m.7)*
+3. **'DD screening of officers and shareholders' puts a risk label on people.** A per-person label (e.g. red/amber/green) is profiling (Art. 4(4)): it is personal data in its own right, must be accurate (Art. 5(1)(d)), and is exactly what a person will ask about under Art. 15. *(GDPR Arts. 4(4), 5(1)(d), 15, 22)*
+4. **'Sending agent' sends output to the client that a lawyer only sometimes reads first.** Outputs about people that leave the firm unchecked risk wrong facts about a person (Art. 5(1)(d)), the wrong recipient (the most common law-firm breach, Art. 33) and an Art. 22 decision without a person. *(GDPR Arts. 5(1)(d), 22, 25(1), 32(1)(b), 33)*
+5. **Anthropic (Claude API) receives unmasked criminal, id_number, special data.** Mask before sending (Katip does this on the device) or justify why the raw text is needed. *(GDPR Arts. 5(1)(c), 25, 32(1)(a))*
 
 ## The system in one paragraph
 
@@ -56,7 +56,7 @@ Five agents help a small Istanbul law firm (two lawyers, one trainee, one secret
 
 ## All findings, by theme
 
-17 must do, 10 risk to address, 16 open question, 16 note.
+17 must do, 9 risk to address, 18 open question, 15 note.
 
 ### Which law applies, and to what
 
@@ -113,8 +113,8 @@ Five agents help a small Istanbul law firm (two lawyers, one trainee, one secret
 |---|---|---|---|
 | Must do | Prepare SCCs for EU clients who send files to Türkiye | GDPR Art. 46(2)(c); Decision (EU) 2021/914 | 05, 04 |
 | Must do | KVKK transfer abroad: OpenAI (API), Anthropic (Claude API), Google Gemini API (free tier), Google Workspace (Gmail, Drive), Supabase (pgvector), LangSmith (LangChain), Brave Search API | KVKK m.9; Regulation on transfers abroad (10 Jul 2024) | 05 |
+| Open question | Which transfer tool covers Brave Search API (United States)? | GDPR Arts. 45-46 | 05 |
 | Note | Anthropic (Claude API): onward transfer of EU clients' data | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
-| Note | Brave Search API: onward transfer of EU clients' data | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
 | Note | Google Gemini API (free tier): onward transfer of EU clients' data | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
 | Note | Google Workspace (Gmail, Drive): onward transfer of EU clients' data | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
 | Note | LangSmith (LangChain): onward transfer of EU clients' data | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
@@ -136,7 +136,7 @@ Five agents help a small Istanbul law firm (two lawyers, one trainee, one secret
 | Must do | Security: add a tested restore from backup | GDPR Art. 32(1)(c)-(d) | 09 |
 | Must do | Security: end shared logins and readable API keys | GDPR Art. 32(1)(b), 32(4) | 09 |
 | Risk to address | Cloud models see the raw text | GDPR Arts. 25, 32(1)(a) | 02, 09 |
-| Risk to address | EU documents are masked with a Turkish profile | GDPR Arts. 25, 32(1)(a) | 09, 02 |
+| Open question | Which masking profile is used for EU documents? | GDPR Art. 32(1)(a) | 09 |
 | Open question | Security: Encryption at rest? | GDPR Art. 32(1)(a) | 09 |
 | Open question | Security: Multi-factor login for staff and admin accounts? | GDPR Art. 32(1)(b) | 09 |
 | Note | Masked text is pseudonymised, not anonymous | GDPR Art. 4(5), Recital 26; CJEU C-413/23 P | 02, 03, 09 |

@@ -32,9 +32,9 @@ Elektronik ortamda (e-posta, belge yükleme, kamuya açık kayıtlarda arama) ve
 
 | Alıcı | Ne için | Rolü | Ülke | Ne aktarılıyor |
 |---|---|---|---|---|
-| Anthropic (Claude API) | Taslak yazımı için dil modeli | hizmet sağlayıcı (veri işleyen) | ABD | maskeli (adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
-| Mistral AI | Belge sınıflandırma için dil modeli | hizmet sağlayıcı (veri işleyen) | Fransa | maskeli (adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
-| Hetzner | Vektör veritabanı ve ajan kayıtları için sunucu | hizmet sağlayıcı (veri işleyen) | Almanya | maskeli (adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
+| Anthropic (Claude API) | Taslak yazımı için dil modeli | hizmet sağlayıcı (veri işleyen) | ABD | maskeli (maskeleme aracının tespit ettiği adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
+| Mistral AI | Belge sınıflandırma için dil modeli | hizmet sağlayıcı (veri işleyen) | Fransa | maskeli (maskeleme aracının tespit ettiği adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
+| Hetzner | Vektör veritabanı ve ajan kayıtları için sunucu | hizmet sağlayıcı (veri işleyen) | Almanya | maskeli (maskeleme aracının tespit ettiği adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
 | TOBB Türkiye Ticaret Sicili Gazetesi portal | Şirket adıyla aranan resmî gazete | kendi adına hareket eden kurum | Türkiye | yalnızca arama terimi |
 | Müvekkillerimiz | hazırladığımız rapor ve görüşler | veri sorumlusu | müvekkilin ülkesi | rapor içeriği |
 

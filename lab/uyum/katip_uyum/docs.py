@@ -8,7 +8,7 @@ from __future__ import annotations
 import re
 
 from . import law
-from .model import activity_data, activity_role, activity_subjects, activity_vendors, by_id, receives, review_state, sources
+from .model import activity_data, activity_role, effective_role, activity_subjects, activity_vendors, by_id, receives, review_state, sources
 from .rules import SEVERITY_LABEL, THEMES, Analysis
 
 DOCS = [
@@ -39,6 +39,21 @@ PURPOSE = {
     "ai-act": "What the EU AI Act asks of this system, and from when.",
     "lia": "The written balancing test for each activity based on legitimate interests.",
 }
+
+
+_ABBR = re.compile(r"\b(Arts?|m|No|e\.g|i\.e|cf|Rec|para|Reg|Dec|Sec|Nr|vs)\.$")
+
+
+def first_sentence(text: str) -> str:
+    """First sentence, without splitting on 'Art. 6' or 'e.g. this'."""
+    start = 0
+    while True:
+        i = text.find(". ", start)
+        if i < 0:
+            return text if text.endswith(".") else text + "."
+        if not _ABBR.search(text[:i + 1]):
+            return text[:i + 1]
+        start = i + 2
 
 
 def O(what: str) -> str:
@@ -156,7 +171,7 @@ def overview(an: Analysis) -> str:
     top = an.top(5)
     if top:
         out.append("## Do these first\n\nRanked by severity and by how sensitive the data involved is.\n\n" +
-                   "\n".join(f"{i}. **{f.title}.** {f.detail.split('. ')[0].rstrip('.')}. *({f.cite})*"
+                   "\n".join(f"{i}. **{f.title}.** {first_sentence(f.detail)} *({f.cite})*"
                              for i, f in enumerate(top, 1)) + "\n")
     out.append("## The system in one paragraph\n\n" + v(s.get("description"), "short description") + "\n")
     out.append("## Who is responsible\n\n" + table(["", ""], [
@@ -268,8 +283,11 @@ def dpia(an: Analysis) -> str:
     out.append("## 1. Is a DPIA required? (Art. 35(1), WP248 rev.01)\n\n" + table(
         ["EDPB criterion", "Met?", "Why"], [[label, mark[met], why] for _, label, met, why in an.dpia_criteria]) +
         f"\n\n**At least {an.dpia_min} of 9 criteria met" + (f"; {an.dpia_unknown} unanswered" if an.dpia_unknown else "") +
-        ".** " + ("Two or more usually mean a DPIA is required: treat this document as mandatory and complete it "
-                  "before go-live." if an.dpia_required else
+        ".** " + (("Two or more usually mean a DPIA is required. The system is already in use, so this DPIA is "
+                   "overdue: Art. 35(1) asks for it before the processing starts. Complete it now, and pause the "
+                   "highest-risk flows until it is done." if (q["system"].get("stage") or "").lower() in ("production", "live", "in use")
+                   else "Two or more usually mean a DPIA is required: treat this document as mandatory and complete it "
+                   "before go-live.") if an.dpia_required else
                   "Fewer than two so far: a DPIA may not be mandatory. Answer the open criteria before deciding.") + "\n")
     vend = by_id(q, "vendors")
     out.append("## 2. Systematic description (Art. 35(7)(a))\n\n" + v(q["system"].get("description"), "description") +
@@ -418,7 +436,7 @@ def notice(an: Analysis) -> str:
             [v(a.get("purpose"), "purpose"), _basis(a), v(a.get("retention"), "retention")] for a in group])
 
     vend = [x for x in q.get("vendors", []) if receives(q, x) not in ("none", None) and x.get("country") != "LOCAL"]
-    signed = [x for x in vend if x.get("role") in ("processor", "sub_processor") and x.get("dpa") in ("signed", "accepted_online")]
+    signed = [x for x in vend if effective_role(x) in ("processor", "sub_processor") and x.get("dpa") in ("signed", "accepted_online")]
     other = [x for x in vend if x not in signed]
     recips = ("Service providers bound by contract to our instructions: " +
               ("; ".join(f"{x['name']} ({x.get('service', '')})" for x in signed) or "none") + ".")
@@ -433,8 +451,10 @@ def notice(an: Analysis) -> str:
         recips += " Our clients receive the reports and opinions we prepare for them."
     masked = [x["name"] for x in vend if receives(q, x) == "masked"]
     if masked:
-        recips += (" Before text is sent to " + ", ".join(masked) + ", names, ID numbers, contact details and addresses "
-                   "are replaced with placeholders on our own computer. These providers therefore receive pseudonymised "
+        recips += (" Before text is sent to " + ", ".join(masked) + ", the names, ID numbers, contact details and addresses "
+                   "that our masking tool detects are replaced with placeholders on our own computer" +
+                   (" " + O("list the ID types the masking profile in use does not detect, e.g. foreign tax or "
+                            "citizen numbers") if any(f.id == "maskprofile" and f.severity == "risk" for f in an.findings) else "") + ". These providers therefore receive pseudonymised "
                    "text; it is still personal data for us.")
     xfers = [t for t in an.transfers if t.route not in ("EEA", "same country")]
     agents = q.get("agents", [])
@@ -563,7 +583,9 @@ def contracts(an: Analysis) -> str:
         rcv = receives(q, x)
         if x.get("country") == "LOCAL" or rcv in ("none", None):
             continue
-        role = x.get("role")
+        role = effective_role(x)
+        if role != x.get("role"):
+            role = f"{role} (answered: {x.get('role')}; a free tier without a DPA gives no Art. 28 terms)"
         head = (f"### {x['name']}: {x.get('service', '')}\n\n" + table(["", ""], [
             ["Role", v(role, "processor or controller")],
             ["Country / region", f"{law.country(x.get('country'))} / {v(x.get('region'), 'region')}"
@@ -807,7 +829,8 @@ def toms(an: Analysis) -> str:
          "not in place (shared logins)" if sec.get("shared_logins") else _status(sec.get("access_control")), "GDPR Art. 32(1)(b), 32(4)"],
         ["Access", "Multi-factor login", _status(sec.get("mfa")), "GDPR Art. 32(1)(b)"],
         ["Logging", "Who and which agent read or sent what, kept " + v(sec.get("log_retention"), "log retention"),
-         _status(sec.get("logging")), "GDPR Arts. 5(2), 32(1)(b)"],
+         ("partial: with shared logins the logs cannot show which person acted" if sec.get("shared_logins") and sec.get("logging")
+          else _status(sec.get("logging"))), "GDPR Arts. 5(2), 32(1)(b)"],
         ["Agents", "Tool allow-list per agent; outside documents treated as data; no autonomous outbound e-mail/upload",
          _status(sec.get("agent_guardrails")), "GDPR Art. 32(1)(b)"],
         ["Agents", "A lawyer approves every output before it leaves the firm",
@@ -896,7 +919,7 @@ def lia(an: Analysis) -> str:
         if q.get("security", {}).get("masking_before_cloud"):
             safeguards.append("masking before cloud calls")
         if all(review_state(by_id(q, "agents")[x]) == "always" for x in a.get("agents", []) if x in by_id(q, "agents")) and a.get("agents"):
-            safeguards.append("lawyer review of every output")
+            safeguards.append("a lawyer reads this activity's outputs before they are used (per the questionnaire)")
         if a.get("retention") and not re.search(r"never|not deleted", a["retention"], re.I):
             safeguards.append(f"retention limited to: {a['retention']}")
         out.append(f"## {a.get('name', a['id'])}\n\n" + table(["Step", "Assessment"], [
@@ -907,8 +930,9 @@ def lia(an: Analysis) -> str:
                              "fuzzy ones)? " + O("reviewer")],
             ["3a. Who is affected", names(subs) + (f". Vulnerable: {', '.join(vuln)}" if vuln else "")],
             ["3b. What data", names(data) + (f". Sensitive: {', '.join(sens)}" if sens else "")],
-            ["3c. Reasonable expectations", "Would these people expect a law firm acting for the other side to process "
-                                            "this? " + O("reviewer")],
+            ["3c. Reasonable expectations", "Given each group's relationship with the firm (own client, staff, "
+                                            "counterparty, officer of a company under review), would they reasonably "
+                                            "expect this processing at the time and in this context (Recital 47)? " + O("reviewer")],
             ["3d. Safeguards", ", ".join(safeguards) or O("safeguards")],
             ["Result", O("interest prevails / does not prevail, with reasons; date; reviewer")],
         ]) + "\n")

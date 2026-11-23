@@ -165,6 +165,13 @@ def receives(q: dict, vendor: dict) -> str | None:
     return max(seen, key=lambda x: order[x]) if seen else None
 
 
+def effective_role(vendor: dict) -> str | None:
+    """A free consumer tier with no DPA gives no Art. 28 terms: the vendor acts for itself, whatever was answered."""
+    if vendor.get("tier") == "free" and vendor.get("dpa") in (None, "none"):
+        return "controller"
+    return vendor.get("role")
+
+
 def activity_role(q: dict, act: dict) -> str:
     r = act.get("role")
     if r:

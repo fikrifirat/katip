@@ -6,7 +6,7 @@ retention_tr). Where one is missing the document says so with [AÇIK: ...] inste
 from __future__ import annotations
 
 from . import law
-from .model import activity_data, activity_subjects, by_id, receives, review_state, sources
+from .model import effective_role, activity_data, activity_subjects, by_id, receives, review_state, sources
 from .rules import SEVERITY_TR, THEMES_TR, Analysis
 
 
@@ -139,9 +139,10 @@ def aydinlatma(an: Analysis) -> str:
     vend = [x for x in q.get("vendors", []) if receives(q, x) not in ("none", None) and x.get("country") != "LOCAL"]
     alici = []
     for x in vend:
-        rol = ("hizmet sağlayıcı (veri işleyen)" if x.get("role") in ("processor", "sub_processor")
-               else "kendi adına hareket eden kurum" if x.get("role") in ("controller", "joint_controller") else A("rolü"))
-        ne = {"raw": "maskelenmemiş", "masked": "maskeli (adlar ve kimlik numaraları yer tutucularla değiştirilmiş)",
+        er = effective_role(x)
+        rol = ("hizmet sağlayıcı (veri işleyen)" if er in ("processor", "sub_processor")
+               else "kendi adına hareket eden kurum" if er in ("controller", "joint_controller") else A("rolü"))
+        ne = {"raw": "maskelenmemiş", "masked": "maskeli (maskeleme aracının tespit ettiği adlar ve kimlik numaraları yer tutucularla değiştirilmiş)",
               "metadata": "yalnızca arama terimi"}.get(receives(q, x), A("ne aktarılıyor"))
         alici.append([x["name"], x.get("service_tr") or A("hizmetin Türkçe tanımı"), rol, ulke(x.get("country")), ne])
     for p in q.get("partners", []):

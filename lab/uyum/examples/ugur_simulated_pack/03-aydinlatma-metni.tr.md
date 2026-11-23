@@ -14,12 +14,12 @@ Uğur Hukuk Bürosu (simulated), Şişli, İstanbul (fictional). Kişisel verile
 
 | Amaç | Hukuki sebep | Saklama süresi |
 |---|---|---|
-| Müvekkil belgelerini almak, dosyaya göre kaydetmek, çıkar çatışmasını kontrol etmek | KVKK m.5/2-c (sözleşmenin kurulması veya ifası) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]**; KVKK m.6/3-d (bir hakkın tesisi, kullanılması veya korunması) | **[AÇIK: saklama süresi]** |
+| Müvekkil belgelerini almak, dosyaya göre kaydetmek, çıkar çatışmasını kontrol etmek | KVKK m.5/2-c (sözleşmenin kurulması veya ifası) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]**; KVKK m.6/3-d (bir hakkın tesisi, kullanılması veya korunması) | Dosya kapandıktan sonra 10 yıl |
 | Almanca/Hollandaca taranmış belgeleri Türkçe metne dönüştürmek | KVKK m.5/2-f (meşru menfaat) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]**; KVKK m.6/3-d (bir hakkın tesisi, kullanılması veya korunması) | **[AÇIK: saklama süresi]** |
-| DD konusu şirketin arkasındaki kişiler hakkında yaptırım, malvarlığı dondurma, iflas, dava kayıtları ve basın haberlerini bulmak | KVKK m.5/2-f (meşru menfaat) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]** | **[AÇIK: saklama süresi]** |
-| **[AÇIK: amaç]** | KVKK m.5/2-f (meşru menfaat) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]**; KVKK m.6/3-d (bir hakkın tesisi, kullanılması veya korunması) | **[AÇIK: saklama süresi]** |
-| **[AÇIK: amaç]** | KVKK m.5/2-c (sözleşmenin kurulması veya ifası) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]**; KVKK m.6/3-d (bir hakkın tesisi, kullanılması veya korunması) | **[AÇIK: saklama süresi]** |
-| **[AÇIK: amaç]** | KVKK m.5/2-f (meşru menfaat) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]** | **[AÇIK: saklama süresi]** |
+| DD konusu şirketin arkasındaki kişiler hakkında yaptırım, malvarlığı dondurma, iflas, dava kayıtları ve basın haberlerini bulmak | KVKK m.5/2-f (meşru menfaat) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]** | Dosya kapandıktan sonra 10 yıl |
+| Müvekkil için DD raporu ve hukuki mütalaa hazırlamak | KVKK m.5/2-f (meşru menfaat) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]**; KVKK m.6/3-d (bir hakkın tesisi, kullanılması veya korunması) | Dosya kapandıktan sonra 10 yıl |
+| Hazırlanan taslakları müvekkile iletmek | KVKK m.5/2-c (sözleşmenin kurulması veya ifası) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]**; KVKK m.6/3-d (bir hakkın tesisi, kullanılması veya korunması) | Silinmiyor |
+| Sistemi çalıştırmak, hataları ayıklamak ve güvenliğini sağlamak | KVKK m.5/2-f (meşru menfaat) **[AÇIK: teyit edin; müvekkil işi için m.5/2-e daha uygun olabilir]** | **[AÇIK: saklama süresi]** |
 
 ## Verilerinizi nasıl topluyoruz
 
@@ -28,21 +28,21 @@ Elektronik ortamda (e-posta, belge yükleme, kamuya açık kayıtlarda arama) ve
 - E-posta ile belge alımı, dosyalama ve çıkar çatışması kontrolü: doğrudan sizden, müvekkilimizin bize ilettiği belgelerden
 - Taranmış yabancı belgelerin metne çevrilmesi ve tercümesi: müvekkilimizin bize ilettiği belgelerden
 - Yönetici ve ortakların DD taraması: kamuya açık kaynaklardan
-- **[AÇIK: faaliyet adı]**: müvekkilimizin bize ilettiği belgelerden
-- **[AÇIK: faaliyet adı]**: sistemlerimizin kayıtlarından
-- **[AÇIK: faaliyet adı]**: sistemlerimizin kayıtlarından
+- DD raporu ve hukuki mütalaa taslakları: müvekkilimizin bize ilettiği belgelerden
+- Taslakların müvekkile e-postayla gönderilmesi: sistemlerimizin kayıtlarından
+- Sistemin işletilmesi: sistemlerimizin kayıtlarından
 
 ## Verileriniz kimlere ve hangi amaçla aktarılıyor
 
 | Alıcı | Ne için | Rolü | Ülke | Ne aktarılıyor |
 |---|---|---|---|---|
-| OpenAI (API) | **[AÇIK: hizmetin Türkçe tanımı]** | hizmet sağlayıcı (veri işleyen) | ABD | maskelenmemiş |
-| Anthropic (Claude API) | **[AÇIK: hizmetin Türkçe tanımı]** | hizmet sağlayıcı (veri işleyen) | ABD | maskelenmemiş |
-| Google Gemini API (free tier) | **[AÇIK: hizmetin Türkçe tanımı]** | hizmet sağlayıcı (veri işleyen) | ABD | maskelenmemiş |
-| Google Workspace (Gmail, Drive) | **[AÇIK: hizmetin Türkçe tanımı]** | hizmet sağlayıcı (veri işleyen) | ABD | maskelenmemiş |
-| Supabase (pgvector) | **[AÇIK: hizmetin Türkçe tanımı]** | hizmet sağlayıcı (veri işleyen) | Almanya | maskeli (adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
-| LangSmith (LangChain) | **[AÇIK: hizmetin Türkçe tanımı]** | **[AÇIK: rolü]** | ABD | maskelenmemiş |
-| Brave Search API | **[AÇIK: hizmetin Türkçe tanımı]** | **[AÇIK: rolü]** | ABD | maskelenmemiş |
+| OpenAI (API) | giriş ve taslak için dil modeli | hizmet sağlayıcı (veri işleyen) | ABD | maskelenmemiş |
+| Anthropic (Claude API) | tarama ve taslak için dil modeli | hizmet sağlayıcı (veri işleyen) | ABD | maskelenmemiş |
+| Google Gemini API (free tier) | OCR ve tercüme | kendi adına hareket eden kurum | ABD | maskelenmemiş |
+| Google Workspace (Gmail, Drive) | e-posta ve dosya depolama | hizmet sağlayıcı (veri işleyen) | ABD | maskelenmemiş |
+| Supabase (pgvector) | vektör veritabanı | hizmet sağlayıcı (veri işleyen) | Almanya | maskeli (maskeleme aracının tespit ettiği adlar ve kimlik numaraları yer tutucularla değiştirilmiş) |
+| LangSmith (LangChain) | ajan izleme (istemler ve çıktılar) | **[AÇIK: rolü]** | ABD | maskelenmemiş |
+| Brave Search API | kişi adıyla web araması | **[AÇIK: rolü]** | ABD | maskelenmemiş |
 | Düsseldorf correspondent firm (fictional) | bazı dosyalarda birlikte çalıştığımız hukuk bürosu | ortak veri sorumlusu | Almanya | dosyaya göre |
 | Müvekkillerimiz | hazırladığımız rapor ve görüşler | veri sorumlusu | müvekkilin ülkesi | rapor içeriği |
 

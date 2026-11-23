@@ -68,7 +68,7 @@ Controller's record under Art. 30(1). The Art. 30(5) exemption for organisations
 | Source | public |
 | Recipients (d) | the client (reports, opinions, results) |
 | Processors and vendors | Anthropic (Claude API) (United States), Brave Search API (United States), LangSmith (LangChain) (United States), Google Workspace (Gmail, Drive) (United States), Supabase (pgvector) (Germany) |
-| Transfers outside the EEA (e) | Anthropic (Claude API) → United States (onward (client SCCs)); Google Workspace (Gmail, Drive) → United States (onward (client SCCs)); LangSmith (LangChain) → United States (onward (client SCCs)); Brave Search API → United States (onward (client SCCs)) |
+| Transfers outside the EEA (e) | Anthropic (Claude API) → United States (onward (client SCCs)); Google Workspace (Gmail, Drive) → United States (onward (client SCCs)); LangSmith (LangChain) → United States (onward (client SCCs)); Brave Search API → United States (unknown) |
 | Where it is stored | Matter folders (originals) on Google Drive, Vector store of masked chunks of past opinions and DD reports, LangSmith traces (full prompts and outputs) |
 | Retention (f) | 10 years after the matter closes |
 | Security (g) | See document 09 (TOMs). |

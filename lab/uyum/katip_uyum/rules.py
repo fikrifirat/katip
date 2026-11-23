@@ -44,11 +44,16 @@ class Finding:
     docs: list[str] = field(default_factory=list)
     title_tr: str = ""
     theme: str = "scope"
-    weight: int = 1  # ranks the top-5: severity first, then how sensitive the data involved is
+    weight: int = 1  # harm to people if left as is: sensitivity of the data, minus paperwork-only items
 
     @property
     def rank(self):
         return (SEVERITY_ORDER[self.severity], -self.weight, self.id)
+
+    @property
+    def top_rank(self):
+        # For "do these first": what can hurt people comes before missing paperwork, so weight leads.
+        return (-self.weight, SEVERITY_ORDER[self.severity], self.id)
 
 
 @dataclass
@@ -82,7 +87,14 @@ class Analysis:
         return [f for f in self.findings if doc in f.docs]
 
     def top(self, n=5) -> list[Finding]:
-        return sorted([f for f in self.findings if f.severity in ("action", "risk")], key=lambda f: f.rank)[:n]
+        out, kinds = [], set()
+        for f in sorted([f for f in self.findings if f.severity in ("action", "risk")], key=lambda f: f.top_rank):
+            kind = f.id.split(":")[0]
+            if kind in kinds:  # one 'raw:' line stands for all vendors that get raw text
+                continue
+            kinds.add(kind)
+            out.append(f)
+        return out[:n]
 
 
 def _yes(x):
@@ -217,13 +229,13 @@ def analyse(q: dict) -> Analysis:
                     "(an individual), and 6(1)(f) with a legitimate-interests test (document 11) for everyone else, "
                     "including the contact persons of corporate clients.",
                     "GDPR Art. 6(1)(b), 6(1)(f); EDPB Guidelines 2/2019", ["01", "03", "11"],
-                    f"'{name}' için hukuki sebep ayrılmalı (sözleşmenin tarafı olmayan kişiler)", "basis", w)
+                    f"'{name}' için hukuki sebep ayrılmalı (sözleşmenin tarafı olmayan kişiler)", "basis", min(w, 2))
         if basis == "6(1)(f)" and not a.get("legitimate_interest"):
             add(f"lia:{a['id']}", "action", f"Write the legitimate-interests test for '{name}'",
                 "Legitimate interests need a documented three-step test: a legitimate interest, necessity, and a balance "
                 "against the data subjects' rights and reasonable expectations. Document 11 is the template, pre-filled.",
                 "GDPR Art. 6(1)(f), Recital 47; CJEU C-252/21", ["01", "02", "11"],
-                f"'{name}' için meşru menfaat testi yazılmalı", "basis", w)
+                f"'{name}' için meşru menfaat testi yazılmalı", "basis", min(w, 2))
         if "special" in kinds and not a.get("art9_condition"):
             add(f"art9:{a['id']}", "action", f"Art. 9 condition for '{name}'",
                 "This activity touches special-category data (health, religion, ethnicity, ...). Besides an Art. 6 "
@@ -315,10 +327,12 @@ def analyse(q: dict) -> Analysis:
                 "person. Either require approval before sending, or limit what can be sent unreviewed and log it. "
                 "The privacy notice no longer says 'a lawyer reviews every result' while this is open.",
                 "GDPR Arts. 5(1)(d), 22, 25(1), 32(1)(b), 33", ["02", "03", "07", "09"],
-                f"'{ag.get('name', ag['id'])}' avukat okumadan dışarı çıktı gönderiyor", "agents", 3)
+                f"'{ag.get('name', ag['id'])}' avukat okumadan dışarı çıktı gönderiyor", "agents", 4)
 
     # ------------------------------------------------------------------ 5. Vendors: DPA, tiers, training, raw data
     transfers: list[Transfer] = []
+    # Only vendors that touch client-supplied files carry EU-origin data onward.
+    client_vendors = {x["id"] for a in q.get("activities", []) if "client" in sources(a) for x in activity_vendors(q, a)}
     for v in vendors:
         vname = v.get("name", v["id"])
         cc = v.get("country")
@@ -399,7 +413,7 @@ def analyse(q: dict) -> Analysis:
             route, tia = "EEA", False
         elif cc in law.ADEQUATE:
             route, tia = "adequacy", False
-        elif not in_eea and _yes(scope.get("eu_clients")) and mech != "none":
+        elif not in_eea and _yes(scope.get("eu_clients")) and mech != "none" and v["id"] in client_vendors:
             # A non-EU firm passing EU-origin data on: governed by the onward-transfer clause of the SCCs it signed
             # with each EU client. The DPF and adequacy decisions are tools for exporters in the EU, not for it.
             route, tia = "onward (client SCCs)", True

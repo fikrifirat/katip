@@ -1,5 +1,5 @@
 {
-  "_note": "SIMULATED: written by an AI persona playing a Turkish lawyer to test Katip Uyum. Not the real Uğur and not a real firm. Vendor facts are the persona's beliefs, not checked. Fields added in v0.2 express things the v0.1 questionnaire could not.",
+  "_note": "SIMULATED: written by an AI persona playing a Turkish lawyer to test Katip Uyum. Not the real Uğur and not a real firm. Vendor facts are the persona's beliefs, not checked. Fields added in v0.2 express things the v0.1 questionnaire could not. Turkish *_tr wording for storage, vendors and three activities was added by the developer, not the persona.",
   "system": {
     "name": "Uğur Hukuk ajan sistemi (simulated)",
     "date": "2026-11-23",
@@ -33,7 +33,7 @@
       "in_eu": true,
       "vulnerable": false,
       "label_tr": "Müvekkiller ve irtibat kişileri (Alman/Hollandalı şirketler, Alman bireyler)",
-      "contract_party": false
+      "contract_party": null
     },
     {
       "id": "targets",
@@ -154,7 +154,8 @@
       "retention": "10 years after the matter closes",
       "retention_reason": "TBK m.146 limitation period",
       "name_tr": "E-posta ile belge alımı, dosyalama ve çıkar çatışması kontrolü",
-      "purpose_tr": "Müvekkil belgelerini almak, dosyaya göre kaydetmek, çıkar çatışmasını kontrol etmek"
+      "purpose_tr": "Müvekkil belgelerini almak, dosyaya göre kaydetmek, çıkar çatışmasını kontrol etmek",
+      "retention_tr": "Dosya kapandıktan sonra 10 yıl"
     },
     {
       "id": "ocr",
@@ -220,7 +221,8 @@
       "retention": "10 years after the matter closes",
       "name_tr": "Yönetici ve ortakların DD taraması",
       "purpose_tr": "DD konusu şirketin arkasındaki kişiler hakkında yaptırım, malvarlığı dondurma, iflas, dava kayıtları ve basın haberlerini bulmak",
-      "labels_people": true
+      "labels_people": true,
+      "retention_tr": "Dosya kapandıktan sonra 10 yıl"
     },
     {
       "id": "drafting",
@@ -258,7 +260,10 @@
       "partners": [
         "dus"
       ],
-      "legal_service": true
+      "legal_service": true,
+      "name_tr": "DD raporu ve hukuki mütalaa taslakları",
+      "purpose_tr": "Müvekkil için DD raporu ve hukuki mütalaa hazırlamak",
+      "retention_tr": "Dosya kapandıktan sonra 10 yıl"
     },
     {
       "id": "sending",
@@ -286,7 +291,10 @@
       "storage": [
         "gmail"
       ],
-      "retention": "Not deleted"
+      "retention": "Not deleted",
+      "name_tr": "Taslakların müvekkile e-postayla gönderilmesi",
+      "purpose_tr": "Hazırlanan taslakları müvekkile iletmek",
+      "retention_tr": "Silinmiyor"
     },
     {
       "id": "ops",
@@ -311,7 +319,9 @@
       "storage": [
         "traces"
       ],
-      "retention": null
+      "retention": null,
+      "name_tr": "Sistemin işletilmesi",
+      "purpose_tr": "Sistemi çalıştırmak, hataları ayıklamak ve güvenliğini sağlamak"
     }
   ],
   "agents": [
@@ -429,7 +439,8 @@
       "retention": null,
       "trains_on_data": false,
       "subprocessors_published": null,
-      "notes": "Raw from intake, masked from drafting; questionnaire allows one value."
+      "notes": "Raw from intake, masked from drafting (expressed with agents[].sends).",
+      "service_tr": "giriş ve taslak için dil modeli"
     },
     {
       "id": "anthropic",
@@ -451,7 +462,8 @@
       "dpf_certified": null,
       "retention": null,
       "trains_on_data": false,
-      "subprocessors_published": null
+      "subprocessors_published": null,
+      "service_tr": "tarama ve taslak için dil modeli"
     },
     {
       "id": "gemini",
@@ -474,7 +486,8 @@
       "trains_on_data": true,
       "subprocessors_published": null,
       "notes": "Free tier: persona believes content may be used to improve products and reviewed by humans.",
-      "tier": "free"
+      "tier": "free",
+      "service_tr": "OCR ve tercüme"
     },
     {
       "id": "gworkspace",
@@ -497,7 +510,8 @@
       "dpf_certified": null,
       "retention": "as configured by us (never deleted)",
       "trains_on_data": false,
-      "subprocessors_published": true
+      "subprocessors_published": true,
+      "service_tr": "e-posta ve dosya depolama"
     },
     {
       "id": "supabase",
@@ -517,7 +531,8 @@
       "retention": null,
       "trains_on_data": null,
       "subprocessors_published": null,
-      "parent_country": "US"
+      "parent_country": "US",
+      "service_tr": "vektör veritabanı"
     },
     {
       "id": "langsmith",
@@ -539,7 +554,8 @@
       "transfer_mechanism": null,
       "retention": null,
       "trains_on_data": null,
-      "subprocessors_published": null
+      "subprocessors_published": null,
+      "service_tr": "ajan izleme (istemler ve çıktılar)"
     },
     {
       "id": "brave",
@@ -555,7 +571,8 @@
       "dpa": null,
       "transfer_mechanism": null,
       "retention": null,
-      "trains_on_data": null
+      "trains_on_data": null,
+      "service_tr": "kişi adıyla web araması"
     },
     {
       "id": "kalkan",
@@ -563,7 +580,8 @@
       "service": "Masking vault",
       "role": "none",
       "country": "LOCAL",
-      "receives": "raw"
+      "receives": "raw",
+      "service_tr": "maskeleme kasası"
     },
     {
       "id": "office",
@@ -571,7 +589,8 @@
       "service": "Local copies and backup",
       "role": "none",
       "country": "LOCAL",
-      "receives": "raw"
+      "receives": "raw",
+      "service_tr": "yerel kopyalar ve yedek"
     }
   ],
   "storage": [
@@ -581,7 +600,8 @@
       "vendor": "gworkspace",
       "encrypted": true,
       "retention": "10 years after matter closes",
-      "deletion": null
+      "deletion": null,
+      "what_tr": "Google Drive'daki dosya klasörleri (asıllar)"
     },
     {
       "id": "gmail",
@@ -589,7 +609,8 @@
       "vendor": "gworkspace",
       "encrypted": true,
       "retention": "Never deleted",
-      "deletion": null
+      "deletion": null,
+      "what_tr": "E-posta kutusu (ekler ve gönderilen taslaklar dahil)"
     },
     {
       "id": "vectors",
@@ -597,7 +618,8 @@
       "vendor": "supabase",
       "encrypted": null,
       "retention": null,
-      "deletion": null
+      "deletion": null,
+      "what_tr": "Geçmiş mütalaa ve DD raporlarının maskeli parçalarından oluşan vektör veritabanı"
     },
     {
       "id": "vault",
@@ -605,7 +627,8 @@
       "vendor": "kalkan",
       "encrypted": true,
       "retention": "With the matter",
-      "deletion": "Katip forget_matter"
+      "deletion": "Katip forget_matter",
+      "what_tr": "Kalkan maskeleme kasası"
     },
     {
       "id": "traces",
@@ -613,7 +636,8 @@
       "vendor": "langsmith",
       "encrypted": null,
       "retention": null,
-      "deletion": null
+      "deletion": null,
+      "what_tr": "LangSmith izleri (istemler ve çıktılar tam olarak)"
     },
     {
       "id": "backup",
@@ -621,7 +645,8 @@
       "vendor": "office",
       "encrypted": null,
       "retention": null,
-      "deletion": null
+      "deletion": null,
+      "what_tr": "Time Machine yedeği"
     }
   ],
   "security": {
@@ -640,7 +665,7 @@
     "incident_owner": "Uğur (managing lawyer)",
     "shared_logins": true,
     "restore_tested": false,
-    "masking_profile": "ai"
+    "masking_profile": null
   },
   "ai": {
     "role": "deployer",

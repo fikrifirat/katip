@@ -8,11 +8,11 @@
 
 Ranked by severity and by how sensitive the data involved is.
 
-1. **Name the legal authority for criminal-offence data (GDPR Art. 10).** For screening (DD screening of target companies and their people): GDPR Art. *(GDPR Art. 10)*
+1. **Name the legal authority for criminal-offence data (GDPR Art. 10).** For screening (DD screening of target companies and their people): GDPR Art. 10 allows criminal-offence data only under official authority or where Union or Member State law authorises it with safeguards. *(GDPR Art. 10)*
 2. **Prepare SCCs for EU clients who send files to Türkiye.** Türkiye has no EU adequacy decision, so each EU client needs the 2021 SCCs with you and its own transfer impact assessment. *(GDPR Art. 46(2)(c); Decision (EU) 2021/914)*
 3. **Do the DPIA before going live (at least 4 of 9 EDPB criteria met).** Two or more criteria usually mean the processing is likely to result in a high risk. *(GDPR Arts. 35(1), 35(7), 36; WP248 rev.01)*
 4. **KVKK transfer abroad: Anthropic (Claude API), Mistral AI, Hetzner.** Since 1 June 2024, KVKK m.9 allows transfers abroad on an adequacy decision of the Board, appropriate safeguards (the Board's standard contract, notified to the Authority within 5 business days of signing; binding corporate rules; a written undertaking with the Board's permission) or the occasional-transfer exceptions of m.9/6. *(KVKK m.9; Regulation on transfers abroad (10 Jul 2024))*
-5. **Sign or accept Mistral AI's DPA.** No processing on behalf of the controller without an Art. *(GDPR Art. 28(3))*
+5. **Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions).** Masking hides who the person is, not what happened to them. *(GDPR Arts. 9, 25, 32; Recital 26)*
 
 ## The system in one paragraph
 

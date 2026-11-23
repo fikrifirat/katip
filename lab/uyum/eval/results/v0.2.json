@@ -1,7 +1,7 @@
 {
  "citations": {
-  "citations": 447,
-  "exist": 447,
+  "citations": 452,
+  "exist": 452,
   "verified": 274,
   "wrong": 0,
   "unverified": 15,
@@ -20,7 +20,7 @@
   "overclaims": 0
  },
  "turkish": {
-  "turkish_words": 64208,
+  "turkish_words": 64693,
   "turkish_issues": 0,
   "issues_per_1000_words": 0.0
  },
@@ -31,7 +31,7 @@
    "cite": "10",
    "status": "exists (range end or overview repeat)",
    "why": "",
-   "context": " **Name the legal authority for criminal-offence data (GDPR Art. 10).** For screening (DD screening of target companies and their people): GDPR Art. *(GDPR Art."
+   "context": " **Name the legal authority for criminal-offence data (GDPR Art. 10).** For screening (DD screening of target companies and their people): GDPR Art. 10 allows c"
   },
   {
    "doc": "00-overview.md",
@@ -39,7 +39,15 @@
    "cite": "10",
    "status": "exists (range end or overview repeat)",
    "why": "",
-   "context": " **Name the legal authority for criminal-offence data (GDPR Art. 10).** For screening (DD screening of target companies and their people): GDPR Art. *(GDPR Art."
+   "context": " **Name the legal authority for criminal-offence data (GDPR Art. 10).** For screening (DD screening of target companies and their people): GDPR Art. 10 allows c"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": " *(GDPR Art. 10)*"
   },
   {
    "doc": "00-overview.md",
@@ -76,10 +84,26 @@
   {
    "doc": "00-overview.md",
    "law": "gdpr",
-   "cite": "28(3)",
+   "cite": "9",
    "status": "exists (range end or overview repeat)",
    "why": "",
-   "context": " **Sign or accept Mistral AI's DPA.** No processing on behalf of the controller without an Art. *(GDPR Art. 28(3))*"
+   "context": " *(GDPR Arts. 9, 25, 32; Recital 26)*"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "25",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": " *(GDPR Arts. 9, 25, 32; Recital 26)*"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": " *(GDPR Arts. 9, 25, 32; Recital 26)*"
   },
   {
    "doc": "00-overview.md",
@@ -3044,10 +3068,26 @@
   {
    "doc": "00-ozet.tr.md",
    "law": "gdpr",
-   "cite": "28(3)",
+   "cite": "9",
    "status": "exists (range end or overview repeat)",
    "why": "",
-   "context": " **Mistral AI ile veri işleme sözleşmesi yapılmalı** *(GDPR Art. 28(3))*"
+   "context": " **Anthropic (Claude API) maskeli metinde de olay ayrıntılarını görüyor** *(GDPR Arts. 9, 25, 32; Recital 26)*"
+  },
+  {
+   "doc": "00-ozet.tr.md",
+   "law": "gdpr",
+   "cite": "25",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": " **Anthropic (Claude API) maskeli metinde de olay ayrıntılarını görüyor** *(GDPR Arts. 9, 25, 32; Recital 26)*"
+  },
+  {
+   "doc": "00-ozet.tr.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": " **Anthropic (Claude API) maskeli metinde de olay ayrıntılarını görüyor** *(GDPR Arts. 9, 25, 32; Recital 26)*"
   },
   {
    "doc": "00-ozet.tr.md",

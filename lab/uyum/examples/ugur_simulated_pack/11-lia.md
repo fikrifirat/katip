@@ -14,8 +14,8 @@ One assessment per activity based on legitimate interests. The three steps follo
 | 2. Necessity | Purpose: Turn scanned German/Dutch documents into Turkish text. Could it be reached with less data or a less intrusive method (e.g. screening companies before people, exact matches instead of fuzzy ones)? **[OPEN: reviewer]** |
 | 3a. Who is affected | Employees of DD targets in client data-room exports, Injured/deceased workers, relatives incl. children, witnesses, suspects in accident files, Clients and their contact persons (DE/NL companies, DE individuals). Vulnerable: Employees of DD targets in client data-room exports, Injured/deceased workers, relatives incl. children, witnesses, suspects in accident files |
 | 3b. What data | Names and contact details, TC kimlik, passport, German Steuer-ID, Dutch BSN, Salary, IBAN, insolvency notices, Forensic and hospital reports, disability rates. Sensitive: TC kimlik, passport, German Steuer-ID, Dutch BSN, Forensic and hospital reports, disability rates |
-| 3c. Reasonable expectations | Would these people expect a law firm acting for the other side to process this? **[OPEN: reviewer]** |
-| 3d. Safeguards | lawyer review of every output |
+| 3c. Reasonable expectations | Given each group's relationship with the firm (own client, staff, counterparty, officer of a company under review), would they reasonably expect this processing at the time and in this context (Recital 47)? **[OPEN: reviewer]** |
+| 3d. Safeguards | a lawyer reads this activity's outputs before they are used (per the questionnaire) |
 | Result | **[OPEN: interest prevails / does not prevail, with reasons; date; reviewer]** |
 
 ## DD screening of officers and shareholders
@@ -26,8 +26,8 @@ One assessment per activity based on legitimate interests. The three steps follo
 | 2. Necessity | Purpose: Find sanctions, asset-freeze, insolvency and court records and press about people behind a DD target. Could it be reached with less data or a less intrusive method (e.g. screening companies before people, exact matches instead of fuzzy ones)? **[OPEN: reviewer]** |
 | 3a. Who is affected | Officers, shareholders and signatories of DD targets |
 | 3b. What data | Names and contact details, TC kimlik, passport, German Steuer-ID, Dutch BSN, Roles, shareholdings, signing powers, Salary, IBAN, insolvency notices, Indictments, statements, sanctions and asset-freeze listings. Sensitive: TC kimlik, passport, German Steuer-ID, Dutch BSN, Indictments, statements, sanctions and asset-freeze listings |
-| 3c. Reasonable expectations | Would these people expect a law firm acting for the other side to process this? **[OPEN: reviewer]** |
-| 3d. Safeguards | lawyer review of every output, retention limited to: 10 years after the matter closes |
+| 3c. Reasonable expectations | Given each group's relationship with the firm (own client, staff, counterparty, officer of a company under review), would they reasonably expect this processing at the time and in this context (Recital 47)? **[OPEN: reviewer]** |
+| 3d. Safeguards | a lawyer reads this activity's outputs before they are used (per the questionnaire), retention limited to: 10 years after the matter closes |
 | Result | **[OPEN: interest prevails / does not prevail, with reasons; date; reviewer]** |
 
 ## Drafting DD reports and legal opinions
@@ -38,8 +38,8 @@ One assessment per activity based on legitimate interests. The three steps follo
 | 2. Necessity | Purpose: Draft DD reports and expert opinions (workplace accident, negligent homicide). Could it be reached with less data or a less intrusive method (e.g. screening companies before people, exact matches instead of fuzzy ones)? **[OPEN: reviewer]** |
 | 3a. Who is affected | Clients and their contact persons (DE/NL companies, DE individuals), Officers, shareholders and signatories of DD targets, Employees of DD targets in client data-room exports, Injured/deceased workers, relatives incl. children, witnesses, suspects in accident files. Vulnerable: Employees of DD targets in client data-room exports, Injured/deceased workers, relatives incl. children, witnesses, suspects in accident files |
 | 3b. What data | Names and contact details, Roles, shareholdings, signing powers, Salary, IBAN, insolvency notices, Forensic and hospital reports, disability rates, Indictments, statements, sanctions and asset-freeze listings, Children of deceased workers (dates of birth). Sensitive: Forensic and hospital reports, disability rates, Indictments, statements, sanctions and asset-freeze listings, Children of deceased workers (dates of birth) |
-| 3c. Reasonable expectations | Would these people expect a law firm acting for the other side to process this? **[OPEN: reviewer]** |
-| 3d. Safeguards | lawyer review of every output, retention limited to: 10 years after the matter closes |
+| 3c. Reasonable expectations | Given each group's relationship with the firm (own client, staff, counterparty, officer of a company under review), would they reasonably expect this processing at the time and in this context (Recital 47)? **[OPEN: reviewer]** |
+| 3d. Safeguards | a lawyer reads this activity's outputs before they are used (per the questionnaire), retention limited to: 10 years after the matter closes |
 | Result | **[OPEN: interest prevails / does not prevail, with reasons; date; reviewer]** |
 
 ## Operating the system
@@ -50,7 +50,7 @@ One assessment per activity based on legitimate interests. The three steps follo
 | 2. Necessity | Purpose: Troubleshooting and quality checks via agent traces. Could it be reached with less data or a less intrusive method (e.g. screening companies before people, exact matches instead of fuzzy ones)? **[OPEN: reviewer]** |
 | 3a. Who is affected | Firm lawyers, trainee, secretary, Clients and their contact persons (DE/NL companies, DE individuals), Officers, shareholders and signatories of DD targets, Employees of DD targets in client data-room exports, Injured/deceased workers, relatives incl. children, witnesses, suspects in accident files. Vulnerable: Employees of DD targets in client data-room exports, Injured/deceased workers, relatives incl. children, witnesses, suspects in accident files |
 | 3b. What data | Prompts, outputs, agent traces, logins, Forensic and hospital reports, disability rates, Indictments, statements, sanctions and asset-freeze listings. Sensitive: Forensic and hospital reports, disability rates, Indictments, statements, sanctions and asset-freeze listings |
-| 3c. Reasonable expectations | Would these people expect a law firm acting for the other side to process this? **[OPEN: reviewer]** |
+| 3c. Reasonable expectations | Given each group's relationship with the firm (own client, staff, counterparty, officer of a company under review), would they reasonably expect this processing at the time and in this context (Recital 47)? **[OPEN: reviewer]** |
 | 3d. Safeguards | **[OPEN: safeguards]** |
 | Result | **[OPEN: interest prevails / does not prevail, with reasons; date; reviewer]** |
 

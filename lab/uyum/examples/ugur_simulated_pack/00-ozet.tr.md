@@ -9,14 +9,14 @@
 Önem ve verinin hassasiyetine göre sıralandı.
 
 1. **Google Gemini API (free tier)'e müvekkil verisi gönderilmesi durdurulmalı** *(GDPR Arts. 28(1), 28(3), 28(10), 9(1); Avukatlık Kanunu m.36)*
-2. **'Email intake, filing and conflict check' için hukuki sebep ayrılmalı (sözleşmenin tarafı olmayan kişiler)** *(GDPR Art. 6(1)(b), 6(1)(f); EDPB Guidelines 2/2019)*
-3. **'Emailing drafts to clients' için hukuki sebep ayrılmalı (sözleşmenin tarafı olmayan kişiler)** *(GDPR Art. 6(1)(b), 6(1)(f); EDPB Guidelines 2/2019)*
-4. **'Operating the system' için meşru menfaat testi yazılmalı** *(GDPR Art. 6(1)(f), Recital 47; CJEU C-252/21)*
-5. **'DD screening of officers and shareholders' için meşru menfaat testi yazılmalı** *(GDPR Art. 6(1)(f), Recital 47; CJEU C-252/21)*
+2. **'Emailing drafts to clients': saklama süresi sınırsız** *(GDPR Arts. 5(1)(e), 13(2)(a); KVKK m.7)*
+3. **'DD screening of officers and shareholders' kişilere risk etiketi veriyor** *(GDPR Arts. 4(4), 5(1)(d), 15, 22)*
+4. **'Sending agent' avukat okumadan dışarı çıktı gönderiyor** *(GDPR Arts. 5(1)(d), 22, 25(1), 32(1)(b), 33)*
+5. **Anthropic (Claude API) maskelenmemiş hassas veri alıyor** *(GDPR Arts. 5(1)(c), 25, 32(1)(a))*
 
 ## Tüm bulgular
 
-17 yapılmalı, 10 risk, 16 açık soru, 16 not. Ayrıntılı açıklamalar İngilizce belgelerde (00-overview.md ve ilgili belge).
+17 yapılmalı, 9 risk, 18 açık soru, 15 not. Ayrıntılı açıklamalar İngilizce belgelerde (00-overview.md ve ilgili belge).
 
 ### Hangi hukuk, neye uygulanıyor
 
@@ -73,8 +73,8 @@
 |---|---|---|---|
 | Yapılmalı | AB müvekkilleri için SCC hazırlanmalı (Türkiye için yeterlilik kararı yok) | GDPR Art. 46(2)(c); Decision (EU) 2021/914 | 05, 04 |
 | Yapılmalı | Yurt dışına aktarım (KVKK m.9): OpenAI (API), Anthropic (Claude API), Google Gemini API (free tier), Google Workspace (Gmail, Drive), Supabase (pgvector), LangSmith (LangChain), Brave Search API | KVKK m.9; Regulation on transfers abroad (10 Jul 2024) | 05 |
+| Açık soru | Brave Search API için hangi aktarım aracı kullanılıyor? | GDPR Arts. 45-46 | 05 |
 | Not | Anthropic (Claude API): AB müvekkil verisinin ileri aktarımı | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
-| Not | Brave Search API: AB müvekkil verisinin ileri aktarımı | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
 | Not | Google Gemini API (free tier): AB müvekkil verisinin ileri aktarımı | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
 | Not | Google Workspace (Gmail, Drive): AB müvekkil verisinin ileri aktarımı | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
 | Not | LangSmith (LangChain): AB müvekkil verisinin ileri aktarımı | GDPR Art. 44; Decision (EU) 2021/914 | 05 |
@@ -96,7 +96,7 @@
 | Yapılmalı | Güvenlik: yedekten geri yükleme testi eklenmeli | GDPR Art. 32(1)(c)-(d) | 09 |
 | Yapılmalı | Ortak hesaplar ve açıkta API anahtarları kaldırılmalı | GDPR Art. 32(1)(b), 32(4) | 09 |
 | Risk | Bulut modelleri ham metni görüyor | GDPR Arts. 25, 32(1)(a) | 02, 09 |
-| Risk | AB belgeleri Türkçe profille maskeleniyor | GDPR Arts. 25, 32(1)(a) | 09, 02 |
+| Açık soru | AB belgeleri hangi maskeleme profiliyle işleniyor? | GDPR Art. 32(1)(a) | 09 |
 | Açık soru | Güvenlik: Depolamada şifreleme? | GDPR Art. 32(1)(a) | 09 |
 | Açık soru | Güvenlik: Çok faktörlü giriş? | GDPR Art. 32(1)(b) | 09 |
 | Not | Maskeli metin anonim değil, takma adlıdır | GDPR Art. 4(5), Recital 26; CJEU C-413/23 P | 02, 03, 09 |

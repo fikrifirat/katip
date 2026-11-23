@@ -47,7 +47,7 @@ Most AI vendors offer a standard DPA; you usually cannot negotiate it, but you m
 | DPA status | accepted_online |
 | Vendor retention | **[OPEN: how long the vendor keeps inputs and outputs]** |
 | Trains on data | no |
-| Sub-processor list published | **[OPEN: sub-processor list]** | *Note from the questionnaire: Raw from intake, masked from drafting; questionnaire allows one value.*
+| Sub-processor list published | **[OPEN: sub-processor list]** | *Note from the questionnaire: Raw from intake, masked from drafting (expressed with agents[].sends).*
 
 | GDPR | Term | In the DPA? | Clause / note |
 |---|---|---|---|
@@ -100,7 +100,7 @@ Most AI vendors offer a standard DPA; you usually cannot negotiate it, but you m
 
 |  |  |
 |---|---|
-| Role | processor |
+| Role | controller (answered: processor; a free tier without a DPA gives no Art. 28 terms) |
 | Country / region | United States / **[OPEN: region]** |
 | Tier | free |
 | Receives | raw |

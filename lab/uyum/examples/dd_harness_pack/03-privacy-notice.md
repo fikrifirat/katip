@@ -20,7 +20,7 @@ Two notices: **A** for clients and people who give their data directly (Art. 13)
 
 ## Who receives it
 
-Service providers bound by contract to our instructions: Anthropic (Claude API) (Language model for drafting); Hetzner (Server for the vector store and agent logs). Other recipients: Mistral AI (Language model for intake sorting, **[OPEN: contract status]**); TOBB Türkiye Ticaret Sicili Gazetesi portal (Public gazette searched by company name, acts on its own account). Our clients receive the reports and opinions we prepare for them. Before text is sent to Anthropic (Claude API), Mistral AI, Hetzner, names, ID numbers, contact details and addresses are replaced with placeholders on our own computer. These providers therefore receive pseudonymised text; it is still personal data for us.
+Service providers bound by contract to our instructions: Anthropic (Claude API) (Language model for drafting); Hetzner (Server for the vector store and agent logs). Other recipients: Mistral AI (Language model for intake sorting, **[OPEN: contract status]**); TOBB Türkiye Ticaret Sicili Gazetesi portal (Public gazette searched by company name, acts on its own account). Our clients receive the reports and opinions we prepare for them. Before text is sent to Anthropic (Claude API), Mistral AI, Hetzner, the names, ID numbers, contact details and addresses that our masking tool detects are replaced with placeholders on our own computer. These providers therefore receive pseudonymised text; it is still personal data for us.
 
 ## Transfers outside the EU/EEA
 
@@ -54,7 +54,7 @@ The data is needed to take on and run your matter; without it we cannot act for 
 
 ## Who receives it
 
-Service providers bound by contract to our instructions: Anthropic (Claude API) (Language model for drafting); Hetzner (Server for the vector store and agent logs). Other recipients: Mistral AI (Language model for intake sorting, **[OPEN: contract status]**); TOBB Türkiye Ticaret Sicili Gazetesi portal (Public gazette searched by company name, acts on its own account). Our clients receive the reports and opinions we prepare for them. Before text is sent to Anthropic (Claude API), Mistral AI, Hetzner, names, ID numbers, contact details and addresses are replaced with placeholders on our own computer. These providers therefore receive pseudonymised text; it is still personal data for us.
+Service providers bound by contract to our instructions: Anthropic (Claude API) (Language model for drafting); Hetzner (Server for the vector store and agent logs). Other recipients: Mistral AI (Language model for intake sorting, **[OPEN: contract status]**); TOBB Türkiye Ticaret Sicili Gazetesi portal (Public gazette searched by company name, acts on its own account). Our clients receive the reports and opinions we prepare for them. Before text is sent to Anthropic (Claude API), Mistral AI, Hetzner, the names, ID numbers, contact details and addresses that our masking tool detects are replaced with placeholders on our own computer. These providers therefore receive pseudonymised text; it is still personal data for us.
 
 ## Transfers outside the EU/EEA
 
