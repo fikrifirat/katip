@@ -1,10 +1,10 @@
-# 06 · Retention and deletion policy (GDPR Art. 5(1)(e))
+# 06 · Retention and deletion policy (GDPR Art. 5(1)(e), KVKK m.7)
 
 **System:** Örnek Hukuk agent harness · **Controller:** Örnek Hukuk Bürosu · **Questionnaire dated:** 2026-11-23
 
-> **DRAFT for lawyer review.** Katip drafted this from the questionnaire above. It is a starting point for the reviewing lawyer, not legal advice, and not a statement that the system complies with the GDPR, KVKK or the AI Act. **[OPEN: ...]** marks facts that are still missing; the findings list in document 00 says what each one changes.
+> **DRAFT for lawyer review.** Katip drafted this from the questionnaire above. It is a starting point for the reviewing lawyer, not legal advice, and not a statement that the system meets the GDPR, KVKK or the AI Act. **[OPEN: ...]** marks facts that are still missing; document 00 lists what each one changes.
 
-Personal data is kept no longer than needed for the purpose (Art. 5(1)(e)). In an agent system data is copied into places people forget: prompts, tool outputs, embeddings, caches, logs, the vendor's own logs, backups. Each row below needs an owner and a deletion method.
+Personal data is kept no longer than needed for the purpose (Art. 5(1)(e)). In an agent system data is copied into places people forget: prompts, tool outputs, embeddings, caches, logs, the vendor's own logs, backups, sent e-mail. Each row below needs an owner and a deletion method.
 
 ## Schedule
 
@@ -22,7 +22,7 @@ Personal data is kept no longer than needed for the purpose (Art. 5(1)(e)). In a
 
 | Activity | Retention | Reason / legal basis for the period |
 |---|---|---|
-| Client intake and conflict check | 10 years after the matter closes | Turkish general limitation period (TBK m.146) for claims against the lawyer |
+| Client intake and conflict check | 10 years after the matter closes | Turkish limitation periods: TBK m.146 (10 years) or m.147/5 (5 years for mandate claims); reviewer to choose |
 | DD screening of target companies and their people | Until the DD report is delivered + 2 years, then only the report | **[OPEN: reason]** |
 | Drafting DD reports and legal opinions | 10 years after the matter closes | **[OPEN: reason]** |
 | Running and securing the system | 90 days | **[OPEN: reason]** |
@@ -41,4 +41,4 @@ Personal data is kept no longer than needed for the purpose (Art. 5(1)(e)). In a
 
 ## KVKK (Türkiye)
 
-Controllers that must register in VERBİS must also keep a written saklama ve imha politikası and run periodic destruction at most every 6 months (Silme, Yok Etme veya Anonim Hale Getirme Yönetmeliği m.5, m.11). Turkish limitation periods (e.g. TBK m.146: 10 years; VUK m.253: 5 years for books) often set the outer limit for client files.
+Controllers that must register in VERBİS must also keep a written saklama ve imha politikası and run periodic destruction at most every 6 months (Silme, Yok Etme veya Anonim Hale Getirme Yönetmeliği m.5, m.11). Turkish limitation periods often set the outer limit for client files: TBK m.146 sets 10 years in general, but claims from a mandate (vekâlet) against a lawyer fall under the 5 years of TBK m.147/5; the reviewer should choose with reasons **[OPEN: period and reason]**. VUK m.253: 5 years for books.

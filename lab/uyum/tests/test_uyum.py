@@ -14,6 +14,8 @@ from katip_uyum.model import QuestionnaireError, validate  # noqa: E402
 from katip_uyum.rules import analyse  # noqa: E402
 
 EXAMPLE = json.loads((ROOT / "examples" / "dd_harness.json").read_text(encoding="utf-8"))
+SIMULATED = json.loads((ROOT / "examples" / "ugur_simulated.json").read_text(encoding="utf-8"))
+TR_DOCS = {"00-ozet.tr.md", "01-envanter.tr.md", "03-aydinlatma-metni.tr.md"}
 TEMPLATE = json.loads((ROOT / "katip_uyum" / "template.json").read_text(encoding="utf-8"))
 
 
@@ -35,6 +37,8 @@ def q(**patch):
 def test_example_and_template_validate():
     validate(EXAMPLE)
     validate(TEMPLATE)
+    validate(SIMULATED)
+    assert SIMULATED["_note"].startswith("SIMULATED")
 
 
 def test_bad_reference_is_an_error():
@@ -50,18 +54,26 @@ def test_bad_enum_is_an_error():
 
 def test_pack_has_all_documents_with_banner_and_no_compliance_claim():
     files = render_all(analyse(EXAMPLE))
-    assert len(files) == len(DOCS) == 11
+    assert len(DOCS) == 12 and len(files) == 15 and TR_DOCS <= set(files)
     for name, text in files.items():
-        assert "DRAFT for lawyer review" in text, name
         low = text.lower()
         assert "is compliant" not in low and "fully compliant" not in low and "kvkk-safe" not in low, name
-        assert "## KVKK" in text or name.startswith("00"), name
+        if name in TR_DOCS:
+            assert "TASLAK" in text and "uyumludur" not in low, name
+            continue
+        assert "DRAFT for lawyer review" in text, name
+        assert "## KVKK" in text or name.startswith(("00", "11")), name
+    # No Turkish documents when KVKK does not apply.
+    eu = render_all(analyse(q(controller__country="NL", scope__kvkk_applies=False)))
+    assert not TR_DOCS & set(eu)
 
 
 def test_criminal_data_needs_art10():
     f = ids(EXAMPLE)
-    assert f["art10:screening"].severity == "action"
-    assert "art10:screening" not in ids(q(activities__1__art10_basis="national AML law"))
+    assert f["art10"].severity == "action"
+    assert "art10" not in ids(q(activities__1__art10_basis="national AML law"))
+    # A sanctions listing is not a conviction: KVKK m.6 status is an open note, not a hard rule.
+    assert f["kvkk6q"].severity == "info" and "kvkk6" not in f
 
 
 def test_dpia_screening_counts_criteria():
@@ -79,11 +91,16 @@ def test_transfer_routes():
     an = analyse(EXAMPLE)
     route = {t.vendor["id"]: t for t in an.transfers}
     assert route["mistral"].route == "EEA" and not route["mistral"].needs_tia
-    assert route["anthropic"].route == "unknown" and route["anthropic"].needs_tia
+    # A Turkish firm passing EU clients' data on: onward transfer under the clients' SCCs.
+    assert route["anthropic"].route == "onward (client SCCs)" and route["anthropic"].needs_tia
+    no_eu = {t.vendor["id"]: t for t in analyse(q(scope__eu_clients=False)).transfers}
+    assert no_eu["anthropic"].route == "unknown"
     assert route["tsg"].route == "same country"
     assert "kalkan" not in route  # the lawyer's own computer is not a transfer
     assert all(route[v].kvkk_transfer for v in ("anthropic", "mistral", "hetzner"))
-    dpf = analyse(q(vendors__0__dpf_certified=True))
+    # The DPF is a tool for EEA exporters only, never for a Turkish firm.
+    assert {t.vendor["id"]: t.route for t in analyse(q(vendors__0__dpf_certified=True)).transfers}["anthropic"] != "DPF"
+    dpf = analyse(q(vendors__0__dpf_certified=True, controller__country="NL", scope__kvkk_applies=False))
     assert {t.vendor["id"]: t.route for t in dpf.transfers}["anthropic"] == "DPF"
     scc = analyse(q(vendors__0__country="IN", vendors__0__transfer_mechanism="none"))
     assert {f.id: f.severity for f in scc.findings}["xfer:anthropic"] == "action"
@@ -122,9 +139,45 @@ def test_masked_special_data_is_still_a_risk():
     assert f["mask_note"].severity == "info"
 
 
-def test_committed_example_pack_is_current():
-    """examples/dd_harness_pack must be regenerated when the generator changes."""
-    files = render_all(analyse(EXAMPLE))
-    pack = ROOT / "examples" / "dd_harness_pack"
+@pytest.mark.parametrize("stem", ["dd_harness", "ugur_simulated"])
+def test_committed_example_pack_is_current(stem):
+    """examples/*_pack must be regenerated when the generator changes, with no stale files left."""
+    qq = json.loads((ROOT / "examples" / f"{stem}.json").read_text(encoding="utf-8"))
+    files = render_all(analyse(qq))
+    pack = ROOT / "examples" / f"{stem}_pack"
+    assert {p.name for p in pack.glob("*.md")} == set(files), f"stale or missing files in {pack.name}"
     for name, text in files.items():
-        assert (pack / name).read_text(encoding="utf-8") == text, f"rebuild {name}: python -m katip_uyum build examples/dd_harness.json --out examples/dd_harness_pack"
+        assert (pack / name).read_text(encoding="utf-8") == text, (
+            f"rebuild: python -m katip_uyum build examples/{stem}.json --out examples/{stem}_pack")
+
+
+def test_kvkk_art9_letters_match_the_law_text():
+    """Each GDPR Art. 9(2) -> KVKK m.6/3 mapping must point at the KVKK letter that says the same thing."""
+    from katip_uyum.law import KVKK_ART9
+    law = json.loads((ROOT / "eval" / "law_index.json").read_text(encoding="utf-8"))["kvkk"]["6"]
+    key_words = {"a": "açık rıza", "b": "Kanunlarda", "c": "Fiili imkânsızlık", "ç": "alenileştir",
+                 "d": "hakkın tesisi", "e": "Sır saklama", "f": "İstihdam"}
+    for gdpr, text in KVKK_ART9.items():
+        letter = text.split("m.6/3-")[1][0]
+        assert key_words[letter] in law["3." + letter], (gdpr, letter)
+
+
+def test_contract_basis_only_for_the_contracting_person():
+    f = ids(SIMULATED)
+    assert f["basis6b:intake"].severity == "action"  # 6(1)(b) used for third parties
+
+
+def test_never_deleted_and_null_review_are_not_treated_as_fine():
+    f = ids(SIMULATED)
+    assert f["never:sending"].severity == "action"
+    assert f["noreview:sender"].severity == "risk"  # 'sometimes' is not 'always'
+    # Unknown review on an agent that sends to clients is an open question, never silently "fine".
+    unknown = ids(q(agents__2__human_review=None, agents__2__output="client"))
+    assert unknown["noreview:drafting"].severity == "open"
+
+
+def test_masked_text_is_never_called_unintelligible():
+    files = render_all(analyse(SIMULATED))
+    assert "34(3)(a)" in files["07-breach.md"]
+    for name, text in files.items():
+        assert "masked data is unintelligible" not in text.lower(), name

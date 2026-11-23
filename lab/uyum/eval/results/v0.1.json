@@ -1,0 +1,2466 @@
+{
+ "citations": {
+  "citations": 287,
+  "exist": 287,
+  "verified": 204,
+  "wrong": 1,
+  "unverified": 1,
+  "exist_rate": 1.0,
+  "verified_rate": 0.9951219512195122,
+  "coverage": 0.9951456310679612
+ },
+ "scenarios": {
+  "expected": 33,
+  "found": 27,
+  "recall": 0.8181818181818182,
+  "forbidden_checks": 17,
+  "false_alarms": 0
+ },
+ "overclaim": {
+  "overclaims": 0
+ },
+ "turkish": {
+  "turkish_words": 0,
+  "turkish_issues": 0,
+  "issues_per_1000_words": null
+ },
+ "citation_rows": [
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| EU representative (Art. 27) | none |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "- EU clients send personal data out of the EU/EEA: for them it is a transfer under Chapter V, so they will ask for SCCs and security terms even where Art. 3(2) "
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "30",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 01 | [Record of processing activities (GDPR Art. 30)](01-ropa.md) | What is processed, why, for whom, where, how long. The supervisory authority can ask for i"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "35",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 02 | [Data protection impact assessment (GDPR Art. 35)](02-dpia.md) | Whether the risk is high, and what reduces it. Required before go-live when risk is like"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "13",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 03 | [Privacy notice (GDPR Arts. 13 and 14)](03-privacy-notice.md) | What clients and other people are told, at collection or within a month. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 03 | [Privacy notice (GDPR Arts. 13 and 14)](03-privacy-notice.md) | What clients and other people are told, at collection or within a month. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "28",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 04 | [Processor agreements: checklist per vendor (GDPR Art. 28)](04-dpa-checklist.md) | Per vendor: does its contract have every Art. 28(3) term? |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "28(3)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 04 | [Processor agreements: checklist per vendor (GDPR Art. 28)](04-dpa-checklist.md) | Per vendor: does its contract have every Art. 28(3) term? |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 06 | [Retention and deletion policy (GDPR Art. 5(1)(e))](06-retention.md) | How long each kind of data is kept and how it is deleted, including in the agents'"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "33",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 07 | [Personal data breach procedure (GDPR Arts. 33 and 34)](07-breach.md) | Who does what in the 72 hours after a leak. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "34",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 07 | [Personal data breach procedure (GDPR Arts. 33 and 34)](07-breach.md) | Who does what in the 72 hours after a leak. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "12",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 08 | [Data subject request procedure (GDPR Arts. 12 and 15-22)](08-dsr.md) | How access, deletion and other requests are answered within a month. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "15",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 08 | [Data subject request procedure (GDPR Arts. 12 and 15-22)](08-dsr.md) | How access, deletion and other requests are answered within a month. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "22",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 08 | [Data subject request procedure (GDPR Arts. 12 and 15-22)](08-dsr.md) | How access, deletion and other requests are answered within a month. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 09 | [Technical and organisational measures (GDPR Art. 32)](09-toms.md) | The security measures, written down so they can be checked. |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people' | GDPR Art. 10; KVKK m.6 | 01, 02, 10 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people' | GDPR Art. 10; KVKK m.6 | 01, 02, 10 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "28(3)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Sign or accept Mistral AI's DPA | GDPR Art. 28(3) | 04 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "35(1)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Do the DPIA before going live (4 of 9 EDPB criteria met) | GDPR Arts. 35(1), 35(7), 36; WP248 rev.01 | 02 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "35(7)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Do the DPIA before going live (4 of 9 EDPB criteria met) | GDPR Arts. 35(1), 35(7), 36; WP248 rev.01 | 02 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "36",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Do the DPIA before going live (4 of 9 EDPB criteria met) | GDPR Arts. 35(1), 35(7), 36; WP248 rev.01 | 02 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "46(2)(c)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Prepare SCCs for EU clients who send files to Türkiye | GDPR Art. 46(2)(c); Decision (EU) 2021/914 | 05, 04 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "9",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Risk to address | Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions) | GDPR Arts. 9, 25, 32; Recital "
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "25",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Risk to address | Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions) | GDPR Arts. 9, 25, 32; Recital "
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Risk to address | Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions) | GDPR Arts. 9, 25, 32; Recital "
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Does the GDPR reach you directly (Art. 3(2))? | GDPR Arts. 3(2), 27; EDPB Guidelines 3/2018 | 00, 01, 03, 07 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Does the GDPR reach you directly (Art. 3(2))? | GDPR Arts. 3(2), 27; EDPB Guidelines 3/2018 | 00, 01, 03, 07 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Does the GDPR reach you directly (Art. 3(2))? | GDPR Arts. 3(2), 27; EDPB Guidelines 3/2018 | 00, 01, 03, 07 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "32(1)(c)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Security: Backups and restore test? | GDPR Art. 32(1)(c) | 09 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "33",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Security: A named person who runs a breach? | GDPR Arts. 33-34 | 09 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "34",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Security: A named person who runs a breach? | GDPR Arts. 33-34 | 09 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "32(1)(b)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Security: Multi-factor login for staff and admin accounts? | GDPR Art. 32(1)(b) | 09 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "5(1)(b)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Does Mistral AI train on what you send? | GDPR Arts. 5(1)(b), 28(3)(a) | 04 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "28(3)(a)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Does Mistral AI train on what you send? | GDPR Arts. 5(1)(b), 28(3)(a) | 04 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | How long does Anthropic (Claude API) keep prompts and outputs? | GDPR Arts. 5(1)(e), 28(3)(g) | 04, 06 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "28(3)(g)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | How long does Anthropic (Claude API) keep prompts and outputs? | GDPR Arts. 5(1)(e), 28(3)(g) | 04, 06 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | How long does Mistral AI keep prompts and outputs? | GDPR Arts. 5(1)(e), 28(3)(g) | 04, 06 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "28(3)(g)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | How long does Mistral AI keep prompts and outputs? | GDPR Arts. 5(1)(e), 28(3)(g) | 04, 06 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "45",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Which transfer tool covers Anthropic (Claude API) (United States)? | GDPR Arts. 45-46 | 05 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "46",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Open question | Which transfer tool covers Anthropic (Claude API) (United States)? | GDPR Arts. 45-46 | 05 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "aiact",
+   "cite": "4",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | AI literacy | AI Act Art. 4 | 10, 09 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | 'Drafting DD reports and legal opinions' collects data not from the person: Art. 14 notice | GDPR Art. 14(3), 14(5) | 03 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14(3)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | 'Drafting DD reports and legal opinions' collects data not from the person: Art. 14 notice | GDPR Art. 14(3), 14(5) | 03 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14(5)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | 'Drafting DD reports and legal opinions' collects data not from the person: Art. 14 notice | GDPR Art. 14(3), 14(5) | 03 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | 'DD screening of target companies and their people' collects data not from the person: Art. 14 notice | GDPR Art. 14(3), 14(5) | 03 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14(3)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | 'DD screening of target companies and their people' collects data not from the person: Art. 14 notice | GDPR Art. 14(3), 14(5) | 03 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14(5)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | 'DD screening of target companies and their people' collects data not from the person: Art. 14 notice | GDPR Art. 14(3), 14(5) | 03 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "37(1)(c)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | A DPO is probably not mandatory, but write down why | GDPR Art. 37(1)(c), Recital 91 | 00 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "4(5)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Note | Masked text is pseudonymised, not anonymous | GDPR Art. 4(5), Recital 26; CJEU C-413/23 P | 02, 03, 09 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "30",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 01 RoPA (Art. 30) | Kişisel veri işleme envanteri; VERBİS kaydı (m.16) unless an exemption decision of the Board covers the controller (check the current list"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "35",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 02 DPIA (Art. 35) | No statutory DPIA; the Board's guides recommend a risk analysis |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "13",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 03 Notice (Arts. 13-14) | Aydınlatma metni (m.10; Aydınlatma Yükümlülüğü Tebliği) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 03 Notice (Arts. 13-14) | Aydınlatma metni (m.10; Aydınlatma Yükümlülüğü Tebliği) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "28",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 04 DPA (Art. 28) | Veri işleyen sözleşmesi; joint liability for security (m.12/2) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "33",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 07 Breach (Arts. 33-34) | m.12/5: notify the Board 'en kısa sürede', read as 72 hours (Board decision 2019/10) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "34",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 07 Breach (Arts. 33-34) | m.12/5: notify the Board 'en kısa sürede', read as 72 hours (Board decision 2019/10) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "15",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 08 Rights (Arts. 15-22) | m.11 rights; m.13 answer within 30 days, free of charge in principle |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "22",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 08 Rights (Arts. 15-22) | m.11 rights; m.13 answer within 30 days, free of charge in principle |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 09 TOMs (Art. 32) | m.12/1 technical and administrative measures; Board security guide |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "6",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people' | GDPR Art. 10; KVKK m.6 | 01, 02, 10 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| Must do | KVKK transfer abroad: Anthropic (Claude API), Mistral AI, Hetzner | KVKK m.9; Regulation on transfers abroad (10 Jul 2024) | 05 |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "16",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 01 RoPA (Art. 30) | Kişisel veri işleme envanteri; VERBİS kaydı (m.16) unless an exemption decision of the Board covers the controller (check the current list"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "10",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 03 Notice (Arts. 13-14) | Aydınlatma metni (m.10; Aydınlatma Yükümlülüğü Tebliği) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "12(2)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 04 DPA (Art. 28) | Veri işleyen sözleşmesi; joint liability for security (m.12/2) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 05 Transfers | Yurt dışına aktarım (m.9, amended 2024): standard contract notified within 5 business days |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "12(5)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 07 Breach (Arts. 33-34) | m.12/5: notify the Board 'en kısa sürede', read as 72 hours (Board decision 2019/10) |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "11",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 08 Rights (Arts. 15-22) | m.11 rights; m.13 answer within 30 days, free of charge in principle |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "13",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 08 Rights (Arts. 15-22) | m.11 rights; m.13 answer within 30 days, free of charge in principle |"
+  },
+  {
+   "doc": "00-overview.md",
+   "law": "kvkk",
+   "cite": "12(1)",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 09 TOMs (Art. 32) | m.12/1 technical and administrative measures; Board security guide |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30",
+   "status": "verified",
+   "why": "",
+   "context": "# 01 · Record of processing activities (GDPR Art. 30)"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(1)",
+   "status": "verified",
+   "why": "",
+   "context": "Controller's record under Art. 30(1)"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(2)",
+   "status": "verified",
+   "why": "",
+   "context": " If you also process data **on behalf of clients**, keep a processor's record under Art. 30(2) as well (categories of processing per client, transfers, measures"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(5)",
+   "status": "verified",
+   "why": "",
+   "context": " The Art. 30(5) exemption for organisations under 250 people does not apply where processing is not occasional or includes Art. 9 or Art. 10 data."
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": " The Art. 30(5) exemption for organisations under 250 people does not apply where processing is not occasional or includes Art. 9 or Art. 10 data."
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": " The Art. 30(5) exemption for organisations under 250 people does not apply where processing is not occasional or includes Art. 9 or Art. 10 data."
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(1)(a)",
+   "status": "verified",
+   "why": "",
+   "context": "## Controller (Art. 30(1)(a))"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| Art. 30(1) | Entry |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "6(1)(b)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful basis | GDPR Art. 6(1)(b) (performance of a contract with the data subject) |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| Art. 30(1) | Entry |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful basis | GDPR Art. 6(1)(f) (legitimate interests). Interest: The client's interest in knowing who it is dealing with before a transaction; limited to pe"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| Art. 30(1) | Entry |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful basis | GDPR Art. 6(1)(f) (legitimate interests). Interest: Providing the legal service the client engaged us for, which requires reading the documents"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "9(2)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful basis | GDPR Art. 6(1)(f) (legitimate interests). Interest: Providing the legal service the client engaged us for, which requires reading the documents"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "30(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| Art. 30(1) | Entry |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful basis | GDPR Art. 6(1)(f) (legitimate interests). Interest: Keeping client data secure (Art. 32) |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful basis | GDPR Art. 6(1)(f) (legitimate interests). Interest: Keeping client data secure (Art. 32) |"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "kvkk",
+   "cite": "6",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "01-ropa.md",
+   "law": "kvkk",
+   "cite": "16",
+   "status": "verified",
+   "why": "",
+   "context": " VERBİS (KVKK m.16) registration is required unless a Board exemption decision covers the controller; the Board has exempted several groups by decision since 20"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35",
+   "status": "verified",
+   "why": "",
+   "context": "# 02 · Data protection impact assessment (GDPR Art. 35)"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(1)",
+   "status": "verified",
+   "why": "",
+   "context": " Is a DPIA required? (Art. 35(1), WP248 rev.01)"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": "| Sensitive data or data of a highly personal nature (Art. 9, Art. 10 data) | yes | data categories: Sanctions, asset-freeze and court records about individuals"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": "| Sensitive data or data of a highly personal nature (Art. 9, Art. 10 data) | yes | data categories: Sanctions, asset-freeze and court records about individuals"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(7)(a)",
+   "status": "verified",
+   "why": "",
+   "context": " Systematic description (Art. 35(7)(a))"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(7)(b)",
+   "status": "verified",
+   "why": "",
+   "context": " Necessity and proportionality (Art. 35(7)(b))"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "5(1)(c)",
+   "status": "verified",
+   "why": "",
+   "context": "| Is each data item needed for the purpose? (Art. 5(1)(c)) | Names, ID numbers, contact details and addresses are masked on the device before any text goes to a"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "6(1)(b)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful bases | Client intake and conflict check: GDPR Art. 6(1)(b) (performance of a contract with the data subject); DD screening of target companies and the"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful bases | Client intake and conflict check: GDPR Art. 6(1)(b) (performance of a contract with the data subject); DD screening of target companies and the"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful bases | Client intake and conflict check: GDPR Art. 6(1)(b) (performance of a contract with the data subject); DD screening of target companies and the"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "9(2)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful bases | Client intake and conflict check: GDPR Art. 6(1)(b) (performance of a contract with the data subject); DD screening of target companies and the"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful bases | Client intake and conflict check: GDPR Art. 6(1)(b) (performance of a contract with the data subject); DD screening of target companies and the"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "| Lawful bases | Client intake and conflict check: GDPR Art. 6(1)(b) (performance of a contract with the data subject); DD screening of target companies and the"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(7)(c)",
+   "status": "verified",
+   "why": "",
+   "context": " Risks to people (Art. 35(7)(c))"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "| 6 | People cannot exercise rights because they never learn about the processing | high | medium | data collected about third parties (Art. 14) |"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(7)(d)",
+   "status": "verified",
+   "why": "",
+   "context": " Measures (Art. 35(7)(d))"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "25",
+   "status": "verified",
+   "why": "",
+   "context": "- Mask personal data on the device before any cloud model call; keep the re-identification key locally (Katip Kalkan). Art. 25, 32(1)(a)."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "32(1)(a)",
+   "status": "verified",
+   "why": "",
+   "context": "- Mask personal data on the device before any cloud model call; keep the re-identification key locally (Katip Kalkan). Art. 25, 32(1)(a)."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "22",
+   "status": "verified",
+   "why": "",
+   "context": "- A named lawyer reviews every output before it leaves the firm; agents draft, people decide. Art. 22, AI Act Art. 14 spirit."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "aiact",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "- A named lawyer reviews every output before it leaves the firm; agents draft, people decide. Art. 22, AI Act Art. 14 spirit."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "5(1)(d)",
+   "status": "verified",
+   "why": "",
+   "context": "- Show the source record and link for every screening hit; no score or summary about a person. Art. 5(1)(d)."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "28",
+   "status": "verified",
+   "why": "",
+   "context": "- Zero-retention or shortest-retention API settings and no training on inputs, confirmed in each vendor contract. Art. 28."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "- Treat fetched documents as data, never instructions; agents' tools limited to what the task needs. Art. 32."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "- Retention schedule enforced in every store, including embeddings and logs (document 06). Art. 5(1)(e)."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "- Art. 14 notice for third parties, or a documented exemption (document 03)."
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "36",
+   "status": "verified",
+   "why": "",
+   "context": "| Prior consultation needed (Art. 36)? | Only if high residual risk remains: **[OPEN: yes / no]** |"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(2)",
+   "status": "verified",
+   "why": "",
+   "context": "| DPO advice (Art. 35(2)) | **[OPEN: advice, or 'no DPO']** |"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(9)",
+   "status": "verified",
+   "why": "",
+   "context": "| Views of data subjects (Art. 35(9)) | **[OPEN: sought / not appropriate, with reason]** |"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(1)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Do the DPIA before going live (4 of 9 EDPB criteria met).** Two or more criteria usually mean the processing is likely to result in a high risk. Do"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "35(7)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Do the DPIA before going live (4 of 9 EDPB criteria met).** Two or more criteria usually mean the processing is likely to result in a high risk. Do"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "36",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Do the DPIA before going live (4 of 9 EDPB criteria met).** Two or more criteria usually mean the processing is likely to result in a high risk. Do"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": "- **Risk to address: Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions).** Masking hides who the person"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "25",
+   "status": "verified",
+   "why": "",
+   "context": "- **Risk to address: Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions).** Masking hides who the person"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "- **Risk to address: Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions).** Masking hides who the person"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "4(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: Masked text is pseudonymised, not anonymous.** Masked text is still personal data for you, because you hold the key (Art. 4(5), Recital 26). For a rec"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "gdpr",
+   "cite": "4(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: Masked text is pseudonymised, not anonymous.** Masked text is still personal data for you, because you hold the key (Art. 4(5), Recital 26). For a rec"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "kvkk",
+   "cite": "6",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "02-dpia.md",
+   "law": "kvkk",
+   "cite": "12(1)",
+   "status": "verified",
+   "why": "",
+   "context": " Keeping this one also covers the risk analysis the Board's security guide expects under m.12/1."
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "13",
+   "status": "verified",
+   "why": "",
+   "context": "# 03 · Privacy notice (GDPR Arts. 13 and 14)"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "# 03 · Privacy notice (GDPR Arts. 13 and 14)"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "13",
+   "status": "verified",
+   "why": "",
+   "context": "Two notices: **A** for clients and people who give their data directly (Art. 13), **B** for people whose data comes from clients or public sources, such as the "
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "Two notices: **A** for clients and people who give their data directly (Art. 13), **B** for people whose data comes from clients or public sources, such as the "
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "12(1)",
+   "status": "verified",
+   "why": "",
+   "context": " Plain language is required (Art. 12(1)); translate into the languages of the people concerned."
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "13",
+   "status": "verified",
+   "why": "",
+   "context": "# A · Clients and people who give us their data (Art. 13)"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "6(1)(b)",
+   "status": "verified",
+   "why": "",
+   "context": "| Take on the client, identify the matter, check conflicts of interest | GDPR Art. 6(1)(b) (performance of a contract with the data subject) | 10 years after th"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "22",
+   "status": "verified",
+   "why": "",
+   "context": " A lawyer reviews every result before it is used; no decision about you is made by a machine alone (Art. 22)."
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "15",
+   "status": "verified",
+   "why": "",
+   "context": "You can ask for access (Art. 15), correction (16), deletion (17), restriction (18), portability where it applies (20), and object to processing based on legitim"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "7(3)",
+   "status": "verified",
+   "why": "",
+   "context": " Where we rely on consent you can withdraw it at any time (Art. 7(3))"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "23",
+   "status": "verified",
+   "why": "",
+   "context": " Some rights are limited by legal professional secrecy **[OPEN: which national law applies; Art. 23]**"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "77",
+   "status": "verified",
+   "why": "",
+   "context": " You can complain to a supervisory authority, in particular in the EU country where you live or work (Art. 77)."
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "13(2)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "The data is needed to take on and run your matter; without it we cannot act for you (Art. 13(2)(e))."
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "# B · People we receive data about from others (Art. 14)"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Find public records (sanctions lists, insolvency and court notices, trade registry gazette) about the target company and the individuals behind it, for the cl"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "6(1)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Draft reports and opinions from the client's documents and the screening results | GDPR Art. 6(1)(f) (legitimate interests). Interest: Providing the legal ser"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "9(2)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "| Draft reports and opinions from the client's documents and the screening results | GDPR Art. 6(1)(f) (legitimate interests). Interest: Providing the legal ser"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "22",
+   "status": "verified",
+   "why": "",
+   "context": " A lawyer reviews every result before it is used; no decision about you is made by a machine alone (Art. 22)."
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "15",
+   "status": "verified",
+   "why": "",
+   "context": "You can ask for access (Art. 15), correction (16), deletion (17), restriction (18), portability where it applies (20), and object to processing based on legitim"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "7(3)",
+   "status": "verified",
+   "why": "",
+   "context": " Where we rely on consent you can withdraw it at any time (Art. 7(3))"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "23",
+   "status": "verified",
+   "why": "",
+   "context": " Some rights are limited by legal professional secrecy **[OPEN: which national law applies; Art. 23]**"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "77",
+   "status": "verified",
+   "why": "",
+   "context": " You can complain to a supervisory authority, in particular in the EU country where you live or work (Art. 77)."
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(1)(d)",
+   "status": "verified",
+   "why": "",
+   "context": "## Which data, and from where (Art. 14(1)(d), 14(2)(f))"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(2)(f)",
+   "status": "verified",
+   "why": "",
+   "context": "## Which data, and from where (Art. 14(1)(d), 14(2)(f))"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(3)",
+   "status": "verified",
+   "why": "",
+   "context": "## When you are told (Art. 14(3))"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(5)",
+   "status": "verified",
+   "why": "",
+   "context": " **Exemption check (Art. 14(5)), the reviewer must pick one and document it:**"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'Drafting DD reports and legal opinions' collects data not from the person: Art. 14 notice.** People whose data comes from clients or public sources m"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'Drafting DD reports and legal opinions' collects data not from the person: Art. 14 notice.** People whose data comes from clients or public sources m"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(3)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'Drafting DD reports and legal opinions' collects data not from the person: Art. 14 notice.** People whose data comes from clients or public sources m"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'Drafting DD reports and legal opinions' collects data not from the person: Art. 14 notice.** People whose data comes from clients or public sources m"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'DD screening of target companies and their people' collects data not from the person: Art. 14 notice.** People whose data comes from clients or publi"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'DD screening of target companies and their people' collects data not from the person: Art. 14 notice.** People whose data comes from clients or publi"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(3)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'DD screening of target companies and their people' collects data not from the person: Art. 14 notice.** People whose data comes from clients or publi"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "14(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: 'DD screening of target companies and their people' collects data not from the person: Art. 14 notice.** People whose data comes from clients or publi"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "4(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: Masked text is pseudonymised, not anonymous.** Masked text is still personal data for you, because you hold the key (Art. 4(5), Recital 26). For a rec"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "gdpr",
+   "cite": "4(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: Masked text is pseudonymised, not anonymous.** Masked text is still personal data for you, because you hold the key (Art. 4(5), Recital 26). For a rec"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "kvkk",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": "Under KVKK m.10 and the Aydınlatma Yükümlülüğü Tebliği, the aydınlatma metni must be given at collection and must be separate from any request for açık rıza"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "kvkk",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": " The content above covers the m.10 list (identity, purpose, recipients and purpose of transfer, method and legal reason of collection, m.11 rights)"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "kvkk",
+   "cite": "11",
+   "status": "verified",
+   "why": "",
+   "context": " The content above covers the m.10 list (identity, purpose, recipients and purpose of transfer, method and legal reason of collection, m.11 rights)"
+  },
+  {
+   "doc": "03-privacy-notice.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": " Since 2024, transfers abroad also need to be explained with their m.9 basis."
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "28",
+   "status": "verified",
+   "why": "",
+   "context": "# 04 · Processor agreements: checklist per vendor (GDPR Art. 28)"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "| 28(3)(c) | Takes all Art. 32 security measures | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 28(3)(f) | Helps with security, breach notification, DPIA and prior consultation (Arts. 32-36) | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "36",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 28(3)(f) | Helps with security, breach notification, DPIA and prior consultation (Arts. 32-36) | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "| 28(3)(c) | Takes all Art. 32 security measures | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 28(3)(f) | Helps with security, breach notification, DPIA and prior consultation (Arts. 32-36) | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "36",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 28(3)(f) | Helps with security, breach notification, DPIA and prior consultation (Arts. 32-36) | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "| 28(3)(c) | Takes all Art. 32 security measures | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 28(3)(f) | Helps with security, breach notification, DPIA and prior consultation (Arts. 32-36) | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "36",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "| 28(3)(f) | Helps with security, breach notification, DPIA and prior consultation (Arts. 32-36) | ☐ yes ☐ no |  |"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "28",
+   "status": "verified",
+   "why": "",
+   "context": "This vendor acts as a **controller** for the data it receives, so Art. 28 does not apply"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "28(3)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Sign or accept Mistral AI's DPA.** No processing on behalf of the controller without an Art. 28(3) contract. Check it against the checklist in docu"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "28(3)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Sign or accept Mistral AI's DPA.** No processing on behalf of the controller without an Art. 28(3) contract. Check it against the checklist in docu"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "46(2)(c)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Prepare SCCs for EU clients who send files to Türkiye.** Türkiye has no EU adequacy decision, so each EU client needs the 2021 SCCs with you (Modul"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "5(1)(b)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does Mistral AI train on what you send?** Check the plan's terms; API and business tiers usually differ from consumer apps. *(GDPR Arts. 5(1)"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "28(3)(a)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does Mistral AI train on what you send?** Check the plan's terms; API and business tiers usually differ from consumer apps. *(GDPR Arts. 5(1)"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Anthropic (Claude API) keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "28(3)(g)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Anthropic (Claude API) keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Mistral AI keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered. *(GDPR Art"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "gdpr",
+   "cite": "28(3)(g)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Mistral AI keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered. *(GDPR Art"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "kvkk",
+   "cite": "28",
+   "status": "WRONG: cited for another topic",
+   "why": "",
+   "context": "KVKK has no Art. 28 list, but the controller is jointly liable with the veri işleyen for security (m.12/2), so the Board expects a written contract with securit"
+  },
+  {
+   "doc": "04-dpa-checklist.md",
+   "law": "kvkk",
+   "cite": "12(2)",
+   "status": "verified",
+   "why": "",
+   "context": "KVKK has no Art. 28 list, but the controller is jointly liable with the veri işleyen for security (m.12/2), so the Board expects a written contract with securit"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "gdpr",
+   "cite": "45",
+   "status": "verified",
+   "why": "",
+   "context": "GDPR routes: **EEA** no transfer; **adequacy** Art. 45 decision; **DPF** US organisation certified under the EU-US Data Privacy Framework (check the [list](http"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "gdpr",
+   "cite": "46(2)(c)",
+   "status": "verified",
+   "why": "",
+   "context": "GDPR routes: **EEA** no transfer; **adequacy** Art. 45 decision; **DPF** US organisation certified under the EU-US Data Privacy Framework (check the [list](http"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "gdpr",
+   "cite": "46(3)",
+   "status": "verified",
+   "why": "",
+   "context": "| 5. Procedural steps | If SCCs are amended or another tool is used, check whether Art. 46(3) authorisation is needed |"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "gdpr",
+   "cite": "46(2)(c)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Prepare SCCs for EU clients who send files to Türkiye.** Türkiye has no EU adequacy decision, so each EU client needs the 2021 SCCs with you (Modul"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "gdpr",
+   "cite": "45",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "- **Open question: Which transfer tool covers Anthropic (Claude API) (United States)?** The questionnaire does not say. Check whether it is on the Data Privacy "
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "gdpr",
+   "cite": "46",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "- **Open question: Which transfer tool covers Anthropic (Claude API) (United States)?** The questionnaire does not say. Check whether it is on the Data Privacy "
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": "| Vendor | Country | Receives | GDPR route | TIA needed | KVKK m.9 transfer |"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: KVKK transfer abroad: Anthropic (Claude API), Mistral AI, Hetzner.** Since 1 June 2024, KVKK m.9 allows transfers abroad on an adequacy decision of"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: KVKK transfer abroad: Anthropic (Claude API), Mistral AI, Hetzner.** Since 1 June 2024, KVKK m.9 allows transfers abroad on an adequacy decision of"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": "Since the amendment by Law No. 7499 (in force 1 June 2024) and the Regulation on the Procedures and Principles for the Transfer of Personal Data Abroad (10 July"
+  },
+  {
+   "doc": "05-transfers-tia.md",
+   "law": "kvkk",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": " Each vendor marked 'KVKK m.9 transfer' needs one of these, separately from its GDPR tool."
+  },
+  {
+   "doc": "06-retention.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "# 06 · Retention and deletion policy (GDPR Art. 5(1)(e))"
+  },
+  {
+   "doc": "06-retention.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "Personal data is kept no longer than needed for the purpose (Art. 5(1)(e))"
+  },
+  {
+   "doc": "06-retention.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Anthropic (Claude API) keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered"
+  },
+  {
+   "doc": "06-retention.md",
+   "law": "gdpr",
+   "cite": "28(3)(g)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Anthropic (Claude API) keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered"
+  },
+  {
+   "doc": "06-retention.md",
+   "law": "gdpr",
+   "cite": "5(1)(e)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Mistral AI keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered. *(GDPR Art"
+  },
+  {
+   "doc": "06-retention.md",
+   "law": "gdpr",
+   "cite": "28(3)(g)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: How long does Mistral AI keep prompts and outputs?** Include abuse-monitoring logs and backups; ask for zero retention if offered. *(GDPR Art"
+  },
+  {
+   "doc": "06-retention.md",
+   "law": "kvkk",
+   "cite": "11",
+   "status": "verified",
+   "why": "",
+   "context": "Controllers that must register in VERBİS must also keep a written saklama ve imha politikası and run periodic destruction at most every 6 months (Silme, Yok Etm"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "33",
+   "status": "verified",
+   "why": "",
+   "context": "# 07 · Personal data breach procedure (GDPR Arts. 33 and 34)"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "34",
+   "status": "verified",
+   "why": "",
+   "context": "# 07 · Personal data breach procedure (GDPR Arts. 33 and 34)"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "4(12)",
+   "status": "verified",
+   "why": "",
+   "context": "| 0 h: aware | Someone has reasonable certainty that personal data was lost, disclosed, altered or accessed without authority. Log the time. Contain: revoke key"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "33(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| ≤ 72 h | Notify the lead supervisory authority unless the breach is unlikely to result in a risk. Late? Give reasons. Information can come in phases. | Art. 3"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "33(4)",
+   "status": "verified",
+   "why": "",
+   "context": "| ≤ 72 h | Notify the lead supervisory authority unless the breach is unlikely to result in a risk. Late? Give reasons. Information can come in phases. | Art. 3"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "34(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| Without undue delay | Tell the people affected if the risk to them is high, in plain language, with what they can do. Not needed if the data was unintelligibl"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "34(3)",
+   "status": "verified",
+   "why": "",
+   "context": "| Without undue delay | Tell the people affected if the risk to them is high, in plain language, with what they can do. Not needed if the data was unintelligibl"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "33(5)",
+   "status": "verified",
+   "why": "",
+   "context": "| Always | Record every breach, even unnotified ones: facts, effects, actions, reasons. | Art. 33(5) |"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "33(2)",
+   "status": "verified",
+   "why": "",
+   "context": "Each vendor must tell us without undue delay (Art. 33(2)); see the agreed hours in document 04"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "56",
+   "status": "verified",
+   "why": "",
+   "context": "| Lead EU supervisory authority | **[OPEN: which one; with no EU establishment, every authority where affected people live (Art. 56 one-stop-shop does not apply"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "3(2)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "gdpr",
+   "cite": "27",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Does the GDPR reach you directly (Art. 3(2))?** If you offer your services to people in the EU (not only to EU companies), the GDPR applies t"
+  },
+  {
+   "doc": "07-breach.md",
+   "law": "kvkk",
+   "cite": "12(5)",
+   "status": "verified",
+   "why": "",
+   "context": "| ≤ 72 h (KVKK) | Notify the KVKK Board 'en kısa sürede', interpreted as 72 hours, on its breach form. | KVKK m.12/5; Board decision 2019/10 |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "12",
+   "status": "verified",
+   "why": "",
+   "context": "# 08 · Data subject request procedure (GDPR Arts. 12 and 15-22)"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "15",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "# 08 · Data subject request procedure (GDPR Arts. 12 and 15-22)"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "22",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "# 08 · Data subject request procedure (GDPR Arts. 12 and 15-22)"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "12(6)",
+   "status": "verified",
+   "why": "",
+   "context": " **Verify identity** proportionately (Art. 12(6)); ask only for what you need."
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "15(4)",
+   "status": "verified",
+   "why": "",
+   "context": " **Check limits:** legal professional secrecy and the rights of others (Art. 15(4)); legal claims (Art. 17(3)(e)); national restrictions under Art. 23 **[OPEN: "
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "17(3)(e)",
+   "status": "verified",
+   "why": "",
+   "context": " **Check limits:** legal professional secrecy and the rights of others (Art. 15(4)); legal claims (Art. 17(3)(e)); national restrictions under Art. 23 **[OPEN: "
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "23",
+   "status": "verified",
+   "why": "",
+   "context": " **Check limits:** legal professional secrecy and the rights of others (Art. 15(4)); legal claims (Art. 17(3)(e)); national restrictions under Art. 23 **[OPEN: "
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "12(3)",
+   "status": "verified",
+   "why": "",
+   "context": " **Answer within one month** (Art. 12(3)); extend by two more months for complex cases, telling the person within the first month why"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "12(5)",
+   "status": "verified",
+   "why": "",
+   "context": " Free of charge unless manifestly unfounded or excessive (Art. 12(5))."
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "28(3)(e)",
+   "status": "verified",
+   "why": "",
+   "context": " **Tell processors** to act where needed (Art. 28(3)(e)) and recipients of corrected or deleted data (Art. 19)."
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "19",
+   "status": "verified",
+   "why": "",
+   "context": " **Tell processors** to act where needed (Art. 28(3)(e)) and recipients of corrected or deleted data (Art. 19)."
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "15",
+   "status": "verified",
+   "why": "",
+   "context": "| Access, copy | Art. 15 | Include the AI processing, sources (Art. 15(1)(g)) and that a lawyer reviews outputs |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "15(1)(g)",
+   "status": "verified",
+   "why": "",
+   "context": "| Access, copy | Art. 15 | Include the AI processing, sources (Art. 15(1)(g)) and that a lawyer reviews outputs |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "16",
+   "status": "verified",
+   "why": "",
+   "context": "| Correction | Art. 16 | Also correct a screening record that confused the person with someone else |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "17",
+   "status": "verified",
+   "why": "",
+   "context": "| Deletion | Art. 17 | Delete embeddings and memory too; vendor logs per their retention |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "18",
+   "status": "verified",
+   "why": "",
+   "context": "| Restriction | Art. 18 | Flag the matter so agents skip it |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "20",
+   "status": "verified",
+   "why": "",
+   "context": "| Portability | Art. 20 | Only for data the person gave, on consent or contract, processed by automated means |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "21",
+   "status": "verified",
+   "why": "",
+   "context": "| Objection | Art. 21 | Stop unless compelling legitimate grounds or legal claims |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "gdpr",
+   "cite": "22",
+   "status": "verified",
+   "why": "",
+   "context": "| No solely automated decisions | Art. 22 | Confirm a person reviewed the outcome |"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "kvkk",
+   "cite": "11",
+   "status": "verified",
+   "why": "",
+   "context": "KVKK m.11 lists similar rights (including learning whether data is processed, the purpose, recipients at home and abroad, and objecting to an outcome against th"
+  },
+  {
+   "doc": "08-dsr.md",
+   "law": "kvkk",
+   "cite": "13(2)",
+   "status": "verified",
+   "why": "",
+   "context": " Applications are made in writing or by the methods in the Başvuru Usul ve Esasları Tebliği; the answer is due within 30 days and is free, except that the Tebli"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "# 09 · Technical and organisational measures (GDPR Art. 32)"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "| Area | Measure | Status | Art. 32 |"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "aiact",
+   "cite": "4",
+   "status": "verified",
+   "why": "",
+   "context": "| People | Confidentiality and AI-literacy training (AI Act Art. 4) | **[OPEN: training]** | 32(4) |"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "9",
+   "status": "verified",
+   "why": "",
+   "context": "- **Risk to address: Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions).** Masking hides who the person"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "25",
+   "status": "verified",
+   "why": "",
+   "context": "- **Risk to address: Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions).** Masking hides who the person"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "32",
+   "status": "verified",
+   "why": "",
+   "context": "- **Risk to address: Anthropic (Claude API) still sees the facts in health data in case files (e.g. workplace accident opinions).** Masking hides who the person"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "32(1)(c)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Security: Backups and restore test?** Not answered. *(GDPR Art. 32(1)(c))*"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "33",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "- **Open question: Security: A named person who runs a breach?** Not answered. *(GDPR Arts. 33-34)*"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "34",
+   "status": "exists (range end or overview repeat)",
+   "why": "",
+   "context": "- **Open question: Security: A named person who runs a breach?** Not answered. *(GDPR Arts. 33-34)*"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "32(1)(b)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Open question: Security: Multi-factor login for staff and admin accounts?** Not answered. *(GDPR Art. 32(1)(b))*"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "aiact",
+   "cite": "4",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: AI literacy.** Everyone who operates the agents needs enough AI literacy for their role, in force since 2 Feb 2025. Keep a short training record. *(AI"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "4(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: Masked text is pseudonymised, not anonymous.** Masked text is still personal data for you, because you hold the key (Art. 4(5), Recital 26). For a rec"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "gdpr",
+   "cite": "4(5)",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: Masked text is pseudonymised, not anonymous.** Masked text is still personal data for you, because you hold the key (Art. 4(5), Recital 26). For a rec"
+  },
+  {
+   "doc": "09-toms.md",
+   "law": "kvkk",
+   "cite": "12(1)",
+   "status": "verified",
+   "why": "",
+   "context": "KVKK m.12/1 requires 'technical and administrative measures'"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "3(3)",
+   "status": "verified",
+   "why": "",
+   "context": "| Role under the AI Act | deployer (Art. 3(3) provider: develops a system and places it on the market or puts it into service under its own name; Art. 3(4) depl"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "3(4)",
+   "status": "verified",
+   "why": "",
+   "context": "| Role under the AI Act | deployer (Art. 3(3) provider: develops a system and places it on the market or puts it into service under its own name; Art. 3(4) depl"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "2(1)(c)",
+   "status": "verified",
+   "why": "",
+   "context": "| Territorial reach | Applies to providers and deployers outside the EU where the output is used in the EU (Art. 2(1)(c)) |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "5(1)(d)",
+   "status": "verified",
+   "why": "",
+   "context": "| Prohibited practice? | Check Art. 5(1)(d): no prediction of a person's criminal risk from profiling. Not indicated by the answers. | Art. 5 |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "5",
+   "status": "verified",
+   "why": "",
+   "context": "| Prohibited practice? | Check Art. 5(1)(d): no prediction of a person's criminal risk from profiling. Not indicated by the answers. | Art. 5 |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "6(2)",
+   "status": "verified",
+   "why": "",
+   "context": "| Annex III high-risk use? | none indicated. Legal research for a law firm's own clients is not listed; point 8(a) covers systems used by or for a judicial auth"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "50(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| Transparency | People who chat with an agent must be told (Art. 50(1)); published AI text on public-interest matters must be disclosed unless human-reviewed ("
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "50(4)",
+   "status": "verified",
+   "why": "",
+   "context": "| Transparency | People who chat with an agent must be told (Art. 50(1)); published AI text on public-interest matters must be disclosed unless human-reviewed ("
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "50",
+   "status": "verified",
+   "why": "",
+   "context": "| Transparency | People who chat with an agent must be told (Art. 50(1)); published AI text on public-interest matters must be disclosed unless human-reviewed ("
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "4",
+   "status": "verified",
+   "why": "",
+   "context": "| AI literacy | Training for everyone who operates the system. | Art. 4 |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "5",
+   "status": "verified",
+   "why": "",
+   "context": "| 2 Feb 2025 | Prohibited practices (Art. 5) and AI literacy (Art. 4) apply |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "4",
+   "status": "verified",
+   "why": "",
+   "context": "| 2 Feb 2025 | Prohibited practices (Art. 5) and AI literacy (Art. 4) apply |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "50",
+   "status": "verified",
+   "why": "",
+   "context": "| 2 Aug 2026 | Most of the Regulation applies, incl. Annex III high-risk systems and Art. 50 transparency |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "6(1)",
+   "status": "verified",
+   "why": "",
+   "context": "| 2 Aug 2027 | High-risk systems that are safety components of products under Annex I (Art. 6(1)) |"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "10",
+   "status": "exists, no claim entry",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "gdpr",
+   "cite": "10",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "aiact",
+   "cite": "4",
+   "status": "verified",
+   "why": "",
+   "context": "- **Note: AI literacy.** Everyone who operates the agents needs enough AI literacy for their role, in force since 2 Feb 2025. Keep a short training record. *(AI"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "kvkk",
+   "cite": "6",
+   "status": "verified",
+   "why": "",
+   "context": "- **Must do: Art. 10 authority for criminal-offence data in 'DD screening of target companies and their people'.** Data on criminal convictions and offences (in"
+  },
+  {
+   "doc": "10-ai-act.md",
+   "law": "kvkk",
+   "cite": "11(1)(g)",
+   "status": "verified",
+   "why": "",
+   "context": " **[OPEN: current status]** KVKK m.11/1-g already lets a person object to an outcome against them that results exclusively from automated analysis."
+  }
+ ],
+ "scenario_rows": [
+  {
+   "scenario": "example as is",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "EU-established firm",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "offers services to people in the EU",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "US vendor DPF-certified",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "vendor in India, no tool",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "US vendor on SCCs",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "vendor trains on inputs",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "raw text to the cloud",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "screening decides alone",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "agent predicts crime risk",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "agent screens job applicants",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "public chatbot",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "large-scale sensitive data",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "no lawful basis given",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "legitimate interests without a test",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "health data without an Art. 9 condition",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "firm processes on behalf of clients",
+   "missed": [
+    "art30_2=action"
+   ],
+   "false_alarms": []
+  },
+  {
+   "scenario": "joint controller vendor",
+   "missed": [
+    "art26:tsg=action"
+   ],
+   "false_alarms": []
+  },
+  {
+   "scenario": "agent emails drafts without review",
+   "missed": [
+    "noreview:drafting=risk"
+   ],
+   "false_alarms": []
+  },
+  {
+   "scenario": "EU people, masking with the Turkish profile",
+   "missed": [
+    "maskprofile=risk"
+   ],
+   "false_alarms": []
+  },
+  {
+   "scenario": "EU people, masking with the eu profile",
+   "missed": [
+    "maskprofile=info"
+   ],
+   "false_alarms": []
+  },
+  {
+   "scenario": "criminal data under KVKK",
+   "missed": [
+    "kvkk6:screening=action"
+   ],
+   "false_alarms": []
+  },
+  {
+   "scenario": "EU firm hosting in Türkiye",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "children's data",
+   "missed": [],
+   "false_alarms": []
+  },
+  {
+   "scenario": "breach owner and contact missing",
+   "missed": [],
+   "false_alarms": []
+  }
+ ],
+ "overclaim_rows": [],
+ "turkish_rows": []
+}

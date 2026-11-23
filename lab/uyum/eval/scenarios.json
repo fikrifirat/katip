@@ -1,0 +1,457 @@
+[
+ {
+  "name": "example as is",
+  "why": "Baseline: the fictional Istanbul DD firm.",
+  "patch": {},
+  "expect": [
+   "art10=action",
+   "dpia=action",
+   "eu_scc=action",
+   "kvkk9=action",
+   "art3_2=open",
+   "maskspecial:anthropic=risk",
+   "kvkk6q=info",
+   "onward:anthropic=info",
+   "maskprofile=info"
+  ],
+  "forbid": [
+   "art27",
+   "dpo=action",
+   "ai5",
+   "ai_high",
+   "art22:",
+   "xfer:mistral",
+   "xfer:hetzner",
+   "xfer:anthropic=action",
+   "art13_src",
+   "noreview:",
+   "basis6b:"
+  ]
+ },
+ {
+  "name": "EU-established firm",
+  "why": "GDPR Art. 3(1); no KVKK, no export from EU clients.",
+  "patch": {
+   "controller.country": "NL",
+   "scope.kvkk_applies": false
+  },
+  "expect": [
+   "dpia=action",
+   "art10=action"
+  ],
+  "forbid": [
+   "kvkk9",
+   "eu_scc",
+   "art27",
+   "art3_2"
+  ]
+ },
+ {
+  "name": "offers services to people in the EU",
+  "why": "Art. 3(2)(a) + Art. 27.",
+  "patch": {
+   "scope.offers_to_eu_data_subjects": true
+  },
+  "expect": [
+   "art27=action"
+  ],
+  "forbid": [
+   "art3_2"
+  ]
+ },
+ {
+  "name": "US vendor DPF-certified",
+  "why": "Art. 45 via Decision 2023/1795, for an exporter in the EU.",
+  "patch": {
+   "vendors.0.dpf_certified": true,
+   "controller.country": "NL",
+   "scope.kvkk_applies": false
+  },
+  "forbid": [
+   "xfer:anthropic"
+  ],
+  "expect": []
+ },
+ {
+  "name": "vendor in India, no tool",
+  "why": "Arts. 44, 46.",
+  "patch": {
+   "vendors.0.country": "IN",
+   "vendors.0.transfer_mechanism": "none"
+  },
+  "expect": [
+   "xfer:anthropic=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "US vendor on SCCs",
+  "why": "Art. 46(2)(c): tool exists, TIA in doc 05, no missing-tool alarm.",
+  "patch": {
+   "vendors.0.transfer_mechanism": "scc"
+  },
+  "forbid": [
+   "xfer:anthropic"
+  ],
+  "expect": []
+ },
+ {
+  "name": "vendor trains on inputs",
+  "why": "Art. 5(1)(b), 28(10).",
+  "patch": {
+   "vendors.0.trains_on_data": true
+  },
+  "expect": [
+   "train:anthropic=risk"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "raw text to the cloud",
+  "why": "Arts. 5(1)(c), 25, 32. (Other vendors still get masked text, so the pseudonymisation note stays.)",
+  "patch": {
+   "security.masking_before_cloud": false,
+   "vendors.0.receives": "raw",
+   "vendors.0.data": [
+    "contact",
+    "ids",
+    "health"
+   ]
+  },
+  "expect": [
+   "raw:anthropic=risk",
+   "mask=risk"
+  ],
+  "forbid": [
+   "maskspecial:anthropic"
+  ]
+ },
+ {
+  "name": "screening decides alone",
+  "why": "Art. 22.",
+  "patch": {
+   "activities.1.automated_decision": true
+  },
+  "expect": [
+   "art22:screening=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "agent predicts crime risk",
+  "why": "AI Act Art. 5(1)(d).",
+  "patch": {
+   "ai.predicts_crime_risk": true
+  },
+  "expect": [
+   "ai5=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "agent screens job applicants",
+  "why": "AI Act Annex III point 4.",
+  "patch": {
+   "ai.annex_iii": [
+    "employment"
+   ]
+  },
+  "expect": [
+   "ai_high=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "public chatbot",
+  "why": "AI Act Art. 50(1).",
+  "patch": {
+   "ai.chats_with_people": true
+  },
+  "expect": [
+   "ai50_1=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "large-scale sensitive data",
+  "why": "Art. 37(1)(c).",
+  "patch": {
+   "scale.large_scale": true
+  },
+  "expect": [
+   "dpo=action",
+   "dpia=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "no lawful basis given",
+  "why": "Art. 6(1).",
+  "patch": {
+   "activities.0.lawful_basis": null
+  },
+  "expect": [
+   "basis:intake=open"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "legitimate interests without a test",
+  "why": "Art. 6(1)(f), Recital 47.",
+  "patch": {
+   "activities.1.legitimate_interest": null
+  },
+  "expect": [
+   "lia:screening=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "health data without an Art. 9 condition",
+  "why": "Art. 9(2).",
+  "patch": {
+   "activities.2.art9_condition": null
+  },
+  "expect": [
+   "art9:drafting=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "firm processes on behalf of clients",
+  "why": "Art. 30(2) processor record and Art. 28 contract with each client.",
+  "patch": {
+   "controller.role": "both"
+  },
+  "expect": [
+   "art30_2=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "joint controller vendor",
+  "why": "Art. 26 arrangement.",
+  "patch": {
+   "vendors.3.role": "joint_controller"
+  },
+  "expect": [
+   "art26:tsg=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "agent emails drafts without review",
+  "why": "Accuracy (Art. 5(1)(d)) and Art. 22 risk when outputs about people leave without a lawyer.",
+  "patch": {
+   "agents.2.human_review": false
+  },
+  "expect": [
+   "noreview:drafting=risk"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "EU people, masking with the Turkish profile",
+  "why": "Kalkan's KVKK profile misses EU ID formats; the eu profile (PR #82) exists.",
+  "patch": {
+   "security.masking_profile": "ai"
+  },
+  "expect": [
+   "maskprofile=risk"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "EU people, masking with the eu profile",
+  "why": "Profile fits; still warn about lone names (beta).",
+  "patch": {
+   "security.masking_profile": "eu"
+  },
+  "expect": [
+   "maskprofile=info"
+  ],
+  "forbid": [
+   "maskprofile=risk"
+  ]
+ },
+ {
+  "name": "criminal data under KVKK",
+  "why": "KVKK m.6/1 lists ceza mahkûmiyeti ve güvenlik tedbirleri as özel nitelikli; needs an m.6/3 condition.",
+  "patch": {
+   "data.4.criminal_type": "conviction"
+  },
+  "expect": [
+   "kvkk6=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "EU firm hosting in Türkiye",
+  "why": "Türkiye has no adequacy decision: Art. 46 tool needed.",
+  "patch": {
+   "controller.country": "NL",
+   "scope.kvkk_applies": false,
+   "vendors.2.country": "TR"
+  },
+  "expect": [
+   "xfer:hetzner"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "children's data",
+  "why": "Vulnerable data subjects (WP248 criterion 7).",
+  "patch": {
+   "data.+": {
+    "id": "kids",
+    "label": "Children of employees",
+    "kind": "minor"
+   },
+   "activities.2.data": [
+    "contact",
+    "corporate",
+    "financial",
+    "health",
+    "kids"
+   ]
+  },
+  "expect": [
+   "dpia=action"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "breach owner and contact missing",
+  "why": "Arts. 33-34 need someone to run it.",
+  "patch": {
+   "controller.contact": null
+  },
+  "expect": [
+   "contact=open",
+   "sec:incident_owner=open"
+  ],
+  "forbid": []
+ },
+ {
+  "name": "Turkish firm, DPF-certified US vendor",
+  "why": "The DPF is a tool for EU exporters; a Turkish firm's onward transfer runs under the client SCCs.",
+  "patch": {
+   "vendors.0.dpf_certified": true
+  },
+  "expect": [
+   "onward:anthropic=info"
+  ],
+  "forbid": [
+   "xfer:anthropic"
+  ]
+ },
+ {
+  "name": "contract basis for third parties",
+  "why": "Art. 6(1)(b) only for the contracting data subject (EDPB Guidelines 2/2019).",
+  "patch": {
+   "activities.1.lawful_basis": "6(1)(b)"
+  },
+  "expect": [
+   "basis6b:screening=action"
+  ]
+ },
+ {
+  "name": "retention never ends",
+  "why": "Art. 5(1)(e).",
+  "patch": {
+   "activities.3.retention": "Never deleted"
+  },
+  "expect": [
+   "never:ops=action"
+  ]
+ },
+ {
+  "name": "free tier that trains, with health data",
+  "why": "No Art. 28 terms; separate controller; Art. 9.",
+  "patch": {
+   "vendors.0.dpa": "none",
+   "vendors.0.tier": "free",
+   "vendors.0.trains_on_data": true
+  },
+  "expect": [
+   "dpa:anthropic=action"
+  ]
+ },
+ {
+  "name": "screening labels people, crime question unanswered",
+  "why": "Unknown must stay open: AI Act Art. 5(1)(d); profiling Art. 4(4).",
+  "patch": {
+   "activities.1.labels_people": true,
+   "ai.predicts_crime_risk": null
+  },
+  "expect": [
+   "ai5=open",
+   "label:screening=risk",
+   "dpia=action"
+  ]
+ },
+ {
+  "name": "no activity collects data directly",
+  "why": "Art. 13 notice would be empty.",
+  "patch": {
+   "activities.0.source": "client"
+  },
+  "expect": [
+   "art13_src=open"
+  ]
+ },
+ {
+  "name": "co-counsel as joint controller",
+  "why": "Art. 26.",
+  "patch": {
+   "partners": [
+    {
+     "id": "dus",
+     "name": "Düsseldorf correspondent firm",
+     "country": "DE",
+     "role": "joint_controller",
+     "arrangement": null
+    }
+   ],
+   "activities.2.partners": [
+    "dus"
+   ]
+  },
+  "expect": [
+   "art26:dus=action"
+  ]
+ },
+ {
+  "name": "large scale unknown",
+  "why": "Unknown stays open, never 'no'.",
+  "patch": {
+   "scale.large_scale": null
+  },
+  "expect": [
+   "scale=open"
+  ],
+  "forbid": [
+   "dpo=action"
+  ]
+ },
+ {
+  "name": "shared logins",
+  "why": "Art. 32(1)(b), 32(4).",
+  "patch": {
+   "security.shared_logins": true
+  },
+  "expect": [
+   "sec:shared=action"
+  ]
+ },
+ {
+  "name": "EU region with US parent",
+  "why": "Access by the parent's home authorities; EDPB Guidelines 05/2021.",
+  "patch": {
+   "vendors.2.parent_country": "US"
+  },
+  "expect": [
+   "parent:hetzner=info"
+  ]
+ }
+]
