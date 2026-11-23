@@ -1,0 +1,1445 @@
+[
+ {
+  "cite": "gdpr:3.2",
+  "law_phrase": [
+   "not established in the Union"
+  ],
+  "context_any": [
+   "EU",
+   "Union",
+   "represent",
+   "reach",
+   "applies",
+   "3(2)"
+  ]
+ },
+ {
+  "cite": "gdpr:4.5",
+  "law_phrase": [
+   "pseudonymisation"
+  ],
+  "context_any": [
+   "pseudonym",
+   "mask"
+  ]
+ },
+ {
+  "cite": "gdpr:4.12",
+  "law_phrase": [
+   "personal data breach"
+  ],
+  "context_any": [
+   "breach",
+   "aware"
+  ]
+ },
+ {
+  "cite": "gdpr:5.1.b",
+  "law_phrase": [
+   "purpose limitation"
+  ],
+  "context_any": [
+   "purpose",
+   "train"
+  ]
+ },
+ {
+  "cite": "gdpr:5.1.c",
+  "law_phrase": [
+   "data minimisation"
+  ],
+  "context_any": [
+   "minimis",
+   "mask",
+   "needed",
+   "necessary",
+   "raw"
+  ]
+ },
+ {
+  "cite": "gdpr:5.1.d",
+  "law_phrase": [
+   "accurate"
+  ],
+  "context_any": [
+   "accura",
+   "source",
+   "false match",
+   "match",
+   "review",
+   "approv"
+  ]
+ },
+ {
+  "cite": "gdpr:5.1.e",
+  "law_phrase": [
+   "no longer than is necessary"
+  ],
+  "context_any": [
+   "retention",
+   "kept",
+   "keep",
+   "long",
+   "delet"
+  ]
+ },
+ {
+  "cite": "gdpr:6.1.b",
+  "law_phrase": [
+   "performance of a contract"
+  ],
+  "context_any": [
+   "contract"
+  ]
+ },
+ {
+  "cite": "gdpr:6.1.f",
+  "law_phrase": [
+   "legitimate interests"
+  ],
+  "context_any": [
+   "legitimate",
+   "interest"
+  ]
+ },
+ {
+  "cite": "gdpr:7.3",
+  "law_phrase": [
+   "withdraw"
+  ],
+  "context_any": [
+   "withdraw",
+   "consent"
+  ]
+ },
+ {
+  "cite": "gdpr:9",
+  "law_phrase": [
+   "trade union membership"
+  ],
+  "context_any": [
+   "special",
+   "health",
+   "Art. 9",
+   "sensitive"
+  ]
+ },
+ {
+  "cite": "gdpr:9.2.f",
+  "law_phrase": [
+   "legal claims"
+  ],
+  "context_any": [
+   "legal claims",
+   "9(2)(f)"
+  ]
+ },
+ {
+  "cite": "gdpr:10",
+  "law_phrase": [
+   "criminal convictions"
+  ],
+  "context_any": [
+   "criminal",
+   "sanction",
+   "offence",
+   "Art. 10"
+  ]
+ },
+ {
+  "cite": "gdpr:12",
+  "law_phrase": [
+   "concise, transparent"
+  ],
+  "context_any": [
+   "plain",
+   "request",
+   "month",
+   "rights",
+   "notice",
+   "Arts. 12"
+  ]
+ },
+ {
+  "cite": "gdpr:12.1",
+  "law_phrase": [
+   "clear and plain language"
+  ],
+  "context_any": [
+   "plain",
+   "language"
+  ]
+ },
+ {
+  "cite": "gdpr:12.3",
+  "law_phrase": [
+   "one month"
+  ],
+  "context_any": [
+   "month"
+  ]
+ },
+ {
+  "cite": "gdpr:12.5",
+  "law_phrase": [
+   "free of charge"
+  ],
+  "context_any": [
+   "free",
+   "charge",
+   "unfounded"
+  ]
+ },
+ {
+  "cite": "gdpr:12.6",
+  "law_phrase": [
+   "identity"
+  ],
+  "context_any": [
+   "identity",
+   "verify"
+  ]
+ },
+ {
+  "cite": "gdpr:13",
+  "law_phrase": [
+   "collected from the data subject"
+  ],
+  "context_any": [
+   "13",
+   "directly",
+   "given",
+   "clients"
+  ]
+ },
+ {
+  "cite": "gdpr:13.2.e",
+  "law_phrase": [
+   "statutory or contractual requirement"
+  ],
+  "context_any": [
+   "have to give",
+   "needed",
+   "required",
+   "contract"
+  ]
+ },
+ {
+  "cite": "gdpr:14",
+  "law_phrase": [
+   "have not been obtained from the data subject"
+  ],
+  "context_any": [
+   "14",
+   "not from",
+   "others",
+   "third",
+   "public",
+   "clients"
+  ]
+ },
+ {
+  "cite": "gdpr:14.1.d",
+  "law_phrase": [
+   "categories of personal data"
+  ],
+  "context_any": [
+   "categor",
+   "which data"
+  ]
+ },
+ {
+  "cite": "gdpr:14.2.f",
+  "law_phrase": [
+   "source"
+  ],
+  "context_any": [
+   "source",
+   "from where"
+  ]
+ },
+ {
+  "cite": "gdpr:14.3",
+  "law_phrase": [
+   "one month"
+  ],
+  "context_any": [
+   "month",
+   "told",
+   "informed",
+   "when"
+  ]
+ },
+ {
+  "cite": "gdpr:14.5",
+  "law_phrase": [
+   "shall not apply"
+  ],
+  "context_any": [
+   "exempt",
+   "14(5)"
+  ]
+ },
+ {
+  "cite": "gdpr:14.5.b",
+  "law_phrase": [
+   "disproportionate effort"
+  ],
+  "context_any": [
+   "disproportionate",
+   "impossible",
+   "impair"
+  ]
+ },
+ {
+  "cite": "gdpr:14.5.d",
+  "law_phrase": [
+   "professional secrecy"
+  ],
+  "context_any": [
+   "secrecy"
+  ]
+ },
+ {
+  "cite": "gdpr:15",
+  "law_phrase": [
+   "confirmation as to whether"
+  ],
+  "context_any": [
+   "access",
+   "rights",
+   "15"
+  ]
+ },
+ {
+  "cite": "gdpr:15.1.g",
+  "law_phrase": [
+   "source"
+  ],
+  "context_any": [
+   "source"
+  ]
+ },
+ {
+  "cite": "gdpr:15.4",
+  "law_phrase": [
+   "rights and freedoms of others"
+  ],
+  "context_any": [
+   "others",
+   "secrecy",
+   "limits"
+  ]
+ },
+ {
+  "cite": "gdpr:16",
+  "law_phrase": [
+   "rectification"
+  ],
+  "context_any": [
+   "correct",
+   "rectif"
+  ]
+ },
+ {
+  "cite": "gdpr:17",
+  "law_phrase": [
+   "erasure"
+  ],
+  "context_any": [
+   "delet",
+   "erasure"
+  ]
+ },
+ {
+  "cite": "gdpr:17.3.e",
+  "law_phrase": [
+   "legal claims"
+  ],
+  "context_any": [
+   "legal claims"
+  ]
+ },
+ {
+  "cite": "gdpr:18",
+  "law_phrase": [
+   "restriction"
+  ],
+  "context_any": [
+   "restrict"
+  ]
+ },
+ {
+  "cite": "gdpr:19",
+  "law_phrase": [
+   "rectification or erasure"
+  ],
+  "context_any": [
+   "recipients",
+   "tell",
+   "notify"
+  ]
+ },
+ {
+  "cite": "gdpr:20",
+  "law_phrase": [
+   "data portability"
+  ],
+  "context_any": [
+   "portab"
+  ]
+ },
+ {
+  "cite": "gdpr:21",
+  "law_phrase": [
+   "right to object"
+  ],
+  "context_any": [
+   "object"
+  ]
+ },
+ {
+  "cite": "gdpr:22",
+  "law_phrase": [
+   "solely on automated processing"
+  ],
+  "context_any": [
+   "automated",
+   "machine",
+   "solely",
+   "decision",
+   "human",
+   "reviewer",
+   "review",
+   "approves"
+  ]
+ },
+ {
+  "cite": "gdpr:23",
+  "law_phrase": [
+   "restrict"
+  ],
+  "context_any": [
+   "restrict",
+   "limit",
+   "national"
+  ]
+ },
+ {
+  "cite": "gdpr:25",
+  "law_phrase": [
+   "data-protection principles"
+  ],
+  "context_any": [
+   "mask",
+   "design",
+   "pseudonym",
+   "raw",
+   "minimis"
+  ]
+ },
+ {
+  "cite": "gdpr:26",
+  "law_phrase": [
+   "joint controllers"
+  ],
+  "context_any": [
+   "joint",
+   "partners"
+  ]
+ },
+ {
+  "cite": "gdpr:27",
+  "law_phrase": [
+   "representative"
+  ],
+  "context_any": [
+   "representative"
+  ]
+ },
+ {
+  "cite": "gdpr:27.2",
+  "law_phrase": [
+   "occasional"
+  ],
+  "context_any": [
+   "occasional"
+  ]
+ },
+ {
+  "cite": "gdpr:28",
+  "law_phrase": [
+   "processor"
+  ],
+  "context_any": [
+   "processor",
+   "DPA",
+   "vendor",
+   "contract"
+  ]
+ },
+ {
+  "cite": "gdpr:28.2",
+  "law_phrase": [
+   "prior specific or general written authorisation"
+  ],
+  "context_any": [
+   "sub-processor",
+   "authoris"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3",
+  "law_phrase": [
+   "contract or other legal act"
+  ],
+  "context_any": [
+   "contract",
+   "DPA",
+   "terms",
+   "subject matter",
+   "agreement"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.a",
+  "law_phrase": [
+   "documented instructions"
+  ],
+  "context_any": [
+   "instruction",
+   "train"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.b",
+  "law_phrase": [
+   "confidentiality"
+  ],
+  "context_any": [
+   "confidential"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.c",
+  "law_phrase": [
+   "Article 32"
+  ],
+  "context_any": [
+   "security",
+   "32"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.d",
+  "law_phrase": [
+   "engaging another processor"
+  ],
+  "context_any": [
+   "sub-processor"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.e",
+  "law_phrase": [
+   "data subject"
+  ],
+  "context_any": [
+   "request",
+   "rights",
+   "processor"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.f",
+  "law_phrase": [
+   "Articles 32 to 36"
+  ],
+  "context_any": [
+   "breach",
+   "DPIA",
+   "security"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.g",
+  "law_phrase": [
+   "deletes or returns"
+  ],
+  "context_any": [
+   "delet",
+   "return",
+   "retention",
+   "keep"
+  ]
+ },
+ {
+  "cite": "gdpr:28.3.h",
+  "law_phrase": [
+   "audits"
+  ],
+  "context_any": [
+   "audit",
+   "information"
+  ]
+ },
+ {
+  "cite": "gdpr:28.4",
+  "law_phrase": [
+   "another processor"
+  ],
+  "context_any": [
+   "sub-processor"
+  ]
+ },
+ {
+  "cite": "gdpr:28.10",
+  "law_phrase": [
+   "determining the purposes and means"
+  ],
+  "context_any": [
+   "controller",
+   "train",
+   "own purpose"
+  ]
+ },
+ {
+  "cite": "gdpr:30",
+  "law_phrase": [
+   "record of processing activities"
+  ],
+  "context_any": [
+   "record",
+   "RoPA",
+   "Art. 30"
+  ]
+ },
+ {
+  "cite": "gdpr:30.1",
+  "law_phrase": [
+   "controller"
+  ],
+  "context_any": [
+   "controller",
+   "record",
+   "Art. 30(1)"
+  ]
+ },
+ {
+  "cite": "gdpr:30.1.a",
+  "law_phrase": [
+   "name and contact details"
+  ],
+  "context_any": [
+   "contact",
+   "controller"
+  ]
+ },
+ {
+  "cite": "gdpr:30.1.f",
+  "law_phrase": [
+   "time limits for erasure"
+  ],
+  "context_any": [
+   "retention",
+   "kept",
+   "long"
+  ]
+ },
+ {
+  "cite": "gdpr:30.2",
+  "law_phrase": [
+   "processor"
+  ],
+  "context_any": [
+   "processor",
+   "behalf"
+  ]
+ },
+ {
+  "cite": "gdpr:30.5",
+  "law_phrase": [
+   "250"
+  ],
+  "context_any": [
+   "250"
+  ]
+ },
+ {
+  "cite": "gdpr:32",
+  "law_phrase": [
+   "appropriate technical and organisational measures"
+  ],
+  "context_any": [
+   "security",
+   "measure",
+   "32",
+   "TOMs",
+   "encrypt",
+   "mask"
+  ]
+ },
+ {
+  "cite": "gdpr:32.1.a",
+  "law_phrase": [
+   "pseudonymisation and encryption"
+  ],
+  "context_any": [
+   "pseudonym",
+   "encrypt",
+   "mask",
+   "TLS"
+  ]
+ },
+ {
+  "cite": "gdpr:32.1.b",
+  "law_phrase": [
+   "confidentiality, integrity, availability and resilience"
+  ],
+  "context_any": [
+   "access",
+   "log",
+   "MFA",
+   "Multi-factor",
+   "key",
+   "agent",
+   "Least privilege",
+   "review"
+  ]
+ },
+ {
+  "cite": "gdpr:32.1.c",
+  "law_phrase": [
+   "restore the availability"
+  ],
+  "context_any": [
+   "backup",
+   "restore"
+  ]
+ },
+ {
+  "cite": "gdpr:32.1.d",
+  "law_phrase": [
+   "regularly testing"
+  ],
+  "context_any": [
+   "test"
+  ]
+ },
+ {
+  "cite": "gdpr:32.4",
+  "law_phrase": [
+   "natural person acting under the authority"
+  ],
+  "context_any": [
+   "training",
+   "staff",
+   "people",
+   "instructions",
+   "accounts",
+   "staff"
+  ]
+ },
+ {
+  "cite": "gdpr:33",
+  "law_phrase": [
+   "72 hours"
+  ],
+  "context_any": [
+   "breach",
+   "72",
+   "notify",
+   "Arts. 33",
+   "authority"
+  ]
+ },
+ {
+  "cite": "gdpr:33.1",
+  "law_phrase": [
+   "72 hours"
+  ],
+  "context_any": [
+   "72",
+   "notify",
+   "authority"
+  ]
+ },
+ {
+  "cite": "gdpr:33.2",
+  "law_phrase": [
+   "processor shall notify the controller without undue delay"
+  ],
+  "context_any": [
+   "vendor",
+   "processor",
+   "undue delay",
+   "breach"
+  ]
+ },
+ {
+  "cite": "gdpr:33.4",
+  "law_phrase": [
+   "in phases"
+  ],
+  "context_any": [
+   "phases",
+   "late"
+  ]
+ },
+ {
+  "cite": "gdpr:33.5",
+  "law_phrase": [
+   "document any personal data breaches"
+  ],
+  "context_any": [
+   "record",
+   "document",
+   "log"
+  ]
+ },
+ {
+  "cite": "gdpr:34",
+  "law_phrase": [
+   "communicate the personal data breach to the data subject"
+  ],
+  "context_any": [
+   "breach",
+   "people",
+   "tell",
+   "Arts. 33",
+   "affected"
+  ]
+ },
+ {
+  "cite": "gdpr:34.1",
+  "law_phrase": [
+   "high risk"
+  ],
+  "context_any": [
+   "high",
+   "people",
+   "tell"
+  ]
+ },
+ {
+  "cite": "gdpr:34.3",
+  "law_phrase": [
+   "unintelligible"
+  ],
+  "context_any": [
+   "unintelligible",
+   "encrypt",
+   "masked"
+  ]
+ },
+ {
+  "cite": "gdpr:35",
+  "law_phrase": [
+   "data protection impact assessment"
+  ],
+  "context_any": [
+   "DPIA",
+   "impact",
+   "Art. 35"
+  ]
+ },
+ {
+  "cite": "gdpr:35.1",
+  "law_phrase": [
+   "high risk"
+  ],
+  "context_any": [
+   "DPIA",
+   "high risk",
+   "required",
+   "criteria"
+  ]
+ },
+ {
+  "cite": "gdpr:35.2",
+  "law_phrase": [
+   "data protection officer"
+  ],
+  "context_any": [
+   "DPO"
+  ]
+ },
+ {
+  "cite": "gdpr:35.3",
+  "law_phrase": [
+   "large scale"
+  ],
+  "context_any": [
+   "scale",
+   "DPIA"
+  ]
+ },
+ {
+  "cite": "gdpr:35.7",
+  "law_phrase": [
+   "shall contain at least"
+  ],
+  "context_any": [
+   "DPIA",
+   "description",
+   "measure",
+   "risk",
+   "35(7)"
+  ]
+ },
+ {
+  "cite": "gdpr:35.7.a",
+  "law_phrase": [
+   "systematic description"
+  ],
+  "context_any": [
+   "description"
+  ]
+ },
+ {
+  "cite": "gdpr:35.7.b",
+  "law_phrase": [
+   "necessity and proportionality"
+  ],
+  "context_any": [
+   "necessity",
+   "proportional"
+  ]
+ },
+ {
+  "cite": "gdpr:35.7.c",
+  "law_phrase": [
+   "risks to the rights and freedoms"
+  ],
+  "context_any": [
+   "risk"
+  ]
+ },
+ {
+  "cite": "gdpr:35.7.d",
+  "law_phrase": [
+   "measures envisaged"
+  ],
+  "context_any": [
+   "measure"
+  ]
+ },
+ {
+  "cite": "gdpr:35.9",
+  "law_phrase": [
+   "views of data subjects"
+  ],
+  "context_any": [
+   "views"
+  ]
+ },
+ {
+  "cite": "gdpr:36",
+  "law_phrase": [
+   "consult the supervisory authority"
+  ],
+  "context_any": [
+   "consult",
+   "Art. 36",
+   "residual",
+   "DPIA"
+  ]
+ },
+ {
+  "cite": "gdpr:37.1",
+  "law_phrase": [
+   "large scale"
+  ],
+  "context_any": [
+   "DPO",
+   "data protection officer",
+   "scale"
+  ]
+ },
+ {
+  "cite": "gdpr:37.1.c",
+  "law_phrase": [
+   "large scale of special categories"
+  ],
+  "context_any": [
+   "DPO",
+   "data protection officer",
+   "Art. 9",
+   "large"
+  ]
+ },
+ {
+  "cite": "gdpr:44",
+  "law_phrase": [
+   "third country"
+  ],
+  "context_any": [
+   "transfer",
+   "country",
+   "where"
+  ]
+ },
+ {
+  "cite": "gdpr:45",
+  "law_phrase": [
+   "adequate level of protection"
+  ],
+  "context_any": [
+   "adequacy",
+   "transfer tool",
+   "45"
+  ]
+ },
+ {
+  "cite": "gdpr:46",
+  "law_phrase": [
+   "appropriate safeguards"
+  ],
+  "context_any": [
+   "safeguard",
+   "SCC",
+   "transfer",
+   "46"
+  ]
+ },
+ {
+  "cite": "gdpr:46.2.c",
+  "law_phrase": [
+   "standard data protection clauses"
+  ],
+  "context_any": [
+   "SCC",
+   "standard"
+  ]
+ },
+ {
+  "cite": "gdpr:46.3",
+  "law_phrase": [
+   "authorisation from the competent supervisory authority"
+  ],
+  "context_any": [
+   "authoris"
+  ]
+ },
+ {
+  "cite": "gdpr:49",
+  "law_phrase": [
+   "derogations"
+  ],
+  "context_any": [
+   "derogation",
+   "occasional",
+   "49"
+  ]
+ },
+ {
+  "cite": "gdpr:56",
+  "law_phrase": [
+   "lead supervisory authority"
+  ],
+  "context_any": [
+   "lead",
+   "one-stop"
+  ]
+ },
+ {
+  "cite": "gdpr:77",
+  "law_phrase": [
+   "lodge a complaint"
+  ],
+  "context_any": [
+   "complain"
+  ]
+ },
+ {
+  "cite": "aiact:2.1.c",
+  "law_phrase": [
+   "output produced by the AI system is used in the Union"
+  ],
+  "context_any": [
+   "output",
+   "outside the EU",
+   "territorial",
+   "Union"
+  ]
+ },
+ {
+  "cite": "aiact:3.3",
+  "law_phrase": [
+   "provider"
+  ],
+  "context_any": [
+   "provider"
+  ]
+ },
+ {
+  "cite": "aiact:3.4",
+  "law_phrase": [
+   "deployer"
+  ],
+  "context_any": [
+   "deployer"
+  ]
+ },
+ {
+  "cite": "aiact:4",
+  "law_phrase": [
+   "AI literacy"
+  ],
+  "context_any": [
+   "literacy",
+   "training"
+  ]
+ },
+ {
+  "cite": "aiact:5",
+  "law_phrase": [
+   "prohibited"
+  ],
+  "context_any": [
+   "prohibit",
+   "Art. 5"
+  ]
+ },
+ {
+  "cite": "aiact:5.1.d",
+  "law_phrase": [
+   "committing a criminal offence"
+  ],
+  "context_any": [
+   "crime",
+   "criminal",
+   "score",
+   "predict"
+  ]
+ },
+ {
+  "cite": "aiact:6.1",
+  "law_phrase": [
+   "Annex I"
+  ],
+  "context_any": [
+   "Annex I",
+   "product"
+  ]
+ },
+ {
+  "cite": "aiact:6.2",
+  "law_phrase": [
+   "Annex III"
+  ],
+  "context_any": [
+   "Annex III",
+   "high-risk",
+   "hiring",
+   "credit"
+  ]
+ },
+ {
+  "cite": "aiact:6.3",
+  "law_phrase": [
+   "shall not be considered to be high-risk"
+  ],
+  "context_any": [
+   "exception",
+   "6(3)"
+  ]
+ },
+ {
+  "cite": "aiact:14",
+  "law_phrase": [
+   "human oversight"
+  ],
+  "context_any": [
+   "review",
+   "human",
+   "oversight"
+  ]
+ },
+ {
+  "cite": "aiact:26",
+  "law_phrase": [
+   "deployers of high-risk"
+  ],
+  "context_any": [
+   "deployer",
+   "high-risk"
+  ]
+ },
+ {
+  "cite": "aiact:27",
+  "law_phrase": [
+   "fundamental rights"
+  ],
+  "context_any": [
+   "FRIA",
+   "fundamental"
+  ]
+ },
+ {
+  "cite": "aiact:50",
+  "law_phrase": [
+   "transparency"
+  ],
+  "context_any": [
+   "transparen",
+   "told",
+   "disclos",
+   "chat",
+   "Art. 50"
+  ]
+ },
+ {
+  "cite": "aiact:50.1",
+  "law_phrase": [
+   "interact directly with natural persons"
+  ],
+  "context_any": [
+   "talk",
+   "chat",
+   "interact",
+   "told"
+  ]
+ },
+ {
+  "cite": "aiact:50.4",
+  "law_phrase": [
+   "informing the public"
+  ],
+  "context_any": [
+   "text",
+   "publish"
+  ]
+ },
+ {
+  "cite": "aiact:113",
+  "law_phrase": [
+   "shall apply from"
+  ],
+  "context_any": [
+   "date",
+   "apply",
+   "from"
+  ]
+ },
+ {
+  "cite": "kvkk:5",
+  "law_phrase": [
+   "işlenme şartları"
+  ],
+  "context_any": [
+   "5",
+   "basis",
+   "şart",
+   "m.5"
+  ]
+ },
+ {
+  "cite": "kvkk:5.2.c",
+  "law_phrase": [
+   "sözleşmenin"
+  ],
+  "context_any": [
+   "contract",
+   "sözleşme"
+  ]
+ },
+ {
+  "cite": "kvkk:5.2.e",
+  "law_phrase": [
+   "hakkın tesisi"
+  ],
+  "context_any": [
+   "hakkın",
+   "legal claims",
+   "right",
+   "müvekkil",
+   "client work"
+  ]
+ },
+ {
+  "cite": "kvkk:5.2.f",
+  "law_phrase": [
+   "meşru menfaat"
+  ],
+  "context_any": [
+   "meşru",
+   "legitimate"
+  ]
+ },
+ {
+  "cite": "kvkk:6",
+  "law_phrase": [
+   "özel nitelikli"
+  ],
+  "context_any": [
+   "special",
+   "özel",
+   "health",
+   "criminal",
+   "Art. 9",
+   "6/3"
+  ]
+ },
+ {
+  "cite": "kvkk:6.3.d",
+  "law_phrase": [
+   "hakkın tesisi"
+  ],
+  "context_any": [
+   "hakkın",
+   "legal claims",
+   "9(2)(f)",
+   "right"
+  ]
+ },
+ {
+  "cite": "kvkk:7",
+  "law_phrase": [
+   "silinir, yok edilir veya anonim"
+  ],
+  "context_any": [
+   "delet",
+   "imha",
+   "silme",
+   "destruction",
+   "retention",
+   "silin"
+  ]
+ },
+ {
+  "cite": "kvkk:9",
+  "law_phrase": [
+   "yurt dışına"
+  ],
+  "context_any": [
+   "abroad",
+   "transfer",
+   "yurt dışı",
+   "aktarım",
+   "Kurula"
+  ]
+ },
+ {
+  "cite": "kvkk:10",
+  "law_phrase": [
+   "ilgili kişilere"
+  ],
+  "context_any": [
+   "aydınlatma",
+   "notice",
+   "inform",
+   "identity"
+  ]
+ },
+ {
+  "cite": "kvkk:11",
+  "law_phrase": [
+   "haklar"
+  ],
+  "context_any": [
+   "rights",
+   "haklar",
+   "object",
+   "m.11"
+  ]
+ },
+ {
+  "cite": "kvkk:11.1.g",
+  "law_phrase": [
+   "münhasıran otomatik"
+  ],
+  "context_any": [
+   "automat",
+   "otomatik"
+  ]
+ },
+ {
+  "cite": "kvkk:12.1",
+  "law_phrase": [
+   "tedbirleri"
+  ],
+  "context_any": [
+   "measure",
+   "tedbir",
+   "security"
+  ]
+ },
+ {
+  "cite": "kvkk:12.2",
+  "law_phrase": [
+   "müştereken sorumludur"
+  ],
+  "context_any": [
+   "joint",
+   "müşterek",
+   "liab"
+  ]
+ },
+ {
+  "cite": "kvkk:12.5",
+  "law_phrase": [
+   "en kısa sürede"
+  ],
+  "context_any": [
+   "breach",
+   "ihlal",
+   "72",
+   "notify",
+   "bildir",
+   "Board",
+   "Kurul"
+  ]
+ },
+ {
+  "cite": "kvkk:13",
+  "law_phrase": [
+   "başvuru"
+  ],
+  "context_any": [
+   "30 days",
+   "otuz",
+   "answer",
+   "başvuru",
+   "application",
+   "30 days",
+   "Applications",
+   "otuz",
+   "request"
+  ]
+ },
+ {
+  "cite": "kvkk:13.2",
+  "law_phrase": [
+   "otuz gün"
+  ],
+  "context_any": [
+   "30",
+   "otuz"
+  ]
+ },
+ {
+  "cite": "kvkk:16",
+  "law_phrase": [
+   "Veri Sorumluları Sicili"
+  ],
+  "context_any": [
+   "VERBİS",
+   "sicil",
+   "register"
+  ]
+ },
+ {
+  "cite": "kvkk:28",
+  "law_phrase": [
+   "uygulanmaz"
+  ],
+  "context_any": [
+   "exception",
+   "istisna",
+   "exempt",
+   "public",
+   "authorit"
+  ]
+ }
+]

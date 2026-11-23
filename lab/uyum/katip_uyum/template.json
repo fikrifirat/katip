@@ -1,5 +1,5 @@
 {
-  "_help": "Describe the data flows of your AI agent system. Use null for 'not known yet': the pack will print an [OPEN] marker and list the question. Never put a client's or person's real data in this file. Allowed values are listed in the _help keys; see examples/dd_harness.json for a filled example.",
+  "_help": "Describe the data flows of your AI agent system. Use null for 'not known yet': the pack will print an [OPEN] marker and list the question. Never put a client's or person's real data in this file. Allowed values are listed in the _help keys; see examples/dd_harness.json for a filled example. Fields ending in _tr are the Turkish wording used in the Turkish documents (written when KVKK applies); leave null to get an [AÇIK] marker.",
   "system": {
     "name": "My agent harness",
     "date": null,
@@ -7,7 +7,7 @@
     "description": null
   },
   "controller": {
-    "_help": "role: controller | processor | both (towards clients). country: ISO code, e.g. TR, DE.",
+    "_help": "role: controller | processor | both (towards clients; per activity you can override with activities[].role). country: ISO code, e.g. TR, DE.",
     "name": "My firm",
     "country": null,
     "address": null,
@@ -21,48 +21,133 @@
     "kvkk_applies": null,
     "eu_clients": null,
     "offers_to_eu_data_subjects": null,
-    "monitors_eu_behaviour": null
+    "monitors_eu_behaviour": null,
+    "_help": "eu_clients: do EU clients send you files (then a Turkish firm needs the clients' SCCs)? offers_to_eu_data_subjects / monitors_eu_behaviour: Art. 3(2) triggers."
   },
-  "scale": {"data_subjects_per_year": null, "large_scale": null},
+  "scale": {
+    "data_subjects_per_year": null,
+    "large_scale": null
+  },
   "subjects": [
-    {"_help": "vulnerable: employees, children, patients...", "id": "clients", "label": "Clients", "in_eu": null, "vulnerable": null}
+    {
+      "_help": "vulnerable: employees, children, patients... contract_party: true only if these people themselves are party to your contract (Art. 6(1)(b) works only for them).",
+      "id": "clients",
+      "label": "Clients",
+      "in_eu": null,
+      "vulnerable": null,
+      "label_tr": null,
+      "contract_party": null,
+      "children": null,
+      "deceased": null
+    }
   ],
   "data": [
-    {"_help": "kind: ordinary | contact | id_number | financial | special (Art. 9) | criminal (Art. 10) | minor", "id": "contact", "label": "Names and contact details", "kind": "contact"}
+    {
+      "_help": "kind: ordinary | contact | id_number | financial | special (Art. 9) | criminal (Art. 10) | minor. For criminal data add criminal_type: conviction | proceedings | sanctions_listing | mixed",
+      "id": "contact",
+      "label": "Names and contact details",
+      "kind": "contact",
+      "label_tr": null
+    }
   ],
   "activities": [
     {
-      "_help": "source: data_subject | client | public | third_party | generated. lawful_basis: 6(1)(a)...6(1)(f). art9_condition e.g. 9(2)(f).",
+      "_help": "source: one or a list of data_subject | client | public | third_party | generated. lawful_basis: 6(1)(a)...6(1)(f). kvkk_basis e.g. m.5/2-e. art9_condition e.g. 9(2)(f). role: controller | processor (if it differs from controller.role). legal_service: true if the activity is the legal advice itself. labels_people: true if it gives people a risk label or score. partners: partner ids. recipients: extra recipients not visible from agents/vendors. eu_offer_related: false if this activity is not part of offering services to people in the EU (Art. 3(2) scope).",
       "id": "main",
       "name": "Main purpose",
+      "name_tr": null,
       "purpose": null,
-      "subjects": ["clients"],
-      "data": ["contact"],
+      "purpose_tr": null,
+      "subjects": [
+        "clients"
+      ],
+      "data": [
+        "contact"
+      ],
       "source": null,
       "source_detail": null,
+      "source_detail_tr": null,
       "lawful_basis": null,
+      "kvkk_basis": null,
       "legitimate_interest": null,
       "art9_condition": null,
       "art10_basis": null,
       "profiling": null,
+      "labels_people": null,
+      "legal_service": null,
       "automated_decision": null,
       "combines_sources": null,
       "monitoring": null,
-      "agents": ["agent1"],
-      "storage": ["files"],
+      "agents": [
+        "agent1"
+      ],
+      "storage": [
+        "files"
+      ],
       "retention": null,
-      "retention_reason": null
+      "retention_tr": null,
+      "retention_reason": null,
+      "role": null,
+      "partners": [],
+      "recipients": [],
+      "eu_offer_related": null
     }
   ],
   "agents": [
-    {"_help": "models: vendor ids of the language models; vendors: other vendors the agent sends data to. output: internal | client | court | published", "id": "agent1", "name": "Agent", "does": null, "models": ["llm"], "vendors": [], "tools": [], "human_review": null, "output": null}
+    {
+      "_help": "models: vendor ids of the language models; vendors: other vendors the agent sends data to. output: internal | client | court | published. human_review: always | sometimes | never (true/false also accepted). sends: {vendor id: raw | masked | metadata} when this agent sends differently from the vendor default.",
+      "id": "agent1",
+      "name": "Agent",
+      "does": null,
+      "models": [
+        "llm"
+      ],
+      "vendors": [],
+      "tools": [],
+      "human_review": null,
+      "output": null,
+      "sends": {}
+    }
   ],
   "vendors": [
-    {"_help": "role: processor | sub_processor | controller | joint_controller | none. country: ISO code or LOCAL. receives: raw | masked | metadata | none. dpa: signed | accepted_online | available | none. transfer_mechanism: adequacy | dpf | scc | bcr | derogation | none", "id": "llm", "name": "Model vendor", "service": "Language model", "role": "processor", "country": null, "region": null, "receives": null, "data": ["contact"], "dpa": null, "transfer_mechanism": null, "dpf_certified": null, "retention": null, "trains_on_data": null, "subprocessors_published": null, "notes": null}
+    {
+      "_help": "role: processor | sub_processor | controller | joint_controller | none. country: ISO code or LOCAL. receives: raw | masked | metadata | none. dpa: signed | accepted_online | available | none. transfer_mechanism: adequacy | dpf | scc | bcr | derogation | none. tier: free | paid | enterprise. parent_country: country of the parent company if different (e.g. US).",
+      "id": "llm",
+      "name": "Model vendor",
+      "service": "Language model",
+      "service_tr": null,
+      "role": "processor",
+      "country": null,
+      "region": null,
+      "parent_country": null,
+      "tier": null,
+      "receives": null,
+      "data": [
+        "contact"
+      ],
+      "dpa": null,
+      "transfer_mechanism": null,
+      "dpf_certified": null,
+      "retention": null,
+      "trains_on_data": null,
+      "subprocessors_published": null,
+      "notes": null
+    }
   ],
   "storage": [
-    {"_help": "vendor: id of the vendor hosting it (a LOCAL vendor for your own computer)", "id": "files", "what": "Matter files", "vendor": null, "encrypted": null, "retention": null, "deletion": null}
+    {
+      "_help": "vendor: id of the vendor hosting it (a LOCAL vendor for your own computer)",
+      "id": "files",
+      "what": "Matter files",
+      "vendor": null,
+      "encrypted": null,
+      "retention": null,
+      "deletion": null,
+      "what_tr": null
+    }
   ],
+  "_help_partners": "partners: [{id, name, country, role: joint_controller | controller | processor, arrangement, service_tr}] for firms you share matters with.",
+  "partners": [],
   "security": {
     "masking_before_cloud": null,
     "encryption_in_transit": null,
@@ -76,7 +161,16 @@
     "agent_guardrails": null,
     "pentest": null,
     "staff_training": null,
-    "incident_owner": null
+    "incident_owner": null,
+    "shared_logins": null,
+    "restore_tested": null,
+    "masking_profile": null,
+    "_help": "masking_profile: the Katip masking profile used before cloud calls (e.g. ai, eu, court)."
+  },
+  "secrecy": {
+    "_help": "turkish_lawyer: are you bound by Av.K. m.36? client_regimes: other secrecy rules your clients bring, e.g. § 203 StGB.",
+    "turkish_lawyer": null,
+    "client_regimes": []
   },
   "ai": {
     "_help": "role: deployer | provider | both. annex_iii: [] if none; areas: employment, credit, insurance, justice, migration, biometric, education, essential_services, law_enforcement",
@@ -86,6 +180,7 @@
     "annex_iii": null,
     "predicts_crime_risk": null,
     "chats_with_people": null,
-    "publishes_text": null
+    "publishes_text": null,
+    "offering_planned": null
   }
 }

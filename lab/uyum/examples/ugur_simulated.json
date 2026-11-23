@@ -1,0 +1,671 @@
+{
+  "_note": "SIMULATED: written by an AI persona playing a Turkish lawyer to test Katip Uyum. Not the real Uğur and not a real firm. Vendor facts are the persona's beliefs, not checked. Fields added in v0.2 express things the v0.1 questionnaire could not.",
+  "system": {
+    "name": "Uğur Hukuk ajan sistemi (simulated)",
+    "date": "2026-11-23",
+    "stage": "production",
+    "description": "Five agents help a small Istanbul law firm (two lawyers, one trainee, one secretary) with due-diligence reports on Turkish targets for German and Dutch clients and with legal opinions on workplace accidents and negligent homicide. An intake agent reads the firm's Gmail, files attachments to Google Drive and checks conflicts with OpenAI. An OCR/translation agent sends scanned German/Dutch documents unmasked to Google Gemini (free tier). A screening agent searches Turkish and international sanctions lists and the web for officers and shareholders and gives each person a red/amber/green label with Claude. A drafting agent writes reports and opinions from Kalkan-masked text with OpenAI or Anthropic and a Supabase vector store. A sending agent emails approved drafts to clients, and in urgent cases emails a 'pre-draft, pending lawyer approval' without a lawyer having read it."
+  },
+  "controller": {
+    "name": "Uğur Hukuk Bürosu (simulated)",
+    "country": "TR",
+    "address": "Şişli, İstanbul (fictional)",
+    "contact": null,
+    "role": "both",
+    "eu_establishment": false,
+    "eu_representative": null,
+    "dpo": null
+  },
+  "scope": {
+    "kvkk_applies": true,
+    "eu_clients": true,
+    "offers_to_eu_data_subjects": true,
+    "monitors_eu_behaviour": false
+  },
+  "scale": {
+    "data_subjects_per_year": 3000,
+    "large_scale": null
+  },
+  "subjects": [
+    {
+      "id": "clients",
+      "label": "Clients and their contact persons (DE/NL companies, DE individuals)",
+      "in_eu": true,
+      "vulnerable": false,
+      "label_tr": "Müvekkiller ve irtibat kişileri (Alman/Hollandalı şirketler, Alman bireyler)",
+      "contract_party": false
+    },
+    {
+      "id": "targets",
+      "label": "Officers, shareholders and signatories of DD targets",
+      "in_eu": false,
+      "vulnerable": false,
+      "label_tr": "DD konusu şirketlerin yöneticileri, ortakları ve imza yetkilileri"
+    },
+    {
+      "id": "employees",
+      "label": "Employees of DD targets in client data-room exports",
+      "in_eu": null,
+      "vulnerable": true,
+      "label_tr": "DD konusu şirketlerin çalışanları (veri odası dökümleri)"
+    },
+    {
+      "id": "accident",
+      "label": "Injured/deceased workers, relatives incl. children, witnesses, suspects in accident files",
+      "in_eu": false,
+      "vulnerable": true,
+      "label_tr": "İş kazasında yaralanan veya vefat eden işçiler, çocuklar dahil yakınları, tanıklar, şüpheliler",
+      "children": true,
+      "deceased": true
+    },
+    {
+      "id": "staff",
+      "label": "Firm lawyers, trainee, secretary",
+      "in_eu": false,
+      "vulnerable": false,
+      "label_tr": "Büro avukatları, stajyer, sekreter"
+    }
+  ],
+  "data": [
+    {
+      "id": "contact",
+      "label": "Names and contact details",
+      "kind": "contact",
+      "label_tr": "Ad ve iletişim bilgileri"
+    },
+    {
+      "id": "ids",
+      "label": "TC kimlik, passport, German Steuer-ID, Dutch BSN",
+      "kind": "id_number",
+      "label_tr": "T.C. kimlik, pasaport, Alman vergi kimlik no., Hollanda BSN"
+    },
+    {
+      "id": "corporate",
+      "label": "Roles, shareholdings, signing powers",
+      "kind": "ordinary",
+      "label_tr": "Görev, pay ve imza yetkileri"
+    },
+    {
+      "id": "financial",
+      "label": "Salary, IBAN, insolvency notices",
+      "kind": "financial",
+      "label_tr": "Maaş, IBAN, iflas ilanları"
+    },
+    {
+      "id": "health",
+      "label": "Forensic and hospital reports, disability rates",
+      "kind": "special",
+      "label_tr": "Adli Tıp ve hastane raporları, maluliyet oranları"
+    },
+    {
+      "id": "criminal",
+      "label": "Indictments, statements, sanctions and asset-freeze listings",
+      "kind": "criminal",
+      "label_tr": "İddianameler, ifadeler, yaptırım ve malvarlığı dondurma listeleri",
+      "criminal_type": "mixed"
+    },
+    {
+      "id": "minors",
+      "label": "Children of deceased workers (dates of birth)",
+      "kind": "minor",
+      "label_tr": "Vefat eden işçilerin çocukları (doğum tarihleri)"
+    },
+    {
+      "id": "usage",
+      "label": "Prompts, outputs, agent traces, logins",
+      "kind": "ordinary",
+      "label_tr": "İstemler, çıktılar, ajan izleri, girişler"
+    }
+  ],
+  "activities": [
+    {
+      "id": "intake",
+      "name": "Email intake, filing and conflict check",
+      "purpose": "Receive client documents, file them per matter, check conflicts of interest",
+      "subjects": [
+        "clients",
+        "targets",
+        "employees",
+        "accident"
+      ],
+      "data": [
+        "contact",
+        "ids",
+        "financial",
+        "health",
+        "criminal"
+      ],
+      "source": [
+        "data_subject",
+        "client"
+      ],
+      "source_detail": "Client emails and attachments",
+      "lawful_basis": "6(1)(b)",
+      "art9_condition": "9(2)(f)",
+      "art10_basis": null,
+      "agents": [
+        "intake"
+      ],
+      "storage": [
+        "drive",
+        "gmail",
+        "traces"
+      ],
+      "retention": "10 years after the matter closes",
+      "retention_reason": "TBK m.146 limitation period",
+      "name_tr": "E-posta ile belge alımı, dosyalama ve çıkar çatışması kontrolü",
+      "purpose_tr": "Müvekkil belgelerini almak, dosyaya göre kaydetmek, çıkar çatışmasını kontrol etmek"
+    },
+    {
+      "id": "ocr",
+      "name": "OCR and translation of scanned foreign documents",
+      "purpose": "Turn scanned German/Dutch documents into Turkish text",
+      "subjects": [
+        "employees",
+        "accident",
+        "clients"
+      ],
+      "data": [
+        "contact",
+        "ids",
+        "financial",
+        "health"
+      ],
+      "source": "client",
+      "lawful_basis": "6(1)(f)",
+      "legitimate_interest": "Understanding documents the client sent for the engaged legal service",
+      "art9_condition": "9(2)(f)",
+      "agents": [
+        "ocr"
+      ],
+      "storage": [
+        "drive",
+        "traces"
+      ],
+      "retention": null,
+      "name_tr": "Taranmış yabancı belgelerin metne çevrilmesi ve tercümesi",
+      "purpose_tr": "Almanca/Hollandaca taranmış belgeleri Türkçe metne dönüştürmek"
+    },
+    {
+      "id": "screening",
+      "name": "DD screening of officers and shareholders",
+      "purpose": "Find sanctions, asset-freeze, insolvency and court records and press about people behind a DD target",
+      "subjects": [
+        "targets"
+      ],
+      "data": [
+        "contact",
+        "ids",
+        "corporate",
+        "financial",
+        "criminal"
+      ],
+      "source": "public",
+      "source_detail": "MASAK lists, ilan.gov.tr, TSG, EU/UN sanctions, OFAC SDN, web search",
+      "lawful_basis": "6(1)(f)",
+      "legitimate_interest": null,
+      "art10_basis": null,
+      "profiling": true,
+      "automated_decision": false,
+      "combines_sources": true,
+      "monitoring": false,
+      "agents": [
+        "screening"
+      ],
+      "storage": [
+        "drive",
+        "vectors",
+        "traces"
+      ],
+      "retention": "10 years after the matter closes",
+      "name_tr": "Yönetici ve ortakların DD taraması",
+      "purpose_tr": "DD konusu şirketin arkasındaki kişiler hakkında yaptırım, malvarlığı dondurma, iflas, dava kayıtları ve basın haberlerini bulmak",
+      "labels_people": true
+    },
+    {
+      "id": "drafting",
+      "name": "Drafting DD reports and legal opinions",
+      "purpose": "Draft DD reports and expert opinions (workplace accident, negligent homicide)",
+      "subjects": [
+        "clients",
+        "targets",
+        "employees",
+        "accident"
+      ],
+      "data": [
+        "contact",
+        "corporate",
+        "financial",
+        "health",
+        "criminal",
+        "minors"
+      ],
+      "source": "client",
+      "lawful_basis": "6(1)(f)",
+      "legitimate_interest": "Providing the legal service the client engaged",
+      "art9_condition": "9(2)(f)",
+      "art10_basis": null,
+      "agents": [
+        "drafting"
+      ],
+      "storage": [
+        "drive",
+        "vectors",
+        "vault",
+        "traces"
+      ],
+      "retention": "10 years after the matter closes",
+      "partners": [
+        "dus"
+      ],
+      "legal_service": true
+    },
+    {
+      "id": "sending",
+      "name": "Emailing drafts to clients",
+      "purpose": "Deliver drafts and pre-drafts to the client",
+      "subjects": [
+        "clients",
+        "targets",
+        "employees",
+        "accident"
+      ],
+      "data": [
+        "contact",
+        "health",
+        "criminal",
+        "financial"
+      ],
+      "source": "generated",
+      "lawful_basis": "6(1)(b)",
+      "art9_condition": "9(2)(f)",
+      "automated_decision": false,
+      "agents": [
+        "sender"
+      ],
+      "storage": [
+        "gmail"
+      ],
+      "retention": "Not deleted"
+    },
+    {
+      "id": "ops",
+      "name": "Operating the system",
+      "purpose": "Troubleshooting and quality checks via agent traces",
+      "subjects": [
+        "staff",
+        "clients",
+        "targets",
+        "employees",
+        "accident"
+      ],
+      "data": [
+        "usage",
+        "health",
+        "criminal"
+      ],
+      "source": "generated",
+      "lawful_basis": "6(1)(f)",
+      "legitimate_interest": null,
+      "agents": [],
+      "storage": [
+        "traces"
+      ],
+      "retention": null
+    }
+  ],
+  "agents": [
+    {
+      "id": "intake",
+      "name": "Intake agent",
+      "does": "Reads Gmail, files attachments, classifies, conflict check",
+      "models": [
+        "openai"
+      ],
+      "vendors": [
+        "gworkspace",
+        "langsmith"
+      ],
+      "tools": [
+        "Gmail API",
+        "Google Drive"
+      ],
+      "human_review": false,
+      "output": "internal",
+      "sends": {
+        "openai": "raw"
+      }
+    },
+    {
+      "id": "ocr",
+      "name": "OCR/translation agent",
+      "does": "Sends scanned PDFs unmasked to Gemini for OCR and translation",
+      "models": [
+        "gemini"
+      ],
+      "vendors": [
+        "langsmith"
+      ],
+      "tools": [],
+      "human_review": true,
+      "output": "internal"
+    },
+    {
+      "id": "screening",
+      "name": "Screening agent",
+      "does": "Searches lists and web by name; red/amber/green label and summary per person",
+      "models": [
+        "anthropic"
+      ],
+      "vendors": [
+        "brave",
+        "langsmith"
+      ],
+      "tools": [
+        "MASAK",
+        "ilan.gov.tr",
+        "TSG",
+        "EU/UN/OFAC lists"
+      ],
+      "human_review": true,
+      "output": "client"
+    },
+    {
+      "id": "drafting",
+      "name": "Drafting agent",
+      "does": "Writes drafts from masked text with RAG over past opinions",
+      "models": [
+        "openai",
+        "anthropic"
+      ],
+      "vendors": [
+        "supabase",
+        "langsmith"
+      ],
+      "tools": [
+        "Katip Kalkan"
+      ],
+      "human_review": true,
+      "output": "client",
+      "sends": {
+        "openai": "masked",
+        "anthropic": "masked"
+      }
+    },
+    {
+      "id": "sender",
+      "name": "Sending agent",
+      "does": "Emails approved drafts; in urgent cases emails pre-drafts before lawyer review",
+      "models": [],
+      "vendors": [
+        "gworkspace"
+      ],
+      "tools": [
+        "Gmail API"
+      ],
+      "human_review": "sometimes",
+      "output": "client"
+    }
+  ],
+  "vendors": [
+    {
+      "id": "openai",
+      "name": "OpenAI (API)",
+      "service": "LLM for intake and drafting",
+      "role": "processor",
+      "country": "US",
+      "region": null,
+      "receives": null,
+      "data": [
+        "contact",
+        "ids",
+        "financial",
+        "health",
+        "criminal"
+      ],
+      "dpa": "accepted_online",
+      "transfer_mechanism": null,
+      "dpf_certified": null,
+      "retention": null,
+      "trains_on_data": false,
+      "subprocessors_published": null,
+      "notes": "Raw from intake, masked from drafting; questionnaire allows one value."
+    },
+    {
+      "id": "anthropic",
+      "name": "Anthropic (Claude API)",
+      "service": "LLM for screening and drafting",
+      "role": "processor",
+      "country": "US",
+      "region": null,
+      "receives": "raw",
+      "data": [
+        "contact",
+        "ids",
+        "corporate",
+        "criminal",
+        "health"
+      ],
+      "dpa": "accepted_online",
+      "transfer_mechanism": null,
+      "dpf_certified": null,
+      "retention": null,
+      "trains_on_data": false,
+      "subprocessors_published": null
+    },
+    {
+      "id": "gemini",
+      "name": "Google Gemini API (free tier)",
+      "service": "OCR and translation",
+      "role": "processor",
+      "country": "US",
+      "region": null,
+      "receives": "raw",
+      "data": [
+        "contact",
+        "ids",
+        "financial",
+        "health"
+      ],
+      "dpa": "none",
+      "transfer_mechanism": null,
+      "dpf_certified": null,
+      "retention": null,
+      "trains_on_data": true,
+      "subprocessors_published": null,
+      "notes": "Free tier: persona believes content may be used to improve products and reviewed by humans.",
+      "tier": "free"
+    },
+    {
+      "id": "gworkspace",
+      "name": "Google Workspace (Gmail, Drive)",
+      "service": "Email and file storage",
+      "role": "processor",
+      "country": "US",
+      "region": null,
+      "receives": "raw",
+      "data": [
+        "contact",
+        "ids",
+        "financial",
+        "health",
+        "criminal",
+        "minors"
+      ],
+      "dpa": "accepted_online",
+      "transfer_mechanism": null,
+      "dpf_certified": null,
+      "retention": "as configured by us (never deleted)",
+      "trains_on_data": false,
+      "subprocessors_published": true
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase (pgvector)",
+      "service": "Vector store",
+      "role": "processor",
+      "country": "DE",
+      "region": "Frankfurt (US company)",
+      "receives": "masked",
+      "data": [
+        "corporate",
+        "health",
+        "criminal"
+      ],
+      "dpa": null,
+      "transfer_mechanism": null,
+      "retention": null,
+      "trains_on_data": null,
+      "subprocessors_published": null,
+      "parent_country": "US"
+    },
+    {
+      "id": "langsmith",
+      "name": "LangSmith (LangChain)",
+      "service": "Agent tracing: full prompts and outputs",
+      "role": null,
+      "country": "US",
+      "region": null,
+      "receives": "raw",
+      "data": [
+        "contact",
+        "ids",
+        "financial",
+        "health",
+        "criminal",
+        "usage"
+      ],
+      "dpa": null,
+      "transfer_mechanism": null,
+      "retention": null,
+      "trains_on_data": null,
+      "subprocessors_published": null
+    },
+    {
+      "id": "brave",
+      "name": "Brave Search API",
+      "service": "Web search by person name",
+      "role": null,
+      "country": "US",
+      "region": null,
+      "receives": "raw",
+      "data": [
+        "contact"
+      ],
+      "dpa": null,
+      "transfer_mechanism": null,
+      "retention": null,
+      "trains_on_data": null
+    },
+    {
+      "id": "kalkan",
+      "name": "Katip Kalkan (lawyer's MacBook)",
+      "service": "Masking vault",
+      "role": "none",
+      "country": "LOCAL",
+      "receives": "raw"
+    },
+    {
+      "id": "office",
+      "name": "Office MacBook and Time Machine disk",
+      "service": "Local copies and backup",
+      "role": "none",
+      "country": "LOCAL",
+      "receives": "raw"
+    }
+  ],
+  "storage": [
+    {
+      "id": "drive",
+      "what": "Matter folders (originals) on Google Drive",
+      "vendor": "gworkspace",
+      "encrypted": true,
+      "retention": "10 years after matter closes",
+      "deletion": null
+    },
+    {
+      "id": "gmail",
+      "what": "Mailbox incl. attachments and sent drafts",
+      "vendor": "gworkspace",
+      "encrypted": true,
+      "retention": "Never deleted",
+      "deletion": null
+    },
+    {
+      "id": "vectors",
+      "what": "Vector store of masked chunks of past opinions and DD reports",
+      "vendor": "supabase",
+      "encrypted": null,
+      "retention": null,
+      "deletion": null
+    },
+    {
+      "id": "vault",
+      "what": "Kalkan masking vault",
+      "vendor": "kalkan",
+      "encrypted": true,
+      "retention": "With the matter",
+      "deletion": "Katip forget_matter"
+    },
+    {
+      "id": "traces",
+      "what": "LangSmith traces (full prompts and outputs)",
+      "vendor": "langsmith",
+      "encrypted": null,
+      "retention": null,
+      "deletion": null
+    },
+    {
+      "id": "backup",
+      "what": "Time Machine backup",
+      "vendor": "office",
+      "encrypted": null,
+      "retention": null,
+      "deletion": null
+    }
+  ],
+  "security": {
+    "masking_before_cloud": false,
+    "encryption_in_transit": true,
+    "encryption_at_rest": null,
+    "mfa": null,
+    "access_control": "Shared Supabase/LangSmith login; API key in .env readable by trainee",
+    "logging": true,
+    "log_retention": null,
+    "backups": true,
+    "key_management": "API keys in a .env file",
+    "agent_guardrails": null,
+    "pentest": false,
+    "staff_training": false,
+    "incident_owner": "Uğur (managing lawyer)",
+    "shared_logins": true,
+    "restore_tested": false,
+    "masking_profile": "ai"
+  },
+  "ai": {
+    "role": "deployer",
+    "offered_under_own_name": null,
+    "fine_tunes_models": false,
+    "annex_iii": [],
+    "predicts_crime_risk": null,
+    "chats_with_people": false,
+    "publishes_text": false,
+    "offering_planned": "maybe offer it to the Düsseldorf firm next year"
+  },
+  "partners": [
+    {
+      "id": "dus",
+      "name": "Düsseldorf correspondent firm (fictional)",
+      "country": "DE",
+      "role": "joint_controller",
+      "arrangement": null,
+      "service_tr": "bazı dosyalarda birlikte çalıştığımız hukuk bürosu"
+    }
+  ],
+  "secrecy": {
+    "turkish_lawyer": true,
+    "client_regimes": [
+      "§ 203 StGB / § 43e BRAO when the Düsseldorf firm instructs"
+    ]
+  }
+}

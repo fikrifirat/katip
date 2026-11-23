@@ -1,9 +1,9 @@
 # Uğur'a sorular: ajan sistemin GDPR belgeleri için
 
 Bu soruların cevaplarıyla Katip, GDPR için gereken belgelerin (işleme kaydı, DPIA, aydınlatma metni,
-veri işleyen sözleşmesi kontrol listesi, aktarım değerlendirmesi, saklama politikası, ihlal prosedürü,
-başvuru prosedürü, teknik tedbirler, AB Yapay Zekâ Tüzüğü notu) taslaklarını çıkarıyor. Her belgenin
-yanına KVKK karşılığını da ekliyor.
+sözleşmeler, aktarım değerlendirmesi, saklama politikası, ihlal prosedürü, başvuru prosedürü, teknik
+tedbirler, AB Yapay Zekâ Tüzüğü notu, meşru menfaat testi) taslaklarını çıkarıyor. Her belgenin yanına
+KVKK karşılığını ekliyor; KVKK uygulanıyorsa özet, envanter ve aydınlatma metni Türkçe de çıkıyor.
 
 Kısa cevaplar yeterli. "Bilmiyorum" veya "henüz karar vermedim" de bir cevap: o nokta belgede açık
 soru olarak işaretlenir. Müvekkil adı veya gerçek bir dosyadan bilgi gerekmiyor; sadece sistemin
@@ -59,7 +59,17 @@ nasıl çalıştığı.
 19. Bir veri sızıntısı olursa kim karar verecek ve kurumlara (KVKK Kurulu, AB denetim otoritesi)
     bildirimi kim yapacak?
 
-## 6. Son olarak
+## 6. Sözleşmeler ve sır saklama
 
-20. Bu belgeleri kim isteyecek veya kontrol edecek: AB'deki bir müvekkil mi, bir yatırımcı mı,
+20. AB'deki müvekkil sizi "veri işleyen" olarak mı görüyor (ör. sizden AVV / DPA imzalamanızı
+    istedi mi), yoksa siz kendi mesleki kararınızla mı çalışıyorsunuz? Dosyaya göre değişiyor mu?
+21. Aynı dosyalarda birlikte çalıştığınız yabancı bir büro var mı? Verileri birlikte mi belirliyorsunuz?
+22. Müvekkillerinizin kendi sır saklama kuralları (ör. Almanya'da § 203 StGB) size de yükleniyor mu?
+23. Ücretsiz bir yapay zekâ hesabı veya ortak kullanılan bir giriş (aynı şifreyle birden fazla kişi)
+    var mı? Yedekten geri yükleme hiç denendi mi?
+24. Dosyalarda çocuklara veya vefat etmiş kişilere ait bilgi var mı?
+
+## 7. Son olarak
+
+25. Bu belgeleri kim isteyecek veya kontrol edecek: AB'deki bir müvekkil mi, bir yatırımcı mı,
     yoksa kendi iç düzeniniz için mi? (Hangi belgeye öncelik vereceğimizi bu belirliyor.)
