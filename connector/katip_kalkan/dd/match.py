@@ -69,6 +69,8 @@ def token_sim(a: str, b: str) -> float:
             return 0.97
     if min(len(a), len(b)) >= 3 and canon(a) == canon(b):
         return 0.97
+    if min(len(a), len(b)) >= 3 and (a.startswith(b) or b.startswith(a)) and (a in SECTOR or b in SECTOR):
+        return 0.95  # "teks" / "tekstil", "ith" / "ithalat": a sector word written short
     if len(a) == 1 or len(b) == 1:  # initials
         return 0.7 if a[0] == b[0] else 0.0
     sa, sb = skeleton(a), skeleton(b)
@@ -83,9 +85,41 @@ def token_sim(a: str, b: str) -> float:
     return jw
 
 
+# Descriptive words of a Turkish trade name ("ALSULTAN KUYUMCULUK ELEKTRONİK GIDA İTH. İHR. LTD. ŞTİ."): the
+# distinctive part is "Alsultan", the rest says what the company does. A listed name's sector words that the query
+# leaves out cost less than a missing distinctive word, so "Alsultan Kuyumculuk" reaches review.
+SECTOR = set("""elektronik gida insaat turizm tekstil teks medikal kuyumculuk otomotiv lojistik nakliyat nakliye petrol
+urunleri urun pazarlama ithalat ihracat ticaret sanayi yapi madencilik enerji tarim hizmetleri hizmet danismanlik yazilim bilisim emlak gayrimenkul
+giyim mobilya kimya plastik metal ambalaj dis disticaret yayinevi yayincilik matbaacilik saglik egitim tasimacilik
+gida otomotiv akaryakit doviz kuyum mucevherat sarrafiye international trading""".split())
+# Generic words a lawyer adds to an organisation's name ("Embrace Relief Foundation") that the list may not carry.
+ORG_EXTRA = set("""foundation vakfi vakif dernegi dernek association group grubu holding organization organisation
+international""".split())
+
+
+def _glue(q: list[str], c: list[str]) -> list[str]:
+    """'kuzey ruzgari' vs 'kuzeyruzgari': join two query words when the joined word is a candidate word."""
+    cs = set(c)
+    out, i = [], 0
+    while i < len(q):
+        if i + 1 < len(q) and q[i] + q[i + 1] in cs:
+            out.append(q[i] + q[i + 1])
+            i += 2
+        else:
+            out.append(q[i])
+            i += 1
+    return out
+
+
 def name_score(q: list[str], c: list[str]) -> float:
     if not q or not c:
         return 0.0
+    gq, gc = _glue(q, c), _glue(c, q)
+    base = _name_score(q, c)
+    return max(base, _name_score(gq, gc)) if (gq, gc) != (q, c) else base
+
+
+def _name_score(q: list[str], c: list[str]) -> float:
     pairs = sorted(((token_sim(x, y), i, j) for i, x in enumerate(q) for j, y in enumerate(c)), reverse=True)
     used_q, used_c, total = set(), set(), 0.0
     for s, i, j in pairs:
@@ -96,8 +130,10 @@ def name_score(q: list[str], c: list[str]) -> float:
         used_q.add(i)
         used_c.add(j)
         total += 1 - 2 * (1 - s)  # stretch: a 0.91 surname is a different name more often than a typo
-    score = total / len(q)
-    score *= max(0.7, 1 - 0.08 * (len(c) - len(used_c)))
+    extra_q = sum(1 for i, t in enumerate(q) if i not in used_q and t in ORG_EXTRA)
+    score = total / max(1, len(q) - extra_q) if len(q) - extra_q >= 2 else total / len(q)
+    missing = [t for j, t in enumerate(c) if j not in used_c]
+    score *= max(0.7, 1 - 0.08 * sum(t not in SECTOR for t in missing) - 0.03 * sum(t in SECTOR for t in missing))
     # glued vs split spellings: "ABDELBASSED" vs "ABD AL-BASET"
     jq, jc = "".join(q), "".join(c)
     if len(q) != len(c) and min(len(jq), len(jc)) >= 6 and min(len(jq), len(jc)) / max(len(jq), len(jc)) >= 0.8:
@@ -127,6 +163,22 @@ def band(score: float) -> str:
     return "match" if score >= MATCH else "review" if score >= REVIEW else "weak"
 
 
+# Turkish words of the names Turkish courts, MASAK's own organisation field and the press use for UN-listed groups,
+# mapped to the list's spelling ("El-Kaide" -> "Al-Qaida", "DEAŞ Horasan" -> "ISIL Khorasan"). Used as a second
+# query; a hit through it says so in its reasons.
+TR_EN = {"kaide": "qaida", "kaida": "qaida", "deas": "isil", "daes": "isil", "isid": "isil", "ișid": "isil",
+         "horasan": "khorasan", "dogu": "eastern", "islami": "islamic", "hareketi": "movement", "cephesi": "front",
+         "lesker": "lashkar", "leskeri": "lashkar", "tayyibe": "tayyiba", "tayyibe": "tayyiba", "irak": "iraq",
+         "devleti": "state", "islam": "islamic", "orgutu": "organization", "tugayi": "brigade", "tugaylari": "brigades",
+         "nusra": "nusrah", "taliban": "taliban", "pakistan": "pakistan", "yemen": "yemen", "arap": "arabian",
+         "yarimadasi": "peninsula", "magrip": "maghreb", "kuzey": "north"}
+
+
+def translated(q: list[str]) -> list[str]:
+    out = [TR_EN.get(t, t) for t in q if not (len(t) == 1 and t in "ie")]
+    return out if out != q and any(t in TR_EN for t in q) else []
+
+
 class ListIndex:
     """Index over structured list records (MASAK). Each record has ``names``: [primary, *aliases]."""
 
@@ -136,7 +188,13 @@ class ListIndex:
         self.block = defaultdict(set)
         self.ids = defaultdict(set)
         for ri, r in enumerate(records):
-            for name in r.get("names", []):
+            names = list(r.get("names", []))
+            for name in r.get("names", []):  # "BANK SEPAH AND BANK SEPAH INTERNATIONAL": two names in one row
+                parts = re.split(r"\s+(?:AND|And|and|VE|Ve|ve|&)\s+", name)
+                if len(parts) == 2 and all(len(tokens(p)) >= 2 for p in parts) and \
+                        tokens(parts[0])[0] == tokens(parts[1])[0]:
+                    names += parts
+            for name in names:
                 toks = tokens(name)
                 if not toks:
                     continue
@@ -159,18 +217,23 @@ class ListIndex:
         for d in id_tokens(id_no):
             for ri in self.ids.get(d, ()):
                 best[ri] = Hit(1.0, "match", f"ID {d}", self.records[ri], ["ID number identical"])
-        q = tokens(query)
+        q0 = tokens(query)
+        qy = _year(birth)
+        for q in [q0] + ([translated(q0)] if translated(q0) else []):
+            self._score(q, q0, qy, floor, best)
+        return sorted(best.values(), key=lambda h: -h.score)[:limit]
+
+    def _score(self, q, q0, qy, floor, best):
         cand = set()
         for t in q:
             for k in self._keys(t):
                 cand |= self.block.get(k, set())
-        qy = _year(birth)
         for vi in cand:
             ri, text, toks = self.variants[vi]
             s = name_score(q, toks)
             if s < floor:
                 continue
-            reasons = []
+            reasons = [] if q == q0 else ["Turkish name matched through its list spelling (" + " ".join(q) + ")"]
             ry = _year(self.records[ri].get("birth", ""))
             if qy and ry:
                 if qy == ry:
@@ -182,7 +245,6 @@ class ListIndex:
                 if ri in best and best[ri].matched.startswith("ID"):
                     continue
                 best[ri] = Hit(s, band(s), text, self.records[ri], reasons)
-        return sorted(best.values(), key=lambda h: -h.score)[:limit]
 
 
 class TextIndex:
@@ -207,6 +269,12 @@ class TextIndex:
         if not q:
             return []
         hits: dict[int, Hit] = {}
+        self._search(q, floor, hits)
+        if len(q) >= 2:  # "Kuzey Rüzgarı" written as one word in the notice ("KUZEYRÜZGARI")
+            self._search([q[0] + q[1]] + q[2:], floor, hits)
+        return sorted(hits.values(), key=lambda h: -h.score)[:limit]
+
+    def _search(self, q, floor, hits):
         anchors = self.block.get("p:" + q[0][:2], set())
         for di, pos in anchors:
             toks = self.toks[di]
@@ -226,4 +294,3 @@ class TextIndex:
                         notes.append("title/summary only: notice page was not opened, check the full notice")
                     span = window[: len(q)] if name_score(q, (tokens(" ".join(window[: len(q)])) or window)[: len(q)]) >= s else window[: len(q) + 1]
                     hits[di] = Hit(s, band(s), " ".join(span), self.docs[di], notes)
-        return sorted(hits.values(), key=lambda h: -h.score)[:limit]
