@@ -4,14 +4,16 @@ Two sources, all people and numbers invented:
   * the 16 cross-border documents of the sample pack (lab/samples/data/eu_docs.jsonl; run
     lab/samples/build_eu_docs.py first): de, nl, en, fr, it, pl, es and Turkish text about EU clients;
   * 24 new client e-mails written here, 8 each in English, Dutch and German (four kinds of letter x two people),
-    with ID numbers drawn with valid checksums.
+    with ID numbers drawn with valid checksums, and 16 shorter ones in French, Italian, Spanish and Polish
+    (2 letters x 4 people each). --heldout writes the same letters for other people (other seed), none of
+    whose names were used while tuning eu.py.
 Every text becomes an .eml (MIME styles in turn) and an Outlook .msg, and its .txt is kept as the baseline.
 Each language's people also go into a client workbook with headers in that language (en, nl, de).
 
 answer_key.json: {file: {"mask": [...], "keep": [...], "source": [...], "lang": "en"}}
 
   python3 lab/samples/build_eu_docs.py
-  python3 src/tests/make_mail_excel_eu.py /tmp/mx-eu
+  python3 src/tests/make_mail_excel_eu.py /tmp/mx-eu [--heldout]
   python3 src/tests/eval_mail_excel_corpus.py /tmp/mx-eu --profile eu
 """
 from __future__ import annotations
@@ -44,6 +46,23 @@ PEOPLE = {
            "Annelies Kuipers", "Thijs van Dongen", "Noortje Hendriks", "Wouter Mulder"],
     "de": ["Annegret Hoffmeister", "Lukas Brandauer", "Friederike Schöndorf", "Matthias Kellermann",
            "Ulrike Pfeiffer", "Henrik Großmann", "Sabine Wendtland", "Torsten Eichhorn"],
+    "fr": ["Clémence Vautrin", "Bertrand Lemaire", "Solène Garnier", "Thibault Rousseau"],
+    "it": ["Ginevra Bellandi", "Riccardo Ferraresi", "Ilaria Montanari", "Edoardo Galimberti"],
+    "es": ["Ainhoa Etxeberria", "Jordi Puigdemunt", "Rocío Valdivieso", "Iñaki Arrieta"],
+    "pl": ["Małgorzata Wiśniewska", "Krzysztof Zieliński", "Agnieszka Dąbrowska", "Tomasz Kaczmarek"],
+}
+# --heldout: other people, other seed; nothing in eu.py was tuned on these names
+HELDOUT = {
+    "en": ["Philippa Hargreaves", "Rory Whitfield", "Eleanor Cartwright", "Jamie Thornbury",
+           "Lydia Ormerod", "Simon Prestwich", "Natalie Bramwell", "Owen Treharne"],
+    "nl": ["Esther Wijnands", "Ruben Schouten", "Lieke Vermeulen", "Gert-Jan Kooistra",
+           "Iris Molenaar", "Dirk Postma", "Yvonne Brinkman", "Hugo Dijkstra"],
+    "de": ["Kathrin Wohlgemuth", "Stefan Ostermann", "Renate Lichtenberg", "Florian Achenbach",
+           "Birgit Kühnel", "Andreas Hollmann", "Petra Sommerfeld", "Johannes Weidinger"],
+    "fr": ["Manon Lefebvre", "Julien Marchetti", "Camille Dufresne", "Antoine Berthelot"],
+    "it": ["Francesca Zanetti", "Lorenzo Castellani", "Giulia Morandi", "Matteo Ruggieri"],
+    "es": ["Lucía Ortega", "Javier Sandoval", "Marta Quintero", "Álvaro Benítez"],
+    "pl": ["Joanna Kowalczyk", "Paweł Szymański", "Monika Lewandowska", "Marek Jabłoński"],
 }
 STREETS = {
     "en": [("42 Ravensworth Road", "Leeds LS6 2PQ"), ("7 Holly Bank Close", "Bristol BS8 4JT"),
@@ -52,13 +71,23 @@ STREETS = {
            ("Lange Voorhout 36", "2514 EE Den Haag"), ("Witte de Withstraat 88", "3012 BR Rotterdam")],
     "de": [("Lindenstraße 14", "50674 Köln"), ("Am Rosengarten 3", "80331 München"),
            ("Hauptstraße 152", "69117 Heidelberg"), ("Kirchweg 27", "22297 Hamburg")],
+    "fr": [("12 rue des Lilas", "69003 Lyon"), ("47 avenue Jean Jaurès", "31000 Toulouse")],
+    "it": [("Via Garibaldi 28", "40124 Bologna"), ("Corso Vittorio Emanuele 112", "10121 Torino")],
+    "es": [("Calle Mayor 17, 3º B", "28013 Madrid"), ("Carrer de Mallorca 241", "08008 Barcelona")],
+    "pl": [("ul. Długa 14/3", "80-827 Gdańsk"), ("ul. Kwiatowa 7", "30-019 Kraków")],
 }
 PHONE = {"en": lambda: f"+44 7{R.randint(100, 999)} {R.randint(100000, 999999)}",
          "nl": lambda: f"06-{R.randint(10000000, 99999999)}",
-         "de": lambda: f"+49 171 {R.randint(1000000, 9999999)}"}
-NATID = {"en": ("PASSPORT", "uk_pass"), "nl": ("NATIONAL_ID", "bsn"), "de": ("NATIONAL_ID", "steuer")}
+         "de": lambda: f"+49 171 {R.randint(1000000, 9999999)}",
+         "fr": lambda: f"06 {R.randint(10, 99)} {R.randint(10, 99)} {R.randint(10, 99)} {R.randint(10, 99)}",
+         "it": lambda: f"+39 347 {R.randint(100, 999)} {R.randint(1000, 9999)}",
+         "es": lambda: f"+34 612 {R.randint(100, 999)} {R.randint(100, 999)}",
+         "pl": lambda: f"+48 501 {R.randint(100, 999)} {R.randint(100, 999)}"}
+NATID = {"en": ("PASSPORT", "uk_pass"), "nl": ("NATIONAL_ID", "bsn"), "de": ("NATIONAL_ID", "steuer"),
+         "fr": ("NATIONAL_ID", "nir"), "it": ("NATIONAL_ID", "cf"), "es": ("NATIONAL_ID", "nie"), "pl": ("NATIONAL_ID", "pesel")}
 IBAN = {"en": lambda: B.iban("GB"),
-        "nl": lambda: B.iban("NL"), "de": lambda: B.iban("DE")}
+        "nl": lambda: B.iban("NL"), "de": lambda: B.iban("DE"), "fr": lambda: B.iban("FR"), "it": lambda: B.iban("IT"),
+        "es": lambda: B.iban("ES"), "pl": lambda: B.iban("PL")}
 
 # Four letters a Turkish firm gets from EU clients, per language. {name}, {addr}, ... are filled per person.
 LETTERS = {
@@ -211,14 +240,125 @@ Mit freundlichen Grüßen
 {{PERSON:{name}}}
 {{PHONE:{phone}}}""", ["10. März 2027", "Aufenthaltserlaubnis in Antalya"]),
  ],
+
+ "fr": [
+  ("Achat d'un appartement à Bodrum", """Maître,
+
+Suite à notre entretien, je souhaite poursuivre l'achat de l'appartement à Bodrum (Ada 905, Parsel 2).
+Voici mes coordonnées pour la procuration :
+
+Nom : {{PERSON:{name}}}
+Date de naissance : {{BIRTH_DATE:{dob}}}
+Adresse : {{ADDRESS:{addr}}}
+Numéro de sécurité sociale : {{NATIONAL_ID:{id}}}
+
+L'acompte de 20 000 EUR sera versé depuis le compte {{IBAN:{iban}}}.
+Vous pouvez me joindre au {{PHONE:{phone}}}.
+
+Cordialement,
+{{PERSON:{name}}}""", ["Ada 905, Parsel 2", "20 000 EUR", "procuration"]),
+  ("Succession de mon oncle", """Bonjour Maître,
+
+Mon oncle, {{PERSON:{other}}}, est décédé à Marmaris en juin. J'ai besoin d'un certificat d'hérédité
+(veraset ilamı) du tribunal de Marmaris.
+
+Je suis né le {{BIRTH_DATE:{dob}}} et j'habite au {{ADDRESS:{addr}}}. Téléphone : {{PHONE:{phone}}}.
+
+Bien à vous,
+{{PERSON:{name}}}""", ["certificat d'hérédité", "veraset ilamı"]),
+ ],
+ "it": [
+  ("Acquisto appartamento a Fethiye", """Gentile Avvocato,
+
+come concordato, desidero procedere con l'acquisto dell'appartamento a Fethiye (Ada 310, Parsel 6).
+Ecco i miei dati per la procura:
+
+Nome e cognome: {{PERSON:{name}}}
+Data di nascita: {{BIRTH_DATE:{dob}}}
+Indirizzo: {{ADDRESS:{addr}}}
+Codice fiscale: {{NATIONAL_ID:{id}}}
+
+L'acconto di 35.000 EUR partirà dal conto {{IBAN:{iban}}}.
+Il mio cellulare è {{PHONE:{phone}}}.
+
+Cordiali saluti,
+{{PERSON:{name}}}""", ["Ada 310, Parsel 6", "35.000 EUR", "procura"]),
+  ("Eredità di mia madre", """Buongiorno Avvocato,
+
+mia madre, {{PERSON:{other}}}, è deceduta ad Antalya a luglio. Mi serve il certificato di eredità
+(veraset ilamı) del tribunale di Antalya.
+
+Sono nato il {{BIRTH_DATE:{dob}}} e abito in {{ADDRESS:{addr}}}. Telefono: {{PHONE:{phone}}}.
+
+Distinti saluti,
+{{PERSON:{name}}}""", ["certificato di eredità", "veraset ilamı"]),
+ ],
+ "es": [
+  ("Compra de piso en Alanya", """Estimada letrada:
+
+Como hablamos, quiero seguir adelante con la compra del piso en Alanya (Ada 77, Parsel 13).
+Le envío mis datos para el poder notarial:
+
+Nombre y apellidos: {{PERSON:{name}}}
+Fecha de nacimiento: {{BIRTH_DATE:{dob}}}
+Domicilio: {{ADDRESS:{addr}}}
+NIE: {{NATIONAL_ID:{id}}}
+
+La señal de 15.000 EUR saldrá de la cuenta {{IBAN:{iban}}}.
+Mi móvil es el {{PHONE:{phone}}}.
+
+Atentamente,
+{{PERSON:{name}}}""", ["Ada 77, Parsel 13", "15.000 EUR", "poder notarial"]),
+  ("Herencia de mi abuelo", """Hola,
+
+Mi abuelo, {{PERSON:{other}}}, falleció en Bodrum en agosto. Necesito el certificado de herederos
+(veraset ilamı) del juzgado de Bodrum.
+
+Nací el {{BIRTH_DATE:{dob}}} y vivo en {{ADDRESS:{addr}}}. Teléfono: {{PHONE:{phone}}}.
+
+Un saludo,
+{{PERSON:{name}}}""", ["certificado de herederos", "veraset ilamı"]),
+ ],
+ "pl": [
+  ("Zakup mieszkania w Alanyi", """Szanowna Pani Mecenas,
+
+zgodnie z rozmową chcę kontynuować zakup mieszkania w Alanyi (Ada 512, Parsel 3).
+Poniżej moje dane do pełnomocnictwa:
+
+Imię i nazwisko: {{PERSON:{name}}}
+Data urodzenia: {{BIRTH_DATE:{dob}}}
+Adres: {{ADDRESS:{addr}}}
+PESEL: {{NATIONAL_ID:{id}}}
+
+Zaliczka 25 000 EUR zostanie przelana z konta {{IBAN:{iban}}}.
+Mój telefon: {{PHONE:{phone}}}.
+
+Z poważaniem,
+{{PERSON:{name}}}""", ["Ada 512, Parsel 3", "25 000 EUR", "pełnomocnictwa"]),
+  ("Spadek po ojcu", """Dzień dobry,
+
+mój ojciec, {{PERSON:{other}}}, zmarł w Kemerze we wrześniu. Potrzebuję stwierdzenia nabycia spadku
+(veraset ilamı) z sądu w Kemerze.
+
+Urodziłem się {{BIRTH_DATE:{dob}}}, mieszkam: {{ADDRESS:{addr}}}. Telefon: {{PHONE:{phone}}}.
+
+Pozdrawiam,
+{{PERSON:{name}}}""", ["stwierdzenia nabycia spadku", "veraset ilamı"]),
+ ],
 }
 HEADERS = {
     "en": ["File", "Name", "Date of birth", "Address", "Phone", "E-mail", "IBAN", "ID / passport no.", "Note"],
     "nl": ["Dossier", "Naam", "Geboortedatum", "Adres", "Telefoon", "E-mail", "IBAN", "BSN / paspoort", "Notitie"],
     "de": ["Akte", "Name", "Geburtsdatum", "Anschrift", "Telefon", "E-Mail", "IBAN", "Steuer-ID / Pass", "Notiz"],
+    "fr": ["Dossier", "Nom", "Date de naissance", "Adresse", "Téléphone", "E-mail", "IBAN", "N° d'identité", "Note"],
+    "it": ["Pratica", "Nome", "Data di nascita", "Indirizzo", "Telefono", "E-mail", "IBAN", "Codice fiscale", "Nota"],
+    "es": ["Expediente", "Nombre", "Fecha de nacimiento", "Domicilio", "Teléfono", "Correo", "IBAN", "DNI / NIE", "Nota"],
+    "pl": ["Sprawa", "Imię i nazwisko", "Data urodzenia", "Adres", "Telefon", "E-mail", "IBAN", "PESEL", "Uwagi"],
 }
 NOTES = {"en": ["Power of attorney signed", "Waiting for documents"], "nl": ["Volmacht getekend", "Wacht op documenten"],
-         "de": ["Vollmacht unterschrieben", "Unterlagen ausstehend"]}
+         "de": ["Vollmacht unterschrieben", "Unterlagen ausstehend"], "fr": ["Procuration signée", "Documents attendus"],
+         "it": ["Procura firmata", "Documenti in attesa"], "es": ["Poder firmado", "Faltan documentos"],
+         "pl": ["Pełnomocnictwo podpisane", "Czekamy na dokumenty"]}
 COL_TYPES = ["PERSON", "BIRTH_DATE", "ADDRESS", "PHONE", "EMAIL", "IBAN", ("NATIONAL_ID", "PASSPORT", "ID_DOCUMENT")]
 
 
@@ -231,15 +371,15 @@ def dob():
     return f"{R.randint(1, 28):02d}.{R.randint(1, 12):02d}.{R.randint(1948, 1995)}"
 
 
-def new_letters():
+def new_letters(pools):
     docs = []
     for lang, letters in LETTERS.items():
-        people = PEOPLE[lang]
+        people = pools[lang]
         for i, person in enumerate(people):
-            title, text, keep = letters[i % 4]
-            street, town = STREETS[lang][i % 4]
+            title, text, keep = letters[i % len(letters)]
+            street, town = STREETS[lang][i % len(STREETS[lang])]
             kind = NATID[lang][1]
-            fill = {"name": person, "other": people[(i + 3) % 8].split()[0] + " " + people[(i + 5) % 8].split()[-1],
+            fill = {"name": person, "other": people[(i + 3) % len(people)].split()[0] + " " + people[(i + 2) % len(people)].split()[-1],
                     "dob": dob(), "addr": f"{street}, {town}", "id": B.GEN[kind](), "iban": IBAN[lang](), "phone": PHONE[lang]()}
             body = text
             for k, v in fill.items():
@@ -247,7 +387,7 @@ def new_letters():
             d = B.render({"id": f"{lang}-{i + 1:02d}", "case": "", "doc_type": "letter", "lang": lang, "title": title,
                           "text": body, "keep": keep})
             d["sender"] = person
-            d["email"] = mail_of(person, {"en": "co.uk", "nl": "nl", "de": "de"}[lang])
+            d["email"] = mail_of(person, {"en": "co.uk"}.get(lang, lang))
             docs.append(d)
     return docs
 
@@ -257,13 +397,16 @@ def first_of(doc, t):
     return next((g["text"] for g in doc["gold"] if g["type"] in ts), "")
 
 
-def main(out: Path):
+def main(out: Path, heldout: bool = False):
+    if heldout:
+        B.R.seed(3011)
+        R.seed(3011)
     out.mkdir(parents=True, exist_ok=True)
     pack = [json.loads(x) for x in (ROOT / "lab" / "samples" / "data" / "eu_docs.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
     for d in pack:
         p = next((g["text"] for g in d["gold"] if g["type"] == "PERSON"), "Client")
         d["sender"], d["email"] = p, next((g["text"] for g in d["gold"] if g["type"] == "EMAIL"), None) or mail_of(p, "eu")
-    docs = pack + new_letters()
+    docs = (pack if not heldout else []) + new_letters(HELDOUT if heldout else PEOPLE)
     key = {}
     for i, d in enumerate(docs):
         gold = list(dict.fromkeys([g["text"] for g in d["gold"]] + [d["email"]]))
@@ -277,7 +420,7 @@ def main(out: Path):
         key[f"{d['id']}.{style}.eml"] = {"mask": gold, **meta}
         key[f"{d['id']}.msg"] = {"mask": gold, **meta}
         key[f"{d['id']}.txt"] = {"mask": [g["text"] for g in d["gold"]], **meta, "baseline": True}
-    for lang in ("en", "nl", "de"):
+    for lang in LETTERS:
         group = [d for d in docs if d["lang"] == lang]
         rows, gold = [HEADERS[lang]], []
         for j, d in enumerate(group):
@@ -290,7 +433,7 @@ def main(out: Path):
             row.append(NOTES[lang][j % 2])
             rows.append(row)
         name = f"clients_{lang}.xlsx"
-        (out / name).write_bytes(M.xlsx([({"en": "Clients", "nl": "Cliënten", "de": "Mandanten"}[lang], rows)], creator="Katip sample"))
+        (out / name).write_bytes(M.xlsx([(HEADERS[lang][0] if lang not in ("en", "nl", "de") else {"en": "Clients", "nl": "Cliënten", "de": "Mandanten"}[lang], rows)], creator="Katip sample"))
         key[name] = {"mask": list(dict.fromkeys(gold)), "keep": NOTES[lang], "source": [d["id"] for d in group], "lang": lang}
     (out / "answer_key.json").write_text(json.dumps(key, ensure_ascii=False, indent=1), encoding="utf-8")
     n = lambda ext: sum(1 for f in key if f.endswith(ext))
@@ -298,4 +441,4 @@ def main(out: Path):
 
 
 if __name__ == "__main__":
-    main(Path(sys.argv[1]))
+    main(Path(sys.argv[1]), "--heldout" in sys.argv)

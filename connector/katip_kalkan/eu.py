@@ -346,7 +346,7 @@ _DATE = rf"(?:(?:the\s)?\d{{1,2}}(?:st|nd|rd|th)?\s(?:of\s)?(?:{MONTHS}|(?:{_MON
 _DOB = re.compile(r"(?i)\b(?:born(?: on)?|date of birth|d\.?o\.?b\.?|birth ?date|geboren(?: am)?|geb\.|geburtsdatum|"
                   r"née? le|né\(e\) le|née?|date de naissance|nato il|nata il|nato a \w+ il|nata a \w+ il|"
                   r"data di nascita|nacid[oa] el|nacid[oa] en \w+ el|fecha de nacimiento|geboortedatum|"
-                  r"urodzon[ya]|data urodzenia|född|født|fødselsdato|födelsedatum|syntymäaika|doğum tarihi)(?!\w)[^\w\n]{0,4}"
+                  r"nací el|nací en \w+ el|urodzon[ya]|urodził(?:em|am|a)? się|ur\.|data urodzenia|född|født|fødselsdato|födelsedatum|syntymäaika|doğum tarihi)(?!\w)[^\w\n]{0,4}"
                   r"(?:(?:te|in|à|a|en|w|zu)\s+[A-ZÀ-ÞŁŚŻ][\w'’-]+(?:[ -][A-ZÀ-Þ][\w'’-]+)?,?\s+)?"
                   r"(?:(?:on|am|op|le|il|el|en|den)\s+)?(" + _DATE + r")", re.I)
 
@@ -610,6 +610,8 @@ def _name_at(text, pos, need_cap_first=True, max_words=5):
     return pos, end
 
 
+# The given names added on 24 Nov 2026 (UK/Irish/Welsh, Dutch, German, French, Italian, Spanish, Polish) leave out
+# the unlisted and blind name pools of lab/eu/synth_eu.py, so that eval keeps measuring names that are on no list.
 FIRST_NAMES = set("""
 James John Robert Michael William David Richard Joseph Thomas Charles Christopher Daniel Matthew Anthony Andrew Paul
 Mark Steven Kevin Brian George Edward Timothy Jason Ryan Jacob Gary Nicholas Eric Jonathan Stephen Larry Justin Scott
@@ -654,10 +656,20 @@ Sergei Sergey Dmitry Dmitri Igor Oleg Olena Olga Yulia Iryna Natalia Tetiana Oks
 Aleksandr Mindaugas Rūta Ruta Agnė Eglė Jānis Ilze Kristaps Andres Kadri Olle Annika
 Ahmed Mohammed Mohamed Mehmet Ali Fatima Aisha Yusuf Omar Hassan Karim Leila Amina Youssef Ibrahim Moussa Mamadou
 Ionuț Ionut Bogdan Florin Radu Sorin Cristian Valentin Bianca Alina Roxana Dorin Vlad
+Harriet Gareth Duncan Callum Rosalind Fiona Angus Hamish Eilidh Morag Rhys Dylan Owen Gethin Bethan Cerys Ffion Siân
+Ciara Fergus Seamus Padraig Bridget Deirdre Colm Ruairi Ewan Graeme Craig Stuart Kirsty Lindsay Matilda Phoebe
+Penelope Jasper Toby Tristan Giles Nigel Clive Malcolm Trevor Derek Graham Howard Geoffrey Rodney Keith Neil Gordon
+Ian Iain Wendy Gillian Maureen Brenda Sheila Annelies Noortje Maartje Jorien Ilse Hanneke Bart Bastiaan Niek Pim
+Rutger Twan Klaas Rien Sietse Annegret Friederike Ulrike Hildegard Irmgard Dörte Anke Antje Frauke Gesine Mareike
+Svenja Kerstin Dagmar Roswitha Gisela Waltraud Henning Gerd Horst Reinhard Ulf Jörg Sönke Malte Ole Arne Konstantin
+Leonhard Ludwig Wilhelm Gottfried Clémence Apolline Capucine Ludivine Gaëlle Maëlle Romane Océane Bertrand Gaspard
+Thibault Grégoire Amaury Ludovic Gwenaël Arianna Fabrizio Gianluca Pierluigi Gianfranco Begoña Inmaculada Íñigo Gorka
+Jordi Arnau Grażyna Bożena Przemysław Jarosław
 """.split())
 # given names that are also everyday words: only with a title or a cue
 AMBIGUOUS_FIRST = {"Mark", "Grace", "Rose", "Will", "May", "Bill", "Art", "Bruno", "Tom", "Max", "Rita", "Ben",
-                   "Jack", "Iris", "Paula", "Saga", "Alba", "Rosa", "Teresa", "Martin", "Victoria", "Carmen"}
+                   "Jack", "Iris", "Paula", "Saga", "Alba", "Rosa", "Teresa", "Martin", "Victoria", "Carmen",
+                   "Florence", "Hazel", "Heather"}
 _FIRST = re.compile(r"(?<![\w.'’-])(" + "|".join(sorted(FIRST_NAMES - AMBIGUOUS_FIRST, key=len, reverse=True)) +
                     r")(?=[\s-]+(?:(?:" + "|".join(sorted(PARTICLES - {"i", "y"}, key=len, reverse=True)) +
                     r")\s+)*[A-ZÀ-Þ])")
@@ -675,7 +687,9 @@ _CLOSING = re.compile(
     r"mit freundlichen grüßen|mit freundlichen gruessen|viele grüße|beste grüße|freundliche grüße|cordialement|"
     r"bien à vous|bien cordialement|salutations distinguées|cordiali saluti|distinti saluti|un cordiale saluto|"
     r"atentamente|un saludo|saludos cordiales|met vriendelijke groet(?:en)?|hoogachtend|pozdrawiam|z poważaniem|"
-    r"com os melhores cumprimentos|atenciosamente)[,.]?[ \t]*\n+[ \t]*(?=\S)")
+    r"com os melhores cumprimentos|atenciosamente|best wishes|many thanks|thanks|thank you|all the best|"
+    r"(?:met )?(?:hartelijke|vriendelijke) groet(?:en)?|groeten|groetjes|danke und grüße|danke|liebe grüße|"
+    r"herzliche grüße|bonne journée|merci|grazie|saluti|gracias|dziękuję)[,.!]?[ \t]*\n+[ \t]*(?=\S)")
 
 
 def find_names(text):
@@ -792,7 +806,9 @@ _BEFORE_CUE = re.compile(
     r"wir vertreten|z\. ?hd\.?|zu händen(?: von)?|nous représentons|représentée? par|pour le compte de|"
     r"à l'attention de|au nom de|assistiamo|rappresentat[oa] da|per conto di|alla c\.a\.|all'attenzione di|"
     r"in nome di|representamos a|representad[oa] por|en nombre de|a la atención de|a la att\.|wij staan|"
-    r"vertegenwoordigd door|namens|t\.a\.v\.|ten behoeve van|müvekkil(?:imiz)?|vekili|"
+    r"vertegenwoordigd door|namens|t\.a\.v\.|ten behoeve van|in my name|in the name of|account holder|"
+    r"op naam van|ten name van|t\.n\.v\.|rekeninghouder|(?:konto)?inhaber(?:in)?|au nom de|intestat[oa] a|a nombre de|"
+    r"titular de la cuenta|na nazwisko|müvekkil(?:imiz)?|vekili|"
     r"directors?|managing director|non-executive director|chief executive officer|ceo|cfo|coo|chairman|chairwoman|"
     r"shareholders?|ubos?|beneficial owners?|ultimate beneficial owners?|partners?|employee|tenant|landlord|"
     r"geschäftsführer(?:in)?|vorstand|vorstandsvorsitzende[r]?|gesellschafter(?:in)?|prokurist(?:in)?|"

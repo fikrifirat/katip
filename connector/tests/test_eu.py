@@ -195,3 +195,26 @@ def test_eu_name_model_is_off_by_default(monkeypatch):
     monkeypatch.delenv("KATIP_EU_NER", raising=False)
     eu._NER = None
     assert eu.find_names_model("Gennaro Caruso signed.") == []
+
+
+@pytest.mark.parametrize("text,value", [
+    ("Thanks,\nRosalind Ashworth", "Rosalind Ashworth"),
+    ("Groeten,\nMarloes de Groot", "Marloes de Groot"),
+    ("Danke und Grüße\nFriederike Schöndorf", "Friederike Schöndorf"),
+    ("De huur werd betaald op naam van Marloes de Groot.", "Marloes de Groot"),
+    ("Die Miete ging auf das Konto, Inhaber Friederike Schöndorf.", "Friederike Schöndorf"),
+    ("The tenant of our villa, Callum Brannigan, has not paid.", "Callum Brannigan"),
+])
+def test_names_after_closings_and_account_cues(text, value):
+    from katip_kalkan import eu
+    found = {s["text"] for s in eu.merge(text, [])}
+    assert value in found, found
+
+
+@pytest.mark.parametrize("text,value", [
+    ("Nací el 25.12.1975 y vivo en Madrid.", "25.12.1975"),
+    ("Urodziłem się 06.01.1982, mieszkam w Gdańsku.", "06.01.1982"),
+])
+def test_birth_dates_in_spanish_and_polish(text, value):
+    from katip_kalkan import eu
+    assert value in {s["text"] for s in eu.find_birth_dates(text)}
