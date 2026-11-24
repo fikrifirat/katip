@@ -218,11 +218,11 @@ türlü model kodu için).
 - [x] Claude ve ChatGPT'de emsal karar arama ve kanun kontrolü (Katip Kalkan, aktarıcı), avukatın değerlendirme düğmesiyle
 - [ ] Zamanla büyüyen bir dava dosyası açan tek soru ekranı: sonraki adım, kaynaklar, geçmiş, taslaklar
 - [ ] Dosyanın içinde emsal, mevzuat ve atıf kontrolü
-- [ ] Cihazda belge türünü tanıyıp uygun araçları öneren algılama
+- [x] Cihazda belge türünü tanıyıp uygun araçları öneren algılama (Katip Algıla, Kalkan'da; web uygulamasında henüz yok)
 - [ ] Dosyanın kaynaklarından taslak (Taslak)
 - [ ] Hollanda hukuku (maskeleme, wetten, rechtspraak)
 - [ ] Bürolar için kurulum: dizüstünde, büronun kendi sunucusunda
-- [ ] Neyin kendiliğinden çalışacağını, neyin avukatı bekleyeceğini büronun seçtiği bir ayar
+- [x] Neyin kendiliğinden çalışacağını, neyin avukatı bekleyeceğini büronun seçtiği bir ayar (Kalkan'da `KATIP_AUTONOMY`)
 - [ ] Avukatı olmayan kişilere avukat incelemeli yardım (*Cebindeki hukuk*), baro kuralları üzerine yazılı görüş alındıktan sonra
 
 Bunları hangi sırayla yaptığımız, her birinin ne zaman bitmiş sayılacağı ve son 30 günün kamuya açık
