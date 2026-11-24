@@ -1,11 +1,12 @@
 """Score the e-mail and Excel test set (make_mail_excel_corpus.py) through Katip Kalkan's masking path:
-read -> detect (profile "ai") -> masked copy -> everything readable in the copy (local_formats.leak_text).
+read -> detect (profile "ai", or --profile eu) -> masked copy -> everything readable in the copy (local_formats.leak_text).
 
 For each answer-key value: is it still readable in the masked copy? The same value in the sample's plain
 .txt goes through the same path, so a value the container lost (masked in .txt, readable in .eml/.msg/.xlsx)
 is the reader's fault, not the detector's.
 
-  python3 src/tests/eval_mail_excel_corpus.py /tmp/mx-corpus [--json out.json]
+  python3 src/tests/eval_mail_excel_corpus.py /tmp/mx-corpus [--profile eu] [--json out.json]
+With a "lang" in the answer key (make_mail_excel_eu.py), results are also split by language.
 KATIP_MODEL=none runs rules only; the default is the bundled Katip Mask Nano model.
 """
 from __future__ import annotations
@@ -26,9 +27,9 @@ from katip_kalkan import core, engine, vault  # noqa: E402
 squash = lambda s: re.sub(r"\s+", "", s).casefold()
 
 
-def run(path: Path):
+def run(path: Path, profile: str):
     kind, text, data, ocr, _ = engine.read_text(path)
-    spans = core._detect(text, vault.open_vault("eval-" + path.name), "ai", ocr)
+    spans = core._detect(text, vault.open_vault("eval-" + path.name), profile, ocr)
     out = engine.redact_bytes(kind, data, spans, "box")
     _, fmt = engine.load()
     readable = fmt.leak_text("eml" if kind == "msg" else kind, out)
@@ -36,17 +37,18 @@ def run(path: Path):
     return readable, shown, spans
 
 
-def main(d: Path, js: str | None):
+def main(d: Path, js: str | None, profile: str = "ai"):
     key = json.loads((d / "answer_key.json").read_text(encoding="utf-8"))
     res = {}
     for name in sorted(key):
-        readable, shown, spans = run(d / name)
+        readable, shown, spans = run(d / name, profile)
         r = squash(readable)
         res[name] = {"left": [v for v in key[name]["mask"] if squash(v) in r],
                      "lost": [k for k in key[name]["keep"] if squash(k) not in squash(shown)],
                      "n": len(key[name]["mask"])}
     base = {key[n]["source"][0]: set(res[n]["left"]) for n in key if key[n].get("baseline")}
     rows = defaultdict(lambda: defaultdict(int))
+    langs = defaultdict(lambda: defaultdict(lambda: [0, 0]))
     container_only = []
     for name, r in res.items():
         fmt = "txt (baseline)" if key[name].get("baseline") else name.rsplit(".", 1)[1] if not name.endswith(".eml") else "eml"
@@ -54,6 +56,10 @@ def main(d: Path, js: str | None):
         rows[fmt]["values"] += r["n"]
         rows[fmt]["readable"] += len(r["left"])
         rows[fmt]["content lost"] += len(r["lost"])
+        if "lang" in key[name]:
+            c = langs[key[name]["lang"]][fmt.split()[0]]
+            c[0] += r["n"] - len(r["left"])
+            c[1] += r["n"]
         if not key[name].get("baseline"):
             for v in r["left"]:
                 if not any(v in base.get(s, set()) for s in key[name]["source"]):
@@ -64,16 +70,20 @@ def main(d: Path, js: str | None):
         x = rows[f]
         print(f"{f:16} {x['files']:>5} {x['values']:>6} {x['values'] - x['readable']:>7} {x['readable']:>8} "
               f"{x['readable, masked in .txt']:>14} {x['content lost']:>12}")
+    if langs:
+        print(f"\nmasked by language  {'txt':>9} {'eml':>9} {'msg':>9} {'xlsx':>9}")
+        for lg in sorted(langs, key=lambda x: (x not in ("en", "nl", "de"), x)):
+            print(f"  {lg:17}" + "".join(f" {('%d/%d' % tuple(langs[lg][f])) if langs[lg][f][1] else '-':>9}" for f in ("txt", "eml", "msg", "xlsx")))
     for name, v in container_only:
         print("  readable only in the container:", name, "|", v)
     for name, r in res.items():
         if r["lost"]:
             print("  content lost:", name, "|", r["lost"])
     if js:
-        Path(js).write_text(json.dumps({"by_format": rows, "container_only": container_only, "files": res},
+        Path(js).write_text(json.dumps({"by_format": rows, "by_language": langs, "container_only": container_only, "files": res},
                                        ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 if __name__ == "__main__":
     a = sys.argv[1:]
-    main(Path(a[0]), a[a.index("--json") + 1] if "--json" in a else None)
+    main(Path(a[0]), a[a.index("--json") + 1] if "--json" in a else None, a[a.index("--profile") + 1] if "--profile" in a else "ai")
