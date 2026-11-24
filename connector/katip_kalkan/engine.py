@@ -1,7 +1,7 @@
 """Load Katip's detection engine and read documents, entirely on this device.
 
 The engine is the same pure-Python bundle the browser demo runs in Pyodide
-(docs/katip_py.zip: recognizers, word lists, overlap rules, txt/docx/udf
+(docs/katip_py.zip: recognizers, word lists, overlap rules, txt/docx/udf/xlsx/eml/msg
 readers). Nothing here needs the network.
 
 Detection comes from the katip-mask SDK (pinned to SDK_PIN, installed by launch.py with uv), so the
@@ -29,6 +29,7 @@ _loaded = None
 _source = "bundled rules"
 
 KINDS = {".txt": "txt", ".md": "txt", ".udf": "udf", ".docx": "docx", ".pdf": "pdf",
+         ".xlsx": "xlsx", ".eml": "eml", ".msg": "msg",
          ".png": "image", ".jpg": "image", ".jpeg": "image", ".tif": "image", ".tiff": "image", ".webp": "image"}
 
 # Masking profiles, the same ladder as PROFILES in src/app.js: each masks everything the one before it does.
@@ -117,7 +118,7 @@ def load():
 def kind_of(path: Path) -> str:
     k = KINDS.get(path.suffix.lower())
     if not k:
-        raise ValueError(f"unsupported file type {path.suffix!r}: use .txt, .docx, .udf, .pdf or a photo")
+        raise ValueError(f"unsupported file type {path.suffix!r}: use .txt, .docx, .udf, .pdf, .xlsx, .eml, .msg or a photo")
     return k
 
 

@@ -209,7 +209,7 @@ türlü model kodu için).
 - [ ] Dizüstü ve telefon süreleri; daha küçük ilk indirme
 - [x] Kurum ve mahkeme adları, esas/karar numaraları, daha fazla KVKK md. 6 kategorisi
 - [x] Klasörle toplu işlem ([Katip Klasör](desktop/))
-- [ ] Excel ve e-posta (`.eml`, `.msg`)
+- [x] Excel ve e-posta (`.xlsx`, `.eml`, Outlook `.msg`; ekler listelenir, kopyaya alınmaz)
 - [x] Çevrimdışı kullanım için masaüstü uygulaması ([Katip Klasör](desktop/), imzasız v0.1, Mac ve Windows)
 - [ ] Tarayıcı eklentisi
 

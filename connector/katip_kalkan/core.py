@@ -501,7 +501,8 @@ def write_redacted(path: str | None = None, matter: str = "default", output_path
     for s in spans:  # register labels so restore works for this copy too
         v.label_for(s["entity_type"], s["text"])
     v.save()
-    out = _out_path(output_path) if output_path else p.with_name(f"{p.stem}.maskeli{p.suffix}")
+    ext = ".eml" if kind == "msg" else p.suffix  # an Outlook .msg is saved back as a masked .eml
+    out = _out_path(output_path) if output_path else p.with_name(f"{p.stem}.maskeli{ext}")
     if out.exists():
         raise FileExistsError(msg("exists"))
     out.write_bytes(engine.redact_bytes(kind, data, spans, "box"))

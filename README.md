@@ -225,7 +225,7 @@ name-only and the multi-type model code).
 - [ ] Laptop and phone timings; smaller first download
 - [x] Organisation and court names, case numbers, more KVKK art. 6 categories
 - [x] Batch folders ([Katip Klasör](desktop/))
-- [ ] Excel and e-mail (`.eml`, `.msg`)
+- [x] Excel and e-mail (`.xlsx`, `.eml`, Outlook `.msg`; attachments are listed, not carried over)
 - [x] A desktop app for offline use ([Katip Klasör](desktop/), unsigned v0.1 for Mac and Windows)
 - [ ] A browser extension
 

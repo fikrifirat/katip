@@ -92,13 +92,14 @@ TOOLS = {
                        "kimlik, tarih ve kısaltılmış adlar döner, kişi adı olabilecek her sözcük … olarak görünür. "
                        "En yeni belge başta. Başka bir dosya listeleme aracı yerine bunu kullanın."),
         "mask_file": ("Belgeyi bu bilgisayarda maskeleyip aç",
-                      ".docx, .udf (UYAP), .txt, .pdf (taranmış dahil) ya da fotoğrafı bu bilgisayarda açar, taramaları "
+                      ".docx, .udf (UYAP), .xlsx, e-posta (.eml, Outlook .msg), .txt, .pdf (taranmış dahil) ya da fotoğrafı bu bilgisayarda açar, taramaları "
                       "yerel OCR ile okur, kişisel verileri (ad soyad, T.C. kimlik / YKN / pasaport no, adres, telefon, "
                       "IBAN, sağlık ve diğer KVKK m.6 verileri) yerelde çıkarır ve yalnızca maskeli metni döndürür. "
                       "Uzun belgeler sayfa sayfa gelir."),
         "write_masked_copy": ("Maskeli kopyasını kaydet",
-                              ".docx, .udf ya da .txt dosyasının maskeli kopyasını aynı biçimde aslının yanına kaydeder "
-                              "(ad.maskeli.uzantı). Hiçbir dosyanın üzerine yazmaz."),
+                              ".docx, .udf, .xlsx, .eml ya da .txt dosyasının maskeli kopyasını aynı biçimde aslının yanına kaydeder "
+                              "(ad.maskeli.uzantı; Outlook .msg maskeli .eml olarak kaydedilir, ekler alınmaz). "
+                              "Hiçbir dosyanın üzerine yazmaz."),
         "restore_to_file": ("Gerçek adlarla dosyaya kaydet (bu bilgisayarda)",
                             "Metindeki [AD SOYAD-1] gibi yer tutucuları bu bilgisayarda saklanan gerçek değerlerle "
                             "değiştirir ve sonucu yeni bir yerel dosyaya kaydeder. Claude'a yalnızca dosya yolu ve "
@@ -167,13 +168,14 @@ TOOLS = {
                        "gets ids, dates and shortened names, with any word that could be a person's name shown as …. "
                        "Newest first. Use this instead of any other file listing."),
         "mask_file": ("Mask and open a document (on this computer)",
-                      "Open a .docx, .udf (UYAP), .txt, .pdf (also scanned) or photo on this computer, read scans with "
+                      "Open a .docx, .udf (UYAP), .xlsx, e-mail (.eml, Outlook .msg), .txt, .pdf (also scanned) or photo on this computer, read scans with "
                       "local OCR, remove personal data (names, T.C. kimlik / YKN / passport numbers, addresses, phones, "
                       "IBAN, health and other KVKK Article 6 data) locally, and return only the masked text. Long "
                       "documents come in pages."),
         "write_masked_copy": ("Save a masked copy",
-                              "Save a masked copy of a .docx, .udf or .txt file in the same format next to the original "
-                              "(name.maskeli.ext). Never overwrites a file."),
+                              "Save a masked copy of a .docx, .udf, .xlsx, .eml or .txt file in the same format next to the original "
+                              "(name.maskeli.ext; an Outlook .msg is saved as a masked .eml, without attachments). "
+                              "Never overwrites a file."),
         "restore_to_file": ("Save with the real names (on this computer)",
                             "Replace placeholders like [AD SOYAD-1] in the text with the real values kept on this "
                             "computer and save the result as a new local file. Returns only the path and a count, "
