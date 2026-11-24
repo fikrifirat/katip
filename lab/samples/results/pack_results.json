@@ -1,0 +1,1954 @@
+{
+ "eu": {
+  "docs": 16,
+  "values": 132,
+  "profiles": {
+   "ai": {
+    "recall": 42.4,
+    "ci95": [
+     34.3,
+     51.0
+    ],
+    "caught": 56,
+    "of": 132,
+    "by_type": {
+     "ADDRESS": {
+      "caught": 1,
+      "of": 15,
+      "recall": 6.7
+     },
+     "BIRTH_DATE": {
+      "caught": 0,
+      "of": 12,
+      "recall": 0.0
+     },
+     "EMAIL": {
+      "caught": 6,
+      "of": 6,
+      "recall": 100.0
+     },
+     "HEALTH": {
+      "caught": 0,
+      "of": 1,
+      "recall": 0.0
+     },
+     "IBAN": {
+      "caught": 4,
+      "of": 4,
+      "recall": 100.0
+     },
+     "ID_DOCUMENT": {
+      "caught": 0,
+      "of": 2,
+      "recall": 0.0
+     },
+     "NATIONAL_ID": {
+      "caught": 3,
+      "of": 7,
+      "recall": 42.9
+     },
+     "PASSPORT": {
+      "caught": 1,
+      "of": 3,
+      "recall": 33.3
+     },
+     "PERSON": {
+      "caught": 35,
+      "of": 71,
+      "recall": 49.3
+     },
+     "PHONE": {
+      "caught": 2,
+      "of": 7,
+      "recall": 28.6
+     },
+     "TCKN": {
+      "caught": 4,
+      "of": 4,
+      "recall": 100.0
+     }
+    },
+    "names_first_name_listed": {
+     "listed": {
+      "caught": 5,
+      "of": 15,
+      "recall": 33.3
+     },
+     "not_listed": {
+      "caught": 30,
+      "of": 56,
+      "recall": 53.6
+     }
+    },
+    "docs_fully_masked": 0,
+    "keep_readable": {
+     "kept": 66,
+     "of": 73
+    },
+    "by_doc": [
+     {
+      "doc": "eu-01",
+      "case": "S-EU-01",
+      "title": "German notarial power of attorney for a flat purchase in Alanya",
+      "caught": 3,
+      "of": 11,
+      "clean": false,
+      "kept": 7,
+      "keep_of": 7
+     },
+     {
+      "doc": "eu-02",
+      "case": "S-EU-02",
+      "title": "German certificate of inheritance (Erbschein) for a dual citizen's estate",
+      "caught": 2,
+      "of": 9,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-03",
+      "case": "S-EU-03",
+      "title": "Dutch divorce order sent for recognition in Türkiye (tanıma-tenfiz)",
+      "caught": 5,
+      "of": 11,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-04",
+      "case": "S-EU-04",
+      "title": "Turkish recognition petition about the Dutch divorce (foreign names inside Turkish text)",
+      "caught": 10,
+      "of": 13,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-05",
+      "case": "S-EU-05",
+      "title": "Apostille on a German court document (Hague Convention 1961 form)",
+      "caught": 0,
+      "of": 2,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-06",
+      "case": "S-EU-06",
+      "title": "Sworn translation of the Erbschein with the translator's certificate",
+      "caught": 8,
+      "of": 9,
+      "clean": false,
+      "kept": 2,
+      "keep_of": 3
+     },
+     {
+      "doc": "eu-07",
+      "case": "S-EU-07",
+      "title": "Italian special power of attorney to set up a Turkish company",
+      "caught": 3,
+      "of": 8,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-08",
+      "case": "S-EU-08",
+      "title": "French sworn statement for a Turkish employment claim",
+      "caught": 3,
+      "of": 8,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-09",
+      "case": "S-EU-09",
+      "title": "KYC sheet for a UK buyer in a Turkish share transfer",
+      "caught": 4,
+      "of": 11,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "eu-10",
+      "case": "S-EU-10",
+      "title": "Data-subject access request from an EU resident to a Turkish firm",
+      "caught": 1,
+      "of": 6,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-11",
+      "case": "S-EU-11",
+      "title": "IT vendor's breach notice to the firm (GDPR Art. 33 / KVKK m.12)",
+      "caught": 2,
+      "of": 5,
+      "clean": false,
+      "kept": 7,
+      "keep_of": 7
+     },
+     {
+      "doc": "eu-12",
+      "case": "S-EU-12",
+      "title": "WhatsApp export: German client, Turkish lawyer, property dispute in Fethiye",
+      "caught": 5,
+      "of": 11,
+      "clean": false,
+      "kept": 2,
+      "keep_of": 2
+     },
+     {
+      "doc": "eu-13",
+      "case": "S-EU-13",
+      "title": "Polish power of attorney for a Turkish debt claim",
+      "caught": 1,
+      "of": 6,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-14",
+      "case": "S-EU-14",
+      "title": "Spanish notarial power for a Turkish inheritance (NIE holder)",
+      "caught": 3,
+      "of": 6,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-15",
+      "case": "S-EU-15",
+      "title": "German dismissal letter from a Turkish company's subsidiary, with a sick-leave mention",
+      "caught": 2,
+      "of": 7,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-16",
+      "case": "S-EU-16",
+      "title": "Dutch client e-mail about a holiday-home dispute in Didim",
+      "caught": 4,
+      "of": 9,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 3
+     }
+    ],
+    "misses": [
+     {
+      "doc": "eu-01",
+      "type": "PERSON",
+      "text": "Heike Brandstätter"
+     },
+     {
+      "doc": "eu-01",
+      "type": "PERSON",
+      "text": "Jörg Pfannenschmidt"
+     },
+     {
+      "doc": "eu-01",
+      "type": "BIRTH_DATE",
+      "text": "03.07.1961"
+     },
+     {
+      "doc": "eu-01",
+      "type": "ADDRESS",
+      "text": "Kaiserswerther Straße 212, 40474 Düsseldorf"
+     },
+     {
+      "doc": "eu-01",
+      "type": "ID_DOCUMENT",
+      "text": "HZM1Z8C8J"
+     },
+     {
+      "doc": "eu-01",
+      "type": "NATIONAL_ID",
+      "text": "12 564 798 778"
+     },
+     {
+      "doc": "eu-01",
+      "type": "PERSON",
+      "text": "Jörg Pfannenschmidt"
+     },
+     {
+      "doc": "eu-01",
+      "type": "PERSON",
+      "text": "Brandstätter"
+     },
+     {
+      "doc": "eu-02",
+      "type": "BIRTH_DATE",
+      "text": "11.02.1949"
+     },
+     {
+      "doc": "eu-02",
+      "type": "ADDRESS",
+      "text": "Keupstraße 61, 51063 Köln"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Gülizar Kaplanoğlu geb. Sert"
+     },
+     {
+      "doc": "eu-02",
+      "type": "BIRTH_DATE",
+      "text": "20.09.1953"
+     },
+     {
+      "doc": "eu-02",
+      "type": "ADDRESS",
+      "text": "Bergisch Gladbacher Str. 1040, 51069 Köln"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Derya Rauschenberger geb. Kaplanoğlu"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Overbeck"
+     },
+     {
+      "doc": "eu-03",
+      "type": "ADDRESS",
+      "text": "Groene Hilledijk 318, 3074 AM Rotterdam"
+     },
+     {
+      "doc": "eu-03",
+      "type": "PERSON",
+      "text": "F.J. van Kooten"
+     },
+     {
+      "doc": "eu-03",
+      "type": "BIRTH_DATE",
+      "text": "14 maart 1984"
+     },
+     {
+      "doc": "eu-03",
+      "type": "BIRTH_DATE",
+      "text": "5 januari 2012"
+     },
+     {
+      "doc": "eu-03",
+      "type": "BIRTH_DATE",
+      "text": "30 oktober 2015"
+     },
+     {
+      "doc": "eu-03",
+      "type": "PERSON",
+      "text": "A.M. Dijkstra-Hoekstra"
+     },
+     {
+      "doc": "eu-04",
+      "type": "ADDRESS",
+      "text": "Groene Hilledijk 318, 3074 AM Rotterdam / HOLLANDA"
+     },
+     {
+      "doc": "eu-04",
+      "type": "NATIONAL_ID",
+      "text": "973042692"
+     },
+     {
+      "doc": "eu-04",
+      "type": "PERSON",
+      "text": "F.J. van Kooten"
+     },
+     {
+      "doc": "eu-05",
+      "type": "PERSON",
+      "text": "Sabine Overbeck"
+     },
+     {
+      "doc": "eu-05",
+      "type": "PERSON",
+      "text": "Kühnemund-Ebersbach"
+     },
+     {
+      "doc": "eu-06",
+      "type": "BIRTH_DATE",
+      "text": "11.02.1949"
+     },
+     {
+      "doc": "eu-07",
+      "type": "PERSON",
+      "text": "Gianluca Benvenuti"
+     },
+     {
+      "doc": "eu-07",
+      "type": "BIRTH_DATE",
+      "text": "9 novembre 1977"
+     },
+     {
+      "doc": "eu-07",
+      "type": "ADDRESS",
+      "text": "Via Ferrucci 88, 59100 Prato"
+     },
+     {
+      "doc": "eu-07",
+      "type": "ID_DOCUMENT",
+      "text": "CA97657YU"
+     },
+     {
+      "doc": "eu-07",
+      "type": "PERSON",
+      "text": "Giuseppina Lo Faro"
+     },
+     {
+      "doc": "eu-08",
+      "type": "BIRTH_DATE",
+      "text": "17 avril 1980"
+     },
+     {
+      "doc": "eu-08",
+      "type": "ADDRESS",
+      "text": "14 rue Paul Bert, 69003 Lyon"
+     },
+     {
+      "doc": "eu-08",
+      "type": "NATIONAL_ID",
+      "text": "2 76 07 16 560 667 20"
+     },
+     {
+      "doc": "eu-08",
+      "type": "PHONE",
+      "text": "+33 6 71 24 90 18"
+     },
+     {
+      "doc": "eu-08",
+      "type": "PERSON",
+      "text": "B. Laforgue"
+     },
+     {
+      "doc": "eu-09",
+      "type": "PERSON",
+      "text": "Alistair Fenwick-Rowe"
+     },
+     {
+      "doc": "eu-09",
+      "type": "BIRTH_DATE",
+      "text": "22 January 1969"
+     },
+     {
+      "doc": "eu-09",
+      "type": "ADDRESS",
+      "text": "Flat 4, 27 Pembridge Villas, London W11 3EP"
+     },
+     {
+      "doc": "eu-09",
+      "type": "PERSON",
+      "text": "Priyanka Raghunathan"
+     },
+     {
+      "doc": "eu-09",
+      "type": "ADDRESS",
+      "text": "12 Elm Grove, Harrogate HG1 2JL"
+     },
+     {
+      "doc": "eu-09",
+      "type": "PERSON",
+      "text": "Fenwick-Rowe"
+     },
+     {
+      "doc": "eu-09",
+      "type": "PHONE",
+      "text": "+44 7700 900 418"
+     },
+     {
+      "doc": "eu-10",
+      "type": "PERSON",
+      "text": "Siobhán McGettigan"
+     },
+     {
+      "doc": "eu-10",
+      "type": "BIRTH_DATE",
+      "text": "04/06/1990"
+     },
+     {
+      "doc": "eu-10",
+      "type": "ADDRESS",
+      "text": "31 Fairview Strand, Dublin 3, D03 KX88"
+     },
+     {
+      "doc": "eu-10",
+      "type": "PERSON",
+      "text": "Siobhán McGettigan"
+     },
+     {
+      "doc": "eu-10",
+      "type": "PHONE",
+      "text": "+353 87 412 6630"
+     },
+     {
+      "doc": "eu-11",
+      "type": "PERSON",
+      "text": "Ruslan Gaynutdinov"
+     },
+     {
+      "doc": "eu-11",
+      "type": "PERSON",
+      "text": "Annelies Verhoeven"
+     },
+     {
+      "doc": "eu-11",
+      "type": "PHONE",
+      "text": "+31 20 794 1180"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Ingrid Halvorsen-Bauer"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Ingrid Halvorsen-Bauer"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Ingrid Halvorsen-Bauer"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PASSPORT",
+      "text": "C4R7NK2T9"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Rüdiger"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Ingrid Halvorsen-Bauer"
+     },
+     {
+      "doc": "eu-13",
+      "type": "PERSON",
+      "text": "Małgorzata Wierzbicka-Ossowska"
+     },
+     {
+      "doc": "eu-13",
+      "type": "BIRTH_DATE",
+      "text": "12.12.1975"
+     },
+     {
+      "doc": "eu-13",
+      "type": "NATIONAL_ID",
+      "text": "59211924199"
+     },
+     {
+      "doc": "eu-13",
+      "type": "ADDRESS",
+      "text": "ul. Grunwaldzka 186/12, 80-266 Gdańsk"
+     },
+     {
+      "doc": "eu-13",
+      "type": "PERSON",
+      "text": "M. Wierzbicka-Ossowska"
+     },
+     {
+      "doc": "eu-14",
+      "type": "PERSON",
+      "text": "Íñigo Arrizabalaga Etxeberria"
+     },
+     {
+      "doc": "eu-14",
+      "type": "PERSON",
+      "text": "Ainhoa Castelló Ribera"
+     },
+     {
+      "doc": "eu-14",
+      "type": "ADDRESS",
+      "text": "Calle Larios, 9, 29005 Málaga"
+     },
+     {
+      "doc": "eu-15",
+      "type": "PERSON",
+      "text": "Sjoerd Brinkhuis"
+     },
+     {
+      "doc": "eu-15",
+      "type": "ADDRESS",
+      "text": "Am Wall 141, 28195 Bremen"
+     },
+     {
+      "doc": "eu-15",
+      "type": "PERSON",
+      "text": "Brinkhuis"
+     },
+     {
+      "doc": "eu-15",
+      "type": "HEALTH",
+      "text": "Bandscheibenvorfall"
+     },
+     {
+      "doc": "eu-15",
+      "type": "PERSON",
+      "text": "Wolters"
+     },
+     {
+      "doc": "eu-16",
+      "type": "PERSON",
+      "text": "Lieke Brouwer-Smit"
+     },
+     {
+      "doc": "eu-16",
+      "type": "PASSPORT",
+      "text": "NFG1C9LD8"
+     },
+     {
+      "doc": "eu-16",
+      "type": "ADDRESS",
+      "text": "Prinsengracht 774-H, 1017 LH Amsterdam"
+     },
+     {
+      "doc": "eu-16",
+      "type": "PERSON",
+      "text": "Lieke Brouwer-Smit"
+     },
+     {
+      "doc": "eu-16",
+      "type": "PHONE",
+      "text": "06-41827733"
+     }
+    ],
+    "over_masked": [
+     {
+      "doc": "eu-02",
+      "kept_string": "32 VI 518/26",
+      "masked": [
+       "32 VI 518"
+      ]
+     },
+     {
+      "doc": "eu-02",
+      "kept_string": "Gesetzes Nr. 5718",
+      "masked": [
+       "Gesetzes"
+      ]
+     },
+     {
+      "doc": "eu-06",
+      "kept_string": "32 VI 518/26",
+      "masked": [
+       "32 VI 518"
+      ]
+     },
+     {
+      "doc": "eu-10",
+      "kept_string": "ALY-26-77812",
+      "masked": [
+       "ALY"
+      ]
+     },
+     {
+      "doc": "eu-13",
+      "kept_string": "Baltic Amber Trade Sp. z o.o.",
+      "masked": [
+       "Baltic"
+      ]
+     },
+     {
+      "doc": "eu-13",
+      "kept_string": "2026/18831 Esas",
+      "masked": [
+       "2026/18831"
+      ]
+     },
+     {
+      "doc": "eu-15",
+      "kept_string": "Anatolia Logistics GmbH",
+      "masked": [
+       "Anatolia"
+      ]
+     }
+    ]
+   },
+   "eu": {
+    "recall": 87.9,
+    "ci95": [
+     81.2,
+     92.4
+    ],
+    "caught": 116,
+    "of": 132,
+    "by_type": {
+     "ADDRESS": {
+      "caught": 10,
+      "of": 15,
+      "recall": 66.7
+     },
+     "BIRTH_DATE": {
+      "caught": 10,
+      "of": 12,
+      "recall": 83.3
+     },
+     "EMAIL": {
+      "caught": 6,
+      "of": 6,
+      "recall": 100.0
+     },
+     "HEALTH": {
+      "caught": 0,
+      "of": 1,
+      "recall": 0.0
+     },
+     "IBAN": {
+      "caught": 4,
+      "of": 4,
+      "recall": 100.0
+     },
+     "ID_DOCUMENT": {
+      "caught": 2,
+      "of": 2,
+      "recall": 100.0
+     },
+     "NATIONAL_ID": {
+      "caught": 7,
+      "of": 7,
+      "recall": 100.0
+     },
+     "PASSPORT": {
+      "caught": 1,
+      "of": 3,
+      "recall": 33.3
+     },
+     "PERSON": {
+      "caught": 65,
+      "of": 71,
+      "recall": 91.5
+     },
+     "PHONE": {
+      "caught": 7,
+      "of": 7,
+      "recall": 100.0
+     },
+     "TCKN": {
+      "caught": 4,
+      "of": 4,
+      "recall": 100.0
+     }
+    },
+    "names_first_name_listed": {
+     "listed": {
+      "caught": 14,
+      "of": 15,
+      "recall": 93.3
+     },
+     "not_listed": {
+      "caught": 51,
+      "of": 56,
+      "recall": 91.1
+     }
+    },
+    "docs_fully_masked": 5,
+    "keep_readable": {
+     "kept": 65,
+     "of": 73
+    },
+    "by_doc": [
+     {
+      "doc": "eu-01",
+      "case": "S-EU-01",
+      "title": "German notarial power of attorney for a flat purchase in Alanya",
+      "caught": 11,
+      "of": 11,
+      "clean": true,
+      "kept": 7,
+      "keep_of": 7
+     },
+     {
+      "doc": "eu-02",
+      "case": "S-EU-02",
+      "title": "German certificate of inheritance (Erbschein) for a dual citizen's estate",
+      "caught": 5,
+      "of": 9,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-03",
+      "case": "S-EU-03",
+      "title": "Dutch divorce order sent for recognition in Türkiye (tanıma-tenfiz)",
+      "caught": 10,
+      "of": 11,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-04",
+      "case": "S-EU-04",
+      "title": "Turkish recognition petition about the Dutch divorce (foreign names inside Turkish text)",
+      "caught": 12,
+      "of": 13,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-05",
+      "case": "S-EU-05",
+      "title": "Apostille on a German court document (Hague Convention 1961 form)",
+      "caught": 2,
+      "of": 2,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-06",
+      "case": "S-EU-06",
+      "title": "Sworn translation of the Erbschein with the translator's certificate",
+      "caught": 8,
+      "of": 9,
+      "clean": false,
+      "kept": 2,
+      "keep_of": 3
+     },
+     {
+      "doc": "eu-07",
+      "case": "S-EU-07",
+      "title": "Italian special power of attorney to set up a Turkish company",
+      "caught": 7,
+      "of": 8,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-08",
+      "case": "S-EU-08",
+      "title": "French sworn statement for a Turkish employment claim",
+      "caught": 8,
+      "of": 8,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-09",
+      "case": "S-EU-09",
+      "title": "KYC sheet for a UK buyer in a Turkish share transfer",
+      "caught": 9,
+      "of": 11,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "eu-10",
+      "case": "S-EU-10",
+      "title": "Data-subject access request from an EU resident to a Turkish firm",
+      "caught": 5,
+      "of": 6,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-11",
+      "case": "S-EU-11",
+      "title": "IT vendor's breach notice to the firm (GDPR Art. 33 / KVKK m.12)",
+      "caught": 5,
+      "of": 5,
+      "clean": true,
+      "kept": 6,
+      "keep_of": 7
+     },
+     {
+      "doc": "eu-12",
+      "case": "S-EU-12",
+      "title": "WhatsApp export: German client, Turkish lawyer, property dispute in Fethiye",
+      "caught": 9,
+      "of": 11,
+      "clean": false,
+      "kept": 2,
+      "keep_of": 2
+     },
+     {
+      "doc": "eu-13",
+      "case": "S-EU-13",
+      "title": "Polish power of attorney for a Turkish debt claim",
+      "caught": 6,
+      "of": 6,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 5
+     },
+     {
+      "doc": "eu-14",
+      "case": "S-EU-14",
+      "title": "Spanish notarial power for a Turkish inheritance (NIE holder)",
+      "caught": 5,
+      "of": 6,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-15",
+      "case": "S-EU-15",
+      "title": "German dismissal letter from a Turkish company's subsidiary, with a sick-leave mention",
+      "caught": 6,
+      "of": 7,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 4
+     },
+     {
+      "doc": "eu-16",
+      "case": "S-EU-16",
+      "title": "Dutch client e-mail about a holiday-home dispute in Didim",
+      "caught": 8,
+      "of": 9,
+      "clean": false,
+      "kept": 2,
+      "keep_of": 3
+     }
+    ],
+    "misses": [
+     {
+      "doc": "eu-02",
+      "type": "BIRTH_DATE",
+      "text": "11.02.1949"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Gülizar Kaplanoğlu geb. Sert"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Derya Rauschenberger geb. Kaplanoğlu"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Overbeck"
+     },
+     {
+      "doc": "eu-03",
+      "type": "ADDRESS",
+      "text": "Groene Hilledijk 318, 3074 AM Rotterdam"
+     },
+     {
+      "doc": "eu-04",
+      "type": "ADDRESS",
+      "text": "Groene Hilledijk 318, 3074 AM Rotterdam / HOLLANDA"
+     },
+     {
+      "doc": "eu-06",
+      "type": "BIRTH_DATE",
+      "text": "11.02.1949"
+     },
+     {
+      "doc": "eu-07",
+      "type": "PERSON",
+      "text": "Giuseppina Lo Faro"
+     },
+     {
+      "doc": "eu-09",
+      "type": "ADDRESS",
+      "text": "Flat 4, 27 Pembridge Villas, London W11 3EP"
+     },
+     {
+      "doc": "eu-09",
+      "type": "ADDRESS",
+      "text": "12 Elm Grove, Harrogate HG1 2JL"
+     },
+     {
+      "doc": "eu-10",
+      "type": "ADDRESS",
+      "text": "31 Fairview Strand, Dublin 3, D03 KX88"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PASSPORT",
+      "text": "C4R7NK2T9"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Rüdiger"
+     },
+     {
+      "doc": "eu-14",
+      "type": "PERSON",
+      "text": "Íñigo Arrizabalaga Etxeberria"
+     },
+     {
+      "doc": "eu-15",
+      "type": "HEALTH",
+      "text": "Bandscheibenvorfall"
+     },
+     {
+      "doc": "eu-16",
+      "type": "PASSPORT",
+      "text": "NFG1C9LD8"
+     }
+    ],
+    "over_masked": [
+     {
+      "doc": "eu-02",
+      "kept_string": "32 VI 518/26",
+      "masked": [
+       "32 VI 518"
+      ]
+     },
+     {
+      "doc": "eu-04",
+      "kept_string": "Bursa Barosu",
+      "masked": [
+       "Bursa Barosu\nDAVALI"
+      ]
+     },
+     {
+      "doc": "eu-06",
+      "kept_string": "32 VI 518/26",
+      "masked": [
+       "32 VI 518"
+      ]
+     },
+     {
+      "doc": "eu-11",
+      "kept_string": "Karaağaç Hukuk Bürosu",
+      "masked": [
+       "Karaağaç Hukuk Bürosu"
+      ]
+     },
+     {
+      "doc": "eu-13",
+      "kept_string": "2026/18831 Esas",
+      "masked": [
+       "2026/18831"
+      ]
+     },
+     {
+      "doc": "eu-14",
+      "kept_string": "İzmir 3. Sulh Hukuk Mahkemesi",
+      "masked": [
+       "Sulh Hukuk Mahkemesi"
+      ]
+     },
+     {
+      "doc": "eu-15",
+      "kept_string": "Hafenstraße 9",
+      "masked": [
+       "Hafenstraße 9"
+      ]
+     },
+     {
+      "doc": "eu-16",
+      "kept_string": "Ege Emlak",
+      "masked": [
+       "Serkan Yıldızhan van Ege Emlak"
+      ]
+     }
+    ]
+   }
+  }
+ },
+ "dd": {
+  "masak_as_of": "2026-11-24T09:27:00+0000",
+  "how_to_read_names_other_lists": false,
+  "masak_rows": 2311,
+  "thresholds": {
+   "match": 0.93,
+   "review": 0.86
+  },
+  "list_queries": [
+   {
+    "id": "dd-01",
+    "group": "listed_company_as_typed",
+    "query": "Alsultan Kuyumculuk Elektronik Gıda İthalat İhracat Limited Şirketi",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Contract spells out the abbreviations the list uses (İth. İhr. Ltd. Şti.)."
+   },
+   {
+    "id": "dd-02",
+    "group": "listed_company_as_typed",
+    "query": "ALSULTAN KUYUMCULUK ELEKTRONIK GIDA ITH. IHR. LTD. STI.",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Name copied from a foreign bank e-mail without Turkish letters."
+   },
+   {
+    "id": "dd-03",
+    "group": "listed_company_as_typed",
+    "query": "Al Sultan Kuyumculuk",
+    "expect": "review",
+    "got": "weak",
+    "score": 0.815,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "Trade name split into two words, as on a shop sign."
+   },
+   {
+    "id": "dd-04",
+    "group": "listed_company_as_typed",
+    "query": "Alsultan Kuyumculuk",
+    "expect": "review",
+    "got": "weak",
+    "score": 0.84,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "Only the trade name, no legal form: what a client says on the phone."
+   },
+   {
+    "id": "dd-05",
+    "group": "listed_company_as_typed",
+    "query": "Alfay İnşaat Turizm Dış Ticaret Sanayi Limited Şirketi",
+    "expect": "match",
+    "got": "match",
+    "score": 0.945,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Abbreviations expanded."
+   },
+   {
+    "id": "dd-06",
+    "group": "listed_company_as_typed",
+    "query": "Al Fay Company",
+    "expect": "review",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "The English alias printed in the list in brackets."
+   },
+   {
+    "id": "dd-07",
+    "group": "listed_company_as_typed",
+    "query": "Arasta İth. İhr. Dış Tic. Ltd. Şti.",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "List writes it in full; the counterparty abbreviates."
+   },
+   {
+    "id": "dd-08",
+    "group": "listed_company_as_typed",
+    "query": "Endex Nakliyat Kuyumculuk",
+    "expect": "review",
+    "got": "match",
+    "score": 0.948,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Short form used in a payment description."
+   },
+   {
+    "id": "dd-09",
+    "group": "listed_company_as_typed",
+    "query": "First One International Dış Ticaret Tekstil Sanayi Ltd. Şti.",
+    "expect": "review",
+    "got": "match",
+    "score": 0.951,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "List has FİRSTONE as one word."
+   },
+   {
+    "id": "dd-10",
+    "group": "listed_company_as_typed",
+    "query": "Aslan SK Medikal Sanayi Ticaret Limited Şirketi",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Abbreviations expanded."
+   },
+   {
+    "id": "dd-11",
+    "group": "listed_company_as_typed",
+    "query": "Al Haram Foreign Exchange",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Listed alias of a Turkish company, as it appears on a SWIFT message."
+   },
+   {
+    "id": "dd-12",
+    "group": "listed_company_as_typed",
+    "query": "Embrace Relief Foundation",
+    "expect": "review",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "Listed foreign entity with an extra word."
+   },
+   {
+    "id": "dd-13",
+    "group": "listed_company_as_typed",
+    "query": "Coral Port LLC",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Punctuation differs from the list (CORAL PORT, LLC)."
+   },
+   {
+    "id": "dd-14",
+    "group": "listed_company_as_typed",
+    "query": "Mezopotamya Verlag und Vertrieb GmbH",
+    "expect": "review",
+    "got": "weak",
+    "score": 0.84,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "German company name, listed inside a longer alias."
+   },
+   {
+    "id": "dd-15",
+    "group": "wmd_list_counterparty",
+    "query": "Bank Sepah",
+    "expect": "match",
+    "got": "weak",
+    "score": 0.76,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "Common name in Iran trade finance; the list row is \"BANK SEPAH AND BANK SEPAH INTERNATIONAL\"."
+   },
+   {
+    "id": "dd-16",
+    "group": "wmd_list_counterparty",
+    "query": "Atomic Energy Organization of Iran",
+    "expect": "match",
+    "got": "match",
+    "score": 0.933,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "US spelling \"Organization\" against the list's \"Organisation\"."
+   },
+   {
+    "id": "dd-17",
+    "group": "wmd_list_counterparty",
+    "query": "Office 39",
+    "expect": "review",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Short name with a number."
+   },
+   {
+    "id": "dd-18",
+    "group": "wmd_list_counterparty",
+    "query": "Bank of East Land",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Exact English name."
+   },
+   {
+    "id": "dd-19",
+    "group": "wmd_list_counterparty",
+    "query": "Amin Industrial Complex",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Exact English name."
+   },
+   {
+    "id": "dd-20",
+    "group": "un_org_turkish_spelling",
+    "query": "El-Kaide",
+    "expect": "review",
+    "got": "none",
+    "score": 0.787,
+    "top_listed_name": "[listed person, 6415-m5-bmgk]",
+    "ok": false,
+    "why": "Turkish spelling used in Turkish court decisions and the press."
+   },
+   {
+    "id": "dd-21",
+    "group": "un_org_turkish_spelling",
+    "query": "Al Qaeda",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "English press spelling; a UN alias."
+   },
+   {
+    "id": "dd-22",
+    "group": "un_org_turkish_spelling",
+    "query": "Boko Haram",
+    "expect": "match",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Name in common use."
+   },
+   {
+    "id": "dd-23",
+    "group": "un_org_turkish_spelling",
+    "query": "Doğu Türkistan İslami Hareketi",
+    "expect": "review",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "Turkish translation of a UN-listed entity (QDe.088)."
+   },
+   {
+    "id": "dd-24",
+    "group": "un_org_turkish_spelling",
+    "query": "Eastern Turkistan Islamic Movement",
+    "expect": "match",
+    "got": "match",
+    "score": 0.948,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "English name as on the UN list."
+   },
+   {
+    "id": "dd-25",
+    "group": "un_org_turkish_spelling",
+    "query": "Leşker-i Tayyibe",
+    "expect": "review",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "Turkish transliteration of Lashkar-e-Tayyiba."
+   },
+   {
+    "id": "dd-26",
+    "group": "un_org_turkish_spelling",
+    "query": "DEAŞ Horasan",
+    "expect": "review",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": false,
+    "why": "Turkish name for ISIL-K."
+   },
+   {
+    "id": "dd-27",
+    "group": "decoy_company",
+    "query": "Türk Hava Yolları Anonim Ortaklığı",
+    "expect": "none",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Large listed company, not sanctioned."
+   },
+   {
+    "id": "dd-28",
+    "group": "decoy_company",
+    "query": "Koç Holding A.Ş.",
+    "expect": "none",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Large listed company, not sanctioned."
+   },
+   {
+    "id": "dd-29",
+    "group": "decoy_company",
+    "query": "Arçelik Anonim Şirketi",
+    "expect": "none",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Large listed company, not sanctioned."
+   },
+   {
+    "id": "dd-30",
+    "group": "decoy_company",
+    "query": "Sultan Kuyumculuk Ltd. Şti.",
+    "expect": "no_match",
+    "got": "weak",
+    "score": 0.815,
+    "top_listed_name": "ALSULTAN KUYUMCULUK ELEKTRONİK GIDA İTH. İHR. LTD. ŞTİ.",
+    "ok": true,
+    "why": "Generic jeweller name close to a listed one (dd-01): a review is acceptable, a match is not."
+   },
+   {
+    "id": "dd-31",
+    "group": "decoy_company",
+    "query": "Aslan Medikal Sanayi ve Ticaret A.Ş.",
+    "expect": "no_match",
+    "got": "review",
+    "score": 0.92,
+    "top_listed_name": "ASLAN SK MEDİKAL SAN. TİC. LTD. ŞTİ.",
+    "ok": true,
+    "why": "Close to a listed name (dd-10) but missing \"SK\" and a different legal form."
+   },
+   {
+    "id": "dd-32",
+    "group": "decoy_company",
+    "query": "Bank of Georgia",
+    "expect": "none",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Bank name sharing \"Bank of\" with a listed bank."
+   },
+   {
+    "id": "dd-33",
+    "group": "decoy_company",
+    "query": "Atom Enerjisi Mühendislik Ltd. Şti.",
+    "expect": "no_match",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Shares \"Atom Enerjisi\" with a listed North Korean body."
+   },
+   {
+    "id": "dd-34",
+    "group": "decoy_company",
+    "query": "Embrace Logistics GmbH",
+    "expect": "no_match",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Shares one word with a listed entity."
+   },
+   {
+    "id": "dd-35",
+    "group": "common_person_name",
+    "query": "Mehmet Yılmaz",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-36",
+    "group": "common_person_name",
+    "query": "Ayşe Kaya",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-37",
+    "group": "common_person_name",
+    "query": "Mustafa Demir",
+    "expect": "report",
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": "[listed person, 6415-m7-ic]",
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-38",
+    "group": "common_person_name",
+    "query": "Fatma Şahin",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-39",
+    "group": "common_person_name",
+    "query": "Ahmet Çelik",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-40",
+    "group": "common_person_name",
+    "query": "Emine Yıldız",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-41",
+    "group": "common_person_name",
+    "query": "Ali Öztürk",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-42",
+    "group": "common_person_name",
+    "query": "Hatice Aydın",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-43",
+    "group": "common_person_name",
+    "query": "Hüseyin Özdemir",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-44",
+    "group": "common_person_name",
+    "query": "Zeynep Arslan",
+    "expect": "report",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": null,
+    "why": "Among the most frequent Turkish first names and surnames (TÜİK). Reported, not scored: an exact hit is a real homonym on the list, and only a birth year or ID number can settle it."
+   },
+   {
+    "id": "dd-45",
+    "group": "out_of_scope_source",
+    "query": "Wagner Group",
+    "expect": "none",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "Sanctioned by the EU, UK and US, not on the MASAK lists. Katip must not imply a clearance: \"no hit\" only covers MASAK, ilan.gov.tr and the Gazette."
+   },
+   {
+    "id": "dd-46",
+    "group": "out_of_scope_source",
+    "query": "Rosneft Trading S.A.",
+    "expect": "none",
+    "got": "none",
+    "score": null,
+    "top_listed_name": null,
+    "ok": true,
+    "why": "US/EU-sanctioned trading arm; not on MASAK lists. Same scope point."
+   }
+  ],
+  "by_group": {
+   "listed_company_as_typed": {
+    "ok": 9,
+    "of": 14
+   },
+   "wmd_list_counterparty": {
+    "ok": 4,
+    "of": 5
+   },
+   "un_org_turkish_spelling": {
+    "ok": 3,
+    "of": 7
+   },
+   "decoy_company": {
+    "ok": 8,
+    "of": 8
+   },
+   "common_person_name": {
+    "bands": {
+     "match": 1,
+     "none": 9
+    }
+   },
+   "out_of_scope_source": {
+    "ok": 2,
+    "of": 2
+   }
+  },
+  "notice_queries": [
+   {
+    "id": "nq1",
+    "query": "Kuzeyrüzgarı Tekstil Sanayi ve Ticaret Ltd. Şti.",
+    "expect_in": [
+     "n1"
+    ],
+    "found": [
+     "n1"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n1": "match"
+    },
+    "ok": true,
+    "why": "Abbreviated legal form against the full form in the notice."
+   },
+   {
+    "id": "nq2",
+    "query": "Mavideniz Gıda İthalat İhracat A.Ş.",
+    "expect_in": [
+     "n2"
+    ],
+    "found": [
+     "n2"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n2": "review"
+    },
+    "ok": true,
+    "why": "Word split by a column break with a hyphen ('İTHA- LAT') in the scanned page."
+   },
+   {
+    "id": "nq3",
+    "query": "Yeşilova Agro Lojistik",
+    "expect_in": [
+     "n3"
+    ],
+    "found": [
+     "n3"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n3": "match"
+    },
+    "ok": true,
+    "why": "New name after a change of name."
+   },
+   {
+    "id": "nq4",
+    "query": "Yeşilova Tarım Ürünleri Pazarlama",
+    "expect_in": [
+     "n3"
+    ],
+    "found": [
+     "n3"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n3": "match"
+    },
+    "ok": true,
+    "why": "Old name: DD must find the history under the name in an old contract."
+   },
+   {
+    "id": "nq5",
+    "query": "Karadağ Yapı Malzemeleri A.Ş.",
+    "expect_in": [
+     "n4"
+    ],
+    "found": [
+     "n4"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n4": "match"
+    },
+    "ok": true,
+    "why": "OCR slips (TlCARET, KARADAG, SIRKETI) on a liquidation notice; must not pull in KARADAĞLAR YAPI (n8)."
+   },
+   {
+    "id": "nq6",
+    "query": "Çayırova Metal Kalıp",
+    "expect_in": [
+     "n5",
+     "n7"
+    ],
+    "found": [
+     "n5",
+     "n7"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n5": "match",
+     "n7": "match"
+    },
+    "ok": true,
+    "why": "Konkordato notice and a later merger notice for the same company."
+   },
+   {
+    "id": "nq7",
+    "query": "Saruhan Bağ ve Şarapçılık",
+    "expect_in": [
+     "n6"
+    ],
+    "found": [
+     "n6"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n6": "match"
+    },
+    "ok": true,
+    "why": "Name followed by a Turkish case suffix ('ŞİRKETİ'ne')."
+   },
+   {
+    "id": "nq8",
+    "query": "Dilovası Pres Döküm Ltd. Şti.",
+    "expect_in": [
+     "n7"
+    ],
+    "found": [
+     "n7"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n7": "match"
+    },
+    "ok": true,
+    "why": "Company that ceased to exist by merger: named once inside the notice."
+   },
+   {
+    "id": "nq9",
+    "query": "Kuzey Rüzgarı Tekstil",
+    "expect_in": [
+     "n1"
+    ],
+    "found": [],
+    "missed": [
+     "n1"
+    ],
+    "extra": [],
+    "bands": {},
+    "ok": false,
+    "why": "Client writes the trade name as two words."
+   },
+   {
+    "id": "nq10",
+    "query": "Karadağlar Yapı",
+    "expect_in": [
+     "n8"
+    ],
+    "found": [
+     "n8"
+    ],
+    "missed": [],
+    "extra": [],
+    "bands": {
+     "n8": "review"
+    },
+    "ok": true,
+    "why": "Near-miss pair with nq5 the other way round."
+   }
+  ],
+  "notices_ok": 9,
+  "notices_of": 10
+ },
+ "uyum": {
+  "cases": [
+   {
+    "id": "U-01",
+    "source": "ICO, DPP Law Ltd, monetary penalty £60,000, 14 Apr 2025 (UK GDPR Arts 5(1)(f), 32(1), 32(2), 33(1)). https://ico.org.uk/action-weve-taken/enforcement/2025/04/dpp-law-ltd",
+    "regulator_found": "A law firm lost 32 GB of client data to ransomware; weak security and late breach notification (press reports: an old high-privilege account without MFA, 43 days to notify).",
+    "expect": [
+     "sec:mfa=action",
+     "sec:shared=action",
+     "sec:incident_owner=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": "The 43-day delay is an operational failure; a questionnaire can only check that a breach owner and a 72-hour procedure exist (document 07)."
+   },
+   {
+    "id": "U-02",
+    "source": "Datatilsynet (Denmark), SIRIUS law firm, fine EUR 67,200, 14 Jul 2022 (GDPR Art. 32). https://www.enforcementtracker.com/ETid-1270",
+    "regulator_found": "Hackers encrypted the firm's servers; basic measures missing, including multi-factor login.",
+    "expect": [
+     "sec:mfa=action",
+     "sec:restore_tested=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": "Whether patches were applied is not asked."
+   },
+   {
+    "id": "U-03",
+    "source": "UODO (Poland), court bailiff, fines EUR 4,935, decision 23 Oct 2025 (GDPR Arts 33(1), 34(1)-(2)). https://www.edpb.europa.eu/news/polish-sa-administrative-fine-of-4-935-eur-for-bailiff-for-failure-to-notify-a-personal-data_lt",
+    "regulator_found": "A letter with name, PESEL, address and amount went to the wrong person; the office judged the risk 'unlikely' without any risk analysis and notified no one.",
+    "expect": [
+     "noreview:drafting=risk",
+     "sec:incident_owner=open"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": "The missing risk analysis after the incident; the pack's breach procedure (07) asks for one, but only a drill shows it is used."
+   },
+   {
+    "id": "U-04",
+    "source": "Garante (Italy), OpenAI, EUR 15 million, decision 2 Nov 2024, published 20 Dec 2024. Reported annulled on appeal in March 2026: check before citing. https://www.garanteprivacy.it/home/docweb/-/docweb-display/docweb/10085432",
+    "regulator_found": "No legal basis identified before processing started; the legitimate-interest assessment was written only when the Garante asked; transparency gaps; no age check; a breach was not notified.",
+    "expect": [
+     "basis:intake=open",
+     "lia:screening=action",
+     "ai50_1=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": "Age verification is not asked (a law firm's agents rarely face the public)."
+   },
+   {
+    "id": "U-05",
+    "source": "KVKK Board, decision 2020/26 (14 Jan 2020): a lawyer disclosed personal data to third parties by SMS; administrative fine reported as 50,000 TL. https://kvkk.gov.tr/Icerik/6697/2020-26",
+    "regulator_found": "A lawyer, as controller, sent a debtor's data to other people by text message.",
+    "expect": [
+     "noreview:drafting=risk"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": "Who the lawyer chooses to message is a professional decision, not a system design; Uyum can only flag outputs that leave the firm unchecked."
+   },
+   {
+    "id": "U-06",
+    "source": "KVKK Board, decision 2022/249 (17 Mar 2022): a technology company kept data on cloud servers abroad without a m.9 basis. https://www.kvkk.gov.tr/Icerik/7558/2022-249",
+    "regulator_found": "Hosting on a foreign cloud is a transfer abroad; it needed a KVKK m.9 mechanism.",
+    "expect": [
+     "kvkk9=action",
+     "raw:anthropic=risk",
+     "mask=risk"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": ""
+   },
+   {
+    "id": "U-07",
+    "source": "KVKK Board, WhatsApp decision (2021): 1,950,000 TL for a bundled consent and transfers abroad without a valid basis. https://www.kvkk.gov.tr/Icerik/7045/WHATSAPP-UYGULAMASI-HAKKINDA-YURUTULEN-RESEN-INCELEMEYE-ILISKIN-KAMUOYU-DUYURUSU",
+    "regulator_found": "Transfers abroad without explicit consent or a Board-approved undertaking.",
+    "expect": [
+     "kvkk9=action",
+     "xfer:whatsapp=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": "A personal WhatsApp account is a common real channel; the questionnaire only sees it if the firm lists it as a vendor."
+   },
+   {
+    "id": "U-08",
+    "source": "Garante (Italy), urgent limitation order against the DeepSeek chatbot, 30 Jan 2025 (data stored in China, insufficient answers on transfers). https://www.garanteprivacy.it",
+    "regulator_found": "Personal data sent to servers in China with no transfer mechanism.",
+    "expect": [
+     "xfer:anthropic=action",
+     "kvkk9=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": ""
+   },
+   {
+    "id": "U-09",
+    "source": "KVKK Board guide for lawyers (22 Sep 2026), p. 146: mask or anonymise before using AI tools; uploading client files to generative AI can be a transfer abroad. https://www.kvkk.gov.tr/Icerik/8990/",
+    "regulator_found": "Guidance, not a decision: a lawyer pastes client files into a free consumer chatbot.",
+    "expect": [
+     "dpa:anthropic=action",
+     "mask=risk",
+     "kvkk9=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": ""
+   },
+   {
+    "id": "U-10",
+    "source": "KVKK Board, decision 2023/1414: a lawyer submitted special-category (health) data to a court file. https://kvkk.gov.tr/Icerik/7780/2023-1414",
+    "regulator_found": "Whether processing health data for a court submission had a m.6/3 condition and was necessary.",
+    "expect": [
+     "art9:drafting=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": "Necessity for the specific claim is a legal judgment per file."
+   },
+   {
+    "id": "U-11",
+    "source": "Autoriteit Persoonsgegevens (NL), Clearview AI, EUR 30.5 million, Sep 2024: scraped public data into profiles of people.",
+    "regulator_found": "Building profiles of people from public sources without a legal basis or information to them.",
+    "expect": [
+     "label:screening=risk",
+     "dpia=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": ""
+   },
+   {
+    "id": "U-12",
+    "source": "EU AI Act Art. 5(1)(d), prohibited since 2 Feb 2025: predicting a person's risk of committing a crime from profiling alone.",
+    "regulator_found": "Rule, not a decision: a DD agent scores individuals' criminal risk.",
+    "expect": [
+     "ai5=action"
+    ],
+    "missed": [],
+    "false_alarms": [],
+    "ok": true,
+    "beyond_questionnaire": ""
+   }
+  ],
+  "ok": 12,
+  "of": 12
+ }
+}
