@@ -165,33 +165,34 @@ MAIL_FIELDS = (("from", "Kimden"), ("to", "Kime"), ("cc", "Bilgi"), ("date", "Ta
 MAIL_NOTE = "Ekler bu maskeli kopyaya alınmadı; her eki ayrıca maskeleyin."
 
 
-class _HtmlText(__import__("html.parser").parser.HTMLParser):
-    BREAK = {"br", "p", "div", "tr", "li", "h1", "h2", "h3", "h4", "h5", "h6", "table", "blockquote"}
-
-    def __init__(self):
-        super().__init__(convert_charrefs=True)
-        self.out, self.skip = [], 0
-
-    def handle_starttag(self, tag, attrs):
-        if tag in ("style", "script", "head"):
-            self.skip += 1
-        elif tag in self.BREAK:
-            self.out.append("\n")
-        elif tag == "td":
-            self.out.append("\t")
-
-    def handle_endtag(self, tag):
-        if tag in ("style", "script", "head"):
-            self.skip = max(0, self.skip - 1)
-        elif tag in self.BREAK:
-            self.out.append("\n")
-
-    def handle_data(self, d):
-        if not self.skip:
-            self.out.append(d)
-
-
 def _html_to_text(h):
+    from html.parser import HTMLParser  # imported here: only an HTML-only mail needs it
+
+    class _HtmlText(HTMLParser):
+        BREAK = {"br", "p", "div", "tr", "li", "h1", "h2", "h3", "h4", "h5", "h6", "table", "blockquote"}
+
+        def __init__(self):
+            super().__init__(convert_charrefs=True)
+            self.out, self.skip = [], 0
+
+        def handle_starttag(self, tag, attrs):
+            if tag in ("style", "script", "head"):
+                self.skip += 1
+            elif tag in self.BREAK:
+                self.out.append("\n")
+            elif tag == "td":
+                self.out.append("\t")
+
+        def handle_endtag(self, tag):
+            if tag in ("style", "script", "head"):
+                self.skip = max(0, self.skip - 1)
+            elif tag in self.BREAK:
+                self.out.append("\n")
+
+        def handle_data(self, d):
+            if not self.skip:
+                self.out.append(d)
+
     p = _HtmlText()
     p.feed(h)
     p.close()

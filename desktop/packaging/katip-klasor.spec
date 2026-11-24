@@ -23,7 +23,8 @@ datas += [(str(HERE / "katip_klasor" / "ui"), "katip_klasor/ui"),
 # engine.zip and its models next to its own source. Its imports are listed here so they are bundled.
 hidden += ["cryptography.hazmat.primitives.ciphers.aead", "pymupdf", "numpy", "onnxruntime", "rapidocr", "PIL.Image",
            "hmac", "secrets", "subprocess", "unicodedata", "zipfile", "xml.sax.saxutils", "http.server", "urllib.request",
-           "concurrent.futures", "dataclasses", "typing", "logging", "html", "csv", "difflib", "bisect", "heapq"]
+           "concurrent.futures", "dataclasses", "typing", "logging", "html", "html.parser", "email", "email.policy", "email.header", "email.message",
+           "csv", "difflib", "bisect", "heapq"]
 a = Analysis([str(HERE / "katip_klasor" / "__main__.py")], pathex=[str(HERE)],
              datas=datas, binaries=binaries, hiddenimports=hidden,
              excludes=["tkinter", "matplotlib", "pytest", "pandas", "katip_kalkan"], noarchive=False)
