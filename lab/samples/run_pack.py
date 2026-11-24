@@ -45,7 +45,7 @@ def pct(k, n):
 
 
 # ------------------------------------------------------------------------------------------------ eu
-def run_eu():
+def run_eu(name="eu_docs.jsonl"):
     from katip_kalkan import engine, eu
 
     def spans(text, profile):
@@ -61,10 +61,10 @@ def run_eu():
             cov.update(range(max(s["start"], g["start"]), min(s["end"], g["end"])))
         return set(range(g["start"], g["end"])) <= cov
 
-    docs = [json.loads(x) for x in (HERE / "data" / "eu_docs.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
+    docs = [json.loads(x) for x in (HERE / "data" / name).read_text(encoding="utf-8").splitlines() if x.strip()]
     out = {"docs": len(docs), "values": sum(len(d["gold"]) for d in docs), "profiles": {}}
     for profile in ("ai", "eu"):
-        by_type, by_doc, misses, keep, over = defaultdict(lambda: [0, 0]), [], [], [0, 0], []
+        by_type, by_doc, misses, keep, over, extra = defaultdict(lambda: [0, 0]), [], [], [0, 0], [], []
         name_split = {"listed": [0, 0], "not_listed": [0, 0]}
         for d in docs:
             sp = spans(d["text"], profile)
@@ -83,6 +83,9 @@ def run_eu():
                 if not hit:
                     ok_doc = False
                     misses.append({"doc": d["id"], "type": g["type"], "text": g["text"]})
+            for sp_ in sp:  # masked spans that touch no gold value: over-masking beyond the keep list
+                if not any(sp_["start"] < g["end"] and g["start"] < sp_["end"] for g in d["gold"]):
+                    extra.append({"doc": d["id"], "type": sp_.get("entity_type"), "text": d["text"][sp_["start"]:sp_["end"]]})
             kept_doc = 0
             for k in d["keep"]:
                 i = d["text"].find(k)
@@ -93,7 +96,7 @@ def run_eu():
                 if hit:
                     over.append({"doc": d["id"], "kept_string": k,
                                  "masked": [d["text"][s["start"]:s["end"]] for s in sp if s["start"] < i + len(k) and s["end"] > i]})
-            by_doc.append({"doc": d["id"], "case": d["case"], "title": d["title"], "caught": caught, "of": len(d["gold"]),
+            by_doc.append({"doc": d["id"], "case": d.get("case", d["id"]), "title": d.get("title", ""), "caught": caught, "of": len(d["gold"]),
                            "clean": ok_doc, "kept": kept_doc, "keep_of": len(d["keep"])})
         k = sum(v[0] for v in by_type.values())
         n = sum(v[1] for v in by_type.values())
@@ -103,7 +106,8 @@ def run_eu():
             "names_first_name_listed": {kk: {"caught": v[0], "of": v[1], "recall": pct(*v)} for kk, v in name_split.items()},
             "docs_fully_masked": sum(r["clean"] for r in by_doc),
             "keep_readable": {"kept": keep[0], "of": keep[1]},
-            "by_doc": by_doc, "misses": misses, "over_masked": over}
+            "by_doc": by_doc, "misses": misses, "over_masked": over,
+            "spans_without_gold": len(extra), "spans_without_gold_list": extra}
     return out
 
 
@@ -190,21 +194,23 @@ def run_uyum():
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--part", choices=["eu", "dd", "uyum"])
+    ap.add_argument("--part", choices=["eu", "heldout", "dd", "uyum"])
     ap.add_argument("--no-dd", action="store_true")
     ap.add_argument("--out", default=str(HERE / "results" / "pack_results.json"))
     a = ap.parse_args()
-    parts = [a.part] if a.part else [p for p in ("eu", "dd", "uyum") if not (p == "dd" and a.no_dd)]
+    parts = [a.part] if a.part else [p for p in ("eu", "heldout", "dd", "uyum") if not (p == "dd" and a.no_dd)]
     res = {}
     for p in parts:
-        res[p] = {"eu": run_eu, "dd": run_dd, "uyum": run_uyum}[p]()
+        res[p] = {"eu": run_eu, "heldout": lambda: run_eu("eu_heldout.jsonl"), "dd": run_dd, "uyum": run_uyum}[p]()
     old = json.loads(Path(a.out).read_text(encoding="utf-8")) if Path(a.out).exists() else {}
     old.update(res)
     Path(a.out).write_text(json.dumps(old, ensure_ascii=False, indent=1), encoding="utf-8")
-    if "eu" in res:
-        for prof, v in res["eu"]["profiles"].items():
-            print(f"eu/{prof}: {v['recall']}% {v['ci95']} ({v['caught']}/{v['of']}), docs clean {v['docs_fully_masked']}/{res['eu']['docs']}, "
-                  f"kept {v['keep_readable']['kept']}/{v['keep_readable']['of']}")
+    for part in ("eu", "heldout"):
+        if part not in res:
+            continue
+        for prof, v in res[part]["profiles"].items():
+            print(f"{part}/{prof}: {v['recall']}% {v['ci95']} ({v['caught']}/{v['of']}), docs clean {v['docs_fully_masked']}/{res[part]['docs']}, "
+                  f"kept {v['keep_readable']['kept']}/{v['keep_readable']['of']}, masked spans with no gold value {v['spans_without_gold']}")
             print("   ", {t: f"{x['caught']}/{x['of']}" for t, x in v["by_type"].items()}, v["names_first_name_listed"])
     if "dd" in res and "skipped" not in res["dd"]:
         print("dd:", res["dd"]["by_group"], f"notices {res['dd']['notices_ok']}/{res['dd']['notices_of']}")

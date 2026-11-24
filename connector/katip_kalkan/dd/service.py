@@ -28,7 +28,9 @@ _cache: dict = {}
 
 HOW_TO_READ = ("score is name similarity, not probability. band 'match' >= %.2f, 'review' >= %.2f. Confirm every hit "
                "against source_url. No hit means no close name in these sources as of data_as_of; it is not a "
-               "clearance." % (MATCH, REVIEW))
+               "clearance. Checked here: MASAK asset-freeze lists (6415 art. 5, 6, 7; 7262), ilan.gov.tr notices and "
+               "Ticaret Sicili Gazetesi pages you looked up. NOT checked: US OFAC, EU, UK OFSI and other UN sanctions "
+               "lists, PEP lists, court and enforcement records." % (MATCH, REVIEW))
 
 
 

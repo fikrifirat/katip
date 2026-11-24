@@ -7,6 +7,7 @@ it, what it is modelled on, what Katip must do, and what it did on 24 Nov 2026.
 
 ```bash
 python lab/samples/build_eu_docs.py               # rebuild data/eu_docs.jsonl (seeded, same output every time)
+python lab/samples/build_heldout_docs.py           # rebuild data/eu_heldout.jsonl (second set, 20 docs)
 python lab/dd/dd.py update                         # DD part needs a local MASAK snapshot (never committed)
 KATIP_SDK=0 python lab/samples/run_pack.py        # all parts -> results/pack_results.json
 KATIP_SDK=0 python lab/samples/run_pack.py --part eu
@@ -16,6 +17,101 @@ Rules for this pack: every person, number, address and Turkish company in the do
 and every ID has a valid checksum so the rules are really tested. The only real names are **public sanctions-list
 entries for companies and organisations** (MASAK, UN) and well-known companies used as decoys. No listed
 person's name is written to the results. No client document of anyone we know was used.
+
+## Fix round, 24 Nov 2026: before and after
+
+The first run below was too weak to call finished. This round fixes the gaps it found, then scores a **second
+set of 20 EU documents** (`data/eu_heldout.jsonl`, 329 values) written by a separate agent that had not seen the
+rules. "Before" is the code on `main` after PR #87, scored on the same corrected gold.
+
+| Part | Before | After | Honest reading |
+|---|---|---|---|
+| EU pack, `eu` profile (16 docs, 135 values) | 88.1% [81.6–92.6], 5/16 docs clean, 65/73 kept, 21 spans with no gold value | **100%** [97.2–100], 16/16 clean, 72/73 kept, 5 spans | tuned on these documents: proves the fixes work, not that they generalise |
+| Second set, `eu` profile (20 docs, 329 values) | 77.8% [73.0–82.0], 1/20 clean, 76/93 kept, 23 spans | **97.9%** [95.7–99.0], 14/20 clean, 91/93 kept, 5 spans | blind only for the first step: the pack fixes alone moved it to **79.3%**. The rest came from fixing what this set showed, so it is now a dev set too |
+| DD listed companies as typed | 9/14 | 13/14 | dd-06 "Al Fay Company" stays weak (one distinctive word is capped on purpose) |
+| DD 7262 counterparties | 4/5 | 5/5 | "Bank Sepah": combined list rows are now split |
+| DD UN organisations in Turkish spelling | 3/7 | 7/7 | a small Turkish-to-list-spelling table (El-Kaide→Al-Qaida, DEAŞ→ISIL, Doğu→Eastern …) |
+| DD decoys / notices | 8/8 / 9/10 | 8/8 / 10/10 | |
+| Uyum | 12/12 | 12/12 | unchanged, not blind |
+
+Two policy decisions by fikri (24 Nov 2026), applied in this round:
+
+- **Company and office addresses stay readable** ("Fennor Capital DAC, 2 Grand Canal Square", a law firm's
+  letterhead, a notary's office). A sole trader's business address is his home, so it is still masked (e.K.,
+  eenmanszaak, ditta individuale …, or a line with a personal ID or birth date). Four company addresses in the
+  Uğur rounds' gold were moved from "mask" to "keep" to match (ugur-11, ugur-14, ugur-37, ugur2-26).
+- **Health is masked as a phrase**, not a keyword: the clause around the medical word ("fracture ouverte du tiers
+  distal du tibia gauche avec plaie contuse de 6 cm", "Chemotherapie wegen Brustkrebs"). Amounts, codes in
+  brackets ("ICD-10 G35.1") and hospital names after the phrase stay readable. A known side effect: in a long
+  sentence the widening can cover a date or a place next to the medical words.
+
+Regression checks on older sets (`eu` profile, `main` before → this PR, same gold): Uğur round 1 95.3→95.8%,
+round 2 83.1→86.6%, round 3 72.9→75.1%; strings kept readable 519/543→523/543; synthetic blind set 2700/2700 and
+dev set 2699/2700 unchanged; Kalkan's own sample docs 48/60→54/60. Synthetic DD eval: match recall 90.3→90.5%,
+decoy false-match 0.5% unchanged. Connector tests: 157 passed, 8 skipped. Nothing scored lower than on `main`.
+
+What still fails on the second set (7 values):
+
+- Health is now 8 of 8 (was 0 of 8).
+- Austrian social-insurance number with a space and "Ö", a Belgian national number with a wrong checksum, a
+  personal Turkish tax number (VKN), a German Perso-Nr with no digits, a short birth date "28-3-88" in a chat.
+- A first name used alone in a chat (Pablo) and a surname alone after an earlier mention (Hofbauer).
+
+Over-masking still open: "Holm" in "Holm & Bech Advokatpartnerselskab" is fixed; left are "2026/1182 E." (the
+`ai` profile masks Turkish case numbers on purpose) and a Turkish company registry number read as a bar number
+(845512), which the `ai` profile also masks.
+
+Per document (✓ = every value masked):
+
+#### Pack (16 docs, tuned on)
+
+| Doc | Case | Values caught before → after | Kept readable before → after |
+|---|---|---|---|
+| eu-01 | S-EU-01 | 11/11 ✓ → 11/11 ✓ | 7/7 → 7/7 |
+| eu-02 | S-EU-02 | 5/9 → 9/9 ✓ | 4/5 → 5/5 |
+| eu-03 | S-EU-03 | 10/11 → 11/11 ✓ | 5/5 → 5/5 |
+| eu-04 | S-EU-04 | 12/13 → 13/13 ✓ | 4/5 → 5/5 |
+| eu-05 | S-EU-05 | 2/2 ✓ → 2/2 ✓ | 4/4 → 4/4 |
+| eu-06 | S-EU-06 | 8/9 → 9/9 ✓ | 2/3 → 3/3 |
+| eu-07 | S-EU-07 | 7/8 → 8/8 ✓ | 5/5 → 5/5 |
+| eu-08 | S-EU-08 | 8/8 ✓ → 8/8 ✓ | 4/4 → 4/4 |
+| eu-09 | S-EU-09 | 9/11 → 11/11 ✓ | 6/6 → 6/6 |
+| eu-10 | S-EU-10 | 5/6 → 6/6 ✓ | 4/4 → 4/4 |
+| eu-11 | S-EU-11 | 5/5 ✓ → 5/5 ✓ | 6/7 → 7/7 |
+| eu-12 | S-EU-12 | 9/11 → 11/11 ✓ | 2/2 → 2/2 |
+| eu-13 | S-EU-13 | 6/6 ✓ → 6/6 ✓ | 4/5 → 4/5 |
+| eu-14 | S-EU-14 | 5/6 → 6/6 ✓ | 3/4 → 4/4 |
+| eu-15 | S-EU-15 | 7/8 → 8/8 ✓ | 3/4 → 4/4 |
+| eu-16 | S-EU-16 | 10/11 → 11/11 ✓ | 2/3 → 3/3 |
+| **All** | | **119/135 (88.1%) → 135/135 (100.0%)** | **65/73 → 72/73** |
+
+#### Second set (20 docs, written blind, then used to tune)
+
+| Doc | Case | Values caught before → after | Kept readable before → after |
+|---|---|---|---|
+| ho-01 | H-EU-01 | 11/14 → 14/14 ✓ | 5/6 → 6/6 |
+| ho-02 | H-EU-02 | 12/16 → 16/16 ✓ | 6/6 → 6/6 |
+| ho-03 | H-EU-03 | 16/21 → 21/21 ✓ | 2/3 → 3/3 |
+| ho-04 | H-EU-04 | 17/21 → 21/21 ✓ | 3/4 → 4/4 |
+| ho-05 | H-EU-05 | 27/28 → 27/28 | 3/3 → 3/3 |
+| ho-06 | H-EU-06 | 13/14 → 13/14 | 4/5 → 5/5 |
+| ho-07 | H-EU-07 | 10/13 → 13/13 ✓ | 4/5 → 5/5 |
+| ho-08 | H-EU-08 | 13/16 → 16/16 ✓ | 4/5 → 5/5 |
+| ho-09 | H-EU-09 | 9/13 → 13/13 ✓ | 4/4 → 4/4 |
+| ho-10 | H-EU-10 | 9/14 → 14/14 ✓ | 4/4 → 4/4 |
+| ho-11 | H-EU-11 | 7/13 → 13/13 ✓ | 4/5 → 5/5 |
+| ho-12 | H-EU-12 | 7/12 → 12/12 ✓ | 4/4 → 4/4 |
+| ho-13 | H-EU-13 | 10/11 → 10/11 | 6/6 → 6/6 |
+| ho-14 | H-EU-14 | 12/15 → 15/15 ✓ | 4/5 → 5/5 |
+| ho-15 | H-EU-15 | 13/17 → 15/17 | 2/3 → 3/3 |
+| ho-16 | H-EU-16 | 10/10 ✓ → 10/10 ✓ | 4/5 → 4/5 |
+| ho-17 | H-EU-17 | 16/18 → 18/18 ✓ | 2/5 → 5/5 |
+| ho-18 | H-EU-18 | 13/18 → 17/18 | 4/6 → 6/6 |
+| ho-19 | H-EU-19 | 9/18 → 18/18 ✓ | 6/6 → 6/6 |
+| ho-20 | H-EU-20 | 22/27 → 26/27 | 1/3 → 2/3 |
+| **All** | | **256/329 (77.8%) → 322/329 (97.9%)** | **76/93 → 91/93** |
+
+The next honest number needs a **third set written blind** and scored once before any change.
 
 ## Results on 24 Nov 2026 (first run, nothing tuned on these cases)
 
@@ -219,8 +315,8 @@ them; Uyum cannot verify them.
 
 ## Next
 
-- Fix the items above, then add a **second, unseen round** of documents (written by someone who has not read
-  this file) so the next score is blind again.
+- Done 24 Nov: fixes plus a second round (see the before/after section). Next: a **third, unseen round**, scored
+  once before any change, with fikri's two decisions (company addresses kept, health as phrases) applied.
 - Add Turkish-only cases from the core product (court decisions, icra files, health reports) to the same runner,
   so one command shows the whole product.
 - Pick 5 cases with a before/after view (S-EU-01, S-EU-04, dd-01, dd-15, U-09) for the demo page.
