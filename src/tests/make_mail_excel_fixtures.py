@@ -7,10 +7,13 @@ Needs openpyxl (for the .xlsx); the .msg is written with a small compound-file w
 """
 import json
 import struct
+import sys
 from email.message import EmailMessage
 from pathlib import Path
 
 OUT = Path(__file__).parent / "fixtures" / "mail_excel"
+sys.path.insert(0, str(Path(__file__).parents[1]))
+from mail_samples import cfb  # noqa: E402
 
 
 def tckn(nine):
@@ -81,106 +84,6 @@ def eml_html_only():
             f"<p>Maaş ödemeleri {IBANS[1]} hesabına yapılıyordu.</p></body></html>")
     m.set_content(html, subtype="html")
     return m.as_bytes(), gold(d[0], d[3], e[3], e[0], e[1], e[2], d[1], d[4], IBANS[1])
-
-
-# ---------------------------------------------------------------- .msg (MS-CFB + MS-OXMSG, minimal writer)
-def cfb(streams):
-    """streams: {path: bytes} with '/' for storages. Version 3 (512-byte sectors), mini stream below 4096 bytes."""
-    SS, MS, CUT = 512, 64, 4096
-    FREE, END, FATSEC = 0xFFFFFFFF, 0xFFFFFFFE, 0xFFFFFFFD
-    tree = {}
-    for path, data in streams.items():
-        node = tree
-        parts = path.split("/")
-        for p in parts[:-1]:
-            node = node.setdefault(p, {})
-        node[parts[-1]] = data
-    ents = []  # [name, type, children(list of idx), data]
-
-    def add(name, node):
-        idx = len(ents)
-        ents.append([name, 1 if isinstance(node, dict) else 2, [], None if isinstance(node, dict) else node])
-        if isinstance(node, dict):
-            for k in sorted(node):
-                ents[idx][2].append(add(k, node[k]))
-        return idx
-
-    ents.append(["Root Entry", 5, [], None])
-    for k in sorted(tree):
-        ents[0][2].append(add(k, tree[k]))
-    mini, minifat, big = bytearray(), [], []  # big: list of (entry idx, data)
-    start = {}
-    for i, e in enumerate(ents):
-        if e[1] != 2:
-            continue
-        d = e[3]
-        if len(d) < CUT:
-            if not d:
-                start[i] = END
-                continue
-            start[i] = len(mini) // MS
-            n = (len(d) + MS - 1) // MS
-            minifat += [start[i] + k + 1 for k in range(n - 1)] + [END]
-            mini += d + b"\0" * (n * MS - len(d))
-        else:
-            big.append((i, d))
-    sectors, fat = [], []
-
-    def put(blob):
-        if not blob:
-            return END
-        n = (len(blob) + SS - 1) // SS
-        first = len(sectors)
-        for k in range(n):
-            sectors.append(blob[k * SS:(k + 1) * SS].ljust(SS, b"\0"))
-            fat.append(first + k + 1 if k < n - 1 else END)
-        return first
-
-    for i, d in big:
-        start[i] = put(d)
-    mini_start = put(bytes(mini))
-    mf = b"".join(struct.pack("<I", x) for x in minifat)
-    mf += b"\xff" * ((-len(mf)) % SS)
-    minifat_start = put(mf) if minifat else END
-    # directory: children as a degenerate tree (each child's right sibling is the next); colour black
-    dirb = bytearray()
-    for i, e in enumerate(ents):
-        name = e[0].encode("utf-16-le") + b"\0\0"
-        kids = e[2]
-        child = kids[0] if kids else FREE
-        dirb += name.ljust(64, b"\0") + struct.pack("<HBB", len(name), e[1], 1)
-        sib = FREE
-        for p in ents:
-            if i in p[2]:
-                j = p[2].index(i)
-                sib = p[2][j + 1] if j + 1 < len(p[2]) else FREE
-        dirb += struct.pack("<III", FREE, sib, child) + b"\0" * 36  # CLSID, state bits, times
-        if e[1] == 5:
-            dirb += struct.pack("<IQ", mini_start, len(mini))
-        elif e[1] == 2:
-            dirb += struct.pack("<IQ", start[i], len(e[3]))
-        else:
-            dirb += struct.pack("<IQ", 0, 0)
-    dirb += b"\0" * ((-len(dirb)) % SS)
-    # unused directory slots must be empty entries with FREE siblings
-    for k in range(len(ents), len(dirb) // 128):
-        dirb[k * 128 + 68:k * 128 + 80] = b"\xff" * 12
-    dir_start = put(bytes(dirb))
-    nfat = 1
-    while (len(sectors) + nfat) > nfat * (SS // 4):
-        nfat += 1
-    fat_first = len(sectors)
-    fat += [FATSEC] * nfat
-    fat += [FREE] * (nfat * (SS // 4) - len(fat))
-    fatb = b"".join(struct.pack("<I", x) for x in fat)
-    for k in range(nfat):
-        sectors.append(fatb[k * SS:(k + 1) * SS])
-    hdr = bytes.fromhex("D0CF11E0A1B11AE1") + b"\0" * 16 + struct.pack("<HHHHH", 0x3E, 3, 0xFFFE, 9, 6)
-    hdr += b"\0" * 6 + struct.pack("<IIIIIIIII", 0, nfat, dir_start, 0, CUT, minifat_start,
-                                    (len(mf) // SS) if minifat else 0, END, 0)
-    difat = [fat_first + k for k in range(nfat)] + [FREE] * (109 - nfat)
-    hdr += b"".join(struct.pack("<I", x) for x in difat)
-    return hdr + b"".join(sectors)
 
 
 def msg_file():

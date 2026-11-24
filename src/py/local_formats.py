@@ -477,8 +477,9 @@ def _xlsx_scan(data):
         add("## Sayfa: ")
         sheets.append((name, pos)); add(name); add("\n")
         xml = rd(part)
+        rows = []
         for row in re.finditer(r"<row\b[^>]*?(?:/>|>(.*?)</row>)", xml, re.S):
-            body, off, first = row.group(1) or "", row.start(1), True
+            body, off, vals = row.group(1) or "", row.start(1), []
             for c in XL_CELL.finditer(body):
                 attrs, inner = c.group(1), c.group(2) or ""
                 t, idx = XL_ATTR(attrs, "t"), None
@@ -495,12 +496,31 @@ def _xlsx_scan(data):
                     val = html.unescape(v.group(1)) if v else ""
                 if val == "":
                     continue
-                if not first:
+                col = re.match(r"[A-Z]+", XL_ATTR(attrs, "r") or "")
+                vals.append((col.group(0) if col else None, off + c.start(), off + c.end(), attrs, val, idx, t))
+            if vals:
+                rows.append(vals)
+        # A first row of plain words is a header: the rows under it are laid out as records, one
+        # "Header: value" line per cell, the way a form reads ("Doğum tarihi: 05.11.1959"), so a value
+        # alone in its cell gets the context the detector needs. Without a header: one line per row, tab-separated.
+        head = {}
+        if len(rows) > 1 and len(rows[0]) > 1 and all(t == "s" or t == "inlineStr" or t == "str" for *_, t in rows[0]) \
+                and all(not re.search(r"\d{3}", v[4]) and len(v[4]) <= 40 for v in rows[0]):
+            head = {v[0]: v[4] for v in rows[0] if v[0]}
+        for i, vals in enumerate(rows):
+            record = bool(head) and i > 0
+            if record:
+                add("\n")
+            for j, (col, a0, b0, attrs, val, idx, _) in enumerate(vals):
+                if record and head.get(col):
+                    add(head[col] + ": ")
+                elif j:
                     add("\t")
-                first = False
-                cells.append((part, off + c.start(), off + c.end(), attrs, pos, val, idx))
+                cells.append((part, a0, b0, attrs, pos, val, idx))
                 add(val)
-            if not first:
+                if record:
+                    add("\n")
+            if not record:
                 add("\n")
     nparts = sorted(n for n in names if re.match(r"xl/(comments\d*|comments/[^/]+|threadedComments/[^/]+)\.xml$", n))
     for part in nparts:

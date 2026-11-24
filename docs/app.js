@@ -215,9 +215,9 @@ const LABELS = {
     UNION: "Trade union", ETHNICITY: "Ethnic origin", SEXUAL_LIFE: "Sex life", BIOMETRIC_GENETIC: "Biometric/genetic", CRIMINAL_RECORD: "Criminal record", UNREAD: "Handwritten area",
     CASE_NO: "Case/UYAP no.", BAR_NO: "Bar/registry no.", DATE: "Date", PLACE: "Province/district", INSTITUTION: "Court/institution/company", CUSTOM: "Added term" },
 };
-const FORMATS = { tr: { txt: "Metin", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Taranmış PDF", png: "Fotoğraf" },
-                  en: { txt: "Text", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Scanned PDF", png: "Photo" } };
-const SAMPLE_EN = { aydinlatma: "Privacy notice", bilirkisi: "Expert report", dilekce: "Petition", epikriz: "Hospital discharge summary", eposta: "E-mail thread",
+const FORMATS = { tr: { txt: "Metin", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Taranmış PDF", png: "Fotoğraf", eml: "E-posta .eml", msg: "Outlook .msg", xlsx: "Excel" },
+                  en: { txt: "Text", docx: "Word", udf: "UYAP .udf", pdf: "PDF", "scan.pdf": "Scanned PDF", png: "Photo", eml: "E-mail .eml", msg: "Outlook .msg", xlsx: "Excel" } };
+const SAMPLE_EN = { musteri_listesi: "Client list", aydinlatma: "Privacy notice", bilirkisi: "Expert report", dilekce: "Petition", epikriz: "Hospital discharge summary", eposta: "E-mail thread",
   fatura: "Invoice", icra: "Enforcement request", ihtarname: "Formal notice", is_sozlesmesi: "Employment contract", karar: "Court judgment", kira_sozlesmesi: "Lease",
   mektup: "Letter", mesaj: "Chat log", tutanak: "Minutes", vekaletname: "Power of attorney", zabit: "Hearing record" };
 const PROGRESS_EN = [[/^NER modeli yükleniyor/, "Loading name model"], [/^NER çalışıyor/, "Running name model"], [/^OCR sayfa (\d+)\/(\d+)/, "OCR page $1/$2"], [/^Sayfa (\d+)\/(\d+)/, "Page $1/$2"],
