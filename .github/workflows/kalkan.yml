@@ -11,9 +11,14 @@ on:
 permissions:
   contents: read
 
+# A new push to a pull request cancels that PR's older run; runs on main are never cancelled.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   test:
-    name: ${{ matrix.os }}
+    name: Kalkan ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -25,9 +30,12 @@ jobs:
     env:
       PYTHONUTF8: "1"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with: { python-version: "3.12" }  # = launch.py PYTHON
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"  # = launch.py PYTHON
+          cache: pip
+          cache-dependency-path: .github/workflows/kalkan.yml  # the pins live in this file
       - name: Install the pinned helpers (same versions as launch.py)
         run: pip install pytest tokenizers onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0 playwright==1.65.2 katip-mask==0.1.1
       - name: Unit tests (on Linux also a model download through the SDK, checked by SHA-256)
@@ -49,7 +57,7 @@ jobs:
             | KATIP_AUTO_DEPS=0 KATIP_HOME="$RUNNER_TEMP/katip" KATIP_FOLDER="$RUNNER_TEMP/Belgeler Ş" "$PY" connector/server.py | tee out.txt
           grep -q '"engine"' out.txt
           grep -q 'bundled rules' out.txt
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
       - name: First start the way lawyers get it (uv fetches the pinned helpers and katip-mask)
         run: |
           python -m venv bare2

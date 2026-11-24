@@ -21,20 +21,24 @@ env:
 permissions:
   contents: read
 
+concurrency:  # one release of a tag at a time; never cancelled
+  group: sdk-release-${{ inputs.tag || github.ref_name }}
+  cancel-in-progress: false
+
 jobs:
   test:
     uses: ./.github/workflows/sdk.yml
-    with: { release: true }
+    with: { release: true, ref: "${{ inputs.tag || github.ref }}" }  # test what the tag points at, as build does
 
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with: { ref: "${{ inputs.tag || github.ref }}" }  # build what the tag points at
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with: { python-version: "3.14" }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with: { node-version: "24" }
       - name: Tag matches the package versions
         env:
@@ -51,7 +55,7 @@ jobs:
       - name: Build the npm package
         working-directory: sdk/js
         run: mkdir -p ../../dist/npm && npm ci && npm run build && npm pack --pack-destination ../../dist/npm
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with: { name: dist, path: dist }
 
   pypi:
@@ -75,7 +79,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with: { name: dist, path: dist }
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with: { node-version: "24", registry-url: "https://registry.npmjs.org" }
       - name: Publish with provenance
         env:
@@ -94,7 +98,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: actions/download-artifact@v4
         with: { name: dist, path: dist }
       - env:
