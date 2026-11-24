@@ -2,6 +2,8 @@
 
 *Avukatlar için KVKK maskeleme, mevzuat atıf kontrolü, emsal arama ve DD taraması · PII redaction and legal research tools for Turkish lawyers*
 
+[![fikrifirat/katip MCP server](https://glama.ai/mcp/servers/fikrifirat/katip/badges/score.svg)](https://glama.ai/mcp/servers/fikrifirat/katip)
+
 **Work on client files with Claude, with the client's personal data masked on your computer first.** Katip Kalkan
 opens the document on your computer, replaces the names, ID numbers and health details it finds with
 placeholders such as `[AD SOYAD-1]`, and gives Claude only the masked text. When your draft is ready, Katip

@@ -7,6 +7,7 @@
 [![Model](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--nano-yellow)](https://huggingface.co/f1k/katip-mask-nano)
 [![Base modeli](https://img.shields.io/badge/%F0%9F%A4%97%20model-katip--mask--base-yellow)](https://huggingface.co/f1k/katip-mask-base)
 [![Lisans: AGPL-3.0 + ticari](https://img.shields.io/badge/lisans-AGPL--3.0%20%2B%20ticari-blue)](COMMERCIAL.md)
+[![fikrifirat/katip MCP server](https://glama.ai/mcp/servers/fikrifirat/katip/badges/score.svg)](https://glama.ai/mcp/servers/fikrifirat/katip)
 
 Katip, Türkçe hukuk belgelerindeki kişisel verileri (T.C. kimlik no, VKN, IBAN, telefon, e-posta,
 plaka, adres, ad soyad, KVKK md. 6 sağlık verileri) bulur ve maskeler; **belge bilgisayarınızdan hiç
