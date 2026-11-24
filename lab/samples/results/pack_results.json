@@ -3432,12 +3432,12 @@
     ]
    },
    "eu": {
-    "recall": 95.1,
+    "recall": 97.9,
     "ci95": [
-     92.2,
-     97.0
+     95.7,
+     99.0
     ],
-    "caught": 313,
+    "caught": 322,
     "of": 329,
     "by_type": {
      "ADDRESS": {
@@ -3456,9 +3456,9 @@
       "recall": 100.0
      },
      "HEALTH": {
-      "caught": 0,
+      "caught": 8,
       "of": 8,
-      "recall": 0.0
+      "recall": 100.0
      },
      "IBAN": {
       "caught": 12,
@@ -3481,9 +3481,9 @@
       "recall": 100.0
      },
      "PERSON": {
-      "caught": 163,
+      "caught": 164,
       "of": 166,
-      "recall": 98.2
+      "recall": 98.8
      },
      "PHONE": {
       "caught": 22,
@@ -3503,14 +3503,14 @@
       "recall": 98.5
      },
      "not_listed": {
-      "caught": 98,
+      "caught": 99,
       "of": 100,
-      "recall": 98.0
+      "recall": 99.0
      }
     },
-    "docs_fully_masked": 12,
+    "docs_fully_masked": 14,
     "keep_readable": {
-     "kept": 78,
+     "kept": 91,
      "of": 93
     },
     "by_doc": [
@@ -3521,7 +3521,7 @@
       "caught": 14,
       "of": 14,
       "clean": true,
-      "kept": 5,
+      "kept": 6,
       "keep_of": 6
      },
      {
@@ -3541,7 +3541,7 @@
       "caught": 21,
       "of": 21,
       "clean": true,
-      "kept": 2,
+      "kept": 3,
       "keep_of": 3
      },
      {
@@ -3551,7 +3551,7 @@
       "caught": 21,
       "of": 21,
       "clean": true,
-      "kept": 3,
+      "kept": 4,
       "keep_of": 4
      },
      {
@@ -3578,10 +3578,10 @@
       "doc": "ho-07",
       "case": "H-EU-07",
       "title": "Certificat médical initial accident du travail Lyon",
-      "caught": 10,
+      "caught": 13,
       "of": 13,
-      "clean": false,
-      "kept": 4,
+      "clean": true,
+      "kept": 5,
       "keep_of": 5
      },
      {
@@ -3591,7 +3591,7 @@
       "caught": 16,
       "of": 16,
       "clean": true,
-      "kept": 4,
+      "kept": 5,
       "keep_of": 5
      },
      {
@@ -3621,7 +3621,7 @@
       "caught": 13,
       "of": 13,
       "clean": true,
-      "kept": 3,
+      "kept": 5,
       "keep_of": 5
      },
      {
@@ -3648,10 +3648,10 @@
       "doc": "ho-14",
       "case": "H-EU-14",
       "title": "İş kazası tazminat dava dilekçesi Hollandalı işçi",
-      "caught": 12,
+      "caught": 15,
       "of": 15,
-      "clean": false,
-      "kept": 4,
+      "clean": true,
+      "kept": 5,
       "keep_of": 5
      },
      {
@@ -3681,17 +3681,17 @@
       "caught": 18,
       "of": 18,
       "clean": true,
-      "kept": 2,
+      "kept": 5,
       "keep_of": 5
      },
      {
       "doc": "ho-18",
       "case": "H-EU-18",
       "title": "Parte amistoso de accidente Málaga conductor turco",
-      "caught": 16,
+      "caught": 17,
       "of": 18,
       "clean": false,
-      "kept": 4,
+      "kept": 6,
       "keep_of": 6
      },
      {
@@ -3708,7 +3708,7 @@
       "doc": "ho-20",
       "case": "H-EU-20",
       "title": "Signal yazışması Alman müvekkil ile",
-      "caught": 24,
+      "caught": 26,
       "of": 27,
       "clean": false,
       "kept": 2,
@@ -3727,39 +3727,9 @@
       "text": "65 120584 Ö 017"
      },
      {
-      "doc": "ho-07",
-      "type": "HEALTH",
-      "text": "fracture ouverte du tiers distal du tibia gauche avec plaie contuse de 6 cm"
-     },
-     {
-      "doc": "ho-07",
-      "type": "HEALTH",
-      "text": "un traumatisme crânien sans perte de connaissance"
-     },
-     {
-      "doc": "ho-07",
-      "type": "HEALTH",
-      "text": "diabète de type 2 sous metformine"
-     },
-     {
       "doc": "ho-13",
       "type": "PERSON",
       "text": "Hofbauer"
-     },
-     {
-      "doc": "ho-14",
-      "type": "HEALTH",
-      "text": "L1 vertebra kompresyon kırığı"
-     },
-     {
-      "doc": "ho-14",
-      "type": "HEALTH",
-      "text": "sağ el 4. ve 5. parmakta kalıcı fonksiyon kaybı"
-     },
-     {
-      "doc": "ho-14",
-      "type": "HEALTH",
-      "text": "%32 sürekli iş göremezlik"
      },
      {
       "doc": "ho-15",
@@ -3773,11 +3743,6 @@
      },
      {
       "doc": "ho-18",
-      "type": "HEALTH",
-      "text": "esguince cervical (latigazo) y contusión torácica"
-     },
-     {
-      "doc": "ho-18",
       "type": "PERSON",
       "text": "Pablo"
      },
@@ -3785,115 +3750,14 @@
       "doc": "ho-20",
       "type": "ID_DOCUMENT",
       "text": "MHZGYLPYY"
-     },
-     {
-      "doc": "ho-20",
-      "type": "PERSON",
-      "text": "Ulrike"
-     },
-     {
-      "doc": "ho-20",
-      "type": "HEALTH",
-      "text": "Chemotherapie wegen Brustkrebs"
      }
     ],
     "over_masked": [
-     {
-      "doc": "ho-01",
-      "kept_string": "Wipplingerstraße 12, 1010 Wien",
-      "masked": [
-       "Wipplingerstraße 12, 1010 Wien"
-      ]
-     },
-     {
-      "doc": "ho-03",
-      "kept_string": "Fennor Capital DAC, 2 Grand Canal Square, Dublin 2",
-      "masked": [
-       "2 Grand Canal Square, Dublin 2"
-      ]
-     },
-     {
-      "doc": "ho-04",
-      "kept_string": "Northgate Lettings Ltd, 118 Kilburn High Road, London NW6 4HY",
-      "masked": [
-       "118 Kilburn High Road, London NW6 4HY"
-      ]
-     },
-     {
-      "doc": "ho-07",
-      "kept_string": "SAS Bâtiments Rhodaniens, 5 quai Perrache, 69002 Lyon",
-      "masked": [
-       "5 quai Perrache, 69002 Lyon"
-      ]
-     },
-     {
-      "doc": "ho-08",
-      "kept_string": "Corso di Porta Romana 61",
-      "masked": [
-       "Corso di Porta Romana 61"
-      ]
-     },
-     {
-      "doc": "ho-11",
-      "kept_string": "Holm & Bech Advokatpartnerselskab",
-      "masked": [
-       "Holm"
-      ]
-     },
-     {
-      "doc": "ho-11",
-      "kept_string": "Bredgade 30, 1260 København K",
-      "masked": [
-       "Bredgade 30, 1260 København K"
-      ]
-     },
-     {
-      "doc": "ho-14",
-      "kept_string": "Marmara Lojistik ve Depolama A.Ş., Tuzla OSB 3. Cad. No:12 Tuzla/İstanbul",
-      "masked": [
-       "Tuzla OSB 3. Cad. No:12 Tuzla/İstanbul"
-      ]
-     },
      {
       "doc": "ho-16",
       "kept_string": "Bosporus Holding A.Ş., Istanbul (Ticaret Sicil No. 845512)",
       "masked": [
        "845512"
-      ]
-     },
-     {
-      "doc": "ho-17",
-      "kept_string": "Noordhaven Bank N.V.",
-      "masked": [
-       "N.V.\nCoolsingel 104, 3011 AG Rotterdam\nChamber"
-      ]
-     },
-     {
-      "doc": "ho-17",
-      "kept_string": "Coolsingel 104, 3011 AG Rotterdam",
-      "masked": [
-       "N.V.\nCoolsingel 104, 3011 AG Rotterdam\nChamber"
-      ]
-     },
-     {
-      "doc": "ho-17",
-      "kept_string": "Chamber of Commerce 24301776",
-      "masked": [
-       "N.V.\nCoolsingel 104, 3011 AG Rotterdam\nChamber"
-      ]
-     },
-     {
-      "doc": "ho-18",
-      "kept_string": "Mutua Costa del Sol",
-      "masked": [
-       "Mutua Costa del Sol"
-      ]
-     },
-     {
-      "doc": "ho-18",
-      "kept_string": "Sol Rent a Car S.L.",
-      "masked": [
-       "Sol Rent"
       ]
      },
      {
@@ -3904,47 +3768,12 @@
       ]
      }
     ],
-    "spans_without_gold": 16,
+    "spans_without_gold": 5,
     "spans_without_gold_list": [
      {
-      "doc": "ho-01",
-      "type": "ADDRESS",
-      "text": "Wipplingerstraße 12, 1010 Wien"
-     },
-     {
-      "doc": "ho-03",
-      "type": "ADDRESS",
-      "text": "2 Grand Canal Square, Dublin 2"
-     },
-     {
-      "doc": "ho-04",
-      "type": "ADDRESS",
-      "text": "118 Kilburn High Road, London NW6 4HY"
-     },
-     {
       "doc": "ho-07",
-      "type": "ADDRESS",
-      "text": "5 quai Perrache, 69002 Lyon"
-     },
-     {
-      "doc": "ho-08",
-      "type": "ADDRESS",
-      "text": "Corso di Porta Romana 61"
-     },
-     {
-      "doc": "ho-11",
-      "type": "PERSON",
-      "text": "Holm"
-     },
-     {
-      "doc": "ho-11",
-      "type": "ADDRESS",
-      "text": "Bredgade 30, 1260 København K"
-     },
-     {
-      "doc": "ho-14",
-      "type": "ADDRESS",
-      "text": "Tuzla OSB 3. Cad. No:12 Tuzla/İstanbul"
+      "type": "HEALTH",
+      "text": "Arrêt de travail jusqu'au 15 décembre 2026"
      },
      {
       "doc": "ho-15",
@@ -3960,26 +3789,6 @@
       "doc": "ho-16",
       "type": "BAR_NO",
       "text": "845512"
-     },
-     {
-      "doc": "ho-17",
-      "type": "ADDRESS",
-      "text": "N.V.\nCoolsingel 104, 3011 AG Rotterdam\nChamber"
-     },
-     {
-      "doc": "ho-18",
-      "type": "PERSON",
-      "text": "Mutua Costa del Sol"
-     },
-     {
-      "doc": "ho-18",
-      "type": "PERSON",
-      "text": "Sol Rent"
-     },
-     {
-      "doc": "ho-20",
-      "type": "HEALTH",
-      "text": "Krankenhaus"
      },
      {
       "doc": "ho-20",

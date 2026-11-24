@@ -303,8 +303,10 @@ def find_phones(text):
         if re.search(r"(?:^|\D)(?:19|20)\d{2}(?:\D|$)", m.group(1)) and re.search(r"\d[-./]\d", m.group(1)):
             continue  # "03-11-2026 21:20": a date, not a number
         if not 8 <= n <= 12 or re.search(r"(?i)(?:€|eur|euro|tl|try|usd|gbp|chf|pln|dkk|sek|£|\$|§|art\.?|iban|kvk|kbo|"
-                                          r"btw|vat|rsin|krs|regon|nip|cvr|siren|siret)\s*[:.]?\s*$",
-                                          text[max(0, m.start() - 12):m.start()]):
+                                          r"btw|vat|rsin|krs|regon|nip|cvr|siren|siret|cg|fn|hrb?|rcs|cif|n°|nº)\s*[:.]?\s*$",
+                                          text[max(0, m.start() - 12):m.start()]) or \
+                re.search(r"(?i)\b(?:RCS|registre|register|registry|Firmenbuch|Handelsregister|Cg)\b[^\n\d]{0,25}$",
+                          text[max(0, m.start() - 40):m.start()]):
             continue
         if re.match(r"(?:19|20)\d{2}\b", m.group(1)) or re.search(r"(?i)(?:az\.|aktenzeichen|case|no\.|nr\.|r\.?g\.?)\s*$",
                                                                    text[max(0, m.start() - 20):m.start()]):
@@ -447,6 +449,42 @@ def _address_lines(text, b, max_lines=3):
     return b
 
 
+# Company and office addresses stay readable; a sole trader's business address is his home address, so it is masked.
+_SOLE_TRADER = re.compile(r"(?i)\b(?:e\.\s?K\.|e\.\s?Kfm|eenmanszaak|sole trader|trading as|t/a|einzelunternehm\w*|"
+                          r"entreprise individuelle|auto-?entrepreneur|micro-?entrepreneur|ditta individuale|autónomo|"
+                          r"şahıs şirketi|enkeltmandsvirksomhed|enskild firma)\b")
+_OFFICE_WORDS = (r"(?:Advokatpartnerselskab|Advokatfirma|Advokatbyrå|Rechtsanwälte|Rechtsanwaltskanzlei|Anwaltskanzlei|"
+                 r"Kanzlei|Notariat|Notariaat|Advocaten|Avocats|Studio Legale|Despacho|Abogados|Solicitors|Chambers|"
+                 r"Hukuk Bürosu|Bank|Hospital|Krankenhaus|Universit\w+|Gericht|Rechtbank|Tribunal|Court|Ministry|Ministerium)")
+_PERSONAL_CUE = re.compile(r"(?i)\b(?:wohnhaft|wohnt|wonende|woonachtig|domicili\w*|resident|residing|living at|lives at|"
+                           r"demeurant|residente|bosatt|bor på|zam\.|zamieszka\w*|ikamet\w*|home|privat\w*|"
+                           r"C\.F\.|codice fiscale|PESEL|DNI|NIE|BSN|NIF|geb\.|geboren|born|née?|nato|nata)(?![\w])")
+_OFFICE_CUE = re.compile(r"(?i)(?:Amtssitz in [^,\n]{2,30}|kantoor (?:te|aan|houdende)|advoca(?:at|te|ten) te [^,\n]{2,30}|"
+                         r"cabinet|studio in|office(?:s)? at|registered office|seat at|zetel|Sitz|Geschäftsadresse|"
+                         r"siège social|sede legale|domicilio social|ticaret sicil\w*)[ \t,:]*$")
+
+
+def _business_address(text, a):
+    """True when the address at `a` belongs to a company or an office: it follows the company's name on the same
+    line ("Fennor Capital DAC, 2 Grand Canal Square"), on the line above (a letterhead), or an office cue
+    ("öffentliche Notarin mit dem Amtssitz in Wien, Wipplingerstraße 12")."""
+    ls = text.rfind("\n", 0, a) + 1
+    line = text[ls:a]
+    if _PERSONAL_CUE.search(line) or _SOLE_TRADER.search(line):
+        return False
+    company = COMPANY_FORMS + r"\)?|" + _OFFICE_WORDS
+    if re.search(r"(?:" + company + r")[ \t]*[,·|–-]?[ \t]*$", line) or \
+            re.search(r"(?<![\w.])(?:SAS|SARL|SA|GmbH|AG|BV|NV|SpA|Srl|SL)(?:[ \t]+[A-ZÀ-Þ][\w'’-]*){1,4}[ \t]*,[ \t]*$", line):
+        return True
+    if _OFFICE_CUE.search(line):
+        return True
+    if not line.strip():  # letterhead: the line above is the company's name
+        prev = text[text.rfind("\n", 0, max(ls - 1, 0)) + 1:max(ls - 1, 0)]
+        if re.search(r"(?:" + company + r")[ \t]*$", prev) and not _SOLE_TRADER.search(prev) and len(prev) < 80:
+            return True
+    return False
+
+
 def find_addresses(text):
     out = []
     for m in _ADDR_CUE.finditer(text):
@@ -455,6 +493,9 @@ def find_addresses(text):
             continue
         val = re.split(r"\s+[–—]\s+|;|,\s+(?=(?:verzoeker|verzoekster|ausgewiesen|geboren|born|tel|phone|nacid|"
                        r"nato|nata|née?|e-?mail|dni|nie|passport)\b)|\.\s+(?=[A-Z])", line.group(0), maxsplit=1)[0]
+        pc = re.search(r"(?<![\w-])(?:\d{4,5}|\d{2}-\d{3}|\d{4}-\d{3}|\d{3} \d{2})(?:[ \t][A-Z]{2})?[ \t]+[A-ZÀ-Þ'][\w'’-]+", val)
+        if pc and "," in val[pc.end():]:  # "Corso Vercelli 301, 10155 Torino, a comparire …": the address ends at the town
+            val = val[:pc.end() + val[pc.end():].index(",")]
         val = val.rstrip(" ,.")
         a, b = m.end(), m.end() + len(val)
         if not (val[:1].isupper() or val[:1].isdigit()) or not re.search(r"\d", text[a:_address_lines(text, b)]) \
@@ -479,9 +520,8 @@ def find_addresses(text):
         c = re.match(r"[ \t]*/[ \t]*[A-ZÇĞİÖŞÜ]{3,}(?![\w])", text[b:])
         if c:  # "... 3074 AM Rotterdam / HOLLANDA" in a Turkish petition
             b += c.end()
-        line = text[text.rfind("\n", 0, a) + 1:a]
-        if re.search(COMPANY_FORMS + r"[ \t]*[·|][ \t]*$", line):
-            continue  # letterhead: "Anatolia Logistics GmbH · Hafenstraße 9 · 28217 Bremen" is the company's address
+        if _business_address(text, a):
+            continue  # a company's or an office's address is public business data: kept readable (fikri, 24 Nov 2026)
         if any(o["start"] <= a and o["end"] >= b for o in out):
             continue
         out.append(_span("ADDRESS", a, b, text, 0.85, "eu_street", "street and house number"))
@@ -865,9 +905,9 @@ def find_names_context(text):
     return out
 
 
-_INITIAL_NAME = re.compile(r"(?<![\w.])((?:[A-ZÀ-ÞŁŚŻ]\.[ -]?){1,3}\s?(?:(?i:" +
+_INITIAL_NAME = re.compile(r"(?<![\w.])((?:[A-ZÀ-ÞŁŚŻ]\.[ -]?){1,3}[ \t]?(?:(?i:" +
                            "|".join(sorted(PARTICLES - {"i", "y", "'t"}, key=len, reverse=True)) +
-                           r")\s+)*[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘŞÇĞÖÜİ][a-zà-ÿłśżźćńšžčřđőűąęėįųūāēīōışğçöü'’-]{2,}"
+                           r")[ \t]+)*[A-ZÀ-ÞŁŚŻŹĆŃŠŽČŘŞÇĞÖÜİ][a-zà-ÿłśżźćńšžčřđőűąęėįųūāēīōışğçöü'’-]{2,}"
                            r"(?:-[A-ZÀ-Þ][a-zà-ÿ'’-]+)?)(?![\w'’])")
 # chat lines: "[22/10/2026, 18:03] Ahmed Al-Masri: ...", "Jule: ...", "Carmen 10:14: ..."
 _CHAT = re.compile(r"(?m)^[ \t]*(?:\[[^\]\n]{4,25}\][ \t]*|\d{1,2}[:.]\d{2}[ \t]+)?"
@@ -995,7 +1035,10 @@ _SPECIAL = {
         cirugía|operatie|hospitali[sz]\w*|krankenhaus\w*|ospedale|ricovero|hospitalización|ziekenhuisopname|
         burns?|verbrennung\w*|brûlure\w*|ustion\w*|quemadura\w*|brandwond\w*|skin graft|hauttransplantation|
         fracture\w*|fraktur|frattura|fractura|breuk|addiction|sucht|alcoholism|alkoholabhängig\w*|drug use|
-        hypoglyc\w*|hypoglyk\w*|insulin\w*|chemotherap\w*|dialys\w*|rehabilita\w*|reintegrat\w*|wiedereingliederung""",
+        hypoglyc\w*|hypoglyk\w*|insulin\w*|chemotherap\w*|dialys\w*|rehabilita\w*|reintegrat\w*|wiedereingliederung|
+        trauma\w*|traumatisme\w*|whiplash|schleudertrauma|latigazo|esguince|contusi[oó]n\w*|contusion\w*|prellung\w*|
+        kneuzing\w*|commotio\w*|gehirnerschütterung|concussion|kırı[gğ]\w*|kırık\w*|fonksiyon kaybı|iş göremezli\w*|
+        maluliyet\w*|engellilik|ameliyat\w*|teşhis\w*|kanser\w*|diyabet\w*|felç\w*|travma\w*|hastalı[gğ]\w*""",
     "RELIGION": r"""muslim\w*|islam\w*|christian\w*|catholic\w*|katholisch\w*|catholique|cattolic\w*|católic\w*|
         katholiek\w*|protestant\w*|evangelisch\w*|jewish|jüdisch\w*|juif|juive|ebreo|ebrea|judío|judía|joods|
         buddhist\w*|hindu\w*|atheist\w*|athée|ateo|atea|kirchensteuer|church tax|religious affiliation|konfession""",
@@ -1011,14 +1054,58 @@ _SPECIAL = {
         strafblad|convicted|verurteilt|condamné\w*|condannat\w*|condenad\w*|veroordeeld|investigation for|
         ermittlungsverfahren""",
 }
-_SPECIAL_RE = {k: re.compile(r"(?i)(?<![\w-])(?:" + re.sub(r"\s+", "", v) + r")(?![\w-])") for k, v in _SPECIAL.items()}
+# only the line breaks of the lists are dropped: multi-word entries ("sick leave", "criminal record") keep their space
+_SPECIAL_RE = {k: re.compile(r"(?i)(?<![\w-])(?:" + re.sub(r"\s*\n\s*", "", v) + r")(?![\w-])") for k, v in _SPECIAL.items()}
+
+
+# "6,000,000" and "18 742,30" are numbers, "(ICD-10 G35.1)" a code, "CHU de Limoges" an institution: all stay readable
+_CLAUSE_END = re.compile(r"[;:\n]|,(?!\d)|(?<![\d\s])\.(?=\s|$)|(?<=\d)\.(?=\s+[A-ZÀ-Þ])|\s[–—]\s|"
+                         r"[ \t]?\((?=[A-Z]{2,}[\w-]*[ -]?\d)")
+_INSTITUTION_NEXT = re.compile(r"[ \t](?=(?:au|im|in|en|at|al|nel|a|im|in der|ins)?[ \t]?(?:CHU|CHR|AP-HP|Hospital|Hôpital|"
+                         r"Krankenhaus|Klinikum|Klinik|Clinic|Clinique|Clínica|Ospedale|Policlinico|Ziekenhuis|UMC|"
+                         r"Universit\w+|Hastane\w*)\b)")
+
+
+def _health_phrase(text, a, b, cap=140):
+    """Widen a health keyword to its clause: "fracture ouverte du tiers distal du tibia gauche avec plaie contuse
+    de 6 cm", "diabète de type 2 sous metformine", "Chemotherapie wegen Brustkrebs" (fikri, 24 Nov 2026: mask
+    the whole health phrase, not only the medical word). Clauses end at , ; : a line end or a sentence full stop."""
+    left = a
+    while left > 0 and not _CLAUSE_END.match(text, left - 1) and a - left < cap:
+        left -= 1
+    inst = list(re.finditer(r"(?i)\b(?:CHU|CHR|Hospital|Hôpital|Krankenhaus|Klinikum|Klinik|Clinic|Clinique|Clínica|"
+                            r"Ospedale|Policlinico|Ziekenhuis|UMC|Hastane\w*)\b", text[left:a]))
+    if inst:  # "Maltepe Üniversitesi Hastanesi raporunda %32 …": the hospital's name stays readable
+        left += inst[-1].end()
+    m = _CLAUSE_END.search(text, b)
+    right = m.start() if m else len(text)
+    i = _INSTITUTION_NEXT.search(text, b, right)
+    right = i.start() if i else right
+    if right - left > cap:  # a long sentence: keep the widening near the medical word
+        left = max(left, a - 50)
+        right = min(right, b + 70)
+        left = text.find(" ", left) + 1 if left < a and " " in text[left:a] else left
+        sp = text.rfind(" ", b, right)
+        right = sp if right < len(text) and sp > b and _CLAUSE_END.match(text, right) is None else right
+    while left < a and text[left] in " \t'’\"(":
+        left += 1
+    while right > b and text[right - 1] in " \t\"":
+        right -= 1
+    return left, right
 
 
 def find_special(text):
-    if _looks_turkish(text):
-        return []  # the Turkish engine has its own lists
-    return [_span(k, m.start(), m.end(), text, 0.7, "eu_special", "special category keyword (GDPR Art. 9/10)")
-            for k, rx in _SPECIAL_RE.items() for m in rx.finditer(text)]
+    tr = _looks_turkish(text)
+    out = []
+    for k, rx in _SPECIAL_RE.items():
+        if tr and k != "HEALTH":
+            continue  # the Turkish engine has its own lists; health phrases are widened for both
+        for m in rx.finditer(text):
+            if re.match(r"(?:[ \t]+[A-ZÀ-Þ][\w&.'’-]*){0,3}[ \t]+" + COMPANY_FORMS + r"(?![\w])", text[m.end():]):
+                continue  # "Shannon Diagnostics Ltd" is a company
+            a, b = _health_phrase(text, *m.span()) if k == "HEALTH" else m.span()
+            out.append(_span(k, a, b, text, 0.7, "eu_special", "special category (GDPR Art. 9/10)"))
+    return out
 
 
 # ---------------------------------------------------------------- optional multilingual model
@@ -1222,6 +1309,7 @@ def merge(text: str, spans: list[dict], extra: list[dict] | None = None) -> list
         pick = max(ids or group, key=lambda s: (s["end"] - s["start"], _RANK.get(s["entity_type"], 0)))
         out = [s for s in out if s not in hit]
         out.append({**pick, "id": e.get("id") or f"eu{len(out):04d}", "start": a, "end": b, "text": text[a:b]})
+    out = [s for s in out if not (s["entity_type"] == "ADDRESS" and _business_address(text, s["start"]))]
     out = _drop_companies_and_acts(text, out)
     out = _spread_names(text, out)
     out = _widen_names(text, out)
@@ -1232,9 +1320,9 @@ def merge(text: str, spans: list[dict], extra: list[dict] | None = None) -> list
 
 COMPANY_FORMS = (r"(?:GmbH(?:\s&\sCo\.\sKG)?|AG|SE|KG|KGaA|OHG|e\.V\.|B\.V\.|BV|N\.V\.|NV|S\.A\.S?|SA|SAS|SARL|S\.à\s?r\.l\.|"
                  r"S\.r\.l\.|Srl|S\.p\.A\.|SpA|S\.L\.U?\.?|SL|S\.A\.U\.|Lda\.?|Ltd\.?|Limited|plc|PLC|LLP|LLC|Inc\.?|"
-                 r"ICAV|DAC|UAB|AB|ASA|AS|A/S|ApS|Oy|Oyj|Sp\.\sz\so\.o\.|s\.r\.o\.|a\.s\.|Kft\.?|Zrt\.?|A\.Ş\.|Ltd\.\sŞti\.)")
-_COMPANY_AFTER = re.compile(r"[ \t]*,?[ \t]*(?:(?:&[ \t]*)?[A-ZÀ-Þ][\w'’&.-]*[ \t]+){0,4}" + COMPANY_FORMS + r"(?![\w])")
-_COMPANY_WORDS = set("""Bank Group Holding Holdings Trading Export Import Energy Fund Services Solutions Partners Capital
+                 r"ICAV|DAC|UAB|AB|ASA|AS|A/S|ApS|P/S|I/S|Advokatpartnerselskab|Advokatfirma|Oy|Oyj|Sp\.\sz\so\.o\.|s\.r\.o\.|a\.s\.|Kft\.?|Zrt\.?|A\.Ş\.|Ltd\.\sŞti\.)")
+_COMPANY_AFTER = re.compile(r"[ \t]*,?[ \t]*(?:(?:&[ \t]*|(?:a|de|del|of|and|ve|und|et|e|y)[ \t]+)?[A-ZÀ-Þ][\w'’&.-]*[ \t]+){0,4}" + COMPANY_FORMS + r"(?![\w])")
+_COMPANY_WORDS = set("""Mutua Mutual Mutuelle Seguros Assurances Assicurazioni Verzekeringen Bank Group Holding Holdings Trading Export Import Energy Fund Services Solutions Partners Capital
 Logistics Consulting Systems Technologies Software Retail Industries Investments Properties Immobilien Verwaltung
 Beteiligungen Arredamenti Tessuti Cerámicas Boulangeries Frères Agro Timber Port Otomotiv Insurance Versicherung
 Kanzlei Studio Despacho Cabinet Advocaten Notariaat Stiftung Foundation Fondation Fondazione Fundación Stichting

@@ -96,7 +96,7 @@ def run_eu(name="eu_docs.jsonl"):
                 if hit:
                     over.append({"doc": d["id"], "kept_string": k,
                                  "masked": [d["text"][s["start"]:s["end"]] for s in sp if s["start"] < i + len(k) and s["end"] > i]})
-            by_doc.append({"doc": d["id"], "case": d["case"], "title": d["title"], "caught": caught, "of": len(d["gold"]),
+            by_doc.append({"doc": d["id"], "case": d.get("case", d["id"]), "title": d.get("title", ""), "caught": caught, "of": len(d["gold"]),
                            "clean": ok_doc, "kept": kept_doc, "keep_of": len(d["keep"])})
         k = sum(v[0] for v in by_type.values())
         n = sum(v[1] for v in by_type.values())
