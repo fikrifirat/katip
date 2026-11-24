@@ -352,7 +352,7 @@ Ordentliche Kündigung des Arbeitsverhältnisses
 
 Sehr geehrter Herr {{PERSON:Brinkhuis}},
 hiermit kündigen wir das mit Ihnen bestehende Arbeitsverhältnis ordentlich und fristgerecht zum 31.01.2027
-(§ 622 Abs. 2 BGB). Der Betriebsrat wurde gemäß § 102 BetrVG angehört. Ihre Arbeitsunfähigkeit
+(§ 622 Abs. 2 BGB). Der Betriebsrat wurde gemäß § 102 BetrVG angehört. Ihre {{HEALTH:Arbeitsunfähigkeit}}
 seit 02.10.2026 ({{HEALTH:Bandscheibenvorfall}}, AU-Bescheinigung Dr. {{PERSON:Wolters}}) ist nicht Grund der Kündigung.
 Ihr Resturlaub von 11 Tagen wird mit der Abrechnung November ausgezahlt (Konto {{IBAN:@iban_de}}).
 
@@ -362,10 +362,10 @@ Mit freundlichen Grüßen
 
  dict(id="eu-16", case="S-EU-16", doc_type="email", lang="nl", title="Dutch client e-mail about a holiday-home dispute in Didim",
   text="""Van: {{PERSON:Lieke Brouwer-Smit}} <{{EMAIL:lieke.brouwer@example.nl}}>
-Aan: av.cansu.erel@example.com.tr
+Aan: {{EMAIL:av.cansu.erel@example.com.tr}}
 Onderwerp: RE: Zaak Didim – terugbetaling aanbetaling
 
-Beste mevrouw Erel,
+Beste mevrouw {{PERSON:Erel}},
 
 Zoals besproken heb ik op 12 mei 2025 een aanbetaling van € 40.000 gedaan aan Didim Marina Yapı Ltd. Şti.
 vanaf onze rekening {{IBAN:@iban_nl}} (op naam van mijn man {{PERSON:Bram Brouwer}}).

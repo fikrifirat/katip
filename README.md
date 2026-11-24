@@ -234,11 +234,11 @@ name-only and the multi-type model code).
 - [x] Precedent search and statute checks in Claude and ChatGPT (Katip Kalkan, the relay), with the lawyer's grade button
 - [ ] One ask screen that opens a case folder (*dosya*) that grows over time: next step, sources, history, drafts
 - [ ] Precedents, statutes and citation checks inside the case
-- [ ] Document-type detection on the device that suggests the right tools
+- [x] Document-type detection on the device that suggests the right tools (Katip Algıla, in Kalkan; not yet in the web app)
 - [ ] Drafting (Taslak) from the case's sources
 - [ ] Dutch law (masking, wetten, rechtspraak)
 - [ ] Deployment for firms: on a laptop, on the firm's own server
-- [ ] A firm setting for what runs on its own and what waits for a lawyer
+- [x] A firm setting for what runs on its own and what waits for a lawyer (Kalkan's `KATIP_AUTONOMY`)
 - [ ] Lawyer-reviewed help for people without a lawyer (*Cebindeki hukuk*), after a written opinion on bar rules
 
 The order we're building these in, how we'll know each is done, and a check against the last 30 days of

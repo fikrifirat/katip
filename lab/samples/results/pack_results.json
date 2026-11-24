@@ -1,16 +1,16 @@
 {
  "eu": {
   "docs": 16,
-  "values": 132,
+  "values": 135,
   "profiles": {
    "ai": {
-    "recall": 42.4,
+    "recall": 43.0,
     "ci95": [
-     34.3,
-     51.0
+     34.9,
+     51.4
     ],
-    "caught": 56,
-    "of": 132,
+    "caught": 58,
+    "of": 135,
     "by_type": {
      "ADDRESS": {
       "caught": 1,
@@ -23,13 +23,13 @@
       "recall": 0.0
      },
      "EMAIL": {
-      "caught": 6,
-      "of": 6,
+      "caught": 7,
+      "of": 7,
       "recall": 100.0
      },
      "HEALTH": {
       "caught": 0,
-      "of": 1,
+      "of": 2,
       "recall": 0.0
      },
      "IBAN": {
@@ -53,9 +53,9 @@
       "recall": 33.3
      },
      "PERSON": {
-      "caught": 35,
-      "of": 71,
-      "recall": 49.3
+      "caught": 36,
+      "of": 72,
+      "recall": 50.0
      },
      "PHONE": {
       "caught": 2,
@@ -75,9 +75,9 @@
       "recall": 33.3
      },
      "not_listed": {
-      "caught": 30,
-      "of": 56,
-      "recall": 53.6
+      "caught": 31,
+      "of": 57,
+      "recall": 54.4
      }
     },
     "docs_fully_masked": 0,
@@ -231,7 +231,7 @@
       "case": "S-EU-15",
       "title": "German dismissal letter from a Turkish company's subsidiary, with a sick-leave mention",
       "caught": 2,
-      "of": 7,
+      "of": 8,
       "clean": false,
       "kept": 3,
       "keep_of": 4
@@ -240,8 +240,8 @@
       "doc": "eu-16",
       "case": "S-EU-16",
       "title": "Dutch client e-mail about a holiday-home dispute in Didim",
-      "caught": 4,
-      "of": 9,
+      "caught": 6,
+      "of": 11,
       "clean": false,
       "kept": 3,
       "keep_of": 3
@@ -596,6 +596,11 @@
      {
       "doc": "eu-15",
       "type": "HEALTH",
+      "text": "Arbeitsunfähigkeit"
+     },
+     {
+      "doc": "eu-15",
+      "type": "HEALTH",
       "text": "Bandscheibenvorfall"
      },
      {
@@ -679,36 +684,149 @@
        "Anatolia"
       ]
      }
+    ],
+    "spans_without_gold": 22,
+    "spans_without_gold_list": [
+     {
+      "doc": "eu-01",
+      "type": "PERSON",
+      "text": "Erschienene"
+     },
+     {
+      "doc": "eu-01",
+      "type": "ADDRESS",
+      "text": "Mahmutlar Mahallesi"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PLATE",
+      "text": "32 VI 518"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Erbschein"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Erbschein"
+     },
+     {
+      "doc": "eu-02",
+      "type": "PERSON",
+      "text": "Gesetzes"
+     },
+     {
+      "doc": "eu-04",
+      "type": "PERSON",
+      "text": "Şerhi"
+     },
+     {
+      "doc": "eu-06",
+      "type": "PERSON",
+      "text": "KÖLN"
+     },
+     {
+      "doc": "eu-06",
+      "type": "PERSON",
+      "text": "Tereke"
+     },
+     {
+      "doc": "eu-06",
+      "type": "PLATE",
+      "text": "32 VI 518"
+     },
+     {
+      "doc": "eu-06",
+      "type": "PERSON",
+      "text": "Köln"
+     },
+     {
+      "doc": "eu-10",
+      "type": "PERSON",
+      "text": "ALY"
+     },
+     {
+      "doc": "eu-11",
+      "type": "PERSON",
+      "text": "INCIDENT NOTIFICATION"
+     },
+     {
+      "doc": "eu-11",
+      "type": "PERSON",
+      "text": "Managing Partner"
+     },
+     {
+      "doc": "eu-11",
+      "type": "PERSON",
+      "text": "Incident Lead"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Can"
+     },
+     {
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Medien"
+     },
+     {
+      "doc": "eu-13",
+      "type": "PERSON",
+      "text": "Baltic"
+     },
+     {
+      "doc": "eu-13",
+      "type": "PERSON",
+      "text": "Izby Adwokackiej"
+     },
+     {
+      "doc": "eu-13",
+      "type": "PERSON",
+      "text": "Izmirze"
+     },
+     {
+      "doc": "eu-13",
+      "type": "CASE_NO",
+      "text": "2026/18831"
+     },
+     {
+      "doc": "eu-15",
+      "type": "PERSON",
+      "text": "Anatolia"
+     }
     ]
    },
    "eu": {
-    "recall": 87.9,
+    "recall": 100.0,
     "ci95": [
-     81.2,
-     92.4
+     97.2,
+     100.0
     ],
-    "caught": 116,
-    "of": 132,
+    "caught": 135,
+    "of": 135,
     "by_type": {
      "ADDRESS": {
-      "caught": 10,
+      "caught": 15,
       "of": 15,
-      "recall": 66.7
+      "recall": 100.0
      },
      "BIRTH_DATE": {
-      "caught": 10,
+      "caught": 12,
       "of": 12,
-      "recall": 83.3
+      "recall": 100.0
      },
      "EMAIL": {
-      "caught": 6,
-      "of": 6,
+      "caught": 7,
+      "of": 7,
       "recall": 100.0
      },
      "HEALTH": {
-      "caught": 0,
-      "of": 1,
-      "recall": 0.0
+      "caught": 2,
+      "of": 2,
+      "recall": 100.0
      },
      "IBAN": {
       "caught": 4,
@@ -726,14 +844,14 @@
       "recall": 100.0
      },
      "PASSPORT": {
-      "caught": 1,
+      "caught": 3,
       "of": 3,
-      "recall": 33.3
+      "recall": 100.0
      },
      "PERSON": {
-      "caught": 65,
-      "of": 71,
-      "recall": 91.5
+      "caught": 72,
+      "of": 72,
+      "recall": 100.0
      },
      "PHONE": {
       "caught": 7,
@@ -748,19 +866,19 @@
     },
     "names_first_name_listed": {
      "listed": {
-      "caught": 14,
+      "caught": 15,
       "of": 15,
-      "recall": 93.3
+      "recall": 100.0
      },
      "not_listed": {
-      "caught": 51,
-      "of": 56,
-      "recall": 91.1
+      "caught": 57,
+      "of": 57,
+      "recall": 100.0
      }
     },
-    "docs_fully_masked": 5,
+    "docs_fully_masked": 16,
     "keep_readable": {
-     "kept": 65,
+     "kept": 72,
      "of": 73
     },
     "by_doc": [
@@ -778,19 +896,19 @@
       "doc": "eu-02",
       "case": "S-EU-02",
       "title": "German certificate of inheritance (Erbschein) for a dual citizen's estate",
-      "caught": 5,
+      "caught": 9,
       "of": 9,
-      "clean": false,
-      "kept": 4,
+      "clean": true,
+      "kept": 5,
       "keep_of": 5
      },
      {
       "doc": "eu-03",
       "case": "S-EU-03",
       "title": "Dutch divorce order sent for recognition in Türkiye (tanıma-tenfiz)",
-      "caught": 10,
+      "caught": 11,
       "of": 11,
-      "clean": false,
+      "clean": true,
       "kept": 5,
       "keep_of": 5
      },
@@ -798,10 +916,10 @@
       "doc": "eu-04",
       "case": "S-EU-04",
       "title": "Turkish recognition petition about the Dutch divorce (foreign names inside Turkish text)",
-      "caught": 12,
+      "caught": 13,
       "of": 13,
-      "clean": false,
-      "kept": 4,
+      "clean": true,
+      "kept": 5,
       "keep_of": 5
      },
      {
@@ -818,19 +936,19 @@
       "doc": "eu-06",
       "case": "S-EU-06",
       "title": "Sworn translation of the Erbschein with the translator's certificate",
-      "caught": 8,
+      "caught": 9,
       "of": 9,
-      "clean": false,
-      "kept": 2,
+      "clean": true,
+      "kept": 3,
       "keep_of": 3
      },
      {
       "doc": "eu-07",
       "case": "S-EU-07",
       "title": "Italian special power of attorney to set up a Turkish company",
-      "caught": 7,
+      "caught": 8,
       "of": 8,
-      "clean": false,
+      "clean": true,
       "kept": 5,
       "keep_of": 5
      },
@@ -848,9 +966,9 @@
       "doc": "eu-09",
       "case": "S-EU-09",
       "title": "KYC sheet for a UK buyer in a Turkish share transfer",
-      "caught": 9,
+      "caught": 11,
       "of": 11,
-      "clean": false,
+      "clean": true,
       "kept": 6,
       "keep_of": 6
      },
@@ -858,9 +976,9 @@
       "doc": "eu-10",
       "case": "S-EU-10",
       "title": "Data-subject access request from an EU resident to a Turkish firm",
-      "caught": 5,
+      "caught": 6,
       "of": 6,
-      "clean": false,
+      "clean": true,
       "kept": 4,
       "keep_of": 4
      },
@@ -871,16 +989,16 @@
       "caught": 5,
       "of": 5,
       "clean": true,
-      "kept": 6,
+      "kept": 7,
       "keep_of": 7
      },
      {
       "doc": "eu-12",
       "case": "S-EU-12",
       "title": "WhatsApp export: German client, Turkish lawyer, property dispute in Fethiye",
-      "caught": 9,
+      "caught": 11,
       "of": 11,
-      "clean": false,
+      "clean": true,
       "kept": 2,
       "keep_of": 2
      },
@@ -898,171 +1016,69 @@
       "doc": "eu-14",
       "case": "S-EU-14",
       "title": "Spanish notarial power for a Turkish inheritance (NIE holder)",
-      "caught": 5,
+      "caught": 6,
       "of": 6,
-      "clean": false,
-      "kept": 3,
+      "clean": true,
+      "kept": 4,
       "keep_of": 4
      },
      {
       "doc": "eu-15",
       "case": "S-EU-15",
       "title": "German dismissal letter from a Turkish company's subsidiary, with a sick-leave mention",
-      "caught": 6,
-      "of": 7,
-      "clean": false,
-      "kept": 3,
+      "caught": 8,
+      "of": 8,
+      "clean": true,
+      "kept": 4,
       "keep_of": 4
      },
      {
       "doc": "eu-16",
       "case": "S-EU-16",
       "title": "Dutch client e-mail about a holiday-home dispute in Didim",
-      "caught": 8,
-      "of": 9,
-      "clean": false,
-      "kept": 2,
+      "caught": 11,
+      "of": 11,
+      "clean": true,
+      "kept": 3,
       "keep_of": 3
      }
     ],
-    "misses": [
-     {
-      "doc": "eu-02",
-      "type": "BIRTH_DATE",
-      "text": "11.02.1949"
-     },
-     {
-      "doc": "eu-02",
-      "type": "PERSON",
-      "text": "Gülizar Kaplanoğlu geb. Sert"
-     },
-     {
-      "doc": "eu-02",
-      "type": "PERSON",
-      "text": "Derya Rauschenberger geb. Kaplanoğlu"
-     },
-     {
-      "doc": "eu-02",
-      "type": "PERSON",
-      "text": "Overbeck"
-     },
-     {
-      "doc": "eu-03",
-      "type": "ADDRESS",
-      "text": "Groene Hilledijk 318, 3074 AM Rotterdam"
-     },
-     {
-      "doc": "eu-04",
-      "type": "ADDRESS",
-      "text": "Groene Hilledijk 318, 3074 AM Rotterdam / HOLLANDA"
-     },
-     {
-      "doc": "eu-06",
-      "type": "BIRTH_DATE",
-      "text": "11.02.1949"
-     },
-     {
-      "doc": "eu-07",
-      "type": "PERSON",
-      "text": "Giuseppina Lo Faro"
-     },
-     {
-      "doc": "eu-09",
-      "type": "ADDRESS",
-      "text": "Flat 4, 27 Pembridge Villas, London W11 3EP"
-     },
-     {
-      "doc": "eu-09",
-      "type": "ADDRESS",
-      "text": "12 Elm Grove, Harrogate HG1 2JL"
-     },
-     {
-      "doc": "eu-10",
-      "type": "ADDRESS",
-      "text": "31 Fairview Strand, Dublin 3, D03 KX88"
-     },
-     {
-      "doc": "eu-12",
-      "type": "PASSPORT",
-      "text": "C4R7NK2T9"
-     },
-     {
-      "doc": "eu-12",
-      "type": "PERSON",
-      "text": "Rüdiger"
-     },
-     {
-      "doc": "eu-14",
-      "type": "PERSON",
-      "text": "Íñigo Arrizabalaga Etxeberria"
-     },
-     {
-      "doc": "eu-15",
-      "type": "HEALTH",
-      "text": "Bandscheibenvorfall"
-     },
-     {
-      "doc": "eu-16",
-      "type": "PASSPORT",
-      "text": "NFG1C9LD8"
-     }
-    ],
+    "misses": [],
     "over_masked": [
-     {
-      "doc": "eu-02",
-      "kept_string": "32 VI 518/26",
-      "masked": [
-       "32 VI 518"
-      ]
-     },
-     {
-      "doc": "eu-04",
-      "kept_string": "Bursa Barosu",
-      "masked": [
-       "Bursa Barosu\nDAVALI"
-      ]
-     },
-     {
-      "doc": "eu-06",
-      "kept_string": "32 VI 518/26",
-      "masked": [
-       "32 VI 518"
-      ]
-     },
-     {
-      "doc": "eu-11",
-      "kept_string": "Karaağaç Hukuk Bürosu",
-      "masked": [
-       "Karaağaç Hukuk Bürosu"
-      ]
-     },
      {
       "doc": "eu-13",
       "kept_string": "2026/18831 Esas",
       "masked": [
        "2026/18831"
       ]
+     }
+    ],
+    "spans_without_gold": 5,
+    "spans_without_gold_list": [
+     {
+      "doc": "eu-01",
+      "type": "ADDRESS",
+      "text": "Mahmutlar Mahallesi"
      },
      {
-      "doc": "eu-14",
-      "kept_string": "İzmir 3. Sulh Hukuk Mahkemesi",
-      "masked": [
-       "Sulh Hukuk Mahkemesi"
-      ]
+      "doc": "eu-02",
+      "type": "ADDRESS",
+      "text": "Wien, zu 1/4"
      },
      {
-      "doc": "eu-15",
-      "kept_string": "Hafenstraße 9",
-      "masked": [
-       "Hafenstraße 9"
-      ]
+      "doc": "eu-06",
+      "type": "PERSON",
+      "text": "KÖLN"
      },
      {
-      "doc": "eu-16",
-      "kept_string": "Ege Emlak",
-      "masked": [
-       "Serkan Yıldızhan van Ege Emlak"
-      ]
+      "doc": "eu-12",
+      "type": "PERSON",
+      "text": "Can"
+     },
+     {
+      "doc": "eu-13",
+      "type": "CASE_NO",
+      "text": "2026/18831"
      }
     ]
    }
@@ -1070,7 +1086,7 @@
  },
  "dd": {
   "masak_as_of": "2026-11-24T09:27:00+0000",
-  "how_to_read_names_other_lists": false,
+  "how_to_read_names_other_lists": true,
   "masak_rows": 2311,
   "thresholds": {
    "match": 0.93,
@@ -1104,10 +1120,10 @@
     "group": "listed_company_as_typed",
     "query": "Al Sultan Kuyumculuk",
     "expect": "review",
-    "got": "weak",
-    "score": 0.815,
+    "got": "review",
+    "score": 0.912,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "Trade name split into two words, as on a shop sign."
    },
    {
@@ -1115,10 +1131,10 @@
     "group": "listed_company_as_typed",
     "query": "Alsultan Kuyumculuk",
     "expect": "review",
-    "got": "weak",
-    "score": 0.84,
+    "got": "match",
+    "score": 0.94,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "Only the trade name, no legal form: what a client says on the phone."
    },
    {
@@ -1137,8 +1153,8 @@
     "group": "listed_company_as_typed",
     "query": "Al Fay Company",
     "expect": "review",
-    "got": "none",
-    "score": null,
+    "got": "weak",
+    "score": 0.8,
     "top_listed_name": null,
     "ok": false,
     "why": "The English alias printed in the list in brackets."
@@ -1160,7 +1176,7 @@
     "query": "Endex Nakliyat Kuyumculuk",
     "expect": "review",
     "got": "match",
-    "score": 0.948,
+    "score": 0.97,
     "top_listed_name": null,
     "ok": true,
     "why": "Short form used in a payment description."
@@ -1171,7 +1187,7 @@
     "query": "First One International Dış Ticaret Tekstil Sanayi Ltd. Şti.",
     "expect": "review",
     "got": "match",
-    "score": 0.951,
+    "score": 0.975,
     "top_listed_name": null,
     "ok": true,
     "why": "List has FİRSTONE as one word."
@@ -1203,10 +1219,10 @@
     "group": "listed_company_as_typed",
     "query": "Embrace Relief Foundation",
     "expect": "review",
-    "got": "none",
-    "score": null,
+    "got": "match",
+    "score": 1.0,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "Listed foreign entity with an extra word."
    },
    {
@@ -1225,10 +1241,10 @@
     "group": "listed_company_as_typed",
     "query": "Mezopotamya Verlag und Vertrieb GmbH",
     "expect": "review",
-    "got": "weak",
-    "score": 0.84,
+    "got": "review",
+    "score": 0.89,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "German company name, listed inside a longer alias."
    },
    {
@@ -1236,10 +1252,10 @@
     "group": "wmd_list_counterparty",
     "query": "Bank Sepah",
     "expect": "match",
-    "got": "weak",
-    "score": 0.76,
+    "got": "match",
+    "score": 1.0,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "Common name in Iran trade finance; the list row is \"BANK SEPAH AND BANK SEPAH INTERNATIONAL\"."
    },
    {
@@ -1291,10 +1307,10 @@
     "group": "un_org_turkish_spelling",
     "query": "El-Kaide",
     "expect": "review",
-    "got": "none",
-    "score": 0.787,
-    "top_listed_name": "[listed person, 6415-m5-bmgk]",
-    "ok": false,
+    "got": "match",
+    "score": 1.0,
+    "top_listed_name": null,
+    "ok": true,
     "why": "Turkish spelling used in Turkish court decisions and the press."
    },
    {
@@ -1324,10 +1340,10 @@
     "group": "un_org_turkish_spelling",
     "query": "Doğu Türkistan İslami Hareketi",
     "expect": "review",
-    "got": "none",
-    "score": null,
+    "got": "match",
+    "score": 0.948,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "Turkish translation of a UN-listed entity (QDe.088)."
    },
    {
@@ -1346,10 +1362,10 @@
     "group": "un_org_turkish_spelling",
     "query": "Leşker-i Tayyibe",
     "expect": "review",
-    "got": "none",
-    "score": null,
+    "got": "match",
+    "score": 0.957,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "Turkish transliteration of Lashkar-e-Tayyiba."
    },
    {
@@ -1357,10 +1373,10 @@
     "group": "un_org_turkish_spelling",
     "query": "DEAŞ Horasan",
     "expect": "review",
-    "got": "none",
-    "score": null,
+    "got": "match",
+    "score": 1.0,
     "top_listed_name": null,
-    "ok": false,
+    "ok": true,
     "why": "Turkish name for ISIL-K."
    },
    {
@@ -1401,8 +1417,8 @@
     "group": "decoy_company",
     "query": "Sultan Kuyumculuk Ltd. Şti.",
     "expect": "no_match",
-    "got": "weak",
-    "score": 0.815,
+    "got": "review",
+    "score": 0.912,
     "top_listed_name": "ALSULTAN KUYUMCULUK ELEKTRONİK GIDA İTH. İHR. LTD. ŞTİ.",
     "ok": true,
     "why": "Generic jeweller name close to a listed one (dd-01): a review is acceptable, a match is not."
@@ -1586,15 +1602,15 @@
   ],
   "by_group": {
    "listed_company_as_typed": {
-    "ok": 9,
+    "ok": 13,
     "of": 14
    },
    "wmd_list_counterparty": {
-    "ok": 4,
+    "ok": 5,
     "of": 5
    },
    "un_org_turkish_spelling": {
-    "ok": 3,
+    "ok": 7,
     "of": 7
    },
    "decoy_company": {
@@ -1642,7 +1658,7 @@
     "missed": [],
     "extra": [],
     "bands": {
-     "n2": "review"
+     "n2": "match"
     },
     "ok": true,
     "why": "Word split by a column break with a hyphen ('İTHA- LAT') in the scanned page."
@@ -1758,13 +1774,15 @@
     "expect_in": [
      "n1"
     ],
-    "found": [],
-    "missed": [
+    "found": [
      "n1"
     ],
+    "missed": [],
     "extra": [],
-    "bands": {},
-    "ok": false,
+    "bands": {
+     "n1": "match"
+    },
+    "ok": true,
     "why": "Client writes the trade name as two words."
    },
    {
@@ -1779,13 +1797,13 @@
     "missed": [],
     "extra": [],
     "bands": {
-     "n8": "review"
+     "n8": "match"
     },
     "ok": true,
     "why": "Near-miss pair with nq5 the other way round."
    }
   ],
-  "notices_ok": 9,
+  "notices_ok": 10,
   "notices_of": 10
  },
  "uyum": {
@@ -1950,5 +1968,1835 @@
   ],
   "ok": 12,
   "of": 12
+ },
+ "heldout": {
+  "docs": 20,
+  "values": 329,
+  "profiles": {
+   "ai": {
+    "recall": 36.2,
+    "ci95": [
+     31.2,
+     41.5
+    ],
+    "caught": 119,
+    "of": 329,
+    "by_type": {
+     "ADDRESS": {
+      "caught": 8,
+      "of": 52,
+      "recall": 15.4
+     },
+     "BIRTH_DATE": {
+      "caught": 3,
+      "of": 21,
+      "recall": 14.3
+     },
+     "EMAIL": {
+      "caught": 13,
+      "of": 13,
+      "recall": 100.0
+     },
+     "HEALTH": {
+      "caught": 0,
+      "of": 8,
+      "recall": 0.0
+     },
+     "IBAN": {
+      "caught": 12,
+      "of": 12,
+      "recall": 100.0
+     },
+     "ID_DOCUMENT": {
+      "caught": 2,
+      "of": 8,
+      "recall": 25.0
+     },
+     "NATIONAL_ID": {
+      "caught": 6,
+      "of": 18,
+      "recall": 33.3
+     },
+     "PASSPORT": {
+      "caught": 1,
+      "of": 8,
+      "recall": 12.5
+     },
+     "PERSON": {
+      "caught": 71,
+      "of": 166,
+      "recall": 42.8
+     },
+     "PHONE": {
+      "caught": 2,
+      "of": 22,
+      "recall": 9.1
+     },
+     "TCKN": {
+      "caught": 1,
+      "of": 1,
+      "recall": 100.0
+     }
+    },
+    "names_first_name_listed": {
+     "listed": {
+      "caught": 17,
+      "of": 66,
+      "recall": 25.8
+     },
+     "not_listed": {
+      "caught": 54,
+      "of": 100,
+      "recall": 54.0
+     }
+    },
+    "docs_fully_masked": 0,
+    "keep_readable": {
+     "kept": 90,
+     "of": 93
+    },
+    "by_doc": [
+     {
+      "doc": "ho-01",
+      "case": "H-EU-01",
+      "title": "Notariatsakt Vollmacht Liegenschaft Alanya",
+      "caught": 3,
+      "of": 14,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-02",
+      "case": "H-EU-02",
+      "title": "Beschikking ondernemingsrechtbank Antwerpen",
+      "caught": 6,
+      "of": 16,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-03",
+      "case": "H-EU-03",
+      "title": "Irish client e-mail thread re Istanbul apartment",
+      "caught": 7,
+      "of": 21,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 3
+     },
+     {
+      "doc": "ho-04",
+      "case": "H-EU-04",
+      "title": "Assured shorthold tenancy London",
+      "caught": 9,
+      "of": 21,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-05",
+      "case": "H-EU-05",
+      "title": "WhatsApp export huurgeschil Rotterdam",
+      "caught": 10,
+      "of": 28,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 3
+     },
+     {
+      "doc": "ho-06",
+      "case": "H-EU-06",
+      "title": "Kündigungsschreiben Arbeitnehmer Köln",
+      "caught": 4,
+      "of": 14,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-07",
+      "case": "H-EU-07",
+      "title": "Certificat médical initial accident du travail Lyon",
+      "caught": 2,
+      "of": 13,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-08",
+      "case": "H-EU-08",
+      "title": "Procura speciale notarile Milano",
+      "caught": 7,
+      "of": 16,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-09",
+      "case": "H-EU-09",
+      "title": "Formulario KYC cliente residente Madrid",
+      "caught": 4,
+      "of": 13,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-10",
+      "case": "H-EU-10",
+      "title": "Notatka policyjna kradzież Gdańsk",
+      "caught": 1,
+      "of": 14,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-11",
+      "case": "H-EU-11",
+      "title": "Faktura advokatydelser København",
+      "caught": 4,
+      "of": 13,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-12",
+      "case": "H-EU-12",
+      "title": "CV svensk ingenjör för arbetstillstånd",
+      "caught": 2,
+      "of": 12,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-13",
+      "case": "H-EU-13",
+      "title": "Alman doğum belgesinin yeminli tercümesi ve apostil",
+      "caught": 4,
+      "of": 11,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-14",
+      "case": "H-EU-14",
+      "title": "İş kazası tazminat dava dilekçesi Hollandalı işçi",
+      "caught": 9,
+      "of": 15,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-15",
+      "case": "H-EU-15",
+      "title": "Müvekkil kabul formu Belçikalı yatırımcı",
+      "caught": 10,
+      "of": 17,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 3
+     },
+     {
+      "doc": "ho-16",
+      "case": "H-EU-16",
+      "title": "Gesellschafterliste GmbH Hamburg",
+      "caught": 1,
+      "of": 10,
+      "clean": false,
+      "kept": 4,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-17",
+      "case": "H-EU-17",
+      "title": "Dutch bank confirmation letter for Turkish property purchase",
+      "caught": 5,
+      "of": 18,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-18",
+      "case": "H-EU-18",
+      "title": "Parte amistoso de accidente Málaga conductor turco",
+      "caught": 6,
+      "of": 18,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-19",
+      "case": "H-EU-19",
+      "title": "Board minutes UK subsidiary Turkish JV",
+      "caught": 5,
+      "of": 18,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-20",
+      "case": "H-EU-20",
+      "title": "Signal yazışması Alman müvekkil ile",
+      "caught": 20,
+      "of": 27,
+      "clean": false,
+      "kept": 2,
+      "keep_of": 3
+     }
+    ],
+    "misses": [
+     {
+      "doc": "ho-01",
+      "type": "PERSON",
+      "text": "Barbara Leitgeb-Strasser"
+     },
+     {
+      "doc": "ho-01",
+      "type": "PERSON",
+      "text": "Florian Haidinger"
+     },
+     {
+      "doc": "ho-01",
+      "type": "BIRTH_DATE",
+      "text": "3. März 1979"
+     },
+     {
+      "doc": "ho-01",
+      "type": "ADDRESS",
+      "text": "Krongasse 4/II/7"
+     },
+     {
+      "doc": "ho-01",
+      "type": "ADDRESS",
+      "text": "1050 Wien"
+     },
+     {
+      "doc": "ho-01",
+      "type": "PASSPORT",
+      "text": "P 4827316"
+     },
+     {
+      "doc": "ho-01",
+      "type": "PERSON",
+      "text": "Selin Haidinger-Kaya"
+     },
+     {
+      "doc": "ho-01",
+      "type": "BIRTH_DATE",
+      "text": "17.11.1984"
+     },
+     {
+      "doc": "ho-01",
+      "type": "ID_DOCUMENT",
+      "text": "10938472"
+     },
+     {
+      "doc": "ho-01",
+      "type": "PERSON",
+      "text": "Haidinger-Kaya"
+     },
+     {
+      "doc": "ho-01",
+      "type": "PHONE",
+      "text": "0664 381 2290"
+     },
+     {
+      "doc": "ho-02",
+      "type": "PERSON",
+      "text": "Pieter-Jan De Smedt"
+     },
+     {
+      "doc": "ho-02",
+      "type": "BIRTH_DATE",
+      "text": "22/06/1981"
+     },
+     {
+      "doc": "ho-02",
+      "type": "NATIONAL_ID",
+      "text": "81.06.22-147.38"
+     },
+     {
+      "doc": "ho-02",
+      "type": "ADDRESS",
+      "text": "Lange Leemstraat 214 bus 3"
+     },
+     {
+      "doc": "ho-02",
+      "type": "ADDRESS",
+      "text": "2018 Antwerpen"
+     },
+     {
+      "doc": "ho-02",
+      "type": "PERSON",
+      "text": "De Smedt"
+     },
+     {
+      "doc": "ho-02",
+      "type": "PERSON",
+      "text": "Pieter-Jan"
+     },
+     {
+      "doc": "ho-02",
+      "type": "PHONE",
+      "text": "0475 12 84 56"
+     },
+     {
+      "doc": "ho-02",
+      "type": "PERSON",
+      "text": "Hilde Peeters"
+     },
+     {
+      "doc": "ho-02",
+      "type": "PERSON",
+      "text": "Koen Wauters"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PERSON",
+      "text": "Aoife Ní Bhriain"
+     },
+     {
+      "doc": "ho-03",
+      "type": "NATIONAL_ID",
+      "text": "6382915QA"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PASSPORT",
+      "text": "PX4419072"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PERSON",
+      "text": "Cathal"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PHONE",
+      "text": "087 412 9930"
+     },
+     {
+      "doc": "ho-03",
+      "type": "ADDRESS",
+      "text": "Apt 14, Dartry Hall"
+     },
+     {
+      "doc": "ho-03",
+      "type": "ADDRESS",
+      "text": "Orwell Road"
+     },
+     {
+      "doc": "ho-03",
+      "type": "ADDRESS",
+      "text": "Rathgar, Dublin 6"
+     },
+     {
+      "doc": "ho-03",
+      "type": "ADDRESS",
+      "text": "D06 W2K7"
+     },
+     {
+      "doc": "ho-03",
+      "type": "BIRTH_DATE",
+      "text": "the 4th of February 1951"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PERSON",
+      "text": "Aoife Ní Bhriain"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PHONE",
+      "text": "+353 86 207 5531"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PERSON",
+      "text": "Ní Bhriain"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PERSON",
+      "text": "Ó Murchú"
+     },
+     {
+      "doc": "ho-04",
+      "type": "PERSON",
+      "text": "Hugh MacAllister"
+     },
+     {
+      "doc": "ho-04",
+      "type": "ADDRESS",
+      "text": "27 Lauderdale Mansions"
+     },
+     {
+      "doc": "ho-04",
+      "type": "ADDRESS",
+      "text": "Lauderdale Road, London W9 1LX"
+     },
+     {
+      "doc": "ho-04",
+      "type": "PERSON",
+      "text": "Deniz Yalçın O'Rourke"
+     },
+     {
+      "doc": "ho-04",
+      "type": "BIRTH_DATE",
+      "text": "09/12/1990"
+     },
+     {
+      "doc": "ho-04",
+      "type": "PERSON",
+      "text": "Imogen Hartley-Price"
+     },
+     {
+      "doc": "ho-04",
+      "type": "BIRTH_DATE",
+      "text": "1 Aug 1992"
+     },
+     {
+      "doc": "ho-04",
+      "type": "ADDRESS",
+      "text": "Flat 3, 41 Elgin Avenue"
+     },
+     {
+      "doc": "ho-04",
+      "type": "ADDRESS",
+      "text": "London W9 2NR"
+     },
+     {
+      "doc": "ho-04",
+      "type": "PERSON",
+      "text": "Hartley-Price"
+     },
+     {
+      "doc": "ho-04",
+      "type": "PHONE",
+      "text": "07700 900418"
+     },
+     {
+      "doc": "ho-04",
+      "type": "PERSON",
+      "text": "MacAllister"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Sanne"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Sanne"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PASSPORT",
+      "text": "NGKH3ST55"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Sanne"
+     },
+     {
+      "doc": "ho-05",
+      "type": "ADDRESS",
+      "text": "Schiedamseweg 213b"
+     },
+     {
+      "doc": "ho-05",
+      "type": "ADDRESS",
+      "text": "3026 AL Rotterdam"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Sanne"
+     },
+     {
+      "doc": "ho-05",
+      "type": "BIRTH_DATE",
+      "text": "28-3-88"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Daan van der Wiel"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PHONE",
+      "text": "06-41827730"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Sanne"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Van Leeuwen"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Sanne"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Gerard van Leeuwen"
+     },
+     {
+      "doc": "ho-05",
+      "type": "ADDRESS",
+      "text": "Mathenesserlaan 402 A"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Daan"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Sanne"
+     },
+     {
+      "doc": "ho-05",
+      "type": "PERSON",
+      "text": "Joost"
+     },
+     {
+      "doc": "ho-06",
+      "type": "ADDRESS",
+      "text": "Neusser Straße 271a"
+     },
+     {
+      "doc": "ho-06",
+      "type": "ADDRESS",
+      "text": "50733 Köln"
+     },
+     {
+      "doc": "ho-06",
+      "type": "NATIONAL_ID",
+      "text": "64 957 638 620"
+     },
+     {
+      "doc": "ho-06",
+      "type": "NATIONAL_ID",
+      "text": "65 120584 Ö 017"
+     },
+     {
+      "doc": "ho-06",
+      "type": "PERSON",
+      "text": "von Ahlefeldt"
+     },
+     {
+      "doc": "ho-06",
+      "type": "PHONE",
+      "text": "0221 9745 1183"
+     },
+     {
+      "doc": "ho-06",
+      "type": "PERSON",
+      "text": "Johanna von Ahlefeldt"
+     },
+     {
+      "doc": "ho-06",
+      "type": "PERSON",
+      "text": "Ralf Steinbrück"
+     },
+     {
+      "doc": "ho-06",
+      "type": "PERSON",
+      "text": "K. Öztürk-Lindner"
+     },
+     {
+      "doc": "ho-06",
+      "type": "ID_DOCUMENT",
+      "text": "XRCP285F0"
+     },
+     {
+      "doc": "ho-07",
+      "type": "NATIONAL_ID",
+      "text": "1 45 08 78 393 154 22"
+     },
+     {
+      "doc": "ho-07",
+      "type": "BIRTH_DATE",
+      "text": "14 juillet 1986"
+     },
+     {
+      "doc": "ho-07",
+      "type": "ADDRESS",
+      "text": "27 bis, rue des Tanneurs"
+     },
+     {
+      "doc": "ho-07",
+      "type": "ADDRESS",
+      "text": "69007 Lyon"
+     },
+     {
+      "doc": "ho-07",
+      "type": "PERSON",
+      "text": "Claire Fontaine-Morel"
+     },
+     {
+      "doc": "ho-07",
+      "type": "HEALTH",
+      "text": "fracture ouverte du tiers distal du tibia gauche avec plaie contuse de 6 cm"
+     },
+     {
+      "doc": "ho-07",
+      "type": "HEALTH",
+      "text": "un traumatisme crânien sans perte de connaissance"
+     },
+     {
+      "doc": "ho-07",
+      "type": "HEALTH",
+      "text": "diabète de type 2 sous metformine"
+     },
+     {
+      "doc": "ho-07",
+      "type": "PERSON",
+      "text": "C. Fontaine-Morel"
+     },
+     {
+      "doc": "ho-07",
+      "type": "PERSON",
+      "text": "Lucas Ferrand"
+     },
+     {
+      "doc": "ho-07",
+      "type": "PHONE",
+      "text": "06 12 48 77 30"
+     },
+     {
+      "doc": "ho-08",
+      "type": "PERSON",
+      "text": "Alessandro Lo Presti"
+     },
+     {
+      "doc": "ho-08",
+      "type": "BIRTH_DATE",
+      "text": "5 maggio 1977"
+     },
+     {
+      "doc": "ho-08",
+      "type": "ADDRESS",
+      "text": "Via dei Mille 14/2"
+     },
+     {
+      "doc": "ho-08",
+      "type": "ADDRESS",
+      "text": "20129 Milano"
+     },
+     {
+      "doc": "ho-08",
+      "type": "ID_DOCUMENT",
+      "text": "CA09041JB"
+     },
+     {
+      "doc": "ho-08",
+      "type": "PERSON",
+      "text": "Riccardo De Luca"
+     },
+     {
+      "doc": "ho-08",
+      "type": "PERSON",
+      "text": "Tommaso D'Amico"
+     },
+     {
+      "doc": "ho-08",
+      "type": "PHONE",
+      "text": "347 218 9043"
+     },
+     {
+      "doc": "ho-08",
+      "type": "PERSON",
+      "text": "Alessandro Lo Presti"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PERSON",
+      "text": "María del Carmen Ruiz de Alarcón"
+     },
+     {
+      "doc": "ho-09",
+      "type": "BIRTH_DATE",
+      "text": "30/01/1969"
+     },
+     {
+      "doc": "ho-09",
+      "type": "ADDRESS",
+      "text": "Calle de Toledo 27, 3º B"
+     },
+     {
+      "doc": "ho-09",
+      "type": "ADDRESS",
+      "text": "28005 Madrid"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PHONE",
+      "text": "612 48 39 07"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PASSPORT",
+      "text": "AV718203"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PERSON",
+      "text": "Jorge Ruiz"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PERSON",
+      "text": "Sergio Navarro Gil"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PERSON",
+      "text": "M. C. Ruiz de Alarcón"
+     },
+     {
+      "doc": "ho-10",
+      "type": "PERSON",
+      "text": "Tomasz Wiśniewski-Kaya"
+     },
+     {
+      "doc": "ho-10",
+      "type": "NATIONAL_ID",
+      "text": "11701184179"
+     },
+     {
+      "doc": "ho-10",
+      "type": "BIRTH_DATE",
+      "text": "1985-04-19"
+     },
+     {
+      "doc": "ho-10",
+      "type": "ADDRESS",
+      "text": "ul. Długa 14 m. 2"
+     },
+     {
+      "doc": "ho-10",
+      "type": "ADDRESS",
+      "text": "80-827 Gdańsk"
+     },
+     {
+      "doc": "ho-10",
+      "type": "ID_DOCUMENT",
+      "text": "CBM 418273"
+     },
+     {
+      "doc": "ho-10",
+      "type": "PHONE",
+      "text": "512 384 907"
+     },
+     {
+      "doc": "ho-10",
+      "type": "PERSON",
+      "text": "Łukasza Nowaka"
+     },
+     {
+      "doc": "ho-10",
+      "type": "ADDRESS",
+      "text": "ul. Wajdeloty 9/4"
+     },
+     {
+      "doc": "ho-10",
+      "type": "ADDRESS",
+      "text": "80-437 Gdańsk"
+     },
+     {
+      "doc": "ho-10",
+      "type": "PERSON",
+      "text": "Halina"
+     },
+     {
+      "doc": "ho-10",
+      "type": "PERSON",
+      "text": "Marek Zieliński"
+     },
+     {
+      "doc": "ho-10",
+      "type": "PERSON",
+      "text": "T. Wiśniewski-Kaya"
+     },
+     {
+      "doc": "ho-11",
+      "type": "PERSON",
+      "text": "Mette Kjærsgaard Nielsen"
+     },
+     {
+      "doc": "ho-11",
+      "type": "ADDRESS",
+      "text": "Nørrebrogade 44, 2. th."
+     },
+     {
+      "doc": "ho-11",
+      "type": "ADDRESS",
+      "text": "2200 København N"
+     },
+     {
+      "doc": "ho-11",
+      "type": "NATIONAL_ID",
+      "text": "120384-1137"
+     },
+     {
+      "doc": "ho-11",
+      "type": "PERSON",
+      "text": "Ole Kjærsgaard"
+     },
+     {
+      "doc": "ho-11",
+      "type": "PERSON",
+      "text": "Mette"
+     },
+     {
+      "doc": "ho-11",
+      "type": "PERSON",
+      "text": "Rasmus Kjærsgaard"
+     },
+     {
+      "doc": "ho-11",
+      "type": "PERSON",
+      "text": "Søren Holm"
+     },
+     {
+      "doc": "ho-11",
+      "type": "PHONE",
+      "text": "28 41 77 30"
+     },
+     {
+      "doc": "ho-12",
+      "type": "PERSON",
+      "text": "Linnea Åkesson Berg"
+     },
+     {
+      "doc": "ho-12",
+      "type": "ADDRESS",
+      "text": "Götgatan 31 lgh 1102"
+     },
+     {
+      "doc": "ho-12",
+      "type": "ADDRESS",
+      "text": "116 21 Stockholm"
+     },
+     {
+      "doc": "ho-12",
+      "type": "PHONE",
+      "text": "070-482 19 33"
+     },
+     {
+      "doc": "ho-12",
+      "type": "NATIONAL_ID",
+      "text": "19880412-3354"
+     },
+     {
+      "doc": "ho-12",
+      "type": "BIRTH_DATE",
+      "text": "12 april 1988"
+     },
+     {
+      "doc": "ho-12",
+      "type": "PASSPORT",
+      "text": "AB1293847"
+     },
+     {
+      "doc": "ho-12",
+      "type": "PERSON",
+      "text": "Johan af Klinteberg"
+     },
+     {
+      "doc": "ho-12",
+      "type": "PHONE",
+      "text": "08-612 47 93"
+     },
+     {
+      "doc": "ho-12",
+      "type": "PERSON",
+      "text": "Gunilla Ek"
+     },
+     {
+      "doc": "ho-13",
+      "type": "PERSON",
+      "text": "Lena Sophie Aydın"
+     },
+     {
+      "doc": "ho-13",
+      "type": "PERSON",
+      "text": "Katharina Aydın"
+     },
+     {
+      "doc": "ho-13",
+      "type": "PERSON",
+      "text": "Hofbauer"
+     },
+     {
+      "doc": "ho-13",
+      "type": "PERSON",
+      "text": "Murat Aydın"
+     },
+     {
+      "doc": "ho-13",
+      "type": "ADDRESS",
+      "text": "Schleißheimer Straße 118, Rückgebäude"
+     },
+     {
+      "doc": "ho-13",
+      "type": "ADDRESS",
+      "text": "80797 München"
+     },
+     {
+      "doc": "ho-13",
+      "type": "PERSON",
+      "text": "Brigitte Wendlandt"
+     },
+     {
+      "doc": "ho-14",
+      "type": "PERSON",
+      "text": "Thijs van den Bosch"
+     },
+     {
+      "doc": "ho-14",
+      "type": "PASSPORT",
+      "text": "NRLJLNH94"
+     },
+     {
+      "doc": "ho-14",
+      "type": "PERSON",
+      "text": "van den Bosch"
+     },
+     {
+      "doc": "ho-14",
+      "type": "HEALTH",
+      "text": "L1 vertebra kompresyon kırığı"
+     },
+     {
+      "doc": "ho-14",
+      "type": "HEALTH",
+      "text": "sağ el 4. ve 5. parmakta kalıcı fonksiyon kaybı"
+     },
+     {
+      "doc": "ho-14",
+      "type": "HEALTH",
+      "text": "%32 sürekli iş göremezlik"
+     },
+     {
+      "doc": "ho-15",
+      "type": "PERSON",
+      "text": "Amélie Dubois-Lefèvre"
+     },
+     {
+      "doc": "ho-15",
+      "type": "NATIONAL_ID",
+      "text": "75.01.07-284.12"
+     },
+     {
+      "doc": "ho-15",
+      "type": "NATIONAL_ID",
+      "text": "9930418275"
+     },
+     {
+      "doc": "ho-15",
+      "type": "ADDRESS",
+      "text": "Rue de la Victoire 152 b 3"
+     },
+     {
+      "doc": "ho-15",
+      "type": "ADDRESS",
+      "text": "1060 Saint-Gilles, Bruxelles"
+     },
+     {
+      "doc": "ho-15",
+      "type": "PHONE",
+      "text": "+32 476 39 20 81"
+     },
+     {
+      "doc": "ho-15",
+      "type": "PERSON",
+      "text": "Laurent Lefèvre"
+     },
+     {
+      "doc": "ho-16",
+      "type": "PERSON",
+      "text": "Friedrich von Bülow"
+     },
+     {
+      "doc": "ho-16",
+      "type": "BIRTH_DATE",
+      "text": "14.02.1958"
+     },
+     {
+      "doc": "ho-16",
+      "type": "BIRTH_DATE",
+      "text": "29.10.1981"
+     },
+     {
+      "doc": "ho-16",
+      "type": "PERSON",
+      "text": "Henrik ter Horst"
+     },
+     {
+      "doc": "ho-16",
+      "type": "BIRTH_DATE",
+      "text": "03.06.1970"
+     },
+     {
+      "doc": "ho-16",
+      "type": "PERSON",
+      "text": "Magdalena Wójcik"
+     },
+     {
+      "doc": "ho-16",
+      "type": "PERSON",
+      "text": "ter Horst"
+     },
+     {
+      "doc": "ho-16",
+      "type": "PERSON",
+      "text": "Friedrich von Bülow"
+     },
+     {
+      "doc": "ho-16",
+      "type": "PERSON",
+      "text": "Carsten Petersen"
+     },
+     {
+      "doc": "ho-17",
+      "type": "PERSON",
+      "text": "Willemijn de Groot-Çelik"
+     },
+     {
+      "doc": "ho-17",
+      "type": "BIRTH_DATE",
+      "text": "2 September 1983"
+     },
+     {
+      "doc": "ho-17",
+      "type": "ADDRESS",
+      "text": "Javakade 7-II"
+     },
+     {
+      "doc": "ho-17",
+      "type": "ADDRESS",
+      "text": "1019 BH Amsterdam"
+     },
+     {
+      "doc": "ho-17",
+      "type": "PASSPORT",
+      "text": "NNVBBDK70"
+     },
+     {
+      "doc": "ho-17",
+      "type": "PERSON",
+      "text": "de Groot-Çelik"
+     },
+     {
+      "doc": "ho-17",
+      "type": "ID_DOCUMENT",
+      "text": "IXR8F4LK2"
+     },
+     {
+      "doc": "ho-17",
+      "type": "NATIONAL_ID",
+      "text": "675589095"
+     },
+     {
+      "doc": "ho-17",
+      "type": "ADDRESS",
+      "text": "Van Woustraat 186-3"
+     },
+     {
+      "doc": "ho-17",
+      "type": "ADDRESS",
+      "text": "1073 LZ Amsterdam"
+     },
+     {
+      "doc": "ho-17",
+      "type": "PERSON",
+      "text": "R. Mulder"
+     },
+     {
+      "doc": "ho-17",
+      "type": "PERSON",
+      "text": "Femke Verhoeven"
+     },
+     {
+      "doc": "ho-17",
+      "type": "PHONE",
+      "text": "020 794 31 88"
+     },
+     {
+      "doc": "ho-18",
+      "type": "BIRTH_DATE",
+      "text": "02-11-1979"
+     },
+     {
+      "doc": "ho-18",
+      "type": "ID_DOCUMENT",
+      "text": "TR-B 418273"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PERSON",
+      "text": "Lucía Fernández-Ortega"
+     },
+     {
+      "doc": "ho-18",
+      "type": "ADDRESS",
+      "text": "C/ Larios 6, 2º izq."
+     },
+     {
+      "doc": "ho-18",
+      "type": "ADDRESS",
+      "text": "29005 Málaga"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PHONE",
+      "text": "655 21 90 34"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PERSON",
+      "text": "Carmen Ortega"
+     },
+     {
+      "doc": "ho-18",
+      "type": "HEALTH",
+      "text": "esguince cervical (latigazo) y contusión torácica"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PERSON",
+      "text": "Pablo"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PHONE",
+      "text": "622 08 41 77"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PERSON",
+      "text": "V. Erdoğan"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PERSON",
+      "text": "L. Fernández"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Fiona MacLeod"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Seamus O'Driscoll"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Priya Raman-Whitfield"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Tom"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Gráinne McNamara"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "O'Driscoll"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Niamh"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Priya"
+     },
+     {
+      "doc": "ho-19",
+      "type": "ADDRESS",
+      "text": "14 Elm Park Gardens, London SW10 9NY"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PHONE",
+      "text": "07700 900771"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Fiona"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Seamus"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Fiona MacLeod"
+     },
+     {
+      "doc": "ho-20",
+      "type": "BIRTH_DATE",
+      "text": "07.04.1974"
+     },
+     {
+      "doc": "ho-20",
+      "type": "NATIONAL_ID",
+      "text": "48 373 260 959"
+     },
+     {
+      "doc": "ho-20",
+      "type": "ADDRESS",
+      "text": "Wiehre, Günterstalstraße 58, 2. OG links"
+     },
+     {
+      "doc": "ho-20",
+      "type": "ADDRESS",
+      "text": "79102 Freiburg im Breisgau"
+     },
+     {
+      "doc": "ho-20",
+      "type": "HEALTH",
+      "text": "Chemotherapie wegen Brustkrebs"
+     },
+     {
+      "doc": "ho-20",
+      "type": "PERSON",
+      "text": "Matthias Graf von der Schulenburg"
+     },
+     {
+      "doc": "ho-20",
+      "type": "PHONE",
+      "text": "0171 4482910"
+     }
+    ],
+    "over_masked": [
+     {
+      "doc": "ho-14",
+      "kept_string": "Marmara Lojistik ve Depolama A.Ş., Tuzla OSB 3. Cad. No:12 Tuzla/İstanbul",
+      "masked": [
+       "Tuzla OSB 3. Cad. No:12 Tuzla/İstanbul"
+      ]
+     },
+     {
+      "doc": "ho-16",
+      "kept_string": "Bosporus Holding A.Ş., Istanbul (Ticaret Sicil No. 845512)",
+      "masked": [
+       "845512"
+      ]
+     },
+     {
+      "doc": "ho-20",
+      "kept_string": "2026/1182 E.",
+      "masked": [
+       "2026/1182"
+      ]
+     }
+    ],
+    "spans_without_gold": 19,
+    "spans_without_gold_list": [
+     {
+      "doc": "ho-01",
+      "type": "PERSON",
+      "text": "Erschienenen"
+     },
+     {
+      "doc": "ho-01",
+      "type": "PERSON",
+      "text": "Sprache"
+     },
+     {
+      "doc": "ho-01",
+      "type": "PERSON",
+      "text": "Oktober"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PERSON",
+      "text": "Dear Ms"
+     },
+     {
+      "doc": "ho-03",
+      "type": "PERSON",
+      "text": "Mr"
+     },
+     {
+      "doc": "ho-04",
+      "type": "PERSON",
+      "text": "Chapter"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PERSON",
+      "text": "Ref"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PERSON",
+      "text": "Nacionalidad"
+     },
+     {
+      "doc": "ho-09",
+      "type": "PERSON",
+      "text": "Familiar"
+     },
+     {
+      "doc": "ho-14",
+      "type": "ADDRESS",
+      "text": "Tuzla OSB 3. Cad. No:12 Tuzla/İstanbul"
+     },
+     {
+      "doc": "ho-15",
+      "type": "PERSON",
+      "text": "Kaş"
+     },
+     {
+      "doc": "ho-16",
+      "type": "BAR_NO",
+      "text": "845512"
+     },
+     {
+      "doc": "ho-16",
+      "type": "PERSON",
+      "text": "Juli"
+     },
+     {
+      "doc": "ho-19",
+      "type": "PERSON",
+      "text": "Apologies"
+     },
+     {
+      "doc": "ho-20",
+      "type": "PERSON",
+      "text": "Guten Morgen"
+     },
+     {
+      "doc": "ho-20",
+      "type": "PERSON",
+      "text": "Steuer-ID"
+     },
+     {
+      "doc": "ho-20",
+      "type": "PERSON",
+      "text": "Wohnung"
+     },
+     {
+      "doc": "ho-20",
+      "type": "PERSON",
+      "text": "Handy"
+     },
+     {
+      "doc": "ho-20",
+      "type": "CASE_NO",
+      "text": "2026/1182"
+     }
+    ]
+   },
+   "eu": {
+    "recall": 97.9,
+    "ci95": [
+     95.7,
+     99.0
+    ],
+    "caught": 322,
+    "of": 329,
+    "by_type": {
+     "ADDRESS": {
+      "caught": 52,
+      "of": 52,
+      "recall": 100.0
+     },
+     "BIRTH_DATE": {
+      "caught": 20,
+      "of": 21,
+      "recall": 95.2
+     },
+     "EMAIL": {
+      "caught": 13,
+      "of": 13,
+      "recall": 100.0
+     },
+     "HEALTH": {
+      "caught": 8,
+      "of": 8,
+      "recall": 100.0
+     },
+     "IBAN": {
+      "caught": 12,
+      "of": 12,
+      "recall": 100.0
+     },
+     "ID_DOCUMENT": {
+      "caught": 7,
+      "of": 8,
+      "recall": 87.5
+     },
+     "NATIONAL_ID": {
+      "caught": 15,
+      "of": 18,
+      "recall": 83.3
+     },
+     "PASSPORT": {
+      "caught": 8,
+      "of": 8,
+      "recall": 100.0
+     },
+     "PERSON": {
+      "caught": 164,
+      "of": 166,
+      "recall": 98.8
+     },
+     "PHONE": {
+      "caught": 22,
+      "of": 22,
+      "recall": 100.0
+     },
+     "TCKN": {
+      "caught": 1,
+      "of": 1,
+      "recall": 100.0
+     }
+    },
+    "names_first_name_listed": {
+     "listed": {
+      "caught": 65,
+      "of": 66,
+      "recall": 98.5
+     },
+     "not_listed": {
+      "caught": 99,
+      "of": 100,
+      "recall": 99.0
+     }
+    },
+    "docs_fully_masked": 14,
+    "keep_readable": {
+     "kept": 91,
+     "of": 93
+    },
+    "by_doc": [
+     {
+      "doc": "ho-01",
+      "case": "H-EU-01",
+      "title": "Notariatsakt Vollmacht Liegenschaft Alanya",
+      "caught": 14,
+      "of": 14,
+      "clean": true,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-02",
+      "case": "H-EU-02",
+      "title": "Beschikking ondernemingsrechtbank Antwerpen",
+      "caught": 16,
+      "of": 16,
+      "clean": true,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-03",
+      "case": "H-EU-03",
+      "title": "Irish client e-mail thread re Istanbul apartment",
+      "caught": 21,
+      "of": 21,
+      "clean": true,
+      "kept": 3,
+      "keep_of": 3
+     },
+     {
+      "doc": "ho-04",
+      "case": "H-EU-04",
+      "title": "Assured shorthold tenancy London",
+      "caught": 21,
+      "of": 21,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-05",
+      "case": "H-EU-05",
+      "title": "WhatsApp export huurgeschil Rotterdam",
+      "caught": 27,
+      "of": 28,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 3
+     },
+     {
+      "doc": "ho-06",
+      "case": "H-EU-06",
+      "title": "Kündigungsschreiben Arbeitnehmer Köln",
+      "caught": 13,
+      "of": 14,
+      "clean": false,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-07",
+      "case": "H-EU-07",
+      "title": "Certificat médical initial accident du travail Lyon",
+      "caught": 13,
+      "of": 13,
+      "clean": true,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-08",
+      "case": "H-EU-08",
+      "title": "Procura speciale notarile Milano",
+      "caught": 16,
+      "of": 16,
+      "clean": true,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-09",
+      "case": "H-EU-09",
+      "title": "Formulario KYC cliente residente Madrid",
+      "caught": 13,
+      "of": 13,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-10",
+      "case": "H-EU-10",
+      "title": "Notatka policyjna kradzież Gdańsk",
+      "caught": 14,
+      "of": 14,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-11",
+      "case": "H-EU-11",
+      "title": "Faktura advokatydelser København",
+      "caught": 13,
+      "of": 13,
+      "clean": true,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-12",
+      "case": "H-EU-12",
+      "title": "CV svensk ingenjör för arbetstillstånd",
+      "caught": 12,
+      "of": 12,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 4
+     },
+     {
+      "doc": "ho-13",
+      "case": "H-EU-13",
+      "title": "Alman doğum belgesinin yeminli tercümesi ve apostil",
+      "caught": 10,
+      "of": 11,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-14",
+      "case": "H-EU-14",
+      "title": "İş kazası tazminat dava dilekçesi Hollandalı işçi",
+      "caught": 15,
+      "of": 15,
+      "clean": true,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-15",
+      "case": "H-EU-15",
+      "title": "Müvekkil kabul formu Belçikalı yatırımcı",
+      "caught": 15,
+      "of": 17,
+      "clean": false,
+      "kept": 3,
+      "keep_of": 3
+     },
+     {
+      "doc": "ho-16",
+      "case": "H-EU-16",
+      "title": "Gesellschafterliste GmbH Hamburg",
+      "caught": 10,
+      "of": 10,
+      "clean": true,
+      "kept": 4,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-17",
+      "case": "H-EU-17",
+      "title": "Dutch bank confirmation letter for Turkish property purchase",
+      "caught": 18,
+      "of": 18,
+      "clean": true,
+      "kept": 5,
+      "keep_of": 5
+     },
+     {
+      "doc": "ho-18",
+      "case": "H-EU-18",
+      "title": "Parte amistoso de accidente Málaga conductor turco",
+      "caught": 17,
+      "of": 18,
+      "clean": false,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-19",
+      "case": "H-EU-19",
+      "title": "Board minutes UK subsidiary Turkish JV",
+      "caught": 18,
+      "of": 18,
+      "clean": true,
+      "kept": 6,
+      "keep_of": 6
+     },
+     {
+      "doc": "ho-20",
+      "case": "H-EU-20",
+      "title": "Signal yazışması Alman müvekkil ile",
+      "caught": 26,
+      "of": 27,
+      "clean": false,
+      "kept": 2,
+      "keep_of": 3
+     }
+    ],
+    "misses": [
+     {
+      "doc": "ho-05",
+      "type": "BIRTH_DATE",
+      "text": "28-3-88"
+     },
+     {
+      "doc": "ho-06",
+      "type": "NATIONAL_ID",
+      "text": "65 120584 Ö 017"
+     },
+     {
+      "doc": "ho-13",
+      "type": "PERSON",
+      "text": "Hofbauer"
+     },
+     {
+      "doc": "ho-15",
+      "type": "NATIONAL_ID",
+      "text": "75.01.07-284.12"
+     },
+     {
+      "doc": "ho-15",
+      "type": "NATIONAL_ID",
+      "text": "9930418275"
+     },
+     {
+      "doc": "ho-18",
+      "type": "PERSON",
+      "text": "Pablo"
+     },
+     {
+      "doc": "ho-20",
+      "type": "ID_DOCUMENT",
+      "text": "MHZGYLPYY"
+     }
+    ],
+    "over_masked": [
+     {
+      "doc": "ho-16",
+      "kept_string": "Bosporus Holding A.Ş., Istanbul (Ticaret Sicil No. 845512)",
+      "masked": [
+       "845512"
+      ]
+     },
+     {
+      "doc": "ho-20",
+      "kept_string": "2026/1182 E.",
+      "masked": [
+       "2026/1182"
+      ]
+     }
+    ],
+    "spans_without_gold": 5,
+    "spans_without_gold_list": [
+     {
+      "doc": "ho-07",
+      "type": "HEALTH",
+      "text": "Arrêt de travail jusqu'au 15 décembre 2026"
+     },
+     {
+      "doc": "ho-15",
+      "type": "PERSON",
+      "text": "KABUL VE TANIMA FORMU"
+     },
+     {
+      "doc": "ho-15",
+      "type": "PERSON",
+      "text": "Kaş"
+     },
+     {
+      "doc": "ho-16",
+      "type": "BAR_NO",
+      "text": "845512"
+     },
+     {
+      "doc": "ho-20",
+      "type": "CASE_NO",
+      "text": "2026/1182"
+     }
+    ]
+   }
+  }
  }
 }
