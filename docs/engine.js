@@ -9,6 +9,8 @@ export function kindOf(name) {
   if (["png", "jpg", "jpeg", "tif", "tiff", "bmp", "webp"].includes(ext)) return "image";
   if (ext === "docx") return "docx";
   if (ext === "udf") return "udf";
+  if (ext === "xlsx") return "xlsx";
+  if (ext === "eml" || ext === "msg") return ext;
   if (["txt", "md", "csv"].includes(ext)) return "txt";
   throw new Error(`Desteklenmeyen dosya türü: .${ext}`);
 }
@@ -450,6 +452,11 @@ export function pyRedact(py, kind, bytes, spans, style, watermark = "") {
   py.globals.set("_K", kind); py.globals.set("_B", bytes); py.globals.set("_S", JSON.stringify(spans)); py.globals.set("_Y", style); py.globals.set("_W", watermark);
   const r = py.runPython("import local_formats; local_formats.redact(_K, _B.to_py(), _S, _Y, _W)");
   const out = r.toJs(); r.destroy(); return out;
+}
+// everything readable in a masked file, for the leak check (an .xlsx also keeps copies of values outside its cells)
+export function pyLeakText(py, kind, bytes) {
+  py.globals.set("_K", kind); py.globals.set("_B", bytes);
+  return py.runPython("import local_formats; local_formats.leak_text(_K, _B.to_py())");
 }
 export function pyLeaks(py, outText, spans) {
   py.globals.set("_T", outText); py.globals.set("_S", JSON.stringify(spans));

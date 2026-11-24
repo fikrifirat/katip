@@ -1,0 +1,153 @@
+{
+ "yanit-zinciri.eml": {
+  "mask": [
+   "Ayşe Kaya Demirtaş",
+   "ayse.demirtas@ornekposta.com.tr",
+   "Mehmet Ali Karakoç",
+   "makarakoc@ornekposta.net",
+   "Zeynep Özgür",
+   "zeynep.ozgur@ornekfirma.com.tr",
+   "31845290776",
+   "0532 418 27 63",
+   "TR660006200000123456789012",
+   "Bağdat Caddesi No: 214 Daire: 7 Kadıköy/İstanbul"
+  ],
+  "keep": [
+   "Kira alacağı",
+   "ödeme planı",
+   "üç taksitte ödemek istiyorum",
+   "ihtarnameyi iletiyorum"
+  ]
+ },
+ "yalniz-html.eml": {
+  "mask": [
+   "Hüseyin Çelikkaya",
+   "h.celikkaya@ornekposta.com",
+   "elif.sahinoglu@ornekfirma.com.tr",
+   "Elif Şahinoğlu",
+   "75443612844",
+   "0542 105 63 39",
+   "64532701996",
+   "Mimar Sinan Mahallesi 1203. Sokak No: 9 Nilüfer/Bursa",
+   "TR890001000000987654321098"
+  ],
+  "keep": [
+   "İşe iade davası",
+   "dinlenmek istiyoruz",
+   "hesabına yapılıyordu"
+  ]
+ },
+ "vekalet.msg": {
+  "mask": [
+   "Mehmet Ali Karakoç",
+   "makarakoc@ornekposta.net",
+   "Hüseyin Çelikkaya",
+   "h.celikkaya@ornekposta.com",
+   "Elif Şahinoğlu",
+   "elif.sahinoglu@ornekfirma.com.tr",
+   "42710938532",
+   "Atatürk Bulvarı No: 88/12 Çankaya/Ankara",
+   "0544 730 15 92",
+   "75443612844"
+  ],
+  "keep": [
+   "Tapu iptal davası",
+   "Vekâletnameyi imzalayıp gönderiyorum",
+   "ile görüşmedim"
+  ]
+ },
+ "outlook-iletme.eml": {
+  "mask": [
+   "Elif Şahinoğlu",
+   "elif.sahinoglu@ornekfirma.com.tr",
+   "Ayşe Kaya Demirtaş",
+   "ayse.demirtas@ornekposta.com.tr",
+   "Hüseyin Çelikkaya",
+   "Mimar Sinan Mahallesi 1203. Sokak No: 9 Nilüfer/Bursa",
+   "0542 105 63 39"
+  ],
+  "keep": [
+   "Bilirkişi raporuna itiraz",
+   "iletisini ekte gönderiyorum",
+   "Saygılarımla"
+  ]
+ },
+ "personel.xlsx": {
+  "mask": [
+   "Ayşe Kaya Demirtaş",
+   "31845290776",
+   "0532 418 27 63",
+   "ayse.demirtas@ornekposta.com.tr",
+   "Bağdat Caddesi No: 214 Daire: 7 Kadıköy/İstanbul",
+   "Mehmet Ali Karakoç",
+   "42710938532",
+   "0544 730 15 92",
+   "makarakoc@ornekposta.net",
+   "Atatürk Bulvarı No: 88/12 Çankaya/Ankara",
+   "Zeynep Özgür",
+   "53621847028",
+   "0505 962 40 18",
+   "zeynep.ozgur@ornekfirma.com.tr",
+   "Kıbrıs Şehitleri Caddesi No: 41 Daire: 3 Alsancak/İzmir",
+   "Hüseyin Çelikkaya",
+   "64532701996",
+   "0533 281 77 06",
+   "h.celikkaya@ornekposta.com",
+   "Mimar Sinan Mahallesi 1203. Sokak No: 9 Nilüfer/Bursa",
+   "Elif Şahinoğlu",
+   "75443612844",
+   "0542 105 63 39",
+   "elif.sahinoglu@ornekfirma.com.tr",
+   "Cumhuriyet Caddesi No: 17 Kat: 4 Muratpaşa/Antalya",
+   "TR660006200000123456789012",
+   "TR890001000000987654321098",
+   "42710930062",
+   "Derya Aksoy"
+  ],
+  "keep": [
+   "Brüt maaş",
+   "41000",
+   "yıllık izin",
+   "Sorumlu:"
+  ]
+ },
+ "personel-libreoffice.xlsx": {
+  "mask": [
+   "Ayşe Kaya Demirtaş",
+   "31845290776",
+   "0532 418 27 63",
+   "ayse.demirtas@ornekposta.com.tr",
+   "Bağdat Caddesi No: 214 Daire: 7 Kadıköy/İstanbul",
+   "Mehmet Ali Karakoç",
+   "42710938532",
+   "0544 730 15 92",
+   "makarakoc@ornekposta.net",
+   "Atatürk Bulvarı No: 88/12 Çankaya/Ankara",
+   "Zeynep Özgür",
+   "53621847028",
+   "0505 962 40 18",
+   "zeynep.ozgur@ornekfirma.com.tr",
+   "Kıbrıs Şehitleri Caddesi No: 41 Daire: 3 Alsancak/İzmir",
+   "Hüseyin Çelikkaya",
+   "64532701996",
+   "0533 281 77 06",
+   "h.celikkaya@ornekposta.com",
+   "Mimar Sinan Mahallesi 1203. Sokak No: 9 Nilüfer/Bursa",
+   "Elif Şahinoğlu",
+   "75443612844",
+   "0542 105 63 39",
+   "elif.sahinoglu@ornekfirma.com.tr",
+   "Cumhuriyet Caddesi No: 17 Kat: 4 Muratpaşa/Antalya",
+   "TR660006200000123456789012",
+   "TR890001000000987654321098",
+   "42710930062",
+   "Derya Aksoy"
+  ],
+  "keep": [
+   "Brüt maaş",
+   "41000",
+   "yıllık izin",
+   "Sorumlu:"
+  ]
+ }
+}

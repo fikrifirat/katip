@@ -166,7 +166,8 @@ async function redetect({ settings }) {
 }
 
 const mimeOf = n => ({ jpg: "image/jpeg", jpeg: "image/jpeg", tif: "image/tiff", tiff: "image/tiff", bmp: "image/bmp", webp: "image/webp" })[n.toLowerCase().split(".").pop()] ?? "image/png";
-const MIME = { docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", udf: "application/zip", txt: "text/plain;charset=utf-8", pdf: "application/pdf", image: "image/png" };
+const MIME = { xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", eml: "message/rfc822", msg: "message/rfc822",
+               docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document", udf: "application/zip", txt: "text/plain;charset=utf-8", pdf: "application/pdf", image: "image/png" };
 
 async function redact({ spans, style, verifyOcr, ocrLang, color = [0, 0, 0], watermark = null, mark = false }) {
   const { name, kind, bytes, doc } = current, t0 = performance.now(), ocr = ocrWith(ocrLang);
@@ -191,10 +192,10 @@ async function redact({ spans, style, verifyOcr, ocrLang, color = [0, 0, 0], wat
     else unchecked = true;
   } else {
     out = E.pyRedact(py, kind, bytes, spans, style, watermark ? `${watermark.text} (${watermark.url})` : "");
-    outText = E.pyExtract(py, kind, out);
+    outText = E.pyExtract(py, kind === "msg" ? "eml" : kind, out);  // an Outlook .msg comes back as a masked .eml
   }
-  const leaks = E.pyLeaks(py, outText, spans);
-  const ext = kind === "image" ? "png" : name.split(".").pop();
+  const leaks = E.pyLeaks(py, kind === "xlsx" ? E.pyLeakText(py, kind, out) : outText, spans);
+  const ext = kind === "image" ? "png" : kind === "msg" ? "eml" : name.split(".").pop();
   const outName = name.replace(/\.[^.]+$/, "") + ".maskeli." + ext;
   postMessage({ type: "redacted", out, mime: MIME[kind], outName, outText, leaks, unchecked, previews, ms: Math.round(performance.now() - t0) },
               [out.buffer, ...previews.map(p => p.buffer)]);

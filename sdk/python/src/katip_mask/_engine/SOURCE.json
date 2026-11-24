@@ -1,6 +1,6 @@
 {
  "source": "docs/katip_py.zip",
- "sha256": "bb3d26f89962200380af041c0b387516c1248b1f189f5cb1e3be32fa2f8aa1ae",
+ "sha256": "87adbf430176702957f5e964a0dcdaa51d63e62fab0b3fb44cf9e2750c08419e",
  "files": {
   "__init__.py": "236f1d704ea51e27f90965555b05d68137e297e293f45cf0a7322ed376641489",
   "_analyzer_core.py": "8fbd70f5874115cfcffd3fc2024e5fa8b6e3464a9b8c57aa5616feca24044bba",

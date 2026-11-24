@@ -73,6 +73,8 @@ for t, title in TITLES.items():
 # sample PDFs embed whole fonts (~775 KB each); MuPDF subsets and compresses them (~45 KB) and checks the text is unchanged
 subprocess.run(["node", str(here / "compress_pdf.mjs"), str(out / "vendor/mupdf/dist/mupdf.js"), *pdfs], check=True)
 (out / "samples/manifest.json").write_text(json.dumps(picked, ensure_ascii=False, indent=1))
+# e-mail (.eml, .msg) versions of the e-posta samples and an Excel client list, made from the samples above
+subprocess.run([sys.executable, str(here / "build_mail_samples.py"), str(out / "samples")], check=True)
 
 # models
 reg = json.loads((here / "models/registry.json").read_text())

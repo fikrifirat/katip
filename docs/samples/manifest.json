@@ -1098,7 +1098,9 @@
    "png",
    "docx",
    "udf",
-   "txt"
+   "txt",
+   "eml",
+   "msg"
   ],
   "gold": [
    {
@@ -1148,7 +1150,9 @@
    "pdf",
    "docx",
    "udf",
-   "txt"
+   "txt",
+   "eml",
+   "msg"
   ],
   "gold": [
    {
@@ -1200,7 +1204,9 @@
    "png",
    "docx",
    "udf",
-   "txt"
+   "txt",
+   "eml",
+   "msg"
   ],
   "gold": [
    {
@@ -1250,7 +1256,9 @@
    "pdf",
    "docx",
    "udf",
-   "txt"
+   "txt",
+   "eml",
+   "msg"
   ],
   "gold": [
    {
@@ -1302,7 +1310,9 @@
    "png",
    "docx",
    "udf",
-   "txt"
+   "txt",
+   "eml",
+   "msg"
   ],
   "gold": [
    {
@@ -4240,6 +4250,721 @@
    {
     "entity_type": "PERSON",
     "text": "Ilgın"
+   }
+  ]
+ },
+ {
+  "id": "musteri_listesi_01",
+  "type": "musteri_listesi",
+  "title": "Müvekkil listesi",
+  "n": 1,
+  "formats": [
+   "xlsx"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Ada GÜLERYÜZ"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "10310493348"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0312 893 28 14"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ada.guleryuz@yandex.com.tr"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Kızılay Mh. Bağdat Cd. Gül Apt. No:167 D:27 30344 Konak/İZMİR"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "05.11.1959"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Nakip Hacısalihoğlu"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "69177077666"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Erenköy Mah. Talatpaşa Cad. No:118 Daire:37 Nilüfer/BURSA"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "15.04.1978"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Göktürk Ağaoğlu"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "39659065474"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "(232) 547-55-62"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Güzelyalı Mahallesi Karanfil Sokak No: 55/7 Seyhan / Adana"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR46 0001 5003 2294 9434 3943 91"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Lavin Turgutlu"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "16640923944"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 (555) 528 3632"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "suleyla.aslan@hotmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Yıldıztepe Mah. Necatibey Cad. No:143 Daire:31 Muratpaşa/ANTALYA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR36 0004 6091 3028 5947 7435 38"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Alin BOZDEMİR"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "40207270844"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 (312) 982 2239"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "alin.bozdemir@outlook.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Kızılay Mah. Talatpaşa Cad. No:115 Daire:31 Muratpaşa/ANTALYA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR61 0006 4097 9340 1886 8232 60"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "24.05.1969"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Rüzgar Kılıçarslan"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "92422684074"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ada.atasever@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Güzelyalı Mah. Ziya Gökalp Cad. No:67 Daire:30 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR49 0006 7006 4575 7561 7125 05"
+   }
+  ]
+ },
+ {
+  "id": "musteri_listesi_02",
+  "type": "musteri_listesi",
+  "title": "Müvekkil listesi",
+  "n": 2,
+  "formats": [
+   "xlsx"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Rüzgar Uzunöz"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "18338758586"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0 (312) 434 39 51"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ruzgar.uzunoz@outlook.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Hürriyet Mah. Cumhuriyet Cad. No:31 Daire:17 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "26.11.1975"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Armahan Karadereli"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "95557717556"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Koşuyolu Mahallesi Lale Sokak No: 117/34 Keçiören / Ankara"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "22.11.1983"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Lavin SOYDAŞ"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "10964931340"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 232 826 30 66"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Fatih Sultan Mehmet Mh. Talatpaşa Cd. Menekşe Apt. No:57 D:1 36003 Muratpaşa/ANTALYA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR31 0006 7010 3241 8914 1812 77"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Cevale GÜL"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "70088837034"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "05324811585"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "karcan.ulker@yandex.com.tr"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Sahrayıcedit Mh. Talatpaşa Cd. Gül Apt. No:144 D:21 58306 Çankaya/ANKARA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR80 0006 7070 1789 8951 6724 18"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "ADA SÖZERİ"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "20435446020"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 (312) 912 1086"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ada.sozeri@outlook.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Mimar Sinan Mahallesi Zambak Sokak No: 75/10 Şahinbey / GAZİANTEP"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR44 0004 6009 0930 0770 0399 15"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "17.11.1996"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Kanak Cömertoğlu"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "38629457486"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "ruzgar.yesilbag@outlook.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Erenköy Mahallesi 2. Ilgın Sokak No: 113/35 Üsküdar / İstanbul"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR33 0006 4078 6250 8195 7449 22"
+   }
+  ]
+ },
+ {
+  "id": "musteri_listesi_03",
+  "type": "musteri_listesi",
+  "title": "Müvekkil listesi",
+  "n": 3,
+  "formats": [
+   "xlsx"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "EFLİN ATASEVER"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "99649828892"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 232 254 77 48"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "eflin.atasever@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Fenerbahçe Mah. Tunalı Hilmi Cad. No:43 Daire:13 Muratpaşa/ANTALYA"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "04.09.1972"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Dündaralp Arsoy"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "68990950736"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Koşuyolu Mh. Gazi Mustafa Kemal Cd. Lale Apt. No:153 D:37 47120 Konak/İZMİR"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "12.08.1952"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Uzbay Yaman"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "44312412236"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0532 323 31 58"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Hürriyet Mah. Halaskargazi Cad. No:4 Daire:20 Beşiktaş/İstanbul"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR80 0001 5016 0044 4232 7471 96"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "YİĞİTALP EKŞİOĞLU"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "68326815302"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0 (212) 995 57 69"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "seda.agaoglu@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Gazi Osman Paşa Mahallesi Akasya Sokak No: 107/13 Kadıköy / İSTANBUL"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR18 0006 7011 0022 2425 9250 90"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Oktüremiş Sakarya"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "88682619840"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0 (533) 472 52 68"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "okturemis.sakarya@yandex.com.tr"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Fenerbahçe Mahallesi, İnönü Caddesi No: 148 Kat: 3 Seyhan/Adana"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR11 0001 0071 2698 0670 9863 51"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "18.10.2002"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Tercan ŞAMA"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "62938158642"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "turkmen.karadereli@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Kavaklıdere Mahallesi Yasemin Sokak No: 57/18 Beşiktaş / İstanbul"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR71 0001 2003 1925 7003 0881 24"
+   }
+  ]
+ },
+ {
+  "id": "musteri_listesi_04",
+  "type": "musteri_listesi",
+  "title": "Müvekkil listesi",
+  "n": 4,
+  "formats": [
+   "xlsx"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Sadiye SEZGİN"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "54482322594"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0542 610 30 26"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "sadiye.sezgin@yandex.com.tr"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Alsancak Mh. Halaskargazi Cd. Yasemin Apt. No:126 D:4 58921 Seyhan/Adana"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "02.07.1969"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ünsever HACISALİHOĞLU"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "38341592892"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Fatih Sultan Mehmet Mahallesi Lale Sokak No: 71/4 Selçuklu / Konya"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "21.04.1969"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ada BAYRAKTAROĞLU"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "11991351224"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 542 449 32 40"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Hürriyet Mahallesi, Gazi Mustafa Kemal Caddesi No: 10 Kat: 9 Keçiören/Ankara"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR74 0011 1069 1672 7309 3469 42"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Yiğitalp BOZDEMİR"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "80736228466"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 (533) 389 9287"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "susam.eraslan@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Gazi Osman Paşa Mah. Kıbrıs Şehitleri Cad. No:180 Daire:3 Nilüfer/BURSA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR10 0006 4058 7844 1416 2916 33"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Taygan Bozdemir"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "72935351274"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 555 929 34 91"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "taygan.bozdemir@yandex.com.tr"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Cumhuriyet Mahallesi Yasemin Sokak No: 165/14 Beşiktaş / İstanbul"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR21 0001 2028 7456 6447 8628 99"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "13.10.1967"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Kezban DURDU"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "34953688602"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "akalan.aslan@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Koşuyolu Mah. Ziya Gökalp Cad. No:158 Daire:21 Seyhan/Adana"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR80 0011 1038 6851 1019 7978 42"
+   }
+  ]
+ },
+ {
+  "id": "musteri_listesi_05",
+  "type": "musteri_listesi",
+  "title": "Müvekkil listesi",
+  "n": 5,
+  "formats": [
+   "xlsx"
+  ],
+  "gold": [
+   {
+    "entity_type": "PERSON",
+    "text": "Akay Atasever"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "81351468770"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "+90 (216) 229 9917"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "akay.atasever@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Kızılay Mahallesi, Cinnah Caddesi No: 116 Kat: 1 Nilüfer/BURSA"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "01.10.1983"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Kasim Bilge"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "17768227976"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Cumhuriyet Mh. Talatpaşa Cd. 2. Ilgın Apt. No:126 D:17 34974 Kadıköy/İSTANBUL"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "09.03.1960"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Feremez Yüksel"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "94434339874"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "(216) 378-70-98"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Erenköy Mh. Fevzi Çakmak Cd. Çınar Apt. No:177 D:22 66244 Bornova/İzmir"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR63 0006 2073 9909 9244 1013 85"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Ilgın Tekinalp"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "27000657850"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "0 (533) 909 76 70"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "lavin.guleryuz@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Fatih Sultan Mehmet Mahallesi 1453 Sokak No: 24/20 Muratpaşa / ANTALYA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR30 0001 2053 0745 1511 2836 83"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Sadeti Çakmakçı"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "97561271222"
+   },
+   {
+    "entity_type": "PHONE",
+    "text": "05558257667"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "sadeti.cakmakci@yandex.com.tr"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Koşuyolu Mh. Necatibey Cd. Akasya Apt. No:113 D:13 19244 Üsküdar/İstanbul"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR82 0001 0047 7162 7420 1829 06"
+   },
+   {
+    "entity_type": "BIRTH_DATE",
+    "text": "06.10.1951"
+   },
+   {
+    "entity_type": "PERSON",
+    "text": "Besey Alemdar"
+   },
+   {
+    "entity_type": "TCKN",
+    "text": "63865729028"
+   },
+   {
+    "entity_type": "EMAIL",
+    "text": "nurhayet.demir@gmail.com"
+   },
+   {
+    "entity_type": "ADDRESS",
+    "text": "Gazi Osman Paşa Mahallesi Çınar Sokak No: 119/22 Muratpaşa / ANTALYA"
+   },
+   {
+    "entity_type": "IBAN",
+    "text": "TR67 0006 4091 3030 6365 8430 44"
    }
   ]
  }

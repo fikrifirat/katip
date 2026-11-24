@@ -50,7 +50,7 @@ not promises to anyone. How the plan was made: [design note](roadmap/design-2026
 - **Cebindeki hukuk**: people send an official letter and a lawyer reviews it at tariff fees,
   with Katip drafts and the gavel. Only after N6, a lawyer in every answer, subscription for
   lawyers, no commission.
-- Browser extension; Excel and e-mail (`.eml`, `.msg`) inputs.
+- Browser extension. (Excel and e-mail inputs shipped early, 24 Nov 2026.)
 - Own small models for research and drafting steps where they match the large ones on our own
   tests (`cost`). Not before the tests exist.
 
