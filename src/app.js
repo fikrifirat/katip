@@ -534,6 +534,8 @@ async function loadSource({ stay = false } = {}) {
   if (preview.kind === "image") preview.imageUrl = URL.createObjectURL(new Blob([bytes]));
   renderPreview();
   if (preview.kind !== "image") send({ type: "preview", name, bytes: bytes.slice(), seq: my });
+  // the Turkish OCR model (about 6 MB) starts loading with the first PDF or photo, not on every visit
+  if (/\.(pdf|png|jpe?g|tiff?|bmp|webp)$/i.test(name)) getTess("best_int");
   updateButtons();
   if (ready) analyze(); else status(t("waiting"));
 }
@@ -580,7 +582,7 @@ function updateButtons() {
 worker.onmessage = async ({ data: m }) => {
   if (m.type === "alive") { workerAlive = true; for (const [msg, tr] of outbox.splice(0)) worker.postMessage(msg, tr); return; }
   if (m.type === "ready") {
-    ready = true; getTess("best_int"); updateButtons();
+    ready = true; updateButtons();
     if (loaded && !res) analyze(); else status(t("ready"));
   } else if (m.type === "progress") status(progressText(m.msg) + "…");
   else if (m.type === "preview") {

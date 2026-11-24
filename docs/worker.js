@@ -2,7 +2,6 @@
 // Documents arrive by postMessage and leave the same way; nothing here does network I/O
 // except loading this site's own runtime and model files.
 import { loadPyodide } from "./vendor/pyodide/pyodide.mjs";
-import * as mupdf from "./vendor/mupdf/dist/mupdf.js";
 import * as E from "./engine.js";
 import { loadNer, runNer } from "./ner.js";
 import { MARK, drawMark } from "./brand.js";
@@ -10,6 +9,10 @@ import { createPaddleOcr, decodeImage } from "./paddle_ocr.js";
 import { guessLanguage } from "./letters.js";
 
 let py, current = null, ocrSeq = 0, T = null;
+// MuPDF (about 10 MB of WebAssembly) is only needed for PDFs and photos, so it loads with the first one:
+// Word, UDF, Excel, e-mail and text never download it
+let mupdf = null;
+const getMupdf = async () => (mupdf ??= await import("./vendor/mupdf/dist/mupdf.js"));
 const pendingOcr = new Map();
 const progress = msg => postMessage({ type: "progress", msg });
 const here = p => new URL(p, import.meta.url).href;
@@ -22,14 +25,14 @@ function getPaddle() {
     progress("El yazısı OCR modeli yükleniyor");
     const ort = await import("./vendor/ort/ort.wasm.min.mjs");
     ort.env.wasm.numThreads = 1; ort.env.logLevel = "error";  // the exported graphs carry unused initialisers: harmless warnings
-    ort.env.wasm.wasmPaths = { mjs: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.mjs"), wasm: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.wasm") };
+    ort.env.wasm.wasmPaths = { mjs: here("./vendor/ort/ort-wasm-simd-threaded.mjs"), wasm: here("./vendor/ort/ort-wasm-simd-threaded.wasm") };
     const get = async f => new Uint8Array(await (await fetch(here("./vendor/paddleocr/" + f))).arrayBuffer());
     const [det, rec, dict] = await Promise.all([get("det/inference.onnx"), get("rec/inference.onnx"), fetch(here("./vendor/paddleocr/rec/dict.json")).then(r => r.json())]);
     return createPaddleOcr(ort, { det, rec, dict });
   })().catch(e => { paddle = null; throw e; });
 }
 
-const paddleRead = Object.assign(async png => (await getPaddle()).recognize(decodeImage(mupdf, png)), { engine: "paddle" });
+const paddleRead = Object.assign(async png => (await getPaddle()).recognize(decodeImage(await getMupdf(), png)), { engine: "paddle" });
 
 // lang: "auto" (PaddleOCR for handwriting and phone photos, Tesseract compact for printed scans),
 // "paddle" (PaddleOCR for every page), or a Tesseract model ("best_int", "fast")
@@ -58,7 +61,7 @@ async function boot() {
 async function preview({ name, bytes, seq }) {
   const kind = E.kindOf(name);
   let text = null, previews = [];
-  if (kind === "pdf") previews = renderPages(bytes);
+  if (kind === "pdf") { await getMupdf(); previews = renderPages(bytes); }
   else if (kind === "txt") text = new TextDecoder().decode(bytes);
   else if (kind !== "image") { await booted; text = E.pyExtract(py, kind, bytes); }
   postMessage({ type: "preview", seq, kind, text, previews }, previews.map(p => p.buffer));
@@ -119,7 +122,7 @@ async function detectWithModel(text, s, doc = null) {
   let extra = [];
   if (s.ner) {
     T ??= await import("./vendor/transformers/transformers.min.js");
-    const ner = await loadNer(T, s.ner, new URL("./models/", import.meta.url).pathname, { mjs: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.mjs"), wasm: here("./vendor/ort/ort-wasm-simd-threaded.asyncify.wasm") }, progress, s.nerDtype ?? "q8");
+    const ner = await loadNer(T, s.ner, new URL("./models/", import.meta.url).pathname, { mjs: here("./vendor/ort/ort-wasm-simd-threaded.mjs"), wasm: here("./vendor/ort/ort-wasm-simd-threaded.wasm") }, progress, s.nerDtype ?? "q8");
     progress("NER çalışıyor");
     extra = await runNer(T, ner, text, { minScore: s.threshold });
   }
@@ -139,6 +142,7 @@ let newestSeq = -1;
 async function analyze({ name, bytes, settings, seq }) {
   newestSeq = Math.max(newestSeq, seq ?? 0);
   const t0 = performance.now(), kind = E.kindOf(name), ocr = ocrWith(settings.ocrLang);
+  if (kind === "pdf" || kind === "image") await getMupdf();
   let doc;
   if (kind === "pdf") doc = await E.parsePdf(mupdf, bytes, ocr, { onProgress: progress });
   else if (kind === "image") { progress("OCR"); doc = await E.parseImage(bytes.slice(), ocr, null, mupdf); }
@@ -168,6 +172,7 @@ const MIME = { xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetm
 async function redact({ spans, style, verifyOcr, ocrLang, color = [0, 0, 0], watermark = null, mark = false }) {
   const { name, kind, bytes, doc } = current, t0 = performance.now(), ocr = ocrWith(ocrLang);
   progress("Maskeleniyor");
+  if (kind === "pdf" || kind === "image") await getMupdf();
   let out, outText = "", unchecked = false, previews = [];
   if (kind === "pdf") {
     E.attachBoxes(doc, spans);
