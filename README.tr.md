@@ -118,7 +118,9 @@ tarayıcıda sayfa başına yaklaşık 1 sn); uzun dijital dosyalar için Nano h
 (ikisi de 4 kat küçük). Yukarıdaki tüm skorlar int8 dosyalarla ölçüldü; küçültme doğruluktan bir şey
 götürmedi. OCR'da küçük Türkçe model 7,7 MB yerine 2 MB ve bulma oranı neredeyse aynı (96 taramada 49'a karşı 48 kaçan).
 **Süreler** Python onnxruntime ile; Nano ve kurallar 4 çekirdekli bulut sunucusunda, Katip Mask Base Apple silikon
-Mac'te ölçüldü. Tarayıcı süreleri (WebAssembly, tek iş parçacığı) daha yavaştır ve henüz ölçülmedi.
+Mac'te ölçüldü. Tarayıcı süreleri (WebAssembly, tek iş parçacığı) daha yavaştır: aynı bulut sunucusunda Chromium'da,
+site aynı makineden sunulurken (ağ beklemesi yok), ilk Word dosyası bırakıldıktan yaklaşık 6,5 sn sonra maskelenir; sonraki her dosya yarım saniyeden kısa sürer.
+Gerçek dizüstü ve telefonlarda henüz ölçülmedi.
 BERTurk'ü GitHub Pages'e sığacak boyuta damıtmak yol haritasında.
 
 <picture>
@@ -206,7 +208,8 @@ türlü model kodu için).
 - [x] GitHub Pages'e sığan daha küçük (damıtılmış) BERTurk ([Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini), 31 MB, tarayıcıda varsayılan)
 - [ ] Demoda ikinci karşılaştırma olarak hazır bir Türkçe NER modeli
 - [ ] Pilot bürolardan, izinli gerçek belgelerle değerlendirme
-- [ ] Dizüstü ve telefon süreleri; daha küçük ilk indirme
+- [x] Daha küçük ilk indirme: ilk Word, UDF ya da metin dosyası için 42 MB yerine 31 MB (PDF ve OCR parçaları ilk PDF ya da fotoğrafla yüklenir)
+- [ ] Gerçek dizüstü ve telefonda süreler
 - [x] Kurum ve mahkeme adları, esas/karar numaraları, daha fazla KVKK md. 6 kategorisi
 - [x] Klasörle toplu işlem ([Katip Klasör](desktop/))
 - [ ] Excel ve e-posta (`.eml`, `.msg`)

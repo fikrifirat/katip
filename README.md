@@ -134,7 +134,10 @@ On real everyday prose Mini finds 72.5% of names against Nano's 52.9% ([KVKK-Ben
 smaller each). All scores above were measured on the int8 files, so quantising cost no accuracy. For OCR,
 the compact Turkish model is 2 MB instead of 7.7 MB with about the same recall (49 vs 48 misses on 96 scans).
 **Timings** are onnxruntime in Python, Nano and the rules on a 4-core cloud VM, Katip Mask Base on an Apple-silicon
-Mac; browser timings (WebAssembly, one thread) are slower and not measured yet. Distilling BERTurk to a
+Mac; browser timings (WebAssembly, one thread) are slower: in Chromium on the same cloud VM, with the site served from that
+machine (no network wait), the first Word file is masked about 6.5 s after it is dropped, and each later file in
+under half a second.
+Real laptops and phones are not measured yet. Distilling BERTurk to a
 size that fits GitHub Pages is on the roadmap.
 
 <picture>
@@ -222,7 +225,8 @@ name-only and the multi-type model code).
 - [x] A smaller distilled BERTurk that fits on GitHub Pages ([Katip Mask Mini](https://huggingface.co/f1k/katip-mask-mini), 31 MB, the browser default)
 - [ ] A stock Turkish NER model as a second baseline in the demo
 - [ ] Evaluation on real, consented documents from pilot firms
-- [ ] Laptop and phone timings; smaller first download
+- [x] Smaller first download: masking a first Word, UDF or text file downloads 31 MB instead of 42 MB (PDF and OCR parts load with the first PDF or photo)
+- [ ] Laptop and phone timings on real devices
 - [x] Organisation and court names, case numbers, more KVKK art. 6 categories
 - [x] Batch folders ([Katip Klasör](desktop/))
 - [ ] Excel and e-mail (`.eml`, `.msg`)
