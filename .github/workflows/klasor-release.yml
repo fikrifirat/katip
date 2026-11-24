@@ -1,0 +1,29 @@
+name: Katip Klasör release
+
+# Push a tag klasor-vX.Y.Z: runs the Klasör tests and builds (klasor.yml), then makes a pre-release
+# with the Mac and Windows builds. Split out of klasor.yml so pull requests don't show a skipped
+# "release" check.
+on:
+  push:
+    tags: ["klasor-v*"]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    uses: ./.github/workflows/klasor.yml
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions: { contents: write }
+    steps:
+      - uses: actions/download-artifact@v4
+        with: { path: out, merge-multiple: true }
+      - name: Pre-release with the Mac and Windows builds
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          gh release create "$GITHUB_REF_NAME" out/* --repo "$GITHUB_REPOSITORY" --prerelease \
+            --title "Katip Klasör ${GITHUB_REF_NAME#klasor-v}" \
+            --notes "Unsigned beta. Mac: right-click the app, Open. Windows: More info, Run anyway. See desktop/README.md."

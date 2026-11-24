@@ -3,8 +3,10 @@ name: Katip Kalkan to the MCP Registry
 # Lists the latest released .mcpb in the official MCP Registry (registry.modelcontextprotocol.io).
 # Run by hand after a Kalkan release: gh workflow run mcp-registry.yml --repo fikrifirat/katip
 # Ownership of io.github.fikrifirat/* is proven by GitHub OIDC; no secret needed.
+# Also called by kalkan-release.yml after each new release.
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -14,7 +16,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Point server.json at the latest Kalkan release
         env:
           GH_TOKEN: ${{ github.token }}
