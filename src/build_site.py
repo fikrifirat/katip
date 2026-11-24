@@ -46,7 +46,8 @@ else:
 (out / "vendor/transformers").mkdir(parents=True, exist_ok=True)
 shutil.copy2(nm / "@huggingface/transformers/dist/transformers.min.js", out / "vendor/transformers/transformers.min.js")
 (out / "vendor/ort").mkdir(parents=True, exist_ok=True)
-for f in ("ort-wasm-simd-threaded.asyncify.mjs", "ort-wasm-simd-threaded.asyncify.wasm", "ort.wasm.min.mjs"):
+# the plain WebAssembly build (14 MB): the asyncify one (27 MB) is only needed for WebGPU, which Katip doesn't use
+for f in ("ort-wasm-simd-threaded.mjs", "ort-wasm-simd-threaded.wasm", "ort.wasm.min.mjs"):
     shutil.copy2(nm / "onnxruntime-web/dist" / f, out / "vendor/ort" / f)
 
 # samples: one synthetic document per type, every format it has, plus its answer key
