@@ -80,6 +80,33 @@ cd desktop && python -m pytest -q    # synthetic fixtures only
 The first start downloads Katip Mask Base (111 MB, pinned commit, SHA-256 checked) through katip-mask. After
 that the app makes no network calls. Settings can switch to Mini or Nano.
 
+## Katip engine (macOS, Docker style)
+
+`katip_engine` runs the whole Katip pipeline (detection, name model, case vault, mask_file, restore, the
+legislation index) as one background service on `127.0.0.1`, so every app on the computer can use it:
+the menu bar app, Klasör, the CLI and, later, Kalkan. Nothing listens beyond this computer.
+
+```bash
+katip-engine install      # register the launchd agent once (it does not start at login)
+katip-engine start        # about 0.6 s to the first answer with the Nano model
+echo "Davacı Ayşe DEMİRCİ ..." | katip-engine mask --matter 2026/123
+katip-engine restore --matter 2026/123 < answer.txt
+katip-engine status | stop | logs | uninstall
+```
+
+- **Starts on demand and stops when idle** (15 minutes by default, `install --idle-exit S`), which is how the
+  memory is given back; launchd never restarts it on its own.
+- **Only this user's apps can use it.** Each start writes a fresh token to `~/.katip/engine.json` (mode 0600);
+  every call needs it. Requests from web pages (any `Origin` or `Sec-Fetch-Site` header) and wrong `Host`
+  headers (DNS rebinding) are refused. Errors carry the error type only, never document text.
+- **Routes**: `GET /healthz`, `GET /v1/status`, `POST /v1/mask`, `/v1/mask_file`, `/v1/restore`, `/v1/forget`,
+  `/v1/sources/mevzuat`, `/v1/sources/emsal` (off unless `KATIP_EMSAL_ONLINE=1`), `/v1/shutdown`.
+
+`macos/` is the menu bar app (SwiftUI, no Dock icon): engine state, start and stop, mask the clipboard and put
+the names back, open the log. Build it with `cd macos && xcodegen generate && xcodebuild -scheme KatipMenu
+build`; `Katip.app/Contents/MacOS/Katip --selftest` starts the engine, masks and restores one synthetic sentence
+and prints the result as JSON. Tests: `python -m pytest -q tests/test_engine.py`.
+
 ## Builds
 
 `.github/workflows/klasor.yml` tests on Linux, Mac and Windows. On `main` and on a `klasor-vX.Y.Z` tag it builds

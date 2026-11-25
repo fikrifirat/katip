@@ -1,0 +1,36 @@
+# XcodeGen spec for the Katip menu bar app (macOS). Generate with `xcodegen generate` in this folder.
+# The app is a client of the Katip engine (desktop/katip_engine): it starts and stops it through launchd and
+# shows its state, like Docker Desktop's whale. Run `katip-engine install` once first.
+name: KatipMenu
+options:
+  bundleIdPrefix: com.fikrifirat
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    DEVELOPMENT_TEAM: ""          # set your team to sign; local builds are signed ad hoc
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: YES
+targets:
+  KatipMenu:
+    type: application
+    platform: macOS
+    sources:
+      - path: KatipMenu
+    info:
+      path: KatipMenu/Info.plist
+      properties:
+        CFBundleDisplayName: Katip
+        LSUIElement: true                       # menu bar only, no Dock icon
+        LSApplicationCategoryType: public.app-category.productivity
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true         # plain http to 127.0.0.1 only
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fikrifirat.katip.menu
+        PRODUCT_NAME: Katip
+        ENABLE_APP_SANDBOX: NO                  # reads ~/.katip/engine.json and runs launchctl
