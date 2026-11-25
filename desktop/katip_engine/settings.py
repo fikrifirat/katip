@@ -1,7 +1,8 @@
 """The engine's settings, chosen in the Mac app: ~/.katip/engine-settings.json (readable only by this user).
 
-They become the environment Kalkan reads (KATIP_MODEL, KATIP_PROFILE, KATIP_EMSAL_ONLINE), applied when the
-engine starts and whenever they change, so the next document already uses them.
+They become the environment Kalkan reads (KATIP_MODEL, KATIP_PROFILE, KATIP_EMSAL_ONLINE, KATIP_TSG_SESSION_HOURS),
+applied when the engine starts and whenever they change, so the next document already uses them. Which extra
+features Claude may use is in "features" (see features.py); precedent search keeps its own switch, emsal_online.
 """
 from __future__ import annotations
 
@@ -18,7 +19,11 @@ DEFAULTS = {
     "documents_folder": str(Path.home() / "Documents" / "katip-documents"),
     "include_downloads": True,  # UYAP downloads and e-mail attachments land there
     "first_run_done": False,
+    "features": {"mevzuat": True, "dd_masak": False, "dd_ilan": False, "dd_gazette": False},
+    "tsg_session_hours": 8,     # keep the lawyer's Trade Registry Gazette login this long; 0 = log out every run
+    "custom_models": [],        # model folders the lawyer added; "model" may be one of them
 }
+FEATURE_KEYS = tuple(DEFAULTS["features"])
 
 
 class Invalid(ValueError):
@@ -35,15 +40,28 @@ def load() -> dict:
         saved = json.loads(path().read_text())
     except (OSError, ValueError):
         saved = {}
-    return {**DEFAULTS, **{k: v for k, v in saved.items() if k in DEFAULTS}}
+    st = {**DEFAULTS, **{k: v for k, v in saved.items() if k in DEFAULTS}}
+    st["features"] = {**DEFAULTS["features"], **{k: v for k, v in (st.get("features") or {}).items()
+                                                 if k in FEATURE_KEYS and isinstance(v, bool)}}
+    return st
 
 
-def validate(changes: dict) -> dict:
+def validate(changes: dict, current: dict | None = None) -> dict:
     for k, v in changes.items():
         if k not in DEFAULTS:
             raise Invalid(f"unknown setting {k!r}")
-        if k == "model" and v not in MODELS:
-            raise Invalid(f"model must be one of {', '.join(MODELS)}")
+        if k == "model":
+            customs = changes.get("custom_models", (current or load())["custom_models"])
+            if v not in MODELS and v not in customs:
+                raise Invalid(f"model must be one of {', '.join(MODELS)} or a model folder added in the app")
+        if k == "features" and not (isinstance(v, dict) and all(f in FEATURE_KEYS and isinstance(b, bool)
+                                                                for f, b in v.items())):
+            raise Invalid(f"features must map {', '.join(FEATURE_KEYS)} to true or false")
+        if k == "tsg_session_hours" and not (isinstance(v, (int, float)) and not isinstance(v, bool) and 0 <= v <= 24):
+            raise Invalid("tsg_session_hours must be between 0 and 24")
+        if k == "custom_models" and not (isinstance(v, list) and all(isinstance(p, str) and Path(p).is_absolute()
+                                                                     for p in v)):
+            raise Invalid("custom_models must be a list of full paths")
         if k == "default_profile" and v not in PROFILES:
             raise Invalid(f"profile must be one of {', '.join(PROFILES)}")
         if k in ("emsal_online", "include_downloads", "first_run_done") and not isinstance(v, bool):
@@ -54,7 +72,11 @@ def validate(changes: dict) -> dict:
 
 
 def save(changes: dict) -> dict:
-    st = {**load(), **validate(changes)}
+    cur = load()
+    validate(changes, cur)
+    if "features" in changes:  # a partial map changes only the features it names
+        changes = {**changes, "features": {**cur["features"], **changes["features"]}}
+    st = {**cur, **changes}
     p = path()
     p.parent.mkdir(parents=True, exist_ok=True)
     tmp = p.with_suffix(".tmp")
@@ -78,6 +100,9 @@ def apply(st: dict | None = None, folders: bool = False) -> dict:
     os.environ["KATIP_MODEL"] = st["model"]
     os.environ["KATIP_PROFILE"] = st["default_profile"]
     os.environ["KATIP_EMSAL_ONLINE"] = "1" if st["emsal_online"] else "0"
+    os.environ["KATIP_TSG_SESSION_HOURS"] = str(st["tsg_session_hours"])
+    if os.environ.get("KATIP_HOME") and not os.environ.get("KATIP_DD_HOME"):  # keep DD data with the rest
+        os.environ["KATIP_DD_HOME"] = str(Path(os.environ["KATIP_HOME"]) / "dd")
     if folders:
         os.environ["KATIP_ALLOWED_DIRS"] = os.pathsep.join(allowed_dirs(st))
     return st

@@ -15,6 +15,16 @@ struct KatipMenuApp: App {
         }
         .defaultSize(width: 900, height: 640)
         .windowResizability(.contentMinSize)
+        .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button(L("Katip Hakkında", "About Katip")) {
+                    NotificationCenter.default.post(name: .katipOpenMain, object: nil)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                        NotificationCenter.default.post(name: .katipShow, object: Screen.about)
+                    }
+                }
+            }
+        }
 
         MenuBarExtra {
             MenuContent().environmentObject(model)

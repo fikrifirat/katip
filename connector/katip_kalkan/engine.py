@@ -152,6 +152,18 @@ def read_text(path: Path) -> tuple[str, str, bytes, list[tuple[int, int]], list[
     return kind, fmt.extract(kind, data), data, [], []
 
 
+# Dotted abbreviations that are never a name. The model tags "T.C" in "T.C. Kimlik No" as a person, and the
+# engine splits it into two capital letters, i.e. a two-word name, so it took a placeholder ([AD SOYAD-2]
+# between Ayşe DEMİRCİ and Mehmet KARA). Only model spans are dropped; rule spans are untouched.
+_NOT_NAMES = {"tc", "kktc", "aş", "tbmm", "abd"}  # not "ab": "A.B." is also how judgments write initials
+
+
+def _abbreviation(s: str) -> bool:
+    import re
+    parts = re.findall(r"[^\W\d_]+", s)
+    return bool(parts) and all(len(p) == 1 for p in parts) and "".join(parts).casefold() in _NOT_NAMES
+
+
 def detect(text: str, threshold: float = 0.5, entities: list[str] | None = None,
            mask_terms=(), allow_terms=(), ocr_ranges=(), address_detail: str | None = None) -> list[dict]:
     """Rules, plus the on-device Katip Mask model when one is installed (see ner.py)."""
@@ -159,6 +171,7 @@ def detect(text: str, threshold: float = 0.5, entities: list[str] | None = None,
     from . import ner
     model = ner.get()
     extra = [list(x) for x in model.spans(text)] if model else []
+    extra = [x for x in extra if not ((len(x) < 4 or x[3] in (None, "PERSON")) and _abbreviation(text[x[0]:x[1]]))]
     spans = det.detect(text, threshold, entities, list(mask_terms), list(allow_terms), extra,
                        ner.trust() if model else None,
                        ocr_ranges=[list(r) for r in ocr_ranges],

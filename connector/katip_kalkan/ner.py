@@ -202,7 +202,14 @@ def _folder() -> Path | None:
             return folder
         env = None
     if env:
-        return None if env.lower() in ("none", "off", "rules") else Path(env).expanduser()
+        if env.lower() in ("none", "off", "rules"):
+            return None
+        p = Path(env).expanduser()
+        if (p / "config.json").exists() and (p / "onnx").is_dir():
+            _note.pop("model", None)
+            return p
+        # an unplugged drive or a moved folder must not stop masking: fall back to the bundled model, and say so
+        _note["model"] = f"model folder {p.name!r} not found; using the bundled model"
     from .vault import katip_home
     for root in (katip_home() / "models", HERE / "models"):
         if root.is_dir():

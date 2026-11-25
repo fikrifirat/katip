@@ -25,7 +25,8 @@ from pathlib import Path
 
 from . import DEFAULT_PORT, LABEL, __version__
 
-LOG = Path.home() / "Library" / "Logs" / "Katip" / "engine.log"
+LOG = Path.home() / "Library" / "Logs" / "Katip" / ("engine.log" if LABEL == "com.fikrifirat.katip.engine"
+                                                    else f"{LABEL}.log")
 
 
 def plist_path() -> Path:
@@ -91,8 +92,9 @@ def engine_cmd() -> list[str]:
 
 
 # Settings that must match between the installer and the agent (the app reads the same KATIP_HOME), passed on if set.
-PASS_ON = ("KATIP_HOME", "KATIP_NO_KEYCHAIN", "KATIP_MODEL", "KATIP_EMSAL_ONLINE",
-           "KATIP_MASK_CACHE", "KATIP_CLAUDE_DESKTOP_CONFIG", "KATIP_CLAUDE_BIN")  # the last three: tests
+PASS_ON = ("KATIP_HOME", "KATIP_NO_KEYCHAIN", "KATIP_AGENT_LABEL", "KATIP_MODEL", "KATIP_EMSAL_ONLINE",
+           "KATIP_MASK_CACHE", "KATIP_DD_HOME", "PLAYWRIGHT_BROWSERS_PATH", "KATIP_CHROME_APP",
+           "KATIP_CLAUDE_DESKTOP_CONFIG", "KATIP_CLAUDE_BIN")  # the last ones: tests
 
 
 def engine_env() -> dict:
@@ -179,12 +181,8 @@ def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     if argv[:1] == ["mcp"]:  # Katip's MCP tools for Claude, on stdio (what `claude.mcp_command` writes)
         os.environ.setdefault("KATIP_AUTO_DEPS", "0")
-        from . import settings
-        settings.apply(folders=True)  # the app's settings, not ones frozen into Claude's config
-        settings.follow()
-        from katip_kalkan.local_server import main as mcp
-        sys.argv = ["katip-engine mcp", *argv[1:]]
-        mcp()
+        from . import mcp  # the app's settings and feature switches, followed live, not frozen into Claude's config
+        mcp.main(argv[1:])
         return 0
     ap = argparse.ArgumentParser(prog="katip-engine", description="Run and control the Katip engine.")
     sub = ap.add_subparsers(dest="cmd", required=True)

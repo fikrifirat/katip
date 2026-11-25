@@ -269,7 +269,7 @@ struct ModelStep: View {
                   secondary: (L("Şimdilik Nano kalsın", "Keep Nano for now"), { next() }),
                   action: { Task { await go() } }) {
             VStack(spacing: 10) {
-                ForEach(model.models?.models ?? []) { m in
+                ForEach((model.models?.models ?? []).filter { !$0.custom }) { m in
                     ModelCard(info: m, selected: choice == m.name, active: current == m.name)
                         .onTapGesture { if !working { choice = m.name } }
                 }
@@ -387,6 +387,8 @@ struct FolderRow: View {
                 Text(prettyPath(model.settings?.documentsFolder ?? "")).lineLimit(1).truncationMode(.middle)
                 Spacer()
                 Button(L("Değiştir…", "Change…")) { pick() }
+                Button { reveal(model.settings?.documentsFolder, create: false) } label: { Image(systemName: "arrow.up.forward.square") }
+                    .buttonStyle(.borderless).help(L("Finder'da göster", "Show in Finder"))
             }
             Toggle(L("İndirilenler klasörü de (UYAP ve e-posta ekleri)", "Also the Downloads folder (UYAP and e-mail attachments)"),
                    isOn: Binding(get: { model.settings?.includeDownloads ?? true },
@@ -424,7 +426,7 @@ struct ClaudeRows: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             if let c = model.claude {
-                AppRow(icon: "macwindow", name: "Claude Desktop",
+                AppRow(icon: "macwindow", appPath: Apps.claude, name: "Claude Desktop",
                        state: c.desktop.stale ? L("Katip taşınmış; yeniden bağlayın.", "Katip has moved; connect again.")
                            : c.desktop.extension && !c.desktop.connected
                            ? L("Katip uzantısı zaten kurulu: ek bir şey gerekmez.", "The Katip extension is already installed: nothing else needed.")
@@ -438,7 +440,7 @@ struct ClaudeRows: View {
                     if let r = await model.connect("desktop", on: on), r.restartNeeded { restartHint = true }
                     working = nil
                 }
-                AppRow(icon: "terminal", name: "Claude Code",
+                AppRow(icon: "terminal", appPath: Apps.terminal, name: "Claude Code",
                        state: !c.code.installed ? L("Bu Mac'te kurulu değil.", "Not installed on this Mac.")
                            : c.code.stale ? L("Katip taşınmış; yeniden bağlayın.", "Katip has moved; connect again.")
                            : c.code.connected ? L("Bağlı (tüm projelerde).", "Connected (in every project).") : L("Bağlı değil.", "Not connected."),
@@ -467,6 +469,7 @@ struct ClaudeRows: View {
 
 struct AppRow: View {
     let icon: String
+    var appPath: String? = nil
     let name: String
     let state: String
     let connected: Bool
@@ -476,7 +479,8 @@ struct AppRow: View {
 
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: icon).font(.title2).frame(width: 30).foregroundStyle(.secondary)
+            if let appPath { AppIcon(path: appPath, fallback: icon, size: 34) }
+            else { Image(systemName: icon).font(.title2).frame(width: 30).foregroundStyle(.secondary) }
             VStack(alignment: .leading, spacing: 2) {
                 Text(name).font(.headline)
                 HStack(spacing: 5) {

@@ -32,24 +32,32 @@ struct RootView: View {
 }
 
 enum Screen: String, CaseIterable, Identifiable {
-    case mask, restore, cases, connections, settings
+    case mask, restore, review, cases, features, models, connections, settings, about
     var id: String { rawValue }
     var title: String {
         switch self {
         case .mask: return L("Maskele", "Mask")
         case .restore: return L("Geri çevir", "Restore")
+        case .review: return L("İnceleme", "Review")
         case .cases: return L("Davalar", "Cases")
+        case .features: return L("Özellikler", "Features")
+        case .models: return L("Modeller", "Models")
         case .connections: return L("Bağlantılar", "Connections")
         case .settings: return L("Ayarlar", "Settings")
+        case .about: return L("Hakkında", "About")
         }
     }
     var icon: String {
         switch self {
         case .mask: return "eye.slash"
         case .restore: return "arrow.uturn.backward"
+        case .review: return "checkmark.seal"
         case .cases: return "folder"
+        case .features: return "square.grid.2x2"
+        case .models: return "cpu"
         case .connections: return "link"
         case .settings: return "gearshape"
+        case .about: return "info.circle"
         }
     }
 }
@@ -62,12 +70,16 @@ struct MainView: View {
         HStack(spacing: 0) {
             VStack(alignment: .leading, spacing: 2) {
                 HStack(spacing: 8) {
-                    Image(systemName: "checkmark.shield.fill").foregroundStyle(Color.accentColor)
+                    Image(nsImage: NSApp.applicationIconImage).resizable().frame(width: 28, height: 28)
                     Text("Katip").font(.title3.weight(.semibold))
                 }
                 .padding(.horizontal, 10).padding(.bottom, 14).padding(.top, 4)
                 ForEach(Screen.allCases) { s in
-                    SidebarItem(screen: s, selected: section == s) { section = s }
+                    SidebarItem(screen: s, selected: section == s,
+                                badge: s == .review ? model.reviewWaiting : 0) {
+                        NSApp.keyWindow?.makeFirstResponder(nil)  // a hidden text box must not keep the keyboard
+                        section = s
+                    }
                 }
                 Spacer()
                 EngineFooter().padding(.horizontal, 10)
@@ -79,38 +91,66 @@ struct MainView: View {
             ZStack(alignment: .topLeading) {  // every screen stays alive, so switching never loses your text
                 MaskScreen().screen(section == .mask)
                 RestoreScreen().screen(section == .restore)
+                ReviewScreen().screen(section == .review)
                 CasesScreen().screen(section == .cases)
+                FeaturesScreen().screen(section == .features)
+                ModelsScreen().screen(section == .models)
                 ConnectionsScreen().screen(section == .connections)
                 SettingsScreen().screen(section == .settings)
+                AboutScreen().screen(section == .about)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
         .onReceive(NotificationCenter.default.publisher(for: .katipShow)) { n in
-            if let s = n.object as? Screen { section = s }
+            if let s = n.object as? Screen { NSApp.keyWindow?.makeFirstResponder(nil); section = s }
         }
+        .task { await model.refreshReview() }
     }
 }
 
 extension View {
     func screen(_ shown: Bool) -> some View {
         opacity(shown ? 1 : 0).allowsHitTesting(shown).accessibilityHidden(!shown)
+            .environment(\.screenShown, shown)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+    }
+
+    /// A keyboard shortcut only while its screen is the one showing (hidden screens stay alive).
+    func shortcut(_ key: KeyEquivalent, _ mods: EventModifiers = [], when shown: Bool) -> some View {
+        keyboardShortcut(shown ? KeyboardShortcut(key, modifiers: mods) : nil)
+    }
+}
+
+private struct ScreenShownKey: EnvironmentKey { static let defaultValue = true }
+extension EnvironmentValues {
+    var screenShown: Bool {
+        get { self[ScreenShownKey.self] }
+        set { self[ScreenShownKey.self] = newValue }
     }
 }
 
 struct SidebarItem: View {
     let screen: Screen
     let selected: Bool
+    var badge = 0
     let action: () -> Void
     @State private var hover = false
     var body: some View {
         Button(action: action) {
-            Label(screen.title, systemImage: screen.icon)
+            HStack(spacing: 9) {
+                Tile(symbol: screen.icon, color: screen.tint, size: 22)
+                Text(screen.title)
+                Spacer(minLength: 0)
+                if badge > 0 {
+                    Text("\(badge)").font(.caption2.weight(.bold)).foregroundStyle(.white)
+                        .padding(.horizontal, 6).padding(.vertical, 1).background(Capsule().fill(Color.red))
+                }
+            }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.vertical, 6).padding(.horizontal, 10)
                 .background(RoundedRectangle(cornerRadius: 7).fill(selected ? Color.accentColor.opacity(0.16)
                                                                    : hover ? Color.primary.opacity(0.05) : .clear))
-                .foregroundStyle(selected ? Color.accentColor : Color.primary)
+                .foregroundStyle(Color.primary)
                 .contentShape(Rectangle())
         }
         .buttonStyle(.plain)
@@ -211,6 +251,7 @@ func matterOrDefault(_ s: String) -> String {
 // MARK: Mask
 struct MaskScreen: View {
     @EnvironmentObject var model: AppModel
+    @Environment(\.screenShown) private var shown
     @State private var input = ""
     @State private var output = ""
     @State private var placeholders: [String] = []
@@ -247,7 +288,7 @@ struct MaskScreen: View {
                         Button(L("Belge seç…", "Choose document…")) { pickFile() }
                         Spacer()
                         Button(L("Maskele", "Mask")) { Task { await maskText() } }
-                            .keyboardShortcut(.return, modifiers: .command)
+                            .shortcut(.return, .command, when: shown)
                             .buttonStyle(.borderedProminent)
                             .disabled(input.isEmpty || working || source != nil)
                     }
@@ -330,6 +371,7 @@ struct MaskScreen: View {
 // MARK: Restore
 struct RestoreScreen: View {
     @EnvironmentObject var model: AppModel
+    @Environment(\.screenShown) private var shown
     @State private var input = ""
     @State private var output = ""
     @State private var matter = ""
@@ -362,7 +404,7 @@ struct RestoreScreen: View {
                         Button(L("Panodan yapıştır", "Paste from clipboard")) { input = NSPasteboard.general.string(forType: .string) ?? "" }
                         Spacer()
                         Button(L("Geri çevir", "Restore")) { Task { await restore() } }
-                            .keyboardShortcut(.return, modifiers: .command)
+                            .shortcut(.return, .command, when: shown)
                             .buttonStyle(.borderedProminent).disabled(input.isEmpty)
                     }
                 }
@@ -405,9 +447,13 @@ struct CasesScreen: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            ScreenHeader(title: L("Davalar", "Cases"),
-                         subtitle: L("Her dava için adları geri getiren anahtar bu Mac'te şifreli durur ve son kullanımdan bir süre sonra kendiliğinden silinir.",
-                                     "Each case's key, which brings names back, is kept encrypted on this Mac and deletes itself a while after last use."))
+            HStack(alignment: .top) {
+                ScreenHeader(title: L("Davalar", "Cases"),
+                             subtitle: L("Her dava için adları geri getiren anahtar bu Mac'te şifreli durur ve son kullanımdan bir süre sonra kendiliğinden silinir.",
+                                         "Each case's key, which brings names back, is kept encrypted on this Mac and deletes itself a while after last use."))
+                Spacer()
+                RevealButton(key: \.cases)
+            }
             if visible.isEmpty {
                 ContentUnavailableView(L("Henüz dava yok", "No cases yet"), systemImage: "folder",
                                        description: Text(L("Bir belge maskelediğinizde burada görünür.", "A case shows here once you mask a document.")))
@@ -448,14 +494,10 @@ struct ConnectionsScreen: View {
             }
             Section(L("Belge klasörü", "Documents folder")) { FolderRow() }
             Section {
-                Toggle(L("Emsal karar arama (Yargıtay, Danıştay)", "Precedent search (Yargıtay, Danıştay)"),
-                       isOn: Binding(get: { model.settings?.emsalOnline ?? false },
-                                     set: { v in Task { await model.save(["emsal_online": v]) } }))
-                Text(L("Açıkken yalnızca arama kelimeleri bedesten.adalet.gov.tr'ye gider, belge metni asla gitmez.",
-                       "When on, only search keywords go to bedesten.adalet.gov.tr, never document text."))
-                    .font(.callout).foregroundStyle(.secondary)
-                LabeledContent(L("Mevzuat", "Legislation")) { Text(L("Bu Mac'te, çevrimdışı", "On this Mac, offline")).foregroundStyle(.secondary) }
-                LabeledContent(L("Resmî Gazete ve ilanlar", "Official Gazette and notices")) { Tag(text: L("Yakında", "Coming soon"), color: .secondary) }
+                Button(L("Emsal arama, mevzuat ve DD özellikleri…", "Precedent search, statutes and DD features…")) {
+                    NotificationCenter.default.post(name: .katipShow, object: Screen.features)
+                }
+                .buttonStyle(.link)
             } header: { Text(L("Kaynaklar", "Sources")) }
             if let note = model.note { Text(note).foregroundStyle(.orange) }
         }
@@ -467,33 +509,14 @@ struct ConnectionsScreen: View {
 // MARK: Settings
 struct SettingsScreen: View {
     @EnvironmentObject var model: AppModel
-    @State private var downloading: String?
 
     var body: some View {
         Form {
             Section(L("Ad tanıma modeli", "Name model")) {
-                ForEach(model.models?.models ?? []) { m in
+                LabeledContent(L("Varsayılan", "Default")) {
                     HStack {
-                        VStack(alignment: .leading, spacing: 2) {
-                            HStack(spacing: 6) {
-                                Text(modelTitle(m.name))
-                                if m.recommended { Tag(text: L("Önerilen", "Recommended"), color: .accentColor) }
-                            }
-                            Text(modelDetail(m)).font(.callout).foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                        if m.name == model.settings?.model {
-                            Label(L("Kullanılıyor", "In use"), systemImage: "checkmark").foregroundStyle(.green)
-                        } else if downloading == m.name, let d = model.models?.download {
-                            ProgressView(value: d.fraction).frame(width: 110)
-                        } else if m.downloaded {
-                            Button(L("Kullan", "Use")) { Task { await model.useModel(m.name) } }
-                        } else {
-                            Button(L("İndir", "Download")) {
-                                downloading = m.name
-                                Task { await model.download(m.name); downloading = nil }
-                            }.disabled(downloading != nil)
-                        }
+                        Text(modelTitle(model.settings?.model ?? "nano")).foregroundStyle(.secondary)
+                        Button(L("Modeller…", "Models…")) { NotificationCenter.default.post(name: .katipShow, object: Screen.models) }
                     }
                 }
             }
@@ -514,24 +537,24 @@ struct SettingsScreen: View {
                         Button(model.running ? L("Durdur", "Stop") : L("Başlat", "Start")) { Task { await model.toggleEngine() } }
                     }
                 }
-                LabeledContent(L("Kayıt", "Log")) {
-                    Button(L("Finder'da göster", "Show in Finder")) { NSWorkspace.shared.activateFileViewerSelecting([E.logURL]) }
-                }
                 LabeledContent(L("Kurulum", "Setup")) {
                     Button(L("Kurulumu yeniden göster", "Show setup again")) { Task { await model.save(["first_run_done": false]) } }
                 }
             }
+            Section {
+                FolderList()
+            } header: { Text(L("Klasörler", "Folders")) } footer: {
+                Text(L("Katip'in bu Mac'te tuttuğu her şey burada. Davalar ve inceleme listesi şifrelidir; açınca okunamaz.",
+                       "Everything Katip keeps on this Mac is here. Cases and the review lists are encrypted; opening them shows nothing readable."))
+                    .foregroundStyle(.secondary)
+            }
             if let note = model.note { Text(note).foregroundStyle(.orange) }
             Section {
-                Text(L("Katip açık kaynaklıdır (AGPL-3.0). Sürüm \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "")",
-                       "Katip is open source (AGPL-3.0). Version \(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "")"))
-                    .font(.callout).foregroundStyle(.secondary)
+                Button(L("Katip hakkında, lisanslar…", "About Katip, licences…")) { NotificationCenter.default.post(name: .katipShow, object: Screen.about) }
+                    .buttonStyle(.link)
             }
         }
         .formStyle(.grouped)
-        .task {
-            if let m: E.Models = try? await model.client.call("/v1/models") { model.models = m }
-            await model.refreshStatus()
-        }
+        .task { await model.refreshStatus(); await model.refreshPaths() }
     }
 }

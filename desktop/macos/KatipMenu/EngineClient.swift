@@ -7,7 +7,8 @@ func L(_ tr: String, _ en: String) -> String { isTurkish ? tr : en }
 /// Talks to the Katip engine on 127.0.0.1. The port and token come from ~/.katip/engine.json, which only this
 /// user can read. Starting and stopping go through launchd, so the engine runs (and exits when idle) on its own.
 struct EngineClient {
-    static let label = "com.fikrifirat.katip.engine"
+    /// The tour and tests set KATIP_AGENT_LABEL so they never take over the lawyer's own engine.
+    static let label = ProcessInfo.processInfo.environment["KATIP_AGENT_LABEL"] ?? "com.fikrifirat.katip.engine"
 
     // MARK: what the engine sends back (snake_case in JSON, converted on decode)
     struct State: Decodable { let port: Int; let token: String; let pid: Int }
@@ -29,6 +30,8 @@ struct EngineClient {
         var documentsFolder: String
         var includeDownloads: Bool
         var firstRunDone: Bool
+        var tsgSessionHours: Double?   // optional: an older engine still running after an update doesn't send them
+        var customModels: [String]?
     }
 
     struct ModelInfo: Decodable, Identifiable, Equatable {
@@ -38,8 +41,65 @@ struct EngineClient {
         let included: Bool
         let recommended: Bool
         let current: Bool
+        let custom: Bool
         var id: String { name }
+        enum CodingKeys: String, CodingKey { case name, sizeMb, downloaded, included, recommended, current, custom }
+        init(from d: Decoder) throws {
+            let c = try d.container(keyedBy: CodingKeys.self)
+            name = try c.decode(String.self, forKey: .name)
+            sizeMb = try c.decode(Double.self, forKey: .sizeMb)
+            downloaded = try c.decode(Bool.self, forKey: .downloaded)
+            included = try c.decode(Bool.self, forKey: .included)
+            recommended = try c.decode(Bool.self, forKey: .recommended)
+            current = try c.decode(Bool.self, forKey: .current)
+            custom = try c.decodeIfPresent(Bool.self, forKey: .custom) ?? false
+        }
     }
+
+    // MARK: features (the Features panel)
+    struct FeatureJob: Decodable, Equatable { let action: String; let state: String; let error: String? }
+    struct FeatureDetail: Decodable, Equatable {
+        let records: Int?
+        let dataAsOf: String?
+        let sessionHours: Double?
+        let sessionUntil: Double?
+    }
+    struct Feature: Decodable, Identifiable, Equatable {
+        let id: String
+        let enabled: Bool
+        let state: String  // off | working | ready | needs_setup | problem
+        let online: Bool
+        let sendsTo: String?
+        let needs: String?  // nil | data | browser
+        let actions: [String]
+        let detail: FeatureDetail
+        let job: FeatureJob?
+    }
+    struct Browser: Decodable, Equatable { let kind: String?; let path: String? }
+
+    // MARK: review queue
+    struct Candidate: Decodable, Identifiable, Equatable {
+        let id: String
+        let kind: String  // unsure | missed (more kinds later: precedent, dd_match, doctype)
+        let text: String
+        let entityType: String
+        let score: Double
+        let before: String
+        let after: String
+        let matter: String
+        let source: String  // app | claude
+        let seen: Int
+        let created: Double
+        let later: Bool
+    }
+    struct Learned: Decodable, Equatable { let mask: [String]; let allow: [String] }
+    struct Review: Decodable, Equatable {
+        let open: [Candidate]
+        let judged: Int
+        let learned: Learned
+        let unreadable: Bool?
+    }
+    struct Features: Decodable, Equatable { let features: [Feature]; let browser: Browser }
 
     struct Download: Decodable, Equatable {
         let name: String
@@ -111,7 +171,8 @@ struct EngineClient {
     }
 
     static var logURL: URL {
-        FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Logs/Katip/engine.log")
+        FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(
+            label == "com.fikrifirat.katip.engine" ? "Library/Logs/Katip/engine.log" : "Library/Logs/Katip/\(label).log")
     }
 
     /// The engine that ships inside Katip.app (Contents/Resources/engine), with its own Python.
@@ -123,6 +184,12 @@ struct EngineClient {
 
     static var agentPlist: URL {
         FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/LaunchAgents/\(label).plist")
+    }
+
+    func startedAt() -> Double? {
+        guard let data = try? Data(contentsOf: Self.home.appendingPathComponent("engine.json")),
+              let o = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return nil }
+        return o["started"] as? Double
     }
 
     func state() -> State? {
@@ -205,12 +272,20 @@ struct EngineClient {
     // MARK: launchd
     /// Register the bundled engine with launchd when no agent points at it yet: on first start, and again after
     /// the app was moved or updated, or runs with another KATIP_HOME. An agent installed from the repo is replaced.
+    /// An agent written by another run (a test home, another copy of Katip) must not be reused: every setting that
+    /// decides where Katip keeps things has to match this app's own.
+    static func sameEnv(_ env: [String: String]) -> Bool {
+        let mine = ProcessInfo.processInfo.environment
+        return ["KATIP_HOME", "KATIP_NO_KEYCHAIN", "KATIP_MASK_CACHE", "KATIP_DD_HOME", "KATIP_CLAUDE_DESKTOP_CONFIG",
+                "KATIP_CLAUDE_BIN", "PLAYWRIGHT_BROWSERS_PATH"].allSatisfy { env[$0] == mine[$0] }
+    }
+
     func ensureAgent() throws {
         guard let engine = Self.bundledEngine else { return }
         if let data = try? Data(contentsOf: Self.agentPlist),
            let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
            let args = plist["ProgramArguments"] as? [String], args.first == engine.path,
-           (plist["EnvironmentVariables"] as? [String: String])?["KATIP_HOME"] == ProcessInfo.processInfo.environment["KATIP_HOME"] {
+           Self.sameEnv(plist["EnvironmentVariables"] as? [String: String] ?? [:]) {
             return
         }
         let p = Process()
@@ -221,9 +296,16 @@ struct EngineClient {
         p.waitUntilExit()
     }
 
-    /// Make sure the agent exists, `launchctl kickstart` it, then wait until it answers.
+    /// Make sure the agent exists, `launchctl kickstart` it, then wait until it answers. An engine started before
+    /// the app was updated (its binary is newer than the process) is restarted, so app and engine always match.
     func start() async throws {
-        if await status() != nil { return }
+        if await status() != nil {
+            guard let st = startedAt(), let engine = Self.bundledEngine,
+                  let built = (try? FileManager.default.attributesOfItem(atPath: engine.path))?[.modificationDate] as? Date,
+                  built.timeIntervalSince1970 > st else { return }
+            await stop()
+            for _ in 0..<25 where await status() != nil { try await Task.sleep(nanoseconds: 200_000_000) }
+        }
         try ensureAgent()
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/bin/launchctl")

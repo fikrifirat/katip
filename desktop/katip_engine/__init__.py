@@ -18,7 +18,13 @@ import sys
 from pathlib import Path
 
 __version__ = "0.1.0"
-LABEL = "com.fikrifirat.katip.engine"
+# Tests and the screenshot tour run their own agent (KATIP_AGENT_LABEL), so they never take over the lawyer's.
+LABEL = os.environ.get("KATIP_AGENT_LABEL") or "com.fikrifirat.katip.engine"
+
+# Inside Katip.app nothing may be written: macOS treats a write into an app bundle as "modifying apps" (a
+# permission prompt) and it breaks the app's signature. The bundle ships compiled files; never write new ones.
+if getattr(sys, "frozen", False):
+    sys.dont_write_bytecode = True
 DEFAULT_PORT = 47390
 
 # Cases can run for years, as in Klasör: the case keys outlive Kalkan's 30-day default.

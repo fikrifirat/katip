@@ -52,6 +52,9 @@ targets:
             exit 0
           fi
           rm -rf "$DST" && mkdir -p "$DST" && rsync -a "$SRC/" "$DST/"
+          # nothing may be written inside the app at run time (macOS: "modifying apps"); drop the dist's own
+          # leftovers from local runs, keep the compiled Kalkan files the spec made
+          find "$DST/_internal" -path "*/connector/*" -prune -o -name "__pycache__" -type d -print0 | xargs -0 rm -rf
           # sign every binary inside, innermost first, so the app's own signature covers a signed engine
           find "$DST" -type f \( -perm -u+x -o -name "*.so" -o -name "*.dylib" \) -print0 |
             xargs -0 codesign --force --sign "${EXPANDED_CODE_SIGN_IDENTITY:--}" --timestamp=none 2>/dev/null || true

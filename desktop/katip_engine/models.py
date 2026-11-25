@@ -27,6 +27,8 @@ def downloaded(name: str, verify: bool = False) -> bool:
     does before a model is used."""
     if name == "nano":
         return True  # bundled with Kalkan
+    if name not in ORDER:  # a model folder the lawyer added
+        return is_model_folder(Path(name))
     from katip_mask import models
     if verify:
         try:
@@ -39,11 +41,36 @@ def downloaded(name: str, verify: bool = False) -> bool:
     return all((folder / f).is_file() and (folder / f).stat().st_size == w["size"] for f, w in info["files"].items())
 
 
-def listing(current: str) -> dict:
+def is_model_folder(folder: Path) -> bool:
+    return (folder / "config.json").is_file() and (folder / "tokenizer.json").is_file() and \
+        (folder / "onnx" / "model_quantized.onnx").is_file()
+
+
+def _folder_mb(folder: Path) -> float:
+    try:
+        return round(sum(p.stat().st_size for p in folder.rglob("*") if p.is_file()) / 1e6, 1)
+    except OSError:
+        return 0.0
+
+
+def delete(name: str) -> None:
+    """Remove a downloaded Mini or Base (it can be downloaded again); Nano is part of the app."""
+    import shutil
+
+    from katip_mask import models
+    shutil.rmtree(models.cache_dir() / name, ignore_errors=True)
+
+
+def listing(current: str, custom: list[str] = ()) -> dict:
     out = []
     for n in ORDER:
         out.append({"name": n, "size_mb": round(size_bytes(n) / 1e6, 1), "downloaded": downloaded(n),
-                    "included": n == "nano", "recommended": n == "base", "current": n == current})
+                    "included": n == "nano", "recommended": n == "base", "current": n == current, "custom": False})
+    for p in custom:
+        f = Path(p)
+        ok = is_model_folder(f)
+        out.append({"name": p, "size_mb": _folder_mb(f) if ok else 0.0, "downloaded": ok, "included": False,
+                    "recommended": False, "current": p == current, "custom": True})
     with _lock:
         job = dict(_job) if _job else None
     return {"current": current, "models": out, "download": job}

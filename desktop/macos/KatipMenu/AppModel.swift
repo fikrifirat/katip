@@ -16,12 +16,14 @@ final class AppModel: ObservableObject {
     @Published var claudeError: String?
     @Published var busy = false
     @Published var note: String?
+    @Published var paths: E.Paths?
     @Published var loginItem = SMAppService.mainApp.status == .enabled
 
     let client = EngineClient()
     var running: Bool { status != nil }
 
     func refreshStatus() async { status = await client.status() }
+    func refreshPaths() async { if let p: E.Paths = try? await client.call("/v1/paths") { paths = p } }
 
     /// Start the engine if needed and read everything the screens need.
     func loadAll() async throws {
@@ -34,6 +36,8 @@ final class AppModel: ObservableObject {
         matters = try await mt.matters
         status = await client.status()
         await refreshClaude()
+        await refreshFeatures()
+        await refreshPaths()
     }
 
     func refreshClaude() async {
@@ -100,6 +104,98 @@ final class AppModel: ObservableObject {
     }
 
     func useModel(_ name: String) async { await save(["model": name]) }
+
+    func refreshModels() async {
+        if let m: E.Models = try? await client.call("/v1/models") { models = m }
+    }
+
+    func deleteModel(_ name: String) async {
+        do { models = try await client.call("/v1/models/delete", body: ["name": name]) } catch { note = error.localizedDescription }
+    }
+
+    func addModelFolder(_ url: URL) async {
+        do {
+            models = try await client.call("/v1/models/custom", body: ["path": url.path])
+            settings = try await client.call("/v1/settings")
+        } catch { note = error.localizedDescription }
+    }
+
+    func removeModelFolder(_ path: String) async {
+        do {
+            models = try await client.call("/v1/models/custom/remove", body: ["path": path])
+            settings = try await client.call("/v1/settings")
+        } catch { note = error.localizedDescription }
+    }
+
+    // MARK: review queue
+    @Published var review: E.Review?
+    @Published var lastVerdict: (id: String, verdict: String, text: String)?
+
+    func refreshReview() async {
+        if let r: E.Review = try? await client.call("/v1/review") { review = r }
+    }
+
+    func judge(_ c: E.Candidate, _ verdict: String) async {
+        do {
+            review = try await client.call("/v1/review/judge", body: ["id": c.id, "verdict": verdict])
+            lastVerdict = (c.id, verdict, c.text)
+        } catch { note = error.localizedDescription; await refreshReview() }
+    }
+
+    func undoVerdict() async {
+        guard let v = lastVerdict else { return }
+        do { review = try await client.call("/v1/review/undo", body: ["id": v.id]) } catch { note = error.localizedDescription }
+        lastVerdict = nil
+    }
+
+    func resetReview() async {
+        do { review = try await client.call("/v1/review/reset", body: [:]) } catch { note = error.localizedDescription }
+    }
+
+    var reviewWaiting: Int { review?.open.filter { !$0.later }.count ?? 0 }
+
+    func removeLearned(_ list: String, _ text: String) async {
+        do { review = try await client.call("/v1/review/learned/remove", body: ["list": list, "text": text]) } catch {
+            note = error.localizedDescription
+        }
+    }
+
+    // MARK: features
+    @Published var features: E.Features?
+
+    func refreshFeatures() async {
+        if let f: E.Features = try? await client.call("/v1/features") { features = f }
+    }
+
+    func feature(_ id: String) -> E.Feature? { features?.features.first { $0.id == id } }
+
+    /// Switch a feature on or off; switching MASAK on also fetches its lists, so wait for that.
+    func setFeature(_ id: String, on: Bool) async {
+        do {
+            features = try await client.call("/v1/features", body: ["id": id, "enabled": on])
+            if id == "emsal" { settings = try await client.call("/v1/settings") }
+            await followJob(id)
+        } catch { note = error.localizedDescription }
+    }
+
+    /// refresh (MASAK lists), install_browser, test_browser, logout; waits until a background job ends.
+    func featureAction(_ id: String, _ action: String) async {
+        do {
+            features = try await client.call("/v1/features/action", body: ["id": id, "action": action], timeout: 60)
+            await followJob(id)
+        } catch { note = error.localizedDescription }
+    }
+
+    private func followJob(_ id: String) async {
+        var misses = 0
+        for _ in 0..<3600 where feature(id)?.job?.state == "running" {  // 30 minutes at most
+            try? await Task.sleep(nanoseconds: 500_000_000)
+            if let f: E.Features = try? await client.call("/v1/features") { features = f; misses = 0 } else {
+                misses += 1
+                if misses >= 6 { note = L("Katip motoruna ulaşılamıyor.", "Can't reach the Katip engine."); return }
+            }
+        }
+    }
 
     func connect(_ app: String, on: Bool) async -> E.ClaudeChange? {
         do {
@@ -210,11 +306,18 @@ func modelTitle(_ name: String) -> String {
     switch name {
     case "nano": return "Nano"
     case "mini": return "Mini"
-    default: return "Base"
+    case "base": return "Base"
+    default: return URL(fileURLWithPath: name).lastPathComponent  // a model folder the lawyer added
     }
 }
 
 func modelDetail(_ m: E.ModelInfo) -> String {
+    if m.custom {
+        return m.downloaded ? L("\(Int(m.sizeMb.rounded())) MB · eklediğiniz klasör: \(prettyPath(m.name))",
+                                "\(Int(m.sizeMb.rounded())) MB · your folder: \(prettyPath(m.name))")
+                            : L("Klasör bulunamadı ya da model eksik: \(prettyPath(m.name))",
+                                "Folder missing or not a complete model: \(prettyPath(m.name))")
+    }
     switch m.name {
     case "nano": return L("Uygulamayla gelir. En hızlısı; adları biraz daha sık kaçırır.",
                           "Comes with the app. Fastest; misses names a little more often.")

@@ -17,8 +17,14 @@ Routes (JSON in, JSON out):
     GET  /v1/settings  POST /v1/settings {model?, default_profile?, emsal_online?, documents_folder?, ...}
     GET  /v1/models                which models are on this Mac, and the running download's progress
     POST /v1/models/download       {name, use?} -> 202; downloads in the background, switches if use is true
+    POST /v1/models/delete {name}  POST /v1/models/custom {path}  POST /v1/models/custom/remove {path}
     GET  /v1/matters               cases with a key on this Mac (labels kept encrypted)
     GET  /v1/claude  POST /v1/claude/connect {app}  POST /v1/claude/disconnect {app}   (desktop | code)
+    GET  /v1/features              each extra feature: on, state, what it needs, its setup job
+    POST /v1/features {id, enabled}   POST /v1/features/action {id, action}  (refresh | install_browser | logout)
+    GET  /v1/paths                 where models, cases, MASAK lists, gazette pages, the log are kept
+    GET  /v1/review                the review queue (masking candidates) and the learned lists
+    POST /v1/review/judge {id, verdict: mask|allow|later}  /v1/review/undo {id}  /v1/review/learned/remove {list, text}
 
 Why these rules: the measured serving study (lab/inference/RESULTS.md) found that on CPU one document at a time
 gives the best latency, and that batching can change int8 results; that a fresh process answers in well under
@@ -60,6 +66,8 @@ class Engine:
         from . import settings
         self.core, self.engine, self.ner, self.vault = core, engine, ner, vault
         settings.apply()
+        from . import review
+        review.install("app")  # learned lists apply to every document; unsure names join the review queue
         self.lock = threading.Lock()
         self.started = time.time()
         self.served = 0
@@ -119,7 +127,79 @@ class Engine:
 
     def models_get(self) -> dict:
         from . import models, settings
-        return models.listing(settings.load()["model"])
+        st = settings.load()
+        return models.listing(st["model"], st["custom_models"])
+
+    def models_delete(self, body: dict) -> dict:
+        from . import models, settings
+        name = str(body["name"])
+        if name not in ("mini", "base"):
+            raise settings.Invalid("only a downloaded Mini or Base can be deleted (Nano is part of the app)")
+        if settings.load()["model"] == name:
+            raise Conflict("this model is in use: pick another one first")
+        with self.lock:
+            models.delete(name)
+        return self.models_get()
+
+    def models_custom(self, body: dict, add: bool) -> dict:
+        from . import models, settings
+        p = str(body["path"])
+        if not Path(p).is_absolute():
+            raise settings.Invalid("path must be a full path")
+        p = str(Path(p).resolve())
+        st = settings.load()
+        with self.lock:
+            if add:
+                if not models.is_model_folder(Path(p)):
+                    raise settings.Invalid("not a Katip model folder (config.json, tokenizer.json, "
+                                           "onnx/model_quantized.onnx)")
+                if p not in st["custom_models"]:
+                    settings.save({"custom_models": [*st["custom_models"], p]})
+            else:
+                if st["model"] == p:
+                    raise Conflict("this model is in use: pick another one first")
+                settings.save({"custom_models": [c for c in st["custom_models"] if c != p]})
+        return self.models_get()
+
+    def paths(self) -> dict:
+        """Where everything is kept, for the app's Show in Finder buttons."""
+        from katip_kalkan.dd.store import home as dd_home
+        from katip_kalkan.vault import katip_home
+        from katip_mask import models as sdk
+        from . import claude, cli, settings
+        st, h, dd = settings.load(), katip_home(), dd_home()
+        return {"katip": str(h), "cases": str(h / "vault"), "documents": st["documents_folder"],
+                "downloads": str(Path.home() / "Downloads"), "models": str(sdk.cache_dir()), "masak": str(dd),
+                "gazette": str(dd / "tsg"), "precedents": str(h / "emsal"), "log": str(cli.LOG),
+                "claude_desktop": str(claude.desktop_config())}
+
+    def review_get(self) -> dict:
+        from . import review
+        return review.listing()
+
+    def review_post(self, what: str, body: dict) -> dict:
+        from . import review
+        if what == "judge":
+            return review.judge(str(body["id"]), str(body["verdict"]))
+        if what == "undo":
+            return review.undo(str(body["id"]))
+        if what == "reset":
+            review.reset()
+            return review.listing()
+        return review.forget_learned(str(body["list"]), str(body["text"]))
+
+    def features_get(self) -> dict:
+        from . import features
+        return features.listing()
+
+    def features_set(self, body: dict) -> dict:
+        from . import features
+        with self.lock:
+            return features.set_enabled(str(body["id"]), body["enabled"])
+
+    def features_act(self, body: dict) -> dict:
+        from . import features
+        return features.act(str(body["id"]), str(body["action"]))
 
     def models_download(self, body: dict) -> dict:
         from . import models, settings
@@ -168,6 +248,11 @@ class Engine:
                                       "network": True}}}
 
 
+L_UNREADABLE = ("Katip öğrendiği listeleri okuyamıyor (Anahtar Zinciri izin vermedi). Maskeleme güvenlik için durdu: "
+                "İnceleme ekranından listeleri yeniden başlatın. · Katip can't read its learned lists (the Keychain "
+                "refused). Masking stopped to be safe: start the lists again on the Review screen.")
+
+
 class Conflict(RuntimeError):
     """The request is fine but can't be done now; the message says why, in words the app can show."""
 
@@ -190,7 +275,10 @@ class Server(ThreadingHTTPServer):
     def _idle_watch(self):
         while True:
             time.sleep(min(5.0, self.idle_exit / 4))
-            if time.monotonic() - self.last > self.idle_exit:
+            from . import features
+            if features.busy():  # a setup download is running: not idle
+                self.last = time.monotonic()
+            elif time.monotonic() - self.last > self.idle_exit:
                 threading.Thread(target=self.shutdown, daemon=True).start()
                 return
 
@@ -234,7 +322,9 @@ class Handler(BaseHTTPRequestHandler):
             return
         e = self.server.engine
         gets = {"/v1/status": e.status, "/v1/settings": e.settings_get, "/v1/models": e.models_get,
-                "/v1/matters": e.matters_get, "/v1/claude": e.claude_get}
+                "/v1/matters": e.matters_get, "/v1/claude": e.claude_get, "/v1/features": e.features_get,
+                "/v1/review": e.review_get,
+                "/v1/paths": e.paths}
         if self.path in gets:
             try:
                 return self._send(200, gets[self.path]())
@@ -263,6 +353,15 @@ class Handler(BaseHTTPRequestHandler):
             "/v1/sources/emsal": lambda: e.emsal(body),
             "/v1/settings": lambda: e.settings_set(body),
             "/v1/models/download": lambda: e.models_download(body),
+            "/v1/models/delete": lambda: e.models_delete(body),
+            "/v1/models/custom": lambda: e.models_custom(body, True),
+            "/v1/models/custom/remove": lambda: e.models_custom(body, False),
+            "/v1/features": lambda: e.features_set(body),
+            "/v1/features/action": lambda: e.features_act(body),
+            "/v1/review/judge": lambda: e.review_post("judge", body),
+            "/v1/review/undo": lambda: e.review_post("undo", body),
+            "/v1/review/learned/remove": lambda: e.review_post("remove", body),
+            "/v1/review/reset": lambda: e.review_post("reset", body),
             "/v1/claude/connect": lambda: e.claude_change(body, True),
             "/v1/claude/disconnect": lambda: e.claude_change(body, False),
         }
@@ -272,11 +371,16 @@ class Handler(BaseHTTPRequestHandler):
             return
         if self.path not in routes:
             return self._send(404, {"error": "not found"})
+        from .review import NotFound, Unreadable
         from .settings import Invalid
         try:
             self._send(202 if self.path == "/v1/models/download" else 200, routes[self.path]())
         except Invalid as x:  # our own messages about the request, never document text
             self._send(400, {"error": str(x)})
+        except Unreadable as x:
+            self._send(409, {"error": L_UNREADABLE})
+        except NotFound:
+            self._send(404, {"error": "no such candidate (already judged, or expired)"})
         except Conflict as x:
             self._send(409, {"error": str(x)})
         except KeyError as x:
