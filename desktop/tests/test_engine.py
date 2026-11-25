@@ -133,3 +133,12 @@ def test_serve_writes_private_state_file(tmp_path):
         assert oct(sf.stat().st_mode & 0o777) == "0o600"
     t.join(timeout=15)
     assert not sf.exists()  # removed when the engine exits
+
+
+def test_agent_plist_passes_settings_on(monkeypatch):
+    from katip_engine import cli
+    pl = cli.agent_plist(60)
+    assert pl["RunAtLoad"] is False and pl["KeepAlive"] is False
+    assert pl["ProgramArguments"][-4:] == ["serve", "--idle-exit", "60", "--quiet"]
+    assert pl["EnvironmentVariables"]["KATIP_NO_KEYCHAIN"] == "1"  # set by the env fixture
+    assert "KATIP_EMSAL_ONLINE" not in pl["EnvironmentVariables"]

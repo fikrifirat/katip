@@ -78,3 +78,37 @@ jobs:
           path: desktop/katip-klasor-*.*
           retention-days: 14
 
+
+  menu-app:
+    # Katip.app: the menu bar app with the engine and its own Python inside (desktop/macos, packaging/katip-engine.spec).
+    needs: test
+    name: Katip menu bar app (macOS)
+    runs-on: macos-latest
+    env: { PYTHONUTF8: "1" }
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with: { python-version: "3.12", cache: pip, cache-dependency-path: .github/workflows/klasor.yml }
+      - name: Install
+        run: |
+          pip install pyinstaller==6.22.3 onnxruntime==1.32.0 numpy==2.5.4 cryptography==50.0.2 pymupdf==2.1 rapidocr==3.10.0 katip-mask==0.1.1
+          brew install xcodegen
+      - name: Build the engine
+        run: cd desktop && pyinstaller packaging/katip-engine.spec --noconfirm
+      - name: Build the app
+        run: |
+          cd desktop/macos && xcodegen generate
+          xcodebuild -project KatipMenu.xcodeproj -scheme KatipMenu -configuration Release -derivedDataPath build CODE_SIGN_IDENTITY="-" build | tail -3
+          codesign --verify --deep --strict build/Build/Products/Release/Katip.app
+      - name: Self-test (installs its own launchd agent, masks and restores a synthetic sentence)
+        timeout-minutes: 5
+        env: { KATIP_NO_KEYCHAIN: "1" }
+        run: |
+          desktop/macos/build/Build/Products/Release/Katip.app/Contents/MacOS/Katip --selftest | tee selftest.json
+          grep -q '"restored_matches":true' selftest.json
+      - name: Package
+        run: |
+          cd desktop/macos/build/Build/Products/Release
+          hdiutil create -volname "Katip" -srcfolder Katip.app -ov -format UDZO "$GITHUB_WORKSPACE/desktop/katip-mac.dmg"
+      - uses: actions/upload-artifact@v5
+        with: { name: katip-menu-app-macOS, path: desktop/katip-mac.dmg, retention-days: 14 }

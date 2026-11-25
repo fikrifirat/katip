@@ -80,13 +80,30 @@ def wait_ready(seconds: float = 20) -> bool:
 
 
 # -- launchd ----------------------------------------------------------------------------------------------
-def agent_plist(python: str, idle_exit: int) -> dict:
-    desktop = Path(__file__).resolve().parent.parent
+FROZEN = bool(getattr(sys, "frozen", False))  # the bundled engine inside Katip.app (packaging/katip-engine.spec)
+DESKTOP = Path(__file__).resolve().parent.parent
+
+
+def engine_cmd() -> list[str]:
+    """How to run this engine: the bundled binary itself, or this Python with the package on its path."""
+    return [sys.executable] if FROZEN else [sys.executable, "-m", "katip_engine"]
+
+
+# Settings that must match between the installer and the agent (the app reads the same KATIP_HOME), passed on if set.
+PASS_ON = ("KATIP_HOME", "KATIP_NO_KEYCHAIN", "KATIP_MODEL", "KATIP_EMSAL_ONLINE")
+
+
+def engine_env() -> dict:
+    return {"PYTHONUNBUFFERED": "1", **({} if FROZEN else {"PYTHONPATH": str(DESKTOP)}),
+            **{k: os.environ[k] for k in PASS_ON if k in os.environ}}
+
+
+def agent_plist(idle_exit: int) -> dict:
     return {
         "Label": LABEL,
-        "ProgramArguments": [python, "-m", "katip_engine", "serve", "--idle-exit", str(idle_exit), "--quiet"],
-        "WorkingDirectory": str(desktop),
-        "EnvironmentVariables": {"PYTHONPATH": str(desktop), "PYTHONUNBUFFERED": "1"},
+        "ProgramArguments": [*engine_cmd(), "serve", "--idle-exit", str(idle_exit), "--quiet"],
+        "WorkingDirectory": str(Path.home() if FROZEN else DESKTOP),
+        "EnvironmentVariables": engine_env(),
         "RunAtLoad": False,   # started on demand (katip-engine start, or the menu bar app)
         "KeepAlive": False,   # an idle exit is meant to stay down: that's how memory is given back
         "ProcessType": "Interactive",
@@ -103,7 +120,7 @@ def install(idle_exit: int = 900) -> dict:
     p.parent.mkdir(parents=True, exist_ok=True)
     _launchctl("bootout", f"{_domain()}/{LABEL}")
     with open(p, "wb") as fh:
-        plistlib.dump(agent_plist(sys.executable, idle_exit), fh)
+        plistlib.dump(agent_plist(idle_exit), fh)
     r = _launchctl("bootstrap", _domain(), str(p))
     return {"installed": str(p), "ok": r.returncode == 0, **({"launchctl": r.stderr.strip()} if r.returncode else {})}
 
@@ -124,9 +141,9 @@ def start() -> dict:
     else:  # no agent: run it detached from this terminal
         LOG.parent.mkdir(parents=True, exist_ok=True)
         with open(LOG, "ab") as log:
-            subprocess.Popen([sys.executable, "-m", "katip_engine", "serve", "--quiet"], stdout=log, stderr=log,
-                             cwd=Path(__file__).resolve().parent.parent, start_new_session=True,
-                             env={**os.environ, "PYTHONPATH": str(Path(__file__).resolve().parent.parent)})
+            subprocess.Popen([*engine_cmd(), "serve", "--quiet"], stdout=log, stderr=log,
+                             cwd=Path.home() if FROZEN else DESKTOP, start_new_session=True,
+                             env={**os.environ, **engine_env()})
     t = time.monotonic()
     ok = wait_ready()
     return {"running": ok, "start_s": round(time.monotonic() - t, 2)}

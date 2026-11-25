@@ -103,9 +103,18 @@ katip-engine status | stop | logs | uninstall
   `/v1/sources/mevzuat`, `/v1/sources/emsal` (off unless `KATIP_EMSAL_ONLINE=1`), `/v1/shutdown`.
 
 `macos/` is the menu bar app (SwiftUI, no Dock icon): engine state, start and stop, mask the clipboard and put
-the names back, open the log. Build it with `cd macos && xcodegen generate && xcodebuild -scheme KatipMenu
-build`; `Katip.app/Contents/MacOS/Katip --selftest` starts the engine, masks and restores one synthetic sentence
-and prints the result as JSON. Tests: `python -m pytest -q tests/test_engine.py`.
+the names back, open the log. **Katip.app carries the engine with its own Python**, so nobody needs a terminal:
+on first start it registers that engine with launchd itself (and again if the app is moved or updated).
+
+```bash
+cd desktop && pyinstaller packaging/katip-engine.spec --noconfirm   # dist/katip-engine, about 350 MB
+cd macos && xcodegen generate && xcodebuild -scheme KatipMenu -configuration Release -derivedDataPath build build
+build/Build/Products/Release/Katip.app/Contents/MacOS/Katip --selftest   # masks and restores one synthetic sentence
+```
+
+Most of the size is PDF reading (PyMuPDF, about 100 MB), the name model runtime (onnxruntime, 80 MB) and OCR
+(OpenCV and RapidOCR, about 100 MB). CI builds a `.dmg` of the app on every pull request (job `menu-app`); like
+Klasör it is unsigned for now. Tests: `python -m pytest -q tests/test_engine.py`.
 
 ## Builds
 

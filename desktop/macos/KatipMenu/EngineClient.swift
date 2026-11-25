@@ -31,7 +31,7 @@ struct EngineClient {
             switch self {
             case .notRunning: return "The Katip engine is not running."
             case .refused(let why): return why
-            case .didNotStart: return "The Katip engine did not start. Run `katip-engine install` once, then try again."
+            case .didNotStart: return "The Katip engine did not start. The log (Show engine log) says why."
             }
         }
     }
@@ -78,9 +78,36 @@ struct EngineClient {
         try await call("/v1/restore", body: ["text": text, "matter": matter])
     }
 
-    /// `launchctl kickstart` the agent, then wait until it answers.
+    /// The engine that ships inside Katip.app (Contents/Resources/engine), with its own Python.
+    static var bundledEngine: URL? {
+        guard let u = Bundle.main.resourceURL?.appendingPathComponent("engine/katip-engine"),
+              FileManager.default.isExecutableFile(atPath: u.path) else { return nil }
+        return u
+    }
+
+    static var agentPlist: URL {
+        FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/LaunchAgents/\(label).plist")
+    }
+
+    /// Register the bundled engine with launchd when no agent points at it yet: on first start, and again after
+    /// the app was moved or updated. An agent installed from the repo (`katip-engine install`) is replaced.
+    func ensureAgent() throws {
+        guard let engine = Self.bundledEngine else { return }
+        if let data = try? Data(contentsOf: Self.agentPlist),
+           let plist = try? PropertyListSerialization.propertyList(from: data, format: nil) as? [String: Any],
+           let args = plist["ProgramArguments"] as? [String], args.first == engine.path { return }
+        let p = Process()
+        p.executableURL = engine
+        p.arguments = ["install"]
+        p.standardOutput = FileHandle.nullDevice
+        try p.run()
+        p.waitUntilExit()
+    }
+
+    /// Make sure the agent exists, `launchctl kickstart` it, then wait until it answers.
     func start() async throws {
         if await status() != nil { return }
+        try ensureAgent()
         let p = Process()
         p.executableURL = URL(fileURLWithPath: "/bin/launchctl")
         p.arguments = ["kickstart", "gui/\(getuid())/\(Self.label)"]
