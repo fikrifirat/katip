@@ -1,0 +1,28 @@
+{
+ "rules": {
+  "documents": 140,
+  "names": 640,
+  "names_hidden": 624
+ },
+ "nano-int8": {
+  "documents": 140,
+  "names": 640,
+  "names_hidden": 635
+ },
+ "mini-int8": {
+  "documents": 140,
+  "names": 640,
+  "names_hidden": 635
+ },
+ "base-int8": {
+  "documents": 140,
+  "names": 640,
+  "names_hidden": 638
+ },
+ "base-fp32": {
+  "documents": 140,
+  "names": 640,
+  "names_hidden": 638
+ },
+ "base_int8_vs_fp32_same_output": 140
+}

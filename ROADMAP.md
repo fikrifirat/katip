@@ -44,6 +44,7 @@ not promises to anyone. How the plan was made: [design note](roadmap/design-2026
 | A2 | **Expert loop**: every grade from the gavel button goes into a private, lawyer-graded set | Monthly count of graded items reported; a held-out part never used in training | `data` |
 | A3 | **Encrypted compute series** with Belfort | Post 1 published; experiments 1, 3 and 4 run with credits spent on purpose (#61) | `trust` |
 | A4 | **ChatGPT relay** and its Hugging Face Space | Space live with share codes; precedent search on there by design | `reach` |
+| A5 | **Serving economics**: the masking pipeline behind one endpoint, measured like an inference product ([lab/inference](lab/inference/RESULTS.md)) | First numbers on this Mac (done 24 Nov); next, the same harness on one rented 4-vCPU VM so cloud prices rest on cloud measurements, before any Katip API price is published | `cost` |
 
 ## Later: from Mar 2027
 

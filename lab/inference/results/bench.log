@@ -1,0 +1,89 @@
+  {'model': 'rules', 'run': 0, 'spawn_to_ready_ms': 219.5, 'first_request_ms': 71.5, 'process_cold_ms': 291.0, 'warm_request_ms': 32.5, 'model_reload_request_ms': 32.3, 'session_load_ms': None, 'rss_idle_mb': 61.2, 'rss_loaded_mb': 68.0, 'rss_after_unload_mb': 68.0, 'first_was_cold': False}
+  {'model': 'rules', 'run': 1, 'spawn_to_ready_ms': 141.9, 'first_request_ms': 70.9, 'process_cold_ms': 212.9, 'warm_request_ms': 32.5, 'model_reload_request_ms': 32.5, 'session_load_ms': None, 'rss_idle_mb': 61.2, 'rss_loaded_mb': 67.8, 'rss_after_unload_mb': 67.8, 'first_was_cold': False}
+  {'model': 'rules', 'run': 2, 'spawn_to_ready_ms': 139.2, 'first_request_ms': 71.3, 'process_cold_ms': 210.5, 'warm_request_ms': 32.2, 'model_reload_request_ms': 32.3, 'session_load_ms': None, 'rss_idle_mb': 61.0, 'rss_loaded_mb': 67.8, 'rss_after_unload_mb': 67.8, 'first_was_cold': False}
+  {'model': 'rules', 'run': 3, 'spawn_to_ready_ms': 138.4, 'first_request_ms': 72.5, 'process_cold_ms': 211.0, 'warm_request_ms': 33.2, 'model_reload_request_ms': 32.7, 'session_load_ms': None, 'rss_idle_mb': 61.1, 'rss_loaded_mb': 67.9, 'rss_after_unload_mb': 67.9, 'first_was_cold': False}
+  {'model': 'rules', 'run': 4, 'spawn_to_ready_ms': 139.6, 'first_request_ms': 71.2, 'process_cold_ms': 210.8, 'warm_request_ms': 32.5, 'model_reload_request_ms': 32.5, 'session_load_ms': None, 'rss_idle_mb': 61.3, 'rss_loaded_mb': 68.1, 'rss_after_unload_mb': 68.1, 'first_was_cold': False}
+  {'model': 'nano-int8', 'run': 0, 'spawn_to_ready_ms': 144.9, 'first_request_ms': 159.2, 'process_cold_ms': 304.1, 'warm_request_ms': 65.5, 'model_reload_request_ms': 77.3, 'session_load_ms': [52.8, 13.5], 'rss_idle_mb': 63.9, 'rss_loaded_mb': 89.4, 'rss_after_unload_mb': 89.2, 'first_was_cold': True}
+  {'model': 'nano-int8', 'run': 1, 'spawn_to_ready_ms': 142.0, 'first_request_ms': 118.2, 'process_cold_ms': 260.2, 'warm_request_ms': 65.2, 'model_reload_request_ms': 78.5, 'session_load_ms': [15.0, 13.6], 'rss_idle_mb': 63.9, 'rss_loaded_mb': 89.4, 'rss_after_unload_mb': 89.2, 'first_was_cold': True}
+  {'model': 'nano-int8', 'run': 2, 'spawn_to_ready_ms': 142.1, 'first_request_ms': 119.6, 'process_cold_ms': 261.7, 'warm_request_ms': 64.2, 'model_reload_request_ms': 77.4, 'session_load_ms': [14.9, 13.3], 'rss_idle_mb': 63.9, 'rss_loaded_mb': 89.5, 'rss_after_unload_mb': 89.3, 'first_was_cold': True}
+  {'model': 'nano-int8', 'run': 3, 'spawn_to_ready_ms': 141.1, 'first_request_ms': 118.1, 'process_cold_ms': 259.2, 'warm_request_ms': 64.0, 'model_reload_request_ms': 78.3, 'session_load_ms': [14.9, 13.7], 'rss_idle_mb': 63.8, 'rss_loaded_mb': 89.6, 'rss_after_unload_mb': 89.3, 'first_was_cold': True}
+  {'model': 'nano-int8', 'run': 4, 'spawn_to_ready_ms': 143.0, 'first_request_ms': 119.0, 'process_cold_ms': 262.0, 'warm_request_ms': 64.5, 'model_reload_request_ms': 77.7, 'session_load_ms': [15.0, 13.5], 'rss_idle_mb': 63.8, 'rss_loaded_mb': 89.3, 'rss_after_unload_mb': 89.1, 'first_was_cold': True}
+  {'model': 'mini-int8', 'run': 0, 'spawn_to_ready_ms': 160.5, 'first_request_ms': 211.2, 'process_cold_ms': 371.7, 'warm_request_ms': 127.9, 'model_reload_request_ms': 154.2, 'session_load_ms': [41.5, 26.1], 'rss_idle_mb': 63.7, 'rss_loaded_mb': 143.0, 'rss_after_unload_mb': 142.7, 'first_was_cold': True}
+  {'model': 'mini-int8', 'run': 1, 'spawn_to_ready_ms': 154.4, 'first_request_ms': 196.0, 'process_cold_ms': 350.3, 'warm_request_ms': 128.8, 'model_reload_request_ms': 153.7, 'session_load_ms': [28.4, 25.9], 'rss_idle_mb': 63.6, 'rss_loaded_mb': 142.8, 'rss_after_unload_mb': 142.6, 'first_was_cold': True}
+  {'model': 'mini-int8', 'run': 2, 'spawn_to_ready_ms': 153.2, 'first_request_ms': 196.8, 'process_cold_ms': 350.0, 'warm_request_ms': 127.9, 'model_reload_request_ms': 156.4, 'session_load_ms': [28.4, 26.1], 'rss_idle_mb': 63.8, 'rss_loaded_mb': 143.0, 'rss_after_unload_mb': 142.8, 'first_was_cold': True}
+  {'model': 'mini-int8', 'run': 3, 'spawn_to_ready_ms': 174.6, 'first_request_ms': 206.9, 'process_cold_ms': 381.4, 'warm_request_ms': 127.8, 'model_reload_request_ms': 154.8, 'session_load_ms': [38.7, 26.1], 'rss_idle_mb': 63.8, 'rss_loaded_mb': 143.0, 'rss_after_unload_mb': 142.8, 'first_was_cold': True}
+  {'model': 'mini-int8', 'run': 4, 'spawn_to_ready_ms': 156.0, 'first_request_ms': 197.9, 'process_cold_ms': 353.9, 'warm_request_ms': 130.3, 'model_reload_request_ms': 157.6, 'session_load_ms': [28.3, 27.0], 'rss_idle_mb': 63.7, 'rss_loaded_mb': 142.8, 'rss_after_unload_mb': 142.6, 'first_was_cold': True}
+  {'model': 'base-int8', 'run': 0, 'spawn_to_ready_ms': 216.6, 'first_request_ms': 461.5, 'process_cold_ms': 678.1, 'warm_request_ms': 294.0, 'model_reload_request_ms': 393.6, 'session_load_ms': [127.3, 98.0], 'rss_idle_mb': 71.8, 'rss_loaded_mb': 235.5, 'rss_after_unload_mb': 235.2, 'first_was_cold': True}
+  {'model': 'base-int8', 'run': 1, 'spawn_to_ready_ms': 197.3, 'first_request_ms': 431.7, 'process_cold_ms': 629.1, 'warm_request_ms': 293.0, 'model_reload_request_ms': 385.2, 'session_load_ms': [99.5, 92.3], 'rss_idle_mb': 71.8, 'rss_loaded_mb': 235.4, 'rss_after_unload_mb': 235.1, 'first_was_cold': True}
+  {'model': 'base-int8', 'run': 2, 'spawn_to_ready_ms': 193.5, 'first_request_ms': 434.7, 'process_cold_ms': 628.2, 'warm_request_ms': 293.8, 'model_reload_request_ms': 391.8, 'session_load_ms': [99.9, 92.3], 'rss_idle_mb': 71.9, 'rss_loaded_mb': 235.5, 'rss_after_unload_mb': 235.2, 'first_was_cold': True}
+  {'model': 'base-int8', 'run': 3, 'spawn_to_ready_ms': 196.4, 'first_request_ms': 439.6, 'process_cold_ms': 636.0, 'warm_request_ms': 293.4, 'model_reload_request_ms': 389.8, 'session_load_ms': [101.3, 93.2], 'rss_idle_mb': 71.7, 'rss_loaded_mb': 235.3, 'rss_after_unload_mb': 235.1, 'first_was_cold': True}
+  {'model': 'base-int8', 'run': 4, 'spawn_to_ready_ms': 200.3, 'first_request_ms': 440.9, 'process_cold_ms': 641.2, 'warm_request_ms': 297.0, 'model_reload_request_ms': 394.0, 'session_load_ms': [102.1, 96.8], 'rss_idle_mb': 71.6, 'rss_loaded_mb': 234.7, 'rss_after_unload_mb': 234.5, 'first_was_cold': True}
+  {'model': 'base-fp32', 'run': 0, 'spawn_to_ready_ms': 297.5, 'first_request_ms': 1112.6, 'process_cold_ms': 1410.1, 'warm_request_ms': 634.4, 'model_reload_request_ms': 857.2, 'session_load_ms': [440.4, 225.6], 'rss_idle_mb': 84.8, 'rss_loaded_mb': 563.7, 'rss_after_unload_mb': 386.8, 'first_was_cold': True}
+  {'model': 'base-fp32', 'run': 1, 'spawn_to_ready_ms': 261.0, 'first_request_ms': 914.3, 'process_cold_ms': 1175.3, 'warm_request_ms': 624.6, 'model_reload_request_ms': 837.9, 'session_load_ms': [249.5, 213.4], 'rss_idle_mb': 84.7, 'rss_loaded_mb': 685.7, 'rss_after_unload_mb': 402.2, 'first_was_cold': True}
+  {'model': 'base-fp32', 'run': 2, 'spawn_to_ready_ms': 266.1, 'first_request_ms': 905.3, 'process_cold_ms': 1171.5, 'warm_request_ms': 618.5, 'model_reload_request_ms': 839.3, 'session_load_ms': [242.3, 213.8], 'rss_idle_mb': 84.8, 'rss_loaded_mb': 685.1, 'rss_after_unload_mb': 401.7, 'first_was_cold': True}
+  {'model': 'base-fp32', 'run': 3, 'spawn_to_ready_ms': 255.2, 'first_request_ms': 991.1, 'process_cold_ms': 1246.3, 'warm_request_ms': 653.9, 'model_reload_request_ms': 877.4, 'session_load_ms': [229.2, 239.1], 'rss_idle_mb': 84.7, 'rss_loaded_mb': 443.9, 'rss_after_unload_mb': 383.5, 'first_was_cold': True}
+  {'model': 'base-fp32', 'run': 4, 'spawn_to_ready_ms': 262.4, 'first_request_ms': 891.6, 'process_cold_ms': 1154.0, 'warm_request_ms': 637.0, 'model_reload_request_ms': 843.3, 'session_load_ms': [230.2, 212.1], 'rss_idle_mb': 84.6, 'rss_loaded_mb': 685.0, 'rss_after_unload_mb': 401.6, 'first_was_cold': True}
+wrote results/cold.json
+rules {'documents': 140, 'names': 640, 'names_hidden': 624}
+nano-int8 {'documents': 140, 'names': 640, 'names_hidden': 635}
+mini-int8 {'documents': 140, 'names': 640, 'names_hidden': 635}
+base-int8 {'documents': 140, 'names': 640, 'names_hidden': 638}
+base-fp32 {'documents': 140, 'names': 640, 'names_hidden': 638}
+wrote results/recall.json
+  model=rules mode=closed concurrency=32 req_per_s=29.33 pages_per_s=32.46 tokens_per_s=0.0 p50_ms=897.9 p95_ms=1993.5 mean_batch=None rss_mb=53.7
+  model=rules mode=open offered_rate=7.3325 req_per_s=8.02 pages_per_s=8.85 tokens_per_s=0.0 p50_ms=52.1 p95_ms=133.5 mean_batch=None rss_mb=46.0
+  model=rules mode=open offered_rate=14.665 req_per_s=14.7 pages_per_s=16.21 tokens_per_s=0.0 p50_ms=65.0 p95_ms=203.0 mean_batch=None rss_mb=48.0
+  model=rules mode=open offered_rate=21.9975 req_per_s=22.07 pages_per_s=24.36 tokens_per_s=0.0 p50_ms=101.2 p95_ms=374.1 mean_batch=None rss_mb=46.9
+  model=rules mode=open offered_rate=26.397 req_per_s=26.25 pages_per_s=28.93 tokens_per_s=0.0 p50_ms=151.3 p95_ms=570.3 mean_batch=None rss_mb=47.6
+  model=nano-int8 mode=closed concurrency=32 req_per_s=27.01 pages_per_s=29.86 tokens_per_s=23380.3 p50_ms=1150.8 p95_ms=1604.6 mean_batch=11.97 rss_mb=179.1
+  model=nano-int8 mode=open offered_rate=6.7525 req_per_s=7.45 pages_per_s=8.2 tokens_per_s=6444.0 p50_ms=87.1 p95_ms=136.7 mean_batch=1.17 rss_mb=84.5
+  model=nano-int8 mode=open offered_rate=13.505 req_per_s=13.7 pages_per_s=15.11 tokens_per_s=11849.0 p50_ms=113.1 p95_ms=331.0 mean_batch=1.55 rss_mb=95.0
+  model=nano-int8 mode=open offered_rate=20.2575 req_per_s=20.49 pages_per_s=22.61 tokens_per_s=17736.2 p50_ms=158.1 p95_ms=515.6 mean_batch=2.03 rss_mb=92.7
+  model=nano-int8 mode=open offered_rate=24.309 req_per_s=24.15 pages_per_s=26.63 tokens_per_s=20893.3 p50_ms=238.6 p95_ms=583.7 mean_batch=2.77 rss_mb=128.0
+  model=mini-int8 mode=closed concurrency=32 req_per_s=13.93 pages_per_s=15.36 tokens_per_s=15649.9 p50_ms=2255.2 p95_ms=2685.6 mean_batch=15.03 rss_mb=362.6
+  model=mini-int8 mode=open offered_rate=3.4825 req_per_s=3.7 pages_per_s=4.07 tokens_per_s=4143.9 p50_ms=170.4 p95_ms=300.4 mean_batch=1.26 rss_mb=144.2
+  model=mini-int8 mode=open offered_rate=6.965 req_per_s=7.66 pages_per_s=8.45 tokens_per_s=8622.9 p50_ms=269.6 p95_ms=789.1 mean_batch=1.87 rss_mb=263.8
+  model=mini-int8 mode=open offered_rate=10.4475 req_per_s=10.8 pages_per_s=11.92 tokens_per_s=12171.0 p50_ms=505.4 p95_ms=1670.3 mean_batch=3.12 rss_mb=382.2
+  model=mini-int8 mode=open offered_rate=12.537 req_per_s=12.62 pages_per_s=13.93 tokens_per_s=14214.6 p50_ms=806.8 p95_ms=2125.9 mean_batch=5.52 rss_mb=383.6
+  model=base-int8 mode=closed concurrency=32 req_per_s=4.07 pages_per_s=4.48 tokens_per_s=4506.1 p50_ms=7790.7 p95_ms=8283.1 mean_batch=13.88 rss_mb=455.3
+  model=base-int8 mode=open offered_rate=1.0175 req_per_s=1.1 pages_per_s=1.21 tokens_per_s=1212.3 p50_ms=336.7 p95_ms=775.2 mean_batch=1.26 rss_mb=235.7
+  model=base-int8 mode=open offered_rate=2.035 req_per_s=2.25 pages_per_s=2.49 tokens_per_s=2497.6 p50_ms=739.0 p95_ms=1832.6 mean_batch=1.85 rss_mb=348.2
+  model=base-int8 mode=open offered_rate=3.0525 req_per_s=3.2 pages_per_s=3.52 tokens_per_s=3527.2 p50_ms=748.6 p95_ms=2929.2 mean_batch=2.12 rss_mb=416.6
+  model=base-int8 mode=open offered_rate=3.6630000000000003 req_per_s=3.8 pages_per_s=4.17 tokens_per_s=4181.9 p50_ms=1310.3 p95_ms=3168.7 mean_batch=3.42 rss_mb=432.8
+  model=base-fp32 mode=closed concurrency=32 req_per_s=1.64 pages_per_s=1.8 tokens_per_s=1806.3 p50_ms=17458.6 p95_ms=20968.4 mean_batch=14.53 rss_mb=695.5
+  model=base-fp32 mode=open offered_rate=0.41 req_per_s=0.49 pages_per_s=0.54 tokens_per_s=542.0 p50_ms=657.0 p95_ms=1592.0 mean_batch=1.16 rss_mb=469.8
+  model=base-fp32 mode=open offered_rate=0.82 req_per_s=0.85 pages_per_s=0.94 tokens_per_s=940.0 p50_ms=927.3 p95_ms=1725.5 mean_batch=1.29 rss_mb=484.6
+  model=base-fp32 mode=open offered_rate=1.23 req_per_s=1.26 pages_per_s=1.38 tokens_per_s=1383.0 p50_ms=1685.2 p95_ms=2608.0 mean_batch=1.99 rss_mb=487.0
+  model=base-fp32 mode=open offered_rate=1.476 req_per_s=1.48 pages_per_s=1.64 tokens_per_s=1647.5 p50_ms=2701.8 p95_ms=7097.8 mean_batch=3.05 rss_mb=619.2
+wrote results/capacity.json
+  model=nano-int8 mode=closed concurrency=32 threads=1 req_per_s=26.81 pages_per_s=29.61 tokens_per_s=23188.8 p50_ms=1159.4 p95_ms=1558.6 mean_batch=13.13 rss_mb=163.3
+  model=nano-int8 mode=closed concurrency=32 threads=2 req_per_s=26.54 pages_per_s=29.3 tokens_per_s=22942.9 p50_ms=1145.8 p95_ms=1637.1 mean_batch=12.04 rss_mb=179.7
+  model=nano-int8 mode=closed concurrency=32 threads=4 req_per_s=26.86 pages_per_s=29.65 tokens_per_s=23213.2 p50_ms=1151.7 p95_ms=1607.5 mean_batch=11.61 rss_mb=181.8
+  model=nano-int8 mode=closed concurrency=32 threads=6 req_per_s=26.76 pages_per_s=29.57 tokens_per_s=23123.0 p50_ms=1154.5 p95_ms=1655.0 mean_batch=12.42 rss_mb=174.9
+  model=mini-int8 mode=closed concurrency=32 threads=1 req_per_s=4.43 pages_per_s=4.87 tokens_per_s=4973.0 p50_ms=6955.9 p95_ms=8212.5 mean_batch=15.03 rss_mb=365.9
+  model=mini-int8 mode=closed concurrency=32 threads=2 req_per_s=8.36 pages_per_s=9.23 tokens_per_s=9429.6 p50_ms=3713.0 p95_ms=4300.3 mean_batch=14.33 rss_mb=360.3
+  model=mini-int8 mode=closed concurrency=32 threads=4 req_per_s=13.98 pages_per_s=15.43 tokens_per_s=15711.3 p50_ms=2210.1 p95_ms=2752.6 mean_batch=14.92 rss_mb=378.0
+  model=mini-int8 mode=closed concurrency=32 threads=6 req_per_s=15.53 pages_per_s=17.12 tokens_per_s=17423.1 p50_ms=2003.5 p95_ms=2518.0 mean_batch=14.7 rss_mb=376.7
+  model=base-int8 mode=closed concurrency=32 threads=1 req_per_s=1.19 pages_per_s=1.32 tokens_per_s=1332.4 p50_ms=26163.4 p95_ms=26812.5 mean_batch=12.75 rss_mb=525.6
+  model=base-int8 mode=closed concurrency=32 threads=2 req_per_s=2.27 pages_per_s=2.48 tokens_per_s=2493.3 p50_ms=12284.0 p95_ms=15122.2 mean_batch=14.47 rss_mb=569.2
+  model=base-int8 mode=closed concurrency=32 threads=4 req_per_s=4.03 pages_per_s=4.46 tokens_per_s=4484.2 p50_ms=7835.9 p95_ms=8556.3 mean_batch=13.67 rss_mb=569.4
+  model=base-int8 mode=closed concurrency=32 threads=6 req_per_s=5.26 pages_per_s=5.79 tokens_per_s=5821.8 p50_ms=5870.8 p95_ms=6989.5 mean_batch=14.3 rss_mb=407.6
+  model=base-fp32 mode=closed concurrency=32 threads=1 req_per_s=0.43 pages_per_s=0.48 tokens_per_s=481.8 p50_ms=72446.6 p95_ms=74131.6 mean_batch=12.75 rss_mb=644.3
+  model=base-fp32 mode=closed concurrency=32 threads=2 req_per_s=0.85 pages_per_s=0.95 tokens_per_s=954.8 p50_ms=35883.9 p95_ms=37420.7 mean_batch=12.75 rss_mb=794.3
+  model=base-fp32 mode=closed concurrency=32 threads=4 req_per_s=1.58 pages_per_s=1.75 tokens_per_s=1764.3 p50_ms=19110.8 p95_ms=21483.8 mean_batch=11.53 rss_mb=716.6
+  model=base-fp32 mode=closed concurrency=32 threads=6 req_per_s=2.25 pages_per_s=2.46 tokens_per_s=2472.0 p50_ms=12526.4 p95_ms=15858.1 mean_batch=14.11 rss_mb=791.7
+wrote results/threads.json
+  model=mini-int8 mode=open offered_rate=8.1 max_batch=1 max_wait_ms=0 req_per_s=8.75 pages_per_s=9.64 tokens_per_s=9839.0 p50_ms=171.1 p95_ms=580.2 mean_batch=1.0 rss_mb=119.0
+  model=mini-int8 mode=open offered_rate=8.1 max_batch=4 max_wait_ms=2 req_per_s=8.75 pages_per_s=9.64 tokens_per_s=9839.0 p50_ms=241.2 p95_ms=631.3 mean_batch=1.78 rss_mb=175.7
+  model=mini-int8 mode=open offered_rate=8.1 max_batch=8 max_wait_ms=5 req_per_s=8.75 pages_per_s=9.64 tokens_per_s=9839.0 p50_ms=293.9 p95_ms=958.7 mean_batch=2.07 rss_mb=248.9
+  model=mini-int8 mode=open offered_rate=8.1 max_batch=16 max_wait_ms=5 req_per_s=8.75 pages_per_s=9.64 tokens_per_s=9839.0 p50_ms=309.4 p95_ms=1222.0 mean_batch=2.19 rss_mb=328.3
+  model=mini-int8 mode=open offered_rate=8.1 max_batch=16 max_wait_ms=20 req_per_s=8.73 pages_per_s=9.62 tokens_per_s=9814.4 p50_ms=518.4 p95_ms=1160.0 mean_batch=3.15 rss_mb=316.8
+  model=mini-int8 mode=open offered_rate=8.1 max_batch=32 max_wait_ms=50 req_per_s=8.64 pages_per_s=9.52 tokens_per_s=9715.0 p50_ms=892.4 p95_ms=1686.0 mean_batch=5.9 rss_mb=447.3
+  model=base-int8 mode=open offered_rate=2.32 max_batch=1 max_wait_ms=0 req_per_s=2.44 pages_per_s=2.69 tokens_per_s=2706.1 p50_ms=638.9 p95_ms=1541.6 mean_batch=1.0 rss_mb=179.0
+  model=base-int8 mode=open offered_rate=2.32 max_batch=4 max_wait_ms=2 req_per_s=2.43 pages_per_s=2.69 tokens_per_s=2703.8 p50_ms=856.3 p95_ms=1959.6 mean_batch=1.92 rss_mb=241.2
+  model=base-int8 mode=open offered_rate=2.32 max_batch=8 max_wait_ms=5 req_per_s=2.43 pages_per_s=2.68 tokens_per_s=2701.4 p50_ms=745.2 p95_ms=2401.3 mean_batch=1.95 rss_mb=343.8
+  model=base-int8 mode=open offered_rate=2.32 max_batch=16 max_wait_ms=5 req_per_s=2.42 pages_per_s=2.68 tokens_per_s=2693.6 p50_ms=722.6 p95_ms=2206.1 mean_batch=1.89 rss_mb=311.2
+  model=base-int8 mode=open offered_rate=2.32 max_batch=16 max_wait_ms=20 req_per_s=2.42 pages_per_s=2.67 tokens_per_s=2689.6 p50_ms=892.8 p95_ms=2831.8 mean_batch=2.24 rss_mb=374.8
+  model=base-int8 mode=open offered_rate=2.32 max_batch=32 max_wait_ms=50 req_per_s=2.41 pages_per_s=2.66 tokens_per_s=2672.5 p50_ms=1203.8 p95_ms=2994.0 mean_batch=2.63 rss_mb=382.1
+wrote results/batching.json
+done
