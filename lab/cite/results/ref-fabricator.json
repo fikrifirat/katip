@@ -1,0 +1,6259 @@
+{
+ "system": "ref-fabricator",
+ "name": "Reference: invents article numbers",
+ "model": "ref-fabricator",
+ "bench": "v0.1",
+ "runs_locally": true,
+ "temperature": null,
+ "index": {
+  "source": "github.com/onurcan-b/acik-mevzuat",
+  "commit": "9759778ce9adaa24f596967ec92a8337d9cc481b",
+  "commit_date": "2026-11-11T15:34:17+00:00"
+ },
+ "machine": "arm64 Darwin",
+ "questions": 63,
+ "complete": true,
+ "all": {
+  "n": 126,
+  "safe": 0.0,
+  "safe_ci": [
+   0.0,
+   0.0
+  ],
+  "right_article": 0.0,
+  "key_fact": 0.0,
+  "stale": 0,
+  "citations": 252,
+  "wrong_citations": 252,
+  "wrong_rate": 1.0,
+  "answers_with_wrong": 1.0,
+  "no_citation": 0.0,
+  "decision_citations_per_answer": 0.0,
+  "seconds_per_answer": 0.0
+ },
+ "by_lang": {
+  "en": {
+   "n": 63,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 126,
+   "wrong_citations": 126,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "tr": {
+   "n": 63,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 126,
+   "wrong_citations": 126,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  }
+ },
+ "by_area": {
+  "aile": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "ceza": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "icra": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "is": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "kira": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "kvkk": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "miras": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "tuketici": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "usul": {
+   "n": 12,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 24,
+   "wrong_citations": 24,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "yabanci": {
+   "n": 18,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 36,
+   "wrong_citations": 36,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  }
+ },
+ "by_risk": {
+  "high": {
+   "n": 64,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 128,
+   "wrong_citations": 128,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  },
+  "medium": {
+   "n": 62,
+   "safe": 0.0,
+   "safe_ci": [
+    0.0,
+    0.0
+   ],
+   "right_article": 0.0,
+   "key_fact": 0.0,
+   "stale": 0,
+   "citations": 124,
+   "wrong_citations": 124,
+   "wrong_rate": 1.0,
+   "answers_with_wrong": 1.0,
+   "no_citation": 0.0,
+   "decision_citations_per_answer": 0.0,
+   "seconds_per_answer": 0.0
+  }
+ },
+ "lang_gap": {
+  "paired": 63,
+  "tr_minus_en": 0.0,
+  "mcnemar_p": 1.0
+ },
+ "wrong_examples": [
+  {
+   "id": "is-01",
+   "lang": "tr",
+   "text": "İş Kanunu m. 917",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "917",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-01",
+   "lang": "en",
+   "text": "İş Kanunu m. 917",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "917",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-02",
+   "lang": "tr",
+   "text": "1475 sayılı İş Kanunu m. 914",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "1475",
+   "article": "914",
+   "note": "law 1475 has 111 articles"
+  },
+  {
+   "id": "is-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-02",
+   "lang": "en",
+   "text": "1475 sayılı İş Kanunu m. 914",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "1475",
+   "article": "914",
+   "note": "law 1475 has 111 articles"
+  },
+  {
+   "id": "is-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-03",
+   "lang": "tr",
+   "text": "İş Kanunu m. 920",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "920",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-03",
+   "lang": "en",
+   "text": "İş Kanunu m. 920",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "920",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-04",
+   "lang": "tr",
+   "text": "İş Kanunu m. 924",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "924",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-04",
+   "lang": "en",
+   "text": "İş Kanunu m. 924",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "924",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-05",
+   "lang": "tr",
+   "text": "İş Kanunu m. 915",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "915",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-05",
+   "lang": "en",
+   "text": "İş Kanunu m. 915",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "915",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-06",
+   "lang": "tr",
+   "text": "İş Kanunu m. 903",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "903",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "is-06",
+   "lang": "en",
+   "text": "İş Kanunu m. 903",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4857",
+   "article": "903",
+   "note": "law 4857 has 122 articles"
+  },
+  {
+   "id": "is-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-01",
+   "lang": "tr",
+   "text": "TBK m. 1244",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1244",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-01",
+   "lang": "en",
+   "text": "TBK m. 1244",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1244",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-02",
+   "lang": "tr",
+   "text": "TBK m. 1215",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1215",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-02",
+   "lang": "en",
+   "text": "TBK m. 1215",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1215",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-03",
+   "lang": "tr",
+   "text": "TBK m. 1250",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1250",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-03",
+   "lang": "en",
+   "text": "TBK m. 1250",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1250",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-04",
+   "lang": "tr",
+   "text": "TBK m. 1242",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1242",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-04",
+   "lang": "en",
+   "text": "TBK m. 1242",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1242",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-05",
+   "lang": "tr",
+   "text": "6325 sayılı Kanun m. 918",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6325",
+   "article": "918",
+   "note": "law 6325 has 38 articles"
+  },
+  {
+   "id": "kira-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-05",
+   "lang": "en",
+   "text": "6325 sayılı Kanun m. 918",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6325",
+   "article": "918",
+   "note": "law 6325 has 38 articles"
+  },
+  {
+   "id": "kira-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-06",
+   "lang": "tr",
+   "text": "TBK m. 1247",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1247",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kira-06",
+   "lang": "en",
+   "text": "TBK m. 1247",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6098",
+   "article": "1247",
+   "note": "law 6098 has 649 articles"
+  },
+  {
+   "id": "kira-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-01",
+   "lang": "tr",
+   "text": "TMK m. 1066",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1066",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-01",
+   "lang": "en",
+   "text": "TMK m. 1066",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1066",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-02",
+   "lang": "tr",
+   "text": "TMK m. 1061",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1061",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-02",
+   "lang": "en",
+   "text": "TMK m. 1061",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1061",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-03",
+   "lang": "tr",
+   "text": "TMK m. 1075",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1075",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-03",
+   "lang": "en",
+   "text": "TMK m. 1075",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1075",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-04",
+   "lang": "tr",
+   "text": "TMK m. 1102",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1102",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-04",
+   "lang": "en",
+   "text": "TMK m. 1102",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1102",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-05",
+   "lang": "tr",
+   "text": "TMK m. 1082",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1082",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-05",
+   "lang": "en",
+   "text": "TMK m. 1082",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1082",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-06",
+   "lang": "tr",
+   "text": "TMK m. 1069",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1069",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "aile-06",
+   "lang": "en",
+   "text": "TMK m. 1069",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1069",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "aile-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-01",
+   "lang": "tr",
+   "text": "TMK m. 1505",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1505",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-01",
+   "lang": "en",
+   "text": "TMK m. 1505",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1505",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-02",
+   "lang": "tr",
+   "text": "TMK m. 1406",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1406",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-02",
+   "lang": "en",
+   "text": "TMK m. 1406",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1406",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-03",
+   "lang": "tr",
+   "text": "TMK m. 1399",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1399",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-03",
+   "lang": "en",
+   "text": "TMK m. 1399",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1399",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-04",
+   "lang": "tr",
+   "text": "TMK m. 1471",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1471",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-04",
+   "lang": "en",
+   "text": "TMK m. 1471",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1471",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-05",
+   "lang": "tr",
+   "text": "TMK m. 1431",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1431",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-05",
+   "lang": "en",
+   "text": "TMK m. 1431",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "4721",
+   "article": "1431",
+   "note": "law 4721 has 1030 articles"
+  },
+  {
+   "id": "miras-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-06",
+   "lang": "tr",
+   "text": "MÖHUK m. 920",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5718",
+   "article": "920",
+   "note": "law 5718 has 66 articles"
+  },
+  {
+   "id": "miras-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "miras-06",
+   "lang": "en",
+   "text": "MÖHUK m. 920",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5718",
+   "article": "920",
+   "note": "law 5718 has 66 articles"
+  },
+  {
+   "id": "miras-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-01",
+   "lang": "tr",
+   "text": "İİK m. 962",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "962",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-01",
+   "lang": "en",
+   "text": "İİK m. 962",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "962",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-02",
+   "lang": "tr",
+   "text": "İİK m. 967",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "967",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-02",
+   "lang": "en",
+   "text": "İİK m. 967",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "967",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-03",
+   "lang": "tr",
+   "text": "İİK m. 968",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "968",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-03",
+   "lang": "en",
+   "text": "İİK m. 968",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "968",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-04",
+   "lang": "tr",
+   "text": "İİK m. 972",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "972",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-04",
+   "lang": "en",
+   "text": "İİK m. 972",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "972",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-05",
+   "lang": "tr",
+   "text": "İİK m. 1068",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "1068",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-05",
+   "lang": "en",
+   "text": "İİK m. 1068",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "1068",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-06",
+   "lang": "tr",
+   "text": "İİK m. 1169",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "1169",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "icra-06",
+   "lang": "en",
+   "text": "İİK m. 1169",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "2004",
+   "article": "1169",
+   "note": "law 2004 has 370 articles"
+  },
+  {
+   "id": "icra-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-01",
+   "lang": "tr",
+   "text": "CMK m. 991",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "991",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-01",
+   "lang": "en",
+   "text": "CMK m. 991",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "991",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-02",
+   "lang": "tr",
+   "text": "CMK m. 1000",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1000",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-02",
+   "lang": "en",
+   "text": "CMK m. 1000",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1000",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-03",
+   "lang": "tr",
+   "text": "CMK m. 1047",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1047",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-03",
+   "lang": "en",
+   "text": "CMK m. 1047",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1047",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-04",
+   "lang": "tr",
+   "text": "CMK m. 1173",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1173",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-04",
+   "lang": "en",
+   "text": "CMK m. 1173",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1173",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-05",
+   "lang": "tr",
+   "text": "CMK m. 1131",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1131",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-05",
+   "lang": "en",
+   "text": "CMK m. 1131",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5271",
+   "article": "1131",
+   "note": "law 5271 has 335 articles"
+  },
+  {
+   "id": "ceza-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-06",
+   "lang": "tr",
+   "text": "TCK m. 1057",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5237",
+   "article": "1057",
+   "note": "law 5237 has 345 articles"
+  },
+  {
+   "id": "ceza-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "ceza-06",
+   "lang": "en",
+   "text": "TCK m. 1057",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "5237",
+   "article": "1057",
+   "note": "law 5237 has 345 articles"
+  },
+  {
+   "id": "ceza-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-01",
+   "lang": "tr",
+   "text": "HMK m. 1245",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1245",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-01",
+   "lang": "en",
+   "text": "HMK m. 1245",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1245",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-02",
+   "lang": "tr",
+   "text": "HMK m. 1261",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1261",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-02",
+   "lang": "en",
+   "text": "HMK m. 1261",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1261",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-03",
+   "lang": "tr",
+   "text": "HMK m. 1027",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1027",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-03",
+   "lang": "en",
+   "text": "HMK m. 1027",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1027",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-04",
+   "lang": "tr",
+   "text": "HMK m. 1004",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1004",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-04",
+   "lang": "en",
+   "text": "HMK m. 1004",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "1004",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-05",
+   "lang": "tr",
+   "text": "Tebligat Kanunu m. 907",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "7201",
+   "article": "907",
+   "note": "law 7201 has 64 articles"
+  },
+  {
+   "id": "usul-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-05",
+   "lang": "en",
+   "text": "Tebligat Kanunu m. 907",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "7201",
+   "article": "907",
+   "note": "law 7201 has 64 articles"
+  },
+  {
+   "id": "usul-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-06",
+   "lang": "tr",
+   "text": "HMK m. 906",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "906",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "usul-06",
+   "lang": "en",
+   "text": "HMK m. 906",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6100",
+   "article": "906",
+   "note": "law 6100 has 452 articles"
+  },
+  {
+   "id": "usul-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-01",
+   "lang": "tr",
+   "text": "KVKK m. 905",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "905",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-01",
+   "lang": "en",
+   "text": "KVKK m. 905",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "905",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-02",
+   "lang": "tr",
+   "text": "KVKK m. 906",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "906",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-02",
+   "lang": "en",
+   "text": "KVKK m. 906",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "906",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-03",
+   "lang": "tr",
+   "text": "KVKK m. 909",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "909",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-03",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-03",
+   "lang": "en",
+   "text": "KVKK m. 909",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "909",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-03",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-04",
+   "lang": "tr",
+   "text": "KVKK m. 910",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "910",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-04",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-04",
+   "lang": "en",
+   "text": "KVKK m. 910",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "910",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-04",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-05",
+   "lang": "tr",
+   "text": "KVKK m. 911",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "911",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-05",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-05",
+   "lang": "en",
+   "text": "KVKK m. 911",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "911",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-05",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-06",
+   "lang": "tr",
+   "text": "KVKK m. 918",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "918",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-06",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "kvkk-06",
+   "lang": "en",
+   "text": "KVKK m. 918",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6698",
+   "article": "918",
+   "note": "law 6698 has 33 articles"
+  },
+  {
+   "id": "kvkk-06",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "yabanci-01",
+   "lang": "tr",
+   "text": "YUKK m. 919",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6458",
+   "article": "919",
+   "note": "law 6458 has 126 articles"
+  },
+  {
+   "id": "yabanci-01",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "yabanci-01",
+   "lang": "en",
+   "text": "YUKK m. 919",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6458",
+   "article": "919",
+   "note": "law 6458 has 126 articles"
+  },
+  {
+   "id": "yabanci-01",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "yabanci-02",
+   "lang": "tr",
+   "text": "YUKK m. 930",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6458",
+   "article": "930",
+   "note": "law 6458 has 126 articles"
+  },
+  {
+   "id": "yabanci-02",
+   "lang": "tr",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  },
+  {
+   "id": "yabanci-02",
+   "lang": "en",
+   "text": "YUKK m. 930",
+   "verdict": "NO_SUCH_ARTICLE",
+   "law": "6458",
+   "article": "930",
+   "note": "law 6458 has 126 articles"
+  },
+  {
+   "id": "yabanci-02",
+   "lang": "en",
+   "text": "818 sayılı Borçlar Kanunu m. 12",
+   "verdict": "LAW_REPEALED",
+   "law": "818",
+   "article": "12",
+   "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+  }
+ ],
+ "rows": [
+  {
+   "id": "is-01",
+   "lang": "tr",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 917",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "917",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-01",
+   "lang": "en",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 917",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "917",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-02",
+   "lang": "tr",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "1475 sayılı İş Kanunu m. 914",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "1475",
+     "article": "914",
+     "note": "law 1475 has 111 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-02",
+   "lang": "en",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "1475 sayılı İş Kanunu m. 914",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "1475",
+     "article": "914",
+     "note": "law 1475 has 111 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-03",
+   "lang": "tr",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 920",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "920",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-03",
+   "lang": "en",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 920",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "920",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-04",
+   "lang": "tr",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 924",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "924",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-04",
+   "lang": "en",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 924",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "924",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-05",
+   "lang": "tr",
+   "area": "is",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 915",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "915",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-05",
+   "lang": "en",
+   "area": "is",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 915",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "915",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-06",
+   "lang": "tr",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 903",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "903",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "is-06",
+   "lang": "en",
+   "area": "is",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İş Kanunu m. 903",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4857",
+     "article": "903",
+     "note": "law 4857 has 122 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-01",
+   "lang": "tr",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1244",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1244",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-01",
+   "lang": "en",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1244",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1244",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-02",
+   "lang": "tr",
+   "area": "kira",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1215",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1215",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-02",
+   "lang": "en",
+   "area": "kira",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1215",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1215",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-03",
+   "lang": "tr",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1250",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1250",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-03",
+   "lang": "en",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1250",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1250",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-04",
+   "lang": "tr",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1242",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1242",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-04",
+   "lang": "en",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1242",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1242",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-05",
+   "lang": "tr",
+   "area": "kira",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6325 sayılı Kanun m. 918",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6325",
+     "article": "918",
+     "note": "law 6325 has 38 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-05",
+   "lang": "en",
+   "area": "kira",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6325 sayılı Kanun m. 918",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6325",
+     "article": "918",
+     "note": "law 6325 has 38 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-06",
+   "lang": "tr",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1247",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1247",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kira-06",
+   "lang": "en",
+   "area": "kira",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TBK m. 1247",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6098",
+     "article": "1247",
+     "note": "law 6098 has 649 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-01",
+   "lang": "tr",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1066",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1066",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-01",
+   "lang": "en",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1066",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1066",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-02",
+   "lang": "tr",
+   "area": "aile",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1061",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1061",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-02",
+   "lang": "en",
+   "area": "aile",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1061",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1061",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-03",
+   "lang": "tr",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1075",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1075",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-03",
+   "lang": "en",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1075",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1075",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-04",
+   "lang": "tr",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1102",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1102",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-04",
+   "lang": "en",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1102",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1102",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-05",
+   "lang": "tr",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1082",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1082",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-05",
+   "lang": "en",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1082",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1082",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-06",
+   "lang": "tr",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1069",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1069",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "aile-06",
+   "lang": "en",
+   "area": "aile",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1069",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1069",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-01",
+   "lang": "tr",
+   "area": "miras",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1505",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1505",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-01",
+   "lang": "en",
+   "area": "miras",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1505",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1505",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-02",
+   "lang": "tr",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1406",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1406",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-02",
+   "lang": "en",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1406",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1406",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-03",
+   "lang": "tr",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1399",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1399",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-03",
+   "lang": "en",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1399",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1399",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-04",
+   "lang": "tr",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1471",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1471",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-04",
+   "lang": "en",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1471",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1471",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-05",
+   "lang": "tr",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1431",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1431",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-05",
+   "lang": "en",
+   "area": "miras",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TMK m. 1431",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "4721",
+     "article": "1431",
+     "note": "law 4721 has 1030 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-06",
+   "lang": "tr",
+   "area": "miras",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "MÖHUK m. 920",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5718",
+     "article": "920",
+     "note": "law 5718 has 66 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "miras-06",
+   "lang": "en",
+   "area": "miras",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "MÖHUK m. 920",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5718",
+     "article": "920",
+     "note": "law 5718 has 66 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-01",
+   "lang": "tr",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 962",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "962",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-01",
+   "lang": "en",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 962",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "962",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-02",
+   "lang": "tr",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 967",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "967",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-02",
+   "lang": "en",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 967",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "967",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-03",
+   "lang": "tr",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 968",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "968",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-03",
+   "lang": "en",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 968",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "968",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-04",
+   "lang": "tr",
+   "area": "icra",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 972",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "972",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-04",
+   "lang": "en",
+   "area": "icra",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 972",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "972",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-05",
+   "lang": "tr",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 1068",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "1068",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-05",
+   "lang": "en",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 1068",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "1068",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-06",
+   "lang": "tr",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 1169",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "1169",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "icra-06",
+   "lang": "en",
+   "area": "icra",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "İİK m. 1169",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "2004",
+     "article": "1169",
+     "note": "law 2004 has 370 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-01",
+   "lang": "tr",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 991",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "991",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-01",
+   "lang": "en",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 991",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "991",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-02",
+   "lang": "tr",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1000",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1000",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-02",
+   "lang": "en",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1000",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1000",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-03",
+   "lang": "tr",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1047",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1047",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-03",
+   "lang": "en",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1047",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1047",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-04",
+   "lang": "tr",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1173",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1173",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-04",
+   "lang": "en",
+   "area": "ceza",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1173",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1173",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-05",
+   "lang": "tr",
+   "area": "ceza",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1131",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1131",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-05",
+   "lang": "en",
+   "area": "ceza",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "CMK m. 1131",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5271",
+     "article": "1131",
+     "note": "law 5271 has 335 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-06",
+   "lang": "tr",
+   "area": "ceza",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TCK m. 1057",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5237",
+     "article": "1057",
+     "note": "law 5237 has 345 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "ceza-06",
+   "lang": "en",
+   "area": "ceza",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "TCK m. 1057",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5237",
+     "article": "1057",
+     "note": "law 5237 has 345 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-01",
+   "lang": "tr",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1245",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1245",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-01",
+   "lang": "en",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1245",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1245",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-02",
+   "lang": "tr",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1261",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1261",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-02",
+   "lang": "en",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1261",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1261",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-03",
+   "lang": "tr",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1027",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1027",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-03",
+   "lang": "en",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1027",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1027",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-04",
+   "lang": "tr",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1004",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1004",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-04",
+   "lang": "en",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 1004",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "1004",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-05",
+   "lang": "tr",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Tebligat Kanunu m. 907",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "7201",
+     "article": "907",
+     "note": "law 7201 has 64 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-05",
+   "lang": "en",
+   "area": "usul",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Tebligat Kanunu m. 907",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "7201",
+     "article": "907",
+     "note": "law 7201 has 64 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-06",
+   "lang": "tr",
+   "area": "usul",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 906",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "906",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "usul-06",
+   "lang": "en",
+   "area": "usul",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "HMK m. 906",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6100",
+     "article": "906",
+     "note": "law 6100 has 452 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-01",
+   "lang": "tr",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 905",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "905",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-01",
+   "lang": "en",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 905",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "905",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-02",
+   "lang": "tr",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 906",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "906",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-02",
+   "lang": "en",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 906",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "906",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-03",
+   "lang": "tr",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 909",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "909",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-03",
+   "lang": "en",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 909",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "909",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-04",
+   "lang": "tr",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 910",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "910",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-04",
+   "lang": "en",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 910",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "910",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-05",
+   "lang": "tr",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 911",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "911",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-05",
+   "lang": "en",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 911",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "911",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-06",
+   "lang": "tr",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 918",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "918",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "kvkk-06",
+   "lang": "en",
+   "area": "kvkk",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "KVKK m. 918",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6698",
+     "article": "918",
+     "note": "law 6698 has 33 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-01",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 919",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "919",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-01",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 919",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "919",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-02",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 930",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "930",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-02",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 930",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "930",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-03",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 931",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "931",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-03",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 931",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "931",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-04",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 934",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "934",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-04",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 934",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "934",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-05",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 942",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "942",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-05",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 942",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "942",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-06",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 954",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "954",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-06",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "YUKK m. 954",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6458",
+     "article": "954",
+     "note": "law 6458 has 126 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-07",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6735 sayılı Kanun m. 907",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6735",
+     "article": "907",
+     "note": "law 6735 has 29 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-07",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6735 sayılı Kanun m. 907",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6735",
+     "article": "907",
+     "note": "law 6735 has 29 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-08",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Türk Vatandaşlığı Kanunu m. 916",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5901",
+     "article": "916",
+     "note": "law 5901 has 49 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-08",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "high",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Türk Vatandaşlığı Kanunu m. 916",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5901",
+     "article": "916",
+     "note": "law 5901 has 49 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-09",
+   "lang": "tr",
+   "area": "yabanci",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Türk Vatandaşlığı Kanunu m. 912",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5901",
+     "article": "912",
+     "note": "law 5901 has 49 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "yabanci-09",
+   "lang": "en",
+   "area": "yabanci",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Türk Vatandaşlığı Kanunu m. 912",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "5901",
+     "article": "912",
+     "note": "law 5901 has 49 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 911",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "911",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-01",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 911",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "911",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-02",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 912",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "912",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-02",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 912",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "912",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-03",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 948",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "948",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-03",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": false,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 948",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "948",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-04",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 968",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "968",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-04",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 968",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "968",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Kat Mülkiyeti Kanunu m. 920",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "634",
+     "article": "920",
+     "note": "law 634 has 76 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-05",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "Kat Mülkiyeti Kanunu m. 920",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "634",
+     "article": "920",
+     "note": "law 634 has 76 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-06",
+   "lang": "tr",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 956",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "956",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  },
+  {
+   "id": "tuketici-06",
+   "lang": "en",
+   "area": "tuketici",
+   "risk": "medium",
+   "cites": 2,
+   "wrong": 2,
+   "ok": 0,
+   "unverified": 0,
+   "decisions": 0,
+   "right_art": false,
+   "fact": null,
+   "stale": false,
+   "safe": false,
+   "no_citation": false,
+   "seconds": 0,
+   "wrong_detail": [
+    {
+     "text": "6502 sayılı Kanun m. 956",
+     "verdict": "NO_SUCH_ARTICLE",
+     "law": "6502",
+     "article": "956",
+     "note": "law 6502 has 88 articles"
+    },
+    {
+     "text": "818 sayılı Borçlar Kanunu m. 12",
+     "verdict": "LAW_REPEALED",
+     "law": "818",
+     "article": "12",
+     "note": "listed in 'Borçlar Kanununun Yürürlükten Kaldırılmış Hükümleri'"
+    }
+   ]
+  }
+ ]
+}
