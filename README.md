@@ -253,6 +253,7 @@ public discussion: [ROADMAP.md](ROADMAP.md).
 - Questions, missed redactions, feature requests: [open an issue](https://github.com/fikrifirat/katip/issues/new/choose).
   Please never paste real personal data; use the demo's *Hata bildir* button or fake values.
 - Support for Katip Kalkan, pilots in your firm, integration or a commercial licence: **fikrifirat@gmail.com**.
+- Contributing: [CONTRIBUTING.md](CONTRIBUTING.md). Security reports: [SECURITY.md](SECURITY.md). Every network call the apps can make: [NETWORK.md](NETWORK.md).
 
 ## Develop
 
