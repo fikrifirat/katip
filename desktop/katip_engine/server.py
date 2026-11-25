@@ -13,6 +13,13 @@ Routes (JSON in, JSON out):
     POST /v1/sources/emsal        {queries, ...} -> precedent search; off unless KATIP_EMSAL_ONLINE=1
     POST /v1/shutdown             stop the engine (launchd starts it again on the next `start`)
 
+  Setup, for the Mac app (desktop/macos):
+    GET  /v1/settings  POST /v1/settings {model?, default_profile?, emsal_online?, documents_folder?, ...}
+    GET  /v1/models                which models are on this Mac, and the running download's progress
+    POST /v1/models/download       {name, use?} -> 202; downloads in the background, switches if use is true
+    GET  /v1/matters               cases with a key on this Mac (labels kept encrypted)
+    GET  /v1/claude  POST /v1/claude/connect {app}  POST /v1/claude/disconnect {app}   (desktop | code)
+
 Why these rules: the measured serving study (lab/inference/RESULTS.md) found that on CPU one document at a time
 gives the best latency, and that batching can change int8 results; that a fresh process answers in well under
 a second; and that dropping a model inside a running process doesn't give its memory back. So the engine runs
@@ -50,7 +57,9 @@ class Engine:
 
     def __init__(self):
         from katip_kalkan import core, engine, ner, vault
+        from . import settings
         self.core, self.engine, self.ner, self.vault = core, engine, ner, vault
+        settings.apply()
         self.lock = threading.Lock()
         self.started = time.time()
         self.served = 0
@@ -65,6 +74,7 @@ class Engine:
             masked, spans = c._mask_safely(text, v, spans)  # raises rather than return a readable detected value
             v.save()
             self.served += 1
+            self._touch(matter)
         return {"masked_text": masked, "matter": matter, "profile": profile,
                 "entity_counts": c._counts(spans),
                 "placeholders": sorted({v.labels[f"{s['entity_type']}|{self.vault._norm(s['text'])}"] for s in spans}),
@@ -73,7 +83,9 @@ class Engine:
     def mask_file(self, path: str, profile: str | None = None, matter: str = "default", page: int = 1) -> dict:
         with self.lock:
             self.served += 1
-            return self.core.mask_file(path=path, matter=matter, page=page, profile=profile)
+            out = self.core.mask_file(path=path, matter=matter, page=page, profile=profile)
+            self._touch(matter)
+        return out
 
     def restore(self, text: str, matter: str = "default") -> dict:
         with self.lock:
@@ -81,8 +93,60 @@ class Engine:
         return {"text": restored, "placeholders_restored": n}
 
     def forget(self, matter: str) -> dict:
+        from . import matters
         with self.lock:
-            return self.core.forget_matter(matter)
+            out = self.core.forget_matter(matter)
+            matters.drop(matter)
+        return out
+
+    @staticmethod
+    def _touch(matter: str) -> None:
+        from . import matters
+        matters.touch(matter)
+
+    # -- setup ----------------------------------------------------------------------------------------------
+    def settings_get(self) -> dict:
+        from . import settings
+        return settings.load()
+
+    def settings_set(self, body: dict) -> dict:
+        from . import models, settings
+        settings.validate(body)
+        if "model" in body and not models.downloaded(body["model"], verify=True):
+            raise Conflict(f"download the {body['model']} model first (POST /v1/models/download)")
+        with self.lock:
+            return settings.save(body)
+
+    def models_get(self) -> dict:
+        from . import models, settings
+        return models.listing(settings.load()["model"])
+
+    def models_download(self, body: dict) -> dict:
+        from . import models, settings
+        name = str(body["name"])
+        if name not in settings.MODELS:
+            raise settings.Invalid(f"model must be one of {', '.join(settings.MODELS)}")
+        use = bool(body.get("use"))
+        return {"download": models.start_download(name, on_done=(lambda n: self.settings_set({"model": n})) if use else None)}
+
+    def matters_get(self) -> dict:
+        from . import matters
+        return {"matters": matters.listing()}
+
+    def claude_get(self) -> dict:
+        from . import claude
+        return claude.status()
+
+    def claude_change(self, body: dict, on: bool) -> dict:
+        from . import claude
+        app = str(body["app"])
+        if app not in ("desktop", "code"):
+            from .settings import Invalid
+            raise Invalid("app must be desktop or code")
+        try:
+            return claude.connect(app) if on else claude.disconnect(app)
+        except claude.Refused as x:
+            raise Conflict(str(x))
 
     def mevzuat(self, citation_text: str = "", text: str = "") -> dict:
         from katip_kalkan import mevzuat
@@ -102,6 +166,10 @@ class Engine:
                 "sources": {"mevzuat": {"on": True, "network": False},
                             "emsal": {"on": os.environ.get("KATIP_EMSAL_ONLINE", "0").lower() in ("1", "true", "yes", "on"),
                                       "network": True}}}
+
+
+class Conflict(RuntimeError):
+    """The request is fine but can't be done now; the message says why, in words the app can show."""
 
 
 class Server(ThreadingHTTPServer):
@@ -164,8 +232,14 @@ class Handler(BaseHTTPRequestHandler):
             return
         if not self._guard():
             return
-        if self.path == "/v1/status":
-            return self._send(200, self.server.engine.status())
+        e = self.server.engine
+        gets = {"/v1/status": e.status, "/v1/settings": e.settings_get, "/v1/models": e.models_get,
+                "/v1/matters": e.matters_get, "/v1/claude": e.claude_get}
+        if self.path in gets:
+            try:
+                return self._send(200, gets[self.path]())
+            except Exception as x:  # noqa: BLE001
+                return self._send(500, {"error": x.__class__.__name__})
         self._send(404, {"error": "not found"})
 
     def do_POST(self):
@@ -187,6 +261,10 @@ class Handler(BaseHTTPRequestHandler):
             "/v1/forget": lambda: e.forget(str(body["matter"])),
             "/v1/sources/mevzuat": lambda: e.mevzuat(body.get("citation_text", ""), body.get("text", "")),
             "/v1/sources/emsal": lambda: e.emsal(body),
+            "/v1/settings": lambda: e.settings_set(body),
+            "/v1/models/download": lambda: e.models_download(body),
+            "/v1/claude/connect": lambda: e.claude_change(body, True),
+            "/v1/claude/disconnect": lambda: e.claude_change(body, False),
         }
         if self.path == "/v1/shutdown":
             self._send(200, {"stopping": True})
@@ -194,8 +272,13 @@ class Handler(BaseHTTPRequestHandler):
             return
         if self.path not in routes:
             return self._send(404, {"error": "not found"})
+        from .settings import Invalid
         try:
-            self._send(200, routes[self.path]())
+            self._send(202 if self.path == "/v1/models/download" else 200, routes[self.path]())
+        except Invalid as x:  # our own messages about the request, never document text
+            self._send(400, {"error": str(x)})
+        except Conflict as x:
+            self._send(409, {"error": str(x)})
         except KeyError as x:
             self._send(400, {"error": f"missing field {x}"})
         except PermissionError as x:  # a source that is switched off

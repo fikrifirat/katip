@@ -8,6 +8,7 @@
     katip-engine mask [--profile ai] [--matter M] < file.txt
     katip-engine restore [--matter M] < answer.txt
     katip-engine logs                               where the log is, and its last lines
+    katip-engine mcp [--allow DIR]...               Katip's tools for Claude (MCP over stdio)
 """
 from __future__ import annotations
 
@@ -90,7 +91,8 @@ def engine_cmd() -> list[str]:
 
 
 # Settings that must match between the installer and the agent (the app reads the same KATIP_HOME), passed on if set.
-PASS_ON = ("KATIP_HOME", "KATIP_NO_KEYCHAIN", "KATIP_MODEL", "KATIP_EMSAL_ONLINE")
+PASS_ON = ("KATIP_HOME", "KATIP_NO_KEYCHAIN", "KATIP_MODEL", "KATIP_EMSAL_ONLINE",
+           "KATIP_MASK_CACHE", "KATIP_CLAUDE_DESKTOP_CONFIG", "KATIP_CLAUDE_BIN")  # the last three: tests
 
 
 def engine_env() -> dict:
@@ -118,15 +120,27 @@ def install(idle_exit: int = 900) -> dict:
     LOG.parent.mkdir(parents=True, exist_ok=True)
     p = plist_path()
     p.parent.mkdir(parents=True, exist_ok=True)
-    _launchctl("bootout", f"{_domain()}/{LABEL}")
+    _bootout()
     with open(p, "wb") as fh:
         plistlib.dump(agent_plist(idle_exit), fh)
-    r = _launchctl("bootstrap", _domain(), str(p))
+    for _ in range(10):  # launchd can still be tearing the old one down: error 5 means "try again shortly"
+        r = _launchctl("bootstrap", _domain(), str(p))
+        if r.returncode == 0:
+            break
+        time.sleep(0.5)
     return {"installed": str(p), "ok": r.returncode == 0, **({"launchctl": r.stderr.strip()} if r.returncode else {})}
 
 
-def uninstall() -> dict:
+def _bootout(wait: float = 10) -> None:
+    """Unload the agent and wait until launchd has really let go of it (bootout returns before that)."""
     _launchctl("bootout", f"{_domain()}/{LABEL}")
+    end = time.monotonic() + wait
+    while time.monotonic() < end and _launchctl("print", f"{_domain()}/{LABEL}").returncode == 0:
+        time.sleep(0.2)
+
+
+def uninstall() -> dict:
+    _bootout()
     p = plist_path()
     existed = p.exists()
     p.unlink(missing_ok=True)
@@ -162,6 +176,16 @@ def stop() -> dict:
 
 # -- command line -----------------------------------------------------------------------------------------
 def main(argv=None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if argv[:1] == ["mcp"]:  # Katip's MCP tools for Claude, on stdio (what `claude.mcp_command` writes)
+        os.environ.setdefault("KATIP_AUTO_DEPS", "0")
+        from . import settings
+        settings.apply(folders=True)  # the app's settings, not ones frozen into Claude's config
+        settings.follow()
+        from katip_kalkan.local_server import main as mcp
+        sys.argv = ["katip-engine mcp", *argv[1:]]
+        mcp()
+        return 0
     ap = argparse.ArgumentParser(prog="katip-engine", description="Run and control the Katip engine.")
     sub = ap.add_subparsers(dest="cmd", required=True)
     s = sub.add_parser("serve")

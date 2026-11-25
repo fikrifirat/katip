@@ -102,14 +102,18 @@ katip-engine status | stop | logs | uninstall
 - **Routes**: `GET /healthz`, `GET /v1/status`, `POST /v1/mask`, `/v1/mask_file`, `/v1/restore`, `/v1/forget`,
   `/v1/sources/mevzuat`, `/v1/sources/emsal` (off unless `KATIP_EMSAL_ONLINE=1`), `/v1/shutdown`.
 
-`macos/` is the menu bar app (SwiftUI, no Dock icon): engine state, start and stop, mask the clipboard and put
-the names back, open the log. **Katip.app carries the engine with its own Python**, so nobody needs a terminal:
-on first start it registers that engine with launchd itself (and again if the app is moved or updated).
+`macos/` is the Mac app ([design](macos/DESIGN.md)): a five-step first run (welcome, getting ready, name model
+with download progress, connect Claude Desktop or Claude Code, a live before-and-after), then a window to mask
+text or documents, restore answers, see and forget cases, manage connections and settings, plus a menu bar
+shield for the clipboard. Turkish on a Turkish Mac, English elsewhere. **Katip.app carries the engine with its own
+Python**, so nobody needs a terminal: on first start it registers that engine with launchd itself (and again if
+the app is moved or updated).
 
 ```bash
 cd desktop && pyinstaller packaging/katip-engine.spec --noconfirm   # dist/katip-engine, about 350 MB
 cd macos && xcodegen generate && xcodebuild -scheme KatipMenu -configuration Release -derivedDataPath build build
 build/Build/Products/Release/Katip.app/Contents/MacOS/Katip --selftest   # masks and restores one synthetic sentence
+KATIP_HOME=/tmp/k build/Build/Products/Release/Katip.app/Contents/MacOS/Katip --tour /tmp/shots   # screenshots of every step
 ```
 
 Most of the size is PDF reading (PyMuPDF, about 100 MB), the name model runtime (onnxruntime, 80 MB) and OCR

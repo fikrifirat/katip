@@ -142,3 +142,32 @@ def test_agent_plist_passes_settings_on(monkeypatch):
     assert pl["ProgramArguments"][-4:] == ["serve", "--idle-exit", "60", "--quiet"]
     assert pl["EnvironmentVariables"]["KATIP_NO_KEYCHAIN"] == "1"  # set by the env fixture
     assert "KATIP_EMSAL_ONLINE" not in pl["EnvironmentVariables"]
+
+
+def test_install_waits_for_launchd_and_retries(monkeypatch, tmp_path):
+    """Reinstalling right after a bootout: launchd answers error 5 until the old agent is gone."""
+    from katip_engine import cli
+    calls = []
+    state = {"loaded_polls": 2, "bootstrap_fails": 2}
+
+    class R:
+        def __init__(self, rc): self.returncode, self.stderr = rc, "Bootstrap failed: 5" if rc else ""
+
+    def fake(*args):
+        calls.append(args[0])
+        if args[0] == "print":
+            state["loaded_polls"] -= 1
+            return R(0 if state["loaded_polls"] >= 0 else 113)
+        if args[0] == "bootstrap":
+            state["bootstrap_fails"] -= 1
+            return R(5 if state["bootstrap_fails"] >= 0 else 0)
+        return R(0)
+
+    monkeypatch.setattr(cli, "_launchctl", fake)
+    monkeypatch.setattr(cli, "plist_path", lambda: tmp_path / "agent.plist")
+    monkeypatch.setattr(cli, "LOG", tmp_path / "engine.log")
+    monkeypatch.setattr(cli.time, "sleep", lambda s: None)
+    monkeypatch.setattr(cli.sys, "platform", "darwin")
+    r = cli.install(60)
+    assert r["ok"] is True
+    assert calls.count("bootstrap") == 3 and calls.index("bootstrap") > calls.index("print")

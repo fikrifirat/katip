@@ -3,118 +3,136 @@ import SwiftUI
 
 @main
 struct KatipMenuApp: App {
-    @StateObject private var model = EngineModel()
-
-    init() {
-        if CommandLine.arguments.contains("--selftest") {
-            Task { await SelfTest.run() }
-        }
-    }
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var model = AppModel.shared
 
     var body: some Scene {
+        Window("Katip", id: "main") {
+            RootView()
+                .environmentObject(model)
+                .onAppear { AppDelegate.mainWindowShown() }
+                .onDisappear { AppDelegate.mainWindowClosed() }
+        }
+        .defaultSize(width: 900, height: 640)
+        .windowResizability(.contentMinSize)
+
         MenuBarExtra {
-            MenuView().environmentObject(model)
+            MenuContent().environmentObject(model)
         } label: {
-            Image(systemName: model.status == nil ? "shield" : "checkmark.shield.fill")
+            Image(systemName: model.running ? "checkmark.shield.fill" : "checkmark.shield")
         }
         .menuBarExtraStyle(.window)
     }
 }
 
-@MainActor
-final class EngineModel: ObservableObject {
-    @Published var status: EngineClient.Status?
-    @Published var busy = false
-    @Published var note: String?
-    let client = EngineClient()
+final class AppDelegate: NSObject, NSApplicationDelegate {
+    static var launchedAtLogin = false
 
-    func refresh() async { status = await client.status() }
-
-    func toggle() async {
-        busy = true
-        defer { busy = false }
-        if status == nil {
-            do { try await client.start(); note = nil } catch { note = error.localizedDescription }
-        } else {
-            await client.stop()
-            try? await Task.sleep(nanoseconds: 400_000_000)
+    func applicationWillFinishLaunching(_ notification: Notification) {
+        if let e = NSAppleEventManager.shared().currentAppleEvent, e.eventID == kAEOpenApplication,
+           e.paramDescriptor(forKeyword: keyAEPropData)?.enumCodeValue == keyAELaunchedAsLogInItem {
+            Self.launchedAtLogin = true
         }
-        await refresh()
     }
 
-    /// Mask (or restore) whatever text is on the clipboard and put the result back on it.
-    func clipboard(restore: Bool) async {
-        let pb = NSPasteboard.general
-        guard let text = pb.string(forType: .string), !text.isEmpty else {
-            note = "The clipboard has no text."
-            return
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        let args = CommandLine.arguments
+        if args.contains("--selftest") { Task { await SelfTest.run() } }
+        if let i = args.firstIndex(of: "--tour"), i + 1 < args.count { Task { await Tour.run(to: URL(fileURLWithPath: args[i + 1])) } }
+        if Self.launchedAtLogin {  // at login: menu bar only, no window
+            DispatchQueue.main.async { NSApp.windows.first { $0.identifier?.rawValue == "main" }?.close() }
         }
-        busy = true
-        defer { busy = false }
-        do {
-            if status == nil { try await client.start() }
-            let out: String
-            if restore {
-                let r = try await client.restore(text)
-                out = r.text
-                note = "Put back \(r.placeholders_restored) values. The clipboard holds the real names now."
-            } else {
-                let m = try await client.mask(text)
-                out = m.masked_text
-                note = "Masked \(m.placeholders.count) values in \(Int(m.ms)) ms. The clipboard holds the masked text."
-            }
-            pb.clearContents()
-            pb.setString(out, forType: .string)
-        } catch {
-            note = error.localizedDescription
-        }
-        await refresh()
     }
+
+    /// Closing the window keeps Katip in the menu bar.
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool { false }
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag { NotificationCenter.default.post(name: .katipOpenMain, object: nil) }
+        return true
+    }
+
+    /// While the window is open Katip has a Dock icon and ⌘-Tab entry; closed, it lives in the menu bar only.
+    static func mainWindowShown() {
+        NSApp.setActivationPolicy(.regular)
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    static func mainWindowClosed() { NSApp.setActivationPolicy(.accessory) }
 }
 
-struct MenuView: View {
-    @EnvironmentObject var model: EngineModel
+extension Notification.Name { static let katipOpenMain = Notification.Name("katip.openMain") }
+
+struct MenuContent: View {
+    @EnvironmentObject var model: AppModel
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
-                Circle().fill(model.status == nil ? Color.secondary : Color.green).frame(width: 9, height: 9)
-                Text(model.status == nil ? "Katip engine is stopped" : "Katip engine is running").font(.headline)
+                Circle().fill(model.running ? Color.green : Color.secondary.opacity(0.5)).frame(width: 9, height: 9)
+                Text("Katip").font(.headline)
+                Text(model.running ? L("çalışıyor", "running") : L("beklemede", "idle")).foregroundStyle(.secondary)
                 Spacer()
                 if model.busy { ProgressView().controlSize(.small) }
             }
             if let s = model.status {
-                VStack(alignment: .leading, spacing: 3) {
-                    Text("Version \(s.version) · \(s.served) masked · \(Int(s.rss_peak_mb)) MB")
-                    Text(s.model).lineLimit(2)
-                    Text("Case keys: \(s.vault)")
-                }
-                .font(.caption).foregroundStyle(.secondary)
+                Text(L("\(s.served) belge · \(Int(s.rssPeakMb)) MB · \(modelLabel(s.model))", "\(s.served) masked · \(Int(s.rssPeakMb)) MB · \(modelLabel(s.model))"))
+                    .font(.caption).foregroundStyle(.secondary)
             } else {
-                Text("Nothing runs and nothing is in memory. It starts when you need it and stops after 15 idle minutes.")
+                Text(L("Bellekte hiçbir şey yok. İlk işte başlar, 15 dakika boşta kalınca durur.",
+                       "Nothing in memory. Starts on the next task, stops after 15 idle minutes."))
                     .font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
             Divider()
-            Button("Mask the clipboard") { Task { await model.clipboard(restore: false) } }
-            Button("Put names back in the clipboard") { Task { await model.clipboard(restore: true) } }
-            Divider()
-            Button(model.status == nil ? "Start engine" : "Stop engine") { Task { await model.toggle() } }
-            Button("Show engine log") { NSWorkspace.shared.activateFileViewerSelecting([EngineClient.logURL]) }
+            MenuButton(L("Panodakini maskele", "Mask the clipboard"), icon: "eye.slash") { Task { await model.clipboard(restore: false) } }
+            MenuButton(L("Panodakini geri çevir", "Restore the clipboard"), icon: "arrow.uturn.backward") { Task { await model.clipboard(restore: true) } }
             if let note = model.note {
                 Text(note).font(.caption).foregroundStyle(.secondary).fixedSize(horizontal: false, vertical: true)
             }
             Divider()
-            Button("Quit Katip") { NSApplication.shared.terminate(nil) }
+            MenuButton(L("Katip'i aç…", "Open Katip…"), icon: "macwindow") { open() }
+            MenuButton(model.running ? L("Motoru durdur", "Stop engine") : L("Motoru başlat", "Start engine"),
+                       icon: model.running ? "stop.circle" : "play.circle") { Task { await model.toggleEngine() } }
+            Divider()
+            MenuButton(L("Katip'ten çık", "Quit Katip"), icon: "power") { NSApplication.shared.terminate(nil) }
         }
-        .buttonStyle(.borderless)
         .padding(14)
-        .frame(width: 300)
+        .frame(width: 290)
         .task {
             while !Task.isCancelled {
-                await model.refresh()
-                try? await Task.sleep(nanoseconds: 5_000_000_000)
+                await model.refreshStatus()
+                try? await Task.sleep(nanoseconds: 4_000_000_000)
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .katipOpenMain)) { _ in open() }
+    }
+
+    func open() {
+        openWindow(id: "main")
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
+    func modelLabel(_ s: String) -> String {
+        for n in ["base", "mini", "nano"] where s.contains("-\(n)") { return modelTitle(n) }
+        return L("yalnızca kurallar", "rules only")
+    }
+}
+
+struct MenuButton: View {
+    let title: String
+    let icon: String
+    let action: () -> Void
+    init(_ title: String, icon: String, action: @escaping () -> Void) { self.title = title; self.icon = icon; self.action = action }
+    @State private var hover = false
+    var body: some View {
+        Button(action: action) {
+            Label(title, systemImage: icon).frame(maxWidth: .infinity, alignment: .leading).contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .padding(.vertical, 3).padding(.horizontal, 6)
+        .background(RoundedRectangle(cornerRadius: 5).fill(hover ? Color.accentColor.opacity(0.15) : .clear))
+        .onHover { hover = $0 }
     }
 }
 
@@ -131,10 +149,12 @@ enum SelfTest {
             out["running"] = st != nil
             out["version"] = st?.version
             let m = try await c.mask(sample, matter: "selftest")
-            out["masked"] = m.masked_text
-            out["names_hidden"] = !m.masked_text.contains("DEMİRCİ") && !m.masked_text.contains("10000000146")
-            let r = try await c.restore(m.masked_text, matter: "selftest")
+            out["masked"] = m.maskedText
+            out["names_hidden"] = !m.maskedText.contains("DEMİRCİ") && !m.maskedText.contains("10000000146")
+            let r = try await c.restore(m.maskedText, matter: "selftest")
             out["restored_matches"] = r.text == sample
+            struct Done: Decodable { let deleted: Bool }
+            let _: Done? = try? await c.call("/v1/forget", body: ["matter": "selftest"])
         } catch {
             out["error"] = error.localizedDescription
         }
