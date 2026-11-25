@@ -171,3 +171,9 @@ def test_install_waits_for_launchd_and_retries(monkeypatch, tmp_path):
     r = cli.install(60)
     assert r["ok"] is True
     assert calls.count("bootstrap") == 3 and calls.index("bootstrap") > calls.index("print")
+
+
+def test_status_names_its_binary(srv):
+    # a source run reports no binary; the frozen engine reports its real path, so the app can spot a foreign engine
+    st = req(srv, "GET", "/v1/status")[1]
+    assert "exe" in st and st["exe"] is None

@@ -21,6 +21,7 @@ struct EngineClient {
         let rssPeakMb: Double
         let model: String
         let vault: String
+        let exe: String?  // the engine binary; missing on engines older than this check
     }
 
     struct Settings: Decodable, Equatable {
@@ -176,6 +177,13 @@ struct EngineClient {
     }
 
     /// The engine that ships inside Katip.app (Contents/Resources/engine), with its own Python.
+    /// The path as the engine's os.path.realpath reports it (URL.resolvingSymlinksInPath drops /private).
+    static func realPath(_ p: String) -> String {
+        guard let r = realpath(p, nil) else { return p }
+        defer { free(r) }
+        return String(cString: r)
+    }
+
     static var bundledEngine: URL? {
         guard let u = Bundle.main.resourceURL?.appendingPathComponent("engine/katip-engine"),
               FileManager.default.isExecutableFile(atPath: u.path) else { return nil }
@@ -299,10 +307,15 @@ struct EngineClient {
     /// Make sure the agent exists, `launchctl kickstart` it, then wait until it answers. An engine started before
     /// the app was updated (its binary is newer than the process) is restarted, so app and engine always match.
     func start() async throws {
-        if await status() != nil {
-            guard let st = startedAt(), let engine = Self.bundledEngine,
-                  let built = (try? FileManager.default.attributesOfItem(atPath: engine.path))?[.modificationDate] as? Date,
-                  built.timeIntervalSince1970 > st else { return }
+        if let running = await status() {
+            // Keep it only if it is this app's own engine and not older than it. Another copy of Katip (an old
+            // build, a second download) can leave its engine running; reusing it means routes this window needs
+            // are missing ("not found").
+            guard let engine = Self.bundledEngine else { return }
+            let mine = Self.realPath(engine.path)
+            let built = (try? FileManager.default.attributesOfItem(atPath: engine.path))?[.modificationDate] as? Date
+            let stale = built.map { $0.timeIntervalSince1970 > (startedAt() ?? 0) } ?? false
+            if running.exe == mine && !stale { return }
             await stop()
             for _ in 0..<25 where await status() != nil { try await Task.sleep(nanoseconds: 200_000_000) }
         }

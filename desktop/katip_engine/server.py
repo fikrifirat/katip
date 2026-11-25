@@ -239,7 +239,9 @@ class Engine:
 
     def status(self) -> dict:
         from katip_kalkan import engine as eng
+        # exe: which binary this is, so a Katip.app can tell its own engine from one another copy left running
         return {"engine": "katip-engine", "version": __version__, "pid": os.getpid(),
+                "exe": os.path.realpath(sys.executable) if getattr(sys, "frozen", False) else None,
                 "uptime_s": round(time.time() - self.started, 1), "served": self.served, "rss_peak_mb": rss_mb(),
                 "model": self.ner.describe(), "profiles": sorted(eng.PROFILES),
                 "vault": "encrypted on this device" if self.vault.persistent() else "memory only",
