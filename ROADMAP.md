@@ -45,6 +45,7 @@ not promises to anyone. How the plan was made: [design note](roadmap/design-2026
 | A3 | **Encrypted compute series** with Belfort | Post 1 published; experiments 1, 3 and 4 run with credits spent on purpose (#61) | `trust` |
 | A4 | **ChatGPT relay** and its Hugging Face Space | Space live with share codes; precedent search on there by design | `reach` |
 | A5 | **Serving economics**: the masking pipeline behind one endpoint, measured like an inference product ([lab/inference](lab/inference/RESULTS.md)) | First numbers on this Mac (done 24 Nov); next, the same harness on one rented 4-vCPU VM so cloud prices rest on cloud measurements, before any Katip API price is published | `cost` |
+| A6 | **Open-source project basics**: contributing guide, security policy, code of conduct, contributor licence agreement, governance, Sponsor button, [every network call](NETWORK.md) listed | Files merged; CLA reviewed by a lawyer and its bot on; GitHub Sponsors and private vulnerability reporting switched on; the four known gaps in NETWORK.md fixed | `trust` `reach` |
 
 ## Later: from Mar 2027
 
