@@ -74,6 +74,51 @@ def test_placeholders_stable_across_documents_of_a_matter():
     assert a.split("\n")[2] == b.split("\n")[2] or "[AD SOYAD-1]" in b
 
 
+SKIP_SENTENCE = ("Davacı Ayşe DEMİRCİ (T.C. Kimlik No: 10000000146) vekili Av. Mehmet KARA, müvekkiline "
+                 "0532 111 22 33 numaralı telefondan ulaşılabileceğini bildirmiştir.\n")
+
+
+def _numbers_in_order(masked: str) -> dict[str, list[int]]:
+    import re
+    seen: dict[str, list[int]] = {}
+    for kind, n in re.findall(r"\[([^\]]+?)-(\d+)\]", masked):
+        if int(n) not in seen.setdefault(kind, []):
+            seen[kind].append(int(n))
+    return seen
+
+
+def test_tc_abbreviation_from_the_model_is_not_a_name(monkeypatch):
+    """The name model tags "T.C" (Türkiye Cumhuriyeti) in "T.C. Kimlik No" as a person; the engine reads its two
+    capital letters as a two-word name, so "T.C" became [AD SOYAD-2] and the lawyer saw -1 then -3."""
+    from katip_kalkan import engine, ner
+    text = SKIP_SENTENCE
+    a = text.index("T.C")
+
+    class Stub:
+        def spans(self, t, min_score=0.5):
+            return [(a, a + 3, 0.99, "PERSON")]
+    monkeypatch.setattr(ner, "get", lambda: Stub())
+    monkeypatch.setattr(ner, "trust", lambda: 0.9)
+    types, addr = engine.profile_types("ai")
+    spans = engine.detect(text, 0.5, types, address_detail=addr)
+    assert not [s for s in spans if s["entity_type"] == "PERSON" and s["start"] <= a < s["end"]]
+    assert {s["text"] for s in spans if s["entity_type"] == "PERSON"} == {"Ayşe DEMİRCİ", "Mehmet KARA"}
+
+
+def test_placeholders_are_numbered_without_gaps(tmp_path):
+    from katip_kalkan import core
+    f = tmp_path / "vekil.txt"
+    f.write_text(SKIP_SENTENCE, encoding="utf-8")
+    masked = core.mask_file(str(f), "any")["masked_text"]
+    assert "Davacı [AD SOYAD-1] (T.C. Kimlik No: [T.C. KİMLİK NO-1]) vekili Av. [AD SOYAD-2]," in masked
+    assert all(ns == list(range(1, len(ns) + 1)) for ns in _numbers_in_order(masked).values())
+    # the matter's vault keeps the numbers: a new document continues from them, earlier values keep theirs
+    g = tmp_path / "ek.txt"
+    g.write_text("Tanık Zeynep YILMAZ ile Av. Mehmet KARA duruşmaya katıldı.\n", encoding="utf-8")
+    m2 = core.mask_file(str(g), "any")["masked_text"]
+    assert "Tanık [AD SOYAD-3] ile Av. [AD SOYAD-2]" in m2
+
+
 def test_restore_roundtrip(home):
     from katip_kalkan import core
     doc = core.mask_file(str(FIX / "dilekce_01.txt"), "m1")

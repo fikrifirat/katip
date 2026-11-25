@@ -1,0 +1,60 @@
+# XcodeGen spec for the Katip menu bar app (macOS). Generate with `xcodegen generate` in this folder.
+# The app is a client of the Katip engine (desktop/katip_engine): it starts and stops it through launchd and
+# shows its state, like Docker Desktop's whale. Run `katip-engine install` once first.
+name: KatipMenu
+options:
+  bundleIdPrefix: com.fikrifirat
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+settings:
+  base:
+    SWIFT_VERSION: "5.10"
+    DEVELOPMENT_TEAM: ""          # set your team to sign; local builds are signed ad hoc
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    ENABLE_HARDENED_RUNTIME: YES
+targets:
+  KatipMenu:
+    type: application
+    platform: macOS
+    sources:
+      - path: KatipMenu
+      - path: ../packaging/katip.icns
+        buildPhase: resources
+    info:
+      path: KatipMenu/Info.plist
+      properties:
+        CFBundleDisplayName: Katip
+        CFBundleIconFile: katip
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSUIElement: true                       # menu bar only, no Dock icon
+        LSApplicationCategoryType: public.app-category.productivity
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true         # plain http to 127.0.0.1 only
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fikrifirat.katip.menu
+        PRODUCT_NAME: Katip
+        ENABLE_APP_SANDBOX: NO                  # reads ~/.katip/engine.json and runs launchctl
+        ENABLE_USER_SCRIPT_SANDBOXING: NO       # the copy step below reads ../dist
+    postBuildScripts:
+      - name: Bundle the Katip engine
+        basedOnDependencyAnalysis: false
+        script: |
+          # Build it first: cd desktop && pyinstaller packaging/katip-engine.spec --noconfirm
+          SRC="$PROJECT_DIR/../dist/katip-engine"
+          DST="$TARGET_BUILD_DIR/$UNLOCALIZED_RESOURCES_FOLDER_PATH/engine"
+          if [ ! -x "$SRC/katip-engine" ]; then
+            echo "warning: no bundled engine at $SRC; the app will use a katip-engine you installed yourself"
+            exit 0
+          fi
+          rm -rf "$DST" && mkdir -p "$DST" && rsync -a "$SRC/" "$DST/"
+          # nothing may be written inside the app at run time (macOS: "modifying apps"); drop the dist's own
+          # leftovers from local runs, keep the compiled Kalkan files the spec made
+          find "$DST/_internal" -path "*/connector/*" -prune -o -name "__pycache__" -type d -print0 | xargs -0 rm -rf
+          # sign every binary inside, innermost first, so the app's own signature covers a signed engine
+          find "$DST" -type f \( -perm -u+x -o -name "*.so" -o -name "*.dylib" \) -print0 |
+            xargs -0 codesign --force --sign "${EXPANDED_CODE_SIGN_IDENTITY:--}" --timestamp=none 2>/dev/null || true

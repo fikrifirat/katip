@@ -20,9 +20,10 @@ dev = ["pytest>=8", "pyinstaller==6.22.3"]
 
 [project.scripts]
 katip-klasor = "katip_klasor.app:main"
+katip-engine = "katip_engine.cli:main"
 
 [tool.setuptools.packages.find]
-include = ["katip_klasor*"]
+include = ["katip_klasor*", "katip_engine*"]
 
 [tool.setuptools.package-data]
 katip_klasor = ["ui/*", "ui/fonts/*"]
